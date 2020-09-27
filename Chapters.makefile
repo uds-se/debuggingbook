@@ -8,39 +8,56 @@ PROJECT = debuggingbook
 NEW_CHAPTERS = 
 
 # Chapters to include in the book, in this order
+
+# Introduction
 INTRO_PART = 
 INTRO_PART_READY =
 INTRO_PART_TODO = \
 	01_Intro.ipynb \
 	Tours.ipynb \
-	Intro_Debugging.ipynb
+	Intro_Debugging.ipynb \
 
-INPUTS_PART = 
-INPUTS_PART_READY = \
-	02_Inputs.ipynb \
-	Grammars.ipynb \
-	GrammarFuzzer.ipynb
+# Tracking Failures (also: where the bugs are)
+TRACKING_PART = 
+TRACKING_PART_READY =
+TRACKING_PART_TODO = \
+	02_Tracking.ipynb \
+	Tracking.ipynb
+
+# Observing Executions
+OBSERVING_PART = 
+OBSERVING_PART_READY =
+OBSERVING_PART_TODO = \
+	03_Observing.ipynb \
+	Debugger.ipynb \
+	Checker.ipynb \
+	Slice.ipynb \
+	Statistical.ipynb
+
+# Simplifying Failures
+EXPERIMENTING_PART = 
+EXPERIMENTING_PART_READY =
+EXPERIMENTING_PART_TODO = \
+	04_Inputs.ipynb \
 	Reducer.ipynb \
-INPUTS_PART_TODO = \
+	Grammars.ipynb \
+	GrammarReducer.ipynb
+
+# Mining Specifications
+ABSTRACTING_PART =
+ABSTRACTING_PART_READY =
+ABSTRACTING_PART_TODO = \
+	05_Abstracting.ipynb \
+	DynamicInvariants.ipynb \
 	DDSet.ipynb \
 	Alhazen.ipynb
 	
-CODE_PART =
-CODE_PART_READY =
-CODE_PART_TODO = \
-	03_Code.ipynb \
-	Checkers.ipynb \
-	DynamicInvariants.ipynb \
-	Statistical.ipynb \
-	Slices.ipynb \
+# Repairing Failures
+REPAIRING_PART =
+REPAIRING_PART_READY =
+REPAIRING_PART_TODO = \
+	05_Repairing.ipynb \
 	Repair.ipynb
-
-MANAGEMENT_PART = 
-MANAGEMENT_PART_READY = 
-MANAGEMENT_PART_TODO = \
-	04_Managing.ipynb \
-	Tracker.ipynb \
-	WhereTheBugsAre.ipynb
 
 # Appendices for the book
 APPENDICES = \
