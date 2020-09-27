@@ -11,7 +11,7 @@ with fuzzingbook adaptations -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" /><title>Notebook</title>
+<meta charset="utf-8" /><title>Control Flow Graph - The Fuzzing Book</title>
 
 <style type="text/css">
     /*!
@@ -208,7 +208,7 @@ th {
   *:before,
   *:after {
     background: transparent !important;
-    color: #000 !important;
+    
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -256,7 +256,7 @@ th {
   }
   .btn > .caret,
   .dropup > .btn > .caret {
-    border-top-color: #000 !important;
+    border-top-
   }
   .label {
     border: 1px solid #000;
@@ -11790,11 +11790,11 @@ MathJax.Hub.Config({
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<meta property="og:url" content="__CHAPTER_HTML__" />
+<meta property="og:url" content="https://www.fuzzingbook.org/beta/html/ControlFlow.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="__PAGE_TITLE__" />
-<meta property="og:description" content="__DESCRIPTION__" />
-<meta property="og:image" content="__BOOKIMAGE__" />
+<meta property="og:title" content="Control Flow Graph - The Fuzzing Book" />
+<meta property="og:description" content="The code in this notebook helps with obtaining the control flow graph of python functions.Prerequisites This notebook needs some understanding on advanced concepts in Python, notably      classes" />
+<meta property="og:image" content="https://www.fuzzingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
 
@@ -11860,7 +11860,81 @@ MathJax.Hub.Config({
         prevScrollpos = currentScrollPos;
     };
     </script>
-    <__HEADER__>
+    
+<nav>
+<div id="cssmenu">
+  <ul>
+     <li class="has-sub"><a href="#"><span title="The Fuzzing Book"><i class="fa fa-fw fa-bars"></i> </span><span class="menu_1">The Fuzzing Book&nbsp;<i class="fa fa-fw fa-wrench"></i></span></a>
+        <ol>
+           
+<li><a href="https://www.fuzzingbook.org/beta/"><span class="part_number"><i class="fa fa-fw fa-home"></i></span> About this book</a></li>
+<li><a href="https://www.fuzzingbook.org/beta/html/00_Table_of_Contents.html"><i class="fa fa-fw fa-sitemap"></i></span> Sitemap</a></li>
+<li class="has-sub"><a href="01_Intro.html" class="chapters"><span class="part_number">I</span> Whetting Your Appetite&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="Tours.html">Tours through the Book&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="Intro_Debugging.html">Title&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+</ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="ExpectError.html">Error Handling</a></li>
+<li><a href="Timer.html">Timer</a></li>
+<li><a href="ControlFlow.html" class="this_page">Control Flow Graph</a></li>
+<li><a href="RailroadDiagrams.html">Railroad Diagrams</a></li>
+</ul>
+           <li><a href="https://www.fuzzingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
+        </ol>
+     </li>
+     <li class="has-sub"><a href="#"><span title="Control Flow Graph"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Control Flow Graph</span></a>
+           <ul><li class="has-sub"><a href="#Control-Flow-Graph">&nbsp;&bull;&nbsp;&nbsp; Control Flow Graph</a>
+<ul><li class="has-sub"><a href="#Registry">Registry</a>
+</li><li class="has-sub"><a href="#CFGNode">CFGNode</a>
+</li><li class="has-sub"><a href="#PyCFG">PyCFG</a>
+</li><li class="has-sub"><a href="#Supporting-Functions">Supporting Functions</a>
+</li><li class="has-sub"><a href="#Examples">Examples</a>
+</ul></li><li class="has-sub"><a href="#Call-Graph">&nbsp;&bull;&nbsp;&nbsp; Call Graph</a>
+<ul><li class="has-sub"><a href="#Install:-Pyan-Static-Call-Graph-Lifter">Install: Pyan Static Call Graph Lifter</a>
+</li><li class="has-sub"><a href="#Call-Graph-Helpers">Call Graph Helpers</a>
+</li><li class="has-sub"><a href="#Example:-Maze">Example: Maze</a>
+</ul></li><li class="has-sub"><a href="#Cleanup">&nbsp;&bull;&nbsp;&nbsp; Cleanup</a>
+</ul></li>
+     </li>
+     
+     <li class="has-sub"><a href="#"><span title="Resources"><i class="fa fa-fw fa-cube"></i> </span><span class="menu_3">Resources</span></a>
+     <ul>
+     <li><a href="https://mybinder.org/v2/gh/uds-se/fuzzingbook/master?filepath=docs/beta/notebooks/ControlFlow.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/slides/ControlFlow.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/code/ControlFlow.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/notebooks/ControlFlow.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/dist/fuzzingbook-code.zip"><i class="fa fa-fw fa-cube"></i> All Code (.zip)</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/dist/fuzzingbook-notebooks.zip"><i class="fa fa-fw fa-cube"></i> All Notebooks (.zip)</a></li>
+     <li><a href="https://github.com/uds-se/fuzzingbook/" target="_blank"><i class="fa fa-fw fa-github"></i> Project Page</a></li>
+     <li><a href="ReleaseNotes.html" target="_blank"><i class="fa fa-fw fa-calendar"></i> Release Notes</a></li>
+     </ul>
+     </li>
+     
+     <li class="has-sub"><a href="#"><span title="Share"><i class="fa fa-fw fa-comments"></i> </span> <span class="menu_4">Share</span></a>
+        <ul>
+            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Control%20Flow%20Graph%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fControlFlow.html" target="popup" 
+onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Control%20Flow%20Graph%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fControlFlow.html','popup','width=600,height=600'); return false;"
+><i class="fa fa-fw fa-twitter"></i> Share on Twitter</a>
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fControlFlow.html" target="popup" 
+onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fControlFlow.html','popup','width=600,height=600'); return false;"
+><i class="fa fa-fw fa-facebook"></i> Share on Facebook</a>
+            <li><a href="mailto:?subject=Control%20Flow%20Graph&body=I%20just%20read%20%22Control%20Flow%20Graph%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fControlFlow.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
+            <li><a href="#citation" id="cite" onclick="revealCitation()"><i class="fa fa-fw fa-mortar-board"></i> Cite</a>
+        </ul>
+     </li>
+     <li class="has-sub"><a href="#"><span title="Help"><i class="fa fa-fw fa-question-circle"></i></span> <span class="menu_5">Help</span></a>
+        <ul>
+          <li><a href="https://www.fuzzingbook.org/beta/#Troubleshooting"><i class="fa fa-fw fa-wrench"></i> Troubleshooting</a></li>
+          <li><a href="https://docs.python.org/3/tutorial/" target=_blank><i class="fa fa-fw fa-question-circle"></i> Python Tutorial</a>
+          <li><a href="https://www.dataquest.io/blog/jupyter-notebook-tutorial/" target=_blank><i class="fa fa-fw fa-question-circle"></i> Jupyter Notebook Tutorial</a>
+          <li><a href="https://github.com/uds-se/fuzzingbook/issues/" target="_blank"><i class="fa fa-fw fa-commenting"></i> Report an Issue</a></li>
+        </ul>
+     </li>
+  </ul>
+</div>
+</nav>
+
     <article>
    <div tabindex="-1" id="notebook" class="border-box-sizing">
      <div class="container" id="notebook-container">
@@ -11893,8 +11967,8 @@ MathJax.Hub.Config({
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h2 id="Control-Flow-Graph">Control Flow Graph<a class="anchor-link" href="#Control-Flow-Graph">&#182;</a></h2><p>The class <code>PyCFG</code> allows one to obtain the control flow graph.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ControlFlow</span> <span class="kn">import</span> <span class="n">gen_cfg</span><span class="p">,</span> <span class="n">to_graph</span>
-<span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Source</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ControlFlow.html" class="import" target="_blank">ControlFlow</a></span> <span class="kn">import</span> <span class="n">gen_cfg</span><span class="p">,</span> <span class="n">to_graph</span>
+<span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/graphviz.html" class="import" target="_blank">graphviz</a></span> <span class="kn">import</span> <span class="n">Source</span>
 <span class="n">cfg</span> <span class="o">=</span> <span class="n">gen_cfg</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">my_function</span><span class="p">))</span>
 <span class="n">graph</span> <span class="o">=</span> <span class="n">to_graph</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
 <span class="n">Source</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
@@ -11910,7 +11984,7 @@ MathJax.Hub.Config({
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">fuzzingbook_utils</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/fuzzingbook_utils" class="import" target="_blank">fuzzingbook_utils</a></span>
 </pre></div>
 
 </div>
@@ -11924,10 +11998,10 @@ MathJax.Hub.Config({
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">ast</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">astor</span>
-<span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">Digraph</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/ast.html" class="import" target="_blank">ast</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/re.html" class="import" target="_blank">re</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/astor.html" class="import" target="_blank">astor</a></span>
+<span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/graphviz.html" class="import" target="_blank">graphviz</a></span> <span class="k">import</span> <span class="n">Source</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">Digraph</span>
 </pre></div>
 
 </div>
@@ -13124,7 +13198,7 @@ MathJax.Hub.Config({
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
 </pre></div>
 
 </div>
@@ -14645,9 +14719,9 @@ MathJax.Hub.Config({
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/os.html" class="import" target="_blank">os</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/networkx.html" class="import" target="_blank">networkx</a></span> <span class="k">as</span> <span class="nn"><a href="https://docs.python.org/3/library/nx.html" class="import" target="_blank">nx</a></span>
+<span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/graphviz.html" class="import" target="_blank">graphviz</a></span> <span class="k">import</span> <span class="n">Source</span>
 </pre></div>
 
 </div>
@@ -14931,7 +15005,6 @@ MathJax.Hub.Config({
 | +-- |X|
 |     |#|
 +-----+-+
-
 </pre>
 </div>
 
@@ -16913,7 +16986,7 @@ MathJax.Hub.Config({
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">shutil</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/shutil.html" class="import" target="_blank">shutil</a></span>
 </pre></div>
 
 </div>
@@ -16939,7 +17012,47 @@ MathJax.Hub.Config({
 </div>
 </div>
 
-        <__FOOTER__>
+        
+<p class="imprint">
+<img style="float:right" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License">
+The content of this project is licensed under the
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/fuzzingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
+<a href="https://github.com/uds-se/fuzzingbook/commits/master/notebooks/ControlFlow.ipynb" target=_blank)>Last change: 2019-04-27 13:05:00+02:00</a> &bull; 
+<a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
+<a href="https://www.uni-saarland.de/en/footer/dialogue/legal-notice.html" target=_blank>Imprint</a>
+</p>
+
+<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Control Flow Graph" style="width:0;height:0;border:0; border:none;"></iframe>
+
+<script>
+function revealCitation() {
+    var c = document.getElementById("citation");
+    c.style.display = "block";
+}
+</script>
+
+<div id="citation" class="citation" style="display: none;">
+<a name="citation"></a>
+<h2>How to Cite this Work</h2>
+<p>
+Andreas Zeller, Rahul Gopinath, Marcel Böhme, Gordon Fraser, and Christian Holler: "<a href="https://www.fuzzingbook.org/beta/html/ControlFlow.html">Control Flow Graph</a>".  In Andreas Zeller, Rahul Gopinath, Marcel Böhme, Gordon Fraser, and Christian Holler (eds.), "<a href="https://www.fuzzingbook.org/beta/">The Fuzzing Book</a>", <a href="https://www.fuzzingbook.org/beta/html/ControlFlow.html">https://www.fuzzingbook.org/beta/html/ControlFlow.html</a>.  Retrieved 2019-04-27 13:05:00+02:00.
+</p>
+<pre>
+@incollection{fuzzingbook2019:ControlFlow,
+    author = {Andreas Zeller and Rahul Gopinath and Marcel B{\"o}hme and Gordon Fraser and Christian Holler},
+    booktitle = {The Fuzzing Book},
+    title = {Control Flow Graph},
+    year = {2019},
+    publisher = {Saarland University},
+    howpublished = {\url{https://www.fuzzingbook.org/beta/html/ControlFlow.html}},
+    note = {Retrieved 2019-04-27 13:05:00+02:00},
+    url = {https://www.fuzzingbook.org/beta/html/ControlFlow.html},
+    urldate = {2019-04-27 13:05:00+02:00}
+}
+</pre>
+</div>
+
       </div>
     </div>
     </article>

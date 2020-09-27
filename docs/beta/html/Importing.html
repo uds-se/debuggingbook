@@ -11,7 +11,7 @@ with fuzzingbook adaptations -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" /><title>Error Handling - The Fuzzing Book</title>
+<meta charset="utf-8" /><title>Using Debuggingbook Code in your own Programs - The Fuzzing Book</title>
 
 <style type="text/css">
     /*!
@@ -11790,10 +11790,10 @@ MathJax.Hub.Config({
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<meta property="og:url" content="https://www.fuzzingbook.org/beta/html/ExpectError.html" />
+<meta property="og:url" content="https://www.fuzzingbook.org/beta/html/Importing.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Error Handling - The Fuzzing Book" />
-<meta property="og:description" content="The code in this notebook helps with handling errors.  Normally, an error in  notebook code causes the execution of the code to stop; while an infinite loop in notebook code causes the notebook to run without end.  This notebook provides two classes to help address these concerns.Prerequisites This notebook needs some understanding on advanced concepts in Python, notably      classes     the Python `with` statement     tracing     measuring time     exceptions" />
+<meta property="og:title" content="Using Debuggingbook Code in your own Programs - The Fuzzing Book" />
+<meta property="og:description" content="This notebook has instructions on how to use the debuggingbook code in your own programs." />
 <meta property="og:image" content="https://www.fuzzingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11875,7 +11875,7 @@ MathJax.Hub.Config({
 <li><a href="Intro_Debugging.html">Title&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
-<li><a href="ExpectError.html" class="this_page">Error Handling</a></li>
+<li><a href="ExpectError.html">Error Handling</a></li>
 <li><a href="Timer.html">Timer</a></li>
 <li><a href="ControlFlow.html">Control Flow Graph</a></li>
 <li><a href="RailroadDiagrams.html">Railroad Diagrams</a></li>
@@ -11883,19 +11883,20 @@ MathJax.Hub.Config({
            <li><a href="https://www.fuzzingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
      </li>
-     <li class="has-sub"><a href="#"><span title="Error Handling"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Error Handling</span></a>
-           <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
-</li><li class="has-sub"><a href="#Catching-Errors">&nbsp;&bull;&nbsp;&nbsp; Catching Errors</a>
-</li><li class="has-sub"><a href="#Catching-Timeouts">&nbsp;&bull;&nbsp;&nbsp; Catching Timeouts</a>
+     <li class="has-sub"><a href="#"><span title="Using Debuggingbook Code in your own Programs"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Using Debuggingbook Code in your own Programs</span></a>
+           <ul><li class="has-sub"><a href="#Can-I-import-the-code-for-my-own-Python-projects?">&nbsp;&bull;&nbsp;&nbsp; Can I import the code for my own Python projects?</a>
+</li><li class="has-sub"><a href="#Can-I-use-the-code-from-within-a-Jupyter-notebook?">&nbsp;&bull;&nbsp;&nbsp; Can I use the code from within a Jupyter notebook?</a>
+</li><li class="has-sub"><a href="#Can-I-just-run-the-Python-code?--I-mean,-without-notebooks?">&nbsp;&bull;&nbsp;&nbsp; Can I just run the Python code?  I mean, without notebooks?</a>
+</li><li class="has-sub"><a href="#Which-other-packages-do-I-need-to-use-the-Python-modules?">&nbsp;&bull;&nbsp;&nbsp; Which other packages do I need to use the Python modules?</a>
 </ul></li>
      </li>
      
      <li class="has-sub"><a href="#"><span title="Resources"><i class="fa fa-fw fa-cube"></i> </span><span class="menu_3">Resources</span></a>
      <ul>
-     <li><a href="https://mybinder.org/v2/gh/uds-se/fuzzingbook/master?filepath=docs/beta/notebooks/ExpectError.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
-     <li><a href="https://www.fuzzingbook.org/beta/slides/ExpectError.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
-     <li><a href="https://www.fuzzingbook.org/beta/code/ExpectError.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
-     <li><a href="https://www.fuzzingbook.org/beta/notebooks/ExpectError.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
+     <li><a href="https://mybinder.org/v2/gh/uds-se/fuzzingbook/master?filepath=docs/beta/notebooks/Importing.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/slides/Importing.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/code/Importing.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
+     <li><a href="https://www.fuzzingbook.org/beta/notebooks/Importing.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
      <li><a href="https://www.fuzzingbook.org/beta/dist/fuzzingbook-code.zip"><i class="fa fa-fw fa-cube"></i> All Code (.zip)</a></li>
      <li><a href="https://www.fuzzingbook.org/beta/dist/fuzzingbook-notebooks.zip"><i class="fa fa-fw fa-cube"></i> All Notebooks (.zip)</a></li>
      <li><a href="https://github.com/uds-se/fuzzingbook/" target="_blank"><i class="fa fa-fw fa-github"></i> Project Page</a></li>
@@ -11905,13 +11906,13 @@ MathJax.Hub.Config({
      
      <li class="has-sub"><a href="#"><span title="Share"><i class="fa fa-fw fa-comments"></i> </span> <span class="menu_4">Share</span></a>
         <ul>
-            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Error%20Handling%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fExpectError.html" target="popup" 
-onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Error%20Handling%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fExpectError.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Using%20Debuggingbook%20Code%20in%20your%20own%20Programs%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fImporting.html" target="popup" 
+onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Using%20Debuggingbook%20Code%20in%20your%20own%20Programs%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fImporting.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-twitter"></i> Share on Twitter</a>
-            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fExpectError.html" target="popup" 
-onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fExpectError.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fImporting.html" target="popup" 
+onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fImporting.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-facebook"></i> Share on Facebook</a>
-            <li><a href="mailto:?subject=Error%20Handling&body=I%20just%20read%20%22Error%20Handling%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fExpectError.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
+            <li><a href="mailto:?subject=Using%20Debuggingbook%20Code%20in%20your%20own%20Programs&body=I%20just%20read%20%22Using%20Debuggingbook%20Code%20in%20your%20own%20Programs%22%20(part%20of%20@FuzzingBook)%20at%20https%3a%2f%2fwww.fuzzingbook.org%2fbeta%2fhtml%2fImporting.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
             <li><a href="#citation" id="cite" onclick="revealCitation()"><i class="fa fa-fw fa-mortar-board"></i> Cite</a>
         </ul>
      </li>
@@ -11934,7 +11935,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Error-Handling">Error Handling<a class="anchor-link" href="#Error-Handling">&#182;</a></h1><p>The code in this notebook helps with handling errors.  Normally, an error in  notebook code causes the execution of the code to stop; while an infinite loop in notebook code causes the notebook to run without end.  This notebook provides two classes to help address these concerns.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Using-Debuggingbook-Code-in-your-own-Programs">Using Debuggingbook Code in your own Programs<a class="anchor-link" href="#Using-Debuggingbook-Code-in-your-own-Programs">&#182;</a></h1><p>This notebook has instructions on how to use the debuggingbook code in your own programs.</p>
 </div>
 </div>
 </div>
@@ -11943,17 +11944,21 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
-<ul>
-<li>This notebook needs some understanding on advanced concepts in Python, notably <ul>
-<li>classes</li>
-<li>the Python <code>with</code> statement</li>
-<li>tracing</li>
-<li>measuring time</li>
-<li>exceptions</li>
-</ul>
-</li>
-</ul>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Can-I-import-the-code-for-my-own-Python-projects?">Can I import the code for my own Python projects?<a class="anchor-link" href="#Can-I-import-the-code-for-my-own-Python-projects?">&#182;</a></h2><p>Yes, you can!  (If you like Python, that is.)  We provide a <code>debuggingbook</code> Python package that you can install using the <code>pip</code> package manager:</p>
+<div class="highlight"><pre><span></span>$ pip install debuggingbook
+</pre></div>
+<p>Once this is installed, you can import individual classes, constants, or functions from each notebook using</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/debuggingbook..html" class="import" target="_blank">debuggingbook.</a></span><span class="o">&lt;</span><span class="n">notebook</span><span class="o">&gt;</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+<p>where <code>&lt;identifier&gt;</code> is the name of the class, constant, or function to use, and <code>&lt;notebook&gt;</code> is the name of the respective notebook.  (If you read this at debuggingbook.org, then the notebook name is the identifier preceding <code>".html"</code> in the URL).</p>
+<p>(FIXME)
+Here is an example importing <code>RandomFuzzer</code> from <a href="Fuzzer.html">the chapter on fuzzers</a>, whose notebook name is <code>Fuzzer</code>:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="Fuzzer.html" class="import" target="_blank">fuzzingbook.Fuzzer</a></span> <span class="kn">import</span> <span class="n">RandomFuzzer</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">RandomFuzzer</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">fuzz</span><span class="p">()</span>
+<span class="s1">&#39;!7#%&quot;*#0=)$;%6*;&gt;638:*&gt;80&quot;=&lt;/&gt;(/*:-(2&lt;4 !:5*6856&amp;?&quot;&quot;11&lt;7+%&lt;%7,4.8,*+&amp;,,$,.&quot;5%&lt;%76&lt; -5&#39;</span>
+</pre></div>
+<p>The "Synopsis" section at the beginning of a chapter gives a short survey on useful code features you can use.</p>
 </div>
 </div>
 </div>
@@ -11962,63 +11967,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><div class="synopsis"><h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2><!-- Automatically generated. Do not edit. -->
-
-<p>To <a href="Importing.html">use the code provided in this chapter</a>, write</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">fuzzingbook.ExpectError</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
-</pre></div>
-<p>and then make use of the following features.</p>
-<p>The <code>ExpectError</code> class allows you to catch and report exceptions, yet resume execution.  This is useful in notebooks, as they would normally interrupt execution as soon as an exception is raised.  Its typical usage is in conjunction with a <code>with</code> clause:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-<span class="o">&gt;&gt;&gt;</span>     <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-13-264328004f25&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-<span class="ne">ZeroDivisionError</span><span class="p">:</span> <span class="n">division</span> <span class="n">by</span> <span class="n">zero</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-</pre></div>
-<p>The <code>ExpectTimeout</code> class allows you to interrupt execution after the specified time.  This is useful for interrupting code that might otherwise run forever.</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ExpectTimeout</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-<span class="o">&gt;&gt;&gt;</span>     <span class="n">long_running_test</span><span class="p">()</span>
-<span class="n">Start</span>
-<span class="mi">0</span> <span class="n">seconds</span> <span class="n">have</span> <span class="n">passed</span>
-<span class="mi">1</span> <span class="n">seconds</span> <span class="n">have</span> <span class="n">passed</span>
-<span class="mi">2</span> <span class="n">seconds</span> <span class="n">have</span> <span class="n">passed</span>
-<span class="mi">3</span> <span class="n">seconds</span> <span class="n">have</span> <span class="n">passed</span>
-
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-14-7e5136e65261&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="n">long_running_test</span><span class="p">()</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-10-8d0f8e53f106&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">5</span><span class="p">,</span> <span class="ow">in</span> <span class="n">long_running_test</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;seconds have passed&quot;</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-10-8d0f8e53f106&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">5</span><span class="p">,</span> <span class="ow">in</span> <span class="n">long_running_test</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;seconds have passed&quot;</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-9-a28a583f0630&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">16</span><span class="p">,</span> <span class="ow">in</span> <span class="n">check_time</span>
-    <span class="k">raise</span> <span class="n">TimeoutError</span>
-<span class="n">TimeoutError</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
-</pre></div>
-<p>The exception and the associated traceback are printed as error messages.  If you do not want that, 
-use these keyword options:</p>
-<ul>
-<li><code>print_traceback</code> (default True) can be set to <code>False</code> to avoid the traceback being printed</li>
-<li><code>mute</code> (default False) can be set to <code>True</code> to completely avoid any output.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Catching-Errors">Catching Errors<a class="anchor-link" href="#Catching-Errors">&#182;</a></h2><p>The class <code>ExpectError</code> allows to express that some code produces an exception.  A typical usage looks as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="kn">import</span> <span class="n">ExpectError</span>
-
-<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">function_that_is_supposed_to_fail</span><span class="p">()</span>
-</pre></div>
-<p>If an exception occurs, it is printed on standard error; yet, execution continues.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Can-I-use-the-code-from-within-a-Jupyter-notebook?">Can I use the code from within a Jupyter notebook?<a class="anchor-link" href="#Can-I-use-the-code-from-within-a-Jupyter-notebook?">&#182;</a></h2><p>Yes, you can!  You would first install the <code>fuzzingbook</code> package (as above); you can then access all code right from your notebook.</p>
+<p>Another way to use the code is to <em>import the notebooks directly</em>.  Download the notebooks from the menu.  Then, add your own notebooks into the same folder.  After importing <code>fuzzingbook_utils</code>, you can then simply import the code from other notebooks, just as our own notebooks do.</p>
+<p>Here is again the above example, importing <code>RandomFuzzer</code> from <a href="Fuzzer.html">the chapter on fuzzers</a> – but now from a notebook:</p>
 </div>
 </div>
 </div>
@@ -12030,7 +11981,7 @@ use these keyword options:</p>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/fuzzingbook_utils" class="import" target="_blank">fuzzingbook_utils</a></span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import fuzzingbook_utils  # FIXME</span>
 </pre></div>
 
 </div>
@@ -12044,8 +11995,7 @@ use these keyword options:</p>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/traceback.html" class="import" target="_blank">traceback</a></span>
-<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/sys.html" class="import" target="_blank">sys</a></span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from Fuzzer import RandomFuzzer  # FIXME</span>
 </pre></div>
 
 </div>
@@ -12059,35 +12009,8 @@ use these keyword options:</p>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ExpectError</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_traceback</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mute</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">print_traceback</span> <span class="o">=</span> <span class="n">print_traceback</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mute</span> <span class="o">=</span> <span class="n">mute</span>
-
-    <span class="c1"># Begin of `with` block</span>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="c1"># End of `with` block</span>
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">exc_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># No exception</span>
-            <span class="k">return</span>
-
-        <span class="c1"># An exception occurred</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_traceback</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span>
-                    <span class="n">exc_type</span><span class="p">,</span>
-                    <span class="n">exc_value</span><span class="p">,</span>
-                    <span class="n">tb</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
-                <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mute</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="s2">&quot;(expected)&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Ignore it</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># f = RandomFuzzer()  # FIXME</span>
+<span class="c1"># f.fuzz()</span>
 </pre></div>
 
 </div>
@@ -12098,360 +12021,77 @@ use these keyword options:</p>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Here's an example:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>If you'd like to share your notebook, let us know; we can integrate it in the repository or even in the book.</p>
 </div>
 </div>
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fail_test</span><span class="p">():</span>
-    <span class="c1"># Trigger an exception</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-</pre></div>
-
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Can-I-just-run-the-Python-code?--I-mean,-without-notebooks?">Can I just run the Python code?  I mean, without notebooks?<a class="anchor-link" href="#Can-I-just-run-the-Python-code?--I-mean,-without-notebooks?">&#182;</a></h2><p>Yes, you can!  (Although we'd always recommend executing the notebooks instead – they have all the text, and far richer inputs and outputs.)  You can download the code as Python programs; simply select "Resources $\rightarrow$ Download Code" for one chapter or "Resources $\rightarrow$ All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.</p>
+<p>The code files can also be edited if you wish, but (a) they are very obviously generated from notebooks, (b) therefore not much fun to work with, and (c) if you fix any errors, you'll have to back-propagate them to the notebook before you can make a pull request.  Use code files only under severely constrained circumstances.</p>
 </div>
-</div></div>
+</div>
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">fail_test</span><span class="p">()</span>
-</pre></div>
-
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Which-other-packages-do-I-need-to-use-the-Python-modules?">Which other packages do I need to use the Python modules?<a class="anchor-link" href="#Which-other-packages-do-I-need-to-use-the-Python-modules?">&#182;</a></h2><p>We have attempted to limit the dependencies to a minimum (sometimes using ugly hacks).  Generally speaking, if you encounter that a module <code>X</code> is not found, just do <code>pip install X</code>.  Most notebooks (notably, the generic fuzzers) only need modules that are part of the standard Python library.</p>
+<p>For a full list of dependencies, see the <a href="https://github.com/uds-se/debuggingbook/tree/master/binder">configuration files within the <code>binder</code> folder in the project repository</a>; these list all Linux and Python packages required.</p>
 </div>
-</div></div>
+</div>
 </div>
 </div>
 
-<div class="output_area">
+        
+<p class="imprint">
+<img style="float:right" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License">
+The content of this project is licensed under the
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/fuzzingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
+<a href="https://github.com/uds-se/fuzzingbook/commits/master/notebooks/Importing.ipynb" target=_blank)>Last change: 2020-09-27 15:50:56+02:00</a> &bull; 
+<a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
+<a href="https://www.uni-saarland.de/en/footer/dialogue/legal-notice.html" target=_blank>Imprint</a>
+</p>
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-5-67c629a2a842&gt;&#34;, line 2, in &lt;module&gt;
-    fail_test()
-  File &#34;&lt;ipython-input-4-2e8a6dbc7b2c&gt;&#34;, line 3, in fail_test
-    x = 1 / 0
-ZeroDivisionError: division by zero (expected)
+<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Using Debuggingbook Code in your own Programs" style="width:0;height:0;border:0; border:none;"></iframe>
+
+<script>
+function revealCitation() {
+    var c = document.getElementById("citation");
+    c.style.display = "block";
+}
+</script>
+
+<div id="citation" class="citation" style="display: none;">
+<a name="citation"></a>
+<h2>How to Cite this Work</h2>
+<p>
+Andreas Zeller, Rahul Gopinath, Marcel Böhme, Gordon Fraser, and Christian Holler: "<a href="https://www.fuzzingbook.org/beta/html/Importing.html">Using Debuggingbook Code in your own Programs</a>".  In Andreas Zeller, Rahul Gopinath, Marcel Böhme, Gordon Fraser, and Christian Holler (eds.), "<a href="https://www.fuzzingbook.org/beta/">The Fuzzing Book</a>", <a href="https://www.fuzzingbook.org/beta/html/Importing.html">https://www.fuzzingbook.org/beta/html/Importing.html</a>.  Retrieved 2020-09-27 15:50:56+02:00.
+</p>
+<pre>
+@incollection{fuzzingbook2020:Importing,
+    author = {Andreas Zeller and Rahul Gopinath and Marcel B{\"o}hme and Gordon Fraser and Christian Holler},
+    booktitle = {The Fuzzing Book},
+    title = {Using Debuggingbook Code in your own Programs},
+    year = {2020},
+    publisher = {Saarland University},
+    howpublished = {\url{https://www.fuzzingbook.org/beta/html/Importing.html}},
+    note = {Retrieved 2020-09-27 15:50:56+02:00},
+    url = {https://www.fuzzingbook.org/beta/html/Importing.html},
+    urldate = {2020-09-27 15:50:56+02:00}
+}
 </pre>
 </div>
 
-</div>
+      </div>
+    </div>
+    </article>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+ </body>
 
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="n">print_traceback</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">fail_test</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>ZeroDivisionError: division by zero (expected)
-</pre>
-</div>
-
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Catching-Timeouts">Catching Timeouts<a class="anchor-link" href="#Catching-Timeouts">&#182;</a></h2><p>The class <code>ExpectTimeout(seconds)</code> allows to express that some code may run for a long or infinite time; execution is thus interrupted after <code>seconds</code> seconds.  A typical usage looks as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="kn">import</span> <span class="n">ExpectTimeout</span>
-
-<span class="k">with</span> <span class="n">ExpectTimeout</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">function_that_is_supposed_to_hang</span><span class="p">()</span>
-</pre></div>
-<p>If an exception occurs, it is printed on standard error (as with <code>ExpectError</code>); yet, execution continues.</p>
-<p>Should there be a need to cancel the timeout within the <code>with</code> block, <code>t.cancel()</code> will do the trick.</p>
-<p>The implementation uses <code>sys.settrace()</code>, as this seems to be the most portable way to implement timeouts.  It is not very efficient, though.  Also, it only works on individual lines of Python code and will not interrupt a long-running system function.</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/sys.html" class="import" target="_blank">sys</a></span>
-<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/time.html" class="import" target="_blank">time</a></span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
-    <span class="c1"># Should be defined in Python 3</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="ne">TimeoutError</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="c1"># For Python 2</span>
-    <span class="k">class</span> <span class="nc">TimeoutError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Timeout&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-
-        <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ExpectTimeout</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="p">,</span> <span class="n">print_traceback</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mute</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seconds_before_timeout</span> <span class="o">=</span> <span class="n">seconds</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">print_traceback</span> <span class="o">=</span> <span class="n">print_traceback</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mute</span> <span class="o">=</span> <span class="n">mute</span>
-
-    <span class="c1"># Tracing function</span>
-    <span class="k">def</span> <span class="nf">check_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
-
-        <span class="n">current_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">current_time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TimeoutError</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_time</span>
-
-    <span class="c1"># Begin of `with` block</span>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">seconds_before_timeout</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">gettrace</span><span class="p">()</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">settrace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">check_time</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="c1"># End of `with` block</span>
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">exc_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span>
-
-        <span class="c1"># An exception occurred</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_traceback</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span>
-                    <span class="n">exc_type</span><span class="p">,</span>
-                    <span class="n">exc_value</span><span class="p">,</span>
-                    <span class="n">tb</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception_only</span><span class="p">(</span>
-                <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mute</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="s2">&quot;(expected)&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Ignore it</span>
-
-    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">settrace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Here's an example:</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">long_running_test</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;seconds have passed&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;End&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectTimeout</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">print_traceback</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">long_running_test</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Start
-0 seconds have passed
-1 seconds have passed
-2 seconds have passed
-3 seconds have passed
-</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>TimeoutError (expected)
-</pre>
-</div>
-
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Note that it is possible to nest multiple timeouts.</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectTimeout</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">ExpectTimeout</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-        <span class="n">long_running_test</span><span class="p">()</span>
-    <span class="n">long_running_test</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Start
-0 seconds have passed
-1 seconds have passed
-</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-12-d87d5d50b60e&gt;&#34;, line 3, in &lt;module&gt;
-    long_running_test()
-  File &#34;&lt;ipython-input-10-8d0f8e53f106&gt;&#34;, line 5, in long_running_test
-    print(i, &#34;seconds have passed&#34;)
-  File &#34;&lt;ipython-input-10-8d0f8e53f106&gt;&#34;, line 5, in long_running_test
-    print(i, &#34;seconds have passed&#34;)
-  File &#34;&lt;ipython-input-9-a28a583f0630&gt;&#34;, line 16, in check_time
-    raise TimeoutError
-TimeoutError (expected)
-</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Start
-0 seconds have passed
-</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-12-d87d5d50b60e&gt;&#34;, line 4, in &lt;module&gt;
-    long_running_test()
-  File &#34;&lt;ipython-input-10-8d0f8e53f106&gt;&#34;, line 5, in long_running_test
-    print(i, &#34;seconds have passed&#34;)
-  File &#34;&lt;ipython-input-10-8d0f8e53f106&gt;&#34;, line 5, in long_running_test
-    print(i, &#34;seconds have passed&#34;)
-  File &#34;&lt;ipython-input-9-a28a583f0630&gt;&#34;, line 16, in check_time
-    raise TimeoutError
-TimeoutError (expected)
-</pre>
-</div>
-
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>That's it, folks – enjoy!</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">>
+</html>
