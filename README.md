@@ -2,10 +2,7 @@
 # About this Book
 
 __Welcome to "The Debugging Book"!__ 
-
 Software has bugs, and finding bugs can involve lots of effort.  This book addresses this problem by _automating_ software debugging, specifically by _locating errors and their causes automatically_.  Recent years have seen the development of novel techniques that lead to dramatic improvements in test generation and software testing.  They now are mature enough to be assembled in a book – even with executable code. 
-
-
 
 ## A Textbook for Paper, Screen, and Keyboard
 
@@ -15,7 +12,7 @@ You can use this book in four ways:
 
 * You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Simply select "Resources $\rightarrow$ Edit as Notebook" at the top of each chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/Fuzzer.ipynb" target=_blank>Try interacting with the introduction to fuzzing.</a>
 
-* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources $\rightarrow$ Download Code" for one chapter or "Resources $\rightarrow$ All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Even easier: [Install the debuggingbook Python package](https://www.debuggingbook.org/html/Importing.html).
+* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources $\rightarrow$ Download Code" for one chapter or "Resources $\rightarrow$ All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Even easier: [Install the fuzzingbook Python package](https://www.debuggingbook.org/html/Importing.html).
 
 * You can __present chapters as slides__.  This allows for presenting the material in lectures.  Just select "Resources $\rightarrow$ View slides" at the top of each chapter. <a href="https://www.debuggingbook.org/slides/Fuzzer.slides.html" target=_blank>Try viewing the slides for the introduction to fuzzing.</a>
 
@@ -25,9 +22,9 @@ This work is designed as a _textbook_ for a course in software debugging; as _su
 
 ## News
 
-This book is _work in progress._  All chapters planned are out now, but we keep on refining the material with [minor and major releases.](https://www.debuggingbook.org/html/ReleaseNotes.html)  To get notified on updates, <a href="https://twitter.com/debugbook?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.
+This book is _work in progress._  All chapters planned are out now, but we keep on refining the material with [minor and major releases.](https://www.debuggingbook.org/html/ReleaseNotes.html)  To get notified on updates, <a href="https://twitter.com/DebugBook?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.
 
-<a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/debugbook?ref_src=twsrc%5Etfw" data-dnt="true">News from @debugbook</a> 
+<a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/DebugBook?ref_src=twsrc%5Etfw" data-dnt="true">News from @DebugBook</a> 
 
 
 ## About the Authors
@@ -64,7 +61,7 @@ If mybinder.org does not work or match your needs, you have a number of alternat
 
 #### Can I run the code on my Windows machine?
 
-We try to keep the code as general as possible, but occasionally, when we interact with the operating system, we assume a Unix-like environment (because that is what Binder provides).  To run these examples on your own Windows machine, you can install a Linux VM or a [Docker environment](https://github.com/uds-se/debuggingbook/blob/master/deploy/README.md).
+We try to keep the code as general as possible, but occasionally, when we interact with the operating system, we assume a Unix-like environment (because that is what Binder provides).  To run these examples on your own Windows machine, you can install a Linux VM or a [Docker environment](https://github.com/uds-se/fuzzingbook/blob/master/deploy/README.md).
 
 #### Can't you run your own dedicated cloud service?
 
@@ -129,14 +126,14 @@ At this point, we do not provide support for PDF versions.  We will be producing
 
 #### I have a question, comment, or a suggestion.  What do I do?
 
-You can [tweet to @debugbook on Twitter](https://twitter.com/debugbook), allowing the community of readers to chime in.  For bugs you'd like to get fixed, report an issue on the [development page](https://github.com/uds-se/debugbook/issues).
+You can [tweet to @debugbook on Twitter](https://twitter.com/debugbook), allowing the community of readers to chime in.  For bugs you'd like to get fixed, report an issue on the [development page](https://github.com/uds-se/debuggingbook/issues).
 
 #### I have reported an issue two weeks ago.  When will it be addressed?
 
 We prioritize issues as follows:
 
-1. Bugs in code published on debuggingbook.org
-2. Bugs in text published on debuggingbook.org
+1. Bugs in code published on fuzzingbook.org
+2. Bugs in text published on fuzzingbook.org
 3. Writing missing chapters
 4. Issues in yet unpublished code or text
 5. Issues related to development or construction
