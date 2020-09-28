@@ -22,9 +22,9 @@ This work is designed as a _textbook_ for a course in software debugging; as _su
 
 ## News
 
-This book is _work in progress._  All chapters planned are out now, but we keep on refining the material with [minor and major releases.](https://www.debuggingbook.org/html/ReleaseNotes.html)  To get notified on updates, <a href="https://twitter.com/DebugBook?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.
+This book is _work in progress._  All chapters planned are out now, but we keep on refining the material with [minor and major releases.](https://www.debuggingbook.org/html/ReleaseNotes.html)  To get notified on updates, <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.
 
-<a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/DebugBook?ref_src=twsrc%5Etfw" data-dnt="true">News from @DebugBook</a> 
+<a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-dnt="true">News from @Debugging_Book</a> 
 
 
 ## About the Authors
