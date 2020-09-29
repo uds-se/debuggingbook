@@ -4,6 +4,11 @@
 # Name of the project
 PROJECT = debuggingbook
 
+# Some metadata
+BOOKTITLE = The Debugging Book
+AUTHORS = Andreas Zeller
+TWITTER = @Debugging_Book
+
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = 
 
