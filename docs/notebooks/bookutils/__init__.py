@@ -1,8 +1,10 @@
+# Bookutils
+
 # Define the contents of this file as a package
 __all__ = ["PrettyTable", "YouTubeVideo",
-           "print_file", "HTML",
-           "unicode_escape", "terminal_escape", "extract_class_definition"]
-
+           "print_file", "print_content", "HTML",
+           "unicode_escape", "terminal_escape", 
+           "inheritance_conflicts", "extract_class_definition"]
 
 # Setup loader such that workbooks can be imported directly
 try:
@@ -13,7 +15,7 @@ except:
 
 if have_ipython:
     from . import import_notebooks
-
+    
 # Set fixed seed
 from . import set_fixed_seed
 set_fixed_seed.set_fixed_seed()
