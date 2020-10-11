@@ -11,7 +11,7 @@ with fuzzingbook adaptations -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" /><title>Title - The Debugging Book</title>
+<meta charset="utf-8" /><title>Introduction to Debugging - The Debugging Book</title>
 
 <style type="text/css">
     /*!
@@ -11786,14 +11786,14 @@ MathJax.Hub.Config({
 
 </style>
 
-<link href='https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700|Patua+One|Source+Code+Pro|Open+Sans' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Fira+Mono:400,500,700|Raleway:300|Source+Code+Pro|Open+Sans' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <meta property="og:url" content="https://www.debuggingbook.org/beta/html/Intro_Debugging.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Title - The Debugging Book" />
-<meta property="og:description" content="Brief abstract/introduction/motivation.  State what the chapter is about in 1-2 paragraphs.Then, have an introduction video:Prerequisites Refer to earlier chapters as notebooks here, as here: Earlier Chapter." />
+<meta property="og:title" content="Introduction to Debugging - The Debugging Book" />
+<meta property="og:description" content="In this book, we want to explore debugging - the art and science of fixing bugs in computer software. In particular, we want to explore techniques that automatically answer questions like: Where is the bug? When does it occur? And how can we repair it? But before we start automating the debugging process, we first need to understand what this process is.In this chapter, we introduce basic concepts of systematic software debugging and the debugging process, and at the same time get acquainted with Python and interactive notebooks.Prerequisites The book is meant to be a standalone reference; however, a number of great books on debugging are listed at the end, Knowing a bit of Python is helpful for understanding the code examples in the book." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11872,7 +11872,7 @@ MathJax.Hub.Config({
 <li class="has-sub"><a href="01_Intro.html" class="chapters"><span class="part_number">I</span> Whetting Your Appetite&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Tours.html">Tours through the Book&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-<li><a href="Intro_Debugging.html" class="this_page">Title&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="Intro_Debugging.html" class="this_page">Introduction to Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -11883,14 +11883,24 @@ MathJax.Hub.Config({
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
      </li>
-     <li class="has-sub"><a href="#"><span title="Title"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Title <i class="fa fa-fw fa-wrench"></i></span></a>
+     <li class="has-sub"><a href="#"><span title="Introduction to Debugging"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Introduction to Debugging <i class="fa fa-fw fa-wrench"></i></span></a>
            <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
-</li><li class="has-sub"><a href="#_Section-1_">&nbsp;&bull;&nbsp;&nbsp; _Section 1_</a>
-</li><li class="has-sub"><a href="#_Section-2_">&nbsp;&bull;&nbsp;&nbsp; _Section 2_</a>
-<ul><li class="has-sub"><a href="#Excursion:-All-the-Details">Excursion: All the Details</a>
-</li><li class="has-sub"><a href="#End-of-Excursion">End of Excursion</a>
-</ul></li><li class="has-sub"><a href="#_Section-3_">&nbsp;&bull;&nbsp;&nbsp; _Section 3_</a>
-</li><li class="has-sub"><a href="#_Section-4_">&nbsp;&bull;&nbsp;&nbsp; _Section 4_</a>
+</li><li class="has-sub"><a href="#A-Simple-Function">&nbsp;&bull;&nbsp;&nbsp; A Simple Function</a>
+<ul><li class="has-sub"><a href="#Your-Task:-Remove-HTML-Markup">Your Task: Remove HTML Markup</a>
+</li><li class="has-sub"><a href="#Understanding-Python-Programs">Understanding Python Programs</a>
+</li><li class="has-sub"><a href="#Running-a-Function">Running a Function</a>
+</li><li class="has-sub"><a href="#Interacting-with-Notebooks">Interacting with Notebooks</a>
+</li><li class="has-sub"><a href="#Testing-a-Function">Testing a Function</a>
+</ul></li><li class="has-sub"><a href="#Oops!-A-Bug!">&nbsp;&bull;&nbsp;&nbsp; Oops! A Bug!</a>
+</li><li class="has-sub"><a href="#Visualizing-Code">&nbsp;&bull;&nbsp;&nbsp; Visualizing Code</a>
+</li><li class="has-sub"><a href="#A-First-Fix">&nbsp;&bull;&nbsp;&nbsp; A First Fix</a>
+</li><li class="has-sub"><a href="#The-Devil's-Guide-to-Debugging">&nbsp;&bull;&nbsp;&nbsp; The Devil's Guide to Debugging</a>
+<ul><li class="has-sub"><a href="#Printf-Debugging">Printf Debugging</a>
+</li><li class="has-sub"><a href="#Debugging-into-Existence">Debugging into Existence</a>
+</li><li class="has-sub"><a href="#Use-the-Most-Obvious-Fix">Use the Most Obvious Fix</a>
+</li><li class="has-sub"><a href="#Things-to-do-Instead">Things to do Instead</a>
+</ul></li><li class="has-sub"><a href="#From-Defect-to-Failure-– and-Back-Again">&nbsp;&bull;&nbsp;&nbsp; From Defect to Failure – and Back Again</a>
+</li><li class="has-sub"><a href="#The-Scientific-Method">&nbsp;&bull;&nbsp;&nbsp; The Scientific Method</a>
 </li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
@@ -11915,13 +11925,13 @@ MathJax.Hub.Config({
      
      <li class="has-sub"><a href="#"><span title="Share"><i class="fa fa-fw fa-comments"></i> </span> <span class="menu_4">Share</span></a>
         <ul>
-            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Title%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html" target="popup" 
-onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Title%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Introduction%20to%20Debugging%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html" target="popup" 
+onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Introduction%20to%20Debugging%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-twitter"></i> Share on Twitter</a>
             <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html" target="popup" 
 onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-facebook"></i> Share on Facebook</a>
-            <li><a href="mailto:?subject=Title&body=I%20just%20read%20%22Title%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
+            <li><a href="mailto:?subject=Introduction%20to%20Debugging&body=I%20just%20read%20%22Introduction%20to%20Debugging%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fIntro_Debugging.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
             <li><a href="#citation" id="cite" onclick="revealCitation()"><i class="fa fa-fw fa-mortar-board"></i> Cite</a>
         </ul>
      </li>
@@ -11944,8 +11954,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Title">Title<a class="anchor-link" href="#Title">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p><em>Brief abstract/introduction/motivation.  State what the chapter is about in 1-2 paragraphs.</em>
-<em>Then, have an introduction video:</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Introduction-to-Debugging">Introduction to Debugging<a class="anchor-link" href="#Introduction-to-Debugging">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>In this book, we want to explore <em>debugging</em> - the art and science of fixing bugs in computer software. In particular, we want to explore techniques that <em>automatically</em> answer questions like: Where is the bug? When does it occur? And how can we repair it? But before we start automating the debugging process, we first need to understand what this process is.</p>
+<p>In this chapter, we introduce basic concepts of systematic software debugging and the debugging process, and at the same time get acquainted with Python and interactive notebooks.</p>
 </div>
 </div>
 </div>
@@ -11956,7 +11966,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
 <ul>
-<li><em>Refer to earlier chapters as notebooks here, as here:</em> <a href="Fuzzer.html">Earlier Chapter</a>.</li>
+<li>The book is meant to be a standalone reference; however, a number of <em>great books on debugging</em> are listed at the end,</li>
+<li>Knowing a bit of <em>Python</em> is helpful for understanding the code examples in the book.</li>
 </ul>
 </div>
 </div>
@@ -11987,21 +11998,660 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </pre></div>
 <p>and then make use of the following features.</p>
 <p><em>For those only interested in using the code in this chapter (without wanting to know how it works), give an example.  This will be copied to the beginning of the chapter (before the first section) as text with rendered input and output.</em></p>
-<p>You can use <code>int_fuzzer()</code> as:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">int_fuzzer</span><span class="p">())</span>
-<span class="mf">76.5</span>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-Simple-Function">A Simple Function<a class="anchor-link" href="#A-Simple-Function">&#182;</a></h2><h3 id="Your-Task:-Remove-HTML-Markup">Your Task: Remove HTML Markup<a class="anchor-link" href="#Your-Task:-Remove-HTML-Markup">&#182;</a></h3><p>Let us start with a simple example. You may have heard of how documents on the Web are made out of text and HTML markup. HTML markup consists of <em>tags</em> in angle brackets that surround the text, providing additional information on how the text should be interpreted. For instance, in the HTML text</p>
+<div class="highlight"><pre><span></span>This is <span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>emphasized<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>.
+</pre></div>
+<p>the word "emphasized" is enclosed in the HTML tags <code>&lt;em&gt;</code> (start) and <code>&lt;/em&gt;</code> (end), meaning that it should be interpreted (and rendered) in an emphasized way – typically in italics. In your environment, the HTML text gets rendered as</p>
+<blockquote><p>This is <em>emphasized</em>.</p>
+</blockquote>
+<p>There's HTML tags for pretty much everything – text markup (<strong>bold</strong> text, <s>strikethrough</s> text), text structure (titles, lists), references (links) to other documents, and many more. These HTML tags shape the Web as we know it.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>However, within all the HTML markup, it may become difficult to actually access the <em>text</em> that lies within. We'd like to implement a simple function that removes <em>HTML markup</em> and converts it into text. If our input is</p>
+<div class="highlight"><pre><span></span>Here&#39;s some <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>strong argument<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>.
+</pre></div>
+<p>the output should be</p>
+<blockquote><p>Here's some strong argument.</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's a Python function which does exactly this. It takes a (HTML) string and returns the text without markup.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>   <span class="c1"># start of markup</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span> <span class="c1"># end of markup</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This function works, but not always. Before we start debugging things, let us first explore its code and how it works.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Understanding-Python-Programs">Understanding Python Programs<a class="anchor-link" href="#Understanding-Python-Programs">&#182;</a></h3><p>If you're new to Python, you might first have to understand what the above code does.  We very much recommend the <a href="https://docs.python.org/3/tutorial/">Python tutorial</a> to get an idea on how Python works.  The most important things for you to understand the above code are these three:</p>
+<ol>
+<li>Python structures programs through <em>indentation</em>, so the function and <code>for</code> bodies are defined by being indented;</li>
+<li>Python is <em>dynamically typed</em>, meaning that the type of variables like <code>x</code>, <code>approx</code>, or <code>guess</code> is determined at run-time.</li>
+<li>Most of Python's syntactic features are inspired by other common languages, such as control structures (<code>while</code>, <code>if</code>, <code>for</code>), assignments (<code>=</code>), or comparisons (<code>==</code>, <code>!=</code>, <code>&lt;</code>).</li>
+</ol>
+<p>With that, you can already understand what the above code does: <code>remove_html_markup()</code> takes a (HTML) string <code>s</code> and then iterates over the individual characters (<code>for c in s</code>). By default, these characters are added to the return string <code>out</code>. However, if <code>remove_html_markup()</code> finds a <code>&lt;</code> character, it sets the <code>tag</code> flag, meaning that all further characters are ignored until a <code>&gt;</code> character is found.</p>
+<p>In contrast to other languages, Python makes no difference between strings and characters – there's only strings. As in HTML, strings can be enclosed in single quotes (<code>'a'</code>) and in double quotes (<code>"a"</code>). This is useful if you want to specify a string that contains quotes, as in <code>'She said "hello", and then left'</code> or <code>"The first character is a 'c'"</code></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Running-a-Function">Running a Function<a class="anchor-link" href="#Running-a-Function">&#182;</a></h3><p>To find out whether <code>remove_html_markup()</code> works correctly, we can <em>test</em> it with a few values.  For the string</p>
+<div class="highlight"><pre><span></span>Here&#39;s some <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>strong argument<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>.
+</pre></div>
+<p>for instance, it produces the correct value:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#34;Here&#39;s some strong argument.&#34;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Interacting-with-Notebooks">Interacting with Notebooks<a class="anchor-link" href="#Interacting-with-Notebooks">&#182;</a></h3><p>If you are reading this in the interactive notebook, you can try out <code>remove_html_markup()</code> with other values as well.  Click on the above cells with the invocation of <code>remove_html_markup()</code> and change the value – say, to <code>remove_html_markup("&lt;em&gt;foo&lt;/em&gt;")</code>.  Press <code>Shift+Enter</code> (or click on the play symbol) to execute it and see the result.  If you get an error message, go to the above cell with the definition of <code>remobve_html_markup()</code> and execute this first.  You can also run <em>all</em> cells at once; see the Notebook menu for details.  (You can actually also change the text by clicking on it, and corect mistaks such as in this sentence.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Executing a single cell does not execute other cells, so if your cell builds on a definition in another cell that you have not executed yet, you will get an error.  You can select <code>Run all cells above</code> from the menu to ensure all definitions are set.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Also keep in mind that, unless overwritten, all definitions are kept across executions.  Occasionally, it thus helps to <em>restart the kernel</em> (i.e. start the Python interpreter from scratch) to get rid of older, superfluous definitions.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Testing-a-Function">Testing a Function<a class="anchor-link" href="#Testing-a-Function">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Since one can change not only invocations, but also definitions, we want to ensure that our function works properly now and in the future. To this end, we introduce tests through <em>assertions</em> – a statement that fails if the given <em>check</em> is false. The following assertion, for instance, checks that the above call to <code>remove_html_markup()</code> returns the correct value:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If you change the code of <code>remove_html_markup()</code> such that the above assertion fails, you will have introduced a bug.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Oops!-A-Bug!">Oops! A Bug!<a class="anchor-link" href="#Oops!-A-Bug!">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>As nice and simple as <code>remove_html_markup()</code> is, it is buggy. Some HTML markup is not properly stripped away. Consider this HTML tag, which would render as an input field in a form:</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;your name&gt;&quot;</span><span class="p">&gt;</span>
+</pre></div>
+<p>If we feed this string into <code>remove_html_markup()</code>, we would expect an empty string as the result. Instead, this is what we get:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&#34;&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Every time we encounter a bug, this means that our earlier tests have failed. We thus need to introduce another test that documents not only how the bug came to be, but also the result we actually expected.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The assertion we write now fails with an error message. (The <code>ExpectError</code> magic ensures we see the error message, but the rest of the notebook is still executed.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="k">import</span> <span class="n">ExpectError</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-7-c7b482ebf524&gt;&#34;, line 2, in &lt;module&gt;
+    assert remove_html_markup(&#39;&lt;input type=&#34;text&#34; value=&#34;&lt;your name&gt;&#34;&gt;&#39;) == &#34;&#34;
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>With this, we now have our task: <em>Fix the failure as above.</em></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Visualizing-Code">Visualizing Code<a class="anchor-link" href="#Visualizing-Code">&#182;</a></h2><p>To properly understand what is going on here, it helps drawing a diagram on how <code>remove_html_markup()</code> works. Technically, <code>remove_html_markup()</code> implements a <em>state machine</em> with two states <code>tag</code> and <code>¬ tag</code>. We change between these states depending on the characters we process. This is visualized in the following diagram:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/graphviz.html" class="import" target="_blank">graphviz</a></span> <span class="k">import</span> <span class="n">Digraph</span><span class="p">,</span> <span class="n">nohtml</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html" class="import" target="_blank">IPython.display</a></span> <span class="k">import</span> <span class="n">display</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Digraph</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span> <span class="n">graph_attr</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rankdir&#39;</span><span class="p">:</span> <span class="s1">&#39;LR&#39;</span><span class="p">},</span> 
+        <span class="n">node_attr</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="s1">&#39;filled&#39;</span><span class="p">,</span> <span class="s1">&#39;fillcolor&#39;</span><span class="p">:</span> <span class="n">STEP_COLOR</span><span class="p">,</span> <span class="s1">&#39;fontname&#39;</span><span class="p">:</span> <span class="n">FONT_NAME</span><span class="p">},</span>
+        <span class="n">edge_attr</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontname&#39;</span><span class="p">:</span> <span class="n">FONT_NAME</span><span class="p">})</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dot</span> <span class="o">=</span> <span class="n">graph</span><span class="p">()</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;¬ tag&#39;</span><span class="p">)</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s1">&#39;¬ tag&#39;</span><span class="p">,</span> <span class="s1">&#39;¬ tag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot; ¬ &#39;&lt;&#39;</span><span class="se">\n</span><span class="s2">add character&quot;</span><span class="p">)</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s1">&#39;¬ tag&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&#39;&lt;&#39;&quot;</span><span class="p">)</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="s1">&#39;¬ tag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&#39;&gt;&#39;&quot;</span><span class="p">)</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;¬ &#39;&gt;&#39;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="276pt" height="94pt"
+ viewBox="0.00 0.00 276.39 94.13" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 90.1326)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-90.1326 272.3887,-90.1326 272.3887,4 -4,4"/>
+<!-- Start -->
+<g id="node1" class="node">
+<title>Start</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="31.1972" cy="-20.1326" rx="31.3957" ry="18"/>
+<text text-anchor="middle" x="31.1972" y="-16.4326" font-family="Raleway" font-size="14.00" fill="#000000">Start</text>
+</g>
+<!-- ¬ tag -->
+<g id="node2" class="node">
+<title>¬ tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="131.8916" cy="-20.1326" rx="32.4942" ry="18"/>
+<text text-anchor="middle" x="131.8916" y="-16.4326" font-family="Raleway" font-size="14.00" fill="#000000">¬ tag</text>
+</g>
+<!-- Start&#45;&gt;¬ tag -->
+<g id="edge1" class="edge">
+<title>Start&#45;&gt;¬ tag</title>
+<path fill="none" stroke="#000000" d="M62.5056,-20.1326C70.8876,-20.1326 80.0953,-20.1326 88.9864,-20.1326"/>
+<polygon fill="#000000" stroke="#000000" points="89.2099,-23.6327 99.2099,-20.1326 89.2098,-16.6327 89.2099,-23.6327"/>
+</g>
+<!-- ¬ tag&#45;&gt;¬ tag -->
+<g id="edge2" class="edge">
+<title>¬ tag&#45;&gt;¬ tag</title>
+<path fill="none" stroke="#000000" d="M122.9652,-37.5425C121.2989,-47.2205 124.2744,-56.1326 131.8916,-56.1326 136.6523,-56.1326 139.5999,-52.6513 140.7343,-47.6775"/>
+<polygon fill="#000000" stroke="#000000" points="144.2352,-47.5711 140.818,-37.5425 137.2354,-47.5132 144.2352,-47.5711"/>
+<text text-anchor="middle" x="131.8916" y="-74.9326" font-family="Raleway" font-size="14.00" fill="#000000"> ¬ &#39;&lt;&#39;</text>
+<text text-anchor="middle" x="131.8916" y="-59.9326" font-family="Raleway" font-size="14.00" fill="#000000">add character</text>
+</g>
+<!-- tag -->
+<g id="node3" class="node">
+<title>tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="241.3887" cy="-20.1326" rx="27" ry="18"/>
+<text text-anchor="middle" x="241.3887" y="-16.4326" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
+</g>
+<!-- ¬ tag&#45;&gt;tag -->
+<g id="edge3" class="edge">
+<title>¬ tag&#45;&gt;tag</title>
+<path fill="none" stroke="#000000" d="M164.4479,-20.1326C176.859,-20.1326 191.1016,-20.1326 203.9322,-20.1326"/>
+<polygon fill="#000000" stroke="#000000" points="204.3066,-23.6327 214.3066,-20.1326 204.3066,-16.6327 204.3066,-23.6327"/>
+<text text-anchor="middle" x="189.3887" y="-23.9326" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&lt;&#39;</text>
+</g>
+<!-- tag&#45;&gt;¬ tag -->
+<g id="edge4" class="edge">
+<title>tag&#45;&gt;¬ tag</title>
+<path fill="none" stroke="#000000" d="M219.9776,-9.0374C212.6909,-5.8238 204.3679,-2.748 196.3887,-1.1326 186.0059,.9695 174.8794,-.8064 164.8411,-3.975"/>
+<polygon fill="#000000" stroke="#000000" points="163.4062,-.7736 155.2335,-7.5158 165.8269,-7.3418 163.4062,-.7736"/>
+<text text-anchor="middle" x="189.3887" y="-4.9326" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&gt;&#39;</text>
+</g>
+<!-- tag&#45;&gt;tag -->
+<g id="edge5" class="edge">
+<title>tag&#45;&gt;tag</title>
+<path fill="none" stroke="#000000" d="M232.1743,-37.1699C230.2938,-46.9905 233.3653,-56.1326 241.3887,-56.1326 246.4033,-56.1326 249.4836,-52.5614 250.6296,-47.4855"/>
+<polygon fill="#000000" stroke="#000000" points="254.1288,-47.1608 250.6031,-37.1699 247.1289,-47.1789 254.1288,-47.1608"/>
+<text text-anchor="middle" x="241.3887" y="-59.9326" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&gt;&#39;</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>You see that we start in the non-tag state (<code>¬ tag</code>). Here, for every character that is not <code>'&lt;'</code>, we add the character and stay in the same state. When we read a <code>'&lt;'</code>, though, we end in the tag state (<code>tag</code>) and stay in that state (skipping characters) until we find a closing <code>'&gt;'</code> character.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-First-Fix">A First Fix<a class="anchor-link" href="#A-First-Fix">&#182;</a></h2><p>Let us now look at the above state machine, and process through our input:</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;your name&gt;&quot;</span><span class="p">&gt;</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So what you can see is: We are interpreting the <code>'&gt;'</code> of <code>"&lt;your name&gt;"</code> as the closing of the tag. However, this is a quoted string, so the <code>'&gt;'</code> should be interpreted as a regular character, not as markup. This is an example of <em>missing functionality:</em> We do not handle quoted characters correctly. We haven't claimed yet to take care of all functionality, so we still need to extend our code.</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Section-1"><em>Section 1</em><a class="anchor-link" href="#Section-1">&#182;</a></h2><p>\todo{Add}</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>So we extend the whole thing.  We set up a special "quote" state which processes quoted inputs in tags until the end of the quoted string is reached. This is how the state machine looks like:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="472pt" height="110pt"
+ viewBox="0.00 0.00 471.68 109.74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 105.7401)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-105.7401 467.6808,-105.7401 467.6808,4 -4,4"/>
+<!-- Start -->
+<g id="node1" class="node">
+<title>Start</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="31.1972" cy="-26.8701" rx="31.3957" ry="18"/>
+<text text-anchor="middle" x="31.1972" y="-23.1701" font-family="Raleway" font-size="14.00" fill="#000000">Start</text>
+</g>
+<!-- ¬ quote
+¬ tag -->
+<g id="node2" class="node">
+<title>¬ quote
+¬ tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="146.7706" cy="-26.8701" rx="47.2526" ry="26.7407"/>
+<text text-anchor="middle" x="146.7706" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
+<text text-anchor="middle" x="146.7706" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ tag</text>
+</g>
+<!-- Start&#45;&gt;¬ quote
+¬ tag -->
+<g id="edge1" class="edge">
+<title>Start&#45;&gt;¬ quote
+¬ tag</title>
+<path fill="none" stroke="#000000" d="M62.4731,-26.8701C70.8189,-26.8701 80.1068,-26.8701 89.3809,-26.8701"/>
+<polygon fill="#000000" stroke="#000000" points="89.3939,-30.3702 99.3938,-26.8701 89.3938,-23.3702 89.3939,-30.3702"/>
+</g>
+<!-- ¬ quote
+¬ tag&#45;&gt;¬ quote
+¬ tag -->
+<g id="edge2" class="edge">
+<title>¬ quote
+¬ tag&#45;&gt;¬ quote
+¬ tag</title>
+<path fill="none" stroke="#000000" d="M134.8175,-53.1406C134.2862,-63.2978 138.2706,-71.7401 146.7706,-71.7401 152.2159,-71.7401 155.808,-68.2754 157.5469,-63.1146"/>
+<polygon fill="#000000" stroke="#000000" points="161.0278,-63.4818 158.7237,-53.1406 154.076,-62.6615 161.0278,-63.4818"/>
+<text text-anchor="middle" x="146.7706" y="-90.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&lt;&#39;</text>
+<text text-anchor="middle" x="146.7706" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">add character</text>
+</g>
+<!-- ¬ quote
+tag -->
+<g id="node3" class="node">
+<title>¬ quote
+tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="291.5229" cy="-26.8701" rx="47.2526" ry="26.7407"/>
+<text text-anchor="middle" x="291.5229" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
+<text text-anchor="middle" x="291.5229" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
+</g>
+<!-- ¬ quote
+¬ tag&#45;&gt;¬ quote
+tag -->
+<g id="edge3" class="edge">
+<title>¬ quote
+¬ tag&#45;&gt;¬ quote
+tag</title>
+<path fill="none" stroke="#000000" d="M194.1679,-26.8701C206.7897,-26.8701 220.5666,-26.8701 233.6797,-26.8701"/>
+<polygon fill="#000000" stroke="#000000" points="234.0192,-30.3702 244.0191,-26.8701 234.0191,-23.3702 234.0192,-30.3702"/>
+<text text-anchor="middle" x="219.1468" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&lt;&#39;</text>
+</g>
+<!-- ¬ quote
+tag&#45;&gt;¬ quote
+¬ tag -->
+<g id="edge8" class="edge">
+<title>¬ quote
+tag&#45;&gt;¬ quote
+¬ tag</title>
+<path fill="none" stroke="#000000" d="M252.2355,-11.4185C239.5382,-8.0557 225.3335,-5.9927 212.1468,-7.8701 207.3528,-8.5526 202.4188,-9.5032 197.5125,-10.6188"/>
+<polygon fill="#000000" stroke="#000000" points="196.3902,-7.2914 187.5341,-13.1069 198.0839,-14.0834 196.3902,-7.2914"/>
+<text text-anchor="middle" x="219.1468" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&gt;&#39;</text>
+</g>
+<!-- ¬ quote
+tag&#45;&gt;¬ quote
+tag -->
+<g id="edge5" class="edge">
+<title>¬ quote
+tag&#45;&gt;¬ quote
+tag</title>
+<path fill="none" stroke="#000000" d="M278.4492,-53.1406C277.8681,-63.2978 282.2261,-71.7401 291.5229,-71.7401 297.4787,-71.7401 301.4076,-68.2754 303.3095,-63.1146"/>
+<polygon fill="#000000" stroke="#000000" points="306.7879,-63.5063 304.5967,-53.1406 299.8455,-62.6103 306.7879,-63.5063"/>
+<text text-anchor="middle" x="291.5229" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39; ∧ ¬ &#39;&gt;&#39;</text>
+</g>
+<!-- quote
+tag -->
+<g id="node4" class="node">
+<title>quote
+tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="424.79" cy="-26.8701" rx="38.7821" ry="26.7407"/>
+<text text-anchor="middle" x="424.79" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">quote</text>
+<text text-anchor="middle" x="424.79" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
+</g>
+<!-- ¬ quote
+tag&#45;&gt;quote
+tag -->
+<g id="edge4" class="edge">
+<title>¬ quote
+tag&#45;&gt;quote
+tag</title>
+<path fill="none" stroke="#000000" d="M339.259,-26.8701C351.0431,-26.8701 363.6869,-26.8701 375.5414,-26.8701"/>
+<polygon fill="#000000" stroke="#000000" points="375.7144,-30.3702 385.7143,-26.8701 375.7143,-23.3702 375.7144,-30.3702"/>
+<text text-anchor="middle" x="362.3991" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
+</g>
+<!-- quote
+tag&#45;&gt;¬ quote
+tag -->
+<g id="edge7" class="edge">
+<title>quote
+tag&#45;&gt;¬ quote
+tag</title>
+<path fill="none" stroke="#000000" d="M390.9446,-13.5899C383.4673,-11.2158 375.505,-9.1066 367.8991,-7.8701 358.787,-6.3887 349.1649,-7.0126 339.9366,-8.7338"/>
+<polygon fill="#000000" stroke="#000000" points="339.0852,-5.3381 330.1202,-10.9844 340.6495,-12.1611 339.0852,-5.3381"/>
+<text text-anchor="middle" x="362.3991" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
+</g>
+<!-- quote
+tag&#45;&gt;quote
+tag -->
+<g id="edge6" class="edge">
+<title>quote
+tag&#45;&gt;quote
+tag</title>
+<path fill="none" stroke="#000000" d="M413.2359,-52.6914C412.5831,-63.0476 416.4345,-71.7401 424.79,-71.7401 430.1427,-71.7401 433.6469,-68.1727 435.3026,-62.8859"/>
+<polygon fill="#000000" stroke="#000000" points="438.8096,-62.9953 436.344,-52.6914 431.8458,-62.2839 438.8096,-62.9953"/>
+<text text-anchor="middle" x="424.79" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39;</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This is a bit more complex already. Proceeding from left to right, we first have the state <code>¬ quote ∧ ¬ tag</code>, which is our "standard" state for text. If we encounter a <code>'&lt;'</code>, we again switch to the "tagged" state <code>¬ quote ∧ tag</code>. In this state, however (and only in this state), if we encounter a quotation mark, we switch to the "quotation" state <code>quote ∧ tag</code>, in which we remain until we see another quotation mark indicating the end of the string – and then continue in the "tagged" state <code>¬ quote ∧ tag</code> until we see the end of the string.</p>
 </div>
 </div>
 </div>
@@ -12010,95 +12660,1733 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Section-2"><em>Section 2</em><a class="anchor-link" href="#Section-2">&#182;</a></h2><p>\todo{Add}</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Things get even more complicated as HTML allows both single and double quotation characters. Here's a revised implementation of <code>remove_html_markup()</code> that takes the above states into account:</p>
 </div>
 </div>
 </div>
 </div>
 
-<details id="Excursion:-All-the-Details">
-<summary>All the Details</summary>
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>This text will only show up on demand (HTML) or not at all (PDF). This is useful for longer implementations, or repetitive, or specialized parts.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now, our previous input works well:</p>
 </div>
 </div>
 </div>
 </div>
 
-</details>
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&#39;
+</pre>
+</div>
+
+</div>
 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Section-3"><em>Section 3</em><a class="anchor-link" href="#Section-3">&#182;</a></h2><p>\todo{Add}</p>
-<p><em>If you want to introduce code, it is helpful to state the most important functions, as in:</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>and our earlier tests also pass:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>However, the above code still has a bug.  In two of these inputs, HTML markup is still not properly stripped:</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>foo<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>&quot;foo&quot;<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>
+&quot;<span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>foo<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>&quot;
+<span class="err">&lt;</span>&quot;b&quot;&gt;foo<span class="err">&lt;</span>/&quot;b&quot;&gt;
+</pre></div>
+<p>Can you guess which ones these are?</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Again, a simple assertion will reveal the culprits:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-20-ebb80f5cdc78&gt;&#34;, line 2, in &lt;module&gt;
+    assert remove_html_markup(&#39;&lt;b&gt;&#34;foo&#34;&lt;/b&gt;&#39;) == &#39;&#34;foo&#34;&#39;
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-21-1f9c40f6f95d&gt;&#34;, line 2, in &lt;module&gt;
+    assert remove_html_markup(&#39;&#34;&lt;b&gt;foo&lt;/b&gt;&#34;&#39;) == &#39;&#34;foo&#34;&#39;
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>    
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, unfortunately, we're not done yet – our function still has errors.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="The-Devil's-Guide-to-Debugging">The Devil's Guide to Debugging<a class="anchor-link" href="#The-Devil's-Guide-to-Debugging">&#182;</a></h2><p>Let us now discuss a couple of methods that do <em>not</em> work well for debugging. (These "devil's suggestions" are adapted from the 1993 book "Code Complete" from Steve McConnell.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Printf-Debugging">Printf Debugging<a class="anchor-link" href="#Printf-Debugging">&#182;</a></h3><p>When I was a student,  never got any formal training in debugging, so I had to figure this out for myself. What I learned was how to use <em>debugging output</em>; in Python, this would be the <code>print()</code> function. For instance, I would go and scatter <code>print()</code> calls everywhere:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_with_print</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c =&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="s2">&quot;tag =&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="s2">&quot;quote =&quot;</span><span class="p">,</span> <span class="n">quote</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This way of inspecting executions is commonly called "Printf debugging", after the C <code>printf()</code> function. Then, running this would allow me to see what's going on in my code:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup_with_print</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>c = &#39;&lt;&#39; tag = False quote = False
+c = &#39;b&#39; tag = True quote = False
+c = &#39;&gt;&#39; tag = True quote = False
+c = &#39;&#34;&#39; tag = False quote = False
+c = &#39;f&#39; tag = False quote = True
+c = &#39;o&#39; tag = False quote = True
+c = &#39;o&#39; tag = False quote = True
+c = &#39;&#34;&#39; tag = False quote = True
+c = &#39;&lt;&#39; tag = False quote = False
+c = &#39;/&#39; tag = True quote = False
+c = &#39;b&#39; tag = True quote = False
+c = &#39;&gt;&#39; tag = True quote = False
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;foo&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Yes, one sees what is going on – but this is horribly inefficient!  Think of a 1,000-character input – you'd have to go through 2,000 lines of logs.  It may help you, but it's a total time waster.  Plus, you have to enter these statements, remove them again... it's a maintenance nightmare.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>(You may even forget printf's in your code, creating a security problem: Mac OS X versions 10.7 to 10.7.3 would log the password in clear because someone had forgotten to turn off debugging output.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Debugging-into-Existence">Debugging into Existence<a class="anchor-link" href="#Debugging-into-Existence">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>I would also try to <em>debug the program into existence.</em>  Just change things until they work.  Let me see: If I remove the conditions "and not quote" from the program, it would actually work again:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_without_quotes</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span> <span class="c1"># and not quote:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span> <span class="c1"># and not quote:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup_without_quotes</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>    
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Cool! Unfortunately, the function still fails on the other input:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup_without_quotes</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-27-1d8954a52bcf&gt;&#34;, line 2, in &lt;module&gt;
+    assert remove_html_markup_without_quotes(&#39;&lt;b&gt;&#34;foo&#34;&lt;/b&gt;&#39;) == &#39;&#34;foo&#34;&#39;
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, maybe we can change things again, such that both work? And maybe the other tests we had earlier won't fail? Let's just continue to change things randomly again and again and again.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Oh, and of course, I would never back up earlier versions such that I would be able to keep track of what has changed and when.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Use-the-Most-Obvious-Fix">Use the Most Obvious Fix<a class="anchor-link" href="#Use-the-Most-Obvious-Fix">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>My favorite: Use the most obvious fix.  This means that you're fixing the symptom, not the problem. In our case, this would be something like:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_fixed</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+
+    <span class="o">...</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Miracle! Our earlier failing assertion now works! Now we can do the same for the other failing test, too, and we're done.
+(Rumor has it that some programmers use this technique to get their tests to pass...)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Things-to-do-Instead">Things to do Instead<a class="anchor-link" href="#Things-to-do-Instead">&#182;</a></h3><p>As with any devil's guide, you get an idea of how to do things by doing the <em>opposite.</em>  What this means is:</p>
+<ol>
+<li>Understand the code</li>
+<li>Fix the problem, not the symptom</li>
+<li>Proceed systematically</li>
+</ol>
+<p>which is what we will apply for the rest of this chapter.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="From-Defect-to-Failure-&#8211;&#160;and-Back-Again">From Defect to Failure &#8211;&#160;and Back Again<a class="anchor-link" href="#From-Defect-to-Failure-&#8211;&#160;and-Back-Again">&#182;</a></h2><p>To understand how to systematically debug a program, we first have to understand how failures come to be. The typical debugging situation looks like this. We have a program (execution), taking some input and producing some output. The output is in <em>error</em> (✘), meaning an unwanted and unintended deviation from what is correct, right, or true.
+The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't search for the bug in our program, but in whatever produced its input.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="244pt" height="44pt"
+ viewBox="0.00 0.00 244.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 240,-40 240,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- output -->
+<g id="node2" class="node">
+<title>output</title>
+<polygon fill="#ffffff" stroke="transparent" points="236,-36 163,-36 163,0 236,0 236,-36"/>
+<text text-anchor="middle" x="199.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">Output ✘</text>
+</g>
+<!-- input&#45;&gt;output -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;output</title>
+<path fill="none" stroke="#000000" d="M62.2987,-18C87.6431,-18 123.7388,-18 152.546,-18"/>
+<polygon fill="#000000" stroke="#000000" points="152.796,-21.5001 162.796,-18 152.7959,-14.5001 152.796,-21.5001"/>
+<text text-anchor="middle" x="112.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Execution</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This situation we see above is what we call a <em>failure</em>: An externally visible <em>error</em> in the program behavior, with the error again being an unwanted and unintended deviation from what is correct, right, or true.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>How does this failure come to be? The execution we see above breaks down into several program <em>states</em>, one after the other.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">until</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="70pt" height="44pt"
+ viewBox="0.00 0.00 70.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 66,-40 66,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="178pt" height="44pt"
+ viewBox="0.00 0.00 178.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 174,-40 174,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="170,-36 98,-36 98,0 170,0 170,-36"/>
+<text text-anchor="middle" x="134" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.1829,-18C70.2688,-18 79.1505,-18 87.8282,-18"/>
+<polygon fill="#000000" stroke="#000000" points="87.8615,-21.5001 97.8614,-18 87.8614,-14.5001 87.8615,-21.5001"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="287pt" height="44pt"
+ viewBox="0.00 0.00 287.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 283,-40 283,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="170,-36 98,-36 98,0 170,0 170,-36"/>
+<text text-anchor="middle" x="134" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.1829,-18C70.2688,-18 79.1505,-18 87.8282,-18"/>
+<polygon fill="#000000" stroke="#000000" points="87.8615,-21.5001 97.8614,-18 87.8614,-14.5001 87.8615,-21.5001"/>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="279,-36 206,-36 206,0 279,0 279,-36"/>
+<text text-anchor="middle" x="242.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 2 ✘</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2</title>
+<path fill="none" stroke="#000000" d="M170.1289,-18C178.2806,-18 187.0491,-18 195.5719,-18"/>
+<polygon fill="#000000" stroke="#000000" points="195.7882,-21.5001 205.7881,-18 195.7881,-14.5001 195.7882,-21.5001"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="396pt" height="44pt"
+ viewBox="0.00 0.00 396.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 392,-40 392,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="170,-36 98,-36 98,0 170,0 170,-36"/>
+<text text-anchor="middle" x="134" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.1829,-18C70.2688,-18 79.1505,-18 87.8282,-18"/>
+<polygon fill="#000000" stroke="#000000" points="87.8615,-21.5001 97.8614,-18 87.8614,-14.5001 87.8615,-21.5001"/>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="279,-36 206,-36 206,0 279,0 279,-36"/>
+<text text-anchor="middle" x="242.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 2 ✘</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2</title>
+<path fill="none" stroke="#000000" d="M170.1289,-18C178.2806,-18 187.0491,-18 195.5719,-18"/>
+<polygon fill="#000000" stroke="#000000" points="195.7882,-21.5001 205.7881,-18 195.7881,-14.5001 195.7882,-21.5001"/>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="388,-36 315,-36 315,0 388,0 388,-36"/>
+<text text-anchor="middle" x="351.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 3 ✘</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2&#45;&gt;s3</title>
+<path fill="none" stroke="#000000" d="M279.0986,-18C287.2769,-18 296.0602,-18 304.5905,-18"/>
+<polygon fill="#000000" stroke="#000000" points="304.8124,-21.5001 314.8124,-18 304.8124,-14.5001 304.8124,-21.5001"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="505pt" height="44pt"
+ viewBox="0.00 0.00 505.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 501,-40 501,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="170,-36 98,-36 98,0 170,0 170,-36"/>
+<text text-anchor="middle" x="134" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.1829,-18C70.2688,-18 79.1505,-18 87.8282,-18"/>
+<polygon fill="#000000" stroke="#000000" points="87.8615,-21.5001 97.8614,-18 87.8614,-14.5001 87.8615,-21.5001"/>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="279,-36 206,-36 206,0 279,0 279,-36"/>
+<text text-anchor="middle" x="242.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 2 ✘</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2</title>
+<path fill="none" stroke="#000000" d="M170.1289,-18C178.2806,-18 187.0491,-18 195.5719,-18"/>
+<polygon fill="#000000" stroke="#000000" points="195.7882,-21.5001 205.7881,-18 195.7881,-14.5001 195.7882,-21.5001"/>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="388,-36 315,-36 315,0 388,0 388,-36"/>
+<text text-anchor="middle" x="351.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 3 ✘</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2&#45;&gt;s3</title>
+<path fill="none" stroke="#000000" d="M279.0986,-18C287.2769,-18 296.0602,-18 304.5905,-18"/>
+<polygon fill="#000000" stroke="#000000" points="304.8124,-21.5001 314.8124,-18 304.8124,-14.5001 304.8124,-21.5001"/>
+</g>
+<!-- output -->
+<g id="node5" class="node">
+<title>output</title>
+<polygon fill="#ffffff" stroke="transparent" points="497,-36 424,-36 424,0 497,0 497,-36"/>
+<text text-anchor="middle" x="460.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">Output ✘</text>
+</g>
+<!-- s3&#45;&gt;output -->
+<g id="edge4" class="edge">
+<title>s3&#45;&gt;output</title>
+<path fill="none" stroke="#000000" d="M388.0986,-18C396.2769,-18 405.0602,-18 413.5905,-18"/>
+<polygon fill="#000000" stroke="#000000" points="413.8124,-21.5001 423.8124,-18 413.8124,-14.5001 413.8124,-21.5001"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Initially, the program state is still correct (✔). However, at some point in the execution, the state gets an <em>error</em>, also known as a <em>fault</em>. This fault – again an unwanted and unintended deviation from what is correct, right, or true – then propagates along the execution, until it becomes externally visible as a <em>failure</em>.
+(In reality, there are many, many more states than just this, but these would not fit in a diagram.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>How does a fault come to be? Each of these program states is produced by a <em>step</em> in the program code. These steps take a state as input and produce another state as output. Technically speaking, the program inputs and outputs are also parts of the program state, so the input flows into the first step, and the output is the state produced by the last step.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">until</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="70pt" height="44pt"
+ viewBox="0.00 0.00 70.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 66,-40 66,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="219pt" height="44pt"
+ viewBox="0.00 0.00 219.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 215,-40 215,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="211,-36 139,-36 139,0 211,0 211,-36"/>
+<text text-anchor="middle" x="175" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.2459,-18C81.7405,-18 107.1785,-18 128.9579,-18"/>
+<polygon fill="#000000" stroke="#000000" points="128.9922,-21.5001 138.9922,-18 128.9921,-14.5001 128.9922,-21.5001"/>
+<text text-anchor="middle" x="100.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="381pt" height="44pt"
+ viewBox="0.00 0.00 381.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 377,-40 377,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="211,-36 139,-36 139,0 211,0 211,-36"/>
+<text text-anchor="middle" x="175" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.2459,-18C81.7405,-18 107.1785,-18 128.9579,-18"/>
+<polygon fill="#000000" stroke="#000000" points="128.9922,-21.5001 138.9922,-18 128.9921,-14.5001 128.9922,-21.5001"/>
+<text text-anchor="middle" x="100.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="373,-36 300,-36 300,0 373,0 373,-36"/>
+<text text-anchor="middle" x="336.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 2 ✘</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2</title>
+<path fill="none" stroke="#000000" d="M211.2438,-18C234.4572,-18 264.8069,-18 289.8174,-18"/>
+<polygon fill="#000000" stroke="#000000" points="289.8185,-21.5001 299.8184,-18 289.8184,-14.5001 289.8185,-21.5001"/>
+<text text-anchor="middle" x="255.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#8b0000">Step 2 ✘</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="532pt" height="44pt"
+ viewBox="0.00 0.00 532.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 528,-40 528,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="211,-36 139,-36 139,0 211,0 211,-36"/>
+<text text-anchor="middle" x="175" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.2459,-18C81.7405,-18 107.1785,-18 128.9579,-18"/>
+<polygon fill="#000000" stroke="#000000" points="128.9922,-21.5001 138.9922,-18 128.9921,-14.5001 128.9922,-21.5001"/>
+<text text-anchor="middle" x="100.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="373,-36 300,-36 300,0 373,0 373,-36"/>
+<text text-anchor="middle" x="336.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 2 ✘</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2</title>
+<path fill="none" stroke="#000000" d="M211.2438,-18C234.4572,-18 264.8069,-18 289.8174,-18"/>
+<polygon fill="#000000" stroke="#000000" points="289.8185,-21.5001 299.8184,-18 289.8184,-14.5001 289.8185,-21.5001"/>
+<text text-anchor="middle" x="255.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#8b0000">Step 2 ✘</text>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="524,-36 451,-36 451,0 524,0 524,-36"/>
+<text text-anchor="middle" x="487.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 3 ✘</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2&#45;&gt;s3</title>
+<path fill="none" stroke="#000000" d="M373.0529,-18C393.3973,-18 418.9373,-18 440.7261,-18"/>
+<polygon fill="#000000" stroke="#000000" points="440.7604,-21.5001 450.7604,-18 440.7603,-14.5001 440.7604,-21.5001"/>
+<text text-anchor="middle" x="412" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 3</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="642pt" height="44pt"
+ viewBox="0.00 0.00 642.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 638,-40 638,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="211,-36 139,-36 139,0 211,0 211,-36"/>
+<text text-anchor="middle" x="175" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">State 1 ✔</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.2459,-18C81.7405,-18 107.1785,-18 128.9579,-18"/>
+<polygon fill="#000000" stroke="#000000" points="128.9922,-21.5001 138.9922,-18 128.9921,-14.5001 128.9922,-21.5001"/>
+<text text-anchor="middle" x="100.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="373,-36 300,-36 300,0 373,0 373,-36"/>
+<text text-anchor="middle" x="336.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 2 ✘</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2</title>
+<path fill="none" stroke="#000000" d="M211.2438,-18C234.4572,-18 264.8069,-18 289.8174,-18"/>
+<polygon fill="#000000" stroke="#000000" points="289.8185,-21.5001 299.8184,-18 289.8184,-14.5001 289.8185,-21.5001"/>
+<text text-anchor="middle" x="255.5" y="-21.8" font-family="Raleway" font-size="14.00" fill="#8b0000">Step 2 ✘</text>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="524,-36 451,-36 451,0 524,0 524,-36"/>
+<text text-anchor="middle" x="487.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">State 3 ✘</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2&#45;&gt;s3</title>
+<path fill="none" stroke="#000000" d="M373.0529,-18C393.3973,-18 418.9373,-18 440.7261,-18"/>
+<polygon fill="#000000" stroke="#000000" points="440.7604,-21.5001 450.7604,-18 440.7603,-14.5001 440.7604,-21.5001"/>
+<text text-anchor="middle" x="412" y="-21.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 3</text>
+</g>
+<!-- output -->
+<g id="node5" class="node">
+<title>output</title>
+<polygon fill="#ffffff" stroke="transparent" points="634,-36 561,-36 561,0 634,0 634,-36"/>
+<text text-anchor="middle" x="597.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#8b0000">Output ✘</text>
+</g>
+<!-- s3&#45;&gt;output -->
+<g id="edge4" class="edge">
+<title>s3&#45;&gt;output</title>
+<path fill="none" stroke="#000000" d="M524.1284,-18C532.5735,-18 541.6714,-18 550.4894,-18"/>
+<polygon fill="#000000" stroke="#000000" points="550.6565,-21.5001 560.6565,-18 550.6565,-14.5001 550.6565,-21.5001"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now, in the diagram above, Step 2 gets a <em>correct</em> state as input and produces a <em>faulty</em> state as output. The produced fault then propagates across more steps to finally become visible as a <em>failure</em>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The goal of debugging thus is to <em>search</em> for the step in which the state first becomes faulty. The <em>code</em> associated with this step is again in error – an unwanted and unintended deviation from what is correct, right, or true – and is called a <em>defect</em>. This is what we have to find – and to fix.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Sounds easy, right? Unfortunately, things are not that easy, and that has something to do with the program state. Let us assume our state consists of three variables, <code>v1</code> to <code>v3</code>, and that Step 2 produces a fault in <code>v2</code>. This fault then propagates to the output:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">until</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="s1">&#39;v2&#39;</span><span class="p">,</span> <span class="s1">&#39;v3&#39;</span><span class="p">],</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+                      <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">fault_path</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;s2:v2&#39;</span><span class="p">,</span> <span class="s1">&#39;s3:v2&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="70pt" height="44pt"
+ viewBox="0.00 0.00 70.00 44.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 40)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-40 66,-40 66,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-36 0,-36 0,0 62,0 62,-36"/>
+<text text-anchor="middle" x="31" y="-14.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="201pt" height="78pt"
+ viewBox="0.00 0.00 201.00 78.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 74)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-74 197,-74 197,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-53 0,-53 0,-17 62,-17 62,-53"/>
+<text text-anchor="middle" x="31" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="139,-.5 139,-69.5 193,-69.5 193,-.5 139,-.5"/>
+<text text-anchor="middle" x="166" y="-54.3" font-family="Raleway" font-size="14.00" fill="#006400">v1</text>
+<polyline fill="none" stroke="#006400" points="139,-46.5 193,-46.5 "/>
+<text text-anchor="middle" x="166" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">v2</text>
+<polyline fill="none" stroke="#006400" points="139,-23.5 193,-23.5 "/>
+<text text-anchor="middle" x="166" y="-8.3" font-family="Raleway" font-size="14.00" fill="#006400">v3</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.311,-35C82.1679,-35 107.9568,-35 128.8478,-35"/>
+<polygon fill="#000000" stroke="#000000" points="128.9647,-38.5001 138.9647,-35 128.9647,-31.5001 128.9647,-38.5001"/>
+<text text-anchor="middle" x="100.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="344pt" height="78pt"
+ viewBox="0.00 0.00 344.00 78.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 74)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-74 340,-74 340,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-53 0,-53 0,-17 62,-17 62,-53"/>
+<text text-anchor="middle" x="31" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="139,-.5 139,-69.5 193,-69.5 193,-.5 139,-.5"/>
+<text text-anchor="middle" x="166" y="-54.3" font-family="Raleway" font-size="14.00" fill="#006400">v1</text>
+<polyline fill="none" stroke="#006400" points="139,-46.5 193,-46.5 "/>
+<text text-anchor="middle" x="166" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">v2</text>
+<polyline fill="none" stroke="#006400" points="139,-23.5 193,-23.5 "/>
+<text text-anchor="middle" x="166" y="-8.3" font-family="Raleway" font-size="14.00" fill="#006400">v3</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.311,-35C82.1679,-35 107.9568,-35 128.8478,-35"/>
+<polygon fill="#000000" stroke="#000000" points="128.9647,-38.5001 138.9647,-35 128.9647,-31.5001 128.9647,-38.5001"/>
+<text text-anchor="middle" x="100.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="282,-.5 282,-69.5 336,-69.5 336,-.5 282,-.5"/>
+<text text-anchor="middle" x="309" y="-54.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v1</text>
+<polyline fill="none" stroke="#8b0000" points="282,-46.5 336,-46.5 "/>
+<text text-anchor="middle" x="309" y="-31.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v2 ✘</text>
+<polyline fill="none" stroke="#8b0000" points="282,-23.5 336,-23.5 "/>
+<text text-anchor="middle" x="309" y="-8.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v3</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2:v2</title>
+<path fill="none" stroke="#000000" d="M193.1881,-35C214.1251,-35 244.0934,-35 271.8816,-35"/>
+<polygon fill="#000000" stroke="#000000" points="272,-38.5001 282,-35 272,-31.5001 272,-38.5001"/>
+<text text-anchor="middle" x="237.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#8b0000">Step 2 ✘</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="476pt" height="78pt"
+ viewBox="0.00 0.00 476.00 78.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 74)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-74 472,-74 472,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-53 0,-53 0,-17 62,-17 62,-53"/>
+<text text-anchor="middle" x="31" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="139,-.5 139,-69.5 193,-69.5 193,-.5 139,-.5"/>
+<text text-anchor="middle" x="166" y="-54.3" font-family="Raleway" font-size="14.00" fill="#006400">v1</text>
+<polyline fill="none" stroke="#006400" points="139,-46.5 193,-46.5 "/>
+<text text-anchor="middle" x="166" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">v2</text>
+<polyline fill="none" stroke="#006400" points="139,-23.5 193,-23.5 "/>
+<text text-anchor="middle" x="166" y="-8.3" font-family="Raleway" font-size="14.00" fill="#006400">v3</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.311,-35C82.1679,-35 107.9568,-35 128.8478,-35"/>
+<polygon fill="#000000" stroke="#000000" points="128.9647,-38.5001 138.9647,-35 128.9647,-31.5001 128.9647,-38.5001"/>
+<text text-anchor="middle" x="100.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="282,-.5 282,-69.5 336,-69.5 336,-.5 282,-.5"/>
+<text text-anchor="middle" x="309" y="-54.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v1</text>
+<polyline fill="none" stroke="#8b0000" points="282,-46.5 336,-46.5 "/>
+<text text-anchor="middle" x="309" y="-31.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v2 ✘</text>
+<polyline fill="none" stroke="#8b0000" points="282,-23.5 336,-23.5 "/>
+<text text-anchor="middle" x="309" y="-8.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v3</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2:v2</title>
+<path fill="none" stroke="#000000" d="M193.1881,-35C214.1251,-35 244.0934,-35 271.8816,-35"/>
+<polygon fill="#000000" stroke="#000000" points="272,-38.5001 282,-35 272,-31.5001 272,-38.5001"/>
+<text text-anchor="middle" x="237.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#8b0000">Step 2 ✘</text>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="414,-.5 414,-69.5 468,-69.5 468,-.5 414,-.5"/>
+<text text-anchor="middle" x="441" y="-54.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v1</text>
+<polyline fill="none" stroke="#8b0000" points="414,-46.5 468,-46.5 "/>
+<text text-anchor="middle" x="441" y="-31.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v2 ✘</text>
+<polyline fill="none" stroke="#8b0000" points="414,-23.5 468,-23.5 "/>
+<text text-anchor="middle" x="441" y="-8.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v3</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2:v2&#45;&gt;s3:v2</title>
+<path fill="none" stroke="#000000" d="M336,-35C367.0104,-35 377.216,-35 403.8379,-35"/>
+<polygon fill="#000000" stroke="#000000" points="404,-38.5001 414,-35 404,-31.5001 404,-38.5001"/>
+<text text-anchor="middle" x="375" y="-38.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 3</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="586pt" height="78pt"
+ viewBox="0.00 0.00 586.00 78.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 74)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-74 582,-74 582,4 -4,4"/>
+<!-- input -->
+<g id="node1" class="node">
+<title>input</title>
+<polygon fill="#ffffff" stroke="transparent" points="62,-53 0,-53 0,-17 62,-17 62,-53"/>
+<text text-anchor="middle" x="31" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">Input ✔</text>
+</g>
+<!-- s1 -->
+<g id="node2" class="node">
+<title>s1</title>
+<polygon fill="#ffdab9" stroke="#006400" points="139,-.5 139,-69.5 193,-69.5 193,-.5 139,-.5"/>
+<text text-anchor="middle" x="166" y="-54.3" font-family="Raleway" font-size="14.00" fill="#006400">v1</text>
+<polyline fill="none" stroke="#006400" points="139,-46.5 193,-46.5 "/>
+<text text-anchor="middle" x="166" y="-31.3" font-family="Raleway" font-size="14.00" fill="#006400">v2</text>
+<polyline fill="none" stroke="#006400" points="139,-23.5 193,-23.5 "/>
+<text text-anchor="middle" x="166" y="-8.3" font-family="Raleway" font-size="14.00" fill="#006400">v3</text>
+</g>
+<!-- input&#45;&gt;s1 -->
+<g id="edge1" class="edge">
+<title>input&#45;&gt;s1</title>
+<path fill="none" stroke="#000000" d="M62.311,-35C82.1679,-35 107.9568,-35 128.8478,-35"/>
+<polygon fill="#000000" stroke="#000000" points="128.9647,-38.5001 138.9647,-35 128.9647,-31.5001 128.9647,-38.5001"/>
+<text text-anchor="middle" x="100.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 1</text>
+</g>
+<!-- s2 -->
+<g id="node3" class="node">
+<title>s2</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="282,-.5 282,-69.5 336,-69.5 336,-.5 282,-.5"/>
+<text text-anchor="middle" x="309" y="-54.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v1</text>
+<polyline fill="none" stroke="#8b0000" points="282,-46.5 336,-46.5 "/>
+<text text-anchor="middle" x="309" y="-31.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v2 ✘</text>
+<polyline fill="none" stroke="#8b0000" points="282,-23.5 336,-23.5 "/>
+<text text-anchor="middle" x="309" y="-8.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v3</text>
+</g>
+<!-- s1&#45;&gt;s2 -->
+<g id="edge2" class="edge">
+<title>s1&#45;&gt;s2:v2</title>
+<path fill="none" stroke="#000000" d="M193.1881,-35C214.1251,-35 244.0934,-35 271.8816,-35"/>
+<polygon fill="#000000" stroke="#000000" points="272,-38.5001 282,-35 272,-31.5001 272,-38.5001"/>
+<text text-anchor="middle" x="237.5" y="-38.8" font-family="Raleway" font-size="14.00" fill="#8b0000">Step 2 ✘</text>
+</g>
+<!-- s3 -->
+<g id="node4" class="node">
+<title>s3</title>
+<polygon fill="#ffdab9" stroke="#8b0000" points="414,-.5 414,-69.5 468,-69.5 468,-.5 414,-.5"/>
+<text text-anchor="middle" x="441" y="-54.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v1</text>
+<polyline fill="none" stroke="#8b0000" points="414,-46.5 468,-46.5 "/>
+<text text-anchor="middle" x="441" y="-31.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v2 ✘</text>
+<polyline fill="none" stroke="#8b0000" points="414,-23.5 468,-23.5 "/>
+<text text-anchor="middle" x="441" y="-8.3" font-family="Raleway" font-size="14.00" fill="#8b0000">v3</text>
+</g>
+<!-- s2&#45;&gt;s3 -->
+<g id="edge3" class="edge">
+<title>s2:v2&#45;&gt;s3:v2</title>
+<path fill="none" stroke="#000000" d="M336,-35C367.0104,-35 377.216,-35 403.8379,-35"/>
+<polygon fill="#000000" stroke="#000000" points="404,-38.5001 414,-35 404,-31.5001 404,-38.5001"/>
+<text text-anchor="middle" x="375" y="-38.8" font-family="Raleway" font-size="14.00" fill="#000000">Step 3</text>
+</g>
+<!-- output -->
+<g id="node5" class="node">
+<title>output</title>
+<polygon fill="#ffffff" stroke="transparent" points="578,-53 505,-53 505,-17 578,-17 578,-53"/>
+<text text-anchor="middle" x="541.5" y="-31.3" font-family="Raleway" font-size="14.00" fill="#8b0000">Output ✘</text>
+</g>
+<!-- s3&#45;&gt;output -->
+<g id="edge4" class="edge">
+<title>s3:v2&#45;&gt;output</title>
+<path fill="none" stroke="#000000" d="M468,-35C476.6213,-35 485.8113,-35 494.6695,-35"/>
+<polygon fill="#000000" stroke="#000000" points="494.8618,-38.5001 504.8618,-35 494.8618,-31.5001 494.8618,-38.5001"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The way these faults propagate is called a <em>cause-effect chain</em>:</p>
 <ul>
-<li><code>random.randrange(start, end)</code> - return a random number [<code>start</code>, <code>end</code>]</li>
-<li><code>range(start, end)</code> - create a list with integers from <code>start</code> to <code>end</code>.  Typically used in iterations.</li>
-<li><code>for elem in list: body</code> executes <code>body</code> in a loop with <code>elem</code> taking each value from <code>list</code>.</li>
-<li><code>for i in range(start, end): body</code> executes <code>body</code> in a loop with <code>i</code> from <code>start</code> to <code>end</code> - 1.</li>
-<li><code>chr(n)</code> - return a character with ASCII code <code>n</code></li>
+<li>The <em>defect</em> in the code <em>causes</em> a fault in the state when executed.</li>
+<li>This <em>fault</em> in the state then <em>propagates</em> through further execution steps...</li>
+<li>... until it becomes visible as a <em>failure</em>.</li>
 </ul>
+<p>Note that not every defect also causes a failure, which is despite all testing, there can still be defects in the code looming around until the right conditions are met to trigger them. On the other hand, though, <em>every failure can be traced back to the defect that causes it</em>.</p>
+<p>To this end, we <em>trace back</em> these faults along their <em>dependencies</em> – that is, we find out which faults in the earlier state have caused the later faults. We start from the very end of the execution and then gradually progress backwards in time, examining fault after fault until we find a <em>transition</em> from a correct state to a faulty state – that is, a
+step in which a correct state comes in and a faulty state comes out. At this point, we have found the origin of the failure – and the defect that causes it.</p>
 </div>
 </div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/random.html" class="import" target="_blank">random</a></span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">int_fuzzer</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;A simple function that returns a random integer&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># More code</span>
-<span class="k">pass</span>
-</pre></div>
-
-</div>
-</div></div>
 </div>
 </div>
 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Section-4"><em>Section 4</em><a class="anchor-link" href="#Section-4">&#182;</a></h2><p>\todo{Add}</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>What sounds like a straight-forward strategy, unfortunately, doesn't always work this way in practice. That is because of the following problems of debugging:</p>
+<ul>
+<li><p>First, program states are actually <em>large</em>, encompassing dozens to thousands of variables, possibly even more. If you have to search all of these manually and check them for faults, you will spend a lot of time for a single state.</p>
+</li>
+<li><p>Second, you do not always know <em>whether a state is correct or not.</em> While most programs have some form of specification for their inputs and outputs, these do not necessarily exist for intermediate results. If one had a specification that could check each state for correctness (possibly even automatically), debugging would be trivial. Unfortunately, it is not, and that's partly due to the lack of specifications.</p>
+</li>
+<li><p>Third, executions typically do not come in a handful of steps, as in the diagrams above; instead, they can easily encompass <em>thousands to millions of steps.</em> This means that you will have to examine not just one state, but several, making the problem much worse.</p>
+</li>
+</ul>
+<p>To make your search efficient, you thus have to <em>focus</em> your search – starting with most likely causes and gradually progressing to the less probable causes. This is what we call a <em>debugging strategy</em>.</p>
 </div>
 </div>
 </div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="The-Scientific-Method">The Scientific Method<a class="anchor-link" href="#The-Scientific-Method">&#182;</a></h2><p>Now that we know how failures come to be, let's look into how to systematically find their causes. What we need is a <em>strategy</em> that helps us search for how and when the failure comes to be. For this, we use a process called the <em>scientific method</em>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>When we are debugging a program, we are trying to find the causes of a given effect – very much like natural scientists try to understand why things in nature are as they are and how they come to be. Over thousands of years, scientists have conducted <em>observations</em> and <em>experiments</em> to come to an understanding of how our world works. The process by which experimental scientists operate has been coined "The scientific method". This is how it works:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><ol>
+<li>Formulate a <em>question</em>, as in "Why does this apple fall down?".</li>
+<li>Invent a <em>hypothesis</em> based on knowledge obtained while formulating the question, that may explain the observed behavior. </li>
+<li>Determining the logical consequences of the hypothesis, formulate a <em>prediction</em> that can <em>support</em> or <em>refute</em> the hypothesis. Ideally, the prediction would distinguish the hypothesis from likely alternatives.</li>
+<li><em>Test</em> the prediction (and thus the hypothesis) in an <em>experiment</em>. If the prediction holds, confidence in the hypothesis increases; otherwise, it decreases.</li>
+<li>Repeat Steps 2–4 until there are no discrepancies between hypothesis and predictions and/or observations.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>At this point, your hypothesis may be named a <em>theory</em> – that is, a predictive and comprehensive description of some aspect of the natural world. The gravitational theory, for instance, predicts very well how the moon revolves around the earth, and how the earth revolves around the sun.  Our debugging problems are of a slightly lesser scale – we'd like a theory of how our failure came to be – but the process is pretty much the same.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="852pt" height="206pt"
+ viewBox="0.00 0.00 852.26 206.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 202)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-202 848.2584,-202 848.2584,4 -4,4"/>
+<!-- Hypothesis -->
+<g id="node1" class="node">
+<title>Hypothesis</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="216.4948" cy="-99" rx="58.4896" ry="18"/>
+<text text-anchor="middle" x="216.4948" y="-95.3" font-family="Raleway" font-size="14.00" fill="#000000">Hypothesis</text>
+</g>
+<!-- Observation -->
+<g id="node2" class="node">
+<title>Observation</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="781.8639" cy="-99" rx="62.2891" ry="18"/>
+<text text-anchor="middle" x="781.8639" y="-95.3" font-family="Raleway" font-size="14.00" fill="#000000">Observation</text>
+</g>
+<!-- Hypothesis&#45;&gt;Observation -->
+<g id="edge1" class="edge">
+<title>Hypothesis&#45;&gt;Observation</title>
+<path fill="none" stroke="#000000" d="M265.4137,-115.6223C280.1999,-119.8846 296.5986,-123.866 311.9896,-126 475.0871,-148.6137 519.2577,-147.7733 682.4694,-126 701.9662,-123.399 723.0592,-118.0482 740.7771,-112.7909"/>
+<polygon fill="#000000" stroke="#000000" points="266.0506,-112.1596 255.467,-112.6458 264.0438,-118.8658 266.0506,-112.1596"/>
+<text text-anchor="start" x="454.38" y="-173.8" font-family="Raleway" font-size="14.00" fill="#000000">Hypothesis</text>
+<text text-anchor="start" x="449.88" y="-159.8" font-family="Raleway" font-size="14.00" fill="#000000">is </text>
+<text text-anchor="start" x="463.88" y="-159.8" font-family="Raleway" font-style="italic" font-size="14.00" fill="#000000">supported:</text>
+<text text-anchor="start" x="464.38" y="-145.8" font-family="Raleway" font-size="14.00" fill="#000000">Refine it</text>
+</g>
+<!-- Prediction -->
+<g id="node3" class="node">
+<title>Prediction</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="365.9348" cy="-99" rx="53.8905" ry="18"/>
+<text text-anchor="middle" x="365.9348" y="-95.3" font-family="Raleway" font-size="14.00" fill="#000000">Prediction</text>
+</g>
+<!-- Hypothesis&#45;&gt;Prediction -->
+<g id="edge2" class="edge">
+<title>Hypothesis&#45;&gt;Prediction</title>
+<path fill="none" stroke="#000000" d="M275.1286,-99C283.8269,-99 292.8305,-99 301.6372,-99"/>
+<polygon fill="#000000" stroke="#000000" points="301.8549,-102.5001 311.8548,-99 301.8548,-95.5001 301.8549,-102.5001"/>
+</g>
+<!-- Observation&#45;&gt;Hypothesis -->
+<g id="edge9" class="edge">
+<title>Observation&#45;&gt;Hypothesis</title>
+<path fill="none" stroke="#000000" d="M738.6085,-85.9559C721.2741,-81.0688 701.0412,-75.7885 682.4694,-72 521.1344,-39.0884 472.9377,-37.2456 311.9896,-72 297.3487,-75.1615 281.6387,-79.2896 267.2742,-83.3631"/>
+<polygon fill="#000000" stroke="#000000" points="266.2118,-80.0267 257.5742,-86.162 268.1525,-86.7524 266.2118,-80.0267"/>
+<text text-anchor="start" x="454.38" y="-80.8" font-family="Raleway" font-size="14.00" fill="#000000">Hypothesis</text>
+<text text-anchor="start" x="456.88" y="-66.8" font-family="Raleway" font-size="14.00" fill="#000000">is </text>
+<text text-anchor="start" x="470.88" y="-66.8" font-family="Raleway" font-style="italic" font-size="14.00" fill="#000000">rejected:</text>
+<text text-anchor="start" x="437.88" y="-52.8" font-family="Raleway" font-size="14.00" fill="#000000">Seek alternative</text>
+</g>
+<!-- Experiment -->
+<g id="node4" class="node">
+<title>Experiment</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="622.6747" cy="-99" rx="59.5901" ry="18"/>
+<text text-anchor="middle" x="622.6747" y="-95.3" font-family="Raleway" font-size="14.00" fill="#000000">Experiment</text>
+</g>
+<!-- Prediction&#45;&gt;Experiment -->
+<g id="edge7" class="edge">
+<title>Prediction&#45;&gt;Experiment</title>
+<path fill="none" stroke="#000000" d="M420.069,-99C458.6681,-99 510.9104,-99 552.6776,-99"/>
+<polygon fill="#000000" stroke="#000000" points="552.7819,-102.5001 562.7819,-99 552.7819,-95.5001 552.7819,-102.5001"/>
+</g>
+<!-- Experiment&#45;&gt;Observation -->
+<g id="edge8" class="edge">
+<title>Experiment&#45;&gt;Observation</title>
+<path fill="none" stroke="#000000" d="M682.8573,-99C691.4006,-99 700.2615,-99 709.013,-99"/>
+<polygon fill="#000000" stroke="#000000" points="709.2106,-102.5001 719.2105,-99 709.2105,-95.5001 709.2106,-102.5001"/>
+</g>
+<!-- Problem Report -->
+<g id="node5" class="node">
+<title>Problem Report</title>
+<polygon fill="#ffffff" stroke="transparent" points="121,-198 0,-198 0,-162 121,-162 121,-198"/>
+<text text-anchor="middle" x="60.5" y="-176.3" font-family="Raleway" font-size="14.00" fill="#000000">Problem Report</text>
+</g>
+<!-- Problem Report&#45;&gt;Hypothesis -->
+<g id="edge3" class="edge">
+<title>Problem Report&#45;&gt;Hypothesis</title>
+<path fill="none" stroke="#000000" d="M102.4016,-161.9219C108.681,-159.0337 115.0438,-156.0046 121,-153 141.1283,-142.8463 163.0587,-130.5376 180.8215,-120.2375"/>
+<polygon fill="#000000" stroke="#000000" points="182.8264,-123.1199 189.6988,-115.0564 179.2979,-117.0743 182.8264,-123.1199"/>
+</g>
+<!-- Code -->
+<g id="node6" class="node">
+<title>Code</title>
+<polygon fill="#ffffff" stroke="transparent" points="87.5,-144 33.5,-144 33.5,-108 87.5,-108 87.5,-144"/>
+<text text-anchor="middle" x="60.5" y="-122.3" font-family="Raleway" font-size="14.00" fill="#000000">Code</text>
+</g>
+<!-- Code&#45;&gt;Hypothesis -->
+<g id="edge4" class="edge">
+<title>Code&#45;&gt;Hypothesis</title>
+<path fill="none" stroke="#000000" d="M87.6722,-121.297C106.3855,-118.058 132.0122,-113.6225 155.4824,-109.5602"/>
+<polygon fill="#000000" stroke="#000000" points="156.126,-113.0009 165.3825,-107.8467 154.9321,-106.1035 156.126,-113.0009"/>
+</g>
+<!-- Runs -->
+<g id="node7" class="node">
+<title>Runs</title>
+<polygon fill="#ffffff" stroke="transparent" points="87.5,-90 33.5,-90 33.5,-54 87.5,-54 87.5,-90"/>
+<text text-anchor="middle" x="60.5" y="-68.3" font-family="Raleway" font-size="14.00" fill="#000000">Runs</text>
+</g>
+<!-- Runs&#45;&gt;Hypothesis -->
+<g id="edge5" class="edge">
+<title>Runs&#45;&gt;Hypothesis</title>
+<path fill="none" stroke="#000000" d="M87.6722,-76.703C106.3855,-79.942 132.0122,-84.3775 155.4824,-88.4398"/>
+<polygon fill="#000000" stroke="#000000" points="154.9321,-91.8965 165.3825,-90.1533 156.126,-84.9991 154.9321,-91.8965"/>
+</g>
+<!-- More Runs -->
+<g id="node8" class="node">
+<title>More Runs</title>
+<polygon fill="#ffffff" stroke="transparent" points="104,-36 17,-36 17,0 104,0 104,-36"/>
+<text text-anchor="middle" x="60.5" y="-14.3" font-family="Raleway" font-size="14.00" fill="#000000">More Runs</text>
+</g>
+<!-- More Runs&#45;&gt;Hypothesis -->
+<g id="edge6" class="edge">
+<title>More Runs&#45;&gt;Hypothesis</title>
+<path fill="none" stroke="#000000" d="M102.4016,-36.0781C108.681,-38.9663 115.0438,-41.9954 121,-45 141.1283,-55.1537 163.0587,-67.4624 180.8215,-77.7625"/>
+<polygon fill="#000000" stroke="#000000" points="179.2979,-80.9257 189.6988,-82.9436 182.8264,-74.8801 179.2979,-80.9257"/>
+</g>
+</g>
+</svg>
+
+</div>
+
 </div>
 
 <div class="input_markdown">
@@ -12205,12 +14493,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-09-27 19:29:49+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-11 18:49:12+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
 
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Title" style="width:0;height:0;border:0; border:none;"></iframe>
+<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Introduction to Debugging" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -12223,19 +14511,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Title</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-09-27 19:29:49+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-11 18:49:12+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Intro_Debugging,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
-    title = {Title},
+    title = {Introduction to Debugging},
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2020-09-27 19:29:49+02:00},
+    note = {Retrieved 2020-10-11 18:49:12+02:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2020-09-27 19:29:49+02:00}
+    urldate = {2020-10-11 18:49:12+02:00}
 }
 </pre>
 </div>
