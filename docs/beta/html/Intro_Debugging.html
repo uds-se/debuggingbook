@@ -11901,7 +11901,11 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Things-to-do-Instead">Things to do Instead</a>
 </ul></li><li class="has-sub"><a href="#From-Defect-to-Failure-– and-Back-Again">&nbsp;&bull;&nbsp;&nbsp; From Defect to Failure – and Back Again</a>
 </li><li class="has-sub"><a href="#The-Scientific-Method">&nbsp;&bull;&nbsp;&nbsp; The Scientific Method</a>
-</li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+<ul><li class="has-sub"><a href="#Finding-a-Hypothesis">Finding a Hypothesis</a>
+</li><li class="has-sub"><a href="#Testing-a-Hypothesis">Testing a Hypothesis</a>
+</li><li class="has-sub"><a href="#Refining-a-Hypothesis">Refining a Hypothesis</a>
+</li><li class="has-sub"><a href="#Refuting-a-Hypothesis">Refuting a Hypothesis</a>
+</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
@@ -14392,6 +14396,600 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>In debugging, we proceed the very same way – indeed, we are treating bugs as if they were natural phenomena.   This analogy may sound far-fetched, as programs are anything but natural.  Nature, by definition, is not under our control.  But bugs are out of our contrl, either, and this is where the analogy works.  This means that we can apply the same techniques.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Finding-a-Hypothesis">Finding a Hypothesis<a class="anchor-link" href="#Finding-a-Hypothesis">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us apply the scientific method to our Python program which removes HTML tags.  First of all, let us recall the problem – <code>remove_html_markup()</code> works for some inputs, but fails on others.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">html</span> <span class="ow">in</span> <span class="p">[</span> <span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">]:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-20s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">result</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;b&gt;foo&lt;/b&gt;           foo
+&lt;b&gt;&#34;foo&#34;&lt;/b&gt;         foo
+&#34;&lt;b&gt;foo&lt;/b&gt;&#34;         &lt;b&gt;foo&lt;/b&gt;
+&lt;&#34;b&#34;&gt;foo&lt;/&#34;b&#34;&gt;       foo
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>INput #1 and #4 work as expected, the others do not. We can write these down in a table, such that we can always look back at our previous results:</p>
+<table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>&lt;b&gt;"foo"&lt;/b&gt;</code></td>
+<td><code>"foo"</code></td>
+<td><code>foo</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>"&lt;b&gt;foo&lt;/b&gt;"</code></td>
+<td><code>"foo"</code></td>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>&lt;"b"&gt;foo&lt;/"b"&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><em>Quiz</em>: From the difference between success and failure, we can already devise some observations about what's wrong with the output.  Which of these can we turn into general hypotheses?</p>
+<ol>
+<li>Double quotes are stripped from the tagged input. </li>
+<li>Tags in double quotes are not stripped.</li>
+<li>The tag <code>&lt;b&gt;</code> is always stripped from the input.</li>
+<li>Four-letter words are stripped.</li>
+</ol>
+<p>(Answer: 1. and 2. are correct.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Testing-a-Hypothesis">Testing a Hypothesis<a class="anchor-link" href="#Testing-a-Hypothesis">&#182;</a></h3><p>The hypotheses that remain are:</p>
+<ol>
+<li>Double quotes are stripped from the tagged input.</li>
+<li>Tags in double quotes are not stripped.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>These may be two separate issues, but chances are they are tied to each other.  Let's focus on 1., because it is simpler.  Does it hold for all inputs, even untagged ones?  Our hypothesis becomes</p>
+<ol>
+<li>Double quotes are stripped from the <del>tagged</del> input.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let's devise an experiment to validate this.  If we feed the string</p>
+<div class="highlight"><pre><span></span>&quot;foo&quot;
+</pre></div>
+<p>(including the double quotes) into <code>remove_html_markup()</code>, we should obtain</p>
+<div class="highlight"><pre><span></span>&quot;foo&quot;
+</pre></div>
+<p>as result – that is, the output should be the unchanged input. However, if our hypothesis 1. is correct, we should obtain</p>
+<div class="highlight"><pre><span></span>foo
+</pre></div>
+<p>as result – that is, "Double quotes are stripped from the input" as predicted by the hypothesis.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can very easily test this hypothesis:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;foo&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our hypothesis is confirmed! We can add this to our list of observations.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>&lt;b&gt;"foo"&lt;/b&gt;</code></td>
+<td><code>"foo"</code></td>
+<td><code>foo</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>"&lt;b&gt;foo&lt;/b&gt;"</code></td>
+<td><code>"foo"</code></td>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>&lt;"b"&gt;foo&lt;/"b"&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>"foo"</code></td>
+<td><code>"foo"</code></td>
+<td><code>foo</code></td>
+<td>✘</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>You can try out the hypothesis with more inputs – and it remains valid. Any non-markup input that contains double quotes will have these stripped.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Where does that quote-stripping come from?  This is where we need to explore the cause-effect chain.  The only place in <code>remove_html_markup()</code> where quotes are handled is this line:</p>
+<div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+</pre></div>
+<p>So, quotes should be removed only if <code>tag</code> is set. However, <code>tag</code> can be set only if the input contains a markup tag, which is not the case for a simple input like <code>"foo"</code>. Hence, what we observe is actually <em>impossible.</em> Yet, it happens.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Refining-a-Hypothesis">Refining a Hypothesis<a class="anchor-link" href="#Refining-a-Hypothesis">&#182;</a></h3><p>Debugging is a game of falsifying assumptions. You assume the code works – it doesn't. You assume the <code>tag</code> flag cannot be set – yet it may be. What do we do? Again, we create a hypothesis:</p>
+<ol>
+<li>The error is due to <code>tag</code> being set.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>How do we know whether tag is being set?  Let me introduce one of the most powerful debugging tools ever invented, the <code>assert</code> statement.  The statement</p>
+<div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">cond</span>
+</pre></div>
+<p>evaluates the given condition <code>cond</code> and</p>
+<ul>
+<li>if it holds: proceed as usual</li>
+<li>if <code>cond</code> does not hold: throw an exception</li>
+</ul>
+<p>An <code>assert</code> statement <em>encodes our assumptions</em> and as such, should never fail. If it does, well, then something is wrong.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Using <code>assert</code>, we can check the value of <code>tag</code> all through the loop:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_with_tag_assert</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">tag</span>  <span class="c1"># &lt;=== Just added</span>
+
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our expectation is:</p>
+<table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"foo"</code></td>
+<td>Assertion fails</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, do we actually get an exception? Try it out for yourself!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># remove_html_markup_with_tag_assert(&#39;&quot;foo&quot;&#39;)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Quiz: After inserting <code>assert</code>,</p>
+<ol>
+<li>the program raises an exception (i.e., <code>tag</code> is set)</li>
+<li>the output is still foo (i.e., <code>tag</code> is not set)</li>
+</ol>
+<p>Solution: 2. is correct.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">remove_html_markup_with_tag_assert</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;foo&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Refuting-a-Hypothesis">Refuting a Hypothesis<a class="anchor-link" href="#Refuting-a-Hypothesis">&#182;</a></h3><p>We did not get an exception, hence we reject our hypothesis:</p>
+<ol>
+<li><del>The error is due to <code>tag</code> being set.</del></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Again, let's go back to the only place in our code where quotes are handled:</p>
+<div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+</pre></div>
+<p>Because of the assertion, we already know that <code>tag</code> is always False.  Hence, this condition should never hold either.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>But maybe there's something wrong with the condition such that it holds? Here's our hypothesis:</p>
+<ol>
+<li>The error is due to the quote condition evaluating to true</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If the condition evaluates to true, then <code>quote</code> should be set.  We could now go and assert that <code>quote</code> is false; but we only care about the condition.  So we insert an assertion that assumes that setting the code setting the <code>quote</code> flag is never reached:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_with_quote_assert</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="kc">False</span>  <span class="c1"># &lt;=== Just added</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our expectation this time again is that the assertion fails:</p>
+<table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"foo"</code></td>
+<td>Assertion fails</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, do we get an exception this time? Try it out for yourself!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># remove_html_markup_with_quote_assert(&#39;&quot;foo&quot;&#39;)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Quiz: After inserting <code>assert</code>,</p>
+<ol>
+<li>the program raises an exception (i.e., the quote condition holds)</li>
+<li>the output is still foo (i.e., the quote condition does not hold)</li>
+</ol>
+<p>Solution: 1. is correct.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">remove_html_markup_with_quote_assert</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-43-9ce255289291&gt;&#34;, line 2, in &lt;module&gt;
+    result = remove_html_markup_with_quote_assert(&#39;&#34;foo&#34;&#39;)
+  File &#34;&lt;ipython-input-41-7c03457dde82&gt;&#34;, line 12, in remove_html_markup_with_quote_assert
+    assert False  # &lt;=== Just added
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h2 id="Lessons-Learned">Lessons Learned<a class="anchor-link" href="#Lessons-Learned">&#182;</a></h2><ul>
 <li><em>Lesson one</em></li>
 <li><em>Lesson two</em></li>
@@ -14493,7 +15091,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-11 18:49:12+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-12 11:51:50+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -14511,7 +15109,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-11 18:49:12+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-12 11:51:50+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Intro_Debugging,
@@ -14521,9 +15119,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2020-10-11 18:49:12+02:00},
+    note = {Retrieved 2020-10-12 11:51:50+02:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2020-10-11 18:49:12+02:00}
+    urldate = {2020-10-12 11:51:50+02:00}
 }
 </pre>
 </div>
