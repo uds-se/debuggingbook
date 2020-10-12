@@ -11905,7 +11905,10 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Testing-a-Hypothesis">Testing a Hypothesis</a>
 </li><li class="has-sub"><a href="#Refining-a-Hypothesis">Refining a Hypothesis</a>
 </li><li class="has-sub"><a href="#Refuting-a-Hypothesis">Refuting a Hypothesis</a>
-</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+</ul></li><li class="has-sub"><a href="#Fixing-the-Bug">&nbsp;&bull;&nbsp;&nbsp; Fixing the Bug</a>
+</li><li class="has-sub"><a href="#Alternate-Paths">&nbsp;&bull;&nbsp;&nbsp; Alternate Paths</a>
+</li><li class="has-sub"><a href="#Explicit-Debugging">&nbsp;&bull;&nbsp;&nbsp; Explicit Debugging</a>
+</li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
@@ -13122,20 +13125,6 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
 <div class="output_area">
 
 <div class="output_image output_svg output_subarea ">
@@ -13191,21 +13180,6 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 <div class="text_cell_render border-box-sizing rendered_html"><p>How does this failure come to be? The execution we see above breaks down into several program <em>states</em>, one after the other.</p>
 </div>
 </div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">until</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
-    <span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
 </div>
 </div>
 
@@ -13480,21 +13454,6 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 <div class="text_cell_render border-box-sizing rendered_html"><p>How does a fault come to be? Each of these program states is produced by a <em>step</em> in the program code. These steps take a state as input and produce another state as output. Technically speaking, the program inputs and outputs are also parts of the program state, so the input flows into the first step, and the output is the state produced by the last step.</p>
 </div>
 </div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">until</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
-    <span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
 </div>
 </div>
 
@@ -13786,22 +13745,6 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 <div class="text_cell_render border-box-sizing rendered_html"><p>Sounds easy, right? Unfortunately, things are not that easy, and that has something to do with the program state. Let us assume our state consists of three variables, <code>v1</code> to <code>v3</code>, and that Step 2 produces a fault in <code>v2</code>. This fault then propagates to the output:</p>
 </div>
 </div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">until</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
-    <span class="n">execution_diagram</span><span class="p">(</span><span class="n">show_steps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="s1">&#39;v2&#39;</span><span class="p">,</span> <span class="s1">&#39;v3&#39;</span><span class="p">],</span> <span class="n">error_step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
-                      <span class="n">until</span><span class="o">=</span><span class="n">until</span><span class="p">,</span> <span class="n">fault_path</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;s2:v2&#39;</span><span class="p">,</span> <span class="s1">&#39;s3:v2&#39;</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div></div>
 </div>
 </div>
 
@@ -14476,21 +14419,21 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="e0ded5ae-0ca9-11eb-a588-acde48001122" id="e0ded5ae-0ca9-11eb-a588-acde48001122-1" onclick="clear_selection('e0ded5ae-0ca9-11eb-a588-acde48001122')">
-        <label id="e0ded5ae-0ca9-11eb-a588-acde48001122-1-label" for="e0ded5ae-0ca9-11eb-a588-acde48001122-1">Double quotes are stripped from the tagged input.</label><br>
+        <input type="checkbox" name="40ef61f0-0cb1-11eb-a588-acde48001122" id="40ef61f0-0cb1-11eb-a588-acde48001122-1" onclick="clear_selection('40ef61f0-0cb1-11eb-a588-acde48001122')">
+        <label id="40ef61f0-0cb1-11eb-a588-acde48001122-1-label" for="40ef61f0-0cb1-11eb-a588-acde48001122-1">Double quotes are stripped from the tagged input.</label><br>
 
-        <input type="checkbox" name="e0ded5ae-0ca9-11eb-a588-acde48001122" id="e0ded5ae-0ca9-11eb-a588-acde48001122-2" onclick="clear_selection('e0ded5ae-0ca9-11eb-a588-acde48001122')">
-        <label id="e0ded5ae-0ca9-11eb-a588-acde48001122-2-label" for="e0ded5ae-0ca9-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
+        <input type="checkbox" name="40ef61f0-0cb1-11eb-a588-acde48001122" id="40ef61f0-0cb1-11eb-a588-acde48001122-2" onclick="clear_selection('40ef61f0-0cb1-11eb-a588-acde48001122')">
+        <label id="40ef61f0-0cb1-11eb-a588-acde48001122-2-label" for="40ef61f0-0cb1-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
 
-        <input type="checkbox" name="e0ded5ae-0ca9-11eb-a588-acde48001122" id="e0ded5ae-0ca9-11eb-a588-acde48001122-3" onclick="clear_selection('e0ded5ae-0ca9-11eb-a588-acde48001122')">
-        <label id="e0ded5ae-0ca9-11eb-a588-acde48001122-3-label" for="e0ded5ae-0ca9-11eb-a588-acde48001122-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
+        <input type="checkbox" name="40ef61f0-0cb1-11eb-a588-acde48001122" id="40ef61f0-0cb1-11eb-a588-acde48001122-3" onclick="clear_selection('40ef61f0-0cb1-11eb-a588-acde48001122')">
+        <label id="40ef61f0-0cb1-11eb-a588-acde48001122-3-label" for="40ef61f0-0cb1-11eb-a588-acde48001122-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
 
-        <input type="checkbox" name="e0ded5ae-0ca9-11eb-a588-acde48001122" id="e0ded5ae-0ca9-11eb-a588-acde48001122-4" onclick="clear_selection('e0ded5ae-0ca9-11eb-a588-acde48001122')">
-        <label id="e0ded5ae-0ca9-11eb-a588-acde48001122-4-label" for="e0ded5ae-0ca9-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
+        <input type="checkbox" name="40ef61f0-0cb1-11eb-a588-acde48001122" id="40ef61f0-0cb1-11eb-a588-acde48001122-4" onclick="clear_selection('40ef61f0-0cb1-11eb-a588-acde48001122')">
+        <label id="40ef61f0-0cb1-11eb-a588-acde48001122-4-label" for="40ef61f0-0cb1-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
 
     </div>
     </p>
-    <input id="e0ded5ae-0ca9-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e0ded5ae-0ca9-11eb-a588-acde48001122', 6, 1)">
+    <input id="40ef61f0-0cb1-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('40ef61f0-0cb1-11eb-a588-acde48001122', 6, 1)">
     </div>
 
 </div>
@@ -14724,33 +14667,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Our expectation is:</p>
-<table>
-<thead><tr>
-<th>Input</th>
-<th>Expectation</th>
-<th>Output</th>
-<th>Outcome</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"foo"</code></td>
-<td>Assertion fails</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>So, do we actually get an exception? Try it out for yourself!</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our expectation is that this assertion would fail. So, do we actually get an exception? Try it out for yourself by uncommenting the following line:</p>
 </div>
 </div>
 </div>
@@ -14835,15 +14752,15 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e0e4b03a-0ca9-11eb-8163-acde48001122" id="e0e4b03a-0ca9-11eb-8163-acde48001122-1" onclick="clear_selection('e0e4b03a-0ca9-11eb-8163-acde48001122')">
-        <label id="e0e4b03a-0ca9-11eb-8163-acde48001122-1-label" for="e0e4b03a-0ca9-11eb-8163-acde48001122-1">The program raises an exception. (i.e., tag is set)</label><br>
+        <input type="radio" name="40f4f028-0cb1-11eb-8163-acde48001122" id="40f4f028-0cb1-11eb-8163-acde48001122-1" onclick="clear_selection('40f4f028-0cb1-11eb-8163-acde48001122')">
+        <label id="40f4f028-0cb1-11eb-8163-acde48001122-1-label" for="40f4f028-0cb1-11eb-8163-acde48001122-1">The program raises an exception. (i.e., tag is set)</label><br>
 
-        <input type="radio" name="e0e4b03a-0ca9-11eb-8163-acde48001122" id="e0e4b03a-0ca9-11eb-8163-acde48001122-2" onclick="clear_selection('e0e4b03a-0ca9-11eb-8163-acde48001122')">
-        <label id="e0e4b03a-0ca9-11eb-8163-acde48001122-2-label" for="e0e4b03a-0ca9-11eb-8163-acde48001122-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
+        <input type="radio" name="40f4f028-0cb1-11eb-8163-acde48001122" id="40f4f028-0cb1-11eb-8163-acde48001122-2" onclick="clear_selection('40f4f028-0cb1-11eb-8163-acde48001122')">
+        <label id="40f4f028-0cb1-11eb-8163-acde48001122-2-label" for="40f4f028-0cb1-11eb-8163-acde48001122-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
 
     </div>
     </p>
-    <input id="e0e4b03a-0ca9-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e0e4b03a-0ca9-11eb-8163-acde48001122', 4, 0)">
+    <input id="40f4f028-0cb1-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('40f4f028-0cb1-11eb-8163-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -14963,33 +14880,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Our expectation this time again is that the assertion fails:</p>
-<table>
-<thead><tr>
-<th>Input</th>
-<th>Expectation</th>
-<th>Output</th>
-<th>Outcome</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>"foo"</code></td>
-<td>Assertion fails</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>So, do we get an exception this time? Try it out for yourself!</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our expectation this time again is that the assertion fails. So, do we get an exception this time? Try it out for yourself by uncommenting the following line:</p>
 </div>
 </div>
 </div>
@@ -15074,15 +14965,15 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e0e821d8-0ca9-11eb-9732-acde48001122" id="e0e821d8-0ca9-11eb-9732-acde48001122-1" onclick="clear_selection('e0e821d8-0ca9-11eb-9732-acde48001122')">
-        <label id="e0e821d8-0ca9-11eb-9732-acde48001122-1-label" for="e0e821d8-0ca9-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
+        <input type="radio" name="40f8aa26-0cb1-11eb-9732-acde48001122" id="40f8aa26-0cb1-11eb-9732-acde48001122-1" onclick="clear_selection('40f8aa26-0cb1-11eb-9732-acde48001122')">
+        <label id="40f8aa26-0cb1-11eb-9732-acde48001122-1-label" for="40f8aa26-0cb1-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
 
-        <input type="radio" name="e0e821d8-0ca9-11eb-9732-acde48001122" id="e0e821d8-0ca9-11eb-9732-acde48001122-2" onclick="clear_selection('e0e821d8-0ca9-11eb-9732-acde48001122')">
-        <label id="e0e821d8-0ca9-11eb-9732-acde48001122-2-label" for="e0e821d8-0ca9-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
+        <input type="radio" name="40f8aa26-0cb1-11eb-9732-acde48001122" id="40f8aa26-0cb1-11eb-9732-acde48001122-2" onclick="clear_selection('40f8aa26-0cb1-11eb-9732-acde48001122')">
+        <label id="40f8aa26-0cb1-11eb-9732-acde48001122-2-label" for="40f8aa26-0cb1-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
 
     </div>
     </p>
-    <input id="e0e821d8-0ca9-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e0e821d8-0ca9-11eb-9732-acde48001122', 2, 0)">
+    <input id="40f8aa26-0cb1-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('40f8aa26-0cb1-11eb-9732-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -15125,6 +15016,699 @@ AssertionError (expected)
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>From this observation, we can deduce that our hypothesis is <em>confirmed</em>:</p>
+<ol>
+<li>The error is due to the quote condition evaluating to true (CONFIRMED)</li>
+</ol>
+<p>and the <em>condition is actually faulty.</em> It evaluates to True although <code>tag</code> is always False:</p>
+<div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+</pre></div>
+<p>But this condition holds for single and double quotes.  Is there a difference?</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us see whether our observations generalize towards general quotes:</p>
+<ol>
+<li><del>Double</del> quotes are stripped from the input.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can verify these hypotheses with an additional experiment.  We go back to our original implementation (without any asserts), and then check it:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;&#39;foo&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#34;&#39;foo&#39;&#34;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Surprise: Our hypothesis is rejected and we can add another observation to our table:</p>
+<table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>'foo'</code></td>
+<td><code>'foo'</code></td>
+<td><code>'foo'</code></td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+<p>So, the condition</p>
+<ul>
+<li>becomes True when a double quote is seen</li>
+<li>becomes False (as it should) with single quotes</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>At this point, you should have enough material to solve the problem.  How do we have to fix the condition? Here are four alternatives:</p>
+<ol>
+<li><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="n">tag</span>
+</pre></div>
+</li>
+<li><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tag</span>
+</pre></div>
+</li>
+<li><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span>
+</pre></div>
+</li>
+<li>Something else</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Incorrect!";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">How should the condition read?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Pick a choice.">
+
+        <input type="radio" name="40fc3a38-0cb1-11eb-b36c-acde48001122" id="40fc3a38-0cb1-11eb-b36c-acde48001122-1" onclick="clear_selection('40fc3a38-0cb1-11eb-b36c-acde48001122')">
+        <label id="40fc3a38-0cb1-11eb-b36c-acde48001122-1-label" for="40fc3a38-0cb1-11eb-b36c-acde48001122-1">Choice 1</label><br>
+
+        <input type="radio" name="40fc3a38-0cb1-11eb-b36c-acde48001122" id="40fc3a38-0cb1-11eb-b36c-acde48001122-2" onclick="clear_selection('40fc3a38-0cb1-11eb-b36c-acde48001122')">
+        <label id="40fc3a38-0cb1-11eb-b36c-acde48001122-2-label" for="40fc3a38-0cb1-11eb-b36c-acde48001122-2">Choice 2</label><br>
+
+        <input type="radio" name="40fc3a38-0cb1-11eb-b36c-acde48001122" id="40fc3a38-0cb1-11eb-b36c-acde48001122-3" onclick="clear_selection('40fc3a38-0cb1-11eb-b36c-acde48001122')">
+        <label id="40fc3a38-0cb1-11eb-b36c-acde48001122-3-label" for="40fc3a38-0cb1-11eb-b36c-acde48001122-3">Choice 3</label><br>
+
+        <input type="radio" name="40fc3a38-0cb1-11eb-b36c-acde48001122" id="40fc3a38-0cb1-11eb-b36c-acde48001122-4" onclick="clear_selection('40fc3a38-0cb1-11eb-b36c-acde48001122')">
+        <label id="40fc3a38-0cb1-11eb-b36c-acde48001122-4-label" for="40fc3a38-0cb1-11eb-b36c-acde48001122-4">Choice 4</label><br>
+
+    </div>
+    </p>
+    <input id="40fc3a38-0cb1-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('40fc3a38-0cb1-11eb-b36c-acde48001122', 8, 0)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Fixing-the-Bug">Fixing the Bug<a class="anchor-link" href="#Fixing-the-Bug">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, you have spotted the defect: In Python (and most other languages), <code>and</code> takes precedence over <code>or</code>, which is why the condition is wrong.  It should read:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span>
+</pre></div>
+<p>(Actually, good programmers rarely depend on precedence; it is considered good style to use parentheses lavishly.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, our hypothesis now has become</p>
+<ol>
+<li>The error is due to the quote condition evaluating to true</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Is this our final hypothesis?  We can check our earlier examples whether they should now work well:</p>
+<table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>&lt;b&gt;"foo"&lt;/b&gt;</code></td>
+<td><code>"foo"</code></td>
+<td><code>foo</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>"&lt;b&gt;foo&lt;/b&gt;"</code></td>
+<td><code>"foo"</code></td>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>&lt;"b"&gt;foo&lt;/"b"&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>"foo"</code></td>
+<td><code>'foo'</code></td>
+<td><code>foo</code></td>
+<td>✘</td>
+</tr>
+<tr>
+<td><code>'foo'</code></td>
+<td><code>'foo'</code></td>
+<td><code>'foo'</code></td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+<p>In all of these examples, the <code>quote</code> flag should now be set outside of tags; hence, everything should work as expected.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>In terms of the scientific process, we now have a <em>theory</em> – a hypothesis that</p>
+<ul>
+<li>is consistent with all earlier observations</li>
+<li>predicts future observations (in our case: correct behavior)</li>
+</ul>
+<p>For debugging, our problems are usually to small for a big word like theory, so we use the word <em>diagnosis</em> instead.  You should start to fix your code if and only if you have a diagnosis.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So we actually go and fix the code accordingly:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>  <span class="c1"># &lt;-- FIX</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We verify that the fix was successful by running our earlier tests. Not only should the previously failing tests now pass, the previously passing tests also should not be affected. Fortunately, all tests now pass:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>    
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>So, the hypothesis was a theory after all, and our diagnosis was correct.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Alternate-Paths">Alternate Paths<a class="anchor-link" href="#Alternate-Paths">&#182;</a></h2><p>Note that there are many ways by which we can get to the defect.  We could also have started with our other hypothesis</p>
+<ol>
+<li>Tags in double quotes are not stripped</li>
+</ol>
+<p>and by reasoning and experiments, we would have reached the same conclusion that the condition is faulty:</p>
+<ul>
+<li>To strip tags, the <code>tag</code> flag must be set (but it is not).</li>
+<li>To set the <code>tag</code> flag, the <code>quote</code> variable must not be set (but it is).</li>
+<li>The <code>quote</code> flag is set under the given condition (which thus must be faulty).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>But just fixing is not enough. We also must make sure the error does not occur again. How can we do that? With our assertions, above, we already have a test suite that should catch several errors – but not all.</p>
+<p>To be 100% sure, we could add an assertion to <code>remove_html_markup()</code> that checks the final result for correctness. Unfortunately, writing such an assertion is just as complex as writing the function itself.</p>
+<p>There is one assertion, though, which could be placed in the loop body to catch this kind of errors, and which could remain in the code. Which is it?</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Incorrect!";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">Which assertion would have caught the problem?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Pick a choice.">
+
+        <input type="radio" name="40ff8e86-0cb1-11eb-835f-acde48001122" id="40ff8e86-0cb1-11eb-835f-acde48001122-1" onclick="clear_selection('40ff8e86-0cb1-11eb-835f-acde48001122')">
+        <label id="40ff8e86-0cb1-11eb-835f-acde48001122-1-label" for="40ff8e86-0cb1-11eb-835f-acde48001122-1">assert quote and not tag</label><br>
+
+        <input type="radio" name="40ff8e86-0cb1-11eb-835f-acde48001122" id="40ff8e86-0cb1-11eb-835f-acde48001122-2" onclick="clear_selection('40ff8e86-0cb1-11eb-835f-acde48001122')">
+        <label id="40ff8e86-0cb1-11eb-835f-acde48001122-2-label" for="40ff8e86-0cb1-11eb-835f-acde48001122-2">assert quote or not tag</label><br>
+
+        <input type="radio" name="40ff8e86-0cb1-11eb-835f-acde48001122" id="40ff8e86-0cb1-11eb-835f-acde48001122-3" onclick="clear_selection('40ff8e86-0cb1-11eb-835f-acde48001122')">
+        <label id="40ff8e86-0cb1-11eb-835f-acde48001122-3-label" for="40ff8e86-0cb1-11eb-835f-acde48001122-3">assert tag or not quote</label><br>
+
+        <input type="radio" name="40ff8e86-0cb1-11eb-835f-acde48001122" id="40ff8e86-0cb1-11eb-835f-acde48001122-4" onclick="clear_selection('40ff8e86-0cb1-11eb-835f-acde48001122')">
+        <label id="40ff8e86-0cb1-11eb-835f-acde48001122-4-label" for="40ff8e86-0cb1-11eb-835f-acde48001122-4">assert tag and not quote</label><br>
+
+    </div>
+    </p>
+    <input id="40ff8e86-0cb1-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('40ff8e86-0cb1-11eb-835f-acde48001122', 8, 0)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Indeed, the statement</p>
+<div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
+</pre></div>
+<p>is correct. This excludes the situation of ¬<code>tag</code> ∧ <code>quote</code> – that is, the <code>tag</code> flag is not set, but the <code>quote</code> flag is. If you remember our state machine from above, this is actually a state that should never exist:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="472pt" height="110pt"
+ viewBox="0.00 0.00 471.68 109.74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 105.7401)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-105.7401 467.6808,-105.7401 467.6808,4 -4,4"/>
+<!-- Start -->
+<g id="node1" class="node">
+<title>Start</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="31.1972" cy="-26.8701" rx="31.3957" ry="18"/>
+<text text-anchor="middle" x="31.1972" y="-23.1701" font-family="Raleway" font-size="14.00" fill="#000000">Start</text>
+</g>
+<!-- ¬ quote
+¬ tag -->
+<g id="node2" class="node">
+<title>¬ quote
+¬ tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="146.7706" cy="-26.8701" rx="47.2526" ry="26.7407"/>
+<text text-anchor="middle" x="146.7706" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
+<text text-anchor="middle" x="146.7706" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ tag</text>
+</g>
+<!-- Start&#45;&gt;¬ quote
+¬ tag -->
+<g id="edge1" class="edge">
+<title>Start&#45;&gt;¬ quote
+¬ tag</title>
+<path fill="none" stroke="#000000" d="M62.4731,-26.8701C70.8189,-26.8701 80.1068,-26.8701 89.3809,-26.8701"/>
+<polygon fill="#000000" stroke="#000000" points="89.3939,-30.3702 99.3938,-26.8701 89.3938,-23.3702 89.3939,-30.3702"/>
+</g>
+<!-- ¬ quote
+¬ tag&#45;&gt;¬ quote
+¬ tag -->
+<g id="edge2" class="edge">
+<title>¬ quote
+¬ tag&#45;&gt;¬ quote
+¬ tag</title>
+<path fill="none" stroke="#000000" d="M134.8175,-53.1406C134.2862,-63.2978 138.2706,-71.7401 146.7706,-71.7401 152.2159,-71.7401 155.808,-68.2754 157.5469,-63.1146"/>
+<polygon fill="#000000" stroke="#000000" points="161.0278,-63.4818 158.7237,-53.1406 154.076,-62.6615 161.0278,-63.4818"/>
+<text text-anchor="middle" x="146.7706" y="-90.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&lt;&#39;</text>
+<text text-anchor="middle" x="146.7706" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">add character</text>
+</g>
+<!-- ¬ quote
+tag -->
+<g id="node3" class="node">
+<title>¬ quote
+tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="291.5229" cy="-26.8701" rx="47.2526" ry="26.7407"/>
+<text text-anchor="middle" x="291.5229" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
+<text text-anchor="middle" x="291.5229" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
+</g>
+<!-- ¬ quote
+¬ tag&#45;&gt;¬ quote
+tag -->
+<g id="edge3" class="edge">
+<title>¬ quote
+¬ tag&#45;&gt;¬ quote
+tag</title>
+<path fill="none" stroke="#000000" d="M194.1679,-26.8701C206.7897,-26.8701 220.5666,-26.8701 233.6797,-26.8701"/>
+<polygon fill="#000000" stroke="#000000" points="234.0192,-30.3702 244.0191,-26.8701 234.0191,-23.3702 234.0192,-30.3702"/>
+<text text-anchor="middle" x="219.1468" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&lt;&#39;</text>
+</g>
+<!-- ¬ quote
+tag&#45;&gt;¬ quote
+¬ tag -->
+<g id="edge8" class="edge">
+<title>¬ quote
+tag&#45;&gt;¬ quote
+¬ tag</title>
+<path fill="none" stroke="#000000" d="M252.2355,-11.4185C239.5382,-8.0557 225.3335,-5.9927 212.1468,-7.8701 207.3528,-8.5526 202.4188,-9.5032 197.5125,-10.6188"/>
+<polygon fill="#000000" stroke="#000000" points="196.3902,-7.2914 187.5341,-13.1069 198.0839,-14.0834 196.3902,-7.2914"/>
+<text text-anchor="middle" x="219.1468" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&gt;&#39;</text>
+</g>
+<!-- ¬ quote
+tag&#45;&gt;¬ quote
+tag -->
+<g id="edge5" class="edge">
+<title>¬ quote
+tag&#45;&gt;¬ quote
+tag</title>
+<path fill="none" stroke="#000000" d="M278.4492,-53.1406C277.8681,-63.2978 282.2261,-71.7401 291.5229,-71.7401 297.4787,-71.7401 301.4076,-68.2754 303.3095,-63.1146"/>
+<polygon fill="#000000" stroke="#000000" points="306.7879,-63.5063 304.5967,-53.1406 299.8455,-62.6103 306.7879,-63.5063"/>
+<text text-anchor="middle" x="291.5229" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39; ∧ ¬ &#39;&gt;&#39;</text>
+</g>
+<!-- quote
+tag -->
+<g id="node4" class="node">
+<title>quote
+tag</title>
+<ellipse fill="#ffdab9" stroke="#000000" cx="424.79" cy="-26.8701" rx="38.7821" ry="26.7407"/>
+<text text-anchor="middle" x="424.79" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">quote</text>
+<text text-anchor="middle" x="424.79" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
+</g>
+<!-- ¬ quote
+tag&#45;&gt;quote
+tag -->
+<g id="edge4" class="edge">
+<title>¬ quote
+tag&#45;&gt;quote
+tag</title>
+<path fill="none" stroke="#000000" d="M339.259,-26.8701C351.0431,-26.8701 363.6869,-26.8701 375.5414,-26.8701"/>
+<polygon fill="#000000" stroke="#000000" points="375.7144,-30.3702 385.7143,-26.8701 375.7143,-23.3702 375.7144,-30.3702"/>
+<text text-anchor="middle" x="362.3991" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
+</g>
+<!-- quote
+tag&#45;&gt;¬ quote
+tag -->
+<g id="edge7" class="edge">
+<title>quote
+tag&#45;&gt;¬ quote
+tag</title>
+<path fill="none" stroke="#000000" d="M390.9446,-13.5899C383.4673,-11.2158 375.505,-9.1066 367.8991,-7.8701 358.787,-6.3887 349.1649,-7.0126 339.9366,-8.7338"/>
+<polygon fill="#000000" stroke="#000000" points="339.0852,-5.3381 330.1202,-10.9844 340.6495,-12.1611 339.0852,-5.3381"/>
+<text text-anchor="middle" x="362.3991" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
+</g>
+<!-- quote
+tag&#45;&gt;quote
+tag -->
+<g id="edge6" class="edge">
+<title>quote
+tag&#45;&gt;quote
+tag</title>
+<path fill="none" stroke="#000000" d="M413.2359,-52.6914C412.5831,-63.0476 416.4345,-71.7401 424.79,-71.7401 430.1427,-71.7401 433.6469,-68.1727 435.3026,-62.8859"/>
+<polygon fill="#000000" stroke="#000000" points="438.8096,-62.9953 436.344,-52.6914 431.8458,-62.2839 438.8096,-62.9953"/>
+<text text-anchor="middle" x="424.79" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39;</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's our function in its "final" state. As software goes, software is never final – and this may also hold for our function, as there is still room for improvement. For this chapter though, we leave it be.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
+
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Explicit-Debugging">Explicit Debugging<a class="anchor-link" href="#Explicit-Debugging">&#182;</a></h2><p>...</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_markdown">
@@ -15231,7 +15815,7 @@ AssertionError (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-12 18:33:04+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-12 19:33:25+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -15249,7 +15833,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-12 18:33:04+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-12 19:33:25+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Intro_Debugging,
@@ -15259,9 +15843,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2020-10-12 18:33:04+02:00},
+    note = {Retrieved 2020-10-12 19:33:25+02:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2020-10-12 18:33:04+02:00}
+    urldate = {2020-10-12 19:33:25+02:00}
 }
 </pre>
 </div>
