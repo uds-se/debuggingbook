@@ -11899,7 +11899,8 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Debugging-into-Existence">Debugging into Existence</a>
 </li><li class="has-sub"><a href="#Use-the-Most-Obvious-Fix">Use the Most Obvious Fix</a>
 </li><li class="has-sub"><a href="#Things-to-do-Instead">Things to do Instead</a>
-</ul></li><li class="has-sub"><a href="#From-Defect-to-Failure-– and-Back-Again">&nbsp;&bull;&nbsp;&nbsp; From Defect to Failure – and Back Again</a>
+</ul></li><li class="has-sub"><a href="#From-Defect-to-Failure">&nbsp;&bull;&nbsp;&nbsp; From Defect to Failure</a>
+</li><li class="has-sub"><a href="#From-Failure-to-Defect">&nbsp;&bull;&nbsp;&nbsp; From Failure to Defect</a>
 </li><li class="has-sub"><a href="#The-Scientific-Method">&nbsp;&bull;&nbsp;&nbsp; The Scientific Method</a>
 <ul><li class="has-sub"><a href="#Finding-a-Hypothesis">Finding a Hypothesis</a>
 </li><li class="has-sub"><a href="#Testing-a-Hypothesis">Testing a Hypothesis</a>
@@ -11907,13 +11908,17 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Refuting-a-Hypothesis">Refuting a Hypothesis</a>
 </ul></li><li class="has-sub"><a href="#Fixing-the-Bug">&nbsp;&bull;&nbsp;&nbsp; Fixing the Bug</a>
 </li><li class="has-sub"><a href="#Alternate-Paths">&nbsp;&bull;&nbsp;&nbsp; Alternate Paths</a>
-</li><li class="has-sub"><a href="#Explicit-Debugging">&nbsp;&bull;&nbsp;&nbsp; Explicit Debugging</a>
+</li><li class="has-sub"><a href="#Become-a-Better-Debugger">&nbsp;&bull;&nbsp;&nbsp; Become a Better Debugger</a>
+<ul><li class="has-sub"><a href="#Follow-the-Process">Follow the Process</a>
+</li><li class="has-sub"><a href="#Keep-a-Log">Keep a Log</a>
+</li><li class="has-sub"><a href="#Rubberducking">Rubberducking</a>
+</ul></li><li class="has-sub"><a href="#The-Cost-of-Debugging">&nbsp;&bull;&nbsp;&nbsp; The Cost of Debugging</a>
+</li><li class="has-sub"><a href="#History-of-Debugging">&nbsp;&bull;&nbsp;&nbsp; History of Debugging</a>
 </li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
-<ul><li class="has-sub"><a href="#Exercise-1:-_Title_">Exercise 1: _Title_</a>
-</li><li class="has-sub"><a href="#Exercise-2:-_Title_">Exercise 2: _Title_</a>
+<ul><li class="has-sub"><a href="#Exercise-1:-More-Bugs!">Exercise 1: More Bugs!</a>
 </ul></li></ul></li>
      </li>
      
@@ -12018,7 +12023,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="Intro_Debugging.html" class="import" target="_blank">debuggingbook.Intro_Debugging</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
 </pre></div>
 <p>and then make use of the following features.</p>
-<p><em>For those only interested in using the code in this chapter (without wanting to know how it works), give an example.  This will be copied to the beginning of the chapter (before the first section) as text with rendered input and output.</em></p>
+<p>In this chapter, we introduce some basics of how failures come to be as well as a general process for debugging.</p>
 </div>
 </div>
 </div>
@@ -13118,7 +13123,7 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="From-Defect-to-Failure-&#8211;&#160;and-Back-Again">From Defect to Failure &#8211;&#160;and Back Again<a class="anchor-link" href="#From-Defect-to-Failure-&#8211;&#160;and-Back-Again">&#182;</a></h2><p>To understand how to systematically debug a program, we first have to understand how failures come to be. The typical debugging situation looks like this. We have a program (execution), taking some input and producing some output. The output is in <em>error</em> (✘), meaning an unwanted and unintended deviation from what is correct, right, or true.
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="From-Defect-to-Failure">From Defect to Failure<a class="anchor-link" href="#From-Defect-to-Failure">&#182;</a></h2><p>To understand how to systematically debug a program, we first have to understand how failures come to be. The typical debugging situation looks like this. We have a program (execution), taking some input and producing some output. The output is in <em>error</em> (✘), meaning an unwanted and unintended deviation from what is correct, right, or true.
 The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't search for the bug in our program, but in whatever produced its input.)</p>
 </div>
 </div>
@@ -14057,8 +14062,35 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 <li>This <em>fault</em> in the state then <em>propagates</em> through further execution steps...</li>
 <li>... until it becomes visible as a <em>failure</em>.</li>
 </ul>
-<p>Note that not every defect also causes a failure, which is despite all testing, there can still be defects in the code looming around until the right conditions are met to trigger them. On the other hand, though, <em>every failure can be traced back to the defect that causes it</em>.</p>
-<p>To this end, we <em>trace back</em> these faults along their <em>dependencies</em> – that is, we find out which faults in the earlier state have caused the later faults. We start from the very end of the execution and then gradually progress backwards in time, examining fault after fault until we find a <em>transition</em> from a correct state to a faulty state – that is, a
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Since the code was originally written by a human, any defect can be related to some original <em>mistake</em> the programmer made. This gives us a number of terms that all are more precise than the general "error" or the colloquial "bug":</p>
+<ul>
+<li>A <em>mistake</em> is a human act or decision resulting in an error.</li>
+<li>A <em>defect</em> is an error in the program code. Also called <em>bug</em>.</li>
+<li>A <em>fault</em> is an error in the program state. Also called <em>infection</em>.</li>
+<li>A <em>failure</em> is an externally visible error in the program behavior. Also called <em>malfunction</em>.</li>
+</ul>
+<p>The cause-effect chain of events is thus</p>
+<ul>
+<li>Mistake → Defect → Fault → ... → Fault → Failure</li>
+</ul>
+<p>Note that not every defect also causes a failure, which is despite all testing, there can still be defects in the code looming around until the right conditions are met to trigger them. On the other hand, though, <em>every failure can be traced back to the defect that causes it</em>. Our job is to break the cause-effect chain.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="From-Failure-to-Defect">From Failure to Defect<a class="anchor-link" href="#From-Failure-to-Defect">&#182;</a></h2><p>To find a defect from a failure, we <em>trace back</em> the faults along their <em>propagation</em> – that is, we find out which faults in the earlier state have caused the later faults. We start from the very end of the execution and then gradually progress backwards in time, examining fault after fault until we find a <em>transition</em> from a correct state to a faulty state – that is, a
 step in which a correct state comes in and a faulty state comes out. At this point, we have found the origin of the failure – and the defect that causes it.</p>
 </div>
 </div>
@@ -14288,9 +14320,9 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">html</span> <span class="ow">in</span> <span class="p">[</span> <span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">]:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">html</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span> <span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">]):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-20s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">result</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-2d</span><span class="s2"> </span><span class="si">%-15s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">result</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -14301,10 +14333,10 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;b&gt;foo&lt;/b&gt;           foo
-&lt;b&gt;&#34;foo&#34;&lt;/b&gt;         foo
-&#34;&lt;b&gt;foo&lt;/b&gt;&#34;         &lt;b&gt;foo&lt;/b&gt;
-&lt;&#34;b&#34;&gt;foo&lt;/&#34;b&#34;&gt;       foo
+<pre>1  &lt;b&gt;foo&lt;/b&gt;      foo
+2  &lt;b&gt;&#34;foo&#34;&lt;/b&gt;    foo
+3  &#34;&lt;b&gt;foo&lt;/b&gt;&#34;    &lt;b&gt;foo&lt;/b&gt;
+4  &lt;&#34;b&#34;&gt;foo&lt;/&#34;b&#34;&gt;  foo
 </pre>
 </div>
 
@@ -14419,21 +14451,21 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="82bc1594-0cb4-11eb-a588-acde48001122" id="82bc1594-0cb4-11eb-a588-acde48001122-1" onclick="clear_selection('82bc1594-0cb4-11eb-a588-acde48001122')">
-        <label id="82bc1594-0cb4-11eb-a588-acde48001122-1-label" for="82bc1594-0cb4-11eb-a588-acde48001122-1">Double quotes are stripped from the tagged input.</label><br>
+        <input type="checkbox" name="58aaaabe-0d53-11eb-a588-acde48001122" id="58aaaabe-0d53-11eb-a588-acde48001122-1" onclick="clear_selection('58aaaabe-0d53-11eb-a588-acde48001122')">
+        <label id="58aaaabe-0d53-11eb-a588-acde48001122-1-label" for="58aaaabe-0d53-11eb-a588-acde48001122-1">Double quotes are stripped from the tagged input.</label><br>
 
-        <input type="checkbox" name="82bc1594-0cb4-11eb-a588-acde48001122" id="82bc1594-0cb4-11eb-a588-acde48001122-2" onclick="clear_selection('82bc1594-0cb4-11eb-a588-acde48001122')">
-        <label id="82bc1594-0cb4-11eb-a588-acde48001122-2-label" for="82bc1594-0cb4-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
+        <input type="checkbox" name="58aaaabe-0d53-11eb-a588-acde48001122" id="58aaaabe-0d53-11eb-a588-acde48001122-2" onclick="clear_selection('58aaaabe-0d53-11eb-a588-acde48001122')">
+        <label id="58aaaabe-0d53-11eb-a588-acde48001122-2-label" for="58aaaabe-0d53-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
 
-        <input type="checkbox" name="82bc1594-0cb4-11eb-a588-acde48001122" id="82bc1594-0cb4-11eb-a588-acde48001122-3" onclick="clear_selection('82bc1594-0cb4-11eb-a588-acde48001122')">
-        <label id="82bc1594-0cb4-11eb-a588-acde48001122-3-label" for="82bc1594-0cb4-11eb-a588-acde48001122-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
+        <input type="checkbox" name="58aaaabe-0d53-11eb-a588-acde48001122" id="58aaaabe-0d53-11eb-a588-acde48001122-3" onclick="clear_selection('58aaaabe-0d53-11eb-a588-acde48001122')">
+        <label id="58aaaabe-0d53-11eb-a588-acde48001122-3-label" for="58aaaabe-0d53-11eb-a588-acde48001122-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
 
-        <input type="checkbox" name="82bc1594-0cb4-11eb-a588-acde48001122" id="82bc1594-0cb4-11eb-a588-acde48001122-4" onclick="clear_selection('82bc1594-0cb4-11eb-a588-acde48001122')">
-        <label id="82bc1594-0cb4-11eb-a588-acde48001122-4-label" for="82bc1594-0cb4-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
+        <input type="checkbox" name="58aaaabe-0d53-11eb-a588-acde48001122" id="58aaaabe-0d53-11eb-a588-acde48001122-4" onclick="clear_selection('58aaaabe-0d53-11eb-a588-acde48001122')">
+        <label id="58aaaabe-0d53-11eb-a588-acde48001122-4-label" for="58aaaabe-0d53-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
 
     </div>
     </p>
-    <input id="82bc1594-0cb4-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('82bc1594-0cb4-11eb-a588-acde48001122', 6, 1)">
+    <input id="58aaaabe-0d53-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('58aaaabe-0d53-11eb-a588-acde48001122', 6, 1)">
     </div>
 
 </div>
@@ -14752,15 +14784,15 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="82c0d778-0cb4-11eb-8163-acde48001122" id="82c0d778-0cb4-11eb-8163-acde48001122-1" onclick="clear_selection('82c0d778-0cb4-11eb-8163-acde48001122')">
-        <label id="82c0d778-0cb4-11eb-8163-acde48001122-1-label" for="82c0d778-0cb4-11eb-8163-acde48001122-1">The program raises an exception. (i.e., tag is set)</label><br>
+        <input type="radio" name="58b0108a-0d53-11eb-8163-acde48001122" id="58b0108a-0d53-11eb-8163-acde48001122-1" onclick="clear_selection('58b0108a-0d53-11eb-8163-acde48001122')">
+        <label id="58b0108a-0d53-11eb-8163-acde48001122-1-label" for="58b0108a-0d53-11eb-8163-acde48001122-1">The program raises an exception. (i.e., tag is set)</label><br>
 
-        <input type="radio" name="82c0d778-0cb4-11eb-8163-acde48001122" id="82c0d778-0cb4-11eb-8163-acde48001122-2" onclick="clear_selection('82c0d778-0cb4-11eb-8163-acde48001122')">
-        <label id="82c0d778-0cb4-11eb-8163-acde48001122-2-label" for="82c0d778-0cb4-11eb-8163-acde48001122-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
+        <input type="radio" name="58b0108a-0d53-11eb-8163-acde48001122" id="58b0108a-0d53-11eb-8163-acde48001122-2" onclick="clear_selection('58b0108a-0d53-11eb-8163-acde48001122')">
+        <label id="58b0108a-0d53-11eb-8163-acde48001122-2-label" for="58b0108a-0d53-11eb-8163-acde48001122-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
 
     </div>
     </p>
-    <input id="82c0d778-0cb4-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('82c0d778-0cb4-11eb-8163-acde48001122', 4, 0)">
+    <input id="58b0108a-0d53-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('58b0108a-0d53-11eb-8163-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -14965,15 +14997,15 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="82c4f858-0cb4-11eb-9732-acde48001122" id="82c4f858-0cb4-11eb-9732-acde48001122-1" onclick="clear_selection('82c4f858-0cb4-11eb-9732-acde48001122')">
-        <label id="82c4f858-0cb4-11eb-9732-acde48001122-1-label" for="82c4f858-0cb4-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
+        <input type="radio" name="58b41df6-0d53-11eb-9732-acde48001122" id="58b41df6-0d53-11eb-9732-acde48001122-1" onclick="clear_selection('58b41df6-0d53-11eb-9732-acde48001122')">
+        <label id="58b41df6-0d53-11eb-9732-acde48001122-1-label" for="58b41df6-0d53-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
 
-        <input type="radio" name="82c4f858-0cb4-11eb-9732-acde48001122" id="82c4f858-0cb4-11eb-9732-acde48001122-2" onclick="clear_selection('82c4f858-0cb4-11eb-9732-acde48001122')">
-        <label id="82c4f858-0cb4-11eb-9732-acde48001122-2-label" for="82c4f858-0cb4-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
+        <input type="radio" name="58b41df6-0d53-11eb-9732-acde48001122" id="58b41df6-0d53-11eb-9732-acde48001122-2" onclick="clear_selection('58b41df6-0d53-11eb-9732-acde48001122')">
+        <label id="58b41df6-0d53-11eb-9732-acde48001122-2-label" for="58b41df6-0d53-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
 
     </div>
     </p>
-    <input id="82c4f858-0cb4-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('82c4f858-0cb4-11eb-9732-acde48001122', 2, 0)">
+    <input id="58b41df6-0d53-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('58b41df6-0d53-11eb-9732-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -15189,21 +15221,21 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="82c79428-0cb4-11eb-b36c-acde48001122" id="82c79428-0cb4-11eb-b36c-acde48001122-1" onclick="clear_selection('82c79428-0cb4-11eb-b36c-acde48001122')">
-        <label id="82c79428-0cb4-11eb-b36c-acde48001122-1-label" for="82c79428-0cb4-11eb-b36c-acde48001122-1">Choice 1</label><br>
+        <input type="radio" name="58b6eca2-0d53-11eb-b36c-acde48001122" id="58b6eca2-0d53-11eb-b36c-acde48001122-1" onclick="clear_selection('58b6eca2-0d53-11eb-b36c-acde48001122')">
+        <label id="58b6eca2-0d53-11eb-b36c-acde48001122-1-label" for="58b6eca2-0d53-11eb-b36c-acde48001122-1">Choice 1</label><br>
 
-        <input type="radio" name="82c79428-0cb4-11eb-b36c-acde48001122" id="82c79428-0cb4-11eb-b36c-acde48001122-2" onclick="clear_selection('82c79428-0cb4-11eb-b36c-acde48001122')">
-        <label id="82c79428-0cb4-11eb-b36c-acde48001122-2-label" for="82c79428-0cb4-11eb-b36c-acde48001122-2">Choice 2</label><br>
+        <input type="radio" name="58b6eca2-0d53-11eb-b36c-acde48001122" id="58b6eca2-0d53-11eb-b36c-acde48001122-2" onclick="clear_selection('58b6eca2-0d53-11eb-b36c-acde48001122')">
+        <label id="58b6eca2-0d53-11eb-b36c-acde48001122-2-label" for="58b6eca2-0d53-11eb-b36c-acde48001122-2">Choice 2</label><br>
 
-        <input type="radio" name="82c79428-0cb4-11eb-b36c-acde48001122" id="82c79428-0cb4-11eb-b36c-acde48001122-3" onclick="clear_selection('82c79428-0cb4-11eb-b36c-acde48001122')">
-        <label id="82c79428-0cb4-11eb-b36c-acde48001122-3-label" for="82c79428-0cb4-11eb-b36c-acde48001122-3">Choice 3</label><br>
+        <input type="radio" name="58b6eca2-0d53-11eb-b36c-acde48001122" id="58b6eca2-0d53-11eb-b36c-acde48001122-3" onclick="clear_selection('58b6eca2-0d53-11eb-b36c-acde48001122')">
+        <label id="58b6eca2-0d53-11eb-b36c-acde48001122-3-label" for="58b6eca2-0d53-11eb-b36c-acde48001122-3">Choice 3</label><br>
 
-        <input type="radio" name="82c79428-0cb4-11eb-b36c-acde48001122" id="82c79428-0cb4-11eb-b36c-acde48001122-4" onclick="clear_selection('82c79428-0cb4-11eb-b36c-acde48001122')">
-        <label id="82c79428-0cb4-11eb-b36c-acde48001122-4-label" for="82c79428-0cb4-11eb-b36c-acde48001122-4">Something else</label><br>
+        <input type="radio" name="58b6eca2-0d53-11eb-b36c-acde48001122" id="58b6eca2-0d53-11eb-b36c-acde48001122-4" onclick="clear_selection('58b6eca2-0d53-11eb-b36c-acde48001122')">
+        <label id="58b6eca2-0d53-11eb-b36c-acde48001122-4-label" for="58b6eca2-0d53-11eb-b36c-acde48001122-4">Something else</label><br>
 
     </div>
     </p>
-    <input id="82c79428-0cb4-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('82c79428-0cb4-11eb-b36c-acde48001122', 8, 0)">
+    <input id="58b6eca2-0d53-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('58b6eca2-0d53-11eb-b36c-acde48001122', 8, 0)">
     </div>
 
 </div>
@@ -15482,21 +15514,21 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="82ca717a-0cb4-11eb-835f-acde48001122" id="82ca717a-0cb4-11eb-835f-acde48001122-1" onclick="clear_selection('82ca717a-0cb4-11eb-835f-acde48001122')">
-        <label id="82ca717a-0cb4-11eb-835f-acde48001122-1-label" for="82ca717a-0cb4-11eb-835f-acde48001122-1">assert quote and not tag</label><br>
+        <input type="radio" name="58b9e7f4-0d53-11eb-835f-acde48001122" id="58b9e7f4-0d53-11eb-835f-acde48001122-1" onclick="clear_selection('58b9e7f4-0d53-11eb-835f-acde48001122')">
+        <label id="58b9e7f4-0d53-11eb-835f-acde48001122-1-label" for="58b9e7f4-0d53-11eb-835f-acde48001122-1">assert quote and not tag</label><br>
 
-        <input type="radio" name="82ca717a-0cb4-11eb-835f-acde48001122" id="82ca717a-0cb4-11eb-835f-acde48001122-2" onclick="clear_selection('82ca717a-0cb4-11eb-835f-acde48001122')">
-        <label id="82ca717a-0cb4-11eb-835f-acde48001122-2-label" for="82ca717a-0cb4-11eb-835f-acde48001122-2">assert quote or not tag</label><br>
+        <input type="radio" name="58b9e7f4-0d53-11eb-835f-acde48001122" id="58b9e7f4-0d53-11eb-835f-acde48001122-2" onclick="clear_selection('58b9e7f4-0d53-11eb-835f-acde48001122')">
+        <label id="58b9e7f4-0d53-11eb-835f-acde48001122-2-label" for="58b9e7f4-0d53-11eb-835f-acde48001122-2">assert quote or not tag</label><br>
 
-        <input type="radio" name="82ca717a-0cb4-11eb-835f-acde48001122" id="82ca717a-0cb4-11eb-835f-acde48001122-3" onclick="clear_selection('82ca717a-0cb4-11eb-835f-acde48001122')">
-        <label id="82ca717a-0cb4-11eb-835f-acde48001122-3-label" for="82ca717a-0cb4-11eb-835f-acde48001122-3">assert tag or not quote</label><br>
+        <input type="radio" name="58b9e7f4-0d53-11eb-835f-acde48001122" id="58b9e7f4-0d53-11eb-835f-acde48001122-3" onclick="clear_selection('58b9e7f4-0d53-11eb-835f-acde48001122')">
+        <label id="58b9e7f4-0d53-11eb-835f-acde48001122-3-label" for="58b9e7f4-0d53-11eb-835f-acde48001122-3">assert tag or not quote</label><br>
 
-        <input type="radio" name="82ca717a-0cb4-11eb-835f-acde48001122" id="82ca717a-0cb4-11eb-835f-acde48001122-4" onclick="clear_selection('82ca717a-0cb4-11eb-835f-acde48001122')">
-        <label id="82ca717a-0cb4-11eb-835f-acde48001122-4-label" for="82ca717a-0cb4-11eb-835f-acde48001122-4">assert tag and not quote</label><br>
+        <input type="radio" name="58b9e7f4-0d53-11eb-835f-acde48001122" id="58b9e7f4-0d53-11eb-835f-acde48001122-4" onclick="clear_selection('58b9e7f4-0d53-11eb-835f-acde48001122')">
+        <label id="58b9e7f4-0d53-11eb-835f-acde48001122-4-label" for="58b9e7f4-0d53-11eb-835f-acde48001122-4">assert tag and not quote</label><br>
 
     </div>
     </p>
-    <input id="82ca717a-0cb4-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('82ca717a-0cb4-11eb-835f-acde48001122', 8, 0)">
+    <input id="58b9e7f4-0d53-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('58b9e7f4-0d53-11eb-835f-acde48001122', 8, 0)">
     </div>
 
 </div>
@@ -15698,34 +15730,14 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Explicit-Debugging">Explicit Debugging<a class="anchor-link" href="#Explicit-Debugging">&#182;</a></h2><p>...</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Lessons-Learned">Lessons Learned<a class="anchor-link" href="#Lessons-Learned">&#182;</a></h2><ul>
-<li><em>Lesson one</em></li>
-<li><em>Lesson two</em></li>
-<li><em>Lesson three</em></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Next-Steps">Next Steps<a class="anchor-link" href="#Next-Steps">&#182;</a></h2><p><em>Link to subsequent chapters (notebooks) here, as in:</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Become-a-Better-Debugger">Become a Better Debugger<a class="anchor-link" href="#Become-a-Better-Debugger">&#182;</a></h2><p>We have now systematically fixed a bug. In this book, we will explore a number of techniques to make debugging easier – coming up with automated diagnoses, explanations, even automatic repairs, including for our example above. But there are also number of things <em>you</em> can do to become a better debugger.</p>
+<h3 id="Follow-the-Process">Follow the Process<a class="anchor-link" href="#Follow-the-Process">&#182;</a></h3><p>If you're an experienced programmer, you may have spotted the problem in <code>remove_html_markup()</code> immediately, and start fixing the code right away. But this is dangerous and risky.</p>
+<p>Why is this so?  Well, because you should first</p>
 <ul>
-<li><a href="MutationFuzzer.html">use <em>mutations</em> on existing inputs to get more valid inputs</a></li>
-<li><a href="Grammars.html">use <em>grammars</em> (i.e., a specification of the input format) to get even more valid inputs</a></li>
-<li><a href="Reducer.html">reduce <em>failing inputs</em> for efficient debugging</a></li>
+<li>try to understand the problem, and </li>
+<li>have a full diagnosis before starting to fix away.</li>
 </ul>
+<p>You <em>can</em> skip these steps, and jump right to your interactive debugger the very moment you see a failure, happily stepping through their program. This may even work well for simple problems, including this one. The risk, however, is that this narrows your view to just this one execution, which limits your ability to understand <em>all</em> the circumstances of the problem. Even worse: If you start "fixing" the bug without exactly understanding the problem, you may end up with an incomplete solution – as illustrated in "The Devil's Guide to Debugging", above.</p>
 </div>
 </div>
 </div>
@@ -15734,8 +15746,25 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p><em>Cite relevant works in the literature and put them into context, as in:</em></p>
-<p>The idea of ensuring that each expansion in the grammar is used at least once goes back to Burkhardt [<a href="https://doi.org/10.1007/BF02235512">Burkhardt <em>et al</em>, 1967.</a>], to be later rediscovered by Paul Purdom [<a href="https://doi.org/10.1007/BF01932308">Purdom <em>et al</em>, 1972.</a>].</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Keep-a-Log">Keep a Log<a class="anchor-link" href="#Keep-a-Log">&#182;</a></h3><p>A second risk of starting debugging too soon is that it lets you easily deviate from a systematic process. Remember how we wrote down every experiment in a table? How we numbered every hypothesis? This is not just for teaching. Writing these things down explicitly allow you to keep track of all your observations and hypotheses over time.</p>
+<table>
+<thead><tr>
+<th>Input</th>
+<th>Expectation</th>
+<th>Output</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;b&gt;foo&lt;/b&gt;</code></td>
+<td><code>foo</code></td>
+<td><code>foo</code></td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+<p>Every time you come up with a new hypothesis, you can immediately check it against your earlier observations, which will help you eliminating unlikely ones from the start. This is a bit like in the classic "Mastermind" board game, in which you have to guess some secret combination of pins, and in which you opponent gives you hints on whether and how your guesses are correct. At any time, you can see your previous guesses (experiments) and the results (observations) you got; any new guess (hypothesis) as to be consistent with the previous observations and experiments.</p>
 </div>
 </div>
 </div>
@@ -15744,11 +15773,7 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h2><p><em>Close the chapter with a few exercises such that people have things to do.  To make the solutions hidden (to be revealed by the user), have them start with</em></p>
-
-<pre><code>**Solution.**</code></pre>
-<p><em>Your solution can then extend up to the next title (i.e., any markdown cell starting with <code>#</code>).</em></p>
-<p><em>Running <code>make metadata</code> will automatically add metadata to the cells such that the cells will be hidden by default, and can be uncovered by the user.  The button will be introduced above the solution.</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><p><img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Mastermind.jpg" alt="Master Mind Board Grame"></p>
 </div>
 </div>
 </div>
@@ -15757,31 +15782,230 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-1:-Title">Exercise 1: <em>Title</em><a class="anchor-link" href="#Exercise-1:-Title">&#182;</a></h3><p><em>Text of the exercise</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Keeping such a log also allows you to interrupt your debugging session at any time. You can be home in time, sleep over the problem, and resume the next morning with a refreshed mind. You can even hand over the log to someone else, stating your findings so far.</p>
+<p>The alternative to having a long is to <em>keep all in memory</em>. This only works for short amounts of time, as puts a higher and higher cognitive load on your memory as you debug along. After some time, you will forget earlier observations, which leads to mistakes. Worst of all, any interruption will break your concentration and make you forget things, so you can't stop debugging until you're done.</p>
+<p>Sure, if you are a real master, you can stay glued to the screen all night. But I'd rather be home in time, thank you.</p>
 </div>
 </div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Some code that is part of the exercise</span>
-<span class="k">pass</span>
-</pre></div>
-
-</div>
-</div></div>
 </div>
 </div>
 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p><em>Some more text for the exercise</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Rubberducking">Rubberducking<a class="anchor-link" href="#Rubberducking">&#182;</a></h3><p>A great technique to revisit your observations and to come up with new hypotheses is to <em>explain the problem to someone else</em>. In this process, the "someone else" is important, but even more important is that <em>you are explaining the problem to yourself</em>! As Kernighan and Pike [Unresolved citation: kernighan200x.] put it:</p>
+<blockquote><p>Sometimes it takes no more than a few sentences, followed by an embarrassed "Never mind. I see what's wrong. Sorry to bother you."</p>
+</blockquote>
+<p>The reason why this works is that teaching someone else forces you to take different perspectives, and these help you resolving the inconsistency between what you assume and what you actually observe.</p>
+<p>Since that "someone else" can be totally passive, you can even replace her with an inanimate object to talk to – even a rubber duck. This technique is called <em>rubber duck debugging</em> or <em>rubberducking</em> – the idea is that you explain your problem to a rubber duck first before interrupting one of your co-workers with the problem. Some programmers, when asked for advice, explicitly request that you "explain your problem to the duck first", knowing that this resolves a good fraction of problems.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Rubber_duck_assisting_with_debugging.jpg" alt="Rubber duck debugging"></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="The-Cost-of-Debugging">The Cost of Debugging<a class="anchor-link" href="#The-Cost-of-Debugging">&#182;</a></h2><p>\todo{add recent stuff on how much time debugging takes}</p>
+<p>And it's not only that debugging takes time – the worst thing is that it is a search process, which can take anything between a few minutes and several hours, sometimes even days and weeks.  But even if you never know how much time a bug will take, it's a bit of blessing to use a process which gradually gets you towards its cause.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="History-of-Debugging">History of Debugging<a class="anchor-link" href="#History-of-Debugging">&#182;</a></h2><p>Engineers and programmers have long used the term "bug" for faults in their systems – as if it were something that crept into an otherwise flawless program to cause the effects that none could explain. And from a psychological standpoint, it is far easier to blame some "bug" rather than taking responsibility ourselves. In the end, though, we have to face the fact: We made the bugs, and they are ours to fix.</p>
+<p>Having said that, there has been one recorded instance where a real bug has crept into a system. That was on September 9, 1947, when a moth got stuck in the relay of a Harvard Mark II machine.  This event was logged, and the log book is now on display at the Smithsonian Natural Museum of American History, as "First actual case of bug being found."</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/First_Computer_Bug%2C_1945.jpg" alt="First actual case of bug being found"></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The actual term "bug", however, is much older. What do you think is its origin?</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Incorrect!";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">Where has the name "bug" been used to denote disruptive events?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Check all that apply.">
+
+        <input type="checkbox" name="591723f6-0d53-11eb-858d-acde48001122" id="591723f6-0d53-11eb-858d-acde48001122-1" onclick="clear_selection('591723f6-0d53-11eb-858d-acde48001122')">
+        <label id="591723f6-0d53-11eb-858d-acde48001122-1-label" for="591723f6-0d53-11eb-858d-acde48001122-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
+
+        <input type="checkbox" name="591723f6-0d53-11eb-858d-acde48001122" id="591723f6-0d53-11eb-858d-acde48001122-2" onclick="clear_selection('591723f6-0d53-11eb-858d-acde48001122')">
+        <label id="591723f6-0d53-11eb-858d-acde48001122-2-label" for="591723f6-0d53-11eb-858d-acde48001122-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
+
+        <input type="checkbox" name="591723f6-0d53-11eb-858d-acde48001122" id="591723f6-0d53-11eb-858d-acde48001122-3" onclick="clear_selection('591723f6-0d53-11eb-858d-acde48001122')">
+        <label id="591723f6-0d53-11eb-858d-acde48001122-3-label" for="591723f6-0d53-11eb-858d-acde48001122-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
+
+        <input type="checkbox" name="591723f6-0d53-11eb-858d-acde48001122" id="591723f6-0d53-11eb-858d-acde48001122-4" onclick="clear_selection('591723f6-0d53-11eb-858d-acde48001122')">
+        <label id="591723f6-0d53-11eb-858d-acde48001122-4-label" for="591723f6-0d53-11eb-858d-acde48001122-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
+
+    </div>
+    </p>
+    <input id="591723f6-0d53-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('591723f6-0d53-11eb-858d-acde48001122', 30, 1)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>(Source: [Unresolved citation: jargon.], [Unresolved citation: wikipedia:debugging.])</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Lessons-Learned">Lessons Learned<a class="anchor-link" href="#Lessons-Learned">&#182;</a></h2><ol>
+<li>An <em>error</em> is a deviation from what is correct, right, or true. Specifically,<ul>
+<li>A <em>mistake</em> is a human act or decision resulting in an error.</li>
+<li>A <em>defect</em> is an error in the program code. Also called <em>bug</em>.</li>
+<li>A <em>fault</em> is an error in the program state. Also called <em>infection</em>.</li>
+<li>A <em>failure</em> is an externally visible error in the program behavior. Also called <em>malfunction</em>.</li>
+</ul>
+</li>
+<li>In a failing program execution, a mistake by the programmer results in a defect in the code, which creates a fault in the state, which propagates until it results in a failure. Tracing back fault propagation allows to identify the defect that causes the failure.</li>
+<li>In debugging, the <em>scientific method</em> allows to systematically identify failure causes by gradually refining and refuting hypotheses based on experiments and observations.</li>
+<li>You can become a better debugger by<ul>
+<li>Following a systematic process like the scientific method</li>
+<li>Keeping a log of your observations and hypotheses</li>
+<li>Making your observations and conclusions explicit by telling them somebody (or something).</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Next-Steps">Next Steps<a class="anchor-link" href="#Next-Steps">&#182;</a></h2><p>In the next chapters, we will learn how to</p>
+<ul>
+<li><a href="Debugger.html">build your own interactive debugger</a></li>
+<li><a href="StatisticalDebugger.html">locate defects automatically by correlating failures and code coverage</a></li>
+<li><a href="Reducer.html">identify and simplify failure-inducing inputs</a></li>
+</ul>
+<p>Enjoy!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>\todo{add}</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-1:-More-Bugs!">Exercise 1: More Bugs!<a class="anchor-link" href="#Exercise-1:-More-Bugs!">&#182;</a></h3><h4 id="Identify-the-Problem">Identify the Problem<a class="anchor-link" href="#Identify-the-Problem">&#182;</a></h4><p>You may have noticed that our <code>remove_html_markup()</code> function is still not working perfectly under all circumstances. When exactly is that the case? (Hint: it has something to do with different quotes.)</p>
 
     
 <p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Intro_Debugging.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
@@ -15793,7 +16017,47 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-2:-Title">Exercise 2: <em>Title</em><a class="anchor-link" href="#Exercise-2:-Title">&#182;</a></h3><p><em>Text of the exercise</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Reproduce-the-Problem">Reproduce the Problem<a class="anchor-link" href="#Reproduce-the-Problem">&#182;</a></h4><p>Set up a test case that demonstrates the problem:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+    
+<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Intro_Debugging.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Identify-the-Problem">Identify the Problem<a class="anchor-link" href="#Identify-the-Problem">&#182;</a></h4><p>Using the scientific method, identify the extent and cause of the problem. Write down your hypotheses and log your observations.</p>
+<p>|Input|Expectation|Output|Outcome|
+|-----|-----------|------|-------|</p>
+
+    
+<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Intro_Debugging.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Fix-the-Problem">Fix the Problem<a class="anchor-link" href="#Fix-the-Problem">&#182;</a></h4><p>Design a fix for the problem. Show that it satisfies the earlier tests and does not violate any existing test.</p>
 
     
 <p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Intro_Debugging.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
@@ -15808,7 +16072,7 @@ tag</title>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-12 19:57:41+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-13 14:54:43+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -15826,7 +16090,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-12 19:57:41+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-13 14:54:43+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Intro_Debugging,
@@ -15836,9 +16100,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2020-10-12 19:57:41+02:00},
+    note = {Retrieved 2020-10-13 14:54:43+02:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2020-10-12 19:57:41+02:00}
+    urldate = {2020-10-13 14:54:43+02:00}
 }
 </pre>
 </div>
