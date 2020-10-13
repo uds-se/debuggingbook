@@ -19,8 +19,8 @@ INTRO_PART =
 INTRO_PART_READY =
 INTRO_PART_TODO = \
 	01_Intro.ipynb \
-	Intro_Debugging.ipynb \
-	Tours.ipynb
+	Tours.ipynb \
+	Intro_Debugging.ipynb
 
 # Tracking Failures (also: where the bugs are)
 TRACKING_PART = 
