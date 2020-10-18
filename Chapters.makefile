@@ -31,10 +31,10 @@ TRACKING_PART_TODO = \
 
 # Observing Executions
 OBSERVING_PART = 
-OBSERVING_PART_READY =
-OBSERVING_PART_TODO = \
+OBSERVING_PART_READY = \
 	03_Observing.ipynb \
-	Tracer.ipynb \
+	Tracer.ipynb
+OBSERVING_PART_TODO = \
 	Debugger.ipynb \
 	Checker.ipynb \
 	Slice.ipynb \
