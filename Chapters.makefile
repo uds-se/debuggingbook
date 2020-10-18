@@ -34,6 +34,7 @@ OBSERVING_PART =
 OBSERVING_PART_READY =
 OBSERVING_PART_TODO = \
 	03_Observing.ipynb \
+	Tracer.ipynb \
 	Debugger.ipynb \
 	Checker.ipynb \
 	Slice.ipynb \
