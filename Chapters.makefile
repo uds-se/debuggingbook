@@ -25,45 +25,45 @@ INTRO_PART_TODO = \
 # Tracking Failures (also: where the bugs are)
 TRACKING_PART = 
 TRACKING_PART_READY =
-TRACKING_PART_TODO = \
-	02_Tracking.ipynb \
-	Tracking.ipynb
+TRACKING_PART_TODO = 
+	# 02_Tracking.ipynb \
+	# Tracking.ipynb
 
 # Observing Executions
 OBSERVING_PART = 
-OBSERVING_PART_READY = \
-	03_Observing.ipynb \
-	Tracer.ipynb
+OBSERVING_PART_READY = 
 OBSERVING_PART_TODO = \
-	Debugger.ipynb \
-	Checker.ipynb \
-	Slice.ipynb \
-	Statistical.ipynb
+	03_Observing.ipynb \
+	Tracer.ipynb 
+	# Debugger.ipynb \
+	# Checker.ipynb \
+	# Slice.ipynb \
+	# Statistical.ipynb
 
 # Simplifying Failures
 EXPERIMENTING_PART = 
 EXPERIMENTING_PART_READY =
-EXPERIMENTING_PART_TODO = \
-	04_Inputs.ipynb \
-	Reducer.ipynb \
-	Grammars.ipynb \
-	GrammarReducer.ipynb
+EXPERIMENTING_PART_TODO = 
+	# 04_Inputs.ipynb \
+	# Reducer.ipynb \
+	# Grammars.ipynb \
+	# GrammarReducer.ipynb
 
 # Mining Specifications
 ABSTRACTING_PART =
 ABSTRACTING_PART_READY =
-ABSTRACTING_PART_TODO = \
-	05_Abstracting.ipynb \
-	DynamicInvariants.ipynb \
-	DDSet.ipynb \
-	Alhazen.ipynb
+ABSTRACTING_PART_TODO = 
+	# 05_Abstracting.ipynb \
+	# DynamicInvariants.ipynb \
+	# DDSet.ipynb \
+	# Alhazen.ipynb
 	
 # Repairing Failures
 REPAIRING_PART =
 REPAIRING_PART_READY =
-REPAIRING_PART_TODO = \
-	05_Repairing.ipynb \
-	Repair.ipynb
+REPAIRING_PART_TODO = 
+	# 05_Repairing.ipynb \
+	# Repair.ipynb
 
 # Appendices for the book
 APPENDICES = \
@@ -86,33 +86,45 @@ EXTRAS = \
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
 	$(INTRO_PART) \
-	$(INPUTS_PART) \
-	$(CODE_PART) \
-	$(MANAGEMENT_PART)
+	$(TRACKING_PART) \
+	$(OBSERVING_PART) \
+	$(EXPERIMENTING_PART) \
+	$(ABSTRACTING_PART) \
+	$(REPAIRING_PART)
 
 # These chapters will show up in the "beta" version
 CHAPTERS = \
 	$(INTRO_PART) \
 	$(INTRO_PART_READY) \
 	$(INTRO_PART_TODO) \
-	$(INPUTS_PART) \
-	$(INPUTS_PART_READY) \
-	$(INPUTS_PART_TODO) \
-	$(CODE_PART) \
-	$(CODE_PART_READY) \
-	$(CODE_PART_TODO) \
-	$(MANAGEMENT_PART) \
-	$(MANAGEMENT_PART_READY) \
-	$(MANAGEMENT_PART_TODO)
-	
+	$(TRACKING_PART) \
+	$(TRACKING_PART_READY) \
+	$(TRACKING_PART_TODO) \
+	$(OBSERVING_PART) \
+	$(OBSERVING_PART_READY) \
+	$(OBSERVING_PART_TODO) \
+	$(EXPERIMENTING_PART) \
+	$(EXPERIMENTING_PART_READY) \
+	$(EXPERIMENTING_PART_TODO) \
+	$(ABSTRACTING_PART) \
+	$(ABSTRACTING_PART_READY) \
+	$(ABSTRACTING_PART_TODO) \
+	$(REPAIRING_PART) \
+	$(REPAIRING_PART_READY) \
+	$(REPAIRING_PART_TODO)
+
 READY_CHAPTERS = \
 	$(INTRO_PART_READY) \
-	$(INPUTS_PART_READY) \
-	$(CODE_PART_READY) \
-	$(MANAGEMENT_PART_READY)
+	$(TRACKING_PART_READY) \
+	$(OBSERVING_PART_READY) \
+	$(EXPERIMENTING_PART_READY) \
+	$(ABSTRACTING_PART_READY) \
+	$(REPAIRING_PART_READY)
 
 TODO_CHAPTERS = \
 	$(INTRO_PART_TODO) \
-	$(INPUTS_PART_TODO) \
-	$(CODE_PART_TODO) \
-	$(MANAGEMENT_PART_TODO)
+	$(TRACKING_PART_TODO) \
+	$(OBSERVING_PART_TODO) \
+	$(EXPERIMENTING_PART_TODO) \
+	$(ABSTRACTING_PART_TODO) \
+	$(REPAIRING_PART_TODO)
