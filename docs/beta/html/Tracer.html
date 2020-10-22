@@ -11876,6 +11876,7 @@ MathJax.Hub.Config({
 </ul><li class="has-sub"><a href="03_Observing.html" class="chapters"><span class="part_number">III</span> Observing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Tracer.html" class="this_page">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -12216,17 +12217,17 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    tag   = <span class="ansi-cyan-fg">False</span>
-    quote = <span class="ansi-cyan-fg">False</span>
+    tag   = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
     out   = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">assert</span> tag <span class="ansi-magenta-fg">or</span> <span class="ansi-magenta-fg">not</span> quote
 
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-            tag = <span class="ansi-cyan-fg">True</span>
+            tag = <span class="ansi-blue-fg">True</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-            tag = <span class="ansi-cyan-fg">False</span>
+            tag = <span class="ansi-blue-fg">False</span>
         <span class="ansi-blue-fg">elif</span> (c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span>) <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
@@ -12426,21 +12427,21 @@ return 239 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="0185217a-1211-11eb-a588-acde48001122" id="0185217a-1211-11eb-a588-acde48001122-1" onclick="clear_selection('0185217a-1211-11eb-a588-acde48001122')">
-        <label id="0185217a-1211-11eb-a588-acde48001122-1-label" for="0185217a-1211-11eb-a588-acde48001122-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
+        <input type="radio" name="e2764e58-1474-11eb-a588-acde48001122" id="e2764e58-1474-11eb-a588-acde48001122-1" onclick="clear_selection('e2764e58-1474-11eb-a588-acde48001122')">
+        <label id="e2764e58-1474-11eb-a588-acde48001122-1-label" for="e2764e58-1474-11eb-a588-acde48001122-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
 
-        <input type="radio" name="0185217a-1211-11eb-a588-acde48001122" id="0185217a-1211-11eb-a588-acde48001122-2" onclick="clear_selection('0185217a-1211-11eb-a588-acde48001122')">
-        <label id="0185217a-1211-11eb-a588-acde48001122-2-label" for="0185217a-1211-11eb-a588-acde48001122-2">Tracing stops for f(): the tracing function is called when f() returns</label><br>
+        <input type="radio" name="e2764e58-1474-11eb-a588-acde48001122" id="e2764e58-1474-11eb-a588-acde48001122-2" onclick="clear_selection('e2764e58-1474-11eb-a588-acde48001122')">
+        <label id="e2764e58-1474-11eb-a588-acde48001122-2-label" for="e2764e58-1474-11eb-a588-acde48001122-2">Tracing stops for f(): the tracing function is called when f() returns</label><br>
 
-        <input type="radio" name="0185217a-1211-11eb-a588-acde48001122" id="0185217a-1211-11eb-a588-acde48001122-3" onclick="clear_selection('0185217a-1211-11eb-a588-acde48001122')">
-        <label id="0185217a-1211-11eb-a588-acde48001122-3-label" for="0185217a-1211-11eb-a588-acde48001122-3">Tracing stops for f() the rest of the execution: the tracing function is no longer called for calls to f()</label><br>
+        <input type="radio" name="e2764e58-1474-11eb-a588-acde48001122" id="e2764e58-1474-11eb-a588-acde48001122-3" onclick="clear_selection('e2764e58-1474-11eb-a588-acde48001122')">
+        <label id="e2764e58-1474-11eb-a588-acde48001122-3-label" for="e2764e58-1474-11eb-a588-acde48001122-3">Tracing stops for f() the rest of the execution: the tracing function is no longer called for calls to f()</label><br>
 
-        <input type="radio" name="0185217a-1211-11eb-a588-acde48001122" id="0185217a-1211-11eb-a588-acde48001122-4" onclick="clear_selection('0185217a-1211-11eb-a588-acde48001122')">
-        <label id="0185217a-1211-11eb-a588-acde48001122-4-label" for="0185217a-1211-11eb-a588-acde48001122-4">Nothing changes</label><br>
+        <input type="radio" name="e2764e58-1474-11eb-a588-acde48001122" id="e2764e58-1474-11eb-a588-acde48001122-4" onclick="clear_selection('e2764e58-1474-11eb-a588-acde48001122')">
+        <label id="e2764e58-1474-11eb-a588-acde48001122-4-label" for="e2764e58-1474-11eb-a588-acde48001122-4">Nothing changes</label><br>
 
     </div>
     </p>
-    <input id="0185217a-1211-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0185217a-1211-11eb-a588-acde48001122', 4, 0)">
+    <input id="e2764e58-1474-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e2764e58-1474-11eb-a588-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -13432,18 +13433,18 @@ remove_html_markup() returns &#39;x&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="01c4fcb4-1211-11eb-8163-acde48001122" id="01c4fcb4-1211-11eb-8163-acde48001122-1" onclick="clear_selection('01c4fcb4-1211-11eb-8163-acde48001122')">
-        <label id="01c4fcb4-1211-11eb-8163-acde48001122-1-label" for="01c4fcb4-1211-11eb-8163-acde48001122-1">The tracer stops, raising an exception</label><br>
+        <input type="radio" name="e2af6a42-1474-11eb-8163-acde48001122" id="e2af6a42-1474-11eb-8163-acde48001122-1" onclick="clear_selection('e2af6a42-1474-11eb-8163-acde48001122')">
+        <label id="e2af6a42-1474-11eb-8163-acde48001122-1-label" for="e2af6a42-1474-11eb-8163-acde48001122-1">The tracer stops, raising an exception</label><br>
 
-        <input type="radio" name="01c4fcb4-1211-11eb-8163-acde48001122" id="01c4fcb4-1211-11eb-8163-acde48001122-2" onclick="clear_selection('01c4fcb4-1211-11eb-8163-acde48001122')">
-        <label id="01c4fcb4-1211-11eb-8163-acde48001122-2-label" for="01c4fcb4-1211-11eb-8163-acde48001122-2">The tracer continues as if the condition were True</label><br>
+        <input type="radio" name="e2af6a42-1474-11eb-8163-acde48001122" id="e2af6a42-1474-11eb-8163-acde48001122-2" onclick="clear_selection('e2af6a42-1474-11eb-8163-acde48001122')">
+        <label id="e2af6a42-1474-11eb-8163-acde48001122-2-label" for="e2af6a42-1474-11eb-8163-acde48001122-2">The tracer continues as if the condition were True</label><br>
 
-        <input type="radio" name="01c4fcb4-1211-11eb-8163-acde48001122" id="01c4fcb4-1211-11eb-8163-acde48001122-3" onclick="clear_selection('01c4fcb4-1211-11eb-8163-acde48001122')">
-        <label id="01c4fcb4-1211-11eb-8163-acde48001122-3-label" for="01c4fcb4-1211-11eb-8163-acde48001122-3">The tracer continues as if the condition were False</label><br>
+        <input type="radio" name="e2af6a42-1474-11eb-8163-acde48001122" id="e2af6a42-1474-11eb-8163-acde48001122-3" onclick="clear_selection('e2af6a42-1474-11eb-8163-acde48001122')">
+        <label id="e2af6a42-1474-11eb-8163-acde48001122-3-label" for="e2af6a42-1474-11eb-8163-acde48001122-3">The tracer continues as if the condition were False</label><br>
 
     </div>
     </p>
-    <input id="01c4fcb4-1211-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('01c4fcb4-1211-11eb-8163-acde48001122', 2, 0)">
+    <input id="e2af6a42-1474-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e2af6a42-1474-11eb-8163-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -13665,15 +13666,15 @@ SyntaxError: unexpected EOF while parsing (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="01ca3008-1211-11eb-9732-acde48001122" id="01ca3008-1211-11eb-9732-acde48001122-1" onclick="clear_selection('01ca3008-1211-11eb-9732-acde48001122')">
-        <label id="01ca3008-1211-11eb-9732-acde48001122-1-label" for="01ca3008-1211-11eb-9732-acde48001122-1">'line' as in the debugger</label><br>
+        <input type="radio" name="e2b43ebe-1474-11eb-9732-acde48001122" id="e2b43ebe-1474-11eb-9732-acde48001122-1" onclick="clear_selection('e2b43ebe-1474-11eb-9732-acde48001122')">
+        <label id="e2b43ebe-1474-11eb-9732-acde48001122-1-label" for="e2b43ebe-1474-11eb-9732-acde48001122-1">'line' as in the debugger</label><br>
 
-        <input type="radio" name="01ca3008-1211-11eb-9732-acde48001122" id="01ca3008-1211-11eb-9732-acde48001122-2" onclick="clear_selection('01ca3008-1211-11eb-9732-acde48001122')">
-        <label id="01ca3008-1211-11eb-9732-acde48001122-2-label" for="01ca3008-1211-11eb-9732-acde48001122-2">'line' as in the program</label><br>
+        <input type="radio" name="e2b43ebe-1474-11eb-9732-acde48001122" id="e2b43ebe-1474-11eb-9732-acde48001122-2" onclick="clear_selection('e2b43ebe-1474-11eb-9732-acde48001122')">
+        <label id="e2b43ebe-1474-11eb-9732-acde48001122-2-label" for="e2b43ebe-1474-11eb-9732-acde48001122-2">'line' as in the program</label><br>
 
     </div>
     </p>
-    <input id="01ca3008-1211-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('01ca3008-1211-11eb-9732-acde48001122', 2, 0)">
+    <input id="e2b43ebe-1474-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e2b43ebe-1474-11eb-9732-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -13936,7 +13937,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.002645369037054479
+<pre>0.0033153039985336363
 </pre>
 </div>
 
@@ -13973,7 +13974,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.8808054439723492
+<pre>0.9657596860051854
 </pre>
 </div>
 
@@ -14005,7 +14006,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>332.9612736955195
+<pre>291.30350834564257
 </pre>
 </div>
 
@@ -14157,7 +14158,8 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">remove_html_markup_starting_line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
-<span class="n">breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">remove_html_markup_starting_line_number</span> <span class="o">+</span> <span class="mi">7</span><span class="p">,</span> <span class="n">remove_html_markup_starting_line_number</span> <span class="o">+</span> <span class="mi">18</span><span class="p">]</span>
+<span class="n">breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">remove_html_markup_starting_line_number</span> <span class="o">+</span> <span class="mi">7</span><span class="p">,</span> 
+               <span class="n">remove_html_markup_starting_line_number</span> <span class="o">+</span> <span class="mi">18</span><span class="p">]</span>
 <span class="n">breakpoints</span>
 </pre></div>
 
@@ -14193,23 +14195,23 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup_traced</span>(s):
-    tag   = <span class="ansi-cyan-fg">False</span>
-    quote = <span class="ansi-cyan-fg">False</span>
+    tag   = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
     out   = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        TRACER.print_debugger_status(inspect.currentframe(), <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">line</span><span class="ansi-yellow-fg">&#39;</span>, <span class="ansi-cyan-fg">None</span>); <span class="ansi-blue-fg">assert</span> tag <span class="ansi-magenta-fg">or</span> <span class="ansi-magenta-fg">not</span> quote
+        TRACER.print_debugger_status(inspect.currentframe(), <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">line</span><span class="ansi-yellow-fg">&#39;</span>, <span class="ansi-blue-fg">None</span>); <span class="ansi-blue-fg">assert</span> tag <span class="ansi-magenta-fg">or</span> <span class="ansi-magenta-fg">not</span> quote
 
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-            tag = <span class="ansi-cyan-fg">True</span>
+            tag = <span class="ansi-blue-fg">True</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-            tag = <span class="ansi-cyan-fg">False</span>
+            tag = <span class="ansi-blue-fg">False</span>
         <span class="ansi-blue-fg">elif</span> (c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span>) <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
 
-    TRACER.print_debugger_status(inspect.currentframe(), <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">line</span><span class="ansi-yellow-fg">&#39;</span>, <span class="ansi-cyan-fg">None</span>); <span class="ansi-blue-fg">return</span> out
+    TRACER.print_debugger_status(inspect.currentframe(), <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">line</span><span class="ansi-yellow-fg">&#39;</span>, <span class="ansi-blue-fg">None</span>); <span class="ansi-blue-fg">return</span> out
 </pre>
 </div>
 
@@ -14324,7 +14326,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.023206538055092096
+<pre>0.02062153400038369
 </pre>
 </div>
 
@@ -14444,7 +14446,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.03505361103452742
+<pre>0.03933470600168221
 </pre>
 </div>
 
@@ -14467,7 +14469,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1.5105058303530878
+<pre>1.9074578060463558
 </pre>
 </div>
 
@@ -14489,7 +14491,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">some_extreme_function</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="o">...</span> <span class="c1"># Long-running function</span>
+    <span class="o">...</span>  <span class="c1"># Long-running function</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 
@@ -14608,21 +14610,21 @@ remove_html_markup() returns &#39;foo&#39;
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="027b4492-1211-11eb-b36c-acde48001122" id="027b4492-1211-11eb-b36c-acde48001122-1" onclick="clear_selection('027b4492-1211-11eb-b36c-acde48001122')">
-        <label id="027b4492-1211-11eb-b36c-acde48001122-1-label" for="027b4492-1211-11eb-b36c-acde48001122-1">When `some_extreme_function()` returns</label><br>
+        <input type="checkbox" name="e3735966-1474-11eb-b36c-acde48001122" id="e3735966-1474-11eb-b36c-acde48001122-1" onclick="clear_selection('e3735966-1474-11eb-b36c-acde48001122')">
+        <label id="e3735966-1474-11eb-b36c-acde48001122-1-label" for="e3735966-1474-11eb-b36c-acde48001122-1">When `some_extreme_function()` returns</label><br>
 
-        <input type="checkbox" name="027b4492-1211-11eb-b36c-acde48001122" id="027b4492-1211-11eb-b36c-acde48001122-2" onclick="clear_selection('027b4492-1211-11eb-b36c-acde48001122')">
-        <label id="027b4492-1211-11eb-b36c-acde48001122-2-label" for="027b4492-1211-11eb-b36c-acde48001122-2">For each line of `some_extreme_function()`</label><br>
+        <input type="checkbox" name="e3735966-1474-11eb-b36c-acde48001122" id="e3735966-1474-11eb-b36c-acde48001122-2" onclick="clear_selection('e3735966-1474-11eb-b36c-acde48001122')">
+        <label id="e3735966-1474-11eb-b36c-acde48001122-2-label" for="e3735966-1474-11eb-b36c-acde48001122-2">For each line of `some_extreme_function()`</label><br>
 
-        <input type="checkbox" name="027b4492-1211-11eb-b36c-acde48001122" id="027b4492-1211-11eb-b36c-acde48001122-3" onclick="clear_selection('027b4492-1211-11eb-b36c-acde48001122')">
-        <label id="027b4492-1211-11eb-b36c-acde48001122-3-label" for="027b4492-1211-11eb-b36c-acde48001122-3">When `remove_html_markup()` returns</label><br>
+        <input type="checkbox" name="e3735966-1474-11eb-b36c-acde48001122" id="e3735966-1474-11eb-b36c-acde48001122-3" onclick="clear_selection('e3735966-1474-11eb-b36c-acde48001122')">
+        <label id="e3735966-1474-11eb-b36c-acde48001122-3-label" for="e3735966-1474-11eb-b36c-acde48001122-3">When `remove_html_markup()` returns</label><br>
 
-        <input type="checkbox" name="027b4492-1211-11eb-b36c-acde48001122" id="027b4492-1211-11eb-b36c-acde48001122-4" onclick="clear_selection('027b4492-1211-11eb-b36c-acde48001122')">
-        <label id="027b4492-1211-11eb-b36c-acde48001122-4-label" for="027b4492-1211-11eb-b36c-acde48001122-4">For each line of `remove_html_markup()`</label><br>
+        <input type="checkbox" name="e3735966-1474-11eb-b36c-acde48001122" id="e3735966-1474-11eb-b36c-acde48001122-4" onclick="clear_selection('e3735966-1474-11eb-b36c-acde48001122')">
+        <label id="e3735966-1474-11eb-b36c-acde48001122-4-label" for="e3735966-1474-11eb-b36c-acde48001122-4">For each line of `remove_html_markup()`</label><br>
 
     </div>
     </p>
-    <input id="027b4492-1211-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('027b4492-1211-11eb-b36c-acde48001122', 30, 1)">
+    <input id="e3735966-1474-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e3735966-1474-11eb-b36c-acde48001122', 30, 1)">
     </div>
 
 </div>
@@ -15130,20 +15132,6 @@ fail() returns None
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/types.html" class="import" target="_blank">types</a></span> <span class="k">import</span> <span class="n">FunctionType</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -15628,7 +15616,7 @@ fail() returns None
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">foo</span>():
-    <span class="ansi-blue-fg">print</span>(<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">entering function</span><span class="ansi-yellow-fg">&#39;</span>)
+    <span class="ansi-cyan-fg">print</span>(<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">entering function</span><span class="ansi-yellow-fg">&#39;</span>)
     ret = <span class="ansi-blue-fg">2</span> * <span class="ansi-blue-fg">2</span>
     <span class="ansi-blue-fg">return</span> ret
 </pre>
@@ -15715,7 +15703,7 @@ fail() returns None
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Tracer.ipynb" target=_blank)>Last change: 2020-10-19 12:49:41+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Tracer.ipynb" target=_blank)>Last change: 2020-10-22 16:16:07+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -15733,7 +15721,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Tracer.html">Tracing Executions</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Tracer.html">https://www.debuggingbook.org/beta/html/Tracer.html</a>.  Retrieved 2020-10-19 12:49:41+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Tracer.html">Tracing Executions</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Tracer.html">https://www.debuggingbook.org/beta/html/Tracer.html</a>.  Retrieved 2020-10-22 16:16:07+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Tracer,
@@ -15743,9 +15731,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Tracer.html">T
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Tracer.html}},
-    note = {Retrieved 2020-10-19 12:49:41+02:00},
+    note = {Retrieved 2020-10-22 16:16:07+02:00},
     url = {https://www.debuggingbook.org/beta/html/Tracer.html},
-    urldate = {2020-10-19 12:49:41+02:00}
+    urldate = {2020-10-22 16:16:07+02:00}
 }
 </pre>
 </div>

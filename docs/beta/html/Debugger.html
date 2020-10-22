@@ -11,7 +11,7 @@ with fuzzingbook adaptations -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" /><title>Oh no!  We are not ready yet! - The Debugging Book</title>
+<meta charset="utf-8" /><title>How Debuggers Work - The Debugging Book</title>
 
 <style type="text/css">
     /*!
@@ -11790,10 +11790,10 @@ MathJax.Hub.Config({
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<meta property="og:url" content="https://www.debuggingbook.org/beta/html/404.html" />
+<meta property="og:url" content="https://www.debuggingbook.org/beta/html/Debugger.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Oh no!  We are not ready yet! - The Debugging Book" />
-<meta property="og:description" content="We&#x27;re sorry - this page does not exist (yet).  " />
+<meta property="og:title" content="How Debuggers Work - The Debugging Book" />
+<meta property="og:description" content="Interactive debuggers are tools that allow you to selectively observe the program state during an execution.  In this chapter, you will learn how such debuggers work – by building your own debugger.Prerequisites You should have read the Chapter on Tracing Executions. Again, knowing a bit of Python is helpful for understanding the code examples in the book." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11876,7 +11876,7 @@ MathJax.Hub.Config({
 </ul><li class="has-sub"><a href="03_Observing.html" class="chapters"><span class="part_number">III</span> Observing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-<li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="Debugger.html" class="this_page">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -11887,19 +11887,35 @@ MathJax.Hub.Config({
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
      </li>
-     <li class="has-sub"><a href="#"><span title="Oh no!  We are not ready yet!"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Oh no!  We are not ready yet!</span></a>
-           <ul><li class="has-sub"><a href="#Finding-Content">&nbsp;&bull;&nbsp;&nbsp; Finding Content</a>
-</li><li class="has-sub"><a href="#Getting-Informed-About-New-Content">&nbsp;&bull;&nbsp;&nbsp; Getting Informed About New Content</a>
-</li><li class="has-sub"><a href="#Error-Details">&nbsp;&bull;&nbsp;&nbsp; Error Details</a>
-</ul></li>
+     <li class="has-sub"><a href="#"><span title="How Debuggers Work"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">How Debuggers Work <i class="fa fa-fw fa-wrench"></i></span></a>
+           <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
+</li><li class="has-sub"><a href="#Debuggers">&nbsp;&bull;&nbsp;&nbsp; Debuggers</a>
+</li><li class="has-sub"><a href="#Debugger-Interaction">&nbsp;&bull;&nbsp;&nbsp; Debugger Interaction</a>
+<ul><li class="has-sub"><a href="#A-Command-Dispatcher">A Command Dispatcher</a>
+</li><li class="has-sub"><a href="#Excursion:-Implementing-execute()">Excursion: Implementing execute()</a>
+</li><li class="has-sub"><a href="#End-of-Excursion">End of Excursion</a>
+</ul></li><li class="has-sub"><a href="#Printing-Values">&nbsp;&bull;&nbsp;&nbsp; Printing Values</a>
+</li><li class="has-sub"><a href="#Listing-Source-Code">&nbsp;&bull;&nbsp;&nbsp; Listing Source Code</a>
+</li><li class="has-sub"><a href="#Setting-Breakpoints">&nbsp;&bull;&nbsp;&nbsp; Setting Breakpoints</a>
+</li><li class="has-sub"><a href="#Deleting-Breakpoints">&nbsp;&bull;&nbsp;&nbsp; Deleting Breakpoints</a>
+</li><li class="has-sub"><a href="#Showing-Breakpoints-and-Current-Line">&nbsp;&bull;&nbsp;&nbsp; Showing Breakpoints and Current Line</a>
+<ul><li class="has-sub"><a href="#Quitting">Quitting</a>
+</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+</li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
+</li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
+</li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
+<ul><li class="has-sub"><a href="#Exercise-1:-Changing-State">Exercise 1: Changing State</a>
+</li><li class="has-sub"><a href="#Exercise-2:-More-Commands">Exercise 2: More Commands</a>
+</li><li class="has-sub"><a href="#Exercise-3:-Time-Travel-Debugging">Exercise 3: Time-Travel Debugging</a>
+</ul></li></ul></li>
      </li>
      
      <li class="has-sub"><a href="#"><span title="Resources"><i class="fa fa-fw fa-cube"></i> </span><span class="menu_3">Resources</span></a>
      <ul>
-     <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/404.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/slides/404.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/code/404.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/notebooks/404.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
+     <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Debugger.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/slides/Debugger.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/code/Debugger.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/notebooks/Debugger.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
      <li><a href="https://www.debuggingbook.org/beta/dist/debuggingbook-code.zip"><i class="fa fa-fw fa-cube"></i> All Code (.zip)</a></li>
      <li><a href="https://www.debuggingbook.org/beta/dist/debuggingbook-notebooks.zip"><i class="fa fa-fw fa-cube"></i> All Notebooks (.zip)</a></li>
      <li><a href="https://github.com/uds-se/debuggingbook/" target="_blank"><i class="fa fa-fw fa-github"></i> Project Page</a></li>
@@ -11909,13 +11925,13 @@ MathJax.Hub.Config({
      
      <li class="has-sub"><a href="#"><span title="Share"><i class="fa fa-fw fa-comments"></i> </span> <span class="menu_4">Share</span></a>
         <ul>
-            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Oh%20no!%20%20We%20are%20not%20ready%20yet!%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f404.html" target="popup" 
-onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Oh%20no!%20%20We%20are%20not%20ready%20yet!%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f404.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22How%20Debuggers%20Work%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fDebugger.html" target="popup" 
+onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22How%20Debuggers%20Work%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fDebugger.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-twitter"></i> Share on Twitter</a>
-            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f404.html" target="popup" 
-onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f404.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fDebugger.html" target="popup" 
+onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fDebugger.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-facebook"></i> Share on Facebook</a>
-            <li><a href="mailto:?subject=Oh%20no!%20%20We%20are%20not%20ready%20yet!&body=I%20just%20read%20%22Oh%20no!%20%20We%20are%20not%20ready%20yet!%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f404.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
+            <li><a href="mailto:?subject=How%20Debuggers%20Work&body=I%20just%20read%20%22How%20Debuggers%20Work%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fDebugger.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
             <li><a href="#citation" id="cite" onclick="revealCitation()"><i class="fa fa-fw fa-mortar-board"></i> Cite</a>
         </ul>
      </li>
@@ -11938,7 +11954,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Oh-no!--We-are-not-ready-yet!">Oh no!  We are not ready yet!<a class="anchor-link" href="#Oh-no!--We-are-not-ready-yet!">&#182;</a></h1><p>We're sorry - this page does not exist (yet).</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="How-Debuggers-Work">How Debuggers Work<a class="anchor-link" href="#How-Debuggers-Work">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>Interactive <em>debuggers</em> are tools that allow you to selectively observe the program state during an execution.  In this chapter, you will learn how such debuggers work – by building your own debugger.</p>
 </div>
 </div>
 </div>
@@ -11947,54 +11963,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Finding-Content">Finding Content<a class="anchor-link" href="#Finding-Content">&#182;</a></h2><p>Most likely, you have been looking for material that is not yet written or not yet published.  Go to the <a href="https://www.debuggingbook.org/beta/">home page</a> or choose from this list of chapters:</p>
-<ol start="0">
-               
-<li><a href="https://www.debuggingbook.org/beta/"><span class="part_number"><i class="fa fa-fw fa-home"></i></span> About this book</a></li>
-<li><a href="https://www.debuggingbook.org/beta/html/00_Table_of_Contents.html"><i class="fa fa-fw fa-sitemap"></i></span> Sitemap</a></li>
-<li class="has-sub"><a href="01_Intro.html" class="chapters"><span class="part_number">I</span> Whetting Your Appetite&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
+<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
 <ul>
-<li><a href="Tours.html">Tours through the Book&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-<li><a href="Intro_Debugging.html">Introduction to Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-</ul><li class="has-sub"><a href="03_Observing.html" class="chapters"><span class="part_number">III</span> Observing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
-<ul>
-<li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-<li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-</ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
-<ul>
-<li><a href="ExpectError.html">Error Handling</a></li>
-<li><a href="Timer.html">Timer</a></li>
-<li><a href="ControlFlow.html">Control Flow Graph</a></li>
-<li><a href="RailroadDiagrams.html">Railroad Diagrams</a></li>
+<li>You should have read the <a href="Tracer.html">Chapter on Tracing Executions</a>.</li>
+<li>Again, knowing a bit of <em>Python</em> is helpful for understanding the code examples in the book.</li>
 </ul>
-</ol></div>
 </div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>If you think this is an error, please <a href="https://github.com/uds-se/debuggingbook//issues/">report an issue</a>.</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Getting-Informed-About-New-Content">Getting Informed About New Content<a class="anchor-link" href="#Getting-Informed-About-New-Content">&#182;</a></h2><p>New chapters are coming out every week.  To get notified when a new chapter (or this one) comes out, <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.</p>
-<p><a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw">News from @Debugging_Book</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Error-Details">Error Details<a class="anchor-link" href="#Error-Details">&#182;</a></h2></div>
 </div>
 </div>
 </div>
@@ -12019,12 +11993,187 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NotFoundError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;404&quot;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/sys.html" class="import" target="_blank">sys</a></span>
+</pre></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><div class="synopsis"><h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2><!-- Automatically generated. Do not edit. -->
+
+<p>To <a href="Importing.html">use the code provided in this chapter</a>, write</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="Debugger.html" class="import" target="_blank">debuggingbook.Debugger</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+<p>and then make use of the following features.</p>
+<p>This chapter provides an interactive debugger for Python functions. The debugger is invoked as</p>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">function_to_be_observed</span><span class="p">()</span>
+    <span class="o">...</span>
+</pre></div>
+<p>While running, you can enter <em>debugger commands</em> at the <code>(debugger)</code> prompt. Here's an example session:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="c1"># ignore</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">_</span><span class="p">,</span> <span class="n">remove_html_markup_starting_line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">next_inputs</span><span class="p">([</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;break {remove_html_markup_starting_line_number + 16}&quot;</span><span class="p">,</span> 
+<span class="o">&gt;&gt;&gt;</span>              <span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="s2">&quot;continue&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="s2">&quot;print out&quot;</span><span class="p">,</span> <span class="s2">&quot;quit&quot;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="n">Calling</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+<span class="k">break</span>      <span class="o">--</span> <span class="n">Set</span> <span class="n">a</span> <span class="n">breakoint</span> <span class="ow">in</span> <span class="n">given</span> <span class="n">line</span><span class="o">.</span> <span class="n">If</span> <span class="n">no</span> <span class="n">line</span> <span class="ow">is</span> <span class="n">given</span><span class="p">,</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">breakpoints</span>
+<span class="k">continue</span>   <span class="o">--</span> <span class="n">Resume</span> <span class="n">execution</span>
+<span class="n">delete</span>     <span class="o">--</span> <span class="n">Delete</span> <span class="n">a</span> <span class="n">breakoint</span> <span class="ow">in</span> <span class="n">given</span> <span class="n">line</span><span class="o">.</span> <span class="n">If</span> <span class="n">no</span> <span class="n">line</span> <span class="ow">is</span> <span class="n">given</span><span class="p">,</span> <span class="n">clear</span> <span class="nb">all</span> <span class="n">breakpoints</span>
+<span class="n">help</span>       <span class="o">--</span> <span class="n">Give</span> <span class="n">help</span> <span class="n">on</span> <span class="n">given</span> <span class="n">command</span><span class="o">.</span> <span class="n">If</span> <span class="n">no</span> <span class="n">command</span> <span class="ow">is</span> <span class="n">given</span><span class="p">,</span> <span class="n">give</span> <span class="n">help</span> <span class="n">on</span> <span class="nb">all</span>
+<span class="nb">list</span>       <span class="o">--</span> <span class="n">Show</span> <span class="n">current</span> <span class="n">function</span><span class="o">.</span> <span class="n">If</span> <span class="n">function</span> <span class="ow">is</span> <span class="n">given</span><span class="p">,</span> <span class="n">show</span> <span class="n">its</span> <span class="n">source</span> <span class="n">code</span><span class="o">.</span>
+<span class="k">print</span>      <span class="o">--</span> <span class="n">Print</span> <span class="n">an</span> <span class="n">expression</span><span class="o">.</span> <span class="n">If</span> <span class="n">no</span> <span class="n">expression</span> <span class="ow">is</span> <span class="n">given</span><span class="p">,</span> <span class="k">print</span> <span class="nb">all</span> <span class="n">variables</span>
+<span class="n">quit</span>       <span class="o">--</span> <span class="n">Finish</span> <span class="n">execution</span>
+<span class="n">step</span>       <span class="o">--</span> <span class="n">Execute</span> <span class="n">up</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">line</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+<span class="n">Breakpoints</span><span class="p">:</span> <span class="p">{</span><span class="mi">237</span><span class="p">}</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+ <span class="mi">221</span>  <span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+ <span class="mi">222</span><span class="o">&gt;</span>     <span class="n">tag</span>   <span class="o">=</span> <span class="bp">False</span>
+ <span class="mi">223</span>      <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
+ <span class="mi">224</span>      <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+ <span class="mi">225</span>  
+ <span class="mi">226</span>      <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+ <span class="mi">227</span>          <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
+ <span class="mi">228</span>          
+ <span class="mi">229</span>          <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+ <span class="mi">230</span>              <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+ <span class="mi">231</span>          <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+ <span class="mi">232</span>              <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+ <span class="mi">233</span>          <span class="k">elif</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+ <span class="mi">234</span>              <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+ <span class="mi">235</span>          <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+ <span class="mi">236</span>              <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+ <span class="mi">237</span><span class="c1">#     </span>
+ <span class="mi">238</span>      <span class="k">return</span> <span class="n">out</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+                                         <span class="c1"># tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;</span>
+<span class="mi">237</span>             <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+                                         <span class="c1"># out = &#39;a&#39;</span>
+<span class="mi">227</span>     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+
+<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span> <span class="nb">object</span><span class="o">&gt;</span>
+</pre></div>
+<p>The <code>Debugger</code> class can be easily extended in subclasses. A new method <code>NAME_command(self, arg)</code> will be invoked whenever a command named <code>NAME</code> is entered, with <code>arg</code> holding given command arguments (empty string if none).</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Debuggers">Debuggers<a class="anchor-link" href="#Debuggers">&#182;</a></h2><p><em>Interactive Debuggers</em> (or short <em>debuggers</em>) are tools that allow you to observe program executions. A debugger typically offers the following features:</p>
+<ul>
+<li><em>Run</em> the program</li>
+<li>Define <em>conditions</em> under which the execution should <em>stop</em> and hand over control to the debugger. Conditions include<ul>
+<li>a particular location is reached</li>
+<li>a particular variable takes a particular value</li>
+<li>or some other condition of choice.</li>
+</ul>
+</li>
+<li>When the program stops, you can <em>observe</em> the current state, including<ul>
+<li>the current location</li>
+<li>variables and their values</li>
+<li>the current function and its callers</li>
+</ul>
+</li>
+<li>When the program stops, you can <em>step</em> through program execution, having it stop at the next instruction again.</li>
+<li>Finally, you can also <em>resume</em> execution to the next stop.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This functionality often comes as a <em>command-line interface</em>, typing commands at a prompt; or as a <em>graphical user interface</em>, selecting commands from the screen. Debuggers can come as standalone tools, or be integrated into a programming environment of choice.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Debugger interaction typically follows a <em>loop</em> pattern._ First, you identify the location(s) you want to inspect, and tell the debugger to stop execution once one of these <em>breakpoints</em> is reached. Here's a command that could instruct a command-line debugger to stop at Line 239:</p>
+
+<pre><code>(debugger) break 239
+(debugger) _</code></pre>
+<p>Then you have the debugger resume or start execution. The debugger will stop at the given location.</p>
+
+<pre><code>(debugger) continue
+Line 239: s = x
+(debugger) _</code></pre>
+<p>When it stops at the given location, you use debugger commands to inspect the state (and check whether things are as expected).</p>
+
+<pre><code>(debugger) print s
+s = 'abc'
+(debugger) _</code></pre>
+<p>You can then step through the program, executing more lines.</p>
+
+<pre><code>(debugger) step
+Line 240: c = s[0]
+(debugger) print c
+c = 'a'
+(debugger) _</code></pre>
+<p>You can also define new stop conditions, investigating other locations, variables, and conditions.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Debugger-Interaction">Debugger Interaction<a class="anchor-link" href="#Debugger-Interaction">&#182;</a></h2><p>Let us now show how to build such a debugger.  The key idea of an <em>interactive</em> debugger is to set up the <em>tracing function</em> such that it actually <em>asks</em> what to do next, prompting you to enter a <em>command</em>. For the sake of simplicity, we collect such a command interactively from a command line, using the Python <code>input()</code> function.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our debugger holds a number of variables to indicate its current status:</p>
+<ul>
+<li><code>stepping</code> is True whenever the user wants to step into the next line.</li>
+<li><code>breakpoints</code> is a set of breakpoints (line numbers)</li>
+<li><code>interact</code> is True while the user stays at one position.</li>
+</ul>
+<p>We also store the current tracing information in three attributes <code>frame</code>, <code>event</code>, and <code>arg</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Tracer.html" class="import" target="_blank">Tracer</a></span> <span class="k">import</span> <span class="n">Tracer</span>
 </pre></div>
 
 </div>
@@ -12038,10 +12187,241 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="k">import</span> <span class="n">ExpectError</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Interactive Debugger&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new interactive debugger.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="k">raise</span> <span class="n">NotFoundError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This is the main entry point for our debugger. If we should stop, we go into user interaction.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tracing function; called at every line&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span> <span class="o">=</span> <span class="n">event</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_here</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interaction_loop</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">traceit</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We stop whenever we are stepping through the program or reach a breakpoint:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">stop_here</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return true if we should stop&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our interaction loop shows the current status, reads in commands, and executes them.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">interaction_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Interact with the user&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_debugger_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arg</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">interact</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;(debugger) &quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>For a moment, let us implement two commands, <code>step</code> and <code>continue</code>. <code>step</code> steps through the program:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">step_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute up to the next line&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">continue_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Resume execution&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>execute()</code> method dispatches between these two.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_command</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">command</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">continue_command</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our debugger is now ready to run! We invoke it just like <code>Tracer</code>, using a <code>with</code> clause. The code</p>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+<p>gives us a debugger prompt</p>
+
+<pre><code>(debugger) _</code></pre>
+<p>where we can enter one of our two commands. Let us do two steps through the program and then resume execution:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Intro_Debugging.html" class="import" target="_blank">Intro_Debugging</a></span> <span class="k">import</span> <span class="n">remove_html_markup</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="nb">input</span><span class="p">,</span> <span class="n">next_inputs</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12051,14 +12431,1810 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-3-f7cd072299fb&gt;&#34;, line 4, in &lt;module&gt;
-    raise NotFoundError
-NotFoundError: &#39;404&#39; (expected)
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
 </pre>
 </div>
 
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>step</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>223     tag   = False
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>step</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False
+224     quote = False
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Try this out for yourself by running the above invocation in the interactive notebook! If you are reading the Web version, the top menu entry <code>Resources</code> -&gt; <code>Edit as Notebook</code> will do the trick. Navigate to the above invocation and press <code>Shift</code>+<code>Enter</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="A-Command-Dispatcher">A Command Dispatcher<a class="anchor-link" href="#A-Command-Dispatcher">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>execute()</code> function is still a bit rudimentary. A true command-line tool should provide means to tell which commands are available (<code>help</code>), automatically split arguments, and not stand in line of extensibility.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We therefore implement a better <code>execute()</code> method which does all that. Our revised <code>execute()</code> method <em>inspects</em> its class for methods that end in <code>_command()</code>, and automatically registers their names as commands. Hence, with the above, we already get <code>step</code> and <code>continue</code> as possible commands.</p>
+</div>
+</div>
+</div>
+</div>
+
+<details id="Excursion:-Implementing-execute()">
+<summary>Implementing execute()</summary>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us detail how we implement <code>execute()</code>. The <code>commands()</code> method returns a list of all commands (as strings) from the class.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">commands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span><span class="n">method</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_command&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span> <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_command&#39;</span><span class="p">)]</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">cmds</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;continue&#39;, &#39;step&#39;]
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>command_method()</code> method converts a given command (or its abbrevation) into a method to be called.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">command_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Comment</span>
+
+        <span class="n">possible_cmds</span> <span class="o">=</span> <span class="p">[</span><span class="n">possible_cmd</span> <span class="k">for</span> <span class="n">possible_cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span> <span class="k">if</span> <span class="n">possible_cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">command</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cmds</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">possible_cmds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s1">&#39;_command&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x7fdc73cb3630&gt;&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x7fdc73cb3748&gt;&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The revised <code>execute()</code> method now determines this method and executes it with the given argument.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>        
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span><span class="p">[:</span><span class="n">sep</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">command</span><span class="p">[</span><span class="n">sep</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span><span class="p">:</span>
+            <span class="n">method</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If <code>command_method()</code> cannot find the command, or finds more than one matching the prefix, it invokes the <code>help</code> command providing additional assistance. <code>help</code> draws extra info on each command from its documentation string.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>        
+    <span class="k">def</span> <span class="nf">help_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Give help on given command. If no command is given, give help on all&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">command</span><span class="p">:</span>
+            <span class="n">possible_cmds</span> <span class="o">=</span> <span class="p">[</span><span class="n">possible_cmd</span> <span class="k">for</span> <span class="n">possible_cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span> <span class="k">if</span> <span class="n">possible_cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">command</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cmds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Unknown command {repr(command)}. Possible commands are:&quot;</span><span class="p">)</span>
+                <span class="n">possible_cmds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cmds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Ambiguous command {repr(command)}. Possible expansions are:&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">possible_cmds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">possible_cmds</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cmd:10}</span><span class="s2"> -- </span><span class="si">{method.__doc__}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>continue   -- Resume execution
+help       -- Give help on given command. If no command is given, give help on all
+step       -- Execute up to the next line
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Unknown command &#39;foo&#39;. Possible commands are:
+continue   -- Resume execution
+help       -- Give help on given command. If no command is given, give help on all
+step       -- Execute up to the next line
+</pre>
+</div>
+
+</div>
+
+</details>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Printing-Values">Printing Values<a class="anchor-link" href="#Printing-Values">&#182;</a></h2><p>With <code>execute()</code>, we can now easily extend our class – all it takes is for a new command <code>NAME</code> is a new <code>NAME_command()</code> method. Let us start by providing a <code>print</code> command to print all variables. We use similar code as for the <code>Tracer</code> class in the <a href="Tracer.html">chapter on tracing</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">print_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print an expression. If no expression is given, print all variables&quot;&quot;&quot;</span>
+        <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2"> = {repr(vars[var])}&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>step</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>223     tag   = False
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>step</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False
+224     quote = False
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>step</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # quote = False
+225     out   = &#34;&#34;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>print</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s = &#39;abc&#39;
+tag = False
+quote = False
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us extend <code>print</code> such that if an argument is given, it only evaluates and prints out this argument.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">print_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print an expression. If no expression is given, print all variables&quot;&quot;&quot;</span>
+        <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2"> = {repr(vars[var])}&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{arg}</span><span class="s2"> = {repr(eval(arg, globals(), vars))}&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{err.__class__.__name__}</span><span class="s2">: </span><span class="si">{err}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>p s</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s = &#39;abc&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>c</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Note how we would abbreviate commands to speed things up. The argument to <code>print</code> can be any Python expression:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>print (s[0], 2 + 2)</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(s[0], 2 + 2) = (&#39;a&#39;, 4)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>help</code> command also properly lists <code>print</code> as a possible command:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>help print</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>print      -- Print an expression. If no expression is given, print all variables
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Listing-Source-Code">Listing Source Code<a class="anchor-link" href="#Listing-Source-Code">&#182;</a></h2><p>We implement a <code>list</code> command that shows the source code of the current function.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Show current function.&quot;&quot;&quot;</span>
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">)</span>
+        <span class="n">current_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{line_number:4}</span><span class="s1"> </span><span class="si">{line}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>list</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 221 def remove_html_markup(s):
+ 222     tag   = False
+ 223     quote = False
+ 224     out   = &#34;&#34;
+ 225 
+ 226     for c in s:
+ 227         assert tag or not quote
+ 228         
+ 229         if c == &#39;&lt;&#39; and not quote:
+ 230             tag = True
+ 231         elif c == &#39;&gt;&#39; and not quote:
+ 232             tag = False
+ 233         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 234             quote = not quote
+ 235         elif not tag:
+ 236             out = out + c
+ 237     
+ 238     return out
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Setting-Breakpoints">Setting Breakpoints<a class="anchor-link" href="#Setting-Breakpoints">&#182;</a></h2><p>Stepping through the program line by line is a bit cumbersome. We therefore implement <em>breakpoints</em> – a set of lines that cause the program to be interrupted as soon as this line is met.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">break_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a breakoint in given line. If no line is given, list all breakpoints&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Breakpoints:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's an example, setting a breakpoint at the end of the loop:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>break 237</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: {237}
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+237             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>print</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s = &#39;abc&#39;
+tag = False
+quote = False
+out = &#39;&#39;
+c = &#39;a&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # out = &#39;a&#39;, c = &#39;b&#39;
+237             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # out = &#39;ab&#39;, c = &#39;c&#39;
+237             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">quiz</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">What happens if we enter 'break 2 + 3'?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Pick a choice.">
+
+        <input type="radio" name="e8fa3f3a-1474-11eb-a588-acde48001122" id="e8fa3f3a-1474-11eb-a588-acde48001122-1" onclick="clear_selection('e8fa3f3a-1474-11eb-a588-acde48001122')">
+        <label id="e8fa3f3a-1474-11eb-a588-acde48001122-1-label" for="e8fa3f3a-1474-11eb-a588-acde48001122-1">A breakpoint is set in Line 2.</label><br>
+
+        <input type="radio" name="e8fa3f3a-1474-11eb-a588-acde48001122" id="e8fa3f3a-1474-11eb-a588-acde48001122-2" onclick="clear_selection('e8fa3f3a-1474-11eb-a588-acde48001122')">
+        <label id="e8fa3f3a-1474-11eb-a588-acde48001122-2-label" for="e8fa3f3a-1474-11eb-a588-acde48001122-2">A breakpoint is set in Line 5.</label><br>
+
+        <input type="radio" name="e8fa3f3a-1474-11eb-a588-acde48001122" id="e8fa3f3a-1474-11eb-a588-acde48001122-3" onclick="clear_selection('e8fa3f3a-1474-11eb-a588-acde48001122')">
+        <label id="e8fa3f3a-1474-11eb-a588-acde48001122-3-label" for="e8fa3f3a-1474-11eb-a588-acde48001122-3">Two breakpoints are set in Lines 2 and 3.</label><br>
+
+        <input type="radio" name="e8fa3f3a-1474-11eb-a588-acde48001122" id="e8fa3f3a-1474-11eb-a588-acde48001122-4" onclick="clear_selection('e8fa3f3a-1474-11eb-a588-acde48001122')">
+        <label id="e8fa3f3a-1474-11eb-a588-acde48001122-4-label" for="e8fa3f3a-1474-11eb-a588-acde48001122-4">The debugger raises an exception.</label><br>
+
+    </div>
+    </p>
+    <input id="e8fa3f3a-1474-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e8fa3f3a-1474-11eb-a588-acde48001122', 2, 0)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Try it out yourself by executing the above code block!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Deleting-Breakpoints">Deleting Breakpoints<a class="anchor-link" href="#Deleting-Breakpoints">&#182;</a></h2><p>To delete breakpoints, we introduce a <code>delete</code> command:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">delete_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete a breakoint in given line. If no line is given, clear all breakpoints&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;No such breakpoint: </span><span class="si">{arg}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Breakpoints:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>   
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>break 237</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: {237}
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+237             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>print</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s = &#39;abc&#39;
+tag = False
+quote = False
+out = &#39;&#39;
+c = &#39;a&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>delete 237</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: set()
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">What does the command 'delete' (without argument) do?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Check all that apply.">
+
+        <input type="checkbox" name="e9010506-1474-11eb-8163-acde48001122" id="e9010506-1474-11eb-8163-acde48001122-1" onclick="clear_selection('e9010506-1474-11eb-8163-acde48001122')">
+        <label id="e9010506-1474-11eb-8163-acde48001122-1-label" for="e9010506-1474-11eb-8163-acde48001122-1">It deletes all breakpoints</label><br>
+
+        <input type="checkbox" name="e9010506-1474-11eb-8163-acde48001122" id="e9010506-1474-11eb-8163-acde48001122-2" onclick="clear_selection('e9010506-1474-11eb-8163-acde48001122')">
+        <label id="e9010506-1474-11eb-8163-acde48001122-2-label" for="e9010506-1474-11eb-8163-acde48001122-2">It deletes the source code</label><br>
+
+        <input type="checkbox" name="e9010506-1474-11eb-8163-acde48001122" id="e9010506-1474-11eb-8163-acde48001122-3" onclick="clear_selection('e9010506-1474-11eb-8163-acde48001122')">
+        <label id="e9010506-1474-11eb-8163-acde48001122-3-label" for="e9010506-1474-11eb-8163-acde48001122-3">It lists all breakpoints</label><br>
+
+        <input type="checkbox" name="e9010506-1474-11eb-8163-acde48001122" id="e9010506-1474-11eb-8163-acde48001122-4" onclick="clear_selection('e9010506-1474-11eb-8163-acde48001122')">
+        <label id="e9010506-1474-11eb-8163-acde48001122-4-label" for="e9010506-1474-11eb-8163-acde48001122-4">It stops execution</label><br>
+
+    </div>
+    </p>
+    <input id="e9010506-1474-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e9010506-1474-11eb-8163-acde48001122', 10, 1)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Showing-Breakpoints-and-Current-Line">Showing Breakpoints and Current Line<a class="anchor-link" href="#Showing-Breakpoints-and-Current-Line">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us extend <code>list</code> a bit such that</p>
+<ol>
+<li>it can also list a given function, and </li>
+<li>it shows the current line (<code>&gt;</code>) as well as breakpoints (<code>#</code>)</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Show current function. If function is given, show its source code.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{err.__class__.__name__}</span><span class="s2">: </span><span class="si">{err}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="n">current_line</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">)</span>
+            <span class="n">current_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+            <span class="k">if</span> <span class="n">line_number</span> <span class="o">==</span> <span class="n">current_line</span><span class="p">:</span>
+                <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39;&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">:</span>
+                <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39;#&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{line_number:4}{spacer}</span><span class="s1"> </span><span class="si">{line}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>break 237</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: {237}
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>list</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 221  def remove_html_markup(s):
+ 222&gt;     tag   = False
+ 223      quote = False
+ 224      out   = &#34;&#34;
+ 225  
+ 226      for c in s:
+ 227          assert tag or not quote
+ 228          
+ 229          if c == &#39;&lt;&#39; and not quote:
+ 230              tag = True
+ 231          elif c == &#39;&gt;&#39; and not quote:
+ 232              tag = False
+ 233          elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 234              quote = not quote
+ 235          elif not tag:
+ 236              out = out + c
+ 237#     
+ 238      return out
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+237             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>delete</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: set()
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>list</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 221  def remove_html_markup(s):
+ 222      tag   = False
+ 223      quote = False
+ 224      out   = &#34;&#34;
+ 225  
+ 226      for c in s:
+ 227          assert tag or not quote
+ 228          
+ 229          if c == &#39;&lt;&#39; and not quote:
+ 230              tag = True
+ 231          elif c == &#39;&gt;&#39; and not quote:
+ 232              tag = False
+ 233          elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 234              quote = not quote
+ 235          elif not tag:
+ 236              out = out + c
+ 237&gt;     
+ 238      return out
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>continue</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Quitting">Quitting<a class="anchor-link" href="#Quitting">&#182;</a></h3><p>In the Python debugger interface, we can only observe, but not alter the control flow. To make sure we can always exit out of our debugging session, we introduce a <code>quit</code> command that deletes all breakpoints and resumes execution until the observed function finishes.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">quit_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Finish execution&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>With this, our command palette is pretty complete, and we can use our debugger to happily inspect Python executions.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>help</b></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>break      -- Set a breakoint in given line. If no line is given, list all breakpoints
+continue   -- Resume execution
+delete     -- Delete a breakoint in given line. If no line is given, clear all breakpoints
+help       -- Give help on given command. If no command is given, give help on all
+list       -- Show current function. If function is given, show its source code.
+print      -- Print an expression. If no expression is given, print all variables
+quit       -- Finish execution
+step       -- Execute up to the next line
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<pre>(debugger) <b>quit</b></pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Lessons-Learned">Lessons Learned<a class="anchor-link" href="#Lessons-Learned">&#182;</a></h2><ul>
+<li><em>Debugging hooks</em> from interpreted languages allow for simple interactive debugging.</li>
+<li>A command-line debugging framework can be very easily extended with additional functionality.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Next-Steps">Next Steps<a class="anchor-link" href="#Next-Steps">&#182;</a></h2><p>In the next chapter, we will see how to</p>
+<ul>
+<li><a href="DefectLocalizer.html">locating defects by learning correlations between execution features and failures</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>\todo{add}</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-1:-Changing-State">Exercise 1: Changing State<a class="anchor-link" href="#Exercise-1:-Changing-State">&#182;</a></h3><p>Some Python implementations allow to alter the state, by assigning values to <code>frame.f_locals</code>. Implement a <code>assign VAR=VALUE</code> command that allows to change the value of (local) variable <code>VAR</code> to the new value <code>VALUE</code>.</p>
+
+    
+<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Debugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-2:-More-Commands">Exercise 2: More Commands<a class="anchor-link" href="#Exercise-2:-More-Commands">&#182;</a></h3><p>Extending the <code>Debugger</code> class with extra features and commands is a breeze. The following commands are inspired from <a href="https://www.gnu.org/software/gdb/">the GNU command-line debugger (GDB)</a>:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Named-breakpoints-(&quot;break&quot;)">Named breakpoints ("break")<a class="anchor-link" href="#Named-breakpoints-(&quot;break&quot;)">&#182;</a></h4><p>With <code>break FUNCTION</code> and <code>delete FUNCTION</code>, set and delete a breakpoint at <code>FUNCTION</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Step-over-functions-(&quot;next&quot;)">Step over functions ("next")<a class="anchor-link" href="#Step-over-functions-(&quot;next&quot;)">&#182;</a></h4><p>When stopped at a function call, the <code>next</code> command should execute the entire call, stopping when the function returns. (In contrast, <code>step</code> stops at the first line of the function called.)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Print-call-stack-(&quot;where&quot;)">Print call stack ("where")<a class="anchor-link" href="#Print-call-stack-(&quot;where&quot;)">&#182;</a></h4><p>Implement a <code>where</code> command that shows the stack of calling functions.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Move-up-and-down-the-call-stack-(&quot;up&quot;-and-&quot;down&quot;)">Move up and down the call stack ("up" and "down")<a class="anchor-link" href="#Move-up-and-down-the-call-stack-(&quot;up&quot;-and-&quot;down&quot;)">&#182;</a></h4><p>After entering the <code>up</code> command, explore the source and variables of the <em>calling</em> function rather than the current function. Use <code>up</code> repeatedly to move further up the stack. <code>down</code> returns to the caller.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Execute-until-line-(&quot;until&quot;)">Execute until line ("until")<a class="anchor-link" href="#Execute-until-line-(&quot;until&quot;)">&#182;</a></h4><p>With <code>until LINE</code>, resume execution until a line greater than <code>LINE</code> is reached. If <code>LINE</code> is not given, resume execution until a line greater than the current is reached. This is useful to avoid stepping through multiple loop iterations.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Execute-until-return-(&quot;finish&quot;)">Execute until return ("finish")<a class="anchor-link" href="#Execute-until-return-(&quot;finish&quot;)">&#182;</a></h4><p>With <code>finish</code>, resume execution until the current fucnction returns.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Watchpoints-(&quot;watch&quot;)">Watchpoints ("watch")<a class="anchor-link" href="#Watchpoints-(&quot;watch&quot;)">&#182;</a></h4><p>With <code>watch CONDITION</code>, stop execution as soon as <code>CONDITION</code> changes its value. (Use the code from our <code>EventTracer</code> class in the <a href="Tracer.html">chapter on Tracing</a>.) <code>delete CONDITION</code> removes the watchpoint. Keep in mind that some variable names may not exist at all times.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-3:-Time-Travel-Debugging">Exercise 3: Time-Travel Debugging<a class="anchor-link" href="#Exercise-3:-Time-Travel-Debugging">&#182;</a></h3><p>Rather than inspecting a function at the moment it executes, you can also <em>record</em> the entire state (call stack, local variables, etc.) during execution, and then run an interactive session to step through the recorded execution. This allows for a <code>back</code> command which gets you back to earlier states.</p>
+</div>
+</div>
+</div>
 </div>
 
         
@@ -12067,12 +14243,12 @@ NotFoundError: &#39;404&#39; (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/404.ipynb" target=_blank)>Last change: 2020-09-28 13:48:34+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Debugger.ipynb" target=_blank)>Last change: 2020-10-22 16:42:46+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
 
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Oh no!  We are not ready yet!" style="width:0;height:0;border:0; border:none;"></iframe>
+<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/How Debuggers Work" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -12085,19 +14261,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/404.html">Oh no!  We are not ready yet!</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/404.html">https://www.debuggingbook.org/beta/html/404.html</a>.  Retrieved 2020-09-28 13:48:34+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Debugger.html">How Debuggers Work</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Debugger.html">https://www.debuggingbook.org/beta/html/Debugger.html</a>.  Retrieved 2020-10-22 16:42:46+02:00.
 </p>
 <pre>
-@incollection{debuggingbook2020:404,
+@incollection{debuggingbook2020:Debugger,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
-    title = {Oh no!  We are not ready yet!},
+    title = {How Debuggers Work},
     year = {2020},
     publisher = {CISPA},
-    howpublished = {\url{https://www.debuggingbook.org/beta/html/404.html}},
-    note = {Retrieved 2020-09-28 13:48:34+02:00},
-    url = {https://www.debuggingbook.org/beta/html/404.html},
-    urldate = {2020-09-28 13:48:34+02:00}
+    howpublished = {\url{https://www.debuggingbook.org/beta/html/Debugger.html}},
+    note = {Retrieved 2020-10-22 16:42:46+02:00},
+    url = {https://www.debuggingbook.org/beta/html/Debugger.html},
+    urldate = {2020-10-22 16:42:46+02:00}
 }
 </pre>
 </div>

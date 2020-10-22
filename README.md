@@ -1,4 +1,3 @@
-
 # About this Book
 
 __Welcome to "The Debugging Book"!__ 
