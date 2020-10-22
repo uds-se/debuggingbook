@@ -418,7 +418,7 @@ def input(prompt):
     
     if given_input:
         if rich_output():
-            display(HTML(f"<pre>{prompt}<b>{given_input}</b></pre>"))
+            display(HTML(f"<samp>{prompt}<b>{given_input}</b></samp>"))
         else:
             print(f"{prompt} {given_input}")
         return given_input
