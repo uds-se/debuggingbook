@@ -11,7 +11,7 @@ with fuzzingbook adaptations -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" /><title>Part III: Observing Executions - The Debugging Book</title>
+<meta charset="utf-8" /><title>Statistical Debugging - The Debugging Book</title>
 
 <style type="text/css">
     /*!
@@ -11790,18 +11790,10 @@ MathJax.Hub.Config({
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<meta property="og:url" content="https://www.debuggingbook.org/beta/html/03_Observing.html" />
+<meta property="og:url" content="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Part III: Observing Executions - The Debugging Book" />
-<meta property="og:description" content="# Part III: Observing Executions
-
-In this part, we show how to observe executions – by tracing, by interactively debugging, and more.
-
- Tracing Executions presents a number of ways to observe executions by logging locations and program states – and by narrowing these down to specific conditions and events.
-
- Interactive Debugging shows how to build an interactive debugger, allowing you to explore program executions at will.
-
-" />
+<meta property="og:title" content="Statistical Debugging - The Debugging Book" />
+<meta property="og:description" content="Let us correlate events with failures!Prerequisites You should have read the Chapter on Tracing." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11885,7 +11877,7 @@ In this part, we show how to observe executions – by tracing, by interactivel
 <ul>
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
-<li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="StatisticalDebugger.html" class="this_page">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -11896,16 +11888,34 @@ In this part, we show how to observe executions – by tracing, by interactivel
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
      </li>
-     <li class="has-sub"><a href="#"><span title="Part III: Observing Executions"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Part III: Observing Executions <i class="fa fa-fw fa-wrench"></i></span></a>
-           
+     <li class="has-sub"><a href="#"><span title="Statistical Debugging"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Statistical Debugging <i class="fa fa-fw fa-wrench"></i></span></a>
+           <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
+</li><li class="has-sub"><a href="#All-these-Events!">&nbsp;&bull;&nbsp;&nbsp; All these Events!</a>
+</li><li class="has-sub"><a href="#Computing-Differences">&nbsp;&bull;&nbsp;&nbsp; Computing Differences</a>
+</li><li class="has-sub"><a href="#Visualizing-Differences">&nbsp;&bull;&nbsp;&nbsp; Visualizing Differences</a>
+<ul><li class="has-sub"><a href="#Discrete-Spectrum">Discrete Spectrum</a>
+</li><li class="has-sub"><a href="#Continuous-Spectrum">Continuous Spectrum</a>
+</ul></li><li class="has-sub"><a href="#Ranking-Lines-by-Suspiciousness">&nbsp;&bull;&nbsp;&nbsp; Ranking Lines by Suspiciousness</a>
+<ul><li class="has-sub"><a href="#The-Tarantula-Metric">The Tarantula Metric</a>
+</li><li class="has-sub"><a href="#The-Ochiai-Metric">The Ochiai Metric</a>
+</li><li class="has-sub"><a href="#How-Effective-is-Ranking?">How Effective is Ranking?</a>
+</ul></li><li class="has-sub"><a href="#Other-Events-besides-Coverage">&nbsp;&bull;&nbsp;&nbsp; Other Events besides Coverage</a>
+<ul><li class="has-sub"><a href="#Training-a-Classifier">Training a Classifier</a>
+</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+</li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
+</li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
+</li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
+<ul><li class="has-sub"><a href="#Exercise-1:-_Title_">Exercise 1: _Title_</a>
+</li><li class="has-sub"><a href="#Exercise-2:-_Title_">Exercise 2: _Title_</a>
+</ul></li></ul></li>
      </li>
      
      <li class="has-sub"><a href="#"><span title="Resources"><i class="fa fa-fw fa-cube"></i> </span><span class="menu_3">Resources</span></a>
      <ul>
-     <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/03_Observing.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/slides/03_Observing.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/code/03_Observing.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/notebooks/03_Observing.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
+     <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/StatisticalDebugger.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/slides/StatisticalDebugger.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/code/StatisticalDebugger.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/notebooks/StatisticalDebugger.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
      <li><a href="https://www.debuggingbook.org/beta/dist/debuggingbook-code.zip"><i class="fa fa-fw fa-cube"></i> All Code (.zip)</a></li>
      <li><a href="https://www.debuggingbook.org/beta/dist/debuggingbook-notebooks.zip"><i class="fa fa-fw fa-cube"></i> All Notebooks (.zip)</a></li>
      <li><a href="https://github.com/uds-se/debuggingbook/" target="_blank"><i class="fa fa-fw fa-github"></i> Project Page</a></li>
@@ -11915,13 +11925,13 @@ In this part, we show how to observe executions – by tracing, by interactivel
      
      <li class="has-sub"><a href="#"><span title="Share"><i class="fa fa-fw fa-comments"></i> </span> <span class="menu_4">Share</span></a>
         <ul>
-            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Part%20III%3a%20Observing%20Executions%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f03_Observing.html" target="popup" 
-onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Part%20III%3a%20Observing%20Executions%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f03_Observing.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Statistical%20Debugging%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fStatisticalDebugger.html" target="popup" 
+onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Statistical%20Debugging%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fStatisticalDebugger.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-twitter"></i> Share on Twitter</a>
-            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f03_Observing.html" target="popup" 
-onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f03_Observing.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fStatisticalDebugger.html" target="popup" 
+onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fStatisticalDebugger.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-facebook"></i> Share on Facebook</a>
-            <li><a href="mailto:?subject=Part%20III%3a%20Observing%20Executions&body=I%20just%20read%20%22Part%20III%3a%20Observing%20Executions%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2f03_Observing.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
+            <li><a href="mailto:?subject=Statistical%20Debugging&body=I%20just%20read%20%22Statistical%20Debugging%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fStatisticalDebugger.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
             <li><a href="#citation" id="cite" onclick="revealCitation()"><i class="fa fa-fw fa-mortar-board"></i> Cite</a>
         </ul>
      </li>
@@ -11944,13 +11954,2557 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Part-III:-Observing-Executions">Part III: Observing Executions<a class="anchor-link" href="#Part-III:-Observing-Executions">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>In this part, we show how to observe executions – by tracing, by interactively debugging, and more.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Statistical-Debugging">Statistical Debugging<a class="anchor-link" href="#Statistical-Debugging">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>Let us correlate events with failures!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
 <ul>
-<li><p><a href="Tracer.html">Tracing Executions</a> presents a number of ways to observe executions by logging locations and program states – and by narrowing these down to specific conditions and events.</p>
-</li>
-<li><p><a href="Debugger.html">Interactive Debugging</a> shows how to build an interactive debugger, allowing you to explore program executions at will.</p>
-</li>
+<li>You should have read the <a href="Tracer.html">Chapter on Tracing</a>.</li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><div class="synopsis"><h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2><!-- Automatically generated. Do not edit. -->
+
+<p>To <a href="Importing.html">use the code provided in this chapter</a>, write</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="StatisticalDebugger.html" class="import" target="_blank">debuggingbook.StatisticalDebugger</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+<p>and then make use of the following features.</p>
+<p><em>For those only interested in using the code in this chapter (without wanting to know how it works), give an example.  This will be copied to the beginning of the chapter (before the first section) as text with rendered input and output.</em></p>
+<p>For instance, this is what we get for <code>x=1</code>:</p>
+<p>You can use <code>int_fuzzer()</code> as:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="All-these-Events!">All these Events!<a class="anchor-link" href="#All-these-Events!">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We start with a base class to collect events:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Tracer.html" class="import" target="_blank">Tracer</a></span> <span class="k">import</span> <span class="n">Tracer</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class to record events during execution.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Collecting function. To be overridden in subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+            <span class="nb">locals</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2">={repr(locals[var])}&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{function}</span><span class="s2">(</span><span class="si">{args}</span><span class="s2">)&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Intro_Debugging.html" class="import" target="_blank">Intro_Debugging</a></span> <span class="k">import</span> <span class="n">remove_html_markup</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Collector</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let's extend this to collect coverage:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coverage</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coverage</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a set of predicates holding for the execution&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coverage</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">CoverageCollector</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{161, 163, 165, 167, 168, 170, 153, 154, 155, 156, 158, 159}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>remove_html_markup(s=&#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">list_with_coverage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">coverage</span><span class="p">):</span>
+    <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
+       <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+    <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span> <span class="k">if</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">coverage</span> <span class="k">else</span> <span class="s1">&#39; &#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{line_number:4}</span><span class="s2"> </span><span class="si">{marker}</span><span class="s2"> </span><span class="si">{line}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_with_coverage</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">coverage</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 153 * def remove_html_markup(s):
+ 154 *     tag = False
+ 155 *     quote = False
+ 156 *     out = &#34;&#34;
+ 157   
+ 158 *     for c in s:
+ 159 *         assert tag or not quote
+ 160   
+ 161 *         if c == &#39;&lt;&#39; and not quote:
+ 162               tag = True
+ 163 *         elif c == &#39;&gt;&#39; and not quote:
+ 164               tag = False
+ 165 *         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 166               quote = not quote
+ 167 *         elif not tag:
+ 168 *             out = out + c
+ 169   
+ 170 *     return out
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The interesting part are those lines <em>not</em> covered.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Computing-Differences">Computing Differences<a class="anchor-link" href="#Computing-Differences">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">CoverageCollector</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{161, 163, 165, 167, 168, 170, 153, 154, 155, 156, 158, 159}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collector_class</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span> <span class="o">=</span> <span class="n">collector_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">collector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">collector</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">collector</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html" class="import" target="_blank">IPython.display</a></span> <span class="k">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">HTML</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">event_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39; | &#39;</span>
+
+        <span class="n">all_events</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                <span class="n">all_events</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+
+        <span class="n">longest_event</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{event}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">all_events</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Header</span>
+        <span class="k">if</span> <span class="n">show_ids</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;| &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">longest_event</span> <span class="o">+</span> <span class="n">sep</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">collector</span><span class="o">.</span><span class="n">id</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">sep</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;| &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">longest_event</span> <span class="o">+</span> <span class="n">sep</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">])):</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="n">name</span> <span class="o">+</span> <span class="n">sep</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;| &#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">longest_event</span> <span class="o">+</span> <span class="n">sep</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">])):</span>
+                <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="n">sep</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="c1"># Data</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">all_events</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;| {repr(event).rjust(longest_event)}&quot;</span> <span class="o">+</span> <span class="n">sep</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">():</span>
+                        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;X&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">out</span> <span class="o">+=</span> <span class="s2">&quot;-&quot;</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="n">sep</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
+    <span class="n">PASS</span> <span class="o">=</span> <span class="s1">&#39;pass&#39;</span>
+    <span class="n">FAIL</span> <span class="o">=</span> <span class="s1">&#39;fail&#39;</span>
+
+    <span class="k">def</span> <span class="nf">collect_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">collect_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pass_collectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">fail_collectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_html</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;abc&lt;/b&gt;&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_fail</span><span class="p">():</span>
+        <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b bar=&quot;foo&quot;&gt;&lt;/b&gt;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">debugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+
+<table>
+<thead><tr>
+<th></th>
+<th>pass</th>
+<th>pass</th>
+<th>fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>153</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>154</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>155</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>156</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>158</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>159</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>161</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>162</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>163</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>164</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>165</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>166</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>167</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>168</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>170</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_1_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_2_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">in_any_pass</span> <span class="o">=</span> <span class="n">pass_1_events</span> <span class="o">|</span> <span class="n">pass_2_events</span>
+<span class="n">in_any_pass</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{153, 154, 155, 156, 158, 159, 161, 162, 163, 164, 165, 167, 168, 170}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fail_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">fail_collectors</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_in_fail</span> <span class="o">=</span> <span class="n">fail_events</span> <span class="o">-</span> <span class="n">in_any_pass</span>
+<span class="n">only_in_fail</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{166}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_with_coverage</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">only_in_fail</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 153   def remove_html_markup(s):
+ 154       tag = False
+ 155       quote = False
+ 156       out = &#34;&#34;
+ 157   
+ 158       for c in s:
+ 159           assert tag or not quote
+ 160   
+ 161           if c == &#39;&lt;&#39; and not quote:
+ 162               tag = True
+ 163           elif c == &#39;&gt;&#39; and not quote:
+ 164               tag = False
+ 165           elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 166 *             quote = not quote
+ 167           elif not tag:
+ 168               out = out + c
+ 169   
+ 170       return out
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">all_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">in_any</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">category</span><span class="p">]:</span>
+                <span class="n">in_any</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">category</span><span class="p">]:</span>
+                    <span class="n">in_any</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">in_any</span>
+
+    <span class="k">def</span> <span class="nf">all_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">all_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">only_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fail</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_pass</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">only_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_pass</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fail</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">all_events</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{153, 154, 155, 156, 158, 159, 161, 162, 163, 164, 165, 166, 167, 168, 170}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{166}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_pass</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{168}
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Visualizing-Differences">Visualizing Differences<a class="anchor-link" href="#Visualizing-Differences">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Discrete-Spectrum">Discrete Spectrum<a class="anchor-link" href="#Discrete-Spectrum">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_number</span><span class="p">):</span>
+        <span class="n">passing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
+        <span class="n">failing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">passing</span> <span class="ow">and</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;lightyellow&#39;</span>
+        <span class="k">elif</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;mistyrose&#39;</span>
+        <span class="k">elif</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">passing</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;honeydew&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_with_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
+           <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+        <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span>
+
+            <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">line</span>
+
+            <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">color</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;&lt;pre style=&quot;background-color:</span><span class="si">{color}</span><span class="s1">&quot;&gt;&#39;</span> \
+                        <span class="n">f</span><span class="s1">&#39;{line.rstrip()}&lt;/pre&gt;&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;&lt;pre&gt;</span><span class="si">{line}</span><span class="s1">&lt;/pre&gt;&#39;</span>
+
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">line</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:lightyellow"> 153 def remove_html_markup(s):</pre><pre style="background-color:lightyellow"> 154     tag = False</pre><pre style="background-color:lightyellow"> 155     quote = False</pre><pre style="background-color:lightyellow"> 156     out = ""</pre><pre> 157 &nbsp;</pre><pre style="background-color:lightyellow"> 158     for c in s:</pre><pre style="background-color:lightyellow"> 159         assert tag or not quote</pre><pre> 160 &nbsp;</pre><pre style="background-color:lightyellow"> 161         if c == '<' and not quote:</pre><pre style="background-color:lightyellow"> 162             tag = True</pre><pre style="background-color:lightyellow"> 163         elif c == '>' and not quote:</pre><pre style="background-color:lightyellow"> 164             tag = False</pre><pre style="background-color:lightyellow"> 165         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:mistyrose"> 166             quote = not quote</pre><pre style="background-color:lightyellow"> 167         elif not tag:</pre><pre style="background-color:honeydew"> 168             out = out + c</pre><pre> 169 &nbsp;</pre><pre style="background-color:lightyellow"> 170     return out</pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Continuous-Spectrum">Continuous Spectrum<a class="anchor-link" href="#Continuous-Spectrum">&#182;</a></h3><p>We introduce the Tarantula method for highlighting differences. The color is defined as follows:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>$$\textit{color}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{passed}(\textit{line})}{\%\textit{passed}(\textit{line}) + \%\textit{failed}(\textit{line})} \times \textit{color range}$$</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">event_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+        <span class="n">all_runs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">category</span><span class="p">]</span>
+        <span class="n">runs_with_event</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">collector</span> <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="n">all_runs</span> 
+                              <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+        <span class="n">fraction</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">runs_with_event</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_runs</span><span class="p">)</span>
+        <span class="c1"># print(f&quot;%{category}({event}) = {fraction}&quot;)</span>
+        <span class="k">return</span> <span class="n">fraction</span>
+
+    <span class="k">def</span> <span class="nf">passed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_number</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_fraction</span><span class="p">(</span><span class="n">line_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">failed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_number</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_fraction</span><span class="p">(</span><span class="n">line_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">hue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_number</span><span class="p">):</span>
+        <span class="n">passed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">passed</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+        <span class="n">failed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">passed</span> <span class="o">+</span> <span class="n">failed</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">passed</span> <span class="o">/</span> <span class="p">(</span><span class="n">passed</span> <span class="o">+</span> <span class="n">failed</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">debugger</span><span class="o">.</span><span class="n">hue</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>166 0.0
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_pass</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">debugger</span><span class="o">.</span><span class="n">hue</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>168 1.0
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The brightness is defined as follows:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>$$\textit{bright}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{failed}(\textit{line}))$$</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">bright</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">passed</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">failed</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">debugger</span><span class="o">.</span><span class="n">bright</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>166 1.0
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">hue</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">hue</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">saturation</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">bright</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="c1"># HSL color values are specified with: </span>
+        <span class="c1"># hsl(hue, saturation, lightness).</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;hsl({hue * 120}, {saturation * 100}%, 80%)&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">debugger</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>166 hsl(0.0, 100.0%, 80%)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_pass</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">debugger</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>168 hsl(120.0, 100.0%, 80%)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"> 153 def remove_html_markup(s):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 154     tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 155     quote = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 156     out = ""</pre><pre> 157 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 158     for c in s:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 159         assert tag or not quote</pre><pre> 160 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 161         if c == '<' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 162             tag = True</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 163         elif c == '>' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 164             tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 165         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:hsl(0.0, 100.0%, 80%)"> 166             quote = not quote</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 167         elif not tag:</pre><pre style="background-color:hsl(120.0, 100.0%, 80%)"> 168             out = out + c</pre><pre> 169 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 170     return out</pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's another example (right from the Tarantula paper source):</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span>
+        <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">z</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span>
+        <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">z</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">z</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_middle</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_fail</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">debugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Note that in order to collect data from multiple function invocations, you need to have a separate <code>with</code> clause for every invocation. The following will <em>not</em> work correctly:</p>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">middle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+
+<table>
+<thead><tr>
+<th></th>
+<th>pass</th>
+<th>pass</th>
+<th>pass</th>
+<th>pass</th>
+<th>pass</th>
+<th>fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>2</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>3</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>5</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>6</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>8</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>9</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>10</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>12</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:hsl(60.0, 100.0%, 80%)">   1 def middle(x, y, z):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   2     if y < z:</pre><pre style="background-color:hsl(44.99999999999999, 100.0%, 80%)">   3         if x < y:</pre><pre style="background-color:hsl(120.0, 20.0%, 80%)">   4             return y</pre><pre style="background-color:hsl(34.28571428571429, 100.0%, 80%)">   5         elif x < z:</pre><pre style="background-color:hsl(20.000000000000004, 100.0%, 80%)">   6             return y</pre><pre>   7     else:
+</pre><pre style="background-color:hsl(120.0, 40.0%, 80%)">   8         if x > y:</pre><pre style="background-color:hsl(120.0, 20.0%, 80%)">   9             return y</pre><pre style="background-color:hsl(120.0, 20.0%, 80%)">  10         elif x > z:</pre><pre>  11             return x
+</pre><pre style="background-color:hsl(120.0, 40.0%, 80%)">  12     return z</pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Ranking-Lines-by-Suspiciousness">Ranking Lines by Suspiciousness<a class="anchor-link" href="#Ranking-Lines-by-Suspiciousness">&#182;</a></h2><h3 id="The-Tarantula-Metric">The Tarantula Metric<a class="anchor-link" href="#The-Tarantula-Metric">&#182;</a></h3><h3 id="The-Ochiai-Metric">The Ochiai Metric<a class="anchor-link" href="#The-Ochiai-Metric">&#182;</a></h3><h3 id="How-Effective-is-Ranking?">How Effective is Ranking?<a class="anchor-link" href="#How-Effective-is-Ranking?">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Other-Events-besides-Coverage">Other Events besides Coverage<a class="anchor-link" href="#Other-Events-besides-Coverage">&#182;</a></h2><p>Our framework allows for tracking arbitrary events, not just coverage.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ValueCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="n">local_vars</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">local_vars</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">local_vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">var</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vars</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">(</span><span class="n">ValueCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+
+<table>
+<thead><tr>
+<th></th>
+<th>pass</th>
+<th>pass</th>
+<th>fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>('c', 'a')</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '=')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '"')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '&lt;')</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', '')</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('tag', True)</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', ' ')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('quote', True)</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('s', 'abc')</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('c', 'o')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('s', '<b>abc</b>')</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('c', 'c')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('c', 'r')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'b')</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'f')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '&gt;')</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'a')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('tag', False)</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '/')</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'ab')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('quote', False)</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('s', '<b bar="foo"></b>')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'abc')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(&#39;c&#39;, &#39; &#39;),
+ (&#39;c&#39;, &#39;&#34;&#39;),
+ (&#39;c&#39;, &#39;=&#39;),
+ (&#39;c&#39;, &#39;f&#39;),
+ (&#39;c&#39;, &#39;o&#39;),
+ (&#39;c&#39;, &#39;r&#39;),
+ (&#39;quote&#39;, True),
+ (&#39;s&#39;, &#39;&lt;b bar=&#34;foo&#34;&gt;&lt;/b&gt;&#39;)}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">(</span><span class="n">ValueCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+
+<table>
+<thead><tr>
+<th></th>
+<th>pass</th>
+<th>pass</th>
+<th>pass</th>
+<th>pass</th>
+<th>pass</th>
+<th>fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>('y', 1)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('y', 2)</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('y', 3)</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('z', 5)</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('y', 5)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('x', 5)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('z', 4)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('z', 3)</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('x', 2)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('x', 3)</td>
+<td>X</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('z', 1)</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('x', 1)</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(&#39;x&#39;, 2), (&#39;y&#39;, 1)}
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Training-a-Classifier">Training a Classifier<a class="anchor-link" href="#Training-a-Classifier">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/sklearn.html" class="import" target="_blank">sklearn</a></span> <span class="k">import</span> <span class="n">tree</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
+    <span class="n">PASS_VALUE</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span>
+    <span class="n">FAIL_VALUE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">():</span>
+            <span class="n">samples</span><span class="p">[</span><span class="n">collector</span><span class="o">.</span><span class="n">id</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PASS_VALUE</span>
+        <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">fail_collectors</span><span class="p">():</span>
+            <span class="n">samples</span><span class="p">[</span><span class="n">collector</span><span class="o">.</span><span class="n">id</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FAIL_VALUE</span>
+        <span class="k">return</span> <span class="n">samples</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">samples</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;middle(z=5, y=3, x=3)&#39;: 1,
+ &#39;middle(z=3, y=2, x=1)&#39;: 1,
+ &#39;middle(z=1, y=2, x=3)&#39;: 1,
+ &#39;middle(z=5, y=5, x=5)&#39;: 1,
+ &#39;middle(z=4, y=3, x=5)&#39;: 1,
+ &#39;middle(z=3, y=1, x=2)&#39;: -1}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">():</span>
+            <span class="n">features</span><span class="p">[</span><span class="n">collector</span><span class="o">.</span><span class="n">id</span><span class="p">()]</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">fail_collectors</span><span class="p">():</span>
+            <span class="n">features</span><span class="p">[</span><span class="n">collector</span><span class="o">.</span><span class="n">id</span><span class="p">()]</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">features</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">features</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;middle(z=5, y=3, x=3)&#39;: {1, 2, 3, 5, 6},
+ &#39;middle(z=3, y=2, x=1)&#39;: {1, 2, 3, 4},
+ &#39;middle(z=1, y=2, x=3)&#39;: {1, 2, 8, 9},
+ &#39;middle(z=5, y=5, x=5)&#39;: {1, 2, 8, 10, 12},
+ &#39;middle(z=4, y=3, x=5)&#39;: {1, 2, 3, 5, 12},
+ &#39;middle(z=3, y=1, x=2)&#39;: {1, 2, 3, 5, 6}}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">feature_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">()]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">feature_names</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;8&#39;, &#39;9&#39;, &#39;10&#39;, &#39;12&#39;]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">[</span><span class="n">sample</span><span class="p">]:</span>
+                <span class="n">x</span> <span class="o">+=</span> <span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">+=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="s1">&#39;middle(z=5, y=3, x=3)&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1, 1, 1, -1, 1, 1, -1, -1, -1, -1]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">X</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[1, 1, 1, -1, 1, 1, -1, -1, -1, -1],
+ [1, 1, 1, 1, -1, -1, -1, -1, -1, -1],
+ [1, 1, -1, -1, -1, -1, 1, 1, -1, -1],
+ [1, 1, -1, -1, -1, -1, 1, -1, 1, 1],
+ [1, 1, 1, -1, 1, -1, -1, -1, -1, 1],
+ [1, 1, 1, -1, 1, 1, -1, -1, -1, -1]]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+            <span class="n">Y</span> <span class="o">+=</span> <span class="p">[</span><span class="n">samples</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">Y</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">Y</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1, 1, 1, 1, 1, -1]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">classifier</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+        <span class="n">classifier</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">classifier</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/graphviz.html" class="import" target="_blank">graphviz</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">show_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier</span><span class="p">):</span>
+        <span class="n">dot_data</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">export_graphviz</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                         <span class="n">filled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">feature_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_names</span><span class="p">(),</span>
+                                <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;pass&quot;</span><span class="p">],</span>
+                                <span class="n">impurity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">special_characters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">dot_data</span> <span class="o">=</span> <span class="n">dot_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&amp;le; 0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;: no&#39;</span><span class="p">)</span>
+        <span class="n">dot_data</span> <span class="o">=</span> <span class="n">dot_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&amp;ge; 0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;: yes&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">graphviz</span><span class="o">.</span><span class="n">Source</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This is the tree we get.  A decision like <code>* &lt;= 0</code> means that <code>*</code> is not part of the input.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">classifier</span><span class="p">()</span>
+<span class="n">debugger</span><span class="o">.</span><span class="n">show_classifier</span><span class="p">(</span><span class="n">classifier</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea output_execute_result">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: Tree Pages: 1 -->
+<svg width="220pt" height="165pt"
+ viewBox="0.00 0.00 220.00 165.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 161)">
+<title>Tree</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-161 216,-161 216,4 -4,4"/>
+<!-- 0 -->
+<g id="node1" class="node">
+<title>0</title>
+<path fill="none" stroke="#000000" d="M142,-157C142,-157 69,-157 69,-157 63,-157 57,-151 57,-145 57,-145 57,-101 57,-101 57,-95 63,-89 69,-89 69,-89 142,-89 142,-89 148,-89 154,-95 154,-101 154,-101 154,-145 154,-145 154,-151 148,-157 142,-157"/>
+<text text-anchor="start" x="87.5" y="-141.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">6 : no</text>
+<text text-anchor="start" x="67.5" y="-126.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 6</text>
+<text text-anchor="start" x="65" y="-111.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [1, 5]</text>
+<text text-anchor="start" x="66.5" y="-96.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = pass</text>
+</g>
+<!-- 1 -->
+<g id="node2" class="node">
+<title>1</title>
+<path fill="none" stroke="#000000" d="M85,-53C85,-53 12,-53 12,-53 6,-53 0,-47 0,-41 0,-41 0,-12 0,-12 0,-6 6,0 12,0 12,0 85,0 85,0 91,0 97,-6 97,-12 97,-12 97,-41 97,-41 97,-47 91,-53 85,-53"/>
+<text text-anchor="start" x="10.5" y="-37.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 4</text>
+<text text-anchor="start" x="8" y="-22.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [0, 4]</text>
+<text text-anchor="start" x="9.5" y="-7.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = pass</text>
+</g>
+<!-- 0&#45;&gt;1 -->
+<g id="edge1" class="edge">
+<title>0&#45;&gt;1</title>
+<path fill="none" stroke="#000000" d="M85.4039,-88.9777C80.2656,-80.2786 74.727,-70.9018 69.5425,-62.1247"/>
+<polygon fill="#000000" stroke="#000000" points="72.399,-60.0786 64.2996,-53.2485 66.3719,-63.6387 72.399,-60.0786"/>
+<text text-anchor="middle" x="58.0694" y="-73.7597" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">True</text>
+</g>
+<!-- 2 -->
+<g id="node3" class="node">
+<title>2</title>
+<path fill="none" stroke="#000000" d="M200,-53C200,-53 127,-53 127,-53 121,-53 115,-47 115,-41 115,-41 115,-12 115,-12 115,-6 121,0 127,0 127,0 200,0 200,0 206,0 212,-6 212,-12 212,-12 212,-41 212,-41 212,-47 206,-53 200,-53"/>
+<text text-anchor="start" x="125.5" y="-37.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">samples = 2</text>
+<text text-anchor="start" x="123" y="-22.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">value = [1, 1]</text>
+<text text-anchor="start" x="130.5" y="-7.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">class = fail</text>
+</g>
+<!-- 0&#45;&gt;2 -->
+<g id="edge2" class="edge">
+<title>0&#45;&gt;2</title>
+<path fill="none" stroke="#000000" d="M125.9486,-88.9777C131.2322,-80.187 136.9316,-70.7044 142.2548,-61.8477"/>
+<polygon fill="#000000" stroke="#000000" points="145.2715,-63.6225 147.4232,-53.2485 139.2718,-60.0165 145.2715,-63.6225"/>
+<text text-anchor="middle" x="153.4681" y="-73.8067" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#000000">False</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">sample</span><span class="p">)])</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="c1"># debugger.predict(classifier, set(166))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Lessons-Learned">Lessons Learned<a class="anchor-link" href="#Lessons-Learned">&#182;</a></h2><ul>
+<li><em>Lesson one</em></li>
+<li><em>Lesson two</em></li>
+<li><em>Lesson three</em></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Next-Steps">Next Steps<a class="anchor-link" href="#Next-Steps">&#182;</a></h2><p><em>Link to subsequent chapters (notebooks) here, as in:</em></p>
+<ul>
+<li><a href="MutationFuzzer.html">use <em>mutations</em> on existing inputs to get more valid inputs</a></li>
+<li><a href="Grammars.html">use <em>grammars</em> (i.e., a specification of the input format) to get even more valid inputs</a></li>
+<li><a href="Reducer.html">reduce <em>failing inputs</em> for efficient debugging</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p><em>Cite relevant works in the literature and put them into context, as in:</em></p>
+<p>The idea of ensuring that each expansion in the grammar is used at least once goes back to Burkhardt [<a href="https://doi.org/10.1007/BF02235512">Burkhardt <em>et al</em>, 1967.</a>], to be later rediscovered by Paul Purdom [<a href="https://doi.org/10.1007/BF01932308">Purdom <em>et al</em>, 1972.</a>].</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h2><p><em>Close the chapter with a few exercises such that people have things to do.  To make the solutions hidden (to be revealed by the user), have them start with</em></p>
+
+<pre><code>**Solution.**</code></pre>
+<p><em>Your solution can then extend up to the next title (i.e., any markdown cell starting with <code>#</code>).</em></p>
+<p><em>Running <code>make metadata</code> will automatically add metadata to the cells such that the cells will be hidden by default, and can be uncovered by the user.  The button will be introduced above the solution.</em></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-1:-Title">Exercise 1: <em>Title</em><a class="anchor-link" href="#Exercise-1:-Title">&#182;</a></h3><p><em>Text of the exercise</em></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Some code that is part of the exercise</span>
+<span class="k">pass</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><em>Some more text for the exercise</em></p>
+
+    
+<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/StatisticalDebugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-2:-Title">Exercise 2: <em>Title</em><a class="anchor-link" href="#Exercise-2:-Title">&#182;</a></h3><p><em>Text of the exercise</em></p>
+
+    
+<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/StatisticalDebugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
 </div>
 </div>
 </div>
@@ -11962,12 +14516,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/03_Observing.ipynb" target=_blank)>Last change: 2020-10-18 20:30:40+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-03 14:49:11+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
 
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Part III: Observing Executions" style="width:0;height:0;border:0; border:none;"></iframe>
+<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Statistical Debugging" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -11980,19 +14534,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/03_Observing.html">Part III: Observing Executions</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/03_Observing.html">https://www.debuggingbook.org/beta/html/03_Observing.html</a>.  Retrieved 2020-10-18 20:30:40+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-03 14:49:11+01:00.
 </p>
 <pre>
-@incollection{debuggingbook2020:03_Observing,
+@incollection{debuggingbook2020:StatisticalDebugger,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
-    title = {Part III: Observing Executions},
+    title = {Statistical Debugging},
     year = {2020},
     publisher = {CISPA},
-    howpublished = {\url{https://www.debuggingbook.org/beta/html/03_Observing.html}},
-    note = {Retrieved 2020-10-18 20:30:40+02:00},
-    url = {https://www.debuggingbook.org/beta/html/03_Observing.html},
-    urldate = {2020-10-18 20:30:40+02:00}
+    howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
+    note = {Retrieved 2020-11-03 14:49:11+01:00},
+    url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
+    urldate = {2020-11-03 14:49:11+01:00}
 }
 </pre>
 </div>

@@ -11877,6 +11877,7 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -11922,7 +11923,8 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
-<ul><li class="has-sub"><a href="#Exercise-1:-More-Bugs!">Exercise 1: More Bugs!</a>
+<ul><li class="has-sub"><a href="#Exercise-1:-Get-Acquainted-with-Notebooks-and-Python">Exercise 1: Get Acquainted with Notebooks and Python</a>
+</li><li class="has-sub"><a href="#Exercise-2:-More-Bugs!">Exercise 2: More Bugs!</a>
 </ul></li></ul></li>
      </li>
      
@@ -12080,13 +12082,13 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>   <span class="c1"># start of markup</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span> <span class="c1"># end of markup</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
@@ -12114,7 +12116,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="text_cell_render border-box-sizing rendered_html"><h3 id="Understanding-Python-Programs">Understanding Python Programs<a class="anchor-link" href="#Understanding-Python-Programs">&#182;</a></h3><p>If you're new to Python, you might first have to understand what the above code does.  We very much recommend the <a href="https://docs.python.org/3/tutorial/">Python tutorial</a> to get an idea on how Python works.  The most important things for you to understand the above code are these three:</p>
 <ol>
 <li>Python structures programs through <em>indentation</em>, so the function and <code>for</code> bodies are defined by being indented;</li>
-<li>Python is <em>dynamically typed</em>, meaning that the type of variables like <code>x</code>, <code>approx</code>, or <code>guess</code> is determined at run-time.</li>
+<li>Python is <em>dynamically typed</em>, meaning that the type of variables like <code>c</code>, <code>tag</code>, or <code>out</code> is determined at run-time.</li>
 <li>Most of Python's syntactic features are inspired by other common languages, such as control structures (<code>while</code>, <code>if</code>, <code>for</code>), assignments (<code>=</code>), or comparisons (<code>==</code>, <code>!=</code>, <code>&lt;</code>).</li>
 </ol>
 <p>With that, you can already understand what the above code does: <code>remove_html_markup()</code> takes a (HTML) string <code>s</code> and then iterates over the individual characters (<code>for c in s</code>). By default, these characters are added to the return string <code>out</code>. However, if <code>remove_html_markup()</code> finds a <code>&lt;</code> character, it sets the <code>tag</code> flag, meaning that all further characters are ignored until a <code>&gt;</code> character is found.</p>
@@ -12209,7 +12211,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> \
+    <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
 </pre></div>
 
 </div>
@@ -12623,9 +12626,9 @@ tag</title>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
@@ -12692,7 +12695,8 @@ tag</title>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> \
+    <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
 </pre></div>
 
 </div>
@@ -12814,7 +12818,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>    
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>
 </pre></div>
 
 </div>
@@ -12856,9 +12860,9 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_with_print</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c =&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="s2">&quot;tag =&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="s2">&quot;quote =&quot;</span><span class="p">,</span> <span class="n">quote</span><span class="p">)</span>
@@ -12974,14 +12978,14 @@ c = &#39;&gt;&#39; tag = True quote = False
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_without_quotes</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span> <span class="c1"># and not quote:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>  <span class="c1"># and not quote:</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span> <span class="c1"># and not quote:</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># and not quote:</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
@@ -13002,7 +13006,7 @@ c = &#39;&gt;&#39; tag = True quote = False
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup_without_quotes</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>    
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup_without_quotes</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>
 </pre></div>
 
 </div>
@@ -13090,7 +13094,6 @@ AssertionError (expected)
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_fixed</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
-
     <span class="o">...</span>
 </pre></div>
 
@@ -13742,7 +13745,7 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>The goal of debugging thus is to <em>search</em> for the step in which the state first becomes faulty. The <em>code</em> associated with this step is again in error – an unwanted and unintended deviation from what is correct, right, or true – and is called a <em>defect</em>. This is what we have to find – and to fix.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>The goal of debugging thus is to <em>search</em> for the step in which the state first becomes faulty. The <em>code</em> associated with this step is again an error – an unwanted and unintended deviation from what is correct, right, or true – and is called a <em>defect</em>. This is what we have to find – and to fix.</p>
 </div>
 </div>
 </div>
@@ -14324,7 +14327,10 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">html</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span> <span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">]):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">html</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">]):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%-2d</span><span class="s2"> </span><span class="si">%-15s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">html</span><span class="p">,</span> <span class="n">result</span><span class="p">))</span>
 </pre></div>
@@ -14450,26 +14456,26 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <div class="quiz">
     <h3 class="quiz_title">Quiz</h3>
     <p>
-    <div class="quiz_question">From the difference between success and failure, we can already devise some observations about what's wrong with the output.  Which of these can we turn into general hypotheses?</div>
+    <div class="quiz_question">From the difference between success and failure, we can already devise some observations about  what's wrong with the output. Which of these can we turn into general hypotheses?</div>
     </p>
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="2878ae4c-147f-11eb-a588-acde48001122" id="2878ae4c-147f-11eb-a588-acde48001122-1" onclick="clear_selection('2878ae4c-147f-11eb-a588-acde48001122')">
-        <label id="2878ae4c-147f-11eb-a588-acde48001122-1-label" for="2878ae4c-147f-11eb-a588-acde48001122-1">Double quotes are stripped from the tagged input.</label><br>
+        <input type="checkbox" name="0f270988-1d1a-11eb-a588-acde48001122" id="0f270988-1d1a-11eb-a588-acde48001122-1" onclick="clear_selection('0f270988-1d1a-11eb-a588-acde48001122')">
+        <label id="0f270988-1d1a-11eb-a588-acde48001122-1-label" for="0f270988-1d1a-11eb-a588-acde48001122-1">Double quotes are stripped from the tagged input.</label><br>
 
-        <input type="checkbox" name="2878ae4c-147f-11eb-a588-acde48001122" id="2878ae4c-147f-11eb-a588-acde48001122-2" onclick="clear_selection('2878ae4c-147f-11eb-a588-acde48001122')">
-        <label id="2878ae4c-147f-11eb-a588-acde48001122-2-label" for="2878ae4c-147f-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
+        <input type="checkbox" name="0f270988-1d1a-11eb-a588-acde48001122" id="0f270988-1d1a-11eb-a588-acde48001122-2" onclick="clear_selection('0f270988-1d1a-11eb-a588-acde48001122')">
+        <label id="0f270988-1d1a-11eb-a588-acde48001122-2-label" for="0f270988-1d1a-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
 
-        <input type="checkbox" name="2878ae4c-147f-11eb-a588-acde48001122" id="2878ae4c-147f-11eb-a588-acde48001122-3" onclick="clear_selection('2878ae4c-147f-11eb-a588-acde48001122')">
-        <label id="2878ae4c-147f-11eb-a588-acde48001122-3-label" for="2878ae4c-147f-11eb-a588-acde48001122-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
+        <input type="checkbox" name="0f270988-1d1a-11eb-a588-acde48001122" id="0f270988-1d1a-11eb-a588-acde48001122-3" onclick="clear_selection('0f270988-1d1a-11eb-a588-acde48001122')">
+        <label id="0f270988-1d1a-11eb-a588-acde48001122-3-label" for="0f270988-1d1a-11eb-a588-acde48001122-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
 
-        <input type="checkbox" name="2878ae4c-147f-11eb-a588-acde48001122" id="2878ae4c-147f-11eb-a588-acde48001122-4" onclick="clear_selection('2878ae4c-147f-11eb-a588-acde48001122')">
-        <label id="2878ae4c-147f-11eb-a588-acde48001122-4-label" for="2878ae4c-147f-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
+        <input type="checkbox" name="0f270988-1d1a-11eb-a588-acde48001122" id="0f270988-1d1a-11eb-a588-acde48001122-4" onclick="clear_selection('0f270988-1d1a-11eb-a588-acde48001122')">
+        <label id="0f270988-1d1a-11eb-a588-acde48001122-4-label" for="0f270988-1d1a-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
 
     </div>
     </p>
-    <input id="2878ae4c-147f-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('2878ae4c-147f-11eb-a588-acde48001122', 6, 1)">
+    <input id="0f270988-1d1a-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0f270988-1d1a-11eb-a588-acde48001122', 6, 1)">
     </div>
 
 </div>
@@ -14623,7 +14629,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>Where does that quote-stripping come from?  This is where we need to explore the cause-effect chain.  The only place in <code>remove_html_markup()</code> where quotes are handled is this line:</p>
 <div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
-             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
 </pre></div>
 <p>So, quotes should be removed only if <code>tag</code> is set. However, <code>tag</code> can be set only if the input contains a markup tag, which is not the case for a simple input like <code>"foo"</code>. Hence, what we observe is actually <em>impossible.</em> Yet, it happens.</p>
 </div>
@@ -14676,9 +14682,9 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_with_tag_assert</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">tag</span>  <span class="c1"># &lt;=== Just added</span>
@@ -14788,15 +14794,15 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="287d555c-147f-11eb-8163-acde48001122" id="287d555c-147f-11eb-8163-acde48001122-1" onclick="clear_selection('287d555c-147f-11eb-8163-acde48001122')">
-        <label id="287d555c-147f-11eb-8163-acde48001122-1-label" for="287d555c-147f-11eb-8163-acde48001122-1">The program raises an exception. (i.e., tag is set)</label><br>
+        <input type="radio" name="0f2cc9cc-1d1a-11eb-8163-acde48001122" id="0f2cc9cc-1d1a-11eb-8163-acde48001122-1" onclick="clear_selection('0f2cc9cc-1d1a-11eb-8163-acde48001122')">
+        <label id="0f2cc9cc-1d1a-11eb-8163-acde48001122-1-label" for="0f2cc9cc-1d1a-11eb-8163-acde48001122-1">The program raises an exception. (i.e., tag is set)</label><br>
 
-        <input type="radio" name="287d555c-147f-11eb-8163-acde48001122" id="287d555c-147f-11eb-8163-acde48001122-2" onclick="clear_selection('287d555c-147f-11eb-8163-acde48001122')">
-        <label id="287d555c-147f-11eb-8163-acde48001122-2-label" for="287d555c-147f-11eb-8163-acde48001122-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
+        <input type="radio" name="0f2cc9cc-1d1a-11eb-8163-acde48001122" id="0f2cc9cc-1d1a-11eb-8163-acde48001122-2" onclick="clear_selection('0f2cc9cc-1d1a-11eb-8163-acde48001122')">
+        <label id="0f2cc9cc-1d1a-11eb-8163-acde48001122-2-label" for="0f2cc9cc-1d1a-11eb-8163-acde48001122-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
 
     </div>
     </p>
-    <input id="287d555c-147f-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('287d555c-147f-11eb-8163-acde48001122', 4, 0)">
+    <input id="0f2cc9cc-1d1a-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0f2cc9cc-1d1a-11eb-8163-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -14854,7 +14860,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>Again, let's go back to the only place in our code where quotes are handled:</p>
 <div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
-             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
 </pre></div>
 <p>Because of the assertion, we already know that <code>tag</code> is always False.  Hence, this condition should never hold either.</p>
 </div>
@@ -14890,9 +14896,9 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_with_quote_assert</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
@@ -15001,15 +15007,15 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="2880d90c-147f-11eb-9732-acde48001122" id="2880d90c-147f-11eb-9732-acde48001122-1" onclick="clear_selection('2880d90c-147f-11eb-9732-acde48001122')">
-        <label id="2880d90c-147f-11eb-9732-acde48001122-1-label" for="2880d90c-147f-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
+        <input type="radio" name="0f3080b4-1d1a-11eb-9732-acde48001122" id="0f3080b4-1d1a-11eb-9732-acde48001122-1" onclick="clear_selection('0f3080b4-1d1a-11eb-9732-acde48001122')">
+        <label id="0f3080b4-1d1a-11eb-9732-acde48001122-1-label" for="0f3080b4-1d1a-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
 
-        <input type="radio" name="2880d90c-147f-11eb-9732-acde48001122" id="2880d90c-147f-11eb-9732-acde48001122-2" onclick="clear_selection('2880d90c-147f-11eb-9732-acde48001122')">
-        <label id="2880d90c-147f-11eb-9732-acde48001122-2-label" for="2880d90c-147f-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
+        <input type="radio" name="0f3080b4-1d1a-11eb-9732-acde48001122" id="0f3080b4-1d1a-11eb-9732-acde48001122-2" onclick="clear_selection('0f3080b4-1d1a-11eb-9732-acde48001122')">
+        <label id="0f3080b4-1d1a-11eb-9732-acde48001122-2-label" for="0f3080b4-1d1a-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
 
     </div>
     </p>
-    <input id="2880d90c-147f-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('2880d90c-147f-11eb-9732-acde48001122', 2, 0)">
+    <input id="0f3080b4-1d1a-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0f3080b4-1d1a-11eb-9732-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -15046,7 +15052,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-48-9ce255289291&gt;&#34;, line 2, in &lt;module&gt;
     result = remove_html_markup_with_quote_assert(&#39;&#34;foo&#34;&#39;)
-  File &#34;&lt;ipython-input-45-7c03457dde82&gt;&#34;, line 12, in remove_html_markup_with_quote_assert
+  File &#34;&lt;ipython-input-45-9c8a53a91780&gt;&#34;, line 12, in remove_html_markup_with_quote_assert
     assert False  # &lt;=== Just added
 AssertionError (expected)
 </pre>
@@ -15063,7 +15069,7 @@ AssertionError (expected)
 </ol>
 <p>and the <em>condition is actually faulty.</em> It evaluates to True although <code>tag</code> is always False:</p>
 <div class="highlight"><pre><span></span><span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
-             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
 </pre></div>
 <p>But this condition holds for single and double quotes.  Is there a difference?</p>
 </div>
@@ -15225,21 +15231,21 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="2883c752-147f-11eb-b36c-acde48001122" id="2883c752-147f-11eb-b36c-acde48001122-1" onclick="clear_selection('2883c752-147f-11eb-b36c-acde48001122')">
-        <label id="2883c752-147f-11eb-b36c-acde48001122-1-label" for="2883c752-147f-11eb-b36c-acde48001122-1">Choice 1</label><br>
+        <input type="radio" name="0f336d54-1d1a-11eb-b36c-acde48001122" id="0f336d54-1d1a-11eb-b36c-acde48001122-1" onclick="clear_selection('0f336d54-1d1a-11eb-b36c-acde48001122')">
+        <label id="0f336d54-1d1a-11eb-b36c-acde48001122-1-label" for="0f336d54-1d1a-11eb-b36c-acde48001122-1">Choice 1</label><br>
 
-        <input type="radio" name="2883c752-147f-11eb-b36c-acde48001122" id="2883c752-147f-11eb-b36c-acde48001122-2" onclick="clear_selection('2883c752-147f-11eb-b36c-acde48001122')">
-        <label id="2883c752-147f-11eb-b36c-acde48001122-2-label" for="2883c752-147f-11eb-b36c-acde48001122-2">Choice 2</label><br>
+        <input type="radio" name="0f336d54-1d1a-11eb-b36c-acde48001122" id="0f336d54-1d1a-11eb-b36c-acde48001122-2" onclick="clear_selection('0f336d54-1d1a-11eb-b36c-acde48001122')">
+        <label id="0f336d54-1d1a-11eb-b36c-acde48001122-2-label" for="0f336d54-1d1a-11eb-b36c-acde48001122-2">Choice 2</label><br>
 
-        <input type="radio" name="2883c752-147f-11eb-b36c-acde48001122" id="2883c752-147f-11eb-b36c-acde48001122-3" onclick="clear_selection('2883c752-147f-11eb-b36c-acde48001122')">
-        <label id="2883c752-147f-11eb-b36c-acde48001122-3-label" for="2883c752-147f-11eb-b36c-acde48001122-3">Choice 3</label><br>
+        <input type="radio" name="0f336d54-1d1a-11eb-b36c-acde48001122" id="0f336d54-1d1a-11eb-b36c-acde48001122-3" onclick="clear_selection('0f336d54-1d1a-11eb-b36c-acde48001122')">
+        <label id="0f336d54-1d1a-11eb-b36c-acde48001122-3-label" for="0f336d54-1d1a-11eb-b36c-acde48001122-3">Choice 3</label><br>
 
-        <input type="radio" name="2883c752-147f-11eb-b36c-acde48001122" id="2883c752-147f-11eb-b36c-acde48001122-4" onclick="clear_selection('2883c752-147f-11eb-b36c-acde48001122')">
-        <label id="2883c752-147f-11eb-b36c-acde48001122-4-label" for="2883c752-147f-11eb-b36c-acde48001122-4">Something else</label><br>
+        <input type="radio" name="0f336d54-1d1a-11eb-b36c-acde48001122" id="0f336d54-1d1a-11eb-b36c-acde48001122-4" onclick="clear_selection('0f336d54-1d1a-11eb-b36c-acde48001122')">
+        <label id="0f336d54-1d1a-11eb-b36c-acde48001122-4-label" for="0f336d54-1d1a-11eb-b36c-acde48001122-4">Something else</label><br>
 
     </div>
     </p>
-    <input id="2883c752-147f-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('2883c752-147f-11eb-b36c-acde48001122', 8, 0)">
+    <input id="0f336d54-1d1a-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0f336d54-1d1a-11eb-b36c-acde48001122', 8, 0)">
     </div>
 
 </div>
@@ -15343,7 +15349,7 @@ AssertionError (expected)
 <li>is consistent with all earlier observations</li>
 <li>predicts future observations (in our case: correct behavior)</li>
 </ul>
-<p>For debugging, our problems are usually to small for a big word like theory, so we use the word <em>diagnosis</em> instead.  You should start to fix your code if and only if you have a diagnosis.</p>
+<p>For debugging, our problems are usually too small for a big word like theory, so we use the word <em>diagnosis</em> instead.  You should start to fix your code if and only if you have a diagnosis.</p>
 </div>
 </div>
 </div>
@@ -15365,9 +15371,9 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
@@ -15402,12 +15408,14 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
-<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;Here&#39;s some &lt;strong&gt;strong argument&lt;/strong&gt;.&quot;</span><span class="p">)</span> <span class="o">==</span> \
+    <span class="s2">&quot;Here&#39;s some strong argument.&quot;</span>
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span>
+    <span class="s1">&#39;&lt;input type=&quot;text&quot; value=&quot;&lt;your name&gt;&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
 <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>
 <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;&quot;foo&quot;&lt;/b&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
 <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;&lt;b&gt;foo&lt;/b&gt;&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
-<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>    
+<span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;&quot;b&quot;&gt;foo&lt;/&quot;b&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;foo&#39;</span>
 </pre></div>
 
 </div>
@@ -15518,21 +15526,21 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="28868bf4-147f-11eb-835f-acde48001122" id="28868bf4-147f-11eb-835f-acde48001122-1" onclick="clear_selection('28868bf4-147f-11eb-835f-acde48001122')">
-        <label id="28868bf4-147f-11eb-835f-acde48001122-1-label" for="28868bf4-147f-11eb-835f-acde48001122-1">assert quote and not tag</label><br>
+        <input type="radio" name="0f3686d8-1d1a-11eb-835f-acde48001122" id="0f3686d8-1d1a-11eb-835f-acde48001122-1" onclick="clear_selection('0f3686d8-1d1a-11eb-835f-acde48001122')">
+        <label id="0f3686d8-1d1a-11eb-835f-acde48001122-1-label" for="0f3686d8-1d1a-11eb-835f-acde48001122-1">assert quote and not tag</label><br>
 
-        <input type="radio" name="28868bf4-147f-11eb-835f-acde48001122" id="28868bf4-147f-11eb-835f-acde48001122-2" onclick="clear_selection('28868bf4-147f-11eb-835f-acde48001122')">
-        <label id="28868bf4-147f-11eb-835f-acde48001122-2-label" for="28868bf4-147f-11eb-835f-acde48001122-2">assert quote or not tag</label><br>
+        <input type="radio" name="0f3686d8-1d1a-11eb-835f-acde48001122" id="0f3686d8-1d1a-11eb-835f-acde48001122-2" onclick="clear_selection('0f3686d8-1d1a-11eb-835f-acde48001122')">
+        <label id="0f3686d8-1d1a-11eb-835f-acde48001122-2-label" for="0f3686d8-1d1a-11eb-835f-acde48001122-2">assert quote or not tag</label><br>
 
-        <input type="radio" name="28868bf4-147f-11eb-835f-acde48001122" id="28868bf4-147f-11eb-835f-acde48001122-3" onclick="clear_selection('28868bf4-147f-11eb-835f-acde48001122')">
-        <label id="28868bf4-147f-11eb-835f-acde48001122-3-label" for="28868bf4-147f-11eb-835f-acde48001122-3">assert tag or not quote</label><br>
+        <input type="radio" name="0f3686d8-1d1a-11eb-835f-acde48001122" id="0f3686d8-1d1a-11eb-835f-acde48001122-3" onclick="clear_selection('0f3686d8-1d1a-11eb-835f-acde48001122')">
+        <label id="0f3686d8-1d1a-11eb-835f-acde48001122-3-label" for="0f3686d8-1d1a-11eb-835f-acde48001122-3">assert tag or not quote</label><br>
 
-        <input type="radio" name="28868bf4-147f-11eb-835f-acde48001122" id="28868bf4-147f-11eb-835f-acde48001122-4" onclick="clear_selection('28868bf4-147f-11eb-835f-acde48001122')">
-        <label id="28868bf4-147f-11eb-835f-acde48001122-4-label" for="28868bf4-147f-11eb-835f-acde48001122-4">assert tag and not quote</label><br>
+        <input type="radio" name="0f3686d8-1d1a-11eb-835f-acde48001122" id="0f3686d8-1d1a-11eb-835f-acde48001122-4" onclick="clear_selection('0f3686d8-1d1a-11eb-835f-acde48001122')">
+        <label id="0f3686d8-1d1a-11eb-835f-acde48001122-4-label" for="0f3686d8-1d1a-11eb-835f-acde48001122-4">assert tag and not quote</label><br>
 
     </div>
     </p>
-    <input id="28868bf4-147f-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('28868bf4-147f-11eb-835f-acde48001122', 8, 0)">
+    <input id="0f3686d8-1d1a-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0f3686d8-1d1a-11eb-835f-acde48001122', 8, 0)">
     </div>
 
 </div>
@@ -15707,9 +15715,9 @@ tag</title>
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span>   <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">out</span>   <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
@@ -15787,7 +15795,7 @@ tag</title>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>Keeping such a log also allows you to interrupt your debugging session at any time. You can be home in time, sleep over the problem, and resume the next morning with a refreshed mind. You can even hand over the log to someone else, stating your findings so far.</p>
-<p>The alternative to having a long is to <em>keep all in memory</em>. This only works for short amounts of time, as puts a higher and higher cognitive load on your memory as you debug along. After some time, you will forget earlier observations, which leads to mistakes. Worst of all, any interruption will break your concentration and make you forget things, so you can't stop debugging until you're done.</p>
+<p>The alternative to having a log is to <em>keep all in memory</em>. This only works for short amounts of time, as puts a higher and higher cognitive load on your memory as you debug along. After some time, you will forget earlier observations, which leads to mistakes. Worst of all, any interruption will break your concentration and make you forget things, so you can't stop debugging until you're done.</p>
 <p>Sure, if you are a real master, you can stay glued to the screen all night. But I'd rather be home in time, thank you.</p>
 </div>
 </div>
@@ -15797,7 +15805,7 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Rubberducking">Rubberducking<a class="anchor-link" href="#Rubberducking">&#182;</a></h3><p>A great technique to revisit your observations and to come up with new hypotheses is to <em>explain the problem to someone else</em>. In this process, the "someone else" is important, but even more important is that <em>you are explaining the problem to yourself</em>! As Kernighan and Pike [Unresolved citation: kernighan200x.] put it:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Rubberducking">Rubberducking<a class="anchor-link" href="#Rubberducking">&#182;</a></h3><p>A great technique to revisit your observations and to come up with new hypotheses is to <em>explain the problem to someone else</em>. In this process, the "someone else" is important, but even more important is that <em>you are explaining the problem to yourself</em>! As Kernighan and Pike [Kernighan <em>et al</em>, 1999.] put it:</p>
 <blockquote><p>Sometimes it takes no more than a few sentences, followed by an embarrassed "Never mind. I see what's wrong. Sorry to bother you."</p>
 </blockquote>
 <p>The reason why this works is that teaching someone else forces you to take different perspectives, and these help you resolving the inconsistency between what you assume and what you actually observe.</p>
@@ -15919,21 +15927,21 @@ tag</title>
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="28dc7ef6-147f-11eb-858d-acde48001122" id="28dc7ef6-147f-11eb-858d-acde48001122-1" onclick="clear_selection('28dc7ef6-147f-11eb-858d-acde48001122')">
-        <label id="28dc7ef6-147f-11eb-858d-acde48001122-1-label" for="28dc7ef6-147f-11eb-858d-acde48001122-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
+        <input type="checkbox" name="0f9e0f42-1d1a-11eb-858d-acde48001122" id="0f9e0f42-1d1a-11eb-858d-acde48001122-1" onclick="clear_selection('0f9e0f42-1d1a-11eb-858d-acde48001122')">
+        <label id="0f9e0f42-1d1a-11eb-858d-acde48001122-1-label" for="0f9e0f42-1d1a-11eb-858d-acde48001122-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
 
-        <input type="checkbox" name="28dc7ef6-147f-11eb-858d-acde48001122" id="28dc7ef6-147f-11eb-858d-acde48001122-2" onclick="clear_selection('28dc7ef6-147f-11eb-858d-acde48001122')">
-        <label id="28dc7ef6-147f-11eb-858d-acde48001122-2-label" for="28dc7ef6-147f-11eb-858d-acde48001122-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
+        <input type="checkbox" name="0f9e0f42-1d1a-11eb-858d-acde48001122" id="0f9e0f42-1d1a-11eb-858d-acde48001122-2" onclick="clear_selection('0f9e0f42-1d1a-11eb-858d-acde48001122')">
+        <label id="0f9e0f42-1d1a-11eb-858d-acde48001122-2-label" for="0f9e0f42-1d1a-11eb-858d-acde48001122-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
 
-        <input type="checkbox" name="28dc7ef6-147f-11eb-858d-acde48001122" id="28dc7ef6-147f-11eb-858d-acde48001122-3" onclick="clear_selection('28dc7ef6-147f-11eb-858d-acde48001122')">
-        <label id="28dc7ef6-147f-11eb-858d-acde48001122-3-label" for="28dc7ef6-147f-11eb-858d-acde48001122-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
+        <input type="checkbox" name="0f9e0f42-1d1a-11eb-858d-acde48001122" id="0f9e0f42-1d1a-11eb-858d-acde48001122-3" onclick="clear_selection('0f9e0f42-1d1a-11eb-858d-acde48001122')">
+        <label id="0f9e0f42-1d1a-11eb-858d-acde48001122-3-label" for="0f9e0f42-1d1a-11eb-858d-acde48001122-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
 
-        <input type="checkbox" name="28dc7ef6-147f-11eb-858d-acde48001122" id="28dc7ef6-147f-11eb-858d-acde48001122-4" onclick="clear_selection('28dc7ef6-147f-11eb-858d-acde48001122')">
-        <label id="28dc7ef6-147f-11eb-858d-acde48001122-4-label" for="28dc7ef6-147f-11eb-858d-acde48001122-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
+        <input type="checkbox" name="0f9e0f42-1d1a-11eb-858d-acde48001122" id="0f9e0f42-1d1a-11eb-858d-acde48001122-4" onclick="clear_selection('0f9e0f42-1d1a-11eb-858d-acde48001122')">
+        <label id="0f9e0f42-1d1a-11eb-858d-acde48001122-4-label" for="0f9e0f42-1d1a-11eb-858d-acde48001122-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
 
     </div>
     </p>
-    <input id="28dc7ef6-147f-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('28dc7ef6-147f-11eb-858d-acde48001122', 30, 1)">
+    <input id="0f9e0f42-1d1a-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0f9e0f42-1d1a-11eb-858d-acde48001122', 30, 1)">
     </div>
 
 </div>
@@ -16009,7 +16017,82 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-1:-More-Bugs!">Exercise 1: More Bugs!<a class="anchor-link" href="#Exercise-1:-More-Bugs!">&#182;</a></h3><p>You may have noticed that our <code>remove_html_markup()</code> function is still not working perfectly under all circumstances.  The error has something to do with different quotes occurring in the input.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-1:-Get-Acquainted-with-Notebooks-and-Python">Exercise 1: Get Acquainted with Notebooks and Python<a class="anchor-link" href="#Exercise-1:-Get-Acquainted-with-Notebooks-and-Python">&#182;</a></h3><p>Your first exercise in this book is to get acquainted with notebooks and Python, such that you can run the code examples in the book – and try out your own. Here are a few tasks to get you started.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Beginner-Level:-Run-Notebooks-in-Your-Browser">Beginner Level: Run Notebooks in Your Browser<a class="anchor-link" href="#Beginner-Level:-Run-Notebooks-in-Your-Browser">&#182;</a></h4><p>The easiest way to get access to the code is to run them in your browser.</p>
+<ol>
+<li>From the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the menu at the top. Select <code>Resources</code> $\rightarrow$ <code>Edit as Notebook</code>.</li>
+<li>After a short waiting time, this will open a Jupyter Notebook right within your browser, containing the current chapter as a notebook.</li>
+<li>You can again scroll through the material, but you click on any code example to edit and run its code (by entering <kbd>Shift</kbd> + <kbd>Return</kbd>). You can edit the examples as you please.</li>
+<li>Note that code examples typically depend on earlier code, so be sure to run the preceding code first.</li>
+<li>Any changes you make will not be saved (unless you save your notebook to disk).</li>
+</ol>
+<p>For help on Jupyter Notebooks, from the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the <code>Help</code> menu.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Advanced-Level:-Run-Python-Code-on-Your-Machine">Advanced Level: Run Python Code on Your Machine<a class="anchor-link" href="#Advanced-Level:-Run-Python-Code-on-Your-Machine">&#182;</a></h4><p>This is useful if you want to make greater changes, but do not want to work with Jupyter.</p>
+<ol>
+<li>From the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the menu at the top. Select <code>Resources</code> $\rightarrow$ <code>Download Code</code>. </li>
+<li>This will download the Python code of the chapter as a single Python .py file, which you can save to your computer.</li>
+<li>You can then open the file, edit it, and run it in your favorite Python environment to re-run the examples.</li>
+<li>Most importantly, you can <a href="Importing.html">import it</a> into your own code and reuse functions, classes, and other resources.</li>
+</ol>
+<p>For help on Python, from the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the <code>Help</code> menu.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Pro-Level:-Run-Notebooks-on-Your-Machine">Pro Level: Run Notebooks on Your Machine<a class="anchor-link" href="#Pro-Level:-Run-Notebooks-on-Your-Machine">&#182;</a></h4><p>This is useful if you want to work with Jupyter on your machine. This will allow you to also run more complex examples, such as those with graphical output.</p>
+<ol>
+<li>From the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the menu at the top. Select <code>Resources</code> $\rightarrow$ <code>All Notebooks</code>. </li>
+<li>This will download all Jupyter Notebooks as a collection of .ipynb files, which you can save to your computer.</li>
+<li>You can then open the notebooks in Jupyter Notebook or Jupyter Lab, edit them, and run them. To navigate across notebooks, open the notebook <a href="00_Table_of_Contents.html"><code>00_Table_of_Contents.ipynb</code></a>.</li>
+<li>You can also download individual notebooks using Select <code>Resources</code> $\rightarrow$ <code>Download Notebook</code>. Running these, however, will require that you have the other notebooks downloaded already.</li>
+</ol>
+<p>For help on Jupyter Notebooks, from the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the <code>Help</code> menu.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="Boss-Level:-Contribute!">Boss Level: Contribute!<a class="anchor-link" href="#Boss-Level:-Contribute!">&#182;</a></h4><p>This is useful if you want to contribute to the book with patches or other  material. It also gives you access to the very latest version of the book.</p>
+<ol>
+<li>From the <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Web Page</a>, check out the menu at the top. Select <code>Resources</code> $\rightarrow$ <code>Project Page</code>. </li>
+<li>This will get you to the GitHub repository which contains all sources of the book, including the latest notebooks.</li>
+<li>You can then <em>clone</em> this repository to your disk, such that you get the latest and greatest.</li>
+<li>You can report issues and suggest pull requests on the GitHub page.</li>
+<li>Updating the repository with <code>git pull</code> will get you updated.</li>
+</ol>
+<p>If you want to contribute code or text, check out the <a href="Guide_for_Authors.html">Guide for Authors</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-2:-More-Bugs!">Exercise 2: More Bugs!<a class="anchor-link" href="#Exercise-2:-More-Bugs!">&#182;</a></h3><p>You may have noticed that our <code>remove_html_markup()</code> function is still not working perfectly under all circumstances.  The error has something to do with different quotes occurring in the input.</p>
 
     
 <p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Intro_Debugging.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
@@ -16100,7 +16183,7 @@ tag</title>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-10-22 17:05:49+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2020-11-02 10:16:02+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -16118,7 +16201,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-10-22 17:05:49+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2020-11-02 10:16:02+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Intro_Debugging,
@@ -16128,9 +16211,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2020-10-22 17:05:49+02:00},
+    note = {Retrieved 2020-11-02 10:16:02+01:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2020-10-22 17:05:49+02:00}
+    urldate = {2020-11-02 10:16:02+01:00}
 }
 </pre>
 </div>
