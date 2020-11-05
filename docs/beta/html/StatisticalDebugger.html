@@ -11793,7 +11793,7 @@ MathJax.Hub.Config({
 <meta property="og:url" content="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Statistical Debugging - The Debugging Book" />
-<meta property="og:description" content="Let us correlate events with failures!Prerequisites You should have read the Chapter on Tracing." />
+<meta property="og:description" content="In this chapter, we introduce statistical debugging – the idea that specific events during execution could be statistically correlated with failures. We start with coverage of individual lines and then proceed towards further execution features." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11954,19 +11954,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Statistical-Debugging">Statistical Debugging<a class="anchor-link" href="#Statistical-Debugging">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>Let us correlate events with failures!</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
-<ul>
-<li>You should have read the <a href="Tracer.html">Chapter on Tracing</a>.</li>
-</ul>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Statistical-Debugging">Statistical Debugging<a class="anchor-link" href="#Statistical-Debugging">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>In this chapter, we introduce <em>statistical debugging</em> – the idea that specific events during execution could be <em>statistically correlated</em> with failures. We start with coverage of individual lines and then proceed towards further execution features.</p>
 </div>
 </div>
 </div>
@@ -12184,7 +12172,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{161, 163, 165, 167, 168, 170, 153, 154, 155, 156, 158, 159}
+<pre>{160, 162, 164, 166, 167, 169, 152, 153, 154, 155, 157, 158}
 </pre>
 </div>
 
@@ -12266,24 +12254,24 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> 153 * def remove_html_markup(s):
- 154 *     tag = False
- 155 *     quote = False
- 156 *     out = &#34;&#34;
- 157   
- 158 *     for c in s:
- 159 *         assert tag or not quote
- 160   
- 161 *         if c == &#39;&lt;&#39; and not quote:
- 162               tag = True
- 163 *         elif c == &#39;&gt;&#39; and not quote:
- 164               tag = False
- 165 *         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
- 166               quote = not quote
- 167 *         elif not tag:
- 168 *             out = out + c
- 169   
- 170 *     return out
+<pre> 152 * def remove_html_markup(s):
+ 153 *     tag = False
+ 154 *     quote = False
+ 155 *     out = &#34;&#34;
+ 156   
+ 157 *     for c in s:
+ 158 *         assert tag or not quote
+ 159   
+ 160 *         if c == &#39;&lt;&#39; and not quote:
+ 161               tag = True
+ 162 *         elif c == &#39;&gt;&#39; and not quote:
+ 163               tag = False
+ 164 *         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 165               quote = not quote
+ 166 *         elif not tag:
+ 167 *             out = out + c
+ 168   
+ 169 *     return out
 </pre>
 </div>
 
@@ -12326,7 +12314,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{161, 163, 165, 167, 168, 170, 153, 154, 155, 156, 158, 159}
+<pre>{160, 162, 164, 166, 167, 169, 152, 153, 154, 155, 157, 158}
 </pre>
 </div>
 
@@ -12532,6 +12520,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </thead>
 <tbody>
 <tr>
+<td>152</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
 <td>153</td>
 <td>X</td>
 <td>X</td>
@@ -12550,7 +12544,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>X</td>
 </tr>
 <tr>
-<td>156</td>
+<td>157</td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -12562,61 +12556,55 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>X</td>
 </tr>
 <tr>
-<td>159</td>
+<td>160</td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
 <td>161</td>
-<td>X</td>
+<td>-</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
 <td>162</td>
-<td>-</td>
+<td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
 <td>163</td>
-<td>X</td>
+<td>-</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
 <td>164</td>
-<td>-</td>
+<td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
 <td>165</td>
-<td>X</td>
-<td>X</td>
+<td>-</td>
+<td>-</td>
 <td>X</td>
 </tr>
 <tr>
 <td>166</td>
-<td>-</td>
-<td>-</td>
+<td>X</td>
+<td>X</td>
 <td>X</td>
 </tr>
 <tr>
 <td>167</td>
 <td>X</td>
 <td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>168</td>
-<td>X</td>
-<td>X</td>
 <td>-</td>
 </tr>
 <tr>
-<td>170</td>
+<td>169</td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -12674,7 +12662,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{153, 154, 155, 156, 158, 159, 161, 162, 163, 164, 165, 167, 168, 170}
+<pre>{152, 153, 154, 155, 157, 158, 160, 161, 162, 163, 164, 166, 167, 169}
 </pre>
 </div>
 
@@ -12712,7 +12700,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{166}
+<pre>{165}
 </pre>
 </div>
 
@@ -12735,24 +12723,24 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> 153   def remove_html_markup(s):
- 154       tag = False
- 155       quote = False
- 156       out = &#34;&#34;
- 157   
- 158       for c in s:
- 159           assert tag or not quote
- 160   
- 161           if c == &#39;&lt;&#39; and not quote:
- 162               tag = True
- 163           elif c == &#39;&gt;&#39; and not quote:
- 164               tag = False
- 165           elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
- 166 *             quote = not quote
- 167           elif not tag:
- 168               out = out + c
- 169   
- 170       return out
+<pre> 152   def remove_html_markup(s):
+ 153       tag = False
+ 154       quote = False
+ 155       out = &#34;&#34;
+ 156   
+ 157       for c in s:
+ 158           assert tag or not quote
+ 159   
+ 160           if c == &#39;&lt;&#39; and not quote:
+ 161               tag = True
+ 162           elif c == &#39;&gt;&#39; and not quote:
+ 163               tag = False
+ 164           elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 165 *             quote = not quote
+ 166           elif not tag:
+ 167               out = out + c
+ 168   
+ 169       return out
 </pre>
 </div>
 
@@ -12825,7 +12813,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{153, 154, 155, 156, 158, 159, 161, 162, 163, 164, 165, 166, 167, 168, 170}
+<pre>{152, 153, 154, 155, 157, 158, 160, 161, 162, 163, 164, 165, 166, 167, 169}
 </pre>
 </div>
 
@@ -12848,7 +12836,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{166}
+<pre>{165}
 </pre>
 </div>
 
@@ -12871,7 +12859,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{168}
+<pre>{167}
 </pre>
 </div>
 
@@ -12988,7 +12976,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
-<pre style="background-color:lightyellow"> 153 def remove_html_markup(s):</pre><pre style="background-color:lightyellow"> 154     tag = False</pre><pre style="background-color:lightyellow"> 155     quote = False</pre><pre style="background-color:lightyellow"> 156     out = ""</pre><pre> 157 &nbsp;</pre><pre style="background-color:lightyellow"> 158     for c in s:</pre><pre style="background-color:lightyellow"> 159         assert tag or not quote</pre><pre> 160 &nbsp;</pre><pre style="background-color:lightyellow"> 161         if c == '<' and not quote:</pre><pre style="background-color:lightyellow"> 162             tag = True</pre><pre style="background-color:lightyellow"> 163         elif c == '>' and not quote:</pre><pre style="background-color:lightyellow"> 164             tag = False</pre><pre style="background-color:lightyellow"> 165         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:mistyrose"> 166             quote = not quote</pre><pre style="background-color:lightyellow"> 167         elif not tag:</pre><pre style="background-color:honeydew"> 168             out = out + c</pre><pre> 169 &nbsp;</pre><pre style="background-color:lightyellow"> 170     return out</pre>
+<pre style="background-color:lightyellow"> 152 def remove_html_markup(s):</pre><pre style="background-color:lightyellow"> 153     tag = False</pre><pre style="background-color:lightyellow"> 154     quote = False</pre><pre style="background-color:lightyellow"> 155     out = ""</pre><pre> 156 &nbsp;</pre><pre style="background-color:lightyellow"> 157     for c in s:</pre><pre style="background-color:lightyellow"> 158         assert tag or not quote</pre><pre> 159 &nbsp;</pre><pre style="background-color:lightyellow"> 160         if c == '<' and not quote:</pre><pre style="background-color:lightyellow"> 161             tag = True</pre><pre style="background-color:lightyellow"> 162         elif c == '>' and not quote:</pre><pre style="background-color:lightyellow"> 163             tag = False</pre><pre style="background-color:lightyellow"> 164         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:mistyrose"> 165             quote = not quote</pre><pre style="background-color:lightyellow"> 166         elif not tag:</pre><pre style="background-color:honeydew"> 167             out = out + c</pre><pre> 168 &nbsp;</pre><pre style="background-color:lightyellow"> 169     return out</pre>
 
 </div>
 
@@ -13079,7 +13067,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>166 0.0
+<pre>165 0.0
 </pre>
 </div>
 
@@ -13103,7 +13091,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>168 1.0
+<pre>167 1.0
 </pre>
 </div>
 
@@ -13162,7 +13150,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>166 1.0
+<pre>165 1.0
 </pre>
 </div>
 
@@ -13223,7 +13211,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>166 hsl(0.0, 100.0%, 80%)
+<pre>165 hsl(0.0, 100.0%, 80%)
 </pre>
 </div>
 
@@ -13247,7 +13235,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>168 hsl(120.0, 100.0%, 80%)
+<pre>167 hsl(120.0, 100.0%, 80%)
 </pre>
 </div>
 
@@ -13271,7 +13259,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
-<pre style="background-color:hsl(60.0, 100.0%, 80%)"> 153 def remove_html_markup(s):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 154     tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 155     quote = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 156     out = ""</pre><pre> 157 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 158     for c in s:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 159         assert tag or not quote</pre><pre> 160 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 161         if c == '<' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 162             tag = True</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 163         elif c == '>' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 164             tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 165         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:hsl(0.0, 100.0%, 80%)"> 166             quote = not quote</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 167         elif not tag:</pre><pre style="background-color:hsl(120.0, 100.0%, 80%)"> 168             out = out + c</pre><pre> 169 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 170     return out</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"> 152 def remove_html_markup(s):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 153     tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 154     quote = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 155     out = ""</pre><pre> 156 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 157     for c in s:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 158         assert tag or not quote</pre><pre> 159 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 160         if c == '<' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 161             tag = True</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 162         elif c == '>' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 163             tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 164         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:hsl(0.0, 100.0%, 80%)"> 165             quote = not quote</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 166         elif not tag:</pre><pre style="background-color:hsl(120.0, 100.0%, 80%)"> 167             out = out + c</pre><pre> 168 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 169     return out</pre>
 
 </div>
 
@@ -13591,7 +13579,37 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </thead>
 <tbody>
 <tr>
-<td>('c', ' ')</td>
+<td>('c', 'f')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '&lt;')</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'r')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('s', 'abc')</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('tag', True)</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'o')</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
@@ -13609,7 +13627,13 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>X</td>
 </tr>
 <tr>
-<td>('out', 'a')</td>
+<td>('c', '/')</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'ab')</td>
 <td>X</td>
 <td>X</td>
 <td>-</td>
@@ -13621,97 +13645,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('c', 'f')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('out', 'abc')</td>
-<td>X</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('c', '"')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '/')</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '&lt;')</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '&gt;')</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', 'r')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('out', 'ab')</td>
-<td>X</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('tag', False)</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('s', 'abc')</td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('c', 'a')</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('quote', False)</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', 'b')</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
 <td>('s', '<b bar="foo"></b>')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '=')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', 'o')</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
@@ -13723,7 +13657,61 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>X</td>
 </tr>
 <tr>
-<td>('tag', True)</td>
+<td>('tag', False)</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', ' ')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'b')</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '"')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '=')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'abc')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('out', 'a')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('quote', False)</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'a')</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '&gt;')</td>
 <td>-</td>
 <td>X</td>
 <td>X</td>
@@ -13797,12 +13785,66 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </thead>
 <tbody>
 <tr>
-<td>('z', 4)</td>
+<td>('z', 1)</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('y', 1)</td>
+<td>-</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
+</tr>
+<tr>
+<td>('x', 5)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('z', 3)</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('x', 2)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('x', 3)</td>
+<td>X</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('x', 1)</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
 <td>-</td>
 </tr>
 <tr>
@@ -13824,66 +13866,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('y', 3)</td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('x', 5)</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('x', 3)</td>
-<td>X</td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('x', 2)</td>
-<td>-</td>
+<td>('z', 4)</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
-</tr>
-<tr>
-<td>('y', 1)</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('x', 1)</td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('z', 1)</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
 <td>-</td>
 </tr>
 <tr>
@@ -13896,13 +13884,13 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('z', 3)</td>
-<td>-</td>
+<td>('y', 3)</td>
 <td>X</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
+<td>-</td>
 </tr>
 </tbody>
 </table>
@@ -14516,7 +14504,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-03 14:49:11+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-05 20:10:37+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -14534,7 +14522,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-03 14:49:11+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-05 20:10:37+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:StatisticalDebugger,
@@ -14544,9 +14532,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDeb
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
-    note = {Retrieved 2020-11-03 14:49:11+01:00},
+    note = {Retrieved 2020-11-05 20:10:37+01:00},
     url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
-    urldate = {2020-11-03 14:49:11+01:00}
+    urldate = {2020-11-05 20:10:37+01:00}
 }
 </pre>
 </div>
