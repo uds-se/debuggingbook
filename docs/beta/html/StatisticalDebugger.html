@@ -11890,9 +11890,15 @@ MathJax.Hub.Config({
      </li>
      <li class="has-sub"><a href="#"><span title="Statistical Debugging"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Statistical Debugging <i class="fa fa-fw fa-wrench"></i></span></a>
            <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
-</li><li class="has-sub"><a href="#All-these-Events!">&nbsp;&bull;&nbsp;&nbsp; All these Events!</a>
+</li><li class="has-sub"><a href="#Introduction">&nbsp;&bull;&nbsp;&nbsp; Introduction</a>
+</li><li class="has-sub"><a href="#Collecting-Events">&nbsp;&bull;&nbsp;&nbsp; Collecting Events</a>
+</li><li class="has-sub"><a href="#Collecting-Coverage">&nbsp;&bull;&nbsp;&nbsp; Collecting Coverage</a>
 </li><li class="has-sub"><a href="#Computing-Differences">&nbsp;&bull;&nbsp;&nbsp; Computing Differences</a>
-</li><li class="has-sub"><a href="#Visualizing-Differences">&nbsp;&bull;&nbsp;&nbsp; Visualizing Differences</a>
+<ul><li class="has-sub"><a href="#A-Base-Class-for-Statistical-Debugging">A Base Class for Statistical Debugging</a>
+</li><li class="has-sub"><a href="#Excursion:-Printing-an-Event-Table">Excursion: Printing an Event Table</a>
+</li><li class="has-sub"><a href="#End-of-Excursion">End of Excursion</a>
+</li><li class="has-sub"><a href="#Collecting-Passing-and-Failing-Runs">Collecting Passing and Failing Runs</a>
+</ul></li><li class="has-sub"><a href="#Visualizing-Differences">&nbsp;&bull;&nbsp;&nbsp; Visualizing Differences</a>
 <ul><li class="has-sub"><a href="#Discrete-Spectrum">Discrete Spectrum</a>
 </li><li class="has-sub"><a href="#Continuous-Spectrum">Continuous Spectrum</a>
 </ul></li><li class="has-sub"><a href="#Ranking-Lines-by-Suspiciousness">&nbsp;&bull;&nbsp;&nbsp; Ranking Lines by Suspiciousness</a>
@@ -11999,7 +12005,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="All-these-Events!">All these Events!<a class="anchor-link" href="#All-these-Events!">&#182;</a></h2></div>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>The idea behind <em>statistical debugging</em> is fairly simple. We have a program that sometimes passes and sometimes fails. This outcome can be <em>correlated</em> with events that precede it – properties of the input, properties of the execution, properties of the program state. If we, for instance, can find that "the program always fails when Line 123 is executed, and it always passes when Line 123 is <em>not</em> executed", then we have a strong correlation between Line 123 being executed and failure.</p>
+<p>Such <em>correlation</em> does not necessarily mean <em>causation</em>. For this, we would have to prove that executing Line 123 <em>always</em> leads to failure, and that <em>not</em> executing it does not lead to (this) failure. Also, a correlation (or even a causation) does not mean that Line 123 contains the defect – for this, we would have to show that it actually is an error. Still, correlations make excellent hints as it comes to search for failure causes – in all generality, if you let your search be guided by <em>events that correlate with failures</em>, you are more likely to find <em>important hints on how the failure comes to be</em>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -12007,7 +12015,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>We start with a base class to collect events:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Collecting-Events">Collecting Events<a class="anchor-link" href="#Collecting-Events">&#182;</a></h2><p>How can we determine events that correlate with failure? We start with a general mechanism to actually <em>collect</em> events during execution. The abstract <code>Collector</code> class provides</p>
+<ul>
+<li>a <code>collect()</code> method made for collecting events, called from the <code>traceit()</code> tracer; and</li>
+<li>an <code>events()</code> method made for retrieving these events.</li>
+</ul>
+<p>Both of these are <em>abstract</em> and will be defined further in subclasses.</p>
 </div>
 </div>
 </div>
@@ -12040,12 +12053,89 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="sd">&quot;&quot;&quot;Collecting function. To be overridden in subclasses.&quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
+    <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a collection of events. To be overridden in subclasses.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>A <code>Collector</code> class is used like <code>Tracer</code>, using a <code>with</code> statement. Let us apply it on the buggy variant of <code>remove_html_markup()</code> from the <a href="Intro_Debugging.html">Introduction to Debugging</a>:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Collector</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
+<span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;foo&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>There's not much we can do with our collector, as the <code>collect()</code> and <code>events()</code> methods are yet empty. However, we can introduce an <code>id()</code> method which returns a string identifying the collector. This string is defined from the <em>first function call</em> encountered.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -12060,7 +12150,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s2">&quot;call&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+            <span class="c1"># Save ID</span>
             <span class="n">function</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
             <span class="nb">locals</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
             <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2">={repr(locals[var])}&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">])</span>
@@ -12083,33 +12174,30 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Intro_Debugging.html" class="import" target="_blank">Intro_Debugging</a></span> <span class="k">import</span> <span class="n">remove_html_markup</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Collector</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Collector</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">c</span><span class="p">:</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 </pre></div>
 
 </div>
 </div></div>
 </div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#34;remove_html_markup(s=&#39;abc&#39;)&#34;
+</pre>
+</div>
+
 </div>
 
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Let's extend this to collect coverage:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Collecting-Coverage">Collecting Coverage<a class="anchor-link" href="#Collecting-Coverage">&#182;</a></h2><p>So far, our <code>Collector</code> class does not collect any events. Let us extend it such that it collects <em>coverage</em> information – that is, the set of lines executed. To this end, we introduce a <code>CoverageCollector</code> subclass which saves the coverage in a set:</p>
 </div>
 </div>
 </div>
@@ -12122,6 +12210,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class to record covered lines during execution.&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coverage</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -12132,6 +12222,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We also override <code>events()</code> such that it returns the set of covered lines.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -12149,6 +12248,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here is how we can use <code>CoverageCollector</code> to determine the lines executed during a run of <code>remove_html_markup()</code>:</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -12172,33 +12280,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{160, 162, 164, 166, 167, 169, 152, 153, 154, 155, 157, 158}
+<pre>{1, 2, 3, 4, 6, 7, 9, 11, 13, 14, 16}
 </pre>
 </div>
 
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Sets of line numbers alone are not too revealing. They provide more insights if we actually list the code, highlighting these numbers:</p>
 </div>
 </div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>remove_html_markup(s=&#39;abc&#39;)
-</pre>
 </div>
-
 </div>
 
 <div class="input_code">
@@ -12221,9 +12315,23 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">getsourcelines</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">list_with_coverage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">coverage</span><span class="p">):</span>
     <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
-       <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+       <span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>  <span class="c1"># like inspect.getsourcelines(), but in color</span>
 
     <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
@@ -12254,24 +12362,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> 152 * def remove_html_markup(s):
- 153 *     tag = False
- 154 *     quote = False
- 155 *     out = &#34;&#34;
- 156   
- 157 *     for c in s:
- 158 *         assert tag or not quote
- 159   
- 160 *         if c == &#39;&lt;&#39; and not quote:
- 161               tag = True
- 162 *         elif c == &#39;&gt;&#39; and not quote:
- 163               tag = False
- 164 *         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
- 165               quote = not quote
- 166 *         elif not tag:
- 167 *             out = out + c
- 168   
- 169 *     return out
+<pre>   1 * <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+   2 *     tag = <span class="ansi-blue-fg">False</span>
+   3 *     quote = <span class="ansi-blue-fg">False</span>
+   4 *     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+   5   
+   6 *     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+   7 *         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+   8               tag = <span class="ansi-blue-fg">True</span>
+   9 *         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+  10               tag = <span class="ansi-blue-fg">False</span>
+  11 *         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+  12               quote = <span class="ansi-magenta-fg">not</span> quote
+  13 *         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+  14 *             out = out + c
+  15   
+  16 *     <span class="ansi-blue-fg">return</span> out
 </pre>
 </div>
 
@@ -12280,7 +12386,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>The interesting part are those lines <em>not</em> covered.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Remember that the input <code>s</code> was <code>"abc"</code>? In this listing, we can see which lines were covered and which lines were not. From the listing already, we can see that <code>s</code> has neither tags nor quotes.</p>
 </div>
 </div>
 </div>
@@ -12289,7 +12395,117 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Computing-Differences">Computing Differences<a class="anchor-link" href="#Computing-Differences">&#182;</a></h2></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Such coverage computation plays a big role in <em>testing</em>, as one wants tests to cover as many different aspects of program execution (and notably code) as possible. But also during debugging, code coverage is essential: If some code was not even executed in the failing run, then any change to it will have no effect.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">quiz</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">Let the input be <samp>&quot;&lt;b&gt;Don't do this!&lt;/b&gt;&quot;</samp>. Which of these lines are executed? Use the code to find out!</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Check all that apply.">
+
+        <input type="checkbox" name="59580822-235f-11eb-a588-acde48001122" id="59580822-235f-11eb-a588-acde48001122-1" onclick="clear_selection('59580822-235f-11eb-a588-acde48001122')">
+        <label id="59580822-235f-11eb-a588-acde48001122-1-label" for="59580822-235f-11eb-a588-acde48001122-1"><samp>tag = True</samp></label><br>
+
+        <input type="checkbox" name="59580822-235f-11eb-a588-acde48001122" id="59580822-235f-11eb-a588-acde48001122-2" onclick="clear_selection('59580822-235f-11eb-a588-acde48001122')">
+        <label id="59580822-235f-11eb-a588-acde48001122-2-label" for="59580822-235f-11eb-a588-acde48001122-2"><samp>tag = False</samp></label><br>
+
+        <input type="checkbox" name="59580822-235f-11eb-a588-acde48001122" id="59580822-235f-11eb-a588-acde48001122-3" onclick="clear_selection('59580822-235f-11eb-a588-acde48001122')">
+        <label id="59580822-235f-11eb-a588-acde48001122-3-label" for="59580822-235f-11eb-a588-acde48001122-3"><samp>quote = not quote</samp></label><br>
+
+        <input type="checkbox" name="59580822-235f-11eb-a588-acde48001122" id="59580822-235f-11eb-a588-acde48001122-4" onclick="clear_selection('59580822-235f-11eb-a588-acde48001122')">
+        <label id="59580822-235f-11eb-a588-acde48001122-4-label" for="59580822-235f-11eb-a588-acde48001122-4"><samp>out = out + c</samp></label><br>
+
+    </div>
+    </p>
+    <input id="59580822-235f-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59580822-235f-11eb-a588-acde48001122', 22, 1)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>To find the solution, try this out yourself:</p>
+</div>
 </div>
 </div>
 </div>
@@ -12302,8 +12518,143 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">CoverageCollector</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">c</span><span class="p">:</span>
-    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;&lt;b&gt;Don&#39;t do this!&lt;/b&gt;&quot;</span><span class="p">)</span>
+<span class="c1"># list_with_coverage(remove_html_markup, c.coverage)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Computing-Differences">Computing Differences<a class="anchor-link" href="#Computing-Differences">&#182;</a></h2><p>Let us get back to the idea that we want to <em>correlate</em> events with passing and failing outcomes. For this, we need to examine events in both <em>passing</em> and <em>failing</em> runs, and determine their <em>differences</em> – since it is these differences we want to associate with their respective outcome.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="A-Base-Class-for-Statistical-Debugging">A Base Class for Statistical Debugging<a class="anchor-link" href="#A-Base-Class-for-Statistical-Debugging">&#182;</a></h3><p>The <code>StatisticalDebugger</code> base class takes a collector class (such as <code>CoverageCollector</code>). Its <code>collect()</code> method creates a new collector of that very class, which will be maintained by the debugger. As argument, <code>collect()</code> takes a string characterizing the outcome (such as <code>'PASS'</code> or <code>'FAIL'</code>). This is how one would use it:</p>
+<div class="highlight"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">):</span>
+    <span class="n">some_passing_run</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">):</span>
+    <span class="n">another_passing_run</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">):</span>
+    <span class="n">some_failing_run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us implement <code>StatisticalDebugger</code>. The base class gets a collector class as argument:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;A class to collect events for multiple outcomes.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collector_class</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span> <span class="o">=</span> <span class="n">collector_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>collect()</code> method creates (and stores) a collector for the given outcome, using the given outcome to characterize the run. Any additional arguments are passed to the collector.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcome</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">collector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">outcome</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">collector</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">collector</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's a simple example of <code>StatisticalDebugger</code> in action:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">):</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">):</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;abc&lt;/b&gt;&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">):</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The attribute <code>collectors</code> maps outcomes to lists of collectors:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span>
 </pre></div>
 
 </div>
@@ -12313,8 +12664,42 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{160, 162, 164, 166, 167, 169, 152, 153, 154, 155, 157, 158}
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;PASS&#39;: [&lt;__main__.CoverageCollector at 0x7fc43139fba8&gt;,
+  &lt;__main__.CoverageCollector at 0x7fc43139fcc0&gt;],
+ &#39;FAIL&#39;: [&lt;__main__.CoverageCollector at 0x7fc43139fb38&gt;]}
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's the collector of the one (and first) passing run:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#34;remove_html_markup(s=&#39;abc&#39;)&#34;
 </pre>
 </div>
 
@@ -12326,10 +12711,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">():</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collector_class</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span> <span class="o">=</span> <span class="n">collector_class</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span> <span class="o">=</span> <span class="p">{}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12337,25 +12719,26 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<div class="output_area">
 
+<div class="output_text output_subarea output_execute_result">
+<pre>{1, 2, 3, 4, 6, 7, 9, 11, 13, 14, 16}
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="n">collector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">collector</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">collector</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>To better highlight the differences between the collected events, we introduce a method <code>event_table()</code> that prints out whether an event took place in a run.</p>
+</div>
+</div>
+</div>
+</div>
 
-</div>
-</div></div>
-</div>
-</div>
+<details id="Excursion:-Printing-an-Event-Table">
+<summary>Printing an Event Table</summary>
 
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
@@ -12431,6 +12814,234 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+</details>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">):</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;PASS&#39;</span><span class="p">):</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;abc&lt;/b&gt;&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">):</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">show_ids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_markdown rendered_html output_subarea output_execute_result">
+
+<table>
+<thead><tr>
+<th></th>
+<th><code>remove_html_markup(s='abc')</code></th>
+<th><code>remove_html_markup(s='&lt;b&gt;abc&lt;/b&gt;')</code></th>
+<th><code>remove_html_markup(s='"foo"')</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>2</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>3</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>4</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>6</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>7</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>8</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>9</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>10</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>11</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>12</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>13</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">How many lines are executed in the failing run only?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Pick a choice.">
+
+        <input type="radio" name="5964d874-235f-11eb-8163-acde48001122" id="5964d874-235f-11eb-8163-acde48001122-1" onclick="clear_selection('5964d874-235f-11eb-8163-acde48001122')">
+        <label id="5964d874-235f-11eb-8163-acde48001122-1-label" for="5964d874-235f-11eb-8163-acde48001122-1">One</label><br>
+
+        <input type="radio" name="5964d874-235f-11eb-8163-acde48001122" id="5964d874-235f-11eb-8163-acde48001122-2" onclick="clear_selection('5964d874-235f-11eb-8163-acde48001122')">
+        <label id="5964d874-235f-11eb-8163-acde48001122-2-label" for="5964d874-235f-11eb-8163-acde48001122-2">Two</label><br>
+
+        <input type="radio" name="5964d874-235f-11eb-8163-acde48001122" id="5964d874-235f-11eb-8163-acde48001122-3" onclick="clear_selection('5964d874-235f-11eb-8163-acde48001122')">
+        <label id="5964d874-235f-11eb-8163-acde48001122-3-label" for="5964d874-235f-11eb-8163-acde48001122-3">Three</label><br>
+
+    </div>
+    </p>
+    <input id="5964d874-235f-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('5964d874-235f-11eb-8163-acde48001122', 4, 0)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>These lines only executed in the failing run would be a correlation to look for.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Collecting-Passing-and-Failing-Runs">Collecting Passing and Failing Runs<a class="anchor-link" href="#Collecting-Passing-and-Failing-Runs">&#182;</a></h3><p>While our <code>StatisticalDebugger</code> class allows arbitrary outcomes, we are typically only interested in two outcomes, namely <em>passing</em> vs. <em>failing</em> runs. We therefore introduce a specialized <code>DifferenceDebugger()</code> class that provides customized methods to collect and access passing and failing runs.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -12438,8 +13049,10 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
-    <span class="n">PASS</span> <span class="o">=</span> <span class="s1">&#39;pass&#39;</span>
-    <span class="n">FAIL</span> <span class="o">=</span> <span class="s1">&#39;fail&#39;</span>
+    <span class="sd">&quot;&quot;&quot;A class to collect events for passing and failing outcomes.&quot;&quot;&quot;</span>
+
+    <span class="n">PASS</span> <span class="o">=</span> <span class="s1">&#39;PASS&#39;</span>
+    <span class="n">FAIL</span> <span class="o">=</span> <span class="s1">&#39;FAIL&#39;</span>
 
     <span class="k">def</span> <span class="nf">collect_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
@@ -12457,6 +13070,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's how to use <code>DifferenceDebugger</code>:</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -12469,7 +13091,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
         <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;abc&lt;/b&gt;&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_fail</span><span class="p">():</span>
-        <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b bar=&quot;foo&quot;&gt;&lt;/b&gt;&#39;</span><span class="p">)</span>
+        <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">debugger</span>
 </pre></div>
 
@@ -12492,128 +13114,13 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Since events come back as <em>sets</em>, we can compute <em>unions</em> and <em>differences</em> between these sets. For instance, we can compute which lines were executed in <em>any</em> of the passing runs:</p>
 </div>
 </div>
-
-<div class="output_area">
-
-<div class="output_markdown rendered_html output_subarea output_execute_result">
-
-<table>
-<thead><tr>
-<th></th>
-<th>pass</th>
-<th>pass</th>
-<th>fail</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>152</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>153</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>154</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>155</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>157</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>158</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>160</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>161</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>162</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>163</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>164</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>165</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>166</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>167</td>
-<td>X</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td>169</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-</tbody>
-</table>
-
 </div>
-
 </div>
 
 <div class="input_code">
@@ -12662,10 +13169,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{152, 153, 154, 155, 157, 158, 160, 161, 162, 163, 164, 166, 167, 169}
+<pre>{1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 13, 14, 16}
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Likewise, we can determine which lines were <em>only</em> executed in the failing run:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -12700,10 +13216,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{165}
+<pre>{12}
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>And we see that the "failing" run is characterized by processing quotes:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -12723,27 +13248,34 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> 152   def remove_html_markup(s):
- 153       tag = False
- 154       quote = False
- 155       out = &#34;&#34;
- 156   
- 157       for c in s:
- 158           assert tag or not quote
- 159   
- 160           if c == &#39;&lt;&#39; and not quote:
- 161               tag = True
- 162           elif c == &#39;&gt;&#39; and not quote:
- 163               tag = False
- 164           elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
- 165 *             quote = not quote
- 166           elif not tag:
- 167               out = out + c
- 168   
- 169       return out
+<pre>   1   <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+   2       tag = <span class="ansi-blue-fg">False</span>
+   3       quote = <span class="ansi-blue-fg">False</span>
+   4       out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+   5   
+   6       <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+   7           <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+   8               tag = <span class="ansi-blue-fg">True</span>
+   9           <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+  10               tag = <span class="ansi-blue-fg">False</span>
+  11           <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+  12 *             quote = <span class="ansi-magenta-fg">not</span> quote
+  13           <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+  14               out = out + c
+  15   
+  16       <span class="ansi-blue-fg">return</span> out
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us add a few helper methods that return computations such as the above. The <code>all_events()</code> method produces a union of all events. If an outcome is given, it produces a union of all events with that outcome:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -12753,14 +13285,14 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">all_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">all_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcome</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">in_any</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">category</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">outcome</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]:</span>
                 <span class="n">in_any</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">category</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]:</span>
                     <span class="n">in_any</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">in_any</span>
 
@@ -12769,7 +13301,29 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
     <span class="k">def</span> <span class="nf">all_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
+</pre></div>
 
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can now introduce helper methods that show the events occurring only in passing and failing runs, respectively:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">only_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fail</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_pass</span><span class="p">()</span>
 
@@ -12813,10 +13367,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{152, 153, 154, 155, 157, 158, 160, 161, 162, 163, 164, 165, 166, 167, 169}
+<pre>{1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16}
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>These are the lines executed only in the failing run:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -12836,10 +13399,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{165}
+<pre>{12}
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>These are the lines executed only in the passing runs:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -12859,7 +13431,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{167}
+<pre>{8, 10}
 </pre>
 </div>
 
@@ -12868,7 +13440,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Visualizing-Differences">Visualizing Differences<a class="anchor-link" href="#Visualizing-Differences">&#182;</a></h2></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Again, having these lines individually is neat, but things become much more interesting if we can see the associated code lines just as well. That's what we will do in the next section.</p>
+</div>
 </div>
 </div>
 </div>
@@ -12876,7 +13449,32 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Discrete-Spectrum">Discrete Spectrum<a class="anchor-link" href="#Discrete-Spectrum">&#182;</a></h3></div>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Visualizing-Differences">Visualizing Differences<a class="anchor-link" href="#Visualizing-Differences">&#182;</a></h2><p>To show correlations of line coverage in context, we introduce a number of <em>visualization</em> techniques that <em>highlight</em> code with different colors.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Discrete-Spectrum">Discrete Spectrum<a class="anchor-link" href="#Discrete-Spectrum">&#182;</a></h3><p>The first idea is to use a <em>discrete</em> spectrum of three colors:</p>
+<ul>
+<li><em>red</em> for code executed in failing runs only</li>
+<li><em>green</em> for code executed in passing runs only</li>
+<li><em>yellow</em> for code executed in both passing and failing runs.</li>
+</ul>
+<p>Code that is not executed stays unhighlighted.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>DiscreteSpectrumDebugger</code> subclass provides a <code>color()</code> method that returns one of these three colors depending on the line number:</p>
+</div>
 </div>
 </div>
 </div>
@@ -12889,8 +13487,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_number</span><span class="p">):</span>
-        <span class="n">passing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">)</span>
-        <span class="n">failing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">)</span>
+        <span class="n">passing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_pass</span><span class="p">()</span>
+        <span class="n">failing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fail</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">passing</span> <span class="ow">and</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;lightyellow&#39;</span>
@@ -12904,6 +13502,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>list_with_spectrum()</code> method takes a function and shows each of its source code lines using the given spectrum, using HTML markup:</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -12944,6 +13551,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This is how the <code>only_pass()</code> and <code>only_fail()</code> sets look like when visualized with code. The "culprit" line is well highlighted:</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -12976,7 +13592,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
-<pre style="background-color:lightyellow"> 152 def remove_html_markup(s):</pre><pre style="background-color:lightyellow"> 153     tag = False</pre><pre style="background-color:lightyellow"> 154     quote = False</pre><pre style="background-color:lightyellow"> 155     out = ""</pre><pre> 156 &nbsp;</pre><pre style="background-color:lightyellow"> 157     for c in s:</pre><pre style="background-color:lightyellow"> 158         assert tag or not quote</pre><pre> 159 &nbsp;</pre><pre style="background-color:lightyellow"> 160         if c == '<' and not quote:</pre><pre style="background-color:lightyellow"> 161             tag = True</pre><pre style="background-color:lightyellow"> 162         elif c == '>' and not quote:</pre><pre style="background-color:lightyellow"> 163             tag = False</pre><pre style="background-color:lightyellow"> 164         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:mistyrose"> 165             quote = not quote</pre><pre style="background-color:lightyellow"> 166         elif not tag:</pre><pre style="background-color:honeydew"> 167             out = out + c</pre><pre> 168 &nbsp;</pre><pre style="background-color:lightyellow"> 169     return out</pre>
+<pre style="background-color:lightyellow">   1 def remove_html_markup(s):</pre><pre style="background-color:lightyellow">   2     tag = False</pre><pre style="background-color:lightyellow">   3     quote = False</pre><pre style="background-color:lightyellow">   4     out = ""</pre><pre>   5 &nbsp;</pre><pre style="background-color:lightyellow">   6     for c in s:</pre><pre style="background-color:lightyellow">   7         if c == '<' and not quote:</pre><pre style="background-color:honeydew">   8             tag = True</pre><pre style="background-color:lightyellow">   9         elif c == '>' and not quote:</pre><pre style="background-color:honeydew">  10             tag = False</pre><pre style="background-color:lightyellow">  11         elif c == '"' or c == "'" and tag:</pre><pre style="background-color:mistyrose">  12             quote = not quote</pre><pre style="background-color:lightyellow">  13         elif not tag:</pre><pre style="background-color:lightyellow">  14             out = out + c</pre><pre>  15 &nbsp;</pre><pre style="background-color:lightyellow">  16     return out</pre>
 
 </div>
 
@@ -12985,7 +13601,182 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Continuous-Spectrum">Continuous Spectrum<a class="anchor-link" href="#Continuous-Spectrum">&#182;</a></h3><p>We introduce the Tarantula method for highlighting differences. The color is defined as follows:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can clearly see that the failure is correlated with the presence of quotes in the input string (which is an important hint!). But does this also show us <em>immediately</em> where the defect to be fixed is?</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+    <script>
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+    }
+    </script>
+
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">Does the line <samp>quote = not quote</samp> actually contain the defect?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Pick a choice.">
+
+        <input type="radio" name="597b143e-235f-11eb-9732-acde48001122" id="597b143e-235f-11eb-9732-acde48001122-1" onclick="clear_selection('597b143e-235f-11eb-9732-acde48001122')">
+        <label id="597b143e-235f-11eb-9732-acde48001122-1-label" for="597b143e-235f-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
+
+        <input type="radio" name="597b143e-235f-11eb-9732-acde48001122" id="597b143e-235f-11eb-9732-acde48001122-2" onclick="clear_selection('597b143e-235f-11eb-9732-acde48001122')">
+        <label id="597b143e-235f-11eb-9732-acde48001122-2-label" for="597b143e-235f-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
+
+    </div>
+    </p>
+    <input id="597b143e-235f-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('597b143e-235f-11eb-9732-acde48001122', 4, 0)">
+    </div>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Indeed, it is the preceding condition that is wrong. In order to fix a program, we have to find a location that</p>
+<ol>
+<li><em>causes</em> the failure (i.e., it can be changed to make the failure go away); and</li>
+<li>is a <em>defect</em> (i.e., contains an error).</li>
+</ol>
+<p>In our example above, the highlighted code line is a <em>symptom</em> for the error. To some extent, it is also a <em>cause</em>, since, say, commenting it out would also resolve the given failure, at the cost of causing other failures. However, the preceding condition also is a cause, as is the presence of quotes in the input.</p>
+<p>Only one of these also is a <em>defect</em>, though, and that is the preceding condition. Hence, while correlations can provide important hints, they do not necessarily locate defects.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Continuous-Spectrum">Continuous Spectrum<a class="anchor-link" href="#Continuous-Spectrum">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b link=&quot;blue&quot;&gt;&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b link=&quot;blue&quot;&gt;&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:lightyellow">   1 def remove_html_markup(s):</pre><pre style="background-color:lightyellow">   2     tag = False</pre><pre style="background-color:lightyellow">   3     quote = False</pre><pre style="background-color:lightyellow">   4     out = ""</pre><pre>   5 &nbsp;</pre><pre style="background-color:lightyellow">   6     for c in s:</pre><pre style="background-color:lightyellow">   7         if c == '<' and not quote:</pre><pre style="background-color:honeydew">   8             tag = True</pre><pre style="background-color:lightyellow">   9         elif c == '>' and not quote:</pre><pre style="background-color:honeydew">  10             tag = False</pre><pre style="background-color:lightyellow">  11         elif c == '"' or c == "'" and tag:</pre><pre style="background-color:lightyellow">  12             quote = not quote</pre><pre style="background-color:lightyellow">  13         elif not tag:</pre><pre style="background-color:lightyellow">  14             out = out + c</pre><pre>  15 &nbsp;</pre><pre style="background-color:lightyellow">  16     return out</pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We introduce the Tarantula method for highlighting differences. The color is defined as follows:</p>
 </div>
 </div>
 </div>
@@ -13067,7 +13858,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>165 0.0
+<pre>12 0.0
 </pre>
 </div>
 
@@ -13091,7 +13882,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>167 1.0
+<pre>8 1.0
+10 1.0
 </pre>
 </div>
 
@@ -13150,7 +13942,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>165 1.0
+<pre>12 1.0
 </pre>
 </div>
 
@@ -13211,7 +14003,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>165 hsl(0.0, 100.0%, 80%)
+<pre>12 hsl(0.0, 100.0%, 80%)
 </pre>
 </div>
 
@@ -13235,7 +14027,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>167 hsl(120.0, 100.0%, 80%)
+<pre>8 hsl(120.0, 50.0%, 80%)
+10 hsl(120.0, 50.0%, 80%)
 </pre>
 </div>
 
@@ -13259,7 +14052,56 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
-<pre style="background-color:hsl(60.0, 100.0%, 80%)"> 152 def remove_html_markup(s):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 153     tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 154     quote = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 155     out = ""</pre><pre> 156 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 157     for c in s:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 158         assert tag or not quote</pre><pre> 159 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 160         if c == '<' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 161             tag = True</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 162         elif c == '>' and not quote:</pre><pre style="background-color:hsl(40.0, 100.0%, 80%)"> 163             tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 164         elif (c == '"' or c == "'") and tag:</pre><pre style="background-color:hsl(0.0, 100.0%, 80%)"> 165             quote = not quote</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 166         elif not tag:</pre><pre style="background-color:hsl(120.0, 100.0%, 80%)"> 167             out = out + c</pre><pre> 168 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)"> 169     return out</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)">   1 def remove_html_markup(s):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   2     tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   3     quote = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   4     out = ""</pre><pre>   5 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   6     for c in s:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   7         if c == '<' and not quote:</pre><pre style="background-color:hsl(120.0, 50.0%, 80%)">   8             tag = True</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   9         elif c == '>' and not quote:</pre><pre style="background-color:hsl(120.0, 50.0%, 80%)">  10             tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  11         elif c == '"' or c == "'" and tag:</pre><pre style="background-color:hsl(0.0, 100.0%, 80%)">  12             quote = not quote</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  13         elif not tag:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  14             out = out + c</pre><pre>  15 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  16     return out</pre>
+
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b link=&quot;blue&quot;&gt;&lt;/b&gt;&#39;</span><span class="p">)</span>
+<span class="n">out</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:hsl(60.0, 100.0%, 80%)">   1 def remove_html_markup(s):</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   2     tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   3     quote = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   4     out = ""</pre><pre>   5 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   6     for c in s:</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   7         if c == '<' and not quote:</pre><pre style="background-color:hsl(120.0, 66.66666666666666%, 80%)">   8             tag = True</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">   9         elif c == '>' and not quote:</pre><pre style="background-color:hsl(120.0, 66.66666666666666%, 80%)">  10             tag = False</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  11         elif c == '"' or c == "'" and tag:</pre><pre style="background-color:hsl(30.0, 100.0%, 80%)">  12             quote = not quote</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  13         elif not tag:</pre><pre style="background-color:hsl(48.0, 100.0%, 80%)">  14             out = out + c</pre><pre>  15 &nbsp;</pre><pre style="background-color:hsl(60.0, 100.0%, 80%)">  16     return out</pre>
 
 </div>
 
@@ -13375,12 +14217,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <table>
 <thead><tr>
 <th></th>
-<th>pass</th>
-<th>pass</th>
-<th>pass</th>
-<th>pass</th>
-<th>pass</th>
-<th>fail</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>FAIL</th>
 </tr>
 </thead>
 <tbody>
@@ -13572,46 +14414,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <table>
 <thead><tr>
 <th></th>
-<th>pass</th>
-<th>pass</th>
-<th>fail</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>FAIL</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>('c', 'f')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '&lt;')</td>
+<td>('s', '<b>abc</b>')</td>
 <td>-</td>
 <td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', 'r')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('s', 'abc')</td>
-<td>X</td>
-<td>-</td>
 <td>-</td>
 </tr>
 <tr>
-<td>('tag', True)</td>
-<td>-</td>
+<td>('quote', False)</td>
 <td>X</td>
 <td>X</td>
-</tr>
-<tr>
-<td>('c', 'o')</td>
-<td>-</td>
-<td>-</td>
 <td>X</td>
 </tr>
 <tr>
@@ -13621,67 +14439,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('quote', True)</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
 <td>('c', '/')</td>
 <td>-</td>
 <td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('out', 'ab')</td>
-<td>X</td>
-<td>X</td>
 <td>-</td>
 </tr>
 <tr>
-<td>('s', '<b>abc</b>')</td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td>('s', '<b bar="foo"></b>')</td>
+<td>('c', 'f')</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
 </tr>
 <tr>
-<td>('out', '')</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('tag', False)</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', ' ')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', 'b')</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '"')</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('c', '=')</td>
+<td>('out', 'f')</td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
@@ -13693,19 +14463,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('out', 'a')</td>
-<td>X</td>
+<td>('c', '&lt;')</td>
+<td>-</td>
 <td>X</td>
 <td>-</td>
 </tr>
 <tr>
-<td>('quote', False)</td>
-<td>X</td>
-<td>X</td>
+<td>('s', '"foo"')</td>
+<td>-</td>
+<td>-</td>
 <td>X</td>
 </tr>
 <tr>
-<td>('c', 'a')</td>
+<td>('tag', False)</td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -13714,7 +14484,79 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>('c', '&gt;')</td>
 <td>-</td>
 <td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('c', 'b')</td>
 <td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('c', 'o')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', '"')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'fo')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('out', 'foo')</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('quote', True)</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('s', 'abc')</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('out', '')</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('c', 'a')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('out', 'ab')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('tag', True)</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('out', 'a')</td>
+<td>X</td>
+<td>X</td>
+<td>-</td>
 </tr>
 </tbody>
 </table>
@@ -13740,14 +14582,14 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;c&#39;, &#39; &#39;),
- (&#39;c&#39;, &#39;&#34;&#39;),
- (&#39;c&#39;, &#39;=&#39;),
+<pre>{(&#39;c&#39;, &#39;&#34;&#39;),
  (&#39;c&#39;, &#39;f&#39;),
  (&#39;c&#39;, &#39;o&#39;),
- (&#39;c&#39;, &#39;r&#39;),
+ (&#39;out&#39;, &#39;f&#39;),
+ (&#39;out&#39;, &#39;fo&#39;),
+ (&#39;out&#39;, &#39;foo&#39;),
  (&#39;quote&#39;, True),
- (&#39;s&#39;, &#39;&lt;b bar=&#34;foo&#34;&gt;&lt;/b&gt;&#39;)}
+ (&#39;s&#39;, &#39;&#34;foo&#34;&#39;)}
 </pre>
 </div>
 
@@ -13775,15 +14617,24 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <table>
 <thead><tr>
 <th></th>
-<th>pass</th>
-<th>pass</th>
-<th>pass</th>
-<th>pass</th>
-<th>pass</th>
-<th>fail</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>PASS</th>
+<th>FAIL</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>('y', 5)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+<td>-</td>
+</tr>
 <tr>
 <td>('z', 1)</td>
 <td>-</td>
@@ -13794,24 +14645,6 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('y', 1)</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('x', 5)</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
 <td>('z', 3)</td>
 <td>-</td>
 <td>X</td>
@@ -13819,24 +14652,6 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 <td>-</td>
 <td>X</td>
-</tr>
-<tr>
-<td>('x', 2)</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td>('x', 3)</td>
-<td>X</td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
 </tr>
 <tr>
 <td>('x', 1)</td>
@@ -13857,11 +14672,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 </tr>
 <tr>
-<td>('y', 5)</td>
-<td>-</td>
-<td>-</td>
+<td>('x', 3)</td>
+<td>X</td>
 <td>-</td>
 <td>X</td>
+<td>-</td>
 <td>-</td>
 <td>-</td>
 </tr>
@@ -13871,6 +14686,33 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <td>-</td>
 <td>-</td>
 <td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td>('x', 2)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('y', 1)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td>('x', 5)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
 <td>X</td>
 <td>-</td>
 </tr>
@@ -14504,7 +15346,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-05 20:10:37+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-10 15:16:45+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -14522,7 +15364,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-05 20:10:37+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-10 15:16:45+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:StatisticalDebugger,
@@ -14532,9 +15374,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDeb
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
-    note = {Retrieved 2020-11-05 20:10:37+01:00},
+    note = {Retrieved 2020-11-10 15:16:45+01:00},
     url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
-    urldate = {2020-11-05 20:10:37+01:00}
+    urldate = {2020-11-10 15:16:45+01:00}
 }
 </pre>
 </div>
