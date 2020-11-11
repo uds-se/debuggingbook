@@ -73,6 +73,7 @@ APPENDICES = \
 	99_Appendices.ipynb \
 	ExpectError.ipynb \
 	Timer.ipynb \
+	ClassDiagram.ipynb \
 	ControlFlow.ipynb \
 	RailroadDiagrams.ipynb
 
