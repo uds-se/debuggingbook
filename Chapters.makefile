@@ -39,9 +39,9 @@ OBSERVING_PART_TODO = \
 	03_Observing.ipynb \
 	Tracer.ipynb \
 	Debugger.ipynb \
-	StatisticalDebugger.ipynb
-	# Checker.ipynb \
-	# Slice.ipynb \
+	Invariants.ipynb \
+	StatisticalDebugger.ipynb \
+	# Slice.ipynb
 
 # Simplifying Failures
 EXPERIMENTING_PART = 
