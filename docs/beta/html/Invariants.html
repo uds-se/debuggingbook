@@ -11793,7 +11793,7 @@ MathJax.Hub.Config({
 <meta property="og:url" content="https://www.debuggingbook.org/beta/html/Invariants.html" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Checking Expectations - The Debugging Book" />
-<meta property="og:description" content="In the previous chapters on tracing and interactive debugging, we have seen how to observe executions. By checking our observations against our expectations, we can find out when and how the program state is faulty. So far, we have assumed that this check would be done by humans – that is, us. However, having this check done by a computer, for instance as part of the execution, is infinitely more rigorous and efficient. In this chapter, we introduce techniques to specify our expectations and to check them at runtime, enabling us to detect faults right as they occur.Prerequisites You should have read chapter on tracing executions." />
+<meta property="og:description" content="In the previous chapters on tracing and interactive debugging, we have seen how to observe executions. By checking our observations against our expectations, we can find out when and how the program state is faulty. So far, we have assumed that this check would be done by humans – that is, us. However, having this check done by a computer, for instance as part of the execution, is infinitely more rigorous and efficient. In this chapter, we introduce techniques to specify our expectations and to check them at runtime, enabling us to detect faults right as they occur.Prerequisites You should have read the chapter on tracing executions." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11994,7 +11994,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
 <ul>
-<li>You should have read <a href="Tracer.html">chapter on tracing executions</a>.</li>
+<li>You should have read the <a href="Tracer.html">chapter on tracing executions</a>.</li>
 </ul>
 </div>
 </div>
@@ -12029,6 +12029,20 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="Tracer.html" class="import" target="_blank">Tracer</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -12049,9 +12063,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">y</span> <span class="o">=</span> <span class="n">my_square_root</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-141-b63177b4c2f7&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-142-b63177b4c2f7&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">my_square_root</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-140-c80c5e0d6a69&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">my_square_root</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-141-c80c5e0d6a69&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">my_square_root</span>
     <span class="k">assert</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span>
 <span class="ne">AssertionError</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
 </pre></div>
@@ -12062,11 +12076,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-143-a0f5f3ead188&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-144-a0f5f3ead188&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-82-5c894d6f70ee&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">3</span><span class="p">,</span> <span class="ow">in</span> <span class="fm">__getitem__</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-83-5c894d6f70ee&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">3</span><span class="p">,</span> <span class="ow">in</span> <span class="fm">__getitem__</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-121-b3bc344d26ef&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">10</span><span class="p">,</span> <span class="ow">in</span> <span class="n">read</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-122-b3bc344d26ef&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">10</span><span class="p">,</span> <span class="ow">in</span> <span class="n">read</span>
     <span class="s2">&quot;Reading from unallocated memory&quot;</span>
 <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Reading</span> <span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/unallocated.html" class="import" target="_blank">unallocated</a></span> <span class="nn"><a href="https://docs.python.org/3/library/memory.html" class="import" target="_blank">memory</a></span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
 </pre></div>
@@ -12155,7 +12169,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-6-7b454f9555c8&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-7-7b454f9555c8&gt;&#34;, line 2, in &lt;module&gt;
     assert False
 AssertionError (expected)
 </pre>
@@ -12251,9 +12265,9 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-9-607a1eab693c&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-10-607a1eab693c&gt;&#34;, line 2, in &lt;module&gt;
     my_own_assert(2 + 2 == 5)
-  File &#34;&lt;ipython-input-8-dccd13593b1c&gt;&#34;, line 3, in my_own_assert
+  File &#34;&lt;ipython-input-9-dccd13593b1c&gt;&#34;, line 3, in my_own_assert
     raise AssertionError
 AssertionError (expected)
 </pre>
@@ -12630,21 +12644,21 @@ AssertionError
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="0694ccee-2763-11eb-a588-acde48001122" id="0694ccee-2763-11eb-a588-acde48001122-1" onclick="clear_selection('0694ccee-2763-11eb-a588-acde48001122')">
-        <label id="0694ccee-2763-11eb-a588-acde48001122-1-label" for="0694ccee-2763-11eb-a588-acde48001122-1">The failing condition (2 + 2 == 5)</label><br>
+        <input type="radio" name="322fe44c-2772-11eb-a588-acde48001122" id="322fe44c-2772-11eb-a588-acde48001122-1" onclick="clear_selection('322fe44c-2772-11eb-a588-acde48001122')">
+        <label id="322fe44c-2772-11eb-a588-acde48001122-1-label" for="322fe44c-2772-11eb-a588-acde48001122-1">The failing condition (2 + 2 == 5)</label><br>
 
-        <input type="radio" name="0694ccee-2763-11eb-a588-acde48001122" id="0694ccee-2763-11eb-a588-acde48001122-2" onclick="clear_selection('0694ccee-2763-11eb-a588-acde48001122')">
-        <label id="0694ccee-2763-11eb-a588-acde48001122-2-label" for="0694ccee-2763-11eb-a588-acde48001122-2">The location of the assertion in the program</label><br>
+        <input type="radio" name="322fe44c-2772-11eb-a588-acde48001122" id="322fe44c-2772-11eb-a588-acde48001122-2" onclick="clear_selection('322fe44c-2772-11eb-a588-acde48001122')">
+        <label id="322fe44c-2772-11eb-a588-acde48001122-2-label" for="322fe44c-2772-11eb-a588-acde48001122-2">The location of the assertion in the program</label><br>
 
-        <input type="radio" name="0694ccee-2763-11eb-a588-acde48001122" id="0694ccee-2763-11eb-a588-acde48001122-3" onclick="clear_selection('0694ccee-2763-11eb-a588-acde48001122')">
-        <label id="0694ccee-2763-11eb-a588-acde48001122-3-label" for="0694ccee-2763-11eb-a588-acde48001122-3">The list of callers</label><br>
+        <input type="radio" name="322fe44c-2772-11eb-a588-acde48001122" id="322fe44c-2772-11eb-a588-acde48001122-3" onclick="clear_selection('322fe44c-2772-11eb-a588-acde48001122')">
+        <label id="322fe44c-2772-11eb-a588-acde48001122-3-label" for="322fe44c-2772-11eb-a588-acde48001122-3">The list of callers</label><br>
 
-        <input type="radio" name="0694ccee-2763-11eb-a588-acde48001122" id="0694ccee-2763-11eb-a588-acde48001122-4" onclick="clear_selection('0694ccee-2763-11eb-a588-acde48001122')">
-        <label id="0694ccee-2763-11eb-a588-acde48001122-4-label" for="0694ccee-2763-11eb-a588-acde48001122-4">All of the above</label><br>
+        <input type="radio" name="322fe44c-2772-11eb-a588-acde48001122" id="322fe44c-2772-11eb-a588-acde48001122-4" onclick="clear_selection('322fe44c-2772-11eb-a588-acde48001122')">
+        <label id="322fe44c-2772-11eb-a588-acde48001122-4-label" for="322fe44c-2772-11eb-a588-acde48001122-4">All of the above</label><br>
 
     </div>
     </p>
-    <input id="0694ccee-2763-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0694ccee-2763-11eb-a588-acde48001122', 16, 0)">
+    <input id="322fe44c-2772-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('322fe44c-2772-11eb-a588-acde48001122', 16, 0)">
     </div>
 
 </div>
@@ -12679,9 +12693,9 @@ AssertionError
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-23-a7079dde6987&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-24-a7079dde6987&gt;&#34;, line 2, in &lt;module&gt;
     fun()
-  File &#34;&lt;ipython-input-21-53b620ac881c&gt;&#34;, line 2, in fun
+  File &#34;&lt;ipython-input-22-53b620ac881c&gt;&#34;, line 2, in fun
     assert 2 + 2 == 5
 AssertionError (expected)
 </pre>
@@ -12769,9 +12783,9 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-25-c824716c77c5&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-26-c824716c77c5&gt;&#34;, line 2, in &lt;module&gt;
     square_root(-1)
-  File &#34;&lt;ipython-input-24-f2b850dca1f6&gt;&#34;, line 2, in square_root
+  File &#34;&lt;ipython-input-25-f2b850dca1f6&gt;&#34;, line 2, in square_root
     assert x &gt;= 0
 AssertionError (expected)
 </pre>
@@ -12870,9 +12884,9 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-29-8b5b94b3d26b&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-30-8b5b94b3d26b&gt;&#34;, line 2, in &lt;module&gt;
     square_root(&#39;4&#39;)
-  File &#34;&lt;ipython-input-26-149e7117c6c9&gt;&#34;, line 2, in square_root
+  File &#34;&lt;ipython-input-27-149e7117c6c9&gt;&#34;, line 2, in square_root
     assert isinstance(x, (int, float))
 AssertionError (expected)
 </pre>
@@ -12945,15 +12959,15 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="069dba98-2763-11eb-8163-acde48001122" id="069dba98-2763-11eb-8163-acde48001122-1" onclick="clear_selection('069dba98-2763-11eb-8163-acde48001122')">
-        <label id="069dba98-2763-11eb-8163-acde48001122-1-label" for="069dba98-2763-11eb-8163-acde48001122-1">Yes, since >= is only defined between numbers</label><br>
+        <input type="radio" name="3238e394-2772-11eb-8163-acde48001122" id="3238e394-2772-11eb-8163-acde48001122-1" onclick="clear_selection('3238e394-2772-11eb-8163-acde48001122')">
+        <label id="3238e394-2772-11eb-8163-acde48001122-1-label" for="3238e394-2772-11eb-8163-acde48001122-1">Yes, since >= is only defined between numbers</label><br>
 
-        <input type="radio" name="069dba98-2763-11eb-8163-acde48001122" id="069dba98-2763-11eb-8163-acde48001122-2" onclick="clear_selection('069dba98-2763-11eb-8163-acde48001122')">
-        <label id="069dba98-2763-11eb-8163-acde48001122-2-label" for="069dba98-2763-11eb-8163-acde48001122-2">No, because an empty list or string would evaluate to 0</label><br>
+        <input type="radio" name="3238e394-2772-11eb-8163-acde48001122" id="3238e394-2772-11eb-8163-acde48001122-2" onclick="clear_selection('3238e394-2772-11eb-8163-acde48001122')">
+        <label id="3238e394-2772-11eb-8163-acde48001122-2-label" for="3238e394-2772-11eb-8163-acde48001122-2">No, because an empty list or string would evaluate to 0</label><br>
 
     </div>
     </p>
-    <input id="069dba98-2763-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('069dba98-2763-11eb-8163-acde48001122', 2, 0)">
+    <input id="3238e394-2772-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('3238e394-2772-11eb-8163-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -12988,7 +13002,7 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-31-f373ecd526b1&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-32-f373ecd526b1&gt;&#34;, line 2, in &lt;module&gt;
     &#39;4&#39; &gt;= 0
 TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and &#39;int&#39; (expected)
 </pre>
@@ -13096,21 +13110,21 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="06a0b218-2763-11eb-9732-acde48001122" id="06a0b218-2763-11eb-9732-acde48001122-1" onclick="clear_selection('06a0b218-2763-11eb-9732-acde48001122')">
-        <label id="06a0b218-2763-11eb-9732-acde48001122-1-label" for="06a0b218-2763-11eb-9732-acde48001122-1">We need to compute y^2, not y * y</label><br>
+        <input type="radio" name="323b4ea4-2772-11eb-9732-acde48001122" id="323b4ea4-2772-11eb-9732-acde48001122-1" onclick="clear_selection('323b4ea4-2772-11eb-9732-acde48001122')">
+        <label id="323b4ea4-2772-11eb-9732-acde48001122-1-label" for="323b4ea4-2772-11eb-9732-acde48001122-1">We need to compute y^2, not y * y</label><br>
 
-        <input type="radio" name="06a0b218-2763-11eb-9732-acde48001122" id="06a0b218-2763-11eb-9732-acde48001122-2" onclick="clear_selection('06a0b218-2763-11eb-9732-acde48001122')">
-        <label id="06a0b218-2763-11eb-9732-acde48001122-2-label" for="06a0b218-2763-11eb-9732-acde48001122-2">We may encounter rounding errors</label><br>
+        <input type="radio" name="323b4ea4-2772-11eb-9732-acde48001122" id="323b4ea4-2772-11eb-9732-acde48001122-2" onclick="clear_selection('323b4ea4-2772-11eb-9732-acde48001122')">
+        <label id="323b4ea4-2772-11eb-9732-acde48001122-2-label" for="323b4ea4-2772-11eb-9732-acde48001122-2">We may encounter rounding errors</label><br>
 
-        <input type="radio" name="06a0b218-2763-11eb-9732-acde48001122" id="06a0b218-2763-11eb-9732-acde48001122-3" onclick="clear_selection('06a0b218-2763-11eb-9732-acde48001122')">
-        <label id="06a0b218-2763-11eb-9732-acde48001122-3-label" for="06a0b218-2763-11eb-9732-acde48001122-3">The value of x may have changed during computation</label><br>
+        <input type="radio" name="323b4ea4-2772-11eb-9732-acde48001122" id="323b4ea4-2772-11eb-9732-acde48001122-3" onclick="clear_selection('323b4ea4-2772-11eb-9732-acde48001122')">
+        <label id="323b4ea4-2772-11eb-9732-acde48001122-3-label" for="323b4ea4-2772-11eb-9732-acde48001122-3">The value of x may have changed during computation</label><br>
 
-        <input type="radio" name="06a0b218-2763-11eb-9732-acde48001122" id="06a0b218-2763-11eb-9732-acde48001122-4" onclick="clear_selection('06a0b218-2763-11eb-9732-acde48001122')">
-        <label id="06a0b218-2763-11eb-9732-acde48001122-4-label" for="06a0b218-2763-11eb-9732-acde48001122-4">The interpreter / compiler may be buggy</label><br>
+        <input type="radio" name="323b4ea4-2772-11eb-9732-acde48001122" id="323b4ea4-2772-11eb-9732-acde48001122-4" onclick="clear_selection('323b4ea4-2772-11eb-9732-acde48001122')">
+        <label id="323b4ea4-2772-11eb-9732-acde48001122-4-label" for="323b4ea4-2772-11eb-9732-acde48001122-4">The interpreter / compiler may be buggy</label><br>
 
     </div>
     </p>
-    <input id="06a0b218-2763-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('06a0b218-2763-11eb-9732-acde48001122', 4, 0)">
+    <input id="323b4ea4-2772-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('323b4ea4-2772-11eb-9732-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -13502,15 +13516,15 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="06ae5006-2763-11eb-b36c-acde48001122" id="06ae5006-2763-11eb-b36c-acde48001122-1" onclick="clear_selection('06ae5006-2763-11eb-b36c-acde48001122')">
-        <label id="06ae5006-2763-11eb-b36c-acde48001122-1-label" for="06ae5006-2763-11eb-b36c-acde48001122-1">Yes</label><br>
+        <input type="radio" name="3245cd0c-2772-11eb-b36c-acde48001122" id="3245cd0c-2772-11eb-b36c-acde48001122-1" onclick="clear_selection('3245cd0c-2772-11eb-b36c-acde48001122')">
+        <label id="3245cd0c-2772-11eb-b36c-acde48001122-1-label" for="3245cd0c-2772-11eb-b36c-acde48001122-1">Yes</label><br>
 
-        <input type="radio" name="06ae5006-2763-11eb-b36c-acde48001122" id="06ae5006-2763-11eb-b36c-acde48001122-2" onclick="clear_selection('06ae5006-2763-11eb-b36c-acde48001122')">
-        <label id="06ae5006-2763-11eb-b36c-acde48001122-2-label" for="06ae5006-2763-11eb-b36c-acde48001122-2">No</label><br>
+        <input type="radio" name="3245cd0c-2772-11eb-b36c-acde48001122" id="3245cd0c-2772-11eb-b36c-acde48001122-2" onclick="clear_selection('3245cd0c-2772-11eb-b36c-acde48001122')">
+        <label id="3245cd0c-2772-11eb-b36c-acde48001122-2-label" for="3245cd0c-2772-11eb-b36c-acde48001122-2">No</label><br>
 
     </div>
     </p>
-    <input id="06ae5006-2763-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('06ae5006-2763-11eb-b36c-acde48001122', 2, 0)">
+    <input id="3245cd0c-2772-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('3245cd0c-2772-11eb-b36c-acde48001122', 2, 0)">
     </div>
 
 </div>
@@ -13753,18 +13767,18 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="06b4134c-2763-11eb-835f-acde48001122" id="06b4134c-2763-11eb-835f-acde48001122-1" onclick="clear_selection('06b4134c-2763-11eb-835f-acde48001122')">
-        <label id="06b4134c-2763-11eb-835f-acde48001122-1-label" for="06b4134c-2763-11eb-835f-acde48001122-1">It returns the minimum value out of x, y, z</label><br>
+        <input type="radio" name="324a1b28-2772-11eb-835f-acde48001122" id="324a1b28-2772-11eb-835f-acde48001122-1" onclick="clear_selection('324a1b28-2772-11eb-835f-acde48001122')">
+        <label id="324a1b28-2772-11eb-835f-acde48001122-1-label" for="324a1b28-2772-11eb-835f-acde48001122-1">It returns the minimum value out of x, y, z</label><br>
 
-        <input type="radio" name="06b4134c-2763-11eb-835f-acde48001122" id="06b4134c-2763-11eb-835f-acde48001122-2" onclick="clear_selection('06b4134c-2763-11eb-835f-acde48001122')">
-        <label id="06b4134c-2763-11eb-835f-acde48001122-2-label" for="06b4134c-2763-11eb-835f-acde48001122-2">It returns the middle value out of x, y, z</label><br>
+        <input type="radio" name="324a1b28-2772-11eb-835f-acde48001122" id="324a1b28-2772-11eb-835f-acde48001122-2" onclick="clear_selection('324a1b28-2772-11eb-835f-acde48001122')">
+        <label id="324a1b28-2772-11eb-835f-acde48001122-2-label" for="324a1b28-2772-11eb-835f-acde48001122-2">It returns the middle value out of x, y, z</label><br>
 
-        <input type="radio" name="06b4134c-2763-11eb-835f-acde48001122" id="06b4134c-2763-11eb-835f-acde48001122-3" onclick="clear_selection('06b4134c-2763-11eb-835f-acde48001122')">
-        <label id="06b4134c-2763-11eb-835f-acde48001122-3-label" for="06b4134c-2763-11eb-835f-acde48001122-3">It returns the maximum value out of x, y, z</label><br>
+        <input type="radio" name="324a1b28-2772-11eb-835f-acde48001122" id="324a1b28-2772-11eb-835f-acde48001122-3" onclick="clear_selection('324a1b28-2772-11eb-835f-acde48001122')">
+        <label id="324a1b28-2772-11eb-835f-acde48001122-3-label" for="324a1b28-2772-11eb-835f-acde48001122-3">It returns the maximum value out of x, y, z</label><br>
 
     </div>
     </p>
-    <input id="06b4134c-2763-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('06b4134c-2763-11eb-835f-acde48001122', 4, 0)">
+    <input id="324a1b28-2772-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('324a1b28-2772-11eb-835f-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -13868,21 +13882,21 @@ Indeed, with proper assertions, it is almost trivial to locate the one function 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="06b51e4a-2763-11eb-858d-acde48001122" id="06b51e4a-2763-11eb-858d-acde48001122-1" onclick="clear_selection('06b51e4a-2763-11eb-858d-acde48001122')">
-        <label id="06b51e4a-2763-11eb-858d-acde48001122-1-label" for="06b51e4a-2763-11eb-858d-acde48001122-1"><code>g()</code> because it raises an exception</label><br>
+        <input type="radio" name="324b0ce8-2772-11eb-858d-acde48001122" id="324b0ce8-2772-11eb-858d-acde48001122-1" onclick="clear_selection('324b0ce8-2772-11eb-858d-acde48001122')">
+        <label id="324b0ce8-2772-11eb-858d-acde48001122-1-label" for="324b0ce8-2772-11eb-858d-acde48001122-1"><code>g()</code> because it raises an exception</label><br>
 
-        <input type="radio" name="06b51e4a-2763-11eb-858d-acde48001122" id="06b51e4a-2763-11eb-858d-acde48001122-2" onclick="clear_selection('06b51e4a-2763-11eb-858d-acde48001122')">
-        <label id="06b51e4a-2763-11eb-858d-acde48001122-2-label" for="06b51e4a-2763-11eb-858d-acde48001122-2"><code>f()</code> because it violates the precondition of <code>g()</code></label><br>
+        <input type="radio" name="324b0ce8-2772-11eb-858d-acde48001122" id="324b0ce8-2772-11eb-858d-acde48001122-2" onclick="clear_selection('324b0ce8-2772-11eb-858d-acde48001122')">
+        <label id="324b0ce8-2772-11eb-858d-acde48001122-2-label" for="324b0ce8-2772-11eb-858d-acde48001122-2"><code>f()</code> because it violates the precondition of <code>g()</code></label><br>
 
-        <input type="radio" name="06b51e4a-2763-11eb-858d-acde48001122" id="06b51e4a-2763-11eb-858d-acde48001122-3" onclick="clear_selection('06b51e4a-2763-11eb-858d-acde48001122')">
-        <label id="06b51e4a-2763-11eb-858d-acde48001122-3-label" for="06b51e4a-2763-11eb-858d-acde48001122-3">Both <code>f()</code> and <code>g()</code> because they are incompatible</label><br>
+        <input type="radio" name="324b0ce8-2772-11eb-858d-acde48001122" id="324b0ce8-2772-11eb-858d-acde48001122-3" onclick="clear_selection('324b0ce8-2772-11eb-858d-acde48001122')">
+        <label id="324b0ce8-2772-11eb-858d-acde48001122-3-label" for="324b0ce8-2772-11eb-858d-acde48001122-3">Both <code>f()</code> and <code>g()</code> because they are incompatible</label><br>
 
-        <input type="radio" name="06b51e4a-2763-11eb-858d-acde48001122" id="06b51e4a-2763-11eb-858d-acde48001122-4" onclick="clear_selection('06b51e4a-2763-11eb-858d-acde48001122')">
-        <label id="06b51e4a-2763-11eb-858d-acde48001122-4-label" for="06b51e4a-2763-11eb-858d-acde48001122-4">None of the above</label><br>
+        <input type="radio" name="324b0ce8-2772-11eb-858d-acde48001122" id="324b0ce8-2772-11eb-858d-acde48001122-4" onclick="clear_selection('324b0ce8-2772-11eb-858d-acde48001122')">
+        <label id="324b0ce8-2772-11eb-858d-acde48001122-4-label" for="324b0ce8-2772-11eb-858d-acde48001122-4">None of the above</label><br>
 
     </div>
     </p>
-    <input id="06b51e4a-2763-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('06b51e4a-2763-11eb-858d-acde48001122', 4, 0)">
+    <input id="324b0ce8-2772-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('324b0ce8-2772-11eb-858d-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -14143,9 +14157,9 @@ whereas</li>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-57-323fd6497d74&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-58-323fd6497d74&gt;&#34;, line 2, in &lt;module&gt;
     print(t)
-  File &#34;&lt;ipython-input-53-38befb275ce2&gt;&#34;, line 3, in __repr__
+  File &#34;&lt;ipython-input-54-38befb275ce2&gt;&#34;, line 3, in __repr__
     return f&#34;{self.hours():02}:{self.minutes():02}:{self.seconds():02}&#34;
 ValueError: &#39;=&#39; alignment not allowed in string format specifier (expected)
 </pre>
@@ -14240,9 +14254,9 @@ ValueError: &#39;=&#39; alignment not allowed in string format specifier (expect
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-59-dd5f0916c6f7&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-60-dd5f0916c6f7&gt;&#34;, line 2, in &lt;module&gt;
     t = Time(-23, 0, 0)
-  File &#34;&lt;ipython-input-58-9f7cc0d99705&gt;&#34;, line 3, in __init__
+  File &#34;&lt;ipython-input-59-9f7cc0d99705&gt;&#34;, line 3, in __init__
     assert 0 &lt;= hours &lt;= 23
 AssertionError (expected)
 </pre>
@@ -14405,11 +14419,11 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-63-dd5f0916c6f7&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-64-dd5f0916c6f7&gt;&#34;, line 2, in &lt;module&gt;
     t = Time(-23, 0, 0)
-  File &#34;&lt;ipython-input-62-bc8734eb8a13&gt;&#34;, line 6, in __init__
+  File &#34;&lt;ipython-input-63-bc8734eb8a13&gt;&#34;, line 6, in __init__
     assert self.repOK()
-  File &#34;&lt;ipython-input-61-ba46d623c585&gt;&#34;, line 3, in repOK
+  File &#34;&lt;ipython-input-62-ba46d623c585&gt;&#34;, line 3, in repOK
     assert 0 &lt;= self.hours() &lt;= 23
 AssertionError (expected)
 </pre>
@@ -14541,11 +14555,11 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-67-0be980bfc634&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-68-0be980bfc634&gt;&#34;, line 2, in &lt;module&gt;
     t = Time(&#34;After midnight&#34;)
-  File &#34;&lt;ipython-input-62-bc8734eb8a13&gt;&#34;, line 6, in __init__
+  File &#34;&lt;ipython-input-63-bc8734eb8a13&gt;&#34;, line 6, in __init__
     assert self.repOK()
-  File &#34;&lt;ipython-input-65-173038aa430e&gt;&#34;, line 3, in repOK
+  File &#34;&lt;ipython-input-66-173038aa430e&gt;&#34;, line 3, in repOK
     assert isinstance(self.hours(), int)
 AssertionError (expected)
 </pre>
@@ -14855,7 +14869,7 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-75-f68e4f4810fd&gt;&#34;, line 3, in &lt;module&gt;
+  File &#34;&lt;ipython-input-76-f68e4f4810fd&gt;&#34;, line 3, in &lt;module&gt;
     &#34;foo&#34;[index]
 IndexError: string index out of range (expected)
 </pre>
@@ -15888,9 +15902,9 @@ IndexError: string index out of range (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-104-263c987be277&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-105-263c987be277&gt;&#34;, line 2, in &lt;module&gt;
     m.allocate(1)
-  File &#34;&lt;ipython-input-92-a05e8d7acf1e&gt;&#34;, line 45, in allocate
+  File &#34;&lt;ipython-input-93-a05e8d7acf1e&gt;&#34;, line 45, in allocate
     raise MemoryError(&#34;Out of Memory&#34;)
 MemoryError: Out of Memory (expected)
 </pre>
@@ -16541,12 +16555,12 @@ MemoryError: Out of Memory (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-119-5fa513802374&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-120-5fa513802374&gt;&#34;, line 2, in &lt;module&gt;
     m.allocate(1)
-  File &#34;&lt;ipython-input-92-a05e8d7acf1e&gt;&#34;, line 22, in allocate
-    chunk_length = self.memory[chunk + 1]
-  File &#34;&lt;ipython-input-92-a05e8d7acf1e&gt;&#34;, line 22, in allocate
-    chunk_length = self.memory[chunk + 1]
+  File &#34;&lt;ipython-input-93-a05e8d7acf1e&gt;&#34;, line 20, in allocate
+    while chunk &lt; self.size:
+  File &#34;&lt;ipython-input-93-a05e8d7acf1e&gt;&#34;, line 20, in allocate
+    while chunk &lt; self.size:
   File &#34;ExpectError.ipynb&#34;, line 58, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -17066,11 +17080,11 @@ TimeoutError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-128-a923dedc0a0d&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-129-a923dedc0a0d&gt;&#34;, line 2, in &lt;module&gt;
     x = m[p + 2]
-  File &#34;&lt;ipython-input-82-5c894d6f70ee&gt;&#34;, line 3, in __getitem__
+  File &#34;&lt;ipython-input-83-5c894d6f70ee&gt;&#34;, line 3, in __getitem__
     return self.read(address)
-  File &#34;&lt;ipython-input-121-b3bc344d26ef&gt;&#34;, line 12, in read
+  File &#34;&lt;ipython-input-122-b3bc344d26ef&gt;&#34;, line 12, in read
     &#34;Reading from uninitialized memory&#34;
 AssertionError: Reading from uninitialized memory (expected)
 </pre>
@@ -17196,11 +17210,11 @@ AssertionError: Reading from uninitialized memory (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-130-40d8191ad3ed&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-131-40d8191ad3ed&gt;&#34;, line 2, in &lt;module&gt;
     m[p] = 10
-  File &#34;&lt;ipython-input-82-5c894d6f70ee&gt;&#34;, line 5, in __setitem__
+  File &#34;&lt;ipython-input-83-5c894d6f70ee&gt;&#34;, line 5, in __setitem__
     self.write(address, item)
-  File &#34;&lt;ipython-input-121-b3bc344d26ef&gt;&#34;, line 4, in write
+  File &#34;&lt;ipython-input-122-b3bc344d26ef&gt;&#34;, line 4, in write
     &#34;Writing into unallocated memory&#34;
 AssertionError: Writing into unallocated memory (expected)
 </pre>
@@ -17236,9 +17250,9 @@ AssertionError: Writing into unallocated memory (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-131-cf013425093e&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-132-cf013425093e&gt;&#34;, line 2, in &lt;module&gt;
     m.free(p)
-  File &#34;&lt;ipython-input-122-086017428baa&gt;&#34;, line 11, in free
+  File &#34;&lt;ipython-input-123-086017428baa&gt;&#34;, line 11, in free
     &#34;Freeing memory that is already freed&#34;
 AssertionError: Freeing memory that is already freed (expected)
 </pre>
@@ -17321,7 +17335,7 @@ AssertionError: Freeing memory that is already freed (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>/usr/local/bin/valgrind ./testuseafterfree
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>valgrind ./testuseafterfree
 </pre></div>
 
 </div>
@@ -17332,35 +17346,35 @@ AssertionError: Freeing memory that is already freed (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>==4117== Memcheck, a memory error detector
-==4117== Copyright (C) 2002-2017, and GNU GPL&#39;d, by Julian Seward et al.
-==4117== Using Valgrind-3.17.0.GIT and LibVEX; rerun with -h for copyright info
-==4117== Command: ./testuseafterfree
-==4117== 
-==4117== Invalid read of size 4
-==4117==    at 0x100000F74: main (testuseafterfree.c:8)
-==4117==  Address 0x10080f4f8 is 40 bytes inside a block of size 400 free&#39;d
-==4117==    at 0x100111D6D: free (in /usr/local/Cellar/valgrind/HEAD-6049595/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==4117==    by 0x100000F6F: main (testuseafterfree.c:7)
-==4117==  Block was alloc&#39;d at
-==4117==    at 0x100111995: malloc (in /usr/local/Cellar/valgrind/HEAD-6049595/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==4117==    by 0x100000F5F: main (testuseafterfree.c:6)
-==4117== 
-==4117== 
-==4117== HEAP SUMMARY:
-==4117==     in use at exit: 13,888 bytes in 159 blocks
-==4117==   total heap usage: 174 allocs, 15 frees, 19,032 bytes allocated
-==4117== 
-==4117== LEAK SUMMARY:
-==4117==    definitely lost: 5,848 bytes in 125 blocks
-==4117==    indirectly lost: 5,802 bytes in 29 blocks
-==4117==      possibly lost: 0 bytes in 0 blocks
-==4117==    still reachable: 0 bytes in 0 blocks
-==4117==         suppressed: 2,238 bytes in 5 blocks
-==4117== Rerun with --leak-check=full to see details of leaked memory
-==4117== 
-==4117== For lists of detected and suppressed errors, rerun with: -s
-==4117== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 4 from 4)
+<pre>==47700== Memcheck, a memory error detector
+==47700== Copyright (C) 2002-2017, and GNU GPL&#39;d, by Julian Seward et al.
+==47700== Using Valgrind-3.17.0.GIT and LibVEX; rerun with -h for copyright info
+==47700== Command: ./testuseafterfree
+==47700== 
+==47700== Invalid read of size 4
+==47700==    at 0x100000F74: main (testuseafterfree.c:8)
+==47700==  Address 0x10080f4f8 is 40 bytes inside a block of size 400 free&#39;d
+==47700==    at 0x100111D6D: free (in /usr/local/Cellar/valgrind/HEAD-6049595/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==47700==    by 0x100000F6F: main (testuseafterfree.c:7)
+==47700==  Block was alloc&#39;d at
+==47700==    at 0x100111995: malloc (in /usr/local/Cellar/valgrind/HEAD-6049595/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==47700==    by 0x100000F5F: main (testuseafterfree.c:6)
+==47700== 
+==47700== 
+==47700== HEAP SUMMARY:
+==47700==     in use at exit: 13,888 bytes in 159 blocks
+==47700==   total heap usage: 174 allocs, 15 frees, 19,032 bytes allocated
+==47700== 
+==47700== LEAK SUMMARY:
+==47700==    definitely lost: 5,848 bytes in 125 blocks
+==47700==    indirectly lost: 5,802 bytes in 29 blocks
+==47700==      possibly lost: 0 bytes in 0 blocks
+==47700==    still reachable: 0 bytes in 0 blocks
+==47700==         suppressed: 2,238 bytes in 5 blocks
+==47700== Rerun with --leak-check=full to see details of leaked memory
+==47700== 
+==47700== For lists of detected and suppressed errors, rerun with: -s
+==47700== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 4 from 4)
 </pre>
 </div>
 
@@ -17428,7 +17442,7 @@ AssertionError: Freeing memory that is already freed (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>/usr/local/bin/valgrind ./testoverflow
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>valgrind ./testoverflow
 </pre></div>
 
 </div>
@@ -17439,26 +17453,26 @@ AssertionError: Freeing memory that is already freed (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>==4128== Memcheck, a memory error detector
-==4128== Copyright (C) 2002-2017, and GNU GPL&#39;d, by Julian Seward et al.
-==4128== Using Valgrind-3.17.0.GIT and LibVEX; rerun with -h for copyright info
-==4128== Command: ./testoverflow
-==4128== 
-==4128== 
-==4128== HEAP SUMMARY:
-==4128==     in use at exit: 13,888 bytes in 159 blocks
-==4128==   total heap usage: 173 allocs, 14 frees, 18,632 bytes allocated
-==4128== 
-==4128== LEAK SUMMARY:
-==4128==    definitely lost: 5,848 bytes in 125 blocks
-==4128==    indirectly lost: 5,802 bytes in 29 blocks
-==4128==      possibly lost: 0 bytes in 0 blocks
-==4128==    still reachable: 0 bytes in 0 blocks
-==4128==         suppressed: 2,238 bytes in 5 blocks
-==4128== Rerun with --leak-check=full to see details of leaked memory
-==4128== 
-==4128== For lists of detected and suppressed errors, rerun with: -s
-==4128== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)
+<pre>==47704== Memcheck, a memory error detector
+==47704== Copyright (C) 2002-2017, and GNU GPL&#39;d, by Julian Seward et al.
+==47704== Using Valgrind-3.17.0.GIT and LibVEX; rerun with -h for copyright info
+==47704== Command: ./testoverflow
+==47704== 
+==47704== 
+==47704== HEAP SUMMARY:
+==47704==     in use at exit: 13,888 bytes in 159 blocks
+==47704==   total heap usage: 173 allocs, 14 frees, 18,632 bytes allocated
+==47704== 
+==47704== LEAK SUMMARY:
+==47704==    definitely lost: 5,848 bytes in 125 blocks
+==47704==    indirectly lost: 5,802 bytes in 29 blocks
+==47704==      possibly lost: 0 bytes in 0 blocks
+==47704==    still reachable: 0 bytes in 0 blocks
+==47704==         suppressed: 2,238 bytes in 5 blocks
+==47704== Rerun with --leak-check=full to see details of leaked memory
+==47704== 
+==47704== For lists of detected and suppressed errors, rerun with: -s
+==47704== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)
 </pre>
 </div>
 
@@ -17532,20 +17546,20 @@ AssertionError: Freeing memory that is already freed (expected)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>=================================================================
-<span class="ansi-red-intense-fg ansi-bold">==4137==ERROR: AddressSanitizer: heap-use-after-free on address 0x614000000068 at pc 0x000108a14f30 bp 0x7ffee71eb3f0 sp 0x7ffee71eb3e8
+<span class="ansi-red-intense-fg ansi-bold">==47708==ERROR: AddressSanitizer: heap-use-after-free on address 0x614000000068 at pc 0x000102e3cf30 bp 0x7ffeecdc33e0 sp 0x7ffeecdc33d8
 </span><span class="ansi-blue-intense-fg ansi-bold">READ of size 4 at 0x614000000068 thread T0</span>
-    #0 0x108a14f2f in main (testuseafterfree:x86_64+0x100000f2f)
+    #0 0x102e3cf2f in main (testuseafterfree:x86_64+0x100000f2f)
     #1 0x7fff6db5ecc8 in start (libdyld.dylib:x86_64+0x1acc8)
 
 <span class="ansi-green-intense-fg ansi-bold">0x614000000068 is located 40 bytes inside of 400-byte region [0x614000000040,0x6140000001d0)
 </span><span class="ansi-magenta-intense-fg ansi-bold">freed by thread T0 here:</span>
-    #0 0x108a7a94d in wrap_free (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x6194d)
-    #1 0x108a14edf in main (testuseafterfree:x86_64+0x100000edf)
+    #0 0x102ea194d in wrap_free (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x6194d)
+    #1 0x102e3cedf in main (testuseafterfree:x86_64+0x100000edf)
     #2 0x7fff6db5ecc8 in start (libdyld.dylib:x86_64+0x1acc8)
 
 <span class="ansi-magenta-intense-fg ansi-bold">previously allocated by thread T0 here:</span>
-    #0 0x108a7a793 in wrap_malloc (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x61793)
-    #1 0x108a14ecf in main (testuseafterfree:x86_64+0x100000ecf)
+    #0 0x102ea1793 in wrap_malloc (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x61793)
+    #1 0x102e3cecf in main (testuseafterfree:x86_64+0x100000ecf)
     #2 0x7fff6db5ecc8 in start (libdyld.dylib:x86_64+0x1acc8)
 
 SUMMARY: AddressSanitizer: heap-use-after-free (testuseafterfree:x86_64+0x100000f2f) in main
@@ -17581,7 +17595,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Left alloca redzone:     <span class="ansi-blue-intense-fg ansi-bold">ca</span>
   Right alloca redzone:    <span class="ansi-blue-intense-fg ansi-bold">cb</span>
   Shadow gap:              cc
-==4137==ABORTING
+==47708==ABORTING
 </pre>
 </div>
 
@@ -17628,26 +17642,26 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>=================================================================
-<span class="ansi-red-intense-fg ansi-bold">==4142==ERROR: AddressSanitizer: global-buffer-overflow on address 0x00010d2eaf4a at pc 0x00010d2eae8f bp 0x7ffee2915400 sp 0x7ffee29153f8
-</span><span class="ansi-blue-intense-fg ansi-bold">READ of size 1 at 0x00010d2eaf4a thread T0</span>
-    #0 0x10d2eae8e in main (testoverflow:x86_64+0x100000e8e)
+<span class="ansi-red-intense-fg ansi-bold">==47718==ERROR: AddressSanitizer: global-buffer-overflow on address 0x00010ecb7f4a at pc 0x00010ecb7e8f bp 0x7ffee0f483f0 sp 0x7ffee0f483e8
+</span><span class="ansi-blue-intense-fg ansi-bold">READ of size 1 at 0x00010ecb7f4a thread T0</span>
+    #0 0x10ecb7e8e in main (testoverflow:x86_64+0x100000e8e)
     #1 0x7fff6db5ecc8 in start (libdyld.dylib:x86_64+0x1acc8)
 
-<span class="ansi-green-intense-fg ansi-bold">0x00010d2eaf4a is located 6 bytes to the right of global variable &#39;&lt;string literal&gt;&#39; defined in &#39;testoverflow.c:7:12&#39; (0x10d2eaf40) of size 4
+<span class="ansi-green-intense-fg ansi-bold">0x00010ecb7f4a is located 6 bytes to the right of global variable &#39;&lt;string literal&gt;&#39; defined in &#39;testoverflow.c:7:12&#39; (0x10ecb7f40) of size 4
 </span>  &#39;&lt;string literal&gt;&#39; is ascii string &#39;foo&#39;
 SUMMARY: AddressSanitizer: global-buffer-overflow (testoverflow:x86_64+0x100000e8e) in main
 Shadow bytes around the buggy address:
-  0x100021a5d590: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d5a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d5b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d5c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d5d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-=&gt;0x100021a5d5e0: 00 00 00 00 00 00 00 00 04[<span class="ansi-red-intense-fg ansi-bold">f9</span>]<span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span>
-  0x100021a5d5f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d610: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d620: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100021a5d630: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d96f90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d96fa0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d96fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d96fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d96fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x100021d96fe0: 00 00 00 00 00 00 00 00 04[<span class="ansi-red-intense-fg ansi-bold">f9</span>]<span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span>
+  0x100021d96ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d97000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d97010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d97020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x100021d97030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 Shadow byte legend (one shadow byte represents 8 application bytes):
   Addressable:           00
   Partially addressable: 01 02 03 04 05 06 07 
@@ -17668,7 +17682,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Left alloca redzone:     <span class="ansi-blue-intense-fg ansi-bold">ca</span>
   Right alloca redzone:    <span class="ansi-blue-intense-fg ansi-bold">cb</span>
   Shadow gap:              cc
-==4142==ABORTING
+==47718==ABORTING
 </pre>
 </div>
 
@@ -17864,7 +17878,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Invariants.ipynb" target=_blank)>Last change: 2020-11-15 17:51:27+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Invariants.ipynb" target=_blank)>Last change: 2020-11-15 18:52:36+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -17882,7 +17896,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Invariants.html">Checking Expectations</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Invariants.html">https://www.debuggingbook.org/beta/html/Invariants.html</a>.  Retrieved 2020-11-15 17:51:27+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Invariants.html">Checking Expectations</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Invariants.html">https://www.debuggingbook.org/beta/html/Invariants.html</a>.  Retrieved 2020-11-15 18:52:36+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Invariants,
@@ -17892,9 +17906,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Invariants.htm
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Invariants.html}},
-    note = {Retrieved 2020-11-15 17:51:27+01:00},
+    note = {Retrieved 2020-11-15 18:52:36+01:00},
     url = {https://www.debuggingbook.org/beta/html/Invariants.html},
-    urldate = {2020-11-15 17:51:27+01:00}
+    urldate = {2020-11-15 18:52:36+01:00}
 }
 </pre>
 </div>
