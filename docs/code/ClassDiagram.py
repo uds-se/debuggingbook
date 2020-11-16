@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ClassDiagram.html
-# Last change: 2020-11-11 18:49:30+01:00
+# Last change: 2020-11-16 13:00:32+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -68,27 +68,27 @@ def class_hierarchy(cls):
             last_superclass_name = superclass.__name__
     return hierarchy
 
-class A:
+class A_Class:
     def foo(self):
         pass
 
-class B(A):
+class B_Class(A_Class):
     def foo(self):
         pass
     def bar(self):
         pass
 
-class C:
+class C_Class:
     def qux(self):
         pass
 
-class D(B, C):
+class D_Class(B_Class, C_Class):
     def foo(self):
-        B.foo(self)
+        B_Class.foo(self)
 
 
 if __name__ == "__main__":
-    class_hierarchy(A)
+    class_hierarchy(A_Class)
 
 
 # ## Getting a Class Tree
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    D.__bases__
+    D_Class.__bases__
 
 
 def class_tree(cls):
@@ -125,7 +125,7 @@ def class_tree(cls):
     return ret
 
 if __name__ == "__main__":
-    class_tree(D)
+    class_tree(D_Class)
 
 
 # ## Getting methods
@@ -155,7 +155,7 @@ def class_methods(cls):
     return unique_methods
 
 if __name__ == "__main__":
-    class_methods(D)
+    class_methods(D_Class)
 
 
 def public_class_methods(cls):
@@ -165,11 +165,11 @@ def doc_class_methods(cls):
     return [(name, method) for (name, method) in public_class_methods(cls) if method.__doc__ is not None]
 
 if __name__ == "__main__":
-    public_class_methods(D)
+    public_class_methods(D_Class)
 
 
 if __name__ == "__main__":
-    doc_class_methods(D)
+    doc_class_methods(D_Class)
 
 
 # ## Drawing Class Hierarchy with Method Names
@@ -180,11 +180,19 @@ if __name__ == "__main__":
 
 
 
-def display_class_hierarchy(classes, include_methods=True):
+def display_class_hierarchy(classes, include_methods=True,
+                            project='fuzzingbook'):
     from graphviz import Digraph
-    
-    CLASS_FONT = 'Patua One, Helvetica, sans-serif'
-    METHOD_FONT = 'monospace'
+
+    if project == 'debuggingbook':
+        CLASS_FONT = 'Raleway, Helvetica, Arial, sans-serif'
+        CLASS_COLOR = 'purple'
+    else:
+        CLASS_FONT = 'Patua One, Helvetica, sans-serif'
+        CLASS_COLOR = '#B03A2E'
+
+    METHOD_FONT = "'Fira Mono', 'Source Code Pro', monospace"
+    METHOD_COLOR = 'black'
 
     if isinstance(classes, list):
         starting_class = classes[0]
@@ -198,12 +206,12 @@ def display_class_hierarchy(classes, include_methods=True):
     dot.attr('edge', arrowhead='empty')
     edges = set()
 
-    def method_string(name, f):
-        method_string = '<font face="' + METHOD_FONT + '" point-size="10">'
+    def method_string(method_name, f):
+        method_string = f'<font face="{METHOD_FONT}" point-size="10">'
         if f.__doc__ is not None:
-            method_string += '<b>' + name + '()</b>'
+            method_string += '<b>' + method_name + '()</b>'
         else:
-            method_string += '<font color="#808080">' + name + '()</font>'
+            method_string += f'<font color="{METHOD_COLOR}">{method_name}()</font>'
         method_string += '</font>'
         return method_string
 
@@ -226,7 +234,8 @@ def display_class_hierarchy(classes, include_methods=True):
         url = cls.__module__ + '.ipynb'
         if include_methods:
             methods = class_methods_string(cls)
-            spec = '<{<b><font color="#B03A2E">' + cls.__name__ + '</font></b>|' + methods + '}>'
+            spec = '<{<b><font color="' + CLASS_COLOR + '">' + \
+                cls.__name__ + '</font></b>|' + methods + '}>'
         else:
             spec = '<' + cls.__name__ + '>'
         dot.node(name, spec, href=url)
@@ -249,7 +258,11 @@ def display_class_hierarchy(classes, include_methods=True):
     return dot
 
 if __name__ == "__main__":
-    display_class_hierarchy([D, A])
+    display_class_hierarchy([D_Class, A_Class], project='debuggingbook')
+
+
+if __name__ == "__main__":
+    display_class_hierarchy([D_Class, A_Class], project='fuzzingbook')
 
 
 # ## Synopsis
@@ -261,7 +274,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    display_class_hierarchy(D)
+    display_class_hierarchy(D_Class)
 
 
 # ## Lessons Learned
