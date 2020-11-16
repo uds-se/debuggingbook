@@ -32,30 +32,15 @@ def rich_output():
 
 
 # Wrapper for YouTubeVideo
-if have_ipython:
-    import IPython.display
-
-    class YouTubeVideo(IPython.display.IFrame):
-        """Replacement for iPython.YoutubeVideo, with different width/height and no cookies for YouTube"""
-        def __init__(self, id, width=640, height=360, **kwargs):
-            self.id=id
-            src = "https://www.youtube-nocookie.com/embed/{0}".format(id)
-            super(YouTubeVideo, self).__init__(src, width, height, **kwargs)
-    
-        def _repr_jpeg_(self):
-            # Deferred import
-            from urllib.request import urlopen
-
-            try:
-                return urlopen("https://img.youtube.com/vi/{id}/hqdefault.jpg".format(id=self.id)).read()
-            except IOError:
-                return None        
-else:
-    # Placeholder for imports
-    class YouTubeVideo(object):
-        def __init__(self, video_id, **kwargs):
-            pass
-
+def YouTubeVideo(id, width=640, height=360):
+    """Replacement for IPython.YoutubeVideo, 
+    with different width/height and no cookies for YouTube"""
+    if have_ipython:
+        from IPython.display import IFrame
+        src = f"https://www.youtube-nocookie.com/embed/{id}"
+        return IFrame(src, width, height)
+    else:
+        pass
 
 
 # Checking for inheritance conflicts
@@ -121,21 +106,41 @@ def print_content(content, filename=None, lexer=None, start_line_number=None):
             else:
                 lexer = get_lexer_for_filename(filename)
 
-        colorful_content = highlight(content, lexer, formatters.TerminalFormatter())
-        if start_line_number is None:
-           print(colorful_content, end="")
-           return
-        colorful_content_list = colorful_content.split("\n")
-        no_of_lines = len(colorful_content_list)
-        size_of_lines_nums = len(str(no_of_lines))
+        colorful_content = highlight(
+            content, lexer,
+            formatters.TerminalFormatter())
+        content = colorful_content.strip()
 
-        for i in range(start_line_number, start_line_number + no_of_lines):
-            colorful_content_list[i] = ('{0:' + str(size_of_lines_nums) + '}').format(i) + " " + colorful_content_list[i]
-        colorful_content_with_line_no = '\n'.join(colorful_content_list)
-
-        print(colorful_content_with_line_no, end="")
-    else:
+    if start_line_number is None:
         print(content, end="")
+    else:
+        content_list = content.split("\n")
+        no_of_lines = len(content_list)
+        size_of_lines_nums = len(str(start_line_number + no_of_lines))
+        for i, line in enumerate(content_list):
+            content_list[i] = ('{0:' + str(size_of_lines_nums) + '} ').format(i + start_line_number) + " " + line
+        content_with_line_no = '\n'.join(content_list)
+        print(content_with_line_no, end="")
+
+def getsourcelines(function):
+    """A replacement for inspect.getsourcelines(), but with syntax highlighting"""
+    import inspect
+    
+    source_lines, starting_line_number = \
+       inspect.getsourcelines(function)
+       
+    if not rich_output():
+        return source_lines, starting_line_number
+        
+    from pygments import highlight, lexers, formatters
+    from pygments.lexers import get_lexer_for_filename
+    
+    lexer = get_lexer_for_filename('.py')
+    colorful_content = highlight(
+        "".join(source_lines), lexer,
+        formatters.TerminalFormatter())
+    content = colorful_content.strip()
+    return [line + '\n' for line in content.split('\n')], starting_line_number
 
 
 # Escaping unicode characters into ASCII for user-facing strings
@@ -300,7 +305,7 @@ def jsquiz(question, options, correct_answer, title='Quiz'):
         }
         else 
         {
-            document.getElementById(quiz_id + "-submit").value = "Incorrect!";
+            document.getElementById(quiz_id + "-submit").value = "Try again";
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -398,7 +403,36 @@ def quiz(question, options, correct_answer, title='Quiz'):
         return jsquiz(question, options, correct_answer, title)
         
     return textquiz(question, options, correct_answer, title)
-        
+
+
+
+# Interactive inputs. We simulate them by assigning to the global variable INPUTS.
+
+INPUTS = []
+
+original_input = input
+
+def input(prompt):
+    given_input = None
+    try:
+        global INPUTS
+        given_input = INPUTS[0]
+        INPUTS = INPUTS[1:]
+    except:
+        pass
+    
+    if given_input:
+        if rich_output():
+            display(HTML(f"<samp>{prompt}<b>{given_input}</b></samp>"))
+        else:
+            print(f"{prompt} {given_input}")
+        return given_input
+    
+    return original_input(prompt)
+    
+def next_inputs(list):
+    global INPUTS
+    INPUTS += list
 
 # Make sure we quit Firefox when done
 import atexit
