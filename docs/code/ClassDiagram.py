@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ClassDiagram.html
-# Last change: 2020-11-16 13:00:32+01:00
+# Last change: 2020-11-16 20:31:00+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
