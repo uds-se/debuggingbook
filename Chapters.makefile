@@ -39,9 +39,9 @@ OBSERVING_PART_TODO = \
 	03_Observing.ipynb \
 	Tracer.ipynb \
 	Debugger.ipynb \
-	StatisticalDebugger.ipynb
-	# Checker.ipynb \
-	# Slice.ipynb \
+	Assertions.ipynb \
+	StatisticalDebugger.ipynb \
+	# Slice.ipynb
 
 # Simplifying Failures
 EXPERIMENTING_PART = 
@@ -73,6 +73,7 @@ APPENDICES = \
 	99_Appendices.ipynb \
 	ExpectError.ipynb \
 	Timer.ipynb \
+	ClassDiagram.ipynb \
 	ControlFlow.ipynb \
 	RailroadDiagrams.ipynb
 
