@@ -85,7 +85,8 @@ EXTRAS = \
 	Importing.ipynb \
 	Guide_for_Authors.ipynb \
 	Template.ipynb \
-	404.ipynb
+	404.ipynb \
+	Time_Travel_Debugger.ipynb
 	
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
