@@ -12038,10 +12038,49 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span> <span class="n">ret</span>
 <span class="n">Calling</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 </pre></div>
-<p><samp>(debugger) <b>break 168</b></samp></p>
+<p><samp>(debugger) <b>help</b></samp></p>
 
-<pre><code>Breakpoints: {168}</code></pre>
+<pre><code>break      -- Set a breakoint in given line. If no line is given, list all breakpoints
+continue   -- Resume execution
+delete     -- Delete breakoint in given line. Without given line, clear all breakpoints
+help       -- Give help on given command. If no command is given, give help on all
+list       -- Show current function. If arg is given, show its source code.
+print      -- Print an expression. If no expression is given, print all variables
+quit       -- Finish execution
+step       -- Execute up to the next line</code></pre>
+<p><samp>(debugger) <b>break 14</b></samp></p>
+
+<pre><code>Breakpoints: {14}</code></pre>
+<p><samp>(debugger) <b>list</b></samp></p>
+
+<pre><code>   1&gt; def remove_html_markup(s):
+   2      tag = False
+   3      quote = False
+   4      out = ""
+   5  
+   6      for c in s:
+   7          if c == '&lt;' and not quote:
+   8              tag = True
+   9          elif c == '&gt;' and not quote:
+  10              tag = False
+  11          elif c == '"' or c == "'" and tag:
+  12              quote = not quote
+  13          elif not tag:
+  14#             out = out + c
+  15  
+  16      return out</code></pre>
 <p><samp>(debugger) <b>continue</b></samp></p>
+
+<pre><code>                                         # tag = False, quote = False, out = '', c = 'a'
+14             out = out + c</code></pre>
+<p><samp>(debugger) <b>step</b></samp></p>
+
+<pre><code>                                         # out = 'a'
+6     for c in s:</code></pre>
+<p><samp>(debugger) <b>print out</b></samp></p>
+
+<pre><code>out = 'a'</code></pre>
+<p><samp>(debugger) <b>quit</b></samp></p>
 
 <pre><code>'abc'</code></pre>
 <p>The <code>Debugger</code> class can be easily extended in subclasses. A new method <code>NAME_command(self, arg)</code> will be invoked whenever a command named <code>NAME</code> is entered, with <code>arg</code> holding given command arguments (empty string if none).</p>
@@ -12348,14 +12387,7 @@ c = 'a'
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Our debugger is now ready to run! We invoke it just like <code>Tracer</code>, using a <code>with</code> clause. The code</p>
-<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
-    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
-</pre></div>
-<p>gives us a debugger prompt</p>
-
-<pre><code>(debugger) _</code></pre>
-<p>where we can enter one of our two commands. Let us do two steps through the program and then resume execution:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our debugger is now ready to run! Let us invoke it on the buggy <code>remove_html_markup()</code> variant from the <a href="Intro_Debugging.html">Introduction to Debugging</a>:</p>
 </div>
 </div>
 </div>
@@ -12367,11 +12399,51 @@ c = 'a'
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Intro_Debugging.html" class="import" target="_blank">Intro_Debugging</a></span> <span class="k">import</span> <span class="n">remove_html_markup</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We invoke the debugger just like <code>Tracer</code>, using a <code>with</code> clause. The code</p>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+<p>gives us a debugger prompt</p>
+
+<pre><code>(debugger) _</code></pre>
+<p>where we can enter one of our two commands.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us do two steps through the program and then resume execution:</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -12426,7 +12498,7 @@ c = 'a'
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>153     tag = False
+<pre>2     tag = False
 </pre>
 </div>
 
@@ -12446,7 +12518,7 @@ c = 'a'
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>                                         # tag = False
-154     quote = False
+3     quote = False
 </pre>
 </div>
 
@@ -12606,7 +12678,7 @@ c = 'a'
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x7fc6512050b8&gt;&gt;
+<pre>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x7f8b02aac940&gt;&gt;
 </pre>
 </div>
 
@@ -12630,7 +12702,7 @@ c = 'a'
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x7fc651205e10&gt;&gt;
+<pre>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x7f8b02e135f8&gt;&gt;
 </pre>
 </div>
 
@@ -12831,7 +12903,7 @@ step       -- Execute up to the next line
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>153     tag = False
+<pre>2     tag = False
 </pre>
 </div>
 
@@ -12851,7 +12923,7 @@ step       -- Execute up to the next line
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>                                         # tag = False
-154     quote = False
+3     quote = False
 </pre>
 </div>
 
@@ -12871,7 +12943,7 @@ step       -- Execute up to the next line
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>                                         # quote = False
-155     out = &#34;&#34;
+4     out = &#34;&#34;
 </pre>
 </div>
 
@@ -13154,7 +13226,7 @@ quote = False
         <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{line_number + 1:4} </span><span class="si">{line}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{line_number:4}</span><span class="s1"> </span><span class="si">{line}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
@@ -13200,24 +13272,22 @@ quote = False
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> 153 def remove_html_markup(s):
- 154     tag = False
- 155     quote = False
- 156     out = &#34;&#34;
- 157 
- 158     for c in s:
- 159         assert tag or not quote
- 160 
- 161         if c == &#39;&lt;&#39; and not quote:
- 162             tag = True
- 163         elif c == &#39;&gt;&#39; and not quote:
- 164             tag = False
- 165         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
- 166             quote = not quote
- 167         elif not tag:
- 168             out = out + c
- 169 
- 170     return out
+<pre>   1 def remove_html_markup(s):
+   2     tag = False
+   3     quote = False
+   4     out = &#34;&#34;
+   5 
+   6     for c in s:
+   7         if c == &#39;&lt;&#39; and not quote:
+   8             tag = True
+   9         elif c == &#39;&gt;&#39; and not quote:
+  10             tag = False
+  11         elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12             quote = not quote
+  13         elif not tag:
+  14             out = out + c
+  15 
+  16     return out
 </pre>
 </div>
 
@@ -13298,7 +13368,7 @@ quote = False
 
 <div class="output_html rendered_html output_subarea ">
 
-<samp>(debugger) <b>break 168</b></samp>
+<samp>(debugger) <b>break 14</b></samp>
 
 </div>
 
@@ -13307,7 +13377,90 @@ quote = False
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Breakpoints: {168}
+<pre>Breakpoints: {14}
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>continue</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+14             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>print</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s = &#39;abc&#39;
+tag = False
+quote = False
+out = &#39;&#39;
+c = &#39;a&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>continue</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # out = &#39;a&#39;, c = &#39;b&#39;
+14             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>continue</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # out = &#39;ab&#39;, c = &#39;c&#39;
+14             out = out + c
 </pre>
 </div>
 
@@ -13402,21 +13555,21 @@ quote = False
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="c69953c0-28e4-11eb-a588-acde48001122" id="c69953c0-28e4-11eb-a588-acde48001122-1" onclick="clear_selection('c69953c0-28e4-11eb-a588-acde48001122')">
-        <label id="c69953c0-28e4-11eb-a588-acde48001122-1-label" for="c69953c0-28e4-11eb-a588-acde48001122-1">A breakpoint is set in Line 2.</label><br>
+        <input type="radio" name="b696855e-28f5-11eb-a588-acde48001122" id="b696855e-28f5-11eb-a588-acde48001122-1" onclick="clear_selection('b696855e-28f5-11eb-a588-acde48001122')">
+        <label id="b696855e-28f5-11eb-a588-acde48001122-1-label" for="b696855e-28f5-11eb-a588-acde48001122-1">A breakpoint is set in Line 2.</label><br>
 
-        <input type="radio" name="c69953c0-28e4-11eb-a588-acde48001122" id="c69953c0-28e4-11eb-a588-acde48001122-2" onclick="clear_selection('c69953c0-28e4-11eb-a588-acde48001122')">
-        <label id="c69953c0-28e4-11eb-a588-acde48001122-2-label" for="c69953c0-28e4-11eb-a588-acde48001122-2">A breakpoint is set in Line 5.</label><br>
+        <input type="radio" name="b696855e-28f5-11eb-a588-acde48001122" id="b696855e-28f5-11eb-a588-acde48001122-2" onclick="clear_selection('b696855e-28f5-11eb-a588-acde48001122')">
+        <label id="b696855e-28f5-11eb-a588-acde48001122-2-label" for="b696855e-28f5-11eb-a588-acde48001122-2">A breakpoint is set in Line 5.</label><br>
 
-        <input type="radio" name="c69953c0-28e4-11eb-a588-acde48001122" id="c69953c0-28e4-11eb-a588-acde48001122-3" onclick="clear_selection('c69953c0-28e4-11eb-a588-acde48001122')">
-        <label id="c69953c0-28e4-11eb-a588-acde48001122-3-label" for="c69953c0-28e4-11eb-a588-acde48001122-3">Two breakpoints are set in Lines 2 and 3.</label><br>
+        <input type="radio" name="b696855e-28f5-11eb-a588-acde48001122" id="b696855e-28f5-11eb-a588-acde48001122-3" onclick="clear_selection('b696855e-28f5-11eb-a588-acde48001122')">
+        <label id="b696855e-28f5-11eb-a588-acde48001122-3-label" for="b696855e-28f5-11eb-a588-acde48001122-3">Two breakpoints are set in Lines 2 and 3.</label><br>
 
-        <input type="radio" name="c69953c0-28e4-11eb-a588-acde48001122" id="c69953c0-28e4-11eb-a588-acde48001122-4" onclick="clear_selection('c69953c0-28e4-11eb-a588-acde48001122')">
-        <label id="c69953c0-28e4-11eb-a588-acde48001122-4-label" for="c69953c0-28e4-11eb-a588-acde48001122-4">The debugger raises a ValueError exception.</label><br>
+        <input type="radio" name="b696855e-28f5-11eb-a588-acde48001122" id="b696855e-28f5-11eb-a588-acde48001122-4" onclick="clear_selection('b696855e-28f5-11eb-a588-acde48001122')">
+        <label id="b696855e-28f5-11eb-a588-acde48001122-4-label" for="b696855e-28f5-11eb-a588-acde48001122-4">The debugger raises a ValueError exception.</label><br>
 
     </div>
     </p>
-    <input id="c69953c0-28e4-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c69953c0-28e4-11eb-a588-acde48001122', 16, 0)">
+    <input id="b696855e-28f5-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b696855e-28f5-11eb-a588-acde48001122', 16, 0)">
     </div>
 
 </div>
@@ -13493,6 +13646,45 @@ quote = False
 
 <div class="output_html rendered_html output_subarea ">
 
+<samp>(debugger) <b>break 16</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: {16}
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>continue</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False, quote = False, out = &#39;abc&#39;, c = &#39;c&#39;
+16     return out
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
 <samp>(debugger) <b>print</b></samp>
 
 </div>
@@ -13503,6 +13695,29 @@ quote = False
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>s = &#39;abc&#39;
+tag = False
+quote = False
+out = &#39;abc&#39;
+c = &#39;c&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>delete 16</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: set()
 </pre>
 </div>
 
@@ -13583,21 +13798,21 @@ quote = False
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="c6a551fa-28e4-11eb-8163-acde48001122" id="c6a551fa-28e4-11eb-8163-acde48001122-1" onclick="clear_selection('c6a551fa-28e4-11eb-8163-acde48001122')">
-        <label id="c6a551fa-28e4-11eb-8163-acde48001122-1-label" for="c6a551fa-28e4-11eb-8163-acde48001122-1">It deletes all breakpoints</label><br>
+        <input type="checkbox" name="b69fa2b0-28f5-11eb-8163-acde48001122" id="b69fa2b0-28f5-11eb-8163-acde48001122-1" onclick="clear_selection('b69fa2b0-28f5-11eb-8163-acde48001122')">
+        <label id="b69fa2b0-28f5-11eb-8163-acde48001122-1-label" for="b69fa2b0-28f5-11eb-8163-acde48001122-1">It deletes all breakpoints</label><br>
 
-        <input type="checkbox" name="c6a551fa-28e4-11eb-8163-acde48001122" id="c6a551fa-28e4-11eb-8163-acde48001122-2" onclick="clear_selection('c6a551fa-28e4-11eb-8163-acde48001122')">
-        <label id="c6a551fa-28e4-11eb-8163-acde48001122-2-label" for="c6a551fa-28e4-11eb-8163-acde48001122-2">It deletes the source code</label><br>
+        <input type="checkbox" name="b69fa2b0-28f5-11eb-8163-acde48001122" id="b69fa2b0-28f5-11eb-8163-acde48001122-2" onclick="clear_selection('b69fa2b0-28f5-11eb-8163-acde48001122')">
+        <label id="b69fa2b0-28f5-11eb-8163-acde48001122-2-label" for="b69fa2b0-28f5-11eb-8163-acde48001122-2">It deletes the source code</label><br>
 
-        <input type="checkbox" name="c6a551fa-28e4-11eb-8163-acde48001122" id="c6a551fa-28e4-11eb-8163-acde48001122-3" onclick="clear_selection('c6a551fa-28e4-11eb-8163-acde48001122')">
-        <label id="c6a551fa-28e4-11eb-8163-acde48001122-3-label" for="c6a551fa-28e4-11eb-8163-acde48001122-3">It lists all breakpoints</label><br>
+        <input type="checkbox" name="b69fa2b0-28f5-11eb-8163-acde48001122" id="b69fa2b0-28f5-11eb-8163-acde48001122-3" onclick="clear_selection('b69fa2b0-28f5-11eb-8163-acde48001122')">
+        <label id="b69fa2b0-28f5-11eb-8163-acde48001122-3-label" for="b69fa2b0-28f5-11eb-8163-acde48001122-3">It lists all breakpoints</label><br>
 
-        <input type="checkbox" name="c6a551fa-28e4-11eb-8163-acde48001122" id="c6a551fa-28e4-11eb-8163-acde48001122-4" onclick="clear_selection('c6a551fa-28e4-11eb-8163-acde48001122')">
-        <label id="c6a551fa-28e4-11eb-8163-acde48001122-4-label" for="c6a551fa-28e4-11eb-8163-acde48001122-4">It stops execution</label><br>
+        <input type="checkbox" name="b69fa2b0-28f5-11eb-8163-acde48001122" id="b69fa2b0-28f5-11eb-8163-acde48001122-4" onclick="clear_selection('b69fa2b0-28f5-11eb-8163-acde48001122')">
+        <label id="b69fa2b0-28f5-11eb-8163-acde48001122-4-label" for="b69fa2b0-28f5-11eb-8163-acde48001122-4">It stops execution</label><br>
 
     </div>
     </p>
-    <input id="c6a551fa-28e4-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c6a551fa-28e4-11eb-8163-acde48001122', 10, 1)">
+    <input id="b69fa2b0-28f5-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b69fa2b0-28f5-11eb-8163-acde48001122', 10, 1)">
     </div>
 
 </div>
@@ -13638,7 +13853,6 @@ quote = False
             <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> \
                 <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">)</span>
             <span class="n">current_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span>
-            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
             <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
@@ -13674,6 +13888,132 @@ quote = False
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>break 14</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: {14}
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>list</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   1&gt; def remove_html_markup(s):
+   2      tag = False
+   3      quote = False
+   4      out = &#34;&#34;
+   5  
+   6      for c in s:
+   7          if c == &#39;&lt;&#39; and not quote:
+   8              tag = True
+   9          elif c == &#39;&gt;&#39; and not quote:
+  10              tag = False
+  11          elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12              quote = not quote
+  13          elif not tag:
+  14#             out = out + c
+  15  
+  16      return out
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>continue</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+14             out = out + c
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>delete</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Breakpoints: set()
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>list</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   1  def remove_html_markup(s):
+   2      tag = False
+   3      quote = False
+   4      out = &#34;&#34;
+   5  
+   6      for c in s:
+   7          if c == &#39;&lt;&#39; and not quote:
+   8              tag = True
+   9          elif c == &#39;&gt;&#39; and not quote:
+  10              tag = False
+  11          elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12              quote = not quote
+  13          elif not tag:
+  14&gt;             out = out + c
+  15  
+  16      return out
 </pre>
 </div>
 
@@ -13754,7 +14094,33 @@ quote = False
 
 <div class="output_html rendered_html output_subarea ">
 
-<samp>(debugger) <b>continue</b></samp>
+<samp>(debugger) <b>help</b></samp>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>break      -- Set a breakoint in given line. If no line is given, list all breakpoints
+continue   -- Resume execution
+delete     -- Delete breakoint in given line. Without given line, clear all breakpoints
+help       -- Give help on given command. If no command is given, give help on all
+list       -- Show current function. If arg is given, show its source code.
+print      -- Print an expression. If no expression is given, print all variables
+quit       -- Finish execution
+step       -- Execute up to the next line
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea ">
+
+<samp>(debugger) <b>quit</b></samp>
 
 </div>
 
@@ -14098,7 +14464,7 @@ quote = False
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Debugger.ipynb" target=_blank)>Last change: 2020-11-15 18:52:54+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Debugger.ipynb" target=_blank)>Last change: 2020-11-17 17:49:52+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -14116,7 +14482,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Debugger.html">How Debuggers Work</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Debugger.html">https://www.debuggingbook.org/beta/html/Debugger.html</a>.  Retrieved 2020-11-15 18:52:54+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Debugger.html">How Debuggers Work</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Debugger.html">https://www.debuggingbook.org/beta/html/Debugger.html</a>.  Retrieved 2020-11-17 17:49:52+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Debugger,
@@ -14126,9 +14492,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Debugger.html"
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Debugger.html}},
-    note = {Retrieved 2020-11-15 18:52:54+01:00},
+    note = {Retrieved 2020-11-17 17:49:52+01:00},
     url = {https://www.debuggingbook.org/beta/html/Debugger.html},
-    urldate = {2020-11-15 18:52:54+01:00}
+    urldate = {2020-11-17 17:49:52+01:00}
 }
 </pre>
 </div>
