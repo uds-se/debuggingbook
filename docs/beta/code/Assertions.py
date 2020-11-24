@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Assertions.html
-# Last change: 2020-11-24 17:59:23+01:00
+# Last change: 2020-11-24 19:16:32+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -36,8 +36,10 @@ if __name__ == "__main__":
 
 
 
-# from bookutils import YouTubeVideo
-# YouTubeVideo("w4u5gCgPlmg")
+if __name__ == "__main__":
+    from bookutils import YouTubeVideo
+    YouTubeVideo("9mI9sbKFkwU")
+
 
 if __name__ == "__main__":
     # We use the same fixed seed as the notebook to ensure consistency
