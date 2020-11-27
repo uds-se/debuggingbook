@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Assertions.html
-# Last change: 2020-11-24 19:16:32+01:00
+# Last change: 2020-11-27 20:15:51+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -405,6 +405,25 @@ def remove_html_markup(s):
     assert '<' not in out and '>' not in out
 
     return out
+
+if __name__ == "__main__":
+    quiz("Which of these inputs causes the assertion to fail?",
+        [
+            '<samp>&lt;foo&gt;bar&lt/foo&gt;</samp>',
+            '<samp>"foo"</samp>',
+            '<samp>&gt;foo&lt;</samp>',
+            '<samp>"x &gt; y"</samp>'
+        ], 1 + 1 -(-1) + (1 * -1) + 1 ** (1 - 1) + 1)
+
+
+if __name__ == "__main__":
+    remove_html_markup('"foo"')
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        remove_html_markup('"x > y"')
+
 
 # ### Assertions and Documentation
 

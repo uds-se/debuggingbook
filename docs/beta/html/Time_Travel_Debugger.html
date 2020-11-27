@@ -11879,6 +11879,9 @@ MathJax.Hub.Config({
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Assertions.html">Asserting Expectations&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+</ul><li class="has-sub"><a href="04_Inputs.html" class="chapters"><span class="part_number">IV</span> Automatic Experiments&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -12116,23 +12119,26 @@ Starting from the first line of a function, <code>previous</code> should take yo
 Hint: The difference between <code>step</code> and <code>next</code> is that <code>step</code> will go inside a called function, while <code>next</code> stops at the next line of the <strong>current</strong> function.</p>
 </li>
 <li><p>/R8/ <code>finish</code> Execute until return.
-Takes you forward to the point where the current function returns.</p>
+Takes you forward to the point where the current function returns.<br>
+<span style="color:blue">If finish is executed at the last line of a function, it should stay at that line and print it again.</span></p>
 </li>
 <li><p>/R9/ <code>start</code> Execute backwards until a function start.
-Takes you backwards to the first instruction of the function.</p>
+Takes you backwards to the first instruction of the function.<br>
+<span style="color:blue">If start is executed at the first line of a function, it should stay at that line and print it again.</span></p>
 </li>
 <li><p>/R10/ Execute forwards until a certain point:</p>
 <ul>
 <li>/R100/ <code>until &lt;line_number&gt;</code>
 Resume execution until a line greater than <code>&lt;line_number&gt;</code> is reached.
 If <code>&lt;line_number&gt;</code> is not given, resume execution until a line greater than the current is reached. This is useful to avoid stepping through multiple loop iterations.
-If the execution jumps to another function act as <code>next</code></li>
+<span style="color:blue">If 'line_number' is not given and</span> the execution jumps to another function, act as <code>next</code></li>
 <li>/R101/ <code>until &lt;filename&gt;:&lt;line_number&gt;</code>
 Execute a program forward until it reaches the line with the number <code>&lt;line_number&gt;</code> in the file <code>&lt;filename&gt;</code>.</li>
 <li>/R102/ <code>until &lt;function_name&gt;</code>
-Execute a program forward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> in the current file.</li>
+Execute a program forward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> <span style="color:blue">declared</span> in the current file.</li>
 <li>/R103/ <code>until &lt;filename&gt;:&lt;function_name&gt;</code>
-Execute a program forward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> in the file <code>&lt;filename&gt;</code>.</li>
+Execute a program forward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> <span style="color:blue">declared</span> in the file <code>&lt;filename&gt;</code>.</li>
+<li><span style="color:blue">Expl: If the execution is already at the specified line/function, it should look for the next occurrence or run till the end.</span></li>
 </ul>
 </li>
 <li><p>/R11/ Execute backwards until a certain point:</p>
@@ -12140,13 +12146,14 @@ Execute a program forward until it reaches the line with a call to the function 
 <li>/R110/ <code>backuntil &lt;line_number&gt;</code>
 Resume execution backwards until a line lower than <code>&lt;line_number&gt;</code> in the current file is reached.
 If <code>&lt;line_number&gt;</code> is not given, resume execution backwards until a line lower than the current is reached.
-If the execution jumps to another function act as <code>previous</code></li>
+<span style="color:blue">If 'line_number' is not given and</span> the execution jumps to another function, act as <code>previous</code></li>
 <li>/R111/ <code>backuntil &lt;filename&gt;:&lt;line_number&gt;</code>
 Execute a program backward until it reaches the line with the number <code>&lt;line_number&gt;</code> in the <code>&lt;filename&gt;</code>.</li>
 <li>/R112/ <code>backuntil &lt;function_name&gt;</code>
-Execute a program backward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> in the current file.</li>
+Execute a program backward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> <span style="color:blue">declared</span> in the current file.</li>
 <li>/R113/ <code>backuntil &lt;filename&gt;:&lt;function_name&gt;</code>
-Execute a program backward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> in the <code>&lt;filename&gt;</code>.</li>
+Execute a program backward until it reaches the line with a call to the function named <code>&lt;function_name&gt;</code> <span style="color:blue">declared</span> in the <code>&lt;filename&gt;</code>.</li>
+<li><span style="color:blue">Expl: If the execution is already at the specified line/function, it should look for the next occurrence or run till the start.</span></li>
 </ul>
 </li>
 <li><p>/R12/ <code>continue</code> Continue execution <em>forward</em> until a breakpoint is hit, or the program finishes.</p>
@@ -12187,20 +12194,20 @@ Move up (and down) the call stack towards callers (and callees): print the code 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h4 id="Inspecting-Code-and-Variables">Inspecting Code and Variables<a class="anchor-link" href="#Inspecting-Code-and-Variables">&#182;</a></h4><ul>
-<li><p>/R16/ Print the source code around the current line (with the current line marked)</p>
-<ul>
+<li>/R16/ Print the source code around the current line (with the current line marked)<ul>
 <li>/R161/ <code>list</code>
 Print 2 lines before and 2 lines after the current line</li>
 <li>/R162/ <code>list &lt;number&gt;</code>
 Print <code>&lt;number&gt;</code> lines before and <code>&lt;number&gt;</code> lines after the current line</li>
 <li>/R163/ <code>list &lt;above&gt; &lt;below&gt;</code>
 Print <code>&lt;above&gt;</code> lines before and <code>&lt;below&gt;</code> lines after the current line</li>
+<li><span style="color:blue">Expl: Lines are limited to the current function</span></li>
 </ul>
 </li>
 <li><p>/R17/ Inspect the value of a variable</p>
 <ul>
 <li>/R171/ <code>print</code>
-Print values of <em>all</em> local variables</li>
+Print values of <em>all</em> local variables <span style="color:blue">(including values of member variables)</span></li>
 <li>/R172/ <code>print &lt;var_name&gt;</code>
 Print the value of a variable with name <code>&lt;var_name&gt;</code>. If the variable <code>&lt;var_name&gt;</code> is not defined, print an error message.</li>
 </ul>
@@ -12258,7 +12265,11 @@ The execution should stop at the beginning (or the end) of the function.</li>
 Set a breakpoint which hits when a function with the name <code>&lt;function_name&gt;</code> in file <code>&lt;file_name&gt;</code> is called (or returned in case of backward execution).
 The execution should stop at the beginning (or the end) of the function.</li>
 <li>/R204/ <code>breakpoints</code>
-Display all available breakpoints in the form of: <code>breakpoint_id breakpoint_type file_name:line_number is_active</code></li>
+Display all available breakpoints<br>
+<span style="color:red">Depending on the type of the breakpoint the output can be the following:</span><br>
+<code>breakpoint_id line file_name:line_number is_active</code><br>
+<code>breakpoint_id func file_name:func_name is_active</code><br>
+<code>breakpoint_id cond file_name:line_number is_active cond_expression</code>  </li>
 <li>/R205/ <code>delete &lt;breakpoint_id&gt;</code>
 Delete a breakpoint with the index <code>&lt;breakpoint_id&gt;</code> from the list of breakpoints</li>
 <li>/R206/ <code>disable &lt;breakpoint_id&gt;</code>
@@ -12269,6 +12280,7 @@ Re-enable a breakpoint with the index <code>&lt;breakpoint_id&gt;</code> from th
 Set a breakpoint at which the execution is stopped at line <code>&lt;line&gt;</code> if a condition <code>&lt;condition&gt;</code> is true.
 A condition can include local variables (e.g., <code>tag == "b"</code> or <code>tag.startswith(b)</code>), but not function calls from a debugged program.</li>
 <li><strong>Hint: keep in mind that breakpoints may be set in different modules (files) and sometimes cannot be set (e.g., in for comment lines).</strong></li>
+<li><span style="color:blue">Expl: The execution should stop at each active breakpoint despite the command (until \<line\>, continue, etc.)</span></li>
 </ul>
 </li>
 </ul>
@@ -12309,7 +12321,8 @@ Like <code>watch &lt;variable&gt;</code>, but allow for arbitrary expressions.</
 <li>Inspect members of complex objects</li>
 <li><code>bpwrite &lt;variable_name&gt;</code> Write access breakpoints
 A breakpoint hits each time a certain variable <code>&lt;variable_name&gt;</code> is changed</li>
-<li><code>alias &lt;breakpoint_id&gt; &lt;breakpoint_name&gt;</code> Create aliases for breakpoints (refer to a breakpoint by name instead of an index)</li>
+<li><code>alias &lt;breakpoint_id&gt; &lt;breakpoint_name&gt;</code> Create aliases for breakpoints (refer to a breakpoint by name instead of an index)<br>
+<span style="color:blue">The 'breakpoints' command should then output breakpoint names instead of breakpoint ids when available</span></li>
 <li>Support for inline breakpoints (e.g., for lambda functions, list comprehension) if a line contains multiple statements such as <code>filter(lambda x: x % 2 == 0, [x**2 for x in range(10)])</code></li>
 </ul>
 </div>
@@ -13977,7 +13990,7 @@ quote = False
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Time_Travel_Debugger.ipynb" target=_blank)>Last change: 2020-11-17 17:54:49+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Time_Travel_Debugger.ipynb" target=_blank)>Last change: 2020-11-27 15:09:51+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -13995,7 +14008,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html">Project: Time Travel Debugger</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html">https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html</a>.  Retrieved 2020-11-17 17:54:49+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html">Project: Time Travel Debugger</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html">https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html</a>.  Retrieved 2020-11-27 15:09:51+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:Time_Travel_Debugger,
@@ -14005,9 +14018,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Time_Travel_De
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html}},
-    note = {Retrieved 2020-11-17 17:54:49+01:00},
+    note = {Retrieved 2020-11-27 15:09:51+01:00},
     url = {https://www.debuggingbook.org/beta/html/Time_Travel_Debugger.html},
-    urldate = {2020-11-17 17:54:49+01:00}
+    urldate = {2020-11-27 15:09:51+01:00}
 }
 </pre>
 </div>
