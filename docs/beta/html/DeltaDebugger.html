@@ -11998,9 +11998,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-80-deae668eac94&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-89-deae668eac94&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-79-e6018665ac61&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">myeval</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-88-e6018665ac61&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">myeval</span>
     <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
   <span class="n">File</span> <span class="s2">&quot;&lt;string&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">ZeroDivisionError</span><span class="p">:</span> <span class="n">division</span> <span class="n">by</span> <span class="n">zero</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
@@ -12015,14 +12015,13 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="n">myeval</span><span class="p">(</span><span class="n">inp</span><span class="o">=</span><span class="s1">&#39;2/0&#39;</span><span class="p">)</span>
 </pre></div>
 <p>The input is reduced to the maximum: We get the essence of the division by zero.</p>
-<p>There also is an interface to access the reduced input(s) programmatically:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span> <span class="o">=</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">dd</span><span class="p">:</span>
+<p><code>DelteDebugger</code> minimizes all arguments that support a <code>len()</code> operation and that can be indexed – notably <em>strings</em> and <em>lists</em>. If a function has multiple arguments, all arguments that can be minimized will be minimized.</p>
+<p>There also is an interface to access the reduced input(s) programmatically. The method <code>reduced_args()</code> returns a dictionary in which all function arguments are minimized:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()</span>
 <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39;2/0&#39;</span><span class="p">}</span>
 </pre></div>
-<p><code>DelteDebugger</code> works on all functions that take a collection (a string, a list, a set) as one or more of their inputs.</p>
 </div>
 </div>
 </div>
@@ -12840,7 +12839,7 @@ ValueError: Invalid input (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>To see how <code>reduce()</code> works, let us run it on our failing input. We need to define a <code>test</code> function that returns PASS or FAIL, depending on the test outcome. This <code>generic_test()</code> assumes that the function fails if it raises an exception (such as an <code>AssertException</code>), and passes otherwise. The optional argument <code>expected_exc</code> specifies the name of exception to be checked for; this ensures we reduce only for the kind of error raised in the original failure.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>To see how <code>ddmin()</code> works, let us run it on our failing input. We need to define a <code>test</code> function that returns PASS or FAIL, depending on the test outcome. This <code>generic_test()</code> assumes that the function fails if it raises an exception (such as an <code>AssertException</code>), and passes otherwise. The optional argument <code>expected_exc</code> specifies the name of exception to be checked for; this ensures we reduce only for the kind of error raised in the original failure.</p>
 </div>
 </div>
 </div>
@@ -12944,7 +12943,7 @@ mystery(&#39;(&#39;): PASS
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Now we know why <code>MysteryRunner</code> fails – it suffices that the input contains two matching parentheses.  Delta Debugging determines this in 32 steps.  Its result is <em>1-minimal</em>, meaning that every character contained is required to produce the error; removing any (as seen in the last two tests, above) no longer makes the test fail.  This property is guaranteed by the delta debugging algorithm, which in its last stage always tries to delete characters one by one.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now we know why <code>mystery()</code> fails – it suffices that the input contains two matching parentheses.  Delta Debugging determines this in 32 steps.  Its result is <em>1-minimal</em>, meaning that every character contained is required to produce the error; removing any (as seen in the last two tests, above) no longer makes the test fail.  This property is guaranteed by the delta debugging algorithm, which in its last stage always tries to delete characters one by one.</p>
 </div>
 </div>
 </div>
@@ -13080,12 +13079,13 @@ mystery(&#39;(&#39;): PASS
         <span class="sd">&quot;&quot;&quot;Called at begin of `with` block. Turn tracing on.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">gettrace</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">settrace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">traceit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Called at end of `with` block. Turn tracing off.&quot;&quot;&quot;</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">settrace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">exc_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">exc_value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># re-raise exception, if any</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_exception</span> <span class="o">=</span> <span class="n">exc_value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diagnosis</span><span class="p">()</span>
@@ -13103,8 +13103,7 @@ mystery(&#39;(&#39;): PASS
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">call_collector</span> <span class="o">=</span> <span class="n">CallCollector</span><span class="p">()</span>
-<span class="k">with</span> <span class="n">call_collector</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CallCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">call_collector</span><span class="p">:</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">failing_input</span><span class="p">)</span>
 </pre></div>
 
@@ -13198,8 +13197,7 @@ mystery(&#39;(&#39;): PASS
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">CallCollector</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">c</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">CallCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
         <span class="n">some_error</span><span class="p">()</span>
 </pre></div>
 
@@ -13212,11 +13210,7 @@ mystery(&#39;(&#39;): PASS
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-37-c9d15de4afd4&gt;&#34;, line 4, in &lt;module&gt;
-    some_error()
-  File &#34;&lt;ipython-input-32-ece4b5584fab&gt;&#34;, line 45, in __exit__
-    raise exc_value
-  File &#34;&lt;ipython-input-37-c9d15de4afd4&gt;&#34;, line 4, in &lt;module&gt;
+  File &#34;&lt;ipython-input-37-b5516efdadd0&gt;&#34;, line 3, in &lt;module&gt;
     some_error()
 NameError: name &#39;some_error&#39; is not defined (expected)
 </pre>
@@ -13333,8 +13327,7 @@ ValueError: Invalid input (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">call_collector</span> <span class="o">=</span> <span class="n">CallCollector</span><span class="p">()</span>
-<span class="k">with</span> <span class="n">call_collector</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CallCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">call_collector</span><span class="p">:</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">failing_input</span><span class="p">)</span>
 </pre></div>
 
@@ -13728,8 +13721,7 @@ mystery(inp=&#39;()&#39;)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span> <span class="o">=</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">dd</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">failing_input</span><span class="p">)</span>
 </pre></div>
 
@@ -13873,16 +13865,23 @@ mystery(inp=&#39;()&#39;)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Reducing s1...
+<pre>Reducing s2...
 Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError)
-Test #2 string_error(s2=&#39;foobar&#39;, s1=&#39;oo&#39;): FAIL (AssertionError)
-Test #3 string_error(s2=&#39;foobar&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
-Reducing s2...
-Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
-Test #2 string_error(s2=&#39;bar&#39;, s1=&#39;o&#39;): PASS
+Test #2 string_error(s2=&#39;bar&#39;, s1=&#39;foo&#39;): PASS
+Test #3 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError)
+Test #4 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
+Test #5 string_error(s2=&#39;f&#39;, s1=&#39;foo&#39;): PASS
+Test #6 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
+Test #7 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
+Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
+Reducing s1...
+Test #1 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError)
+Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;oo&#39;): FAIL (AssertionError)
 Test #3 string_error(s2=&#39;foo&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
-Test #4 string_error(s2=&#39;oo&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
-Test #5 string_error(s2=&#39;o&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
+Reducing s2...
+Test #1 string_error(s2=&#39;foo&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
+Test #2 string_error(s2=&#39;oo&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
+Test #3 string_error(s2=&#39;o&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
 Reducing s1...
 Test #1 string_error(s2=&#39;o&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
 Test #2 string_error(s2=&#39;o&#39;, s1=&#39;o&#39;): FAIL (AssertionError)
@@ -14000,7 +13999,7 @@ string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">assertions_source_code</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">Assertions</span><span class="p">)</span>
-<span class="n">assertions_source_code</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">assertions_source_code</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -14015,7 +14014,12 @@ string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
  &#39;YouTubeVideo(&#34;9mI9sbKFkwU&#34;)\n&#39;,
  &#39;\n&#39;,
  &#39;import bookutils\n&#39;,
- &#39;\n&#39;]
+ &#39;\n&#39;,
+ &#39;from bookutils import quiz\n&#39;,
+ &#39;\n&#39;,
+ &#39;import Tracer\n&#39;,
+ &#39;\n&#39;,
+ &#39;from ExpectError import ExpectError\n&#39;]
 </pre>
 </div>
 
@@ -14051,7 +14055,7 @@ string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_run</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
-    <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+    <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">),</span> <span class="p">{},</span> <span class="p">{})</span>
 </pre></div>
 
 </div>
@@ -14098,8 +14102,8 @@ string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
     compile_and_test_html_markup(assertions_source_code)
   File &#34;&lt;ipython-input-67-4dd51a254e40&gt;&#34;, line 3, in compile_and_test_html_markup
     [&#39;&#39;&#39;\nassert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;])
-  File &#34;&lt;ipython-input-66-c55288affc8c&gt;&#34;, line 2, in compile_and_run
-    exec(&#34;&#34;.join(lines))
+  File &#34;&lt;ipython-input-66-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
+    exec(&#34;&#34;.join(lines), {}, {})
   File &#34;&lt;string&gt;&#34;, line 428, in &lt;module&gt;
 AssertionError: My Test (expected)
 </pre>
@@ -14113,9 +14117,23 @@ AssertionError: My Test (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span> <span class="o">=</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">dd</span><span class="p">:</span>
-    <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">assertions_source_code</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Timer.html" class="import" target="_blank">Timer</a></span> <span class="k">import</span> <span class="n">Timer</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
+        <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">assertions_source_code</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14190,13 +14208,36 @@ AssertionError: My Test (expected)
 
 <div class="inner_cell">
 <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.012077086983481422
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_test_html_markup</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
-    <span class="n">compile_and_run</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span> 
-                    <span class="p">[</span>
-                        <span class="sd">&#39;&#39;&#39;if remove_html_markup(&#39;&lt;foo&gt;bar&lt;/foo&gt;&#39;) != &#39;bar&#39;:\n&#39;&#39;&#39;</span><span class="p">,</span>
-                         <span class="sd">&#39;&#39;&#39;    raise RuntimeError(&quot;Missing functionality&quot;)\n&#39;&#39;&#39;</span><span class="p">,</span>
-                         <span class="sd">&#39;&#39;&#39;assert remove_html_markup(&#39;&quot;foo&quot;&#39;) == &#39;&quot;foo&quot;&#39;, &quot;My Test&quot;\n&#39;&#39;&#39;</span>
-                    <span class="p">])</span>
+    <span class="n">compile_and_run</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span>
+        <span class="p">[</span>
+            <span class="sd">&#39;&#39;&#39;if remove_html_markup(&#39;&lt;foo&gt;bar&lt;/foo&gt;&#39;) != &#39;bar&#39;:\n&#39;&#39;&#39;</span><span class="p">,</span>
+            <span class="sd">&#39;&#39;&#39;    raise RuntimeError(&quot;Missing functionality&quot;)\n&#39;&#39;&#39;</span><span class="p">,</span>
+            <span class="sd">&#39;&#39;&#39;assert remove_html_markup(&#39;&quot;foo&quot;&#39;) == &#39;&quot;foo&quot;&#39;, &quot;My Test&quot;\n&#39;&#39;&#39;</span>
+        <span class="p">])</span>
 </pre></div>
 
 </div>
@@ -14223,12 +14264,12 @@ AssertionError: My Test (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-74-ffa6ade91b22&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-76-ffa6ade91b22&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_html_markup(dd.reduced_args()[&#39;lines&#39;])
-  File &#34;&lt;ipython-input-73-5872ba242ea4&gt;&#34;, line 6, in compile_and_test_html_markup
+  File &#34;&lt;ipython-input-75-123bdd50db7f&gt;&#34;, line 6, in compile_and_test_html_markup
     &#39;&#39;&#39;assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;
-  File &#34;&lt;ipython-input-66-c55288affc8c&gt;&#34;, line 2, in compile_and_run
-    exec(&#34;&#34;.join(lines))
+  File &#34;&lt;ipython-input-66-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
+    exec(&#34;&#34;.join(lines), {}, {})
   File &#34;&lt;string&gt;&#34;, line 4, in &lt;module&gt;
 RuntimeError: Missing functionality (expected)
 </pre>
@@ -14242,9 +14283,9 @@ RuntimeError: Missing functionality (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span> <span class="o">=</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">dd</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
     <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">assertions_source_code</span><span class="p">)</span>
+<span class="n">reduced_assertions_source_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -14258,7 +14299,30 @@ RuntimeError: Missing functionality (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]),</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">tests</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>96
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">reduced_assertions_source_code</span><span class="p">,</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14404,23 +14468,190 @@ RuntimeError: Missing functionality (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="9e79cfcc-30e5-11eb-ad64-acde48001122" id="9e79cfcc-30e5-11eb-ad64-acde48001122-1" onclick="clear_selection('9e79cfcc-30e5-11eb-ad64-acde48001122')">
-        <label id="9e79cfcc-30e5-11eb-ad64-acde48001122-1-label" for="9e79cfcc-30e5-11eb-ad64-acde48001122-1">Comments are deleted</label><br>
+        <input type="checkbox" name="f18b9c5e-3100-11eb-ad64-acde48001122" id="f18b9c5e-3100-11eb-ad64-acde48001122-1" onclick="clear_selection('f18b9c5e-3100-11eb-ad64-acde48001122')">
+        <label id="f18b9c5e-3100-11eb-ad64-acde48001122-1-label" for="f18b9c5e-3100-11eb-ad64-acde48001122-1">Comments are deleted</label><br>
 
-        <input type="checkbox" name="9e79cfcc-30e5-11eb-ad64-acde48001122" id="9e79cfcc-30e5-11eb-ad64-acde48001122-2" onclick="clear_selection('9e79cfcc-30e5-11eb-ad64-acde48001122')">
-        <label id="9e79cfcc-30e5-11eb-ad64-acde48001122-2-label" for="9e79cfcc-30e5-11eb-ad64-acde48001122-2">Blank lines are deleted</label><br>
+        <input type="checkbox" name="f18b9c5e-3100-11eb-ad64-acde48001122" id="f18b9c5e-3100-11eb-ad64-acde48001122-2" onclick="clear_selection('f18b9c5e-3100-11eb-ad64-acde48001122')">
+        <label id="f18b9c5e-3100-11eb-ad64-acde48001122-2-label" for="f18b9c5e-3100-11eb-ad64-acde48001122-2">Blank lines are deleted</label><br>
 
-        <input type="checkbox" name="9e79cfcc-30e5-11eb-ad64-acde48001122" id="9e79cfcc-30e5-11eb-ad64-acde48001122-3" onclick="clear_selection('9e79cfcc-30e5-11eb-ad64-acde48001122')">
-        <label id="9e79cfcc-30e5-11eb-ad64-acde48001122-3-label" for="9e79cfcc-30e5-11eb-ad64-acde48001122-3">Initializations are deleted</label><br>
+        <input type="checkbox" name="f18b9c5e-3100-11eb-ad64-acde48001122" id="f18b9c5e-3100-11eb-ad64-acde48001122-3" onclick="clear_selection('f18b9c5e-3100-11eb-ad64-acde48001122')">
+        <label id="f18b9c5e-3100-11eb-ad64-acde48001122-3-label" for="f18b9c5e-3100-11eb-ad64-acde48001122-3">Initializations are deleted</label><br>
 
-        <input type="checkbox" name="9e79cfcc-30e5-11eb-ad64-acde48001122" id="9e79cfcc-30e5-11eb-ad64-acde48001122-4" onclick="clear_selection('9e79cfcc-30e5-11eb-ad64-acde48001122')">
-        <label id="9e79cfcc-30e5-11eb-ad64-acde48001122-4-label" for="9e79cfcc-30e5-11eb-ad64-acde48001122-4">The assertion is deleted</label><br>
+        <input type="checkbox" name="f18b9c5e-3100-11eb-ad64-acde48001122" id="f18b9c5e-3100-11eb-ad64-acde48001122-4" onclick="clear_selection('f18b9c5e-3100-11eb-ad64-acde48001122')">
+        <label id="f18b9c5e-3100-11eb-ad64-acde48001122-4-label" for="f18b9c5e-3100-11eb-ad64-acde48001122-4">The assertion is deleted</label><br>
 
     </div>
     </p>
-    <input id="9e79cfcc-30e5-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('9e79cfcc-30e5-11eb-ad64-acde48001122', 22, 1)">
+    <input id="f18b9c5e-3100-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('f18b9c5e-3100-11eb-ad64-acde48001122', 22, 1)">
     </div>
 
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can reduce the code further by removing individual <em>characters</em> rather than lines.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">reduced_assertions_source_code</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39; &#39;, &#39;r&#39;, &#39;e&#39;, &#39;m&#39;, &#39;o&#39;, &#39;v&#39;, &#39;e&#39;, &#39;_&#39;, &#39;h&#39;, &#39;t&#39;, &#39;m&#39;, &#39;l&#39;, &#39;_&#39;, &#39;m&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;u&#39;, &#39;p&#39;, &#39;(&#39;, &#39;s&#39;, &#39;)&#39;, &#39;:&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;t&#39;, &#39;a&#39;, &#39;g&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;F&#39;, &#39;a&#39;, &#39;l&#39;, &#39;s&#39;, &#39;e&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;q&#39;, &#39;u&#39;, &#39;o&#39;, &#39;t&#39;, &#39;e&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;F&#39;, &#39;a&#39;, &#39;l&#39;, &#39;s&#39;, &#39;e&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;o&#39;, &#39;u&#39;, &#39;t&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;&#34;&#39;, &#39;&#34;&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;f&#39;, &#39;o&#39;, &#39;r&#39;, &#39; &#39;, &#39;c&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;s&#39;, &#39;:&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;i&#39;, &#39;f&#39;, &#39; &#39;, &#39;c&#39;, &#39; &#39;, &#39;=&#39;, &#39;=&#39;, &#39; &#39;, &#34;&#39;&#34;, &#39;&lt;&#39;, &#34;&#39;&#34;, &#39; &#39;, &#39;a&#39;, &#39;n&#39;, &#39;d&#39;, &#39; &#39;, &#39;n&#39;, &#39;o&#39;, &#39;t&#39;, &#39; &#39;, &#39;q&#39;, &#39;u&#39;, &#39;o&#39;, &#39;t&#39;, &#39;e&#39;, &#39;:&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;t&#39;, &#39;a&#39;, &#39;g&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;T&#39;, &#39;r&#39;, &#39;u&#39;, &#39;e&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;e&#39;, &#39;l&#39;, &#39;i&#39;, &#39;f&#39;, &#39; &#39;, &#39;c&#39;, &#39; &#39;, &#39;=&#39;, &#39;=&#39;, &#39; &#39;, &#34;&#39;&#34;, &#39;&gt;&#39;, &#34;&#39;&#34;, &#39; &#39;, &#39;a&#39;, &#39;n&#39;, &#39;d&#39;, &#39; &#39;, &#39;n&#39;, &#39;o&#39;, &#39;t&#39;, &#39; &#39;, &#39;q&#39;, &#39;u&#39;, &#39;o&#39;, &#39;t&#39;, &#39;e&#39;, &#39;:&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;t&#39;, &#39;a&#39;, &#39;g&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;F&#39;, &#39;a&#39;, &#39;l&#39;, &#39;s&#39;, &#39;e&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;e&#39;, &#39;l&#39;, &#39;i&#39;, &#39;f&#39;, &#39; &#39;, &#39;c&#39;, &#39; &#39;, &#39;=&#39;, &#39;=&#39;, &#39; &#39;, &#34;&#39;&#34;, &#39;&#34;&#39;, &#34;&#39;&#34;, &#39; &#39;, &#39;o&#39;, &#39;r&#39;, &#39; &#39;, &#39;c&#39;, &#39; &#39;, &#39;=&#39;, &#39;=&#39;, &#39; &#39;, &#39;&#34;&#39;, &#34;&#39;&#34;, &#39;&#34;&#39;, &#39; &#39;, &#39;a&#39;, &#39;n&#39;, &#39;d&#39;, &#39; &#39;, &#39;t&#39;, &#39;a&#39;, &#39;g&#39;, &#39;:&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;q&#39;, &#39;u&#39;, &#39;o&#39;, &#39;t&#39;, &#39;e&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;n&#39;, &#39;o&#39;, &#39;t&#39;, &#39; &#39;, &#39;q&#39;, &#39;u&#39;, &#39;o&#39;, &#39;t&#39;, &#39;e&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;e&#39;, &#39;l&#39;, &#39;i&#39;, &#39;f&#39;, &#39; &#39;, &#39;n&#39;, &#39;o&#39;, &#39;t&#39;, &#39; &#39;, &#39;t&#39;, &#39;a&#39;, &#39;g&#39;, &#39;:&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;o&#39;, &#39;u&#39;, &#39;t&#39;, &#39; &#39;, &#39;=&#39;, &#39; &#39;, &#39;o&#39;, &#39;u&#39;, &#39;t&#39;, &#39; &#39;, &#39;+&#39;, &#39; &#39;, &#39;c&#39;, &#39;\n&#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39; &#39;, &#39;r&#39;, &#39;e&#39;, &#39;t&#39;, &#39;u&#39;, &#39;r&#39;, &#39;n&#39;, &#39; &#39;, &#39;o&#39;, &#39;u&#39;, &#39;t&#39;, &#39;\n&#39;]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">reduced_assertions_source_code</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-83-2f83d7d2cde9&gt;&#34;, line 2, in &lt;module&gt;
+    compile_and_test_html_markup(list(reduced_assertions_source_code))
+  File &#34;&lt;ipython-input-75-123bdd50db7f&gt;&#34;, line 6, in compile_and_test_html_markup
+    &#39;&#39;&#39;assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;
+  File &#34;&lt;ipython-input-66-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
+    exec(&#34;&#34;.join(lines), {}, {})
+  File &#34;&lt;string&gt;&#34;, line 17, in &lt;module&gt;
+AssertionError: My Test (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
+        <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">reduced_assertions_source_code</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">further_reduced_assertions_source_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">])</span>
+<span class="n">print_content</span><span class="p">(</span><span class="n">further_reduced_assertions_source_code</span><span class="p">,</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag=quote=<span class="ansi-blue-fg">False</span>
+    out=<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">if</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">or</span> c==<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-magenta-fg">and</span> t:<span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:out=out+c
+    <span class="ansi-blue-fg">return</span> out
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>At this point, even superfluous blanks and newlines have been removed. Interestingly, the initialization of <code>tag</code> and <code>quote</code> to <code>False</code> is now merged into a single (semantics-preserving) statement. Double quotes still have the effect of not being included in the returned value, which still yields the "original" failure.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">tests</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>6057
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.3201107019849587
+</pre>
 </div>
 
 </div>
@@ -14511,7 +14742,7 @@ RuntimeError: Missing functionality (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2020-11-27 20:18:59+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2020-11-27 23:34:34+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -14529,7 +14760,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">https://www.debuggingbook.org/beta/html/DeltaDebugger.html</a>.  Retrieved 2020-11-27 20:18:59+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">https://www.debuggingbook.org/beta/html/DeltaDebugger.html</a>.  Retrieved 2020-11-27 23:34:34+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:DeltaDebugger,
@@ -14539,9 +14770,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DeltaDebugger.html}},
-    note = {Retrieved 2020-11-27 20:18:59+01:00},
+    note = {Retrieved 2020-11-27 23:34:34+01:00},
     url = {https://www.debuggingbook.org/beta/html/DeltaDebugger.html},
-    urldate = {2020-11-27 20:18:59+01:00}
+    urldate = {2020-11-27 23:34:34+01:00}
 }
 </pre>
 </div>

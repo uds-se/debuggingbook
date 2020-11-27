@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Tracer.html
-# Last change: 2020-11-22 18:44:03+01:00
+# Last change: 2020-11-27 22:45:01+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -168,6 +168,7 @@ class Tracer(object):
         """Called at begin of `with` block. Turn tracing on."""
         self.original_trace_function = sys.gettrace()
         sys.settrace(self._traceit)
+        return self
 
     def __exit__(self, tp, value, traceback):
         """Called at begin of `with` block. Turn tracing off."""

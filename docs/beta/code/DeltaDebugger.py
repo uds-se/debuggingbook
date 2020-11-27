@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-11-27 20:18:59+01:00
+# Last change: 2020-11-27 23:34:34+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -313,20 +313,20 @@ class CallCollector(object):
         """Called at begin of `with` block. Turn tracing on."""
         self.original_trace_function = sys.gettrace()
         sys.settrace(self.traceit)
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         """Called at end of `with` block. Turn tracing off."""
         sys.settrace(self.original_trace_function)
-        if exc_type is not None and self._function is None:
-            raise exc_value
+        if self._function is None:
+            return False  # re-raise exception, if any
 
         self._exception = exc_value
         self.diagnosis()
         return True  # Ignore exception
 
 if __name__ == "__main__":
-    call_collector = CallCollector()
-    with call_collector:
+    with CallCollector() as call_collector:
         mystery(failing_input)
 
 
@@ -344,8 +344,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     with ExpectError():
-        c = CallCollector()
-        with c:
+        with CallCollector() as c:
             some_error()
 
 
@@ -383,8 +382,7 @@ class CallCollector(CallCollector):
         return self._function(**new_args)
 
 if __name__ == "__main__":
-    call_collector = CallCollector()
-    with call_collector:
+    with CallCollector() as call_collector:
         mystery(failing_input)
 
 
@@ -505,14 +503,14 @@ class DeltaDebugger(DeltaDebugger):
             x = len(arg)
         except TypeError:
             return False
-        
+
         try:
             x = arg[0]
         except TypeError:
             return False
         except IndexError:
             return False
-        
+
         return True
 
 class DeltaDebugger(DeltaDebugger):
@@ -524,7 +522,7 @@ class DeltaDebugger(DeltaDebugger):
         for var in self._args:
             args[var] = self._args[var]
         vars_to_be_reduced = set(args.keys())
-        
+
         while len(vars_to_be_reduced) > 0:
             for var in vars_to_be_reduced:
                 value = args[var]
@@ -567,8 +565,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    dd = DeltaDebugger(show=False)
-    with dd:
+    with DeltaDebugger(show=False) as dd:
         mystery(failing_input)
 
 
@@ -632,7 +629,7 @@ else:
 
 if __name__ == "__main__":
     assertions_source_code, _ = inspect.getsourcelines(Assertions)
-    assertions_source_code[:5]
+    assertions_source_code[:10]
 
 
 if __name__ == "__main__":
@@ -640,7 +637,7 @@ if __name__ == "__main__":
 
 
 def compile_and_run(lines):
-    exec("".join(lines))
+    exec("".join(lines), {}, {})
 
 def compile_and_test_html_markup(lines):
     compile_and_run(lines + 
@@ -651,10 +648,16 @@ if __name__ == "__main__":
         compile_and_test_html_markup(assertions_source_code)
 
 
+if __package__ is None or __package__ == "":
+    from Timer import Timer
+else:
+    from .Timer import Timer
+
+
 if __name__ == "__main__":
-    dd = DeltaDebugger(log=False, show=False)
-    with dd:
-        compile_and_test_html_markup(assertions_source_code)
+    with Timer() as t:
+        with DeltaDebugger(log=False, show=False) as dd:
+            compile_and_test_html_markup(assertions_source_code)
 
 
 if __name__ == "__main__":
@@ -671,13 +674,17 @@ if __name__ == "__main__":
     print_content("".join(dd.reduced_args()['lines']), ".py")
 
 
+if __name__ == "__main__":
+    t.elapsed_time()
+
+
 def compile_and_test_html_markup(lines):
-    compile_and_run(lines + 
-                    [
-                        '''if remove_html_markup('<foo>bar</foo>') != 'bar':\n''',
-                         '''    raise RuntimeError("Missing functionality")\n''',
-                         '''assert remove_html_markup('"foo"') == '"foo"', "My Test"\n'''
-                    ])
+    compile_and_run(lines +
+        [
+            '''if remove_html_markup('<foo>bar</foo>') != 'bar':\n''',
+            '''    raise RuntimeError("Missing functionality")\n''',
+            '''assert remove_html_markup('"foo"') == '"foo"', "My Test"\n'''
+        ])
 
 if __name__ == "__main__":
     with ExpectError():
@@ -685,13 +692,17 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    dd = DeltaDebugger(log=False, show=False)
-    with dd:
+    with DeltaDebugger(log=False, show=False) as dd:
         compile_and_test_html_markup(assertions_source_code)
+    reduced_assertions_source_code = "".join(dd.reduced_args()['lines'])
 
 
 if __name__ == "__main__":
-    print_content("".join(dd.reduced_args()['lines']), ".py")
+    dd.tests
+
+
+if __name__ == "__main__":
+    print_content(reduced_assertions_source_code, ".py")
 
 
 if __name__ == "__main__":
@@ -706,8 +717,36 @@ if __name__ == "__main__":
             "Blank lines are deleted",
             "Initializations are deleted",
             "The assertion is deleted",
-        ], [2 ** n for n in range(0, 3)]
+        ], [(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]
         )
+
+
+if __name__ == "__main__":
+    print(list(reduced_assertions_source_code))
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        compile_and_test_html_markup(list(reduced_assertions_source_code))
+
+
+if __name__ == "__main__":
+    with Timer() as t:
+        with DeltaDebugger(log=False, show=False) as dd:
+            compile_and_test_html_markup(list(reduced_assertions_source_code))
+
+
+if __name__ == "__main__":
+    further_reduced_assertions_source_code = "".join(dd.reduced_args()['lines'])
+    print_content(further_reduced_assertions_source_code, ".py")
+
+
+if __name__ == "__main__":
+    dd.tests
+
+
+if __name__ == "__main__":
+    t.elapsed_time()
 
 
 # ## Synopsis
@@ -732,9 +771,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    dd = DeltaDebugger(show=False)
-    with dd:
+    with DeltaDebugger(show=False) as dd:
         myeval('1 + 2 * 3 / 0')
+
+
+if __name__ == "__main__":
     dd.reduced_args()
 
 

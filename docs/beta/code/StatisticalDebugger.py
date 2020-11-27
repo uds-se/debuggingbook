@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-11-16 20:07:52+01:00
+# Last change: 2020-11-27 22:48:24+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -104,8 +104,7 @@ def remove_html_markup(s):
     return out
 
 if __name__ == "__main__":
-    c = Collector()
-    with c:
+    with Collector() as c:
         out = remove_html_markup('"abc"')
     out
 
@@ -129,8 +128,7 @@ class Collector(Collector):
         return self._id
 
 if __name__ == "__main__":
-    c = Collector()
-    with c:
+    with Collector() as c:
         remove_html_markup('abc')
     c.id()
 
@@ -159,8 +157,7 @@ class CoverageCollector(CoverageCollector):
         return self.coverage
 
 if __name__ == "__main__":
-    c = CoverageCollector()
-    with c:
+    with CoverageCollector() as c:
         remove_html_markup('abc')
     print(c.events())
 
@@ -205,8 +202,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    c = CoverageCollector()
-    with c:
+    with CoverageCollector() as c:
         remove_html_markup("<b>Don't do this!</b>")
     # list_with_coverage(remove_html_markup, c.coverage)
 
