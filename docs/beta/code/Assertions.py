@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Assertions.html
-# Last change: 2020-11-27 20:15:51+01:00
+# Last change: 2020-11-28 16:26:08+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -488,7 +488,7 @@ if __name__ == "__main__":
 
 
 
-class Time:
+class Time(object):
     def __init__(self, hours=0, minutes=0, seconds=0):
         self._hours = hours
         self._minutes = minutes
@@ -553,10 +553,42 @@ class Time(Time):
         assert 0 <= hours <= 23
         self._hours = hours
 
-# ### A repOK() Method for Time
+# #### Excursion: Checked Getters and Setters in Python
 
 if __name__ == "__main__":
-    print('\n### A repOK() Method for Time')
+    print('\n#### Excursion: Checked Getters and Setters in Python')
+
+
+
+
+class MyTime(Time):
+    @property
+    def hours(self):
+        return self._hours
+
+    @hours.setter
+    def hours(self, new_hours):
+        assert 0 <= new_hours <= 23
+        self._hours = new_hours
+
+if __name__ == "__main__":
+    t = MyTime(11, 30, 0)
+    t.hours
+
+
+if __name__ == "__main__":
+    t.hours = 12
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        t.hours = 25
+
+
+# #### End of Excursion
+
+if __name__ == "__main__":
+    print('\n#### End of Excursion')
 
 
 
@@ -620,7 +652,7 @@ class Time(Time):
     def advance(self, seconds_offset):
         old_seconds = self.seconds_since_midnight()
         ...  # Advance the clock
-        assert (self.seconds_since_midnight() == 
+        assert (self.seconds_since_midnight() ==
                 (old_seconds + seconds_offset) % (24 * 60 * 60))
 
 class Time(Time):
@@ -630,7 +662,7 @@ class Time(Time):
 
         ...  # Advance the clock
 
-        assert (self.seconds_since_midnight() == 
+        assert (self.seconds_since_midnight() ==
                 (old_seconds + seconds_offset) % (24 * 60 * 60))
         assert self.repOK()
 
@@ -784,7 +816,7 @@ class Memory(Memory):
         for address in range(self.size):
             out += ":---|"
         return out + '\n'
-        
+
     def show_contents(self):
         out = "|Content|"
         for address in range(self.size):
@@ -794,10 +826,10 @@ class Memory(Memory):
             else:
                 out += " |"
         return out + '\n'
-        
+
     def __repr__(self):
         return self.show_header() + self.show_sep() + self.show_contents()
-    
+
     def show(self):
         return Markdown(repr(self))
 
@@ -872,7 +904,7 @@ class DynamicMemory(Memory):
 
     def __init__(self, *args):
         super().__init__(*args)
-        
+
         # Before each block, we reserve two items:
         # One pointing to the next block (-1 = END)
         self.memory[self.BLOCK_LIST_START] = -1
@@ -906,10 +938,10 @@ class DynamicMemory(Memory):
                 self.memory[next_chunk + 1] = 0
                 base = chunk + 2
                 return base
-            
+
             # Go to next block
             chunk = next_chunk
-                
+
         raise MemoryError("Out of Memory")
 
     def free(self, base):
@@ -938,7 +970,7 @@ class DynamicMemory(DynamicMemory):
                 color = "black"
             else:
                 color = "lightgrey"
-            
+
             item = f'<span style="color: {color}">{address}</span>'
             out += f"{item}|"
         return out + '\n'
@@ -1123,7 +1155,7 @@ class ManagedMemory(ManagedMemory):
         return (self.show_allocated() + 
                self.show_initialized() +
             DynamicMemory.show_contents(self))
-        
+
     def show_allocated(self):
         out = "|Allocated|"
         for address in range(self.size):

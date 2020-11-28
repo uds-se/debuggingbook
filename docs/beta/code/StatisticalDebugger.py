@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-11-27 22:48:24+01:00
+# Last change: 2020-11-28 16:26:09+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -109,28 +109,44 @@ if __name__ == "__main__":
     out
 
 
+from types import FunctionType
+
 class Collector(Collector):
     def __init__(self):
-        self._id = None
+        self._function = None
+        self._args = None
 
     def traceit(self, frame, event, arg):
-        if self._id is None and event == 'call':
-            # Save ID
-            function = frame.f_code.co_name
+        if self._function is None and event == 'call':
+            # Save function
+            self._function = FunctionType(frame.f_code,
+                                          globals=globals(),
+                                          name=frame.f_code.co_name)
             locals = frame.f_locals
-            args = ", ".join([f"{var}={repr(locals[var])}" for var in locals])
-            self._id = f"{function}({args})"
+            self._args = ", ".join([f"{var}={repr(locals[var])}" for var in locals])
 
         self.collect(frame, event, arg)
 
     def id(self):
         """Return an identifier for the collector, created from the first call"""
-        return self._id
+        return f"{self._function.__name__}({self._args})"
+
+    def function(self):
+        """Return the function from the first call, as a function object"""
+        return self._function
+
+    def args(self):
+        """Return the list of arguments from the first call, as a string"""
+        return self._args
+
+    def __repr__(self):
+        # We use the ID as default representation when printed
+        return self.id()
 
 if __name__ == "__main__":
     with Collector() as c:
         remove_html_markup('abc')
-    c.id()
+    c.function(), c.id()
 
 
 # ## Collecting Coverage
@@ -159,7 +175,7 @@ class CoverageCollector(CoverageCollector):
 if __name__ == "__main__":
     with CoverageCollector() as c:
         remove_html_markup('abc')
-    print(c.events())
+    c.events()
 
 
 import inspect
@@ -298,12 +314,26 @@ if __name__ == "__main__":
 import html
 
 class StatisticalDebugger(StatisticalDebugger):
+    def function(self):
+        """Return the function from the events observed, or None if ambiguous"""
+        function = None
+        for outcome in self.collectors:
+            for collector in self.collectors[outcome]:
+                if function is None:
+                    function = collector.function()
+                elif function.__name__ != collector.function().__name__:
+                    return None  # ambiguous
+
+        return function
+
     def color(self, event):
         """Return a color for the given event, or None. To be overloaded in subclasses."""
         return None
 
-    def event_table(self, ids=False, color=False):
-        """Print out a table of events observed."""
+    def event_table_text(self, args=False, color=False):
+        """Print out a table of events observed.
+           If args is set, use arguments as headers.
+           If color is set, use colors."""
         sep = ' | '
 
         all_events = self.all_events()
@@ -312,11 +342,11 @@ class StatisticalDebugger(StatisticalDebugger):
         out = ""
 
         # Header
-        if ids:
-            out += '| ' + ' ' * longest_event + sep
+        if args:
+            out += '| ' + '`' + self.function().__name__ + '`' + sep
             for name in self.collectors:
                 for collector in self.collectors[name]:
-                    out += '`' + collector.id() + '`' + sep
+                    out += '`' + collector.args() + '`' + sep
             out += '\n'
         else:
             out += '| ' + ' ' * longest_event + sep
@@ -352,7 +382,14 @@ class StatisticalDebugger(StatisticalDebugger):
                     out += sep
             out += '\n'
 
-        return Markdown(out)
+        return out
+
+    def event_table(self, **_args):
+        """Print out event table in Markdown format."""
+        return Markdown(self.event_table_text(**_args))
+
+    def __repr__(self):
+        return self._event_table_text()
 
 # ### End of Excursion
 
@@ -370,7 +407,7 @@ if __name__ == "__main__":
         remove_html_markup('<b>abc</b>')
     with s.collect('FAIL'):
         remove_html_markup('"abc"')
-    s.event_table(ids=True)
+    s.event_table(args=True)
 
 
 if __name__ == "__main__":
@@ -395,13 +432,14 @@ class DifferenceDebugger(StatisticalDebugger):
     def collect_pass(self, *args):
         """Return a collector for passing runs."""
         return self.collect(self.PASS, *args)
-    
+
     def collect_fail(self, *args):
         """Return a collector for failing runs."""
         return self.collect(self.FAIL, *args)
 
     def pass_collectors(self):
         return self.collectors[self.PASS]
+
     def fail_collectors(self):
         return self.collectors[self.FAIL]
 
@@ -495,23 +533,41 @@ if __name__ == "__main__":
 
 
 class DiscreteSpectrumDebugger(DifferenceDebugger):
-    def color(self, event):
-        """Return a color for the given event."""
+    def suspiciousness(self, event):
+        """Return a suspiciousness value [0, 1.0] for the given event, or None if unknown"""
         passing = self.all_pass_events()
         failing = self.all_fail_events()
 
         if event in passing and event in failing:
-            return 'lightyellow'
+            return 0.5
         elif event in failing:
-            return 'mistyrose'
+            return 1.0
         elif event in passing:
-            return 'honeydew'
+            return 0.0
         else:
             return None
 
+    def color(self, event):
+        """Return a color for the given event."""
+        suspiciousness = self.suspiciousness(event)
+        if suspiciousness is None:
+            return None
+
+        if suspiciousness > 0.8:
+            return 'mistyrose'
+        if suspiciousness >= 0.5:
+            return 'lightyellow'
+        
+        return 'honeydew'
+
 class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
-    def list_with_spectrum(self, function, show_color_names=False):
+    def list_with_spectrum(self, function=None, show_color_names=False):
         """Print a listing of the given function, using suspiciousness colors."""
+        if function is None:
+            function = self.function()
+        if function is None:
+            raise ValueError("Must specify function to list")
+
         source_lines, starting_line_number = \
            inspect.getsourcelines(function)
 
@@ -539,12 +595,35 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
 
         return HTML(out)
 
+    def list_with_suspiciousness(self, function=None):
+        """Print a listing of the given function, using suspiciousness values."""
+        if function is None:
+            function = self.function()
+        if function is None:
+            raise ValueError("Must specify function to list")
+
+        source_lines, starting_line_number = \
+           inspect.getsourcelines(function)
+
+        line_number = starting_line_number
+        out = ""
+        for line in source_lines:
+            suspiciousness = self.suspiciousness(line_number)
+            line = str(line_number).rjust(4) + ' ' + str(suspiciousness).rjust(4) + line
+            out += line + '\n'
+            line_number += 1
+
+        return out
+
+    def __repr__(self):
+        return self.list_with_suspiciousness()
+
 if __name__ == "__main__":
     debugger = test_debugger_html(DiscreteSpectrumDebugger(CoverageCollector))
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":
@@ -555,6 +634,39 @@ if __name__ == "__main__":
         ],
          164 * 2 % 326
         )
+
+
+class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
+    def list_with_suspiciousness(self, function=None):
+        """Print a listing of the given function, including suspiciousness values."""
+        if function is None:
+            function = self.function()
+        if function is None:
+            raise ValueError("Must specify function to list")
+
+        source_lines, starting_line_number = \
+           inspect.getsourcelines(function)
+
+        line_number = starting_line_number
+        out = ""
+        for line in source_lines:
+            suspiciousness = self.suspiciousness(line_number)
+            if suspiciousness is not None:
+                percentage = str(int(suspiciousness * 100)).rjust(3) + '%'
+            else:
+                percentage = ' ' * len('100%')
+            line = str(line_number).rjust(4) + ' ' + percentage + ' ' + line
+            out += line
+            line_number += 1
+
+        return out
+
+    def __repr__(self):
+        return self.list_with_suspiciousness()
+
+if __name__ == "__main__":
+    debugger = test_debugger_html(DiscreteSpectrumDebugger(CoverageCollector))
+    debugger
 
 
 # ### Continuous Spectrum
@@ -580,7 +692,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 class ContinuousSpectrumDebugger(DiscreteSpectrumDebugger):
@@ -670,7 +782,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":
@@ -691,7 +803,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 def middle(x, y, z):
@@ -735,11 +847,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.event_table()
+    debugger.event_table(args=True)
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(middle)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":
@@ -790,6 +902,9 @@ class RankingDebugger(DifferenceDebugger):
         events.sort(key=self.suspiciousness, reverse=True)
         return events
 
+    def __repr__(self):
+        return repr(self.rank_by_suspiciousness())
+
 # ### The Tarantula Metric
 
 if __name__ == "__main__":
@@ -810,7 +925,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":
@@ -826,7 +941,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(middle)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":
@@ -869,7 +984,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":
@@ -941,13 +1056,13 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.event_table(color=True)
+    debugger.event_table(color=True, args=True)
 
 
-# ### Training Classifiers
+# ## Training Classifiers
 
 if __name__ == "__main__":
-    print('\n### Training Classifiers')
+    print('\n## Training Classifiers')
 
 
 
@@ -1091,11 +1206,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger.event_table(color=True)
+    debugger.event_table(args=True, color=True)
 
 
 if __name__ == "__main__":
-    debugger.list_with_spectrum(remove_html_markup)
+    debugger.list_with_spectrum()
 
 
 if __name__ == "__main__":

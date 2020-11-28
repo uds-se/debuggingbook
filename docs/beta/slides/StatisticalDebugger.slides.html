@@ -14016,26 +14016,40 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
-            <span class="c1"># Save ID</span>
-            <span class="n">function</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+            <span class="c1"># Save function</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="n">FunctionType</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">,</span>
+                                          <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span>
+                                          <span class="n">name</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">)</span>
             <span class="nb">locals</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="nb">locals</span><span class="p">[</span><span class="n">var</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">function</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="nb">locals</span><span class="p">[</span><span class="n">var</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return an identifier for the collector, created from the first call&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_function</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the function from the first call, as a function object&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span>
+
+    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of arguments from the first call, as a string&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We use the ID as default representation when printed</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -14045,12 +14059,12 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Collector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">function</span><span class="p">(),</span> <span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -14063,13 +14077,13 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#34;remove_html_markup(s=&#39;abc&#39;)&#34;</pre>
+<pre>(&lt;function __main__.remove_html_markup(s)&gt;, &#34;remove_html_markup(s=&#39;abc&#39;)&#34;)</pre>
 </div>
 
 </div>
@@ -14088,7 +14102,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
@@ -14117,7 +14131,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">):</span>
@@ -14141,12 +14155,12 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CoverageCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+<span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -14159,13 +14173,15 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[11]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{1, 2, 3, 4, 6, 7, 9, 11, 13, 14, 16}
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{1, 2, 3, 4, 6, 7, 9, 11, 13, 14, 16}</pre>
 </div>
+
 </div>
 
 </div>
@@ -14182,7 +14198,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">list_with_coverage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">coverage</span><span class="p">):</span>
@@ -14203,7 +14219,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_with_coverage</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">coverage</span><span class="p">)</span>
@@ -14265,7 +14281,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Let the input be &lt;code&gt;&amp;quot;&amp;lt;b&amp;gt;Don&#39;t do this!&amp;lt;/b&amp;gt;&amp;quot;&lt;/code&gt;. &quot;</span>
@@ -14288,7 +14304,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -14356,21 +14372,21 @@ a.anchor-link {
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-1" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-1-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-1" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-1-label" for="7dece1fe-31c8-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
     
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-2" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-2-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-2" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-2-label" for="7dece1fe-31c8-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
     
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-3" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-3-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-3" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-3-label" for="7dece1fe-31c8-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
     
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-4" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-4-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-4" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-4-label" for="7dece1fe-31c8-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
     
     </div>
     </p>
-    <input id="ec3a8fc6-3100-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec3a8fc6-3100-11eb-a588-acde48001122', 22, 1)">
+    <input id="7dece1fe-31c8-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7dece1fe-31c8-11eb-a588-acde48001122', 22, 1)">
     </div>
     
 </div>
@@ -14391,7 +14407,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CoverageCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
@@ -14438,7 +14454,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">():</span>
@@ -14464,7 +14480,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
@@ -14493,7 +14509,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
@@ -14525,7 +14541,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">)</span>
@@ -14552,7 +14568,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">all_events</span><span class="p">()</span>
@@ -14568,7 +14584,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[22]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -14593,7 +14609,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">)</span>
@@ -14609,7 +14625,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -14634,53 +14650,10 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[24]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;PASS&#39;: [&lt;__main__.CoverageCollector at 0x7fe989b9d160&gt;,
-  &lt;__main__.CoverageCollector at 0x7fe989b9d240&gt;],
- &#39;FAIL&#39;: [&lt;__main__.CoverageCollector at 0x7fe989b9d518&gt;]}</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Here's the collector of the one (and first) passing run:</p>
-
-</div>
-</div>
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span>
 </pre></div>
 
     </div>
@@ -14699,6 +14672,48 @@ a.anchor-link {
 
 
 <div class="output_text output_subarea output_execute_result">
+<pre>{&#39;PASS&#39;: [remove_html_markup(s=&#39;abc&#39;), remove_html_markup(s=&#39;&lt;b&gt;abc&lt;/b&gt;&#39;)],
+ &#39;FAIL&#39;: [remove_html_markup(s=&#39;&#34;abc&#34;&#39;)]}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here's the collector of the one (and first) passing run:</p>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[26]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
 <pre>&#34;remove_html_markup(s=&#39;abc&#39;)&#34;</pre>
 </div>
 
@@ -14710,7 +14725,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -14726,7 +14741,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
@@ -14751,7 +14766,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">)</span>
@@ -14761,7 +14776,7 @@ a.anchor-link {
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;abc&lt;/b&gt;&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">):</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;abc&quot;&#39;</span><span class="p">)</span>
-<span class="n">s</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14774,17 +14789,17 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
 <div class="output_markdown rendered_html output_subarea output_execute_result">
 <table>
 <thead><tr>
-<th></th>
-<th><code>remove_html_markup(s='abc')</code></th>
-<th><code>remove_html_markup(s='&lt;b&gt;abc&lt;/b&gt;')</code></th>
-<th><code>remove_html_markup(s='"abc"')</code></th>
+<th><code>remove_html_markup</code></th>
+<th><code>s='abc'</code></th>
+<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
+<th><code>s='"abc"'</code></th>
 </tr>
 </thead>
 <tbody>
@@ -14885,7 +14900,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;How many lines are executed in the failing run only?&quot;</span><span class="p">,</span>
@@ -14902,7 +14917,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[31]:</div>
+    <div class="prompt output_prompt">Out[32]:</div>
 
 
 
@@ -14970,18 +14985,18 @@ a.anchor-link {
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ec49b9e2-3100-11eb-8163-acde48001122" id="ec49b9e2-3100-11eb-8163-acde48001122-1" onclick="clear_selection('ec49b9e2-3100-11eb-8163-acde48001122')">
-        <label id="ec49b9e2-3100-11eb-8163-acde48001122-1-label" for="ec49b9e2-3100-11eb-8163-acde48001122-1">One</label><br>
+        <input type="radio" name="7dfdba62-31c8-11eb-8163-acde48001122" id="7dfdba62-31c8-11eb-8163-acde48001122-1" onclick="clear_selection('7dfdba62-31c8-11eb-8163-acde48001122')">
+        <label id="7dfdba62-31c8-11eb-8163-acde48001122-1-label" for="7dfdba62-31c8-11eb-8163-acde48001122-1">One</label><br>
     
-        <input type="radio" name="ec49b9e2-3100-11eb-8163-acde48001122" id="ec49b9e2-3100-11eb-8163-acde48001122-2" onclick="clear_selection('ec49b9e2-3100-11eb-8163-acde48001122')">
-        <label id="ec49b9e2-3100-11eb-8163-acde48001122-2-label" for="ec49b9e2-3100-11eb-8163-acde48001122-2">Two</label><br>
+        <input type="radio" name="7dfdba62-31c8-11eb-8163-acde48001122" id="7dfdba62-31c8-11eb-8163-acde48001122-2" onclick="clear_selection('7dfdba62-31c8-11eb-8163-acde48001122')">
+        <label id="7dfdba62-31c8-11eb-8163-acde48001122-2-label" for="7dfdba62-31c8-11eb-8163-acde48001122-2">Two</label><br>
     
-        <input type="radio" name="ec49b9e2-3100-11eb-8163-acde48001122" id="ec49b9e2-3100-11eb-8163-acde48001122-3" onclick="clear_selection('ec49b9e2-3100-11eb-8163-acde48001122')">
-        <label id="ec49b9e2-3100-11eb-8163-acde48001122-3-label" for="ec49b9e2-3100-11eb-8163-acde48001122-3">Three</label><br>
+        <input type="radio" name="7dfdba62-31c8-11eb-8163-acde48001122" id="7dfdba62-31c8-11eb-8163-acde48001122-3" onclick="clear_selection('7dfdba62-31c8-11eb-8163-acde48001122')">
+        <label id="7dfdba62-31c8-11eb-8163-acde48001122-3-label" for="7dfdba62-31c8-11eb-8163-acde48001122-3">Three</label><br>
     
     </div>
     </p>
-    <input id="ec49b9e2-3100-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec49b9e2-3100-11eb-8163-acde48001122', 4, 0)">
+    <input id="7dfdba62-31c8-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7dfdba62-31c8-11eb-8163-acde48001122', 4, 0)">
     </div>
     
 </div>
@@ -15010,7 +15025,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
@@ -15022,13 +15037,14 @@ a.anchor-link {
     <span class="k">def</span> <span class="nf">collect_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a collector for passing runs.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">collect_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a collector for failing runs.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">pass_collectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">]</span>
+
     <span class="k">def</span> <span class="nf">fail_collectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">]</span>
 </pre></div>
@@ -15048,7 +15064,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_html</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
@@ -15068,7 +15084,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -15089,7 +15105,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_1_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -15102,7 +15118,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_2_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -15115,7 +15131,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">in_any_pass</span> <span class="o">=</span> <span class="n">pass_1_events</span> <span class="o">|</span> <span class="n">pass_2_events</span>
@@ -15132,7 +15148,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[37]:</div>
+    <div class="prompt output_prompt">Out[38]:</div>
 
 
 
@@ -15157,7 +15173,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fail_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">fail_collectors</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -15170,7 +15186,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_in_fail</span> <span class="o">=</span> <span class="n">fail_events</span> <span class="o">-</span> <span class="n">in_any_pass</span>
@@ -15187,7 +15203,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[39]:</div>
+    <div class="prompt output_prompt">Out[40]:</div>
 
 
 
@@ -15212,7 +15228,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_with_coverage</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">only_in_fail</span><span class="p">)</span>
@@ -15266,7 +15282,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -15294,7 +15310,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -15314,7 +15330,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -15327,7 +15343,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">all_events</span><span class="p">()</span>
@@ -15343,7 +15359,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[44]:</div>
+    <div class="prompt output_prompt">Out[45]:</div>
 
 
 
@@ -15368,7 +15384,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">()</span>
@@ -15384,7 +15400,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[45]:</div>
+    <div class="prompt output_prompt">Out[46]:</div>
 
 
 
@@ -15409,7 +15425,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_pass_events</span><span class="p">()</span>
@@ -15425,7 +15441,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[46]:</div>
+    <div class="prompt output_prompt">Out[47]:</div>
 
 
 
@@ -15480,23 +15496,36 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a color for the given event.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a suspiciousness value [0, 1.0] for the given event, or None if unknown&quot;&quot;&quot;</span>
         <span class="n">passing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_pass_events</span><span class="p">()</span>
         <span class="n">failing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fail_events</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">passing</span> <span class="ow">and</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;lightyellow&#39;</span>
+            <span class="k">return</span> <span class="mf">0.5</span>
         <span class="k">elif</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;mistyrose&#39;</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
         <span class="k">elif</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">passing</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;honeydew&#39;</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a color for the given event.&quot;&quot;&quot;</span>
+        <span class="n">suspiciousness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">suspiciousness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">suspiciousness</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;mistyrose&#39;</span>
+        <span class="k">if</span> <span class="n">suspiciousness</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;lightyellow&#39;</span>
+        
+        <span class="k">return</span> <span class="s1">&#39;honeydew&#39;</span>
 </pre></div>
 
     </div>
@@ -15514,12 +15543,17 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">list_with_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">show_color_names</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_with_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_color_names</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print a listing of the given function, using suspiciousness colors.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify function to list&quot;</span><span class="p">)</span>
+
         <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
            <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 
@@ -15546,6 +15580,29 @@ a.anchor-link {
             <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">list_with_suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print a listing of the given function, using suspiciousness values.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify function to list&quot;</span><span class="p">)</span>
+
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
+           <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+        <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="n">suspiciousness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">suspiciousness</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">line</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">line</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_with_suspiciousness</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15563,7 +15620,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -15576,10 +15633,10 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15592,7 +15649,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[50]:</div>
+    <div class="prompt output_prompt">Out[51]:</div>
 
 
 
@@ -15632,7 +15689,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Does the line &lt;code&gt;quote = not quote&lt;/code&gt; actually contain the defect?&quot;</span><span class="p">,</span>
@@ -15654,7 +15711,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[51]:</div>
+    <div class="prompt output_prompt">Out[52]:</div>
 
 
 
@@ -15722,15 +15779,15 @@ a.anchor-link {
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ec5b3794-3100-11eb-9732-acde48001122" id="ec5b3794-3100-11eb-9732-acde48001122-1" onclick="clear_selection('ec5b3794-3100-11eb-9732-acde48001122')">
-        <label id="ec5b3794-3100-11eb-9732-acde48001122-1-label" for="ec5b3794-3100-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
+        <input type="radio" name="7e132990-31c8-11eb-9732-acde48001122" id="7e132990-31c8-11eb-9732-acde48001122-1" onclick="clear_selection('7e132990-31c8-11eb-9732-acde48001122')">
+        <label id="7e132990-31c8-11eb-9732-acde48001122-1-label" for="7e132990-31c8-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
     
-        <input type="radio" name="ec5b3794-3100-11eb-9732-acde48001122" id="ec5b3794-3100-11eb-9732-acde48001122-2" onclick="clear_selection('ec5b3794-3100-11eb-9732-acde48001122')">
-        <label id="ec5b3794-3100-11eb-9732-acde48001122-2-label" for="ec5b3794-3100-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
+        <input type="radio" name="7e132990-31c8-11eb-9732-acde48001122" id="7e132990-31c8-11eb-9732-acde48001122-2" onclick="clear_selection('7e132990-31c8-11eb-9732-acde48001122')">
+        <label id="7e132990-31c8-11eb-9732-acde48001122-2-label" for="7e132990-31c8-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
     
     </div>
     </p>
-    <input id="ec5b3794-3100-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec5b3794-3100-11eb-9732-acde48001122', 4, 0)">
+    <input id="7e132990-31c8-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e132990-31c8-11eb-9732-acde48001122', 4, 0)">
     </div>
     
 </div>
@@ -15758,6 +15815,102 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>For those of us who may not have color HTML output ready, we introduce a variant that simply lists suspiciousness values as percentages.</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_with_suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print a listing of the given function, including suspiciousness values.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify function to list&quot;</span><span class="p">)</span>
+
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
+           <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+        <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="n">suspiciousness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">suspiciousness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">percentage</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">suspiciousness</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">percentage</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;100%&#39;</span><span class="p">)</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">percentage</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">line</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">line</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_with_suspiciousness</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   1  50% def remove_html_markup(s):
+   2  50%     tag = False
+   3  50%     quote = False
+   4  50%     out = &#34;&#34;
+   5      
+   6  50%     for c in s:
+   7  50%         if c == &#39;&lt;&#39; and not quote:
+   8   0%             tag = True
+   9  50%         elif c == &#39;&gt;&#39; and not quote:
+  10   0%             tag = False
+  11  50%         elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12 100%             quote = not quote
+  13  50%         elif not tag:
+  14  50%             out = out + c
+  15      
+  16  50%     return out</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Continuous-Spectrum">Continuous Spectrum<a class="anchor-link" href="#Continuous-Spectrum">&#182;</a></h3><p>The criterion that an event should <em>only</em> occur in failing runs (and not in passing runs) can be too aggressive. In particular, if we have another run that executes the "culprit" lines, but does <em>not</em> fail, our "only in fail" criterion will no longer be helpful.</p>
 
 </div>
@@ -15779,7 +15932,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b color=&quot;blue&quot;&gt;text&lt;/b&gt;&#39;</span><span class="p">)</span>
@@ -15795,7 +15948,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[52]:</div>
+    <div class="prompt output_prompt">Out[55]:</div>
 
 
 
@@ -15820,7 +15973,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -15835,7 +15988,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">()</span>
@@ -15851,7 +16004,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[54]:</div>
+    <div class="prompt output_prompt">Out[57]:</div>
 
 
 
@@ -15876,10 +16029,10 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15892,7 +16045,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[55]:</div>
+    <div class="prompt output_prompt">Out[58]:</div>
 
 
 
@@ -15963,7 +16116,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
@@ -16019,7 +16172,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -16032,7 +16185,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">():</span>
@@ -16072,7 +16225,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_pass_events</span><span class="p">():</span>
@@ -16136,7 +16289,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
@@ -16159,7 +16312,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -16200,7 +16353,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
@@ -16222,7 +16375,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -16243,7 +16396,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">():</span>
@@ -16283,7 +16436,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_pass_events</span><span class="p">():</span>
@@ -16316,10 +16469,10 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -16332,7 +16485,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[66]:</div>
+    <div class="prompt output_prompt">Out[69]:</div>
 
 
 
@@ -16372,7 +16525,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
@@ -16386,7 +16539,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s1">&#39;In which color will the &lt;code&gt;quote = not quote&lt;/code&gt; &quot;culprit&quot; line be shown after executing the above code?&#39;</span><span class="p">,</span>
@@ -16410,7 +16563,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[68]:</div>
+    <div class="prompt output_prompt">Out[71]:</div>
 
 
 
@@ -16478,21 +16631,21 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-1" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-1-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-1" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-1-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
     
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-2" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-2-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-2" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-2-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
     
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-3" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-3-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-3" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-3-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
     
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-4" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-4-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-4" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-4-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
     
     </div>
     </p>
-    <input id="ec6a45fe-3100-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec6a45fe-3100-11eb-b36c-acde48001122', 8, 0)">
+    <input id="7e246a0c-31c8-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e246a0c-31c8-11eb-b36c-acde48001122', 8, 0)">
     </div>
     
 </div>
@@ -16513,10 +16666,10 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -16529,7 +16682,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[69]:</div>
+    <div class="prompt output_prompt">Out[72]:</div>
 
 
 
@@ -16569,7 +16722,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
@@ -16593,7 +16746,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -16609,7 +16762,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[71]:</div>
+    <div class="prompt output_prompt">Out[74]:</div>
 
 
 
@@ -16634,7 +16787,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -16650,7 +16803,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[72]:</div>
+    <div class="prompt output_prompt">Out[75]:</div>
 
 
 
@@ -16675,7 +16828,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_middle</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
@@ -16714,7 +16867,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -16727,10 +16880,10 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16743,20 +16896,20 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[75]:</div>
+    <div class="prompt output_prompt">Out[78]:</div>
 
 
 
 <div class="output_markdown rendered_html output_subarea output_execute_result">
 <table>
 <thead><tr>
-<th></th>
-<th>PASS</th>
-<th>PASS</th>
-<th>PASS</th>
-<th>PASS</th>
-<th>PASS</th>
-<th>FAIL</th>
+<th><code>middle</code></th>
+<th><code>z=5, y=3, x=3</code></th>
+<th><code>z=3, y=2, x=1</code></th>
+<th><code>z=1, y=2, x=3</code></th>
+<th><code>z=5, y=5, x=5</code></th>
+<th><code>z=4, y=3, x=5</code></th>
+<th><code>z=3, y=1, x=2</code></th>
 </tr>
 </thead>
 <tbody>
@@ -16871,10 +17024,10 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -16887,7 +17040,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[76]:</div>
+    <div class="prompt output_prompt">Out[79]:</div>
 
 
 
@@ -16917,7 +17070,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Which of the above lines should be fixed?&quot;</span><span class="p">,</span>
@@ -16941,7 +17094,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[77]:</div>
+    <div class="prompt output_prompt">Out[80]:</div>
 
 
 
@@ -17009,21 +17162,21 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-1" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-1-label" for="ec7218cc-3100-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-1" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-1-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
     
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-2" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-2-label" for="ec7218cc-3100-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-2" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-2-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
     
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-3" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-3-label" for="ec7218cc-3100-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-3" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-3-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
     
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-4" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-4-label" for="ec7218cc-3100-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-4" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-4-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
     
     </div>
     </p>
-    <input id="ec7218cc-3100-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec7218cc-3100-11eb-835f-acde48001122', 8, 0)">
+    <input id="7e2e0b7a-31c8-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e2e0b7a-31c8-11eb-835f-acde48001122', 8, 0)">
     </div>
     
 </div>
@@ -17044,7 +17197,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_fixed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
@@ -17068,7 +17221,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_fixed</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -17084,7 +17237,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[79]:</div>
+    <div class="prompt output_prompt">Out[82]:</div>
 
 
 
@@ -17115,10 +17268,10 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 </div>
 </div>
-</div><div class="fragment">
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">RankingDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -17131,13 +17284,16 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
         <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">())</span>
         <span class="n">events</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">events</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">())</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div></div></section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -17173,7 +17329,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TarantulaDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">,</span> <span class="n">RankingDebugger</span><span class="p">):</span>
@@ -17199,7 +17355,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">TarantulaDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -17212,10 +17368,10 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -17228,7 +17384,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[83]:</div>
+    <div class="prompt output_prompt">Out[86]:</div>
 
 
 
@@ -17268,7 +17424,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">()</span>
@@ -17284,7 +17440,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[84]:</div>
+    <div class="prompt output_prompt">Out[87]:</div>
 
 
 
@@ -17301,7 +17457,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -17317,7 +17473,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[85]:</div>
+    <div class="prompt output_prompt">Out[88]:</div>
 
 
 
@@ -17350,7 +17506,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">TarantulaDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -17363,10 +17519,10 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -17379,7 +17535,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[87]:</div>
+    <div class="prompt output_prompt">Out[90]:</div>
 
 
 
@@ -17409,7 +17565,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">()</span>
@@ -17425,7 +17581,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[88]:</div>
+    <div class="prompt output_prompt">Out[91]:</div>
 
 
 
@@ -17442,7 +17598,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -17458,7 +17614,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[89]:</div>
+    <div class="prompt output_prompt">Out[92]:</div>
 
 
 
@@ -17513,7 +17669,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">OchiaiDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">,</span> <span class="n">RankingDebugger</span><span class="p">):</span>
@@ -17549,7 +17705,7 @@ $$
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">OchiaiDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -17562,10 +17718,10 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -17578,7 +17734,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[93]:</div>
+    <div class="prompt output_prompt">Out[96]:</div>
 
 
 
@@ -17610,7 +17766,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">()</span>
@@ -17626,7 +17782,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[94]:</div>
+    <div class="prompt output_prompt">Out[97]:</div>
 
 
 
@@ -17643,7 +17799,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -17659,7 +17815,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[95]:</div>
+    <div class="prompt output_prompt">Out[98]:</div>
 
 
 
@@ -17684,7 +17840,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[96]:</div>
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">OchiaiDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -17697,7 +17853,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
@@ -17713,7 +17869,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[97]:</div>
+    <div class="prompt output_prompt">Out[100]:</div>
 
 
 
@@ -17743,7 +17899,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">()</span>
@@ -17759,7 +17915,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[98]:</div>
+    <div class="prompt output_prompt">Out[101]:</div>
 
 
 
@@ -17776,7 +17932,7 @@ $$
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -17792,7 +17948,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[99]:</div>
+    <div class="prompt output_prompt">Out[102]:</div>
 
 
 
@@ -17860,7 +18016,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ValueCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
@@ -17896,7 +18052,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ValueCollector</span><span class="p">))</span>
@@ -17918,24 +18074,24 @@ $$
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>tag = False
-c = &#39;&gt;&#39;
-c = &#39;/&#39;
-c = &#39;&#34;&#39;
-out = &#39;abc&#39;
-out = &#39;&#39;
-s = &#39;&#34;abc&#34;&#39;
-c = &#39;b&#39;
-c = &#39;&lt;&#39;
-out = &#39;ab&#39;
-out = &#39;a&#39;
-quote = False
-quote = True
+<pre>c = &#39;a&#39;
 s = &#39;abc&#39;
-tag = True
+c = &#39;/&#39;
+c = &#39;b&#39;
+out = &#39;abc&#39;
+out = &#39;ab&#39;
 c = &#39;c&#39;
-c = &#39;a&#39;
+c = &#39;&lt;&#39;
+tag = True
+quote = True
+out = &#39;a&#39;
+s = &#39;&#34;abc&#34;&#39;
+out = &#39;&#39;
+c = &#39;&#34;&#39;
+c = &#39;&gt;&#39;
+tag = False
 s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
+quote = False
 </pre>
 </div>
 </div>
@@ -17954,7 +18110,7 @@ s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">():</span>
@@ -18004,10 +18160,10 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -18020,30 +18176,30 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[103]:</div>
+    <div class="prompt output_prompt">Out[106]:</div>
 
 
 
 <div class="output_markdown rendered_html output_subarea output_execute_result">
 <table>
 <thead><tr>
-<th></th>
-<th>PASS</th>
-<th>PASS</th>
-<th>FAIL</th>
+<th><code>remove_html_markup</code></th>
+<th><code>s='abc'</code></th>
+<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
+<th><code>s='"abc"'</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">     tag = False</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;a&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">         c = &#x27;&gt;&#x27;</samp></td>
-<td>-</td>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">       s = &#x27;abc&#x27;</samp></td>
 <td>X</td>
+<td>-</td>
 <td>-</td>
 </tr>
 <tr>
@@ -18053,9 +18209,9 @@ quote = True
 <td>-</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">         c = &#x27;&quot;&#x27;</samp></td>
-<td>-</td>
-<td>-</td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;b&#x27;</samp></td>
+<td>X</td>
+<td>X</td>
 <td>X</td>
 </tr>
 <tr>
@@ -18065,19 +18221,13 @@ quote = True
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">        out = &#x27;&#x27;</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">      out = &#x27;ab&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">     s = &#x27;&quot;abc&quot;&#x27;</samp></td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;b&#x27;</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;c&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -18089,9 +18239,15 @@ quote = True
 <td>-</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">      out = &#x27;ab&#x27;</samp></td>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">      tag = True</samp></td>
+<td>-</td>
 <td>X</td>
-<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">    quote = True</samp></td>
+<td>-</td>
+<td>-</td>
 <td>X</td>
 </tr>
 <tr>
@@ -18101,37 +18257,31 @@ quote = True
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">   quote = False</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">    quote = True</samp></td>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">     s = &#x27;&quot;abc&quot;&#x27;</samp></td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">       s = &#x27;abc&#x27;</samp></td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">      tag = True</samp></td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;c&#x27;</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">        out = &#x27;&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;a&#x27;</samp></td>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">         c = &#x27;&quot;&#x27;</samp></td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">         c = &#x27;&gt;&#x27;</samp></td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">     tag = False</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -18141,6 +18291,12 @@ quote = True
 <td>-</td>
 <td>X</td>
 <td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">   quote = False</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
 </tr>
 </tbody>
 </table>
@@ -18166,11 +18322,11 @@ quote = True
 
 </div>
 </div>
-</div></section><section>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Training-Classifiers">Training Classifiers<a class="anchor-link" href="#Training-Classifiers">&#182;</a></h3><p>The metrics we have discussed so far are pretty <em>generic</em> – that is, they are fixed no matter how the actual event space is structured. The field of <em>machine learning</em> has come up with techniques that learn <em>classifiers</em> from a given set of data – classifiers that are trained from labeled data and then can predict labels for new data sets. In our case, the labels are test outcomes (PASS and FAIL), whereas the data would be features of the events observed.</p>
+<h2 id="Training-Classifiers">Training Classifiers<a class="anchor-link" href="#Training-Classifiers">&#182;</a></h2><p>The metrics we have discussed so far are pretty <em>generic</em> – that is, they are fixed no matter how the actual event space is structured. The field of <em>machine learning</em> has come up with techniques that learn <em>classifiers</em> from a given set of data – classifiers that are trained from labeled data and then can predict labels for new data sets. In our case, the labels are test outcomes (PASS and FAIL), whereas the data would be features of the events observed.</p>
 
 </div>
 </div>
@@ -18209,7 +18365,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -18234,7 +18390,7 @@ quote = True
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18251,7 +18407,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[105]:</div>
+    <div class="prompt output_prompt">Out[108]:</div>
 
 
 
@@ -18278,7 +18434,7 @@ quote = True
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18298,7 +18454,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18315,7 +18471,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[107]:</div>
+    <div class="prompt output_prompt">Out[110]:</div>
 
 
 
@@ -18354,7 +18510,7 @@ quote = True
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18369,7 +18525,7 @@ quote = True
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[112]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18386,7 +18542,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[109]:</div>
+    <div class="prompt output_prompt">Out[112]:</div>
 
 
 
@@ -18411,7 +18567,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[113]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18433,7 +18589,7 @@ quote = True
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[114]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18450,7 +18606,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[111]:</div>
+    <div class="prompt output_prompt">Out[114]:</div>
 
 
 
@@ -18475,7 +18631,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="prompt input_prompt">In&nbsp;[115]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18494,7 +18650,7 @@ quote = True
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[113]:</div>
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18511,7 +18667,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[113]:</div>
+    <div class="prompt output_prompt">Out[116]:</div>
 
 
 
@@ -18538,7 +18694,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18557,7 +18713,7 @@ quote = True
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[115]:</div>
+<div class="prompt input_prompt">In&nbsp;[118]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18574,7 +18730,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[115]:</div>
+    <div class="prompt output_prompt">Out[118]:</div>
 
 
 
@@ -18599,7 +18755,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[117]:</div>
+<div class="prompt input_prompt">In&nbsp;[120]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18624,7 +18780,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="prompt input_prompt">In&nbsp;[122]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -18657,7 +18813,7 @@ quote = True
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="prompt input_prompt">In&nbsp;[123]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
@@ -18675,7 +18831,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[120]:</div>
+    <div class="prompt output_prompt">Out[123]:</div>
 
 
 
@@ -18751,7 +18907,7 @@ quote = True
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
+<div class="prompt input_prompt">In&nbsp;[124]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
@@ -18767,7 +18923,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[121]:</div>
+    <div class="prompt output_prompt">Out[124]:</div>
 
 
 
@@ -18802,7 +18958,7 @@ quote = True
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="prompt input_prompt">In&nbsp;[125]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">TarantulaDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">)</span>
@@ -18822,17 +18978,17 @@ quote = True
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can then print out the observed events – in this case, line numbers – in a table, with colors highlighting the suspiciousness of the event. A "red" event means that the event predominantly occurs in failing runs.</p>
+<p>You can then print out the observed events – in this case, line numbers – in a table, showing in which runs they occurred (<code>X</code>), and with colors highlighting the suspiciousness of the event. A "red" event means that the event predominantly occurs in failing runs.</p>
 
 </div>
 </div>
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -18845,17 +19001,17 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[123]:</div>
+    <div class="prompt output_prompt">Out[126]:</div>
 
 
 
 <div class="output_markdown rendered_html output_subarea output_execute_result">
 <table>
 <thead><tr>
-<th></th>
-<th>PASS</th>
-<th>PASS</th>
-<th>FAIL</th>
+<th><code>remove_html_markup</code></th>
+<th><code>s='abc'</code></th>
+<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
+<th><code>s='"abc"'</code></th>
 </tr>
 </thead>
 <tbody>
@@ -18964,10 +19120,10 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[124]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -18980,7 +19136,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[124]:</div>
+    <div class="prompt output_prompt">Out[127]:</div>
 
 
 
@@ -19020,7 +19176,7 @@ quote = True
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[125]:</div>
+<div class="prompt input_prompt">In&nbsp;[128]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">()</span>
@@ -19036,7 +19192,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[125]:</div>
+    <div class="prompt output_prompt">Out[128]:</div>
 
 
 
@@ -19061,7 +19217,7 @@ quote = True
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[126]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -19075,7 +19231,7 @@ quote = True
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="prompt input_prompt">In&nbsp;[130]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -19092,7 +19248,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[127]:</div>
+    <div class="prompt output_prompt">Out[130]:</div>
 
 
 
@@ -19103,11 +19259,11 @@ quote = True
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="394pt" height="587pt"
- viewBox="0.00 0.00 393.50 587.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 583)">
+<svg width="394pt" height="653pt"
+ viewBox="0.00 0.00 393.50 653.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 649)">
 <title>%3</title>
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-583 389.5,-583 389.5,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-649 389.5,-649 389.5,4 -4,4"/>
 <!-- TarantulaDebugger -->
 <g id="node1" class="node">
 <title>TarantulaDebugger</title>
@@ -19146,89 +19302,96 @@ quote = True
 <!-- RankingDebugger -->
 <g id="node6" class="node">
 <title>RankingDebugger</title>
-<g id="a_node6"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;RankingDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;rank_by_suspiciousness()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;suspiciousness()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
-<polygon fill="none" stroke="#000000" points="224.5,-123.5 224.5,-176.5 385.5,-176.5 385.5,-123.5 224.5,-123.5"/>
-<text text-anchor="start" x="249.5" y="-162.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">RankingDebugger</text>
-<polyline fill="none" stroke="#000000" points="224.5,-153.5 385.5,-153.5 "/>
-<text text-anchor="start" x="233" y="-142.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">rank_by_suspiciousness()</text>
-<text text-anchor="start" x="233" y="-131.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">suspiciousness()</text>
+<g id="a_node6"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;RankingDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;rank_by_suspiciousness()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;suspiciousness()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__repr__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<polygon fill="none" stroke="#000000" points="224.5,-118 224.5,-182 385.5,-182 385.5,-118 224.5,-118"/>
+<text text-anchor="start" x="249.5" y="-167.8" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">RankingDebugger</text>
+<polyline fill="none" stroke="#000000" points="224.5,-159 385.5,-159 "/>
+<text text-anchor="start" x="233" y="-147.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">rank_by_suspiciousness()</text>
+<text text-anchor="start" x="233" y="-136.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">suspiciousness()</text>
+<text text-anchor="start" x="233" y="-124.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__repr__()</text>
 </a>
 </g>
 </g>
 <!-- TarantulaDebugger&#45;&gt;RankingDebugger -->
 <g id="edge5" class="edge">
 <title>TarantulaDebugger&#45;&gt;RankingDebugger</title>
-<path fill="none" stroke="#000000" d="M161.7398,-48.1445C188.4964,-67.1679 228.2257,-95.4148 259.0635,-117.3399"/>
-<polygon fill="none" stroke="#000000" points="257.3292,-120.4013 267.5074,-123.3434 261.3854,-114.6963 257.3292,-120.4013"/>
+<path fill="none" stroke="#000000" d="M161.7398,-48.1445C186.377,-65.6611 222.0134,-90.9979 251.5792,-112.0188"/>
+<polygon fill="none" stroke="#000000" points="249.565,-114.8811 259.7431,-117.8232 253.6212,-109.1761 249.565,-114.8811"/>
 </g>
 <!-- DiscreteSpectrumDebugger -->
 <g id="node3" class="node">
 <title>DiscreteSpectrumDebugger</title>
-<g id="a_node3"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;DiscreteSpectrumDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;color()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;list_with_spectrum()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
-<polygon fill="none" stroke="#000000" points="50.5,-246.5 50.5,-299.5 235.5,-299.5 235.5,-246.5 50.5,-246.5"/>
-<text text-anchor="start" x="58.5" y="-285.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">DiscreteSpectrumDebugger</text>
-<polyline fill="none" stroke="#000000" points="50.5,-276.5 235.5,-276.5 "/>
-<text text-anchor="start" x="83" y="-265.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">color()</text>
-<text text-anchor="start" x="83" y="-254.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">list_with_spectrum()</text>
+<g id="a_node3"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;DiscreteSpectrumDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;color()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;list_with_spectrum()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;list_with_suspiciousness()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;suspiciousness()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__repr__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<polygon fill="none" stroke="#000000" points="50.5,-246.5 50.5,-332.5 235.5,-332.5 235.5,-246.5 50.5,-246.5"/>
+<text text-anchor="start" x="58.5" y="-318.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">DiscreteSpectrumDebugger</text>
+<polyline fill="none" stroke="#000000" points="50.5,-309.5 235.5,-309.5 "/>
+<text text-anchor="start" x="65" y="-298" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">color()</text>
+<text text-anchor="start" x="65" y="-287" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">list_with_spectrum()</text>
+<text text-anchor="start" x="65" y="-276" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">list_with_suspiciousness()</text>
+<text text-anchor="start" x="65" y="-265" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">suspiciousness()</text>
+<text text-anchor="start" x="65" y="-253" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__repr__()</text>
 </a>
 </g>
 </g>
 <!-- ContinuousSpectrumDebugger&#45;&gt;DiscreteSpectrumDebugger -->
 <g id="edge2" class="edge">
 <title>ContinuousSpectrumDebugger&#45;&gt;DiscreteSpectrumDebugger</title>
-<path fill="none" stroke="#000000" d="M122.4141,-209.6985C125.4186,-218.9371 128.4406,-228.23 131.2088,-236.7422"/>
-<polygon fill="none" stroke="#000000" points="127.9045,-237.8989 134.3256,-246.3262 134.5613,-235.734 127.9045,-237.8989"/>
+<path fill="none" stroke="#000000" d="M120.0796,-209.5652C122.6407,-218.4968 125.267,-227.6561 127.7857,-236.4403"/>
+<polygon fill="none" stroke="#000000" points="124.4537,-237.5183 130.5746,-246.1662 131.1826,-235.5889 124.4537,-237.5183"/>
 </g>
 <!-- DifferenceDebugger -->
 <g id="node4" class="node">
 <title>DifferenceDebugger</title>
 <g id="a_node4"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;DifferenceDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;all_fail_events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;all_pass_events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;collect_fail()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;collect_pass()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;only_fail_events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;only_pass_events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;fail_collectors()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;pass_collectors()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
-<polygon fill="none" stroke="#000000" points="133.5,-336.5 133.5,-455.5 272.5,-455.5 272.5,-336.5 133.5,-336.5"/>
-<text text-anchor="start" x="141.5" y="-441.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">DifferenceDebugger</text>
-<polyline fill="none" stroke="#000000" points="133.5,-432.5 272.5,-432.5 "/>
-<text text-anchor="start" x="149" y="-421.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">all_fail_events()</text>
-<text text-anchor="start" x="149" y="-410.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">all_pass_events()</text>
-<text text-anchor="start" x="149" y="-399.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect_fail()</text>
-<text text-anchor="start" x="149" y="-388.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect_pass()</text>
-<text text-anchor="start" x="149" y="-377.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">only_fail_events()</text>
-<text text-anchor="start" x="149" y="-366.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">only_pass_events()</text>
-<text text-anchor="start" x="149" y="-354.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">fail_collectors()</text>
-<text text-anchor="start" x="149" y="-343.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">pass_collectors()</text>
+<polygon fill="none" stroke="#000000" points="133.5,-369.5 133.5,-488.5 272.5,-488.5 272.5,-369.5 133.5,-369.5"/>
+<text text-anchor="start" x="141.5" y="-474.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">DifferenceDebugger</text>
+<polyline fill="none" stroke="#000000" points="133.5,-465.5 272.5,-465.5 "/>
+<text text-anchor="start" x="149" y="-454.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">all_fail_events()</text>
+<text text-anchor="start" x="149" y="-443.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">all_pass_events()</text>
+<text text-anchor="start" x="149" y="-432.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect_fail()</text>
+<text text-anchor="start" x="149" y="-421.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect_pass()</text>
+<text text-anchor="start" x="149" y="-410.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">only_fail_events()</text>
+<text text-anchor="start" x="149" y="-399.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">only_pass_events()</text>
+<text text-anchor="start" x="149" y="-387.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">fail_collectors()</text>
+<text text-anchor="start" x="149" y="-376.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">pass_collectors()</text>
 </a>
 </g>
 </g>
 <!-- DiscreteSpectrumDebugger&#45;&gt;DifferenceDebugger -->
 <g id="edge3" class="edge">
 <title>DiscreteSpectrumDebugger&#45;&gt;DifferenceDebugger</title>
-<path fill="none" stroke="#000000" d="M156.0191,-299.6892C160.0565,-307.9657 164.7056,-317.4965 169.4753,-327.2743"/>
-<polygon fill="none" stroke="#000000" points="166.3454,-328.8413 173.8754,-336.2945 172.6368,-325.7723 166.3454,-328.8413"/>
+<path fill="none" stroke="#000000" d="M161.6555,-332.874C165.3707,-341.512 169.3583,-350.7829 173.3378,-360.0354"/>
+<polygon fill="none" stroke="#000000" points="170.138,-361.4542 177.3044,-369.2577 176.5684,-358.6884 170.138,-361.4542"/>
 </g>
 <!-- StatisticalDebugger -->
 <g id="node5" class="node">
 <title>StatisticalDebugger</title>
-<g id="a_node5"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;StatisticalDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;all_events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;collect()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;color()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;event_table()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__init__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
-<polygon fill="none" stroke="#000000" points="134.5,-492.5 134.5,-578.5 271.5,-578.5 271.5,-492.5 134.5,-492.5"/>
-<text text-anchor="start" x="142.5" y="-564.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">StatisticalDebugger</text>
-<polyline fill="none" stroke="#000000" points="134.5,-555.5 271.5,-555.5 "/>
-<text text-anchor="start" x="164" y="-544" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">all_events()</text>
-<text text-anchor="start" x="164" y="-533" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect()</text>
-<text text-anchor="start" x="164" y="-522" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">color()</text>
-<text text-anchor="start" x="164" y="-511" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">event_table()</text>
-<text text-anchor="start" x="164" y="-499" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__init__()</text>
+<g id="a_node5"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;StatisticalDebugger&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;all_events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;collect()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;color()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;event_table()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;event_table_text()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;function()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__init__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__repr__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<polygon fill="none" stroke="#000000" points="134.5,-525.5 134.5,-644.5 271.5,-644.5 271.5,-525.5 134.5,-525.5"/>
+<text text-anchor="start" x="142.5" y="-630.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">StatisticalDebugger</text>
+<polyline fill="none" stroke="#000000" points="134.5,-621.5 271.5,-621.5 "/>
+<text text-anchor="start" x="149" y="-610.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">all_events()</text>
+<text text-anchor="start" x="149" y="-599.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect()</text>
+<text text-anchor="start" x="149" y="-588.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">color()</text>
+<text text-anchor="start" x="149" y="-577.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">event_table()</text>
+<text text-anchor="start" x="149" y="-566.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">event_table_text()</text>
+<text text-anchor="start" x="149" y="-555.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">function()</text>
+<text text-anchor="start" x="149" y="-543.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__init__()</text>
+<text text-anchor="start" x="149" y="-532.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__repr__()</text>
 </a>
 </g>
 </g>
 <!-- DifferenceDebugger&#45;&gt;StatisticalDebugger -->
 <g id="edge4" class="edge">
 <title>DifferenceDebugger&#45;&gt;StatisticalDebugger</title>
-<path fill="none" stroke="#000000" d="M203,-455.5652C203,-464.4008 203,-473.4592 203,-482.1568"/>
-<polygon fill="none" stroke="#000000" points="199.5001,-482.1662 203,-492.1662 206.5001,-482.1663 199.5001,-482.1662"/>
+<path fill="none" stroke="#000000" d="M203,-488.8675C203,-497.4518 203,-506.3463 203,-515.1031"/>
+<polygon fill="none" stroke="#000000" points="199.5001,-515.2926 203,-525.2927 206.5001,-515.2927 199.5001,-515.2926"/>
 </g>
 <!-- RankingDebugger&#45;&gt;DifferenceDebugger -->
 <g id="edge6" class="edge">
 <title>RankingDebugger&#45;&gt;DifferenceDebugger</title>
-<path fill="none" stroke="#000000" d="M294.6333,-176.6582C282.8698,-206.7316 262.979,-257.0522 245,-300 241.3243,-308.7805 237.3966,-317.9821 233.4734,-327.0659"/>
-<polygon fill="none" stroke="#000000" points="230.1641,-325.8999 229.3974,-336.467 236.5865,-328.6845 230.1641,-325.8999"/>
+<path fill="none" stroke="#000000" d="M295.5062,-182.0607C284.3773,-218.8525 264.9108,-280.8344 245,-333 241.6298,-341.8299 237.8976,-351.0298 234.0894,-360.0857"/>
+<polygon fill="none" stroke="#000000" points="230.7999,-358.8772 230.1051,-369.4492 237.2411,-361.618 230.7999,-358.8772"/>
 </g>
 <!-- OchiaiDebugger -->
 <g id="node7" class="node">
@@ -19251,8 +19414,8 @@ quote = True
 <!-- OchiaiDebugger&#45;&gt;RankingDebugger -->
 <g id="edge8" class="edge">
 <title>OchiaiDebugger&#45;&gt;RankingDebugger</title>
-<path fill="none" stroke="#000000" d="M293.2548,-53.6892C295.3777,-71.0968 298.1771,-94.0525 300.5105,-113.1859"/>
-<polygon fill="none" stroke="#000000" points="297.0667,-113.8602 301.7516,-123.3629 304.0152,-113.0127 297.0667,-113.8602"/>
+<path fill="none" stroke="#000000" d="M293.2548,-53.6892C295.1797,-69.4734 297.6609,-89.8191 299.8464,-107.7407"/>
+<polygon fill="none" stroke="#000000" points="296.3737,-108.1779 301.0586,-117.6807 303.3222,-107.3305 296.3737,-108.1779"/>
 </g>
 </g>
 </svg>
@@ -19267,7 +19430,7 @@ quote = True
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -19284,7 +19447,7 @@ quote = True
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[128]:</div>
+    <div class="prompt output_prompt">Out[131]:</div>
 
 
 
@@ -19295,11 +19458,11 @@ quote = True
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="260pt" height="352pt"
- viewBox="0.00 0.00 260.00 352.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 348)">
+<svg width="260pt" height="385pt"
+ viewBox="0.00 0.00 260.00 385.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 381)">
 <title>%3</title>
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-348 256,-348 256,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-381 256,-381 256,4 -4,4"/>
 <!-- CoverageCollector -->
 <g id="node1" class="node">
 <title>CoverageCollector</title>
@@ -19316,47 +19479,50 @@ quote = True
 <!-- Collector -->
 <g id="node2" class="node">
 <title>Collector</title>
-<g id="a_node2"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;Collector&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;collect()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;id()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__init__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;traceit()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
-<polygon fill="none" stroke="#000000" points="92.5,-101.5 92.5,-187.5 169.5,-187.5 169.5,-101.5 92.5,-101.5"/>
-<text text-anchor="start" x="103.5" y="-173.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">Collector</text>
-<polyline fill="none" stroke="#000000" points="92.5,-164.5 169.5,-164.5 "/>
-<text text-anchor="start" x="101" y="-153" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect()</text>
-<text text-anchor="start" x="101" y="-142" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">events()</text>
-<text text-anchor="start" x="101" y="-131" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">id()</text>
-<text text-anchor="start" x="101" y="-119" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__init__()</text>
-<text text-anchor="start" x="101" y="-108" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">traceit()</text>
+<g id="a_node2"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;Collector&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;args()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;collect()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;events()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;function()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;id()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__init__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__repr__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;traceit()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<polygon fill="none" stroke="#000000" points="92.5,-101.5 92.5,-220.5 169.5,-220.5 169.5,-101.5 92.5,-101.5"/>
+<text text-anchor="start" x="103.5" y="-206.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">Collector</text>
+<polyline fill="none" stroke="#000000" points="92.5,-197.5 169.5,-197.5 "/>
+<text text-anchor="start" x="101" y="-186.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">args()</text>
+<text text-anchor="start" x="101" y="-175.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">collect()</text>
+<text text-anchor="start" x="101" y="-164.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">events()</text>
+<text text-anchor="start" x="101" y="-153.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">function()</text>
+<text text-anchor="start" x="101" y="-142.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">id()</text>
+<text text-anchor="start" x="101" y="-130.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__init__()</text>
+<text text-anchor="start" x="101" y="-119.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__repr__()</text>
+<text text-anchor="start" x="101" y="-108.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">traceit()</text>
 </a>
 </g>
 </g>
 <!-- CoverageCollector&#45;&gt;Collector -->
 <g id="edge1" class="edge">
 <title>CoverageCollector&#45;&gt;Collector</title>
-<path fill="none" stroke="#000000" d="M83.1995,-64.5947C88.4101,-73.305 94.189,-82.9651 99.876,-92.4719"/>
-<polygon fill="none" stroke="#000000" points="96.9168,-94.3429 105.0541,-101.1278 102.924,-90.7493 96.9168,-94.3429"/>
+<path fill="none" stroke="#000000" d="M80.7341,-64.5945C85.1854,-73.1317 90.1688,-82.6894 95.2217,-92.3803"/>
+<polygon fill="none" stroke="#000000" points="92.1414,-94.0432 99.8683,-101.2921 98.3484,-90.8069 92.1414,-94.0432"/>
 </g>
 <!-- Tracer -->
 <g id="node3" class="node">
 <title>Tracer</title>
 <g id="a_node3"><a xlink:href="Tracer.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;Tracer&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;__enter__()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;__exit__()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;_traceit()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;b&gt;log()&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;__init__()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;changed_vars()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;print_debugger_status()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;traceit()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
-<polygon fill="none" stroke="#000000" points="53.5,-224.5 53.5,-343.5 208.5,-343.5 208.5,-224.5 53.5,-224.5"/>
-<text text-anchor="start" x="111" y="-329.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">Tracer</text>
-<polyline fill="none" stroke="#000000" points="53.5,-320.5 208.5,-320.5 "/>
-<text text-anchor="start" x="62" y="-309.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">__enter__()</text>
-<text text-anchor="start" x="62" y="-298.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
-<text text-anchor="start" x="62" y="-287.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">_traceit()</text>
-<text text-anchor="start" x="62" y="-276.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">log()</text>
-<text text-anchor="start" x="62" y="-264.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__init__()</text>
-<text text-anchor="start" x="62" y="-253.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">changed_vars()</text>
-<text text-anchor="start" x="62" y="-242.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">print_debugger_status()</text>
-<text text-anchor="start" x="62" y="-231.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">traceit()</text>
+<polygon fill="none" stroke="#000000" points="53.5,-257.5 53.5,-376.5 208.5,-376.5 208.5,-257.5 53.5,-257.5"/>
+<text text-anchor="start" x="111" y="-362.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">Tracer</text>
+<polyline fill="none" stroke="#000000" points="53.5,-353.5 208.5,-353.5 "/>
+<text text-anchor="start" x="62" y="-342.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">__enter__()</text>
+<text text-anchor="start" x="62" y="-331.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
+<text text-anchor="start" x="62" y="-320.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">_traceit()</text>
+<text text-anchor="start" x="62" y="-309.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-weight="bold" font-size="10.00" fill="#000000">log()</text>
+<text text-anchor="start" x="62" y="-297.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">__init__()</text>
+<text text-anchor="start" x="62" y="-286.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">changed_vars()</text>
+<text text-anchor="start" x="62" y="-275.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">print_debugger_status()</text>
+<text text-anchor="start" x="62" y="-264.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">traceit()</text>
 </a>
 </g>
 </g>
 <!-- Collector&#45;&gt;Tracer -->
 <g id="edge2" class="edge">
 <title>Collector&#45;&gt;Tracer</title>
-<path fill="none" stroke="#000000" d="M131,-187.874C131,-196.2421 131,-205.2041 131,-214.168"/>
-<polygon fill="none" stroke="#000000" points="127.5001,-214.2576 131,-224.2577 134.5001,-214.2577 127.5001,-214.2576"/>
+<path fill="none" stroke="#000000" d="M131,-220.8675C131,-229.4518 131,-238.3463 131,-247.1031"/>
+<polygon fill="none" stroke="#000000" points="127.5001,-247.2926 131,-257.2927 134.5001,-247.2927 127.5001,-247.2926"/>
 </g>
 <!-- ValueCollector -->
 <g id="node4" class="node">
@@ -19374,8 +19540,8 @@ quote = True
 <!-- ValueCollector&#45;&gt;Collector -->
 <g id="edge3" class="edge">
 <title>ValueCollector&#45;&gt;Collector</title>
-<path fill="none" stroke="#000000" d="M179.5139,-64.5947C174.2256,-73.305 168.3605,-82.9651 162.5885,-92.4719"/>
-<polygon fill="none" stroke="#000000" points="159.5312,-90.7634 157.3331,-101.1278 165.5147,-94.3963 159.5312,-90.7634"/>
+<path fill="none" stroke="#000000" d="M182.0161,-64.5945C177.4984,-73.1317 172.4406,-82.6894 167.3123,-92.3803"/>
+<polygon fill="none" stroke="#000000" points="164.1802,-90.8163 162.5964,-101.2921 170.3673,-94.0905 164.1802,-90.8163"/>
 </g>
 </g>
 </svg>

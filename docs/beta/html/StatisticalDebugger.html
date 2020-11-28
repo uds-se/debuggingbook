@@ -11911,8 +11911,8 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#The-Ochiai-Metric">The Ochiai Metric</a>
 </li><li class="has-sub"><a href="#How-Useful-is-Ranking?">How Useful is Ranking?</a>
 </ul></li><li class="has-sub"><a href="#Other-Events-besides-Coverage">&nbsp;&bull;&nbsp;&nbsp; Other Events besides Coverage</a>
-<ul><li class="has-sub"><a href="#Training-Classifiers">Training Classifiers</a>
-</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+</li><li class="has-sub"><a href="#Training-Classifiers">&nbsp;&bull;&nbsp;&nbsp; Training Classifiers</a>
+</li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
@@ -12002,12 +12002,106 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_fail</span><span class="p">():</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;abc&quot;&#39;</span><span class="p">)</span>
 </pre></div>
-<p>You can then print out the observed events – in this case, line numbers – in a table, with colors highlighting the suspiciousness of the event. A "red" event means that the event predominantly occurs in failing runs.</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="n">IPython</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Markdown</span> <span class="nb">object</span><span class="o">&gt;</span>
+<p>You can then print out the observed events – in this case, line numbers – in a table, showing in which runs they occurred (<code>X</code>), and with colors highlighting the suspiciousness of the event. A "red" event means that the event predominantly occurs in failing runs.</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
+<table>
+<thead><tr>
+<th><code>remove_html_markup</code></th>
+<th><code>s='abc'</code></th>
+<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
+<th><code>s='"abc"'</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 1</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 2</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 3</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 4</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 6</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 7</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)"> 8</samp></td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)"> 9</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">10</samp></td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">11</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">12</samp></td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">13</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">14</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">16</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
 <p>If you collected coverage with <code>CoverageCollector</code>, you can also visualize the code with similar colors, highlighting suspicious lines:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 <pre style="background-color:hsl(60.0, 100.0%, 80%)">   1 def remove_html_markup(s):</pre>
 <pre style="background-color:hsl(60.0, 100.0%, 80%)">   2     tag = False</pre>
@@ -12024,13 +12118,10 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <pre style="background-color:hsl(60.0, 100.0%, 80%)">  13         elif not tag:</pre>
 <pre style="background-color:hsl(60.0, 100.0%, 80%)">  14             out = out + c</pre>
 <pre>  15 &nbsp;</pre>
-<pre style="background-color:hsl(60.0, 100.0%, 80%)">  16     return out</pre>
-<pre><code>```
-The method `rank_by_suspiciousness()` returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.
-
-```python
-&gt;&gt;&gt; debugger.rank_by_suspiciousness()
-[12, 1, 2, 3, 4, 6, 7, 9, 11, 13, 14, 16, 8, 10]</code></pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)">  16     return out</pre><p>The method <code>rank_by_suspiciousness()</code> returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">()</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+</pre></div>
 <p>Here are all classes defined in this chapter:</p>
 <p><img src="PICS/StatisticalDebugger-synopsis-1.svg" alt=""></p>
 <p><img src="PICS/StatisticalDebugger-synopsis-2.svg" alt=""></p>
@@ -12039,6 +12130,24 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 </div>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><img src="StatisticalDebugger-synopsis-1.svg" alt=""></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><img src="PICS/StatisticalDebugger-synopsis-2.svg" alt="x"></p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_markdown">
@@ -12183,23 +12292,51 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/types.html" class="import" target="_blank">types</a></span> <span class="k">import</span> <span class="n">FunctionType</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
-            <span class="c1"># Save ID</span>
-            <span class="n">function</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+            <span class="c1"># Save function</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="n">FunctionType</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">,</span>
+                                          <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span>
+                                          <span class="n">name</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">)</span>
             <span class="nb">locals</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2">={repr(locals[var])}&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{function}</span><span class="s2">(</span><span class="si">{args}</span><span class="s2">)&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2">={repr(locals[var])}&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return an identifier for the collector, created from the first call&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{self._function.__name__}</span><span class="s2">(</span><span class="si">{self._args}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the function from the first call, as a function object&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span>
+
+    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of arguments from the first call, as a string&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We use the ID as default representation when printed</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12215,7 +12352,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Collector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">function</span><span class="p">(),</span> <span class="n">c</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12226,7 +12363,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#34;remove_html_markup(s=&#39;abc&#39;)&#34;
+<pre>(&lt;function __main__.remove_html_markup(s)&gt;, &#34;remove_html_markup(s=&#39;abc&#39;)&#34;)
 </pre>
 </div>
 
@@ -12306,7 +12443,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CoverageCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">())</span>
+<span class="n">c</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12316,7 +12453,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
+<div class="output_text output_subarea output_execute_result">
 <pre>{1, 2, 3, 4, 6, 7, 9, 11, 13, 14, 16}
 </pre>
 </div>
@@ -12517,21 +12654,21 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-1" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-1-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-1" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-1-label" for="7dece1fe-31c8-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
 
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-2" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-2-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-2" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-2-label" for="7dece1fe-31c8-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
 
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-3" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-3-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-3" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-3-label" for="7dece1fe-31c8-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
 
-        <input type="checkbox" name="ec3a8fc6-3100-11eb-a588-acde48001122" id="ec3a8fc6-3100-11eb-a588-acde48001122-4" onclick="clear_selection('ec3a8fc6-3100-11eb-a588-acde48001122')">
-        <label id="ec3a8fc6-3100-11eb-a588-acde48001122-4-label" for="ec3a8fc6-3100-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
+        <input type="checkbox" name="7dece1fe-31c8-11eb-a588-acde48001122" id="7dece1fe-31c8-11eb-a588-acde48001122-4" onclick="clear_selection('7dece1fe-31c8-11eb-a588-acde48001122')">
+        <label id="7dece1fe-31c8-11eb-a588-acde48001122-4-label" for="7dece1fe-31c8-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
 
     </div>
     </p>
-    <input id="ec3a8fc6-3100-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec3a8fc6-3100-11eb-a588-acde48001122', 22, 1)">
+    <input id="7dece1fe-31c8-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7dece1fe-31c8-11eb-a588-acde48001122', 22, 1)">
     </div>
 
 </div>
@@ -12801,9 +12938,8 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;PASS&#39;: [&lt;__main__.CoverageCollector at 0x7fe989b9d160&gt;,
-  &lt;__main__.CoverageCollector at 0x7fe989b9d240&gt;],
- &#39;FAIL&#39;: [&lt;__main__.CoverageCollector at 0x7fe989b9d518&gt;]}
+<pre>{&#39;PASS&#39;: [remove_html_markup(s=&#39;abc&#39;), remove_html_markup(s=&#39;&lt;b&gt;abc&lt;/b&gt;&#39;)],
+ &#39;FAIL&#39;: [remove_html_markup(s=&#39;&#34;abc&#34;&#39;)]}
 </pre>
 </div>
 
@@ -12911,12 +13047,26 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the function from the events observed, or None if ambiguous&quot;&quot;&quot;</span>
+        <span class="n">function</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">function</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">function</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">collector</span><span class="o">.</span><span class="n">function</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># ambiguous</span>
+
+        <span class="k">return</span> <span class="n">function</span>
+
     <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a color for the given event, or None. To be overloaded in subclasses.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">event_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Print out a table of events observed.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">event_table_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print out a table of events observed.</span>
+<span class="sd">           If args is set, use arguments as headers.</span>
+<span class="sd">           If color is set, use colors.&quot;&quot;&quot;</span>
         <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39; | &#39;</span>
 
         <span class="n">all_events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">()</span>
@@ -12925,11 +13075,11 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
         <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
         <span class="c1"># Header</span>
-        <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
-            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;| &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">longest_event</span> <span class="o">+</span> <span class="n">sep</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;| &#39;</span> <span class="o">+</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">sep</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
-                    <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">collector</span><span class="o">.</span><span class="n">id</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">sep</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">collector</span><span class="o">.</span><span class="n">args</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;`&#39;</span> <span class="o">+</span> <span class="n">sep</span>
             <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;| &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">longest_event</span> <span class="o">+</span> <span class="n">sep</span>
@@ -12965,7 +13115,14 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
                     <span class="n">out</span> <span class="o">+=</span> <span class="n">sep</span>
             <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
-        <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">event_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print out event table in Markdown format.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">event_table_text</span><span class="p">(</span><span class="o">**</span><span class="n">_args</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event_table_text</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -12988,7 +13145,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;abc&lt;/b&gt;&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">s</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">):</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;abc&quot;&#39;</span><span class="p">)</span>
-<span class="n">s</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -13002,10 +13159,10 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <table>
 <thead><tr>
-<th></th>
-<th><code>remove_html_markup(s='abc')</code></th>
-<th><code>remove_html_markup(s='&lt;b&gt;abc&lt;/b&gt;')</code></th>
-<th><code>remove_html_markup(s='"abc"')</code></th>
+<th><code>remove_html_markup</code></th>
+<th><code>s='abc'</code></th>
+<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
+<th><code>s='"abc"'</code></th>
 </tr>
 </thead>
 <tbody>
@@ -13165,18 +13322,18 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ec49b9e2-3100-11eb-8163-acde48001122" id="ec49b9e2-3100-11eb-8163-acde48001122-1" onclick="clear_selection('ec49b9e2-3100-11eb-8163-acde48001122')">
-        <label id="ec49b9e2-3100-11eb-8163-acde48001122-1-label" for="ec49b9e2-3100-11eb-8163-acde48001122-1">One</label><br>
+        <input type="radio" name="7dfdba62-31c8-11eb-8163-acde48001122" id="7dfdba62-31c8-11eb-8163-acde48001122-1" onclick="clear_selection('7dfdba62-31c8-11eb-8163-acde48001122')">
+        <label id="7dfdba62-31c8-11eb-8163-acde48001122-1-label" for="7dfdba62-31c8-11eb-8163-acde48001122-1">One</label><br>
 
-        <input type="radio" name="ec49b9e2-3100-11eb-8163-acde48001122" id="ec49b9e2-3100-11eb-8163-acde48001122-2" onclick="clear_selection('ec49b9e2-3100-11eb-8163-acde48001122')">
-        <label id="ec49b9e2-3100-11eb-8163-acde48001122-2-label" for="ec49b9e2-3100-11eb-8163-acde48001122-2">Two</label><br>
+        <input type="radio" name="7dfdba62-31c8-11eb-8163-acde48001122" id="7dfdba62-31c8-11eb-8163-acde48001122-2" onclick="clear_selection('7dfdba62-31c8-11eb-8163-acde48001122')">
+        <label id="7dfdba62-31c8-11eb-8163-acde48001122-2-label" for="7dfdba62-31c8-11eb-8163-acde48001122-2">Two</label><br>
 
-        <input type="radio" name="ec49b9e2-3100-11eb-8163-acde48001122" id="ec49b9e2-3100-11eb-8163-acde48001122-3" onclick="clear_selection('ec49b9e2-3100-11eb-8163-acde48001122')">
-        <label id="ec49b9e2-3100-11eb-8163-acde48001122-3-label" for="ec49b9e2-3100-11eb-8163-acde48001122-3">Three</label><br>
+        <input type="radio" name="7dfdba62-31c8-11eb-8163-acde48001122" id="7dfdba62-31c8-11eb-8163-acde48001122-3" onclick="clear_selection('7dfdba62-31c8-11eb-8163-acde48001122')">
+        <label id="7dfdba62-31c8-11eb-8163-acde48001122-3-label" for="7dfdba62-31c8-11eb-8163-acde48001122-3">Three</label><br>
 
     </div>
     </p>
-    <input id="ec49b9e2-3100-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec49b9e2-3100-11eb-8163-acde48001122', 4, 0)">
+    <input id="7dfdba62-31c8-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7dfdba62-31c8-11eb-8163-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -13223,6 +13380,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
     <span class="k">def</span> <span class="nf">pass_collectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">PASS</span><span class="p">]</span>
+
     <span class="k">def</span> <span class="nf">fail_collectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span><span class="p">]</span>
 </pre></div>
@@ -13641,19 +13799,32 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a color for the given event.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a suspiciousness value [0, 1.0] for the given event, or None if unknown&quot;&quot;&quot;</span>
         <span class="n">passing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_pass_events</span><span class="p">()</span>
         <span class="n">failing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_fail_events</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">passing</span> <span class="ow">and</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;lightyellow&#39;</span>
+            <span class="k">return</span> <span class="mf">0.5</span>
         <span class="k">elif</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">failing</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;mistyrose&#39;</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
         <span class="k">elif</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">passing</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;honeydew&#39;</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a color for the given event.&quot;&quot;&quot;</span>
+        <span class="n">suspiciousness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">suspiciousness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">suspiciousness</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;mistyrose&#39;</span>
+        <span class="k">if</span> <span class="n">suspiciousness</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;lightyellow&#39;</span>
+
+        <span class="k">return</span> <span class="s1">&#39;honeydew&#39;</span>
 </pre></div>
 
 </div>
@@ -13677,8 +13848,13 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">list_with_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">show_color_names</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_with_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_color_names</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print a listing of the given function, using suspiciousness colors.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify function to list&quot;</span><span class="p">)</span>
+
         <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
            <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 
@@ -13705,6 +13881,29 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
             <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">list_with_suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print a listing of the given function, using suspiciousness values.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify function to list&quot;</span><span class="p">)</span>
+
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
+           <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+        <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="n">suspiciousness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">suspiciousness</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">line</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">line</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_with_suspiciousness</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -13741,7 +13940,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -13848,15 +14047,15 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ec5b3794-3100-11eb-9732-acde48001122" id="ec5b3794-3100-11eb-9732-acde48001122-1" onclick="clear_selection('ec5b3794-3100-11eb-9732-acde48001122')">
-        <label id="ec5b3794-3100-11eb-9732-acde48001122-1-label" for="ec5b3794-3100-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
+        <input type="radio" name="7e132990-31c8-11eb-9732-acde48001122" id="7e132990-31c8-11eb-9732-acde48001122-1" onclick="clear_selection('7e132990-31c8-11eb-9732-acde48001122')">
+        <label id="7e132990-31c8-11eb-9732-acde48001122-1-label" for="7e132990-31c8-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
 
-        <input type="radio" name="ec5b3794-3100-11eb-9732-acde48001122" id="ec5b3794-3100-11eb-9732-acde48001122-2" onclick="clear_selection('ec5b3794-3100-11eb-9732-acde48001122')">
-        <label id="ec5b3794-3100-11eb-9732-acde48001122-2-label" for="ec5b3794-3100-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
+        <input type="radio" name="7e132990-31c8-11eb-9732-acde48001122" id="7e132990-31c8-11eb-9732-acde48001122-2" onclick="clear_selection('7e132990-31c8-11eb-9732-acde48001122')">
+        <label id="7e132990-31c8-11eb-9732-acde48001122-2-label" for="7e132990-31c8-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
 
     </div>
     </p>
-    <input id="ec5b3794-3100-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec5b3794-3100-11eb-9732-acde48001122', 4, 0)">
+    <input id="7e132990-31c8-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e132990-31c8-11eb-9732-acde48001122', 4, 0)">
     </div>
 
 </div>
@@ -13876,6 +14075,94 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 </div>
 </div>
 </div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>For those of us who may not have color HTML output ready, we introduce a variant that simply lists suspiciousness values as percentages.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">list_with_suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print a listing of the given function, including suspiciousness values.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify function to list&quot;</span><span class="p">)</span>
+
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">starting_line_number</span> <span class="o">=</span> \
+           <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+
+        <span class="n">line_number</span> <span class="o">=</span> <span class="n">starting_line_number</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="n">suspiciousness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">suspiciousness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">percentage</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">suspiciousness</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">percentage</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;100%&#39;</span><span class="p">)</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">percentage</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">line</span>
+            <span class="n">out</span> <span class="o">+=</span> <span class="n">line</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_with_suspiciousness</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">))</span>
+<span class="n">debugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   1  50% def remove_html_markup(s):
+   2  50%     tag = False
+   3  50%     quote = False
+   4  50%     out = &#34;&#34;
+   5      
+   6  50%     for c in s:
+   7  50%         if c == &#39;&lt;&#39; and not quote:
+   8   0%             tag = True
+   9  50%         elif c == &#39;&gt;&#39; and not quote:
+  10   0%             tag = False
+  11  50%         elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12 100%             quote = not quote
+  13  50%         elif not tag:
+  14  50%             out = out + c
+  15      
+  16  50%     return out
+</pre>
+</div>
+
 </div>
 
 <div class="input_markdown">
@@ -13988,7 +14275,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -14401,7 +14688,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -14523,21 +14810,21 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-1" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-1-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-1" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-1-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
 
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-2" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-2-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-2" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-2-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
 
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-3" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-3-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-3" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-3-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
 
-        <input type="radio" name="ec6a45fe-3100-11eb-b36c-acde48001122" id="ec6a45fe-3100-11eb-b36c-acde48001122-4" onclick="clear_selection('ec6a45fe-3100-11eb-b36c-acde48001122')">
-        <label id="ec6a45fe-3100-11eb-b36c-acde48001122-4-label" for="ec6a45fe-3100-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
+        <input type="radio" name="7e246a0c-31c8-11eb-b36c-acde48001122" id="7e246a0c-31c8-11eb-b36c-acde48001122-4" onclick="clear_selection('7e246a0c-31c8-11eb-b36c-acde48001122')">
+        <label id="7e246a0c-31c8-11eb-b36c-acde48001122-4-label" for="7e246a0c-31c8-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
 
     </div>
     </p>
-    <input id="ec6a45fe-3100-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec6a45fe-3100-11eb-b36c-acde48001122', 8, 0)">
+    <input id="7e246a0c-31c8-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e246a0c-31c8-11eb-b36c-acde48001122', 8, 0)">
     </div>
 
 </div>
@@ -14559,7 +14846,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -14751,7 +15038,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14765,13 +15052,13 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <table>
 <thead><tr>
-<th></th>
-<th>PASS</th>
-<th>PASS</th>
-<th>PASS</th>
-<th>PASS</th>
-<th>PASS</th>
-<th>FAIL</th>
+<th><code>middle</code></th>
+<th><code>z=5, y=3, x=3</code></th>
+<th><code>z=3, y=2, x=1</code></th>
+<th><code>z=1, y=2, x=3</code></th>
+<th><code>z=5, y=5, x=5</code></th>
+<th><code>z=4, y=3, x=5</code></th>
+<th><code>z=3, y=1, x=2</code></th>
 </tr>
 </thead>
 <tbody>
@@ -14887,7 +15174,7 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -14983,21 +15270,21 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-1" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-1-label" for="ec7218cc-3100-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-1" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-1-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
 
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-2" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-2-label" for="ec7218cc-3100-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-2" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-2-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
 
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-3" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-3-label" for="ec7218cc-3100-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-3" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-3-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
 
-        <input type="radio" name="ec7218cc-3100-11eb-835f-acde48001122" id="ec7218cc-3100-11eb-835f-acde48001122-4" onclick="clear_selection('ec7218cc-3100-11eb-835f-acde48001122')">
-        <label id="ec7218cc-3100-11eb-835f-acde48001122-4-label" for="ec7218cc-3100-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
+        <input type="radio" name="7e2e0b7a-31c8-11eb-835f-acde48001122" id="7e2e0b7a-31c8-11eb-835f-acde48001122-4" onclick="clear_selection('7e2e0b7a-31c8-11eb-835f-acde48001122')">
+        <label id="7e2e0b7a-31c8-11eb-835f-acde48001122-4-label" for="7e2e0b7a-31c8-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
 
     </div>
     </p>
-    <input id="ec7218cc-3100-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ec7218cc-3100-11eb-835f-acde48001122', 8, 0)">
+    <input id="7e2e0b7a-31c8-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e2e0b7a-31c8-11eb-835f-acde48001122', 8, 0)">
     </div>
 
 </div>
@@ -15096,6 +15383,9 @@ The method `rank_by_suspiciousness()` returns a ranked list of events, starting 
         <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_events</span><span class="p">())</span>
         <span class="n">events</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">events</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rank_by_suspiciousness</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -15189,7 +15479,7 @@ $$</p>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15315,7 +15605,7 @@ $$</p>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15506,7 +15796,7 @@ $$</p>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">list_with_spectrum</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -15805,24 +16095,24 @@ $$</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>tag = False
-c = &#39;&gt;&#39;
-c = &#39;/&#39;
-c = &#39;&#34;&#39;
-out = &#39;abc&#39;
-out = &#39;&#39;
-s = &#39;&#34;abc&#34;&#39;
-c = &#39;b&#39;
-c = &#39;&lt;&#39;
-out = &#39;ab&#39;
-out = &#39;a&#39;
-quote = False
-quote = True
+<pre>c = &#39;a&#39;
 s = &#39;abc&#39;
-tag = True
+c = &#39;/&#39;
+c = &#39;b&#39;
+out = &#39;abc&#39;
+out = &#39;ab&#39;
 c = &#39;c&#39;
-c = &#39;a&#39;
+c = &#39;&lt;&#39;
+tag = True
+quote = True
+out = &#39;a&#39;
+s = &#39;&#34;abc&#34;&#39;
+out = &#39;&#39;
+c = &#39;&#34;&#39;
+c = &#39;&gt;&#39;
+tag = False
 s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
+quote = False
 </pre>
 </div>
 
@@ -15887,7 +16177,7 @@ quote = True
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15901,23 +16191,23 @@ quote = True
 
 <table>
 <thead><tr>
-<th></th>
-<th>PASS</th>
-<th>PASS</th>
-<th>FAIL</th>
+<th><code>remove_html_markup</code></th>
+<th><code>s='abc'</code></th>
+<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
+<th><code>s='"abc"'</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">     tag = False</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;a&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">         c = &#x27;&gt;&#x27;</samp></td>
-<td>-</td>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">       s = &#x27;abc&#x27;</samp></td>
 <td>X</td>
+<td>-</td>
 <td>-</td>
 </tr>
 <tr>
@@ -15927,9 +16217,9 @@ quote = True
 <td>-</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">         c = &#x27;&quot;&#x27;</samp></td>
-<td>-</td>
-<td>-</td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;b&#x27;</samp></td>
+<td>X</td>
+<td>X</td>
 <td>X</td>
 </tr>
 <tr>
@@ -15939,19 +16229,13 @@ quote = True
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">        out = &#x27;&#x27;</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">      out = &#x27;ab&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">     s = &#x27;&quot;abc&quot;&#x27;</samp></td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;b&#x27;</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;c&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -15963,9 +16247,15 @@ quote = True
 <td>-</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">      out = &#x27;ab&#x27;</samp></td>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">      tag = True</samp></td>
+<td>-</td>
 <td>X</td>
-<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">    quote = True</samp></td>
+<td>-</td>
+<td>-</td>
 <td>X</td>
 </tr>
 <tr>
@@ -15975,37 +16265,31 @@ quote = True
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">   quote = False</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">    quote = True</samp></td>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">     s = &#x27;&quot;abc&quot;&#x27;</samp></td>
 <td>-</td>
 <td>-</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">       s = &#x27;abc&#x27;</samp></td>
-<td>X</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">      tag = True</samp></td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;c&#x27;</samp></td>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">        out = &#x27;&#x27;</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">         c = &#x27;a&#x27;</samp></td>
+<td><samp style="background-color: hsl(0.0, 100.0%, 80%)">         c = &#x27;&quot;&#x27;</samp></td>
+<td>-</td>
+<td>-</td>
+<td>X</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(120.0, 50.0%, 80%)">         c = &#x27;&gt;&#x27;</samp></td>
+<td>-</td>
+<td>X</td>
+<td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">     tag = False</samp></td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
@@ -16015,6 +16299,12 @@ quote = True
 <td>-</td>
 <td>X</td>
 <td>-</td>
+</tr>
+<tr>
+<td><samp style="background-color: hsl(60.0, 100.0%, 80%)">   quote = False</samp></td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
 </tr>
 </tbody>
 </table>
@@ -16041,7 +16331,7 @@ quote = True
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Training-Classifiers">Training Classifiers<a class="anchor-link" href="#Training-Classifiers">&#182;</a></h3><p>The metrics we have discussed so far are pretty <em>generic</em> – that is, they are fixed no matter how the actual event space is structured. The field of <em>machine learning</em> has come up with techniques that learn <em>classifiers</em> from a given set of data – classifiers that are trained from labeled data and then can predict labels for new data sets. In our case, the labels are test outcomes (PASS and FAIL), whereas the data would be features of the events observed.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Training-Classifiers">Training Classifiers<a class="anchor-link" href="#Training-Classifiers">&#182;</a></h2><p>The metrics we have discussed so far are pretty <em>generic</em> – that is, they are fixed no matter how the actual event space is structured. The field of <em>machine learning</em> has come up with techniques that learn <em>classifiers</em> from a given set of data – classifiers that are trained from labeled data and then can predict labels for new data sets. In our case, the labels are test outcomes (PASS and FAIL), whereas the data would be features of the events observed.</p>
 </div>
 </div>
 </div>
@@ -16694,7 +16984,7 @@ quote = True
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-27 22:48:24+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2020-11-28 16:26:09+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -16712,7 +17002,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-27 22:48:24+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2020-11-28 16:26:09+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:StatisticalDebugger,
@@ -16722,9 +17012,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDeb
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
-    note = {Retrieved 2020-11-27 22:48:24+01:00},
+    note = {Retrieved 2020-11-28 16:26:09+01:00},
     url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
-    urldate = {2020-11-27 22:48:24+01:00}
+    urldate = {2020-11-28 16:26:09+01:00}
 }
 </pre>
 </div>

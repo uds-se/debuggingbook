@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-11-27 23:34:34+01:00
+# Last change: 2020-11-28 23:24:45+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -59,12 +59,16 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
+    import Tracer
+else:
+    from . import Tracer
+
+
+if __package__ is None or __package__ == "":
     from bookutils import quiz
 else:
     from .bookutils import quiz
 
-
-import re
 
 def mystery(inp):
     x = inp.find(chr(0o17 + 0o31))
@@ -254,18 +258,26 @@ if __name__ == "__main__":
     ddmin(generic_test, failing_input, mystery, ValueError('Invalid input'))
 
 
-# ## A Simple Interface
+# ## A Simple DeltaDebugger Interface
 
 if __name__ == "__main__":
-    print('\n## A Simple Interface')
+    print('\n## A Simple DeltaDebugger Interface')
 
 
 
 
-# ### Collecting a Call
+# ### Excursion: Implementing DeltaDebugger
 
 if __name__ == "__main__":
-    print('\n### Collecting a Call')
+    print('\n### Excursion: Implementing DeltaDebugger')
+
+
+
+
+# #### Collecting a Call
+
+if __name__ == "__main__":
+    print('\n#### Collecting a Call')
 
 
 
@@ -275,24 +287,30 @@ import sys
 from types import FunctionType
 
 class CallCollector(object):
+    """Collect an exception-raising function call f().
+    Use as `with CallCollector(): f()`"""
+
     def __init__(self):
-        """Reduce a function call."""
+        """Initialize collector"""
         self._function = None
         self._args = None
         self._exception = None
 
     def traceit(self, frame, event, arg):
-        """Tracing function. Collect first call."""
+        """Tracing function. Collect first call, then turn tracing off."""
         if event == 'call':
             name = frame.f_code.co_name
             if name.startswith('__'):
                 # Internal function
                 return
 
-            self._function = FunctionType(frame.f_code,
-                                          globals=globals(),
-                                          name=name)
-            self._args = frame.f_locals
+            if self._function is None:
+                self._function = FunctionType(frame.f_code,
+                                              globals=globals(),
+                                              name=name)
+                self._args = {}  # Create a local copy
+                for var in frame.f_locals:
+                    self._args[var] = frame.f_locals[var]
 
             # Turn tracing off
             sys.settrace(self.original_trace_function)
@@ -319,7 +337,7 @@ class CallCollector(object):
         """Called at end of `with` block. Turn tracing off."""
         sys.settrace(self.original_trace_function)
         if self._function is None:
-            return False  # re-raise exception, if any
+            return False  # Re-raise exception, if any
 
         self._exception = exc_value
         self.diagnosis()
@@ -348,10 +366,10 @@ if __name__ == "__main__":
             some_error()
 
 
-# ### Repeating a Call
+# #### Repeating a Call
 
 if __name__ == "__main__":
-    print('\n### Repeating a Call')
+    print('\n#### Repeating a Call')
 
 
 
@@ -373,7 +391,9 @@ if __name__ == "__main__":
 
 class CallCollector(CallCollector):
     def call(self, new_args={}):
-        args = {}
+        """Call collected function. If new_args is given,
+        override arguments from its {var: value} entries."""
+        args = {}  # Create local copy
         for var in self._args:
             args[var] = self._args[var]
         for var in new_args:
@@ -384,6 +404,8 @@ class CallCollector(CallCollector):
 if __name__ == "__main__":
     with CallCollector() as call_collector:
         mystery(failing_input)
+    with ExpectError():
+        call_collector.call()
 
 
 if __name__ == "__main__":
@@ -391,29 +413,38 @@ if __name__ == "__main__":
         call_collector.call({'inp': 'foo'})
 
 
-# ### Reducing Inputs
+# #### Testing, Logging, and Caching
 
 if __name__ == "__main__":
-    print('\n### Reducing Inputs')
+    print('\n#### Testing, Logging, and Caching')
 
 
 
 
-class Reducer(CallCollector):
+class CallReducer(CallCollector):
     def __init__(self, log=False):
+        """Initialize. If log is True, enable logging."""
         super().__init__()
         self.log = log
         self.reset()
 
     def reset(self):
+        """Reset the number of tests."""
         self.tests = 0
 
     def run(self, args):
+        """Run collected function with args. Return
+        * PASS if no exception occurred
+        * FAIL if the collected exception occurred
+        * UNRESOLVED if some other exception occurred.
+        Not to be used directly; can be overloaded in subclasses.
+        """
         try:
             result = self.call(args)
         except Exception as exc:
             self.last_exception = exc
-            if type(exc) == type(self._exception) and str(exc) == str(self._exception):
+            if (type(exc) == type(self._exception) and
+                    str(exc) == str(self._exception)):
                 return FAIL
             else:
                 return UNRESOLVED  # Some other failure
@@ -421,21 +452,28 @@ class Reducer(CallCollector):
         self.last_result = result
         return PASS
 
+class CallReducer(CallReducer):
     def format_call(self, args=None):
+        """Return a string representing a call of the function with given args."""
         if args is None:
             args = self._args
         return self._function.__name__ + "(" + \
             ", ".join(f"{arg}={repr(args[arg])}" for arg in args) + ")"
 
+    def format_exception(self, exc):
+        """Return a string representing the given exception."""
+        s = type(exc).__name__
+        if str(exc):
+            s += ": " + str(exc)
+        return s
+
     def test(self, args):
+        """Like run(), but also log detail and keep statistics."""
         outcome = self.run(args)
         if outcome == PASS:
             detail = ""
         else:
-            detail = type(self.last_exception).__name__
-            if str(self.last_exception):
-                detail += ": " + str(self.last_exception)
-            detail = f" ({detail})"
+            detail = f" ({self.format_exception(self.last_exception)})"
 
         self.tests += 1
         if self.log:
@@ -443,29 +481,65 @@ class Reducer(CallCollector):
 
         return outcome
 
-class CachingReducer(Reducer):
+    def reduce_arg(self, var_to_be_reduced, args):
+        """Determine and return a minimal value for var_to_be_reduced.
+        To be overloaded in subclasses."""
+        return args[var_to_be_reduced]
+
+if __name__ == "__main__":
+    with CallReducer(log=True) as reducer:
+        mystery(failing_input)
+
+    reducer.test({'inp': failing_input})
+    reducer.test({'inp': '123'})
+    reducer.test({'inp': '123'})
+
+
+class CachingCallReducer(CallReducer):
+    """Like CallReducer, but cache test outcomes."""
     def reset(self):
         super().reset()
-        self.cache = {}
+        self._cache = {}
 
     def test(self, args):
-        index = ((k, v) for k, v in args.items())
-        if index in self.cache:
-            return self.cache[index]
+        # Create a hashable index
+        try:
+            index = frozenset((k, v) for k, v in args.items())
+        except TypeError:
+            # Non-hashable value – do not use cache
+            return super().test(args)
+
+        if index in self._cache:
+            return self._cache[index]
 
         outcome = super().test(args)
-        self.cache[index] = outcome
+        self._cache[index] = outcome
+
         return outcome
 
-class DeltaDebugger(CachingReducer):
-    def __init__(self, show=True, **args):
+if __name__ == "__main__":
+    with CachingCallReducer(log=True) as reducer:
+        mystery(failing_input)
+
+    reducer.test({'inp': failing_input})
+    reducer.test({'inp': '123'})
+    reducer.test({'inp': '123'})
+
+
+# #### Reducing Arguments
+
+if __name__ == "__main__":
+    print('\n#### Reducing Arguments')
+
+
+
+
+class DeltaDebugger(CachingCallReducer):
+    def __init__(self, **args):
         super().__init__(**args)
-        self.show_diagnosis = show
         self._reduced_args = None
 
-    def reduce(self, var_to_be_reduced, args):
-        self.reset()
-        assert self.test(args) != PASS, f"{self.format_call(args)} did not pass"
+    def reduce_arg(self, var_to_be_reduced, args):
         inp = args[var_to_be_reduced]
 
         n = 2     # Initial granularity
@@ -478,7 +552,7 @@ class DeltaDebugger(CachingReducer):
                 complement = inp[:int(start)] + \
                     inp[int(start + subset_length):]
 
-                new_args = {}
+                new_args = {}  # Create copy
                 for var in args:
                     new_args[var] = args[var]
                 new_args[var_to_be_reduced] = complement
@@ -499,6 +573,7 @@ class DeltaDebugger(CachingReducer):
 
 class DeltaDebugger(DeltaDebugger):
     def reducible(self, arg):
+        """Return true if arg supports len() and indexing."""
         try:
             x = len(arg)
         except TypeError:
@@ -513,59 +588,114 @@ class DeltaDebugger(DeltaDebugger):
 
         return True
 
-class DeltaDebugger(DeltaDebugger):
-    def reduced_args(self):
-        if self._reduced_args is not None:
-            return self._reduced_args
+class FailureNotReproducedError(ValueError):
+    pass
 
-        args = {}
+class NotFailingError(ValueError):
+    pass
+
+class NoCallError(ValueError):
+    pass
+
+class DeltaDebugger(DeltaDebugger):
+    def check_reproducibility(self):
+        """Check whether running the function again fails"""
+        self.reset()
+        outcome = self.test(self._args)
+        if outcome == UNRESOLVED:
+            raise FailureNotReproducedError(
+                "When called again, " +
+                self.format_call(self._args) + 
+                " raised " +
+                self.format_exception(self.last_exception) +
+                " instead of " +
+                self.format_exception(self._exception))
+
+        if outcome == PASS:
+            raise NotFailingError("When called again, " +
+                                  self.format_call(self._args) + 
+                                  " did not fail")
+        assert outcome == FAIL
+
+class DeltaDebugger(DeltaDebugger):
+    def reduce_args(self):
+        """Reduce all reducible arguments, using reduce_arg(). Can be overloaded in subclasses"""
+        args = {}  # Local copy
         for var in self._args:
             args[var] = self._args[var]
         vars_to_be_reduced = set(args.keys())
 
+        self.check_reproducibility()
+
+        # We take turns in reducing variables until all are processed
         while len(vars_to_be_reduced) > 0:
             for var in vars_to_be_reduced:
                 value = args[var]
                 if not self.reducible(value):
                     vars_to_be_reduced.remove(var)
                     break
+
                 if self.log:
                     print(f"Reducing {var}...")
-                reduced_value = self.reduce(var, args)
+
+                reduced_value = self.reduce_arg(var, args)
                 if len(reduced_value) < len(value):
                     args[var] = reduced_value
+                    if self.log:
+                        print(f"Reduced {var} to {repr(reduced_value)}")
                     vars_to_be_reduced = set(args.keys())
+
                 vars_to_be_reduced.remove(var)
                 break
 
         assert self.test(args) == FAIL, f"{self.format_call(args)} does not fail"
+        if self.log:
+            print(f"Reduced call to {self.format_call(args)}")
+
         self._reduced_args = args
-        return args
 
 class DeltaDebugger(DeltaDebugger):
     def diagnosis(self):
         if self._function is None:
-            raise ValueError("No function call observed")
+            raise NoCallError("No function call observed")
         if self._exception is None:
-            raise ValueError(f"{self.format_call()} did not raise an exception")
+            raise NotFailingError(f"{self.format_call()} did not raise an exception")
 
-        reduced_args = self.reduced_args()
-        if self.show_diagnosis:
-            print(self.format_call(reduced_args))
-        return reduced_args
+        if self.log:
+            print(f"Observed {self.format_call()} raising {self.format_exception(self._exception)}")
+
+        self.reduce_args()
+
+class DeltaDebugger(DeltaDebugger):
+    def reduced_args(self):
+        """Return the dictionary {var: value} of reduced arguments."""
+        return self._reduced_args
+
+    def __repr__(self):
+        return self.format_call(self.reduced_args())
+
+# ### End of Excursion
 
 if __name__ == "__main__":
-    with DeltaDebugger():
+    print('\n### End of Excursion')
+
+
+
+
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
         mystery(failing_input)
+    dd
 
 
 if __name__ == "__main__":
-    with DeltaDebugger(log=True):
+    with DeltaDebugger(log=True) as dd:
         mystery(failing_input)
+    dd
 
 
 if __name__ == "__main__":
-    with DeltaDebugger(show=False) as dd:
+    with DeltaDebugger() as dd:
         mystery(failing_input)
 
 
@@ -577,6 +707,22 @@ if __name__ == "__main__":
     dd.reduced_args()
 
 
+# ## Usage Examples
+
+if __name__ == "__main__":
+    print('\n## Usage Examples')
+
+
+
+
+# ### Reducing remove_html_markup()
+
+if __name__ == "__main__":
+    print('\n### Reducing remove_html_markup()')
+
+
+
+
 if __package__ is None or __package__ == "":
     from Assertions import remove_html_markup
 else:
@@ -584,24 +730,74 @@ else:
 
 
 if __name__ == "__main__":
-    with DeltaDebugger():
+    with DeltaDebugger(log=True):
         remove_html_markup('"x > y"')
 
 
-def string_error(s1, s2):
-    assert s1 not in s2
+# ### Reducing Multiple Arguments
 
 if __name__ == "__main__":
-    with DeltaDebugger(log=True):
+    print('\n### Reducing Multiple Arguments')
+
+
+
+
+def string_error(s1, s2):
+    assert s1 not in s2, "no substrings"
+
+if __name__ == "__main__":
+    with DeltaDebugger(log=True) as dd:
         string_error("foo", "foobar")
 
 
-def list_error(l1, l2, maxlen):
-    assert len(l1) < len(l2) < maxlen
+if __name__ == "__main__":
+    args = dd.reduced_args()
+    args
+
 
 if __name__ == "__main__":
-    with DeltaDebugger():
+    with ExpectError():
+        string_error(args['s1'], args['s2'])
+
+
+if __package__ is None or __package__ == "":
+    from Debugger import Debugger
+else:
+    from .Debugger import Debugger
+
+
+if __package__ is None or __package__ == "":
+    from bookutils import next_inputs
+else:
+    from .bookutils import next_inputs
+
+
+if __name__ == "__main__":
+    # ignore
+    next_inputs(['print', 'quit'])
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        with Debugger():
+            string_error(**args)
+
+
+# ### Reducing other Collections
+
+if __name__ == "__main__":
+    print('\n### Reducing other Collections')
+
+
+
+
+def list_error(l1, l2, maxlen):
+    assert len(l1) < len(l2) < maxlen, "invalid string length"
+
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
         list_error(l1=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], l2=[1, 2, 3], maxlen=5)
+    dd
 
 
 # ## Reducing Program Code
@@ -612,9 +808,8 @@ if __name__ == "__main__":
 
 
 
-import inspect
-
 if __name__ == "__main__":
+    # ignore
     try:
         del remove_html_markup
     except NameError:
@@ -622,22 +817,29 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    import Assertions
+    import Assertions  # minor dependency
 else:
-    from . import Assertions
+    from . import Assertions  # minor dependency
+
+
+import inspect
+
+if __name__ == "__main__":
+    assertions_source_lines, _ = inspect.getsourcelines(Assertions)
+    # print_content("".join(assertions_source_lines), ".py")
+    assertions_source_lines[:10]
 
 
 if __name__ == "__main__":
-    assertions_source_code, _ = inspect.getsourcelines(Assertions)
-    assertions_source_code[:10]
-
-
-if __name__ == "__main__":
-    len(assertions_source_code)
+    len(assertions_source_lines)
 
 
 def compile_and_run(lines):
     exec("".join(lines), {}, {})
+
+if __name__ == "__main__":
+    compile_and_run(assertions_source_lines)
+
 
 def compile_and_test_html_markup(lines):
     compile_and_run(lines + 
@@ -645,23 +847,35 @@ def compile_and_test_html_markup(lines):
 
 if __name__ == "__main__":
     with ExpectError():
-        compile_and_test_html_markup(assertions_source_code)
+        compile_and_test_html_markup(assertions_source_lines)
 
 
-if __package__ is None or __package__ == "":
-    from Timer import Timer
-else:
-    from .Timer import Timer
+# ### Reducing Code Lines
+
+if __name__ == "__main__":
+    print('\n### Reducing Code Lines')
+
+
 
 
 if __name__ == "__main__":
-    with Timer() as t:
-        with DeltaDebugger(log=False, show=False) as dd:
-            compile_and_test_html_markup(assertions_source_code)
+    quiz("What will the reduced set of lines contain?",
+         [
+             "All of the source code in the assertions chapter.",
+             "Only the source code of <samp>remove_html_markup()</samp>",
+             "Only a subset of <samp>remove_html_markup()</samp>",
+             "No lines at all."
+         ], [x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1])
 
 
 if __name__ == "__main__":
-    len(dd.reduced_args()['lines'])
+    with DeltaDebugger(log=False) as dd:
+        compile_and_test_html_markup(assertions_source_lines)
+
+
+if __name__ == "__main__":
+    reduced_lines = dd.reduced_args()['lines']
+    len(reduced_lines)
 
 
 if __package__ is None or __package__ == "":
@@ -671,11 +885,7 @@ else:
 
 
 if __name__ == "__main__":
-    print_content("".join(dd.reduced_args()['lines']), ".py")
-
-
-if __name__ == "__main__":
-    t.elapsed_time()
+    print_content("".join(reduced_lines), ".py")
 
 
 def compile_and_test_html_markup(lines):
@@ -692,22 +902,22 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with DeltaDebugger(log=False, show=False) as dd:
-        compile_and_test_html_markup(assertions_source_code)
-    reduced_assertions_source_code = "".join(dd.reduced_args()['lines'])
+    with DeltaDebugger(log=False) as dd:
+        compile_and_test_html_markup(assertions_source_lines)
+    reduced_assertions_source_lines = dd.reduced_args()['lines']
 
 
 if __name__ == "__main__":
-    dd.tests
+    print_content("".join(reduced_assertions_source_lines), ".py")
 
 
 if __name__ == "__main__":
-    print_content(reduced_assertions_source_code, ".py")
+    len(reduced_assertions_source_lines) / len(assertions_source_lines)
 
 
 if __name__ == "__main__":
-    remove_html_markup_source_code, _ = inspect.getsourcelines(Assertions.remove_html_markup)
-    print_content("".join(remove_html_markup_source_code), ".py")
+    remove_html_markup_source_lines, _ = inspect.getsourcelines(Assertions.remove_html_markup)
+    print_content("".join(remove_html_markup_source_lines), ".py")
 
 
 if __name__ == "__main__":
@@ -721,24 +931,39 @@ if __name__ == "__main__":
         )
 
 
+# ### Reducing Code Characters
+
 if __name__ == "__main__":
-    print(list(reduced_assertions_source_code))
+    print('\n### Reducing Code Characters')
+
+
+
+
+if __name__ == "__main__":
+    reduced_assertions_source_characters = list("".join(reduced_assertions_source_lines))
+    print(reduced_assertions_source_characters[:30])
 
 
 if __name__ == "__main__":
     with ExpectError():
-        compile_and_test_html_markup(list(reduced_assertions_source_code))
+        compile_and_test_html_markup(reduced_assertions_source_characters)
+
+
+if __package__ is None or __package__ == "":
+    from Timer import Timer
+else:
+    from .Timer import Timer
 
 
 if __name__ == "__main__":
     with Timer() as t:
-        with DeltaDebugger(log=False, show=False) as dd:
-            compile_and_test_html_markup(list(reduced_assertions_source_code))
+        with DeltaDebugger(log=False) as dd:
+            compile_and_test_html_markup(reduced_assertions_source_characters)
 
 
 if __name__ == "__main__":
-    further_reduced_assertions_source_code = "".join(dd.reduced_args()['lines'])
-    print_content(further_reduced_assertions_source_code, ".py")
+    further_reduced_assertions_source_characters = dd.reduced_args()['lines']
+    print_content("".join(further_reduced_assertions_source_characters), ".py")
 
 
 if __name__ == "__main__":
@@ -766,17 +991,17 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with DeltaDebugger():
+    with DeltaDebugger() as dd:
         myeval('1 + 2 * 3 / 0')
-
-
-if __name__ == "__main__":
-    with DeltaDebugger(show=False) as dd:
-        myeval('1 + 2 * 3 / 0')
+    dd
 
 
 if __name__ == "__main__":
     dd.reduced_args()
+
+
+if __name__ == "__main__":
+    dd.function().__name__, dd.args()
 
 
 # ## Lessons Learned
@@ -817,4 +1042,166 @@ if __name__ == "__main__":
     print('\n### Exercise 1: Syntactic Code Reduction')
 
 
+
+
+def fun(x):
+    y = x
+    ret = 2 * 2
+    raise RuntimeError("No fun")
+    return ret
+
+if __name__ == "__main__":
+    fun_source = inspect.getsource(fun)
+    fun_call = fun_source + "\nfun(3)"
+    print_content(fun_call, '.py')
+
+
+import ast
+import astor
+
+if __package__ is None or __package__ == "":
+    from bookutils import rich_output
+else:
+    from .bookutils import rich_output
+
+
+if __name__ == "__main__":
+    if rich_output():
+        from showast import show_ast
+    else:
+        def show_ast(tree):
+            ast.dump(tree)
+
+
+if __name__ == "__main__":
+    fun_tree = ast.parse(fun_call)
+
+
+if __name__ == "__main__":
+    show_ast(fun_tree)
+
+
+from ast import NodeTransformer, NodeVisitor, fix_missing_locations
+
+class NodeCollector(NodeVisitor):
+    """Collect all nodes in an AST in the attributes all_nodes."""
+    def __init__(self):
+        super().__init__()
+        self._all_nodes = []
+
+    def visit(self, node):
+        self._all_nodes.append(node)
+        return self.generic_visit(node)
+    
+    def collect(self, tree):
+        self._all_nodes = []
+        self.generic_visit(tree)
+        return self._all_nodes
+
+if __name__ == "__main__":
+    fun_nodes = NodeCollector().collect(fun_tree)
+    fun_nodes
+
+
+class NodeDeleter(NodeTransformer):
+    def __init__(self):
+        super().__init__()
+        self._delete_list = []
+
+    def visit(self, node):
+        if node in self._delete_list:
+            return None  # delete it
+        return self.generic_visit(node)
+    
+    def delete(self, tree, delete_list):
+        self._delete_list = delete_list
+        return self.generic_visit(tree)
+
+# #### Mark and copy
+
+if __name__ == "__main__":
+    print('\n#### Mark and copy')
+
+
+
+
+class NodeMarker(NodeVisitor):
+    def visit(self, node):
+        # print("Marking", node)
+        node.marked = True
+        return self.generic_visit(node)
+
+class DeleteMarked(NodeTransformer):
+    def visit(self, node):
+        if node.marked:
+            # print("Deleting", node)
+            return None  # delete it
+        return self.generic_visit(node)
+
+import copy
+
+def copy_and_delete(tree, keep_list=None):
+    if keep_list is None:
+        keep_list = []
+    NodeMarker().generic_visit(tree)
+    for node in keep_list:
+        # print("Clearing", node)
+        node.marked = False
+    new_tree = copy.deepcopy(tree)
+    DeleteMarked().generic_visit(new_tree)
+    return new_tree
+
+if __name__ == "__main__":
+    fun_nodes[3]
+
+
+if __name__ == "__main__":
+    new_fun_tree = copy_and_delete(fun_tree, fun_nodes[:3] + fun_nodes[4:])
+    show_ast(new_fun_tree)
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(new_fun_tree), '.py')
+
+
+if __name__ == "__main__":
+    fun_code = compile(new_fun_tree, "<string>", 'exec')
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        exec(fun_code)
+
+
+def compile_and_test_ast(tree, keep_list):
+    new_tree = copy_and_delete(tree, keep_list)
+    try:
+        code_object = compile(new_tree, '<string>', 'exec')
+    except Exception:
+        raise SyntaxError("Cannot compile")
+
+    exec(code_object, {}, {})
+
+if __name__ == "__main__":
+    with ExpectError():
+        compile_and_test_ast(fun_tree, fun_nodes)
+
+
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
+        compile_and_test_ast(fun_tree, fun_nodes)
+
+
+if __name__ == "__main__":
+    reduced_nodes = dd.reduced_args()['keep_list']
+    reduced_nodes
+
+
+if __name__ == "__main__":
+    reduced_fun_tree = copy_and_delete(fun_tree, reduced_nodes)
+    show_ast(reduced_fun_tree)
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(reduced_fun_tree), '.py')
 
