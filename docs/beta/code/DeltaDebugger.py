@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-11-28 23:35:05+01:00
+# Last change: 2020-11-29 16:19:00+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -974,6 +974,312 @@ if __name__ == "__main__":
     t.elapsed_time()
 
 
+# ### Reducing Syntax Trees
+
+if __name__ == "__main__":
+    print('\n### Reducing Syntax Trees')
+
+
+
+
+if __package__ is None or __package__ == "":
+    from Assertions import remove_html_markup
+else:
+    from .Assertions import remove_html_markup
+
+
+if __name__ == "__main__":
+    fun_source = inspect.getsource(remove_html_markup)
+
+
+if __name__ == "__main__":
+    print_content(fun_source, '.py')
+
+
+# #### From Code to Syntax Trees
+
+if __name__ == "__main__":
+    print('\n#### From Code to Syntax Trees')
+
+
+
+
+import ast
+import astor
+
+if __name__ == "__main__":
+    fun_tree = ast.parse(fun_source)
+
+
+if __package__ is None or __package__ == "":
+    from bookutils import rich_output
+else:
+    from .bookutils import rich_output
+
+
+if __name__ == "__main__":
+    if rich_output():
+        from showast import show_ast
+    else:
+        def show_ast(tree):
+            ast.dump(tree)
+
+
+if __name__ == "__main__":
+    show_ast(fun_tree)
+
+
+if __name__ == "__main__":
+    test_source = (
+        '''if remove_html_markup('<foo>bar</foo>') != 'bar':\n''' +
+        '''    raise RuntimeError("Missing functionality")\n''' +
+        '''assert remove_html_markup('"foo"') == '"foo"', "My Test"''')
+
+
+if __name__ == "__main__":
+    test_tree = ast.parse(test_source)
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(test_tree), '.py')
+
+
+import copy
+
+if __name__ == "__main__":
+    fun_test_tree = copy.deepcopy(fun_tree)
+    fun_test_tree.body += test_tree.body
+
+
+if __name__ == "__main__":
+    fun_test_code = compile(fun_test_tree, '<string>', 'exec')
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        exec(fun_test_code, {}, {})
+
+
+# #### Traversing Syntax Trees
+
+if __name__ == "__main__":
+    print('\n#### Traversing Syntax Trees')
+
+
+
+
+from ast import NodeTransformer, NodeVisitor, fix_missing_locations
+
+class NodeCollector(NodeVisitor):
+    """Collect all nodes in an AST."""
+    def __init__(self):
+        super().__init__()
+        self._all_nodes = []
+
+    def generic_visit(self, node):
+        self._all_nodes.append(node)
+        return super().generic_visit(node)
+
+    def collect(self, tree):
+        """Return a list of all nodes in tree."""
+        self._all_nodes = []
+        self.visit(tree)
+        return self._all_nodes
+
+if __name__ == "__main__":
+    fun_nodes = NodeCollector().collect(fun_tree)
+    len(fun_nodes)
+
+
+if __name__ == "__main__":
+    fun_nodes[:30]
+
+
+# #### Deleting Nodes
+
+if __name__ == "__main__":
+    print('\n#### Deleting Nodes')
+
+
+
+
+class NodeMarker(NodeVisitor):
+    def visit(self, node):
+        node.marked = True
+        return super().generic_visit(node)
+
+class NodeReducer(NodeTransformer):
+    def visit(self, node):
+        method = 'visit_' + node.__class__.__name__
+        visitor = getattr(self, method, self.visit_Node)
+        return visitor(node)
+
+    def visit_Module(self, node):
+        # Can't remove modules
+        return super().generic_visit(node)
+
+    def visit_Node(self, node):
+        """Default visitor for all nodes"""
+        if node.marked:
+            return None  # delete it
+        return super().generic_visit(node)
+
+def copy_and_reduce(tree, keep_list):
+    """Copy tree, reducing all nodes that are not in keep_list."""
+
+    # Mark all nodes except those in keep_list
+    NodeMarker().visit(tree)
+    for node in keep_list:
+        # print("Clearing", node)
+        node.marked = False
+
+    # Copy tree and delete marked nodes
+    new_tree = copy.deepcopy(tree)
+    NodeReducer().visit(new_tree)
+    return new_tree
+
+if __name__ == "__main__":
+    fun_nodes[4]
+
+
+if __name__ == "__main__":
+    astor.to_source(fun_nodes[4])
+
+
+if __name__ == "__main__":
+    keep_list = fun_nodes.copy()
+    del keep_list[4]
+
+
+if __name__ == "__main__":
+    new_fun_tree = copy_and_reduce(fun_tree, keep_list)
+    show_ast(new_fun_tree)
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(new_fun_tree), '.py')
+
+
+if __name__ == "__main__":
+    new_fun_tree.body += test_tree.body
+
+
+if __name__ == "__main__":
+    fun_code = compile(new_fun_tree, "<string>", 'exec')
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        exec(fun_code, {}, {})
+
+
+if __name__ == "__main__":
+    empty_tree = copy_and_reduce(fun_tree, [])
+
+
+if __name__ == "__main__":
+    astor.to_source(empty_tree)
+
+
+# #### Reducing Trees
+
+if __name__ == "__main__":
+    print('\n#### Reducing Trees')
+
+
+
+
+def compile_and_test_ast(tree, keep_list, test_tree=None):
+    new_tree = copy_and_reduce(tree, keep_list)
+    # print(astor.to_source(new_tree))
+
+    if test_tree is not None:
+        new_tree.body += test_tree.body
+
+    try:
+        code_object = compile(new_tree, '<string>', 'exec')
+    except Exception:
+        raise SyntaxError("Cannot compile")
+
+    exec(code_object, {}, {})
+
+if __name__ == "__main__":
+    with ExpectError():
+        compile_and_test_ast(fun_tree, fun_nodes, test_tree)
+
+
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
+        compile_and_test_ast(fun_tree, fun_nodes, test_tree)
+
+
+if __name__ == "__main__":
+    reduced_nodes = dd.reduced_args()['keep_list']
+    len(reduced_nodes)
+
+
+if __name__ == "__main__":
+    reduced_fun_tree = copy_and_reduce(fun_tree, reduced_nodes)
+    show_ast(reduced_fun_tree)
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(reduced_fun_tree), '.py')
+
+
+if __name__ == "__main__":
+    dd.tests
+
+
+# #### Transforming Nodes
+
+if __name__ == "__main__":
+    print('\n#### Transforming Nodes')
+
+
+
+
+class NodeReducer(NodeReducer):
+    PASS_TREE = ast.parse("pass").body[0]
+    def visit_Assign(self, node):
+        if node.marked:
+            # Replace by pass
+            return self.PASS_TREE
+        return super().generic_visit(node)
+
+class NodeReducer(NodeReducer):
+    FALSE_TREE = ast.parse("False").body[0].value
+    def visit_Compare(self, node):
+        if node.marked:
+            # Replace by False
+            return self.FALSE_TREE
+        return super().generic_visit(node)
+
+class NodeReducer(NodeReducer):
+    def visit_BoolOp(self, node):
+        if node.marked:
+            # Replace by left operator
+            return node.values[0]
+        return super().generic_visit(node)
+
+class NodeReducer(NodeReducer):
+    def visit_If(self, node):
+        if node.marked:
+            # Replace by body
+            return node.body
+        return super().generic_visit(node)
+
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
+        compile_and_test_ast(fun_tree, fun_nodes, test_tree)
+
+
+if __name__ == "__main__":
+    reduced_nodes = dd.reduced_args()['keep_list']
+    reduced_fun_tree = copy_and_reduce(fun_tree, reduced_nodes)
+    print_content(astor.to_source(reduced_fun_tree), '.py')
+
+
 # ## Synopsis
 
 if __name__ == "__main__":
@@ -1036,172 +1342,10 @@ if __name__ == "__main__":
 
 
 
-# ### Exercise 1: Syntactic Code Reduction
+# ### Exercise 1: Advanced Syntactic Code Reduction
 
 if __name__ == "__main__":
-    print('\n### Exercise 1: Syntactic Code Reduction')
+    print('\n### Exercise 1: Advanced Syntactic Code Reduction')
 
 
-
-
-def fun(x):
-    y = x
-    ret = 2 * 2
-    raise RuntimeError("No fun")
-    return ret
-
-if __name__ == "__main__":
-    fun_source = inspect.getsource(fun)
-    fun_call = fun_source + "\nfun(3)"
-    print_content(fun_call, '.py')
-
-
-import ast
-import astor
-
-if __package__ is None or __package__ == "":
-    from bookutils import rich_output
-else:
-    from .bookutils import rich_output
-
-
-if __name__ == "__main__":
-    if rich_output():
-        from showast import show_ast
-    else:
-        def show_ast(tree):
-            ast.dump(tree)
-
-
-if __name__ == "__main__":
-    fun_tree = ast.parse(fun_call)
-
-
-if __name__ == "__main__":
-    show_ast(fun_tree)
-
-
-from ast import NodeTransformer, NodeVisitor, fix_missing_locations
-
-class NodeCollector(NodeVisitor):
-    """Collect all nodes in an AST in the attributes all_nodes."""
-    def __init__(self):
-        super().__init__()
-        self._all_nodes = []
-
-    def visit(self, node):
-        self._all_nodes.append(node)
-        return self.generic_visit(node)
-    
-    def collect(self, tree):
-        self._all_nodes = []
-        self.generic_visit(tree)
-        return self._all_nodes
-
-if __name__ == "__main__":
-    fun_nodes = NodeCollector().collect(fun_tree)
-    fun_nodes
-
-
-class NodeDeleter(NodeTransformer):
-    def __init__(self):
-        super().__init__()
-        self._delete_list = []
-
-    def visit(self, node):
-        if node in self._delete_list:
-            return None  # delete it
-        return self.generic_visit(node)
-    
-    def delete(self, tree, delete_list):
-        self._delete_list = delete_list
-        return self.generic_visit(tree)
-
-# #### Mark and copy
-
-if __name__ == "__main__":
-    print('\n#### Mark and copy')
-
-
-
-
-class NodeMarker(NodeVisitor):
-    def visit(self, node):
-        # print("Marking", node)
-        node.marked = True
-        return self.generic_visit(node)
-
-class DeleteMarked(NodeTransformer):
-    def visit(self, node):
-        if node.marked:
-            # print("Deleting", node)
-            return None  # delete it
-        return self.generic_visit(node)
-
-import copy
-
-def copy_and_delete(tree, keep_list=None):
-    if keep_list is None:
-        keep_list = []
-    NodeMarker().generic_visit(tree)
-    for node in keep_list:
-        # print("Clearing", node)
-        node.marked = False
-    new_tree = copy.deepcopy(tree)
-    DeleteMarked().generic_visit(new_tree)
-    return new_tree
-
-if __name__ == "__main__":
-    fun_nodes[3]
-
-
-if __name__ == "__main__":
-    new_fun_tree = copy_and_delete(fun_tree, fun_nodes[:3] + fun_nodes[4:])
-    show_ast(new_fun_tree)
-
-
-if __name__ == "__main__":
-    print_content(astor.to_source(new_fun_tree), '.py')
-
-
-if __name__ == "__main__":
-    fun_code = compile(new_fun_tree, "<string>", 'exec')
-
-
-if __name__ == "__main__":
-    with ExpectError():
-        exec(fun_code)
-
-
-def compile_and_test_ast(tree, keep_list):
-    new_tree = copy_and_delete(tree, keep_list)
-    try:
-        code_object = compile(new_tree, '<string>', 'exec')
-    except Exception:
-        raise SyntaxError("Cannot compile")
-
-    exec(code_object, {}, {})
-
-if __name__ == "__main__":
-    with ExpectError():
-        compile_and_test_ast(fun_tree, fun_nodes)
-
-
-if __name__ == "__main__":
-    with DeltaDebugger() as dd:
-        compile_and_test_ast(fun_tree, fun_nodes)
-
-
-if __name__ == "__main__":
-    reduced_nodes = dd.reduced_args()['keep_list']
-    reduced_nodes
-
-
-if __name__ == "__main__":
-    reduced_fun_tree = copy_and_delete(fun_tree, reduced_nodes)
-    show_ast(reduced_fun_tree)
-
-
-if __name__ == "__main__":
-    print_content(astor.to_source(reduced_fun_tree), '.py')
 
