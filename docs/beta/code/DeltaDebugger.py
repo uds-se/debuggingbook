@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-11-29 16:19:00+01:00
+# Last change: 2020-11-29 16:39:45+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -761,9 +761,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from Debugger import Debugger
+    from Debugger import Debugger  # minor dependency
 else:
-    from .Debugger import Debugger
+    from .Debugger import Debugger  # minor dependency
 
 
 if __package__ is None or __package__ == "":
