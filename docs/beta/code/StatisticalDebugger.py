@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-11-28 16:26:09+01:00
+# Last change: 2020-12-03 18:22:46+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -34,6 +34,11 @@ if __name__ == "__main__":
     print('# Statistical Debugging')
 
 
+
+
+if __name__ == "__main__":
+    from bookutils import YouTubeVideo
+    YouTubeVideo("UNuso00zYiI")
 
 
 if __name__ == "__main__":
