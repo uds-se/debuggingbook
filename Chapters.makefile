@@ -48,7 +48,8 @@ EXPERIMENTING_PART =
 EXPERIMENTING_PART_READY =
 EXPERIMENTING_PART_TODO = \
 	04_Inputs.ipynb \
-	DeltaDebugger.ipynb
+	DeltaDebugger.ipynb \
+	ChangeDebugger.ipynb
 	# Grammars.ipynb \
 	# GrammarReducer.ipynb
 
