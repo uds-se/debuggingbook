@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-06 17:03:52+01:00
+# Last change: 2020-12-06 19:22:32+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -186,6 +186,14 @@ if __name__ == "__main__":
     os.system(f'git commit -m "Second version" remove_html_markup.py')
 
 
+# ### Excursion: More Revisions
+
+if __name__ == "__main__":
+    print('\n### Excursion: More Revisions')
+
+
+
+
 def remove_html_markup(s):
     tag = False
     quote = False
@@ -319,6 +327,14 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     import os
     os.system(f'git commit -m "Seventh version (fixed)" remove_html_markup.py')
+
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
 
 
 def remove_html_markup(s):
@@ -524,6 +540,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     open('test.py', 'w').write('''
     #!/usr/bin/env python
 
@@ -537,7 +554,10 @@ if __name__ == "__main__":
         sys.exit(1)  # bad/fail
     else:
         sys.exit(125)  # unresolved
-    ''')
+    ''');
+
+
+if __name__ == "__main__":
     print_file('test.py')
 
 
@@ -567,10 +587,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    print_file('remove_html_markup.py')
-
-
-if __name__ == "__main__":
     import os
     os.system(f'git diff HEAD^')
 
@@ -580,18 +596,12 @@ if __name__ == "__main__":
     os.system(f'git bisect reset')
 
 
-# ## Delta Debugging on Changes
+# ## Computing and Applying Patches
 
 if __name__ == "__main__":
-    print('\n## Delta Debugging on Changes')
+    print('\n## Computing and Applying Patches')
 
 
-
-
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger
-else:
-    from .DeltaDebugger import DeltaDebugger
 
 
 if __name__ == "__main__":
@@ -630,7 +640,7 @@ def diff(s1, s2, mode='lines'):
     if mode == 'chars':
         diffs = dmp.diff_main(s1, s2)
         return dmp.patch_make(s1, diffs)
-        
+
     raise ValueError("mode must be 'lines' or 'chars'")
 
 if __name__ == "__main__":
@@ -678,6 +688,20 @@ if __name__ == "__main__":
     print_content(patch(version_1, [patches[1]]))
 
 
+# ## Delta Debugging on Patches
+
+if __name__ == "__main__":
+    print('\n## Delta Debugging on Patches')
+
+
+
+
+if __package__ is None or __package__ == "":
+    from DeltaDebugger import DeltaDebugger
+else:
+    from .DeltaDebugger import DeltaDebugger
+
+
 def test_remove_html_markup(patches):
     new_version = patch(version_1, patches)
     exec(new_version, globals())
@@ -711,16 +735,19 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    pass_patches, fail_patches = (arg['patches'] for arg in dd.min_arg_diff())
+    pass_patches, fail_patches, diffs = (arg['patches'] for arg in dd.min_arg_diff())
 
 
 if __name__ == "__main__":
-    for p in pass_patches:
-        print(urllib.parse.unquote(str(p)))
+    print_content(patch(version_1, pass_patches), '.py')
 
 
 if __name__ == "__main__":
-    for p in fail_patches:
+    print_content(patch(version_1, fail_patches), '.py')
+
+
+if __name__ == "__main__":
+    for p in diffs:
         print(urllib.parse.unquote(str(p)))
 
 
@@ -732,47 +759,127 @@ if __name__ == "__main__":
 
 
 
-# ### Excursion: All the Details
+if __package__ is None or __package__ == "":
+    from DeltaDebugger import DeltaDebugger, NotFailingError
+else:
+    from .DeltaDebugger import DeltaDebugger, NotFailingError
+
+
+class ChangeDebugger(DeltaDebugger):
+    def __init__(self, pass_source, fail_source, **ddargs):
+        super().__init__(**ddargs)
+        self._pass_source = pass_source
+        self._fail_source = fail_source
+        self._patches = diff(pass_source, fail_source)
+
+    def pass_source(self):
+        return self._pass_source
+    def fail_source(self):
+        return self._fail_source
+    def patches(self):
+        return self._patches
+
+def test_remove_html_markup():
+    assert remove_html_markup('"foo"') == '"foo"'    
 
 if __name__ == "__main__":
-    print('\n### Excursion: All the Details')
+    with ChangeDebugger(version_1, version_2) as cd:
+        test_remove_html_markup()
 
-
-
-
-# ### End of Excursion
 
 if __name__ == "__main__":
-    print('\n### End of Excursion')
+    with ExpectError(AssertionError):
+        cd.call()
 
-
-
-
-# ## _Section 3_
 
 if __name__ == "__main__":
-    print('\n## _Section 3_')
+    print_content(cd.pass_source(), '.py')
 
-
-
-
-import random
-
-def int_fuzzer():
-    """A simple function that returns a random integer"""
-    return random.randrange(1, 100) + 0.5
 
 if __name__ == "__main__":
-    # More code
-    pass
+    print_content(cd.fail_source(), '.py')
 
-
-# ## _Section 4_
 
 if __name__ == "__main__":
-    print('\n## _Section 4_')
+    cd.patches()
 
 
+class ChangeDebugger(ChangeDebugger):
+    def test_patches(self, patches):
+        new_version = patch(self.pass_source(), patches)
+        exec(new_version, globals())
+        self.call()
+
+if __name__ == "__main__":
+    with ChangeDebugger(version_1, version_2, log=True) as cd:
+        test_remove_html_markup()
+
+
+if __name__ == "__main__":
+    cd.function()
+
+
+if __name__ == "__main__":
+    cd.test_patches([])
+
+
+if __name__ == "__main__":
+    with ExpectError(AssertionError):
+        cd.test_patches(cd.patches())
+
+
+class ChangeDebugger(ChangeDebugger):
+    def min_patches(self):
+        patches = self.patches()
+        with self:
+            self.test_patches(patches)
+        return tuple(p['patches'] for p in dd.min_arg_diff())
+
+    def __repr__(self):
+        pass_patches, fail_patches, diff_patches = self.min_patches()
+        return "".join(urllib.parse.unquote(str(p)) for p in diff_patches)
+
+if __name__ == "__main__":
+    with ChangeDebugger(version_1, version_2) as cd:
+        test_remove_html_markup()
+
+
+if __name__ == "__main__":
+    cd.patches()
+
+
+if __name__ == "__main__":
+    pass_patches, fail_patches, diffs = cd.min_patches()
+    diffs
+
+
+if __name__ == "__main__":
+    cd
+
+
+if __name__ == "__main__":
+    version_8 = get_output(['git', 'show', 
+                                f'{versions[7]}:remove_html_markup.py'])
+
+
+if __name__ == "__main__":
+    with ChangeDebugger(version_1, version_8) as cd:
+        test_remove_html_markup()
+
+
+if __name__ == "__main__":
+    for p in cd.patches():
+        print(urllib.parse.unquote(str(p)))
+
+
+if __name__ == "__main__":
+    cd
+
+
+if __name__ == "__main__":
+    with ExpectError(NotFailingError):
+        with ChangeDebugger(version_1, version_2) as cd:
+            remove_html_markup("foo")
 
 
 # ## Synopsis
@@ -783,8 +890,52 @@ if __name__ == "__main__":
 
 
 
+# ### High-Level Interface
+
 if __name__ == "__main__":
-    print(int_fuzzer())
+    print('\n### High-Level Interface')
+
+
+
+
+if __name__ == "__main__":
+    print(version_1)
+
+
+if __name__ == "__main__":
+    print(version_2)
+
+
+if __name__ == "__main__":
+    with ChangeDebugger(version_1, version_2) as cd:
+        test_remove_html_markup()
+    cd
+
+
+if __name__ == "__main__":
+    pass_patches, fail_patches, diffs = cd.min_patches()
+
+
+if __name__ == "__main__":
+    for p in diffs:
+        print(urllib.parse.unquote(str(p)))
+
+
+# ### Supporting Functions
+
+if __name__ == "__main__":
+    print('\n### Supporting Functions')
+
+
+
+
+if __name__ == "__main__":
+    print(patch(version_1, diffs))
+
+
+if __name__ == "__main__":
+    for p in diff(version_1, version_2):
+        print(urllib.parse.unquote(str(p)))
 
 
 # ## Lessons Learned

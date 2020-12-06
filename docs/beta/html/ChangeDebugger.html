@@ -11793,7 +11793,7 @@ MathJax.Hub.Config({
 <meta property="og:url" content="https://www.debuggingbook.org/beta/html/ChangeDebugger.html" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Failure-Inducing Changes - The Debugging Book" />
-<meta property="og:description" content="Brief abstract/introduction/motivation.  State what the chapter is about in 1-2 paragraphs.Then, have an introduction video:Prerequisites Refer to earlier chapters as notebooks here, as here: Earlier Chapter." />
+<meta property="og:description" content="&quot;Yesterday, my program worked. Today, it does not. Why?&quot; In debugging, as elsewhere in software development, code keeps on changing. Thus, it can happen that a piece of code that yesterday was working perfectly, now no longer runs – because we (or others) have made some changes to it that cause it to fail. The good news is that for debugging, we can actually exploit this version history to narrow down the change that caused the failure.Prerequisites You should have read the Chapter on Delta Debugging. Knowledge on version control systems (notably git) will be useful." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11899,16 +11899,17 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#A-Version-History">&nbsp;&bull;&nbsp;&nbsp; A Version History</a>
 <ul><li class="has-sub"><a href="#Create-a-Working-Directory">Create a Working Directory</a>
 </li><li class="has-sub"><a href="#Initialize-git">Initialize git</a>
+</li><li class="has-sub"><a href="#Excursion:-More-Revisions">Excursion: More Revisions</a>
+</li><li class="has-sub"><a href="#End-of-Excursion">End of Excursion</a>
 </ul></li><li class="has-sub"><a href="#Accessing-Versions">&nbsp;&bull;&nbsp;&nbsp; Accessing Versions</a>
 </li><li class="has-sub"><a href="#Manual-Bisecting">&nbsp;&bull;&nbsp;&nbsp; Manual Bisecting</a>
 </li><li class="has-sub"><a href="#Automatic-Bisecting">&nbsp;&bull;&nbsp;&nbsp; Automatic Bisecting</a>
-</li><li class="has-sub"><a href="#Delta-Debugging-on-Changes">&nbsp;&bull;&nbsp;&nbsp; Delta Debugging on Changes</a>
+</li><li class="has-sub"><a href="#Computing-and-Applying-Patches">&nbsp;&bull;&nbsp;&nbsp; Computing and Applying Patches</a>
+</li><li class="has-sub"><a href="#Delta-Debugging-on-Patches">&nbsp;&bull;&nbsp;&nbsp; Delta Debugging on Patches</a>
 </li><li class="has-sub"><a href="#A-ChangeDebugger-class">&nbsp;&bull;&nbsp;&nbsp; A ChangeDebugger class</a>
-<ul><li class="has-sub"><a href="#Excursion:-All-the-Details">Excursion: All the Details</a>
-</li><li class="has-sub"><a href="#End-of-Excursion">End of Excursion</a>
-</ul></li><li class="has-sub"><a href="#_Section-3_">&nbsp;&bull;&nbsp;&nbsp; _Section 3_</a>
-</li><li class="has-sub"><a href="#_Section-4_">&nbsp;&bull;&nbsp;&nbsp; _Section 4_</a>
-</li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+<ul><li class="has-sub"><a href="#High-Level-Interface">High-Level Interface</a>
+</li><li class="has-sub"><a href="#Supporting-Functions">Supporting Functions</a>
+</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
@@ -11961,8 +11962,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Failure-Inducing-Changes">Failure-Inducing Changes<a class="anchor-link" href="#Failure-Inducing-Changes">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p><em>Brief abstract/introduction/motivation.  State what the chapter is about in 1-2 paragraphs.</em>
-<em>Then, have an introduction video:</em></p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Failure-Inducing-Changes">Failure-Inducing Changes<a class="anchor-link" href="#Failure-Inducing-Changes">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>"Yesterday, my program worked. Today, it does not. Why?" In debugging, as elsewhere in software development, code keeps on changing. Thus, it can happen that a piece of code that yesterday was working perfectly, now no longer runs – because we (or others) have made some changes to it that cause it to fail. The good news is that for debugging, we can actually <em>exploit</em> this version history to narrow down <em>the change that caused the failure</em>.</p>
 </div>
 </div>
 </div>
@@ -12004,7 +12004,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p><strong>Prerequisites</strong></p>
 <ul>
-<li><em>Refer to earlier chapters as notebooks here, as here:</em> <a href="Fuzzer.html">Earlier Chapter</a>.</li>
+<li>You should have read the <a href="DeltaDebugger.html">Chapter on Delta Debugging</a>.</li>
+<li>Knowledge on version control systems (notably git) will be useful.</li>
 </ul>
 </div>
 </div>
@@ -12048,11 +12049,126 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="ChangeDebugger.html" class="import" target="_blank">debuggingbook.ChangeDebugger</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
 </pre></div>
 <p>and then make use of the following features.</p>
-<p><em>For those only interested in using the code in this chapter (without wanting to know how it works), give an example.  This will be copied to the beginning of the chapter (before the first section) as text with rendered input and output.</em></p>
-<p>You can use <code>int_fuzzer()</code> as:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">int_fuzzer</span><span class="p">())</span>
-<span class="mf">76.5</span>
+<p>This chapter introduces a class <code>ChangeDebugger</code> that automatically determines failure-inducing code changes.</p>
+<h3 id="High-Level-Interface">High-Level Interface<a class="anchor-link" href="#High-Level-Interface">&#182;</a></h3><p>Given two source files <code>source_pass</code> and <code>source_fail</code>, where <code>failing_function()</code> raises an exception in <code>source_pass</code>, but not in <code>source_fail</code>, you can use <code>ChangeDebugger</code> as follows:</p>
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">source_1</span><span class="p">,</span> <span class="n">source_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+    <span class="n">failing_function</span><span class="p">()</span>
+<span class="n">cd</span>
 </pre></div>
+<p>This will produce the failure-inducing change between <code>source_pass</code> and <code>source_fail</code>.</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">version_1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">version_2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">test_remove_html_markup</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">cd</span>
+<span class="err">@@</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">199</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+
+         <span class="k">elif</span>
+</pre></div>
+<p>A programmatic interface is also available. The method <code>min_patches()</code> returns a triple (<code>pass_patches</code>, <code>fail_patches</code>, <code>diffs</code>) where</p>
+<ul>
+<li>applying <code>pass_patches</code> causes the call to pass</li>
+<li>applying <code>fail_patches</code> causes the call to fail</li>
+<li><code>diffs</code> is the (minimal) difference between the two.</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="k">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+<span class="err">@@</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">199</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+
+         <span class="k">elif</span>
+</pre></div>
+<h3 id="Supporting-Functions">Supporting Functions<a class="anchor-link" href="#Supporting-Functions">&#182;</a></h3><p><code>ChangeDebugger</code> relies on lower level <code>patch()</code> and <code>diff()</code> functions.</p>
+<p>To apply patch objects on source code, use the <code>patch()</code> function. It takes a source code and a list of patches to be applied.</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">diffs</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+<p>Conversely, the <code>diff()</code> function computes patches between two texts. It returns a list of patch objects that can be applied on text.</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="k">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+<span class="err">@@</span> <span class="o">-</span><span class="mi">32</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">32</span><span class="p">,</span><span class="mi">42</span> <span class="err">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="o">+</span>    <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
+
+     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="err">@@</span> <span class="o">-</span><span class="mi">88</span><span class="p">,</span><span class="mi">50</span> <span class="o">+</span><span class="mi">88</span><span class="p">,</span><span class="mi">43</span> <span class="err">@@</span>
+  <span class="n">s</span><span class="p">:</span>
+
+<span class="o">-</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
+
+<span class="o">+</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+
+<span class="err">@@</span> <span class="o">-</span><span class="mi">146</span><span class="p">,</span><span class="mi">48</span> <span class="o">+</span><span class="mi">146</span><span class="p">,</span><span class="mi">45</span> <span class="err">@@</span>
+ <span class="n">rue</span>
+
+<span class="o">-</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
+
+<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+
+<span class="err">@@</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">199</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+
+         <span class="k">elif</span>
+</pre></div>
+<p>The <code>ChangeDebugger</code> class uses <a href="DeltaDebugger.html">Delta Debugging</a> to determine minimal differences in patches applied.</p>
 </div>
 </div>
 </div>
@@ -12063,7 +12179,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-Version-History">A Version History<a class="anchor-link" href="#A-Version-History">&#182;</a></h2><p>Using the <code>remove_html_markup()</code> versions from <a href="Intro_Debugging.html">the introduction to debugging</a> and <a href="Assertions.html">the chapter on assertions</a>, we create a little version history.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-Version-History">A Version History<a class="anchor-link" href="#A-Version-History">&#182;</a></h2><p>We start with creating a little version history. (If you do not use version control for your projects, you are in debugging hell. Go and set it up now.)</p>
+<p>Using the <code>remove_html_markup()</code> versions from <a href="Intro_Debugging.html">the introduction to debugging</a> and <a href="Assertions.html">the chapter on assertions</a>, we create a little version history.</p>
 </div>
 </div>
 </div>
@@ -12336,7 +12453,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master (root-commit) 6a89ebb] First version
+<pre>[master (root-commit) ca1b5bf] First version
  1 file changed, 13 insertions(+)
  create mode 100644 remove_html_markup.py
 </pre>
@@ -12384,6 +12501,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can inspect the differences between the previously committed version and the current one.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -12447,12 +12573,24 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master aa2ff76] Second version
+<pre>[master 6cfef1a] Second version
  1 file changed, 5 insertions(+), 2 deletions(-)
 </pre>
 </div>
 
 </div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We create a few more revisions.</p>
+</div>
+</div>
+</div>
+</div>
+
+<details id="Excursion:-More-Revisions">
+<summary>More Revisions</summary>
 
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
@@ -12516,7 +12654,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 27256a0] Third version (with debugging output)
+<pre>[master 7821ef4] Third version (with debugging output)
  1 file changed, 2 insertions(+)
 </pre>
 </div>
@@ -12583,7 +12721,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 437cf32] Fourth version (clueless)
+<pre>[master 34371e6] Fourth version (clueless)
  1 file changed, 2 insertions(+), 4 deletions(-)
 </pre>
 </div>
@@ -12652,7 +12790,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master fad2251] Fifth version (with assert)
+<pre>[master 8e44657] Fifth version (with assert)
  1 file changed, 4 insertions(+), 2 deletions(-)
 </pre>
 </div>
@@ -12720,7 +12858,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 9e08431] Sixth version (with another assert)
+<pre>[master 3e857d2] Sixth version (with another assert)
  1 file changed, 1 insertion(+), 2 deletions(-)
 </pre>
 </div>
@@ -12787,11 +12925,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master d63e37e] Seventh version (fixed)
+<pre>[master 45184b8] Seventh version (fixed)
  1 file changed, 1 insertion(+), 2 deletions(-)
 </pre>
 </div>
 
+</div>
+
+</details>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here comes the last version:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -12857,7 +13006,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 0ddc57a] Eighth version (with proper assertion)
+<pre>[master 4647a54] Eighth version (with proper assertion)
  1 file changed, 4 insertions(+), 1 deletion(-)
 </pre>
 </div>
@@ -12926,7 +13075,8 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Accessing-Versions">Accessing Versions<a class="anchor-link" href="#Accessing-Versions">&#182;</a></h2></div>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Accessing-Versions">Accessing Versions<a class="anchor-link" href="#Accessing-Versions">&#182;</a></h2><p>We can look up the individual versions.</p>
+</div>
 </div>
 </div>
 </div>
@@ -12948,14 +13098,14 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-yellow-fg">0ddc57aa0f166b2bbb2d27ad4eff1088dacf57ce</span><span class="ansi-yellow-fg"> (</span><span class="ansi-cyan-intense-fg ansi-bold">HEAD -&gt; </span><span class="ansi-green-intense-fg ansi-bold">master</span><span class="ansi-yellow-fg">)</span> Eighth version (with proper assertion)
-<span class="ansi-yellow-fg">d63e37e873ae6bde6327c1fd4255e9b8afdf810b</span> Seventh version (fixed)
-<span class="ansi-yellow-fg">9e08431e857fcec624fcf3910c01a7d39cb6da4b</span> Sixth version (with another assert)
-<span class="ansi-yellow-fg">fad2251458dba82168d553348fb78513f6867820</span> Fifth version (with assert)
-<span class="ansi-yellow-fg">437cf325fc775b632301755150d5f79117e7cb20</span> Fourth version (clueless)
-<span class="ansi-yellow-fg">27256a09550f1e5c167227df98909663522ab882</span> Third version (with debugging output)
-<span class="ansi-yellow-fg">aa2ff76422281874ae6881359c04f3ee3cda38f1</span> Second version
-<span class="ansi-yellow-fg">6a89ebba324d9695660b7b11586e42d09063aa55</span> First version
+<pre><span class="ansi-yellow-fg">4647a54bf606de10d15f61e7662b8d348b84bab2</span><span class="ansi-yellow-fg"> (</span><span class="ansi-cyan-intense-fg ansi-bold">HEAD -&gt; </span><span class="ansi-green-intense-fg ansi-bold">master</span><span class="ansi-yellow-fg">)</span> Eighth version (with proper assertion)
+<span class="ansi-yellow-fg">45184b8f110f505d3e765f8e7051be77b35446b0</span> Seventh version (fixed)
+<span class="ansi-yellow-fg">3e857d29eac4da5cd9e0419da39e353b4ed2346f</span> Sixth version (with another assert)
+<span class="ansi-yellow-fg">8e4465730efb38b8c94dac5f904f6c828a509260</span> Fifth version (with assert)
+<span class="ansi-yellow-fg">34371e649e9deb7c4d9815a0ee05f310cfc62ffe</span> Fourth version (clueless)
+<span class="ansi-yellow-fg">7821ef43833bbd77c3c3f8e48b0f4ddee5d7e7ce</span> Third version (with debugging output)
+<span class="ansi-yellow-fg">6cfef1a6ec450231c68f7a57f316ce545c807066</span> Second version
+<span class="ansi-yellow-fg">ca1b5bf3523d12e72c973429da8b95bbcdcebaeb</span> First version
 </pre>
 </div>
 
@@ -13011,14 +13161,14 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0ddc57aa0f166b2bbb2d27ad4eff1088dacf57ce Eighth version (with proper assertion)
-d63e37e873ae6bde6327c1fd4255e9b8afdf810b Seventh version (fixed)
-9e08431e857fcec624fcf3910c01a7d39cb6da4b Sixth version (with another assert)
-fad2251458dba82168d553348fb78513f6867820 Fifth version (with assert)
-437cf325fc775b632301755150d5f79117e7cb20 Fourth version (clueless)
-27256a09550f1e5c167227df98909663522ab882 Third version (with debugging output)
-aa2ff76422281874ae6881359c04f3ee3cda38f1 Second version
-6a89ebba324d9695660b7b11586e42d09063aa55 First version
+<pre>4647a54bf606de10d15f61e7662b8d348b84bab2 Eighth version (with proper assertion)
+45184b8f110f505d3e765f8e7051be77b35446b0 Seventh version (fixed)
+3e857d29eac4da5cd9e0419da39e353b4ed2346f Sixth version (with another assert)
+8e4465730efb38b8c94dac5f904f6c828a509260 Fifth version (with assert)
+34371e649e9deb7c4d9815a0ee05f310cfc62ffe Fourth version (clueless)
+7821ef43833bbd77c3c3f8e48b0f4ddee5d7e7ce Third version (with debugging output)
+6cfef1a6ec450231c68f7a57f316ce545c807066 Second version
+ca1b5bf3523d12e72c973429da8b95bbcdcebaeb First version
 </pre>
 </div>
 
@@ -13039,6 +13189,15 @@ aa2ff76422281874ae6881359c04f3ee3cda38f1 Second version
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can check out the first version:</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13056,7 +13215,7 @@ aa2ff76422281874ae6881359c04f3ee3cda38f1 Second version
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>HEAD is now at 6a89ebb First version
+<pre>HEAD is now at ca1b5bf First version
 </pre>
 </div>
 
@@ -13134,6 +13293,15 @@ aa2ff76422281874ae6881359c04f3ee3cda38f1 Second version
 
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>... and the last one:</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13151,8 +13319,8 @@ aa2ff76422281874ae6881359c04f3ee3cda38f1 Second version
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was 6a89ebb First version
-HEAD is now at 0ddc57a Eighth version (with proper assertion)
+<pre>Previous HEAD position was ca1b5bf First version
+HEAD is now at 4647a54 Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -13199,6 +13367,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>This is the version that no longer works.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13240,6 +13417,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h2 id="Manual-Bisecting">Manual Bisecting<a class="anchor-link" href="#Manual-Bisecting">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Bisecting is a cool technique to identify which commit caused the failure.</p>
+</div>
 </div>
 </div>
 </div>
@@ -13290,7 +13476,7 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[437cf325fc775b632301755150d5f79117e7cb20] Fourth version (clueless)
+[34371e649e9deb7c4d9815a0ee05f310cfc62ffe] Fourth version (clueless)
 </pre>
 </div>
 
@@ -13389,7 +13575,7 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 0 revisions left to test after this (roughly 1 step)
-[27256a09550f1e5c167227df98909663522ab882] Third version (with debugging output)
+[7821ef43833bbd77c3c3f8e48b0f4ddee5d7e7ce] Third version (with debugging output)
 </pre>
 </div>
 
@@ -13503,7 +13689,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[aa2ff76422281874ae6881359c04f3ee3cda38f1] Second version
+[6cfef1a6ec450231c68f7a57f316ce545c807066] Second version
 </pre>
 </div>
 
@@ -13584,6 +13770,15 @@ c = &#39;&#34;&#39; tag = False quote = True
 
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We got the failure-inducing change:</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13601,10 +13796,10 @@ c = &#39;&#34;&#39; tag = False quote = True
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>aa2ff76422281874ae6881359c04f3ee3cda38f1 is the first bad commit
-<span class="ansi-yellow-fg">commit aa2ff76422281874ae6881359c04f3ee3cda38f1</span>
+<pre>6cfef1a6ec450231c68f7a57f316ce545c807066 is the first bad commit
+<span class="ansi-yellow-fg">commit 6cfef1a6ec450231c68f7a57f316ce545c807066</span>
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Sun Dec 6 17:04:52 2020 +0100
+Date:   Sun Dec 6 19:23:44 2020 +0100
 
     Second version
 
@@ -13613,6 +13808,15 @@ Date:   Sun Dec 6 17:04:52 2020 +0100
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>... and this is what it does – introducing <code>quote</code> handling:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -13675,9 +13879,9 @@ Date:   Sun Dec 6 17:04:52 2020 +0100
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-yellow-fg">commit aa2ff76422281874ae6881359c04f3ee3cda38f1</span><span class="ansi-yellow-fg"> (</span><span class="ansi-cyan-intense-fg ansi-bold">HEAD</span><span class="ansi-yellow-fg">, </span>refs/bisect/bad<span class="ansi-yellow-fg">)</span>
+<pre><span class="ansi-yellow-fg">commit 6cfef1a6ec450231c68f7a57f316ce545c807066</span><span class="ansi-yellow-fg"> (</span><span class="ansi-cyan-intense-fg ansi-bold">HEAD</span><span class="ansi-yellow-fg">, </span>refs/bisect/bad<span class="ansi-yellow-fg">)</span>
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Sun Dec 6 17:04:52 2020 +0100
+Date:   Sun Dec 6 19:23:44 2020 +0100
 
     Second version
 </pre>
@@ -13702,8 +13906,8 @@ Date:   Sun Dec 6 17:04:52 2020 +0100
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was aa2ff76 Second version
-HEAD is now at 0ddc57a Eighth version (with proper assertion)
+<pre>Previous HEAD position was 6cfef1a Second version
+HEAD is now at 4647a54 Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -13717,27 +13921,22 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can write a test script to automate bisecting. Its return code indicates the test outcome.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.py&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">#!/usr/bin/env python</span>
-
-<span class="s1">from remove_html_markup import remove_html_markup</span>
-<span class="s1">import sys</span>
-
-<span class="s1">result = remove_html_markup(&#39;&quot;foo&quot;&#39;)</span>
-<span class="s1">if result == &#39;&quot;foo&quot;&#39;:</span>
-<span class="s1">    sys.exit(0)  # good/pass</span>
-<span class="s1">elif result == &#39;foo&#39;:</span>
-<span class="s1">    sys.exit(1)  # bad/fail</span>
-<span class="s1">else:</span>
-<span class="s1">    sys.exit(125)  # unresolved</span>
-<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
-<span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;test.py&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;test.py&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -13763,6 +13962,15 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Right now, we are in the "fail" state:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -13834,10 +14042,19 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[437cf325fc775b632301755150d5f79117e7cb20] Fourth version (clueless)
+[34371e649e9deb7c4d9815a0ee05f310cfc62ffe] Fourth version (clueless)
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here comes the automatic part:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -13859,7 +14076,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>running python test.py
 Bisecting: 0 revisions left to test after this (roughly 1 step)
-[27256a09550f1e5c167227df98909663522ab882] Third version (with debugging output)
+[7821ef43833bbd77c3c3f8e48b0f4ddee5d7e7ce] Third version (with debugging output)
 running python test.py
 c = &#39;&#34;&#39; tag = False quote = False
 c = &#39;f&#39; tag = False quote = True
@@ -13867,12 +14084,12 @@ c = &#39;o&#39; tag = False quote = True
 c = &#39;o&#39; tag = False quote = True
 c = &#39;&#34;&#39; tag = False quote = True
 Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[aa2ff76422281874ae6881359c04f3ee3cda38f1] Second version
+[6cfef1a6ec450231c68f7a57f316ce545c807066] Second version
 running python test.py
-aa2ff76422281874ae6881359c04f3ee3cda38f1 is the first bad commit
-commit aa2ff76422281874ae6881359c04f3ee3cda38f1
+6cfef1a6ec450231c68f7a57f316ce545c807066 is the first bad commit
+commit 6cfef1a6ec450231c68f7a57f316ce545c807066
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Sun Dec 6 17:04:52 2020 +0100
+Date:   Sun Dec 6 19:23:44 2020 +0100
 
     Second version
 
@@ -13884,42 +14101,13 @@ bisect run success
 
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Again, we obtain the failure-inducing change:</p>
 </div>
 </div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    tag = <span class="ansi-blue-fg">False</span>
-    quote = <span class="ansi-blue-fg">False</span>
-    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
-
-    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-            tag = <span class="ansi-blue-fg">True</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-            tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
-            quote = <span class="ansi-magenta-fg">not</span> quote
-        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
-            out = out + c
-
-    <span class="ansi-blue-fg">return</span> out
-</pre>
 </div>
-
 </div>
 
 <div class="input_code">
@@ -13982,8 +14170,8 @@ bisect run success
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was aa2ff76 Second version
-HEAD is now at 0ddc57a Eighth version (with proper assertion)
+<pre>Previous HEAD position was 6cfef1a Second version
+HEAD is now at 4647a54 Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -13992,22 +14180,10 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Delta-Debugging-on-Changes">Delta Debugging on Changes<a class="anchor-link" href="#Delta-Debugging-on-Changes">&#182;</a></h2></div>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Computing-and-Applying-Patches">Computing and Applying Patches<a class="anchor-link" href="#Computing-and-Applying-Patches">&#182;</a></h2><p>Our commit consists of a number of changes. Can we break this down further? Delta Debugging (on changes) to the rescue!</p>
+<p>For this, though, we first need means to compute and apply patches.</p>
 </div>
 </div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="k">import</span> <span class="n">DeltaDebugger</span>
-</pre></div>
-
-</div>
-</div></div>
 </div>
 </div>
 
@@ -14160,7 +14336,7 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>We use Google's <a href="https://github.com/google/diff-match-patch">diff-match-patch library</a> as a <a href="https://github.com/JoshData/diff_match_patch-python">Python module</a>.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>We use Google's <a href="https://github.com/google/diff-match-patch">diff-match-patch library</a>.</p>
 </div>
 </div>
 </div>
@@ -14177,6 +14353,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>diff()</code> function computes a set of patches (changes, diffs) between the two texts <code>s1</code> and <code>s2</code>:</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -14224,13 +14409,22 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa530e15f98&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa530e15e10&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa530e15f60&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa530c915c0&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedab90588&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedab90780&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedab90438&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedab904a8&gt;]
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's how to inspect these patches:</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="input_code">
@@ -14312,6 +14506,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Conversely, the <code>patch()</code> function applies patches.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -14327,6 +14530,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If we apply <em>all</em> patches, we get version 2:</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -14382,6 +14594,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Applying <em>no</em> patch leaves the content unchanged.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -14393,6 +14614,15 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>However, one can also apply <em>partial</em> sets of patches:</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -14493,6 +14723,29 @@ HEAD is now at 0ddc57a Eighth version (with proper assertion)
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Delta-Debugging-on-Patches">Delta Debugging on Patches<a class="anchor-link" href="#Delta-Debugging-on-Patches">&#182;</a></h2><p>We now have everything we need.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="k">import</span> <span class="n">DeltaDebugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
 </div>
 
 <div class="input_code">
@@ -14674,7 +14927,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span> <span class="o">=</span> <span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -14688,8 +14941,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pass_patches</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">pass_patches</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14700,19 +14952,20 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -32,24 +32,42 @@
- tag = False
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
-+    quote = False
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
 
-     out = &#34;&#34;
-
-@@ -88,50 +88,43 @@
-  s:
-
--        if c == &#39;&lt;&#39;:    # start of markup
-
-+        if c == &#39;&lt;&#39; and not quote:
+    <span class="ansi-blue-fg">return</span> out
 </pre>
 </div>
 
@@ -14724,7 +14977,54 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fail_patches</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
+
+    <span class="ansi-blue-fg">return</span> out
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>and the difference is:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
 </pre></div>
 
@@ -14736,21 +15036,7 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -32,24 +32,42 @@
- tag = False
-
-+    quote = False
-
-     out = &#34;&#34;
-
-@@ -88,50 +88,43 @@
-  s:
-
--        if c == &#39;&lt;&#39;:    # start of markup
-
-+        if c == &#39;&lt;&#39; and not quote:
-
-@@ -199,24 +199,97 @@
+<pre>@@ -199,24 +199,97 @@
  tag = False
 
 +        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
@@ -14765,17 +15051,7 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-ChangeDebugger-class">A ChangeDebugger class<a class="anchor-link" href="#A-ChangeDebugger-class">&#182;</a></h2></div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">patches</span><span class="p">):</span>
-    <span class="n">foo</span><span class="p">()</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html"><p>We learn that a single change introduced the failure.</p>
 </div>
 </div>
 </div>
@@ -14784,69 +15060,7 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><div class="highlight"><pre><span></span><span class="k">exec</span><span class="p">(</span><span class="n">source</span><span class="p">);</span> <span class="n">foo</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PASS</span>
-<span class="n">bad_source</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="n">source</span><span class="p">);</span> <span class="k">exec</span><span class="p">(</span><span class="n">bad_source</span><span class="p">);</span> <span class="n">foo</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">FAIL</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>or better:</p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">pass_source</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">):</span>
-    <span class="n">foo</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Implement general dd() here. Consider extending DeltaDebugger such that it not only has <code>reduced_args()</code>, but also <code>maximized_args()</code>, and <code>minimal_arg_diff()</code>.</p>
-</div>
-</div>
-</div>
-</div>
-
-<details id="Excursion:-All-the-Details">
-<summary>All the Details</summary>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>This text will only show up on demand (HTML) or not at all (PDF). This is useful for longer implementations, or repetitive, or specialized parts.</p>
-</div>
-</div>
-</div>
-</div>
-
-</details>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Section-3"><em>Section 3</em><a class="anchor-link" href="#Section-3">&#182;</a></h2><p>\todo{Add}</p>
-<p><em>If you want to introduce code, it is helpful to state the most important functions, as in:</em></p>
-<ul>
-<li><code>random.randrange(start, end)</code> - return a random number [<code>start</code>, <code>end</code>]</li>
-<li><code>range(start, end)</code> - create a list with integers from <code>start</code> to <code>end</code>.  Typically used in iterations.</li>
-<li><code>for elem in list: body</code> executes <code>body</code> in a loop with <code>elem</code> taking each value from <code>list</code>.</li>
-<li><code>for i in range(start, end): body</code> executes <code>body</code> in a loop with <code>i</code> from <code>start</code> to <code>end</code> - 1.</li>
-<li><code>chr(n)</code> - return a character with ASCII code <code>n</code></li>
-</ul>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-ChangeDebugger-class">A ChangeDebugger class<a class="anchor-link" href="#A-ChangeDebugger-class">&#182;</a></h2><p>Let us put all this together in a single class.</p>
 </div>
 </div>
 </div>
@@ -14858,7 +15072,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/random.html" class="import" target="_blank">random</a></span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="k">import</span> <span class="n">DeltaDebugger</span><span class="p">,</span> <span class="n">NotFailingError</span>
 </pre></div>
 
 </div>
@@ -14872,9 +15086,19 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">int_fuzzer</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;A simple function that returns a random integer&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">DeltaDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_source</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">,</span> <span class="o">**</span><span class="n">ddargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">ddargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pass_source</span> <span class="o">=</span> <span class="n">pass_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fail_source</span> <span class="o">=</span> <span class="n">fail_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_patches</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">pass_source</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pass_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass_source</span>
+    <span class="k">def</span> <span class="nf">fail_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail_source</span>
+    <span class="k">def</span> <span class="nf">patches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patches</span>
 </pre></div>
 
 </div>
@@ -14888,8 +15112,8 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># More code</span>
-<span class="k">pass</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>    
 </pre></div>
 
 </div>
@@ -14897,13 +15121,583 @@ AssertionError (expected)
 </div>
 </div>
 
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+    <span class="n">test_remove_html_markup</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
+    <span class="n">cd</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-116-1cdc3d223902&gt;&#34;, line 2, in &lt;module&gt;
+    cd.call()
+  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 162, in call
+    return self.function()(**args)
+  File &#34;&lt;ipython-input-114-e1b019d948aa&gt;&#34;, line 2, in test_remove_html_markup
+    assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">pass_source</span><span class="p">(),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
+
+    <span class="ansi-blue-fg">return</span> out
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">fail_source</span><span class="p">(),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
+
+    <span class="ansi-blue-fg">return</span> out
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc7ba20&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc7bcc0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc7b2b0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc7b0f0&gt;]
+</pre>
+</div>
+
+</div>
+
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Section-4"><em>Section 4</em><a class="anchor-link" href="#Section-4">&#182;</a></h2><p>\todo{Add}</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now for the testing:</p>
 </div>
 </div>
 </div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patches</span><span class="p">):</span>
+        <span class="n">new_version</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pass_source</span><span class="p">(),</span> <span class="n">patches</span><span class="p">)</span>
+        <span class="n">exec</span><span class="p">(</span><span class="n">new_version</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+    <span class="n">test_remove_html_markup</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Observed test_remove_html_markup() raising AssertionError
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;function __main__.test_remove_html_markup()&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">test_patches</span><span class="p">([])</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
+    <span class="n">cd</span><span class="o">.</span><span class="n">test_patches</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-124-27b59634b5f9&gt;&#34;, line 2, in &lt;module&gt;
+    cd.test_patches(cd.patches())
+  File &#34;&lt;ipython-input-120-c2b7a799cf41&gt;&#34;, line 5, in test_patches
+    self.call()
+  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 162, in call
+    return self.function()(**args)
+  File &#34;&lt;ipython-input-114-e1b019d948aa&gt;&#34;, line 2, in test_remove_html_markup
+    assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's where <code>ChangeDebugger</code> applies the <code>DeltaDebugging</code> functionality on its own <code>test_patches()</code> method:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">min_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_patches</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diff_patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff_patches</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+    <span class="n">test_remove_html_markup</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc8d2b0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc8d358&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc8d1d0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedbc8d048&gt;]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
+<span class="n">diffs</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7faedab904a8&gt;]
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>@@ -199,24 +199,97 @@
+ tag = False
+
++        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+            quote = not quote
+
+         elif
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Success!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Does this also work for longer change histories? Let's take the very first and the very last version.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_8</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
+                            <span class="n">f</span><span class="s1">&#39;</span><span class="si">{versions[7]}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_8</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+    <span class="n">test_remove_html_markup</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>@@ -32,24 +32,42 @@
+ tag = False
+
++    quote = False
+
+     out = &#34;&#34;
+
+@@ -88,50 +88,43 @@
+  s:
+
+-        if c == &#39;&lt;&#39;:    # start of markup
+
++        if c == &#39;&lt;&#39; and not quote:
+
+@@ -146,48 +146,45 @@
+ rue
+
+-        elif c == &#39;&gt;&#39;:  # end of markup
+
++        elif c == &#39;&gt;&#39; and not quote:
+
+@@ -199,24 +199,97 @@
+ tag = False
+
++        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+            quote = not quote
+
+         elif
+
+@@ -324,16 +324,82 @@
+ out + c
+
++
+    # postcondition
+    assert &#39;&lt;&#39; not in out and &#39;&gt;&#39; not in out
+
+    ret
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Again, success!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>@@ -199,24 +199,97 @@
+ tag = False
+
++        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+            quote = not quote
+
+         elif
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>What happens if the function does not fail? Then, the <code>DeltaDebugger</code> diagnosis parts take over.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="n">NotFailingError</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+        <span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-134-99eea347b65d&gt;&#34;, line 3, in &lt;module&gt;
+    remove_html_markup(&#34;foo&#34;)
+  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 149, in __exit__
+    self.after_collection()
+  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 518, in after_collection
+    raise NotFailingError(f&#34;{self.format_call()} did not raise an exception&#34;)
+DeltaDebugger.NotFailingError: remove_html_markup(s=&#39;foo&#39;) did not raise an exception (expected)
+</pre>
+</div>
+
 </div>
 
 <div class="input_markdown">
@@ -14936,8 +15730,7 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p><em>Cite relevant works in the literature and put them into context, as in:</em></p>
-<p>The idea of ensuring that each expansion in the grammar is used at least once goes back to Burkhardt [<a href="https://doi.org/10.1007/BF02235512">Burkhardt <em>et al</em>, 1967.</a>], to be later rediscovered by Paul Purdom [<a href="https://doi.org/10.1007/BF01932308">Purdom <em>et al</em>, 1972.</a>].</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>Cite [Unresolved citation: Zeller1999.] and earlier works.</p>
 </div>
 </div>
 </div>
@@ -15010,7 +15803,7 @@ AssertionError (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ChangeDebugger.ipynb" target=_blank)>Last change: 2020-12-06 17:03:52+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ChangeDebugger.ipynb" target=_blank)>Last change: 2020-12-06 19:22:32+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -15028,7 +15821,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">Failure-Inducing Changes</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">https://www.debuggingbook.org/beta/html/ChangeDebugger.html</a>.  Retrieved 2020-12-06 17:03:52+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">Failure-Inducing Changes</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">https://www.debuggingbook.org/beta/html/ChangeDebugger.html</a>.  Retrieved 2020-12-06 19:22:32+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2020:ChangeDebugger,
@@ -15038,9 +15831,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger
     year = {2020},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/ChangeDebugger.html}},
-    note = {Retrieved 2020-12-06 17:03:52+01:00},
+    note = {Retrieved 2020-12-06 19:22:32+01:00},
     url = {https://www.debuggingbook.org/beta/html/ChangeDebugger.html},
-    urldate = {2020-12-06 17:03:52+01:00}
+    urldate = {2020-12-06 19:22:32+01:00}
 }
 </pre>
 </div>

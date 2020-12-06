@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-12-06 16:56:17+01:00
+# Last change: 2020-12-06 18:20:36+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -108,6 +108,10 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     failing_input = fuzz_input
     failing_input
+
+
+if __name__ == "__main__":
+    len(failing_input)
 
 
 if __package__ is None or __package__ == "":
@@ -284,7 +288,7 @@ if __name__ == "__main__":
 
 import sys
 
-# from types import FunctionType
+from types import FunctionType
 
 import inspect
 
@@ -571,12 +575,12 @@ def add_to(collection, elem):
         return collection + type(collection)([elem])
     except TypeError:
         pass
-    
+
     try:  # Sets
         return collection | type(collection)([elem])
     except TypeError:
         pass
-    
+
     raise ValueError("Cannot add element to collection")
 
 if __name__ == "__main__":
@@ -597,17 +601,17 @@ if __name__ == "__main__":
 
 def split(elems, n):
     assert 1 <= n <= len(elems)
-    
+
     k, m = divmod(len(elems), n)
     try:
         subsets = list(elems[i * k + min(i, m):(i + 1) * k + min(i + 1, m)]
-                   for i in range(n))
+                       for i in range(n))
     except TypeError:
         # Convert to list and back
         subsets = list(type(elems)(
                     list(elems)[i * k + min(i, m):(i + 1) * k + min(i + 1, m)])
-               for i in range(n))
-    
+                       for i in range(n))
+
     assert len(subsets) == n
     assert sum(len(subset) for subset in subsets) == len(elems)
     assert all(len(subset) > 0 for subset in subsets)
@@ -636,8 +640,9 @@ class DeltaDebugger(CachingCallReducer):
             '-': minimize input (ddmin),
             '+': maximizing input (ddmax),
             '+-': minimizing pass/fail difference (dd)
-        Returns a pair (pass, fail) 
-        with maximized passing and minimized failing input.
+        Returns a triple (pass, fail, diff) 
+        with maximized passing input, minimized failing input,
+        and their difference (elems in fail, but not in pass).
         """
         def test(c):
             # Set up args
@@ -647,14 +652,19 @@ class DeltaDebugger(CachingCallReducer):
             test_args[var_to_be_reduced] = from_set(c, fail_inp)
             return self.test(test_args)
 
+        def ret(c_pass, c_fail):
+            return (from_set(c_pass, fail_inp),
+                    from_set(c_fail, fail_inp),
+                    from_set(c_fail - c_pass, fail_inp))
+
         n = 2  # Initial granularity
-        
+
         fail_inp = fail_args[var_to_be_reduced]
-        
+
         c_pass = to_set([])
         c_fail = to_set(fail_inp)
         offset = 0
-        
+
         minimize_fail = '-' in mode
         maximize_pass = '+' in mode
 
@@ -665,11 +675,10 @@ class DeltaDebugger(CachingCallReducer):
 
             delta = c_fail - c_pass
             if len(delta) < n:
-                return from_set(c_pass, fail_inp), \
-                       from_set(c_fail, fail_inp)
+                return ret(c_pass, c_fail)
 
             deltas = split(delta, n)
-            
+
             j = 0
             while j < n:
                 i = (j + offset) % n
@@ -706,13 +715,12 @@ class DeltaDebugger(CachingCallReducer):
                     break
                 else:
                     j += 1  # choose next subset
-                    
+
             if j >= n:  # no reduction found
                 if n >= len(delta):
-                    return from_set(c_pass, fail_inp), \
-                           from_set(c_fail, fail_inp)
-                else:
-                    n = min(n + 2, len(delta))
+                    return ret(c_pass, c_fail)
+
+                n = min(n + 2, len(delta))
 
 if __name__ == "__main__":
     with DeltaDebugger() as dd:
@@ -789,12 +797,18 @@ class DeltaDebugger(DeltaDebugger):
 class DeltaDebugger(DeltaDebugger):
     def process_args(self, strategy, **strategy_args):
         """Reduce all reducible arguments, using strategy(var, args).
-        Can be overloaded in subclasses"""
+        Can be overloaded in subclasses."""
         pass_args = {}  # Local copy
         fail_args = {}  # Local copy
+        diff_args = {}
         for var in self.args():
             fail_args[var] = self.args()[var]
-            pass_args[var] = []
+            diff_args[var] = self.args()[var]
+            pass_args[var] = self.args()[var]
+
+            if self.reducible(pass_args[var]):
+                pass_args[var] = empty(pass_args[var])
+
         vars_to_be_processed = set(fail_args.keys())
 
         pass_processed = 0
@@ -812,12 +826,14 @@ class DeltaDebugger(DeltaDebugger):
                 if self.log:
                     print(f"Processing {var}...")
 
-                maximized_pass_value, minimized_fail_value = \
+                maximized_pass_value, minimized_fail_value, diff = \
                     strategy(var, fail_args, **strategy_args)
 
                 if (maximized_pass_value is not None and 
                     len(maximized_pass_value) > len(pass_args[var])):
                     pass_args[var] = maximized_pass_value
+                    # FIXME: diff_args may not be correct for multiple args
+                    diff_args[var] = diff
                     if self.log:
                         print(f"Maximized {var} to",
                               repr(maximized_pass_value))
@@ -827,6 +843,7 @@ class DeltaDebugger(DeltaDebugger):
                 if (minimized_fail_value is not None and 
                     len(minimized_fail_value) < len(fail_args[var])):
                     fail_args[var] = minimized_fail_value
+                    diff_args[var] = diff
                     if self.log:
                         print(f"Minimized {var} to",
                               repr(minimized_fail_value))
@@ -835,7 +852,6 @@ class DeltaDebugger(DeltaDebugger):
 
                 vars_to_be_processed.remove(var)
                 break
-
 
         assert pass_processed == 0 or self.test(pass_args) == PASS, \
             f"{self.format_call(pass_args)} does not pass"
@@ -849,7 +865,7 @@ class DeltaDebugger(DeltaDebugger):
             print("Minimized failing call to",
                   self.format_call(fail_args))
 
-        return pass_args, fail_args
+        return pass_args, fail_args, diff_args
 
 class DeltaDebugger(DeltaDebugger):
     def after_collection(self):
@@ -873,20 +889,19 @@ if __name__ == "__main__":
 class DeltaDebugger(DeltaDebugger):
     def min_args(self):
         """Return 1-minimal arguments."""
-        pass_args, fail_args = self.process_args(self.dd, mode='-')
+        pass_args, fail_args, diff = self.process_args(self.dd, mode='-')
         return fail_args
 
 class DeltaDebugger(DeltaDebugger):
     def max_args(self):
         """Return 1-maximal arguments."""
-        pass_args, fail_args = self.process_args(self.dd, mode='+')
+        pass_args, fail_args, diff = self.process_args(self.dd, mode='+')
         return pass_args
 
 class DeltaDebugger(DeltaDebugger):
     def min_arg_diff(self):
         """Return 1-minimal difference between arguments."""
-        pass_args, fail_args = self.process_args(self.dd, mode='+-')
-        return pass_args, fail_args
+        return self.process_args(self.dd, mode='+-')
 
 class DeltaDebugger(DeltaDebugger):
     def __repr__(self):
@@ -923,6 +938,23 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     dd.min_args()
+
+
+if __name__ == "__main__":
+    quiz("What happens if the function under test does not raise an exception?",
+        [
+            "Delta debugging searches for the minimal input"
+            " that produces the same result",
+            "Delta debugging starts a fuzzer to find an exception",
+            "Delta debugging raises an exception"
+            "Delta debugging runs forever in a loop",
+        ], 0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1)
+
+
+if __name__ == "__main__":
+    with ExpectError(NotFailingError):
+        with DeltaDebugger() as dd:
+            mystery("An input that does not fail")
 
 
 # ## Usage Examples
@@ -1035,10 +1067,6 @@ if __name__ == "__main__":
     max_passing_input
 
 
-if __name__ == "__main__":
-    [c for c in failing_input if c not in max_passing_input]
-
-
 # ## Failure-Inducing Differences
 
 if __name__ == "__main__":
@@ -1050,12 +1078,12 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     with DeltaDebugger(log=True) as dd:
         mystery(failing_input)
-    max_passing_args, min_failing_args = dd.min_arg_diff()
-    max_passing_args['inp'], min_failing_args['inp']
+    max_passing_args, min_failing_args, diff = dd.min_arg_diff()
+    max_passing_args['inp'], min_failing_args['inp'], diff['inp']
 
 
 if __name__ == "__main__":
-    [c for c in min_failing_args['inp'] if c not in max_passing_args['inp']]
+    diff['inp']
 
 
 # ## Reducing Program Code
