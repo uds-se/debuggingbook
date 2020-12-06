@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Assertions.html
-# Last change: 2020-12-03 18:24:01+01:00
+# Last change: 2020-12-06 16:55:18+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -144,12 +144,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('cc -g -o testassert testassert.c')
+    os.system(f'cc -g -o testassert testassert.c')
 
 
 if __name__ == "__main__":
     import os
-    os.system('./testassert')
+    os.system(f'./testassert')
 
 
 if __name__ == "__main__":
@@ -177,22 +177,22 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('cc -DNDEBUG -g -o testassert testassert.c')
+    os.system(f'cc -DNDEBUG -g -o testassert testassert.c')
 
 
 if __name__ == "__main__":
     import os
-    os.system('./testassert')
+    os.system(f'./testassert')
 
 
 if __name__ == "__main__":
     import os
-    os.system('python -c \'assert 2 + 2 == 5; print("Foo")\'')
+    os.system(f'python -c \'assert 2 + 2 == 5; print("Foo")\'')
 
 
 if __name__ == "__main__":
     import os
-    os.system('python -O -c \'assert 2 + 2 == 5; print("Foo")\'')
+    os.system(f'python -O -c \'assert 2 + 2 == 5; print("Foo")\'')
 
 
 def fun():
@@ -755,12 +755,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('cc -g -o testoverflow testoverflow.c')
+    os.system(f'cc -g -o testoverflow testoverflow.c')
 
 
 if __name__ == "__main__":
     import os
-    os.system('./testoverflow')
+    os.system(f'./testoverflow')
 
 
 # #### Excursion: A C Memory Model Simulator
@@ -882,12 +882,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('cc -g -o testuseafterfree testuseafterfree.c')
+    os.system(f'cc -g -o testuseafterfree testuseafterfree.c')
 
 
 if __name__ == "__main__":
     import os
-    os.system('./testuseafterfree')
+    os.system(f'./testuseafterfree')
 
 
 # #### Excursion: Dynamic Memory in C
@@ -1235,7 +1235,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('valgrind ./testuseafterfree')
+    os.system(f'valgrind ./testuseafterfree')
 
 
 if __name__ == "__main__":
@@ -1244,7 +1244,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('valgrind ./testoverflow')
+    os.system(f'valgrind ./testoverflow')
 
 
 # ### Checking Memory Usage with Memory Sanitizer
@@ -1257,22 +1257,22 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     import os
-    os.system('cc -fsanitize=address -o testuseafterfree testuseafterfree.c')
+    os.system(f'cc -fsanitize=address -o testuseafterfree testuseafterfree.c')
 
 
 if __name__ == "__main__":
     import os
-    os.system('./testuseafterfree')
+    os.system(f'./testuseafterfree')
 
 
 if __name__ == "__main__":
     import os
-    os.system('cc -fsanitize=address -o testoverflow testoverflow.c')
+    os.system(f'cc -fsanitize=address -o testoverflow testoverflow.c')
 
 
 if __name__ == "__main__":
     import os
-    os.system('./testoverflow')
+    os.system(f'./testoverflow')
 
 
 # ## When Should Invariants be Checked?

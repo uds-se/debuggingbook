@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-11-29 16:39:45+01:00
+# Last change: 2020-12-06 16:56:17+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -98,15 +98,15 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     while True:
-        inp = fuzz()
+        fuzz_input = fuzz()
         try:
-            mystery(inp)
+            mystery(fuzz_input)
         except ValueError:
             break
 
 
 if __name__ == "__main__":
-    failing_input = inp
+    failing_input = fuzz_input
     failing_input
 
 
@@ -117,7 +117,7 @@ else:
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ValueError):
         mystery(failing_input)
 
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ValueError):
         mystery(first_half)
 
 
@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ValueError):
         mystery(second_half)
 
 
@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ValueError):
         mystery(input_without_first_quarter)
 
 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ValueError):
         mystery(input_without_first_and_second_quarter)
 
 
@@ -199,7 +199,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ValueError):
         mystery(input_without_first_and_third_quarter)
 
 
@@ -284,7 +284,9 @@ if __name__ == "__main__":
 
 import sys
 
-from types import FunctionType
+# from types import FunctionType
+
+import inspect
 
 class CallCollector(object):
     """Collect an exception-raising function call f().
@@ -303,20 +305,28 @@ class CallCollector(object):
             if name.startswith('__'):
                 # Internal function
                 return
+            if self._function is not None:
+                # Already set
+                return
 
-            if self._function is None:
+            if name in frame.f_globals:
+                # Access exactly this function
+                self._function = frame.f_globals[name]
+            else:
+                # Create new function from given code
                 self._function = FunctionType(frame.f_code,
-                                              globals=globals(),
+                                              globals=frame.f_globals,
                                               name=name)
-                self._args = {}  # Create a local copy
-                for var in frame.f_locals:
-                    self._args[var] = frame.f_locals[var]
+
+            self._args = {}  # Create a local copy of args
+            for var in frame.f_locals:
+                self._args[var] = frame.f_locals[var]
 
             # Turn tracing off
             sys.settrace(self.original_trace_function)
 
-    def diagnosis(self):
-        """Produce a diagnosis. To be defined in subclasses."""
+    def after_collection(self):
+        """Called after collection. To be defined in subclasses."""
         pass
 
     def args(self):
@@ -326,6 +336,10 @@ class CallCollector(object):
     def function(self):
         """Return the function called."""
         return self._function
+
+    def exception(self):
+        """Return the exception produced."""
+        return self._exception
 
     def __enter__(self):
         """Called at begin of `with` block. Turn tracing on."""
@@ -340,7 +354,7 @@ class CallCollector(object):
             return False  # Re-raise exception, if any
 
         self._exception = exc_value
-        self.diagnosis()
+        self.after_collection()
         return True  # Ignore exception
 
 if __name__ == "__main__":
@@ -349,19 +363,19 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    call_collector._function
+    call_collector.function()
 
 
 if __name__ == "__main__":
-    call_collector._args
+    call_collector.args()
 
 
 if __name__ == "__main__":
-    call_collector._exception
+    call_collector.exception()
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(NameError):
         with CallCollector() as c:
             some_error()
 
@@ -375,18 +389,17 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
-        call_collector._function("foo")
+    call_collector.function()("foo")
 
 
 if __name__ == "__main__":
-    with ExpectError():
-        call_collector._function(failing_input)
+    with ExpectError(ValueError):
+        call_collector.function()(failing_input)
 
 
 if __name__ == "__main__":
-    with ExpectError():
-        call_collector._function(**call_collector._args)
+    with ExpectError(ValueError):
+        call_collector.function()(**call_collector.args())
 
 
 class CallCollector(CallCollector):
@@ -394,23 +407,22 @@ class CallCollector(CallCollector):
         """Call collected function. If new_args is given,
         override arguments from its {var: value} entries."""
         args = {}  # Create local copy
-        for var in self._args:
-            args[var] = self._args[var]
+        for var in self.args():
+            args[var] = self.args()[var]
         for var in new_args:
             args[var] = new_args[var]
 
-        return self._function(**new_args)
+        return self.function()(**args)
 
 if __name__ == "__main__":
     with CallCollector() as call_collector:
         mystery(failing_input)
-    with ExpectError():
+    with ExpectError(ValueError):
         call_collector.call()
 
 
 if __name__ == "__main__":
-    with ExpectError():
-        call_collector.call({'inp': 'foo'})
+    call_collector.call({'inp': 'foo'})
 
 
 # #### Testing, Logging, and Caching
@@ -443,8 +455,8 @@ class CallReducer(CallCollector):
             result = self.call(args)
         except Exception as exc:
             self.last_exception = exc
-            if (type(exc) == type(self._exception) and
-                    str(exc) == str(self._exception)):
+            if (type(exc) == type(self.exception()) and
+                    str(exc) == str(self.exception())):
                 return FAIL
             else:
                 return UNRESOLVED  # Some other failure
@@ -456,8 +468,8 @@ class CallReducer(CallReducer):
     def format_call(self, args=None):
         """Return a string representing a call of the function with given args."""
         if args is None:
-            args = self._args
-        return self._function.__name__ + "(" + \
+            args = self.args()
+        return self.function().__name__ + "(" + \
             ", ".join(f"{arg}={repr(args[arg])}" for arg in args) + ")"
 
     def format_exception(self, exc):
@@ -526,61 +538,218 @@ if __name__ == "__main__":
     reducer.test({'inp': '123'})
 
 
-# #### Reducing Arguments
+# #### General Delta Debugging
 
 if __name__ == "__main__":
-    print('\n#### Reducing Arguments')
+    print('\n#### General Delta Debugging')
 
 
+
+
+def to_set(inp):
+    """Convert inp into a set of indices"""
+    return set(range(len(inp)))
+
+if __name__ == "__main__":
+    to_set("abcd")
+
+
+def empty(inp):
+    """Return an "empty" element of the same type as inp"""
+    return type(inp)()
+
+if __name__ == "__main__":
+    empty("abc"), empty([1, 2, 3]), empty({0, -1, -2})
+
+
+def add_to(collection, elem):
+    """Add element to collection; return new collection."""
+    if isinstance(collection, str):
+        return collection + elem  # Strings
+
+    try:  # Lists and other collections
+        return collection + type(collection)([elem])
+    except TypeError:
+        pass
+    
+    try:  # Sets
+        return collection | type(collection)([elem])
+    except TypeError:
+        pass
+    
+    raise ValueError("Cannot add element to collection")
+
+if __name__ == "__main__":
+    add_to("abc", "d"), add_to([1, 2, 3], 4), add_to(set([1, 2, 3]), 4)
+
+
+def from_set(the_set, inp):
+    """Convert a set of indices into inp back into a collection."""
+    ret = empty(inp)
+    for i, c in enumerate(inp):
+        if i in the_set:
+            ret = add_to(ret, c)
+    return ret
+
+if __name__ == "__main__":
+    from_set({1, 2}, "abcd")
+
+
+def split(elems, n):
+    assert 1 <= n <= len(elems)
+    
+    k, m = divmod(len(elems), n)
+    try:
+        subsets = list(elems[i * k + min(i, m):(i + 1) * k + min(i + 1, m)]
+                   for i in range(n))
+    except TypeError:
+        # Convert to list and back
+        subsets = list(type(elems)(
+                    list(elems)[i * k + min(i, m):(i + 1) * k + min(i + 1, m)])
+               for i in range(n))
+    
+    assert len(subsets) == n
+    assert sum(len(subset) for subset in subsets) == len(elems)
+    assert all(len(subset) > 0 for subset in subsets)
+
+    return subsets
+
+if __name__ == "__main__":
+    for n in range(1, 8):
+        print(split([1, 2, 3, 4, 5, 6, 7], n))
+
+
+if __name__ == "__main__":
+    split("abcd", 3)
+
+
+if __name__ == "__main__":
+    split({1, 2, 3, 4, 5, 6, 7}, 3)
 
 
 class DeltaDebugger(CachingCallReducer):
-    def __init__(self, **args):
-        super().__init__(**args)
-        self._reduced_args = None
+    def dd(self, var_to_be_reduced, fail_args, mode='-'):
+        """General Delta Debugging.
+        fail_args - a dict of (failure-inducing) function arguments;
+        fail_args[var_to_be_reduced] - the input to apply dd on.
+        mode tells how the algorithm should operate:
+            '-': minimize input (ddmin),
+            '+': maximizing input (ddmax),
+            '+-': minimizing pass/fail difference (dd)
+        Returns a pair (pass, fail) 
+        with maximized passing and minimized failing input.
+        """
+        def test(c):
+            # Set up args
+            test_args = {}
+            for var in fail_args:
+                test_args[var] = fail_args[var]
+            test_args[var_to_be_reduced] = from_set(c, fail_inp)
+            return self.test(test_args)
 
-    def reduce_arg(self, var_to_be_reduced, args):
-        inp = args[var_to_be_reduced]
+        n = 2  # Initial granularity
+        
+        fail_inp = fail_args[var_to_be_reduced]
+        
+        c_pass = to_set([])
+        c_fail = to_set(fail_inp)
+        offset = 0
+        
+        minimize_fail = '-' in mode
+        maximize_pass = '+' in mode
 
-        n = 2     # Initial granularity
-        while len(inp) >= 2:
-            start = 0
-            subset_length = len(inp) / n
-            some_complement_is_failing = False
+        while True:
+            if self.log > 1:
+                print("Passing input:", repr(from_set(c_pass, fail_inp)))
+                print("Failing input:", repr(from_set(c_fail, fail_inp)))
 
-            while start < len(inp):
-                complement = inp[:int(start)] + \
-                    inp[int(start + subset_length):]
+            delta = c_fail - c_pass
+            if len(delta) < n:
+                return from_set(c_pass, fail_inp), \
+                       from_set(c_fail, fail_inp)
 
-                new_args = {}  # Create copy
-                for var in args:
-                    new_args[var] = args[var]
-                new_args[var_to_be_reduced] = complement
-                if self.test(new_args) == FAIL:
-                    inp = complement
+            deltas = split(delta, n)
+            
+            j = 0
+            while j < n:
+                i = (j + offset) % n
+                next_c_pass = c_pass | deltas[i]
+                next_c_fail = c_fail - deltas[i]
+
+                if minimize_fail and n == 2 and test(next_c_pass) == FAIL:
+                    if self.log > 1:
+                        print("Reduce to subset")
+                    c_fail = next_c_pass
+                    # n = 2
+                    offset = 0
+                    break
+                elif maximize_pass and n == 2 and test(next_c_fail) == PASS:
+                    if self.log > 1:
+                        print("Increase to subset")
+                    c_pass = next_c_fail
+                    # n = 2
+                    offset = 0
+                    break
+                elif minimize_fail and test(next_c_fail) == FAIL:
+                    if self.log > 1:
+                        print("Reduce to complement")
+                    c_fail = next_c_fail
                     n = max(n - 1, 2)
-                    some_complement_is_failing = True
+                    offset = i
                     break
-
-                start += subset_length
-
-            if not some_complement_is_failing:
-                if n == len(inp):
+                elif maximize_pass and test(next_c_pass) == PASS:
+                    if self.log > 1:
+                        print("Increase to complement")
+                    c_pass = next_c_pass
+                    n = max(n - 1, 2)
+                    offset = i
                     break
-                n = min(n * 2, len(inp))
+                else:
+                    j += 1  # choose next subset
+                    
+            if j >= n:  # no reduction found
+                if n >= len(delta):
+                    return from_set(c_pass, fail_inp), \
+                           from_set(c_fail, fail_inp)
+                else:
+                    n = min(n + 2, len(delta))
 
-        return inp
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
+        mystery(failing_input)
+
+
+if __name__ == "__main__":
+    dd.dd('inp', {'inp': failing_input})
+
+
+if __name__ == "__main__":
+    with DeltaDebugger(log=2) as dd:
+        mystery(failing_input)
+
+
+if __name__ == "__main__":
+    dd.dd('inp', {'inp': failing_input})
+
+
+# #### Processing Multiple Arguments
+
+if __name__ == "__main__":
+    print('\n#### Processing Multiple Arguments')
+
+
+
 
 class DeltaDebugger(DeltaDebugger):
     def reducible(self, arg):
         """Return true if arg supports len() and indexing."""
         try:
-            x = len(arg)
+            _ = len(arg)
         except TypeError:
             return False
 
         try:
-            x = arg[0]
+            _ = arg[0]
         except TypeError:
             return False
         except IndexError:
@@ -601,78 +770,127 @@ class DeltaDebugger(DeltaDebugger):
     def check_reproducibility(self):
         """Check whether running the function again fails"""
         self.reset()
-        outcome = self.test(self._args)
+        outcome = self.test(self.args())
         if outcome == UNRESOLVED:
             raise FailureNotReproducedError(
                 "When called again, " +
-                self.format_call(self._args) + 
+                self.format_call(self.args()) + 
                 " raised " +
                 self.format_exception(self.last_exception) +
                 " instead of " +
-                self.format_exception(self._exception))
+                self.format_exception(self.exception()))
 
         if outcome == PASS:
             raise NotFailingError("When called again, " +
-                                  self.format_call(self._args) + 
+                                  self.format_call(self.args()) + 
                                   " did not fail")
         assert outcome == FAIL
 
 class DeltaDebugger(DeltaDebugger):
-    def reduce_args(self):
-        """Reduce all reducible arguments, using reduce_arg(). Can be overloaded in subclasses"""
-        args = {}  # Local copy
-        for var in self._args:
-            args[var] = self._args[var]
-        vars_to_be_reduced = set(args.keys())
+    def process_args(self, strategy, **strategy_args):
+        """Reduce all reducible arguments, using strategy(var, args).
+        Can be overloaded in subclasses"""
+        pass_args = {}  # Local copy
+        fail_args = {}  # Local copy
+        for var in self.args():
+            fail_args[var] = self.args()[var]
+            pass_args[var] = []
+        vars_to_be_processed = set(fail_args.keys())
+
+        pass_processed = 0
+        fail_processed = 0
 
         self.check_reproducibility()
 
-        # We take turns in reducing variables until all are processed
-        while len(vars_to_be_reduced) > 0:
-            for var in vars_to_be_reduced:
-                value = args[var]
-                if not self.reducible(value):
-                    vars_to_be_reduced.remove(var)
+        # We take turns in processing variables until all are processed
+        while len(vars_to_be_processed) > 0:
+            for var in vars_to_be_processed:
+                if not self.reducible(fail_args[var]):
+                    vars_to_be_processed.remove(var)
                     break
 
                 if self.log:
-                    print(f"Reducing {var}...")
+                    print(f"Processing {var}...")
 
-                reduced_value = self.reduce_arg(var, args)
-                if len(reduced_value) < len(value):
-                    args[var] = reduced_value
+                maximized_pass_value, minimized_fail_value = \
+                    strategy(var, fail_args, **strategy_args)
+
+                if (maximized_pass_value is not None and 
+                    len(maximized_pass_value) > len(pass_args[var])):
+                    pass_args[var] = maximized_pass_value
                     if self.log:
-                        print(f"Reduced {var} to {repr(reduced_value)}")
-                    vars_to_be_reduced = set(args.keys())
+                        print(f"Maximized {var} to",
+                              repr(maximized_pass_value))
+                    vars_to_be_processed = set(fail_args.keys())
+                    pass_processed += 1
 
-                vars_to_be_reduced.remove(var)
+                if (minimized_fail_value is not None and 
+                    len(minimized_fail_value) < len(fail_args[var])):
+                    fail_args[var] = minimized_fail_value
+                    if self.log:
+                        print(f"Minimized {var} to",
+                              repr(minimized_fail_value))
+                    vars_to_be_processed = set(fail_args.keys())
+                    fail_processed += 1
+
+                vars_to_be_processed.remove(var)
                 break
 
-        assert self.test(args) == FAIL, f"{self.format_call(args)} does not fail"
-        if self.log:
-            print(f"Reduced call to {self.format_call(args)}")
 
-        self._reduced_args = args
+        assert pass_processed == 0 or self.test(pass_args) == PASS, \
+            f"{self.format_call(pass_args)} does not pass"
+        assert fail_processed == 0 or self.test(fail_args) == FAIL, \
+            f"{self.format_call(fail_args)} does not fail"
+
+        if self.log and pass_processed > 0:
+            print("Maximized passing call to",
+                  self.format_call(pass_args))
+        if self.log and fail_processed > 0:
+            print("Minimized failing call to",
+                  self.format_call(fail_args))
+
+        return pass_args, fail_args
 
 class DeltaDebugger(DeltaDebugger):
-    def diagnosis(self):
-        if self._function is None:
+    def after_collection(self):
+        if self.function() is None:
             raise NoCallError("No function call observed")
-        if self._exception is None:
+        if self.exception() is None:
             raise NotFailingError(f"{self.format_call()} did not raise an exception")
 
         if self.log:
-            print(f"Observed {self.format_call()} raising {self.format_exception(self._exception)}")
+            print(f"Observed {self.format_call()}" +
+                  f" raising {self.format_exception(self.exception())}")
 
-        self.reduce_args()
+# #### Public API
+
+if __name__ == "__main__":
+    print('\n#### Public API')
+
+
+
 
 class DeltaDebugger(DeltaDebugger):
-    def reduced_args(self):
-        """Return the dictionary {var: value} of reduced arguments."""
-        return self._reduced_args
+    def min_args(self):
+        """Return 1-minimal arguments."""
+        pass_args, fail_args = self.process_args(self.dd, mode='-')
+        return fail_args
 
+class DeltaDebugger(DeltaDebugger):
+    def max_args(self):
+        """Return 1-maximal arguments."""
+        pass_args, fail_args = self.process_args(self.dd, mode='+')
+        return pass_args
+
+class DeltaDebugger(DeltaDebugger):
+    def min_arg_diff(self):
+        """Return 1-minimal difference between arguments."""
+        pass_args, fail_args = self.process_args(self.dd, mode='+-')
+        return pass_args, fail_args
+
+class DeltaDebugger(DeltaDebugger):
     def __repr__(self):
-        return self.format_call(self.reduced_args())
+        return self.format_call(self.min_args())
 
 # ### End of Excursion
 
@@ -704,7 +922,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    dd.reduced_args()
+    dd.min_args()
 
 
 # ## Usage Examples
@@ -730,8 +948,9 @@ else:
 
 
 if __name__ == "__main__":
-    with DeltaDebugger(log=True):
+    with DeltaDebugger(log=True) as dd:
         remove_html_markup('"x > y"')
+    dd.min_args()
 
 
 # ### Reducing Multiple Arguments
@@ -748,16 +967,17 @@ def string_error(s1, s2):
 if __name__ == "__main__":
     with DeltaDebugger(log=True) as dd:
         string_error("foo", "foobar")
+    dd.min_args()
 
 
 if __name__ == "__main__":
-    args = dd.reduced_args()
-    args
+    string_error_args = dd.min_args()
+    string_error_args
 
 
 if __name__ == "__main__":
-    with ExpectError():
-        string_error(args['s1'], args['s2'])
+    with ExpectError(AssertionError):
+        string_error(string_error_args['s1'], string_error_args['s2'])
 
 
 if __package__ is None or __package__ == "":
@@ -778,9 +998,9 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(AssertionError):
         with Debugger():
-            string_error(**args)
+            string_error(**string_error_args)
 
 
 # ### Reducing other Collections
@@ -798,6 +1018,44 @@ if __name__ == "__main__":
     with DeltaDebugger() as dd:
         list_error(l1=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], l2=[1, 2, 3], maxlen=5)
     dd
+
+
+# ## Debugging Inputs
+
+if __name__ == "__main__":
+    print('\n## Debugging Inputs')
+
+
+
+
+if __name__ == "__main__":
+    with DeltaDebugger(log=True) as dd:
+        mystery(failing_input)
+    max_passing_input = dd.max_args()['inp']
+    max_passing_input
+
+
+if __name__ == "__main__":
+    [c for c in failing_input if c not in max_passing_input]
+
+
+# ## Failure-Inducing Differences
+
+if __name__ == "__main__":
+    print('\n## Failure-Inducing Differences')
+
+
+
+
+if __name__ == "__main__":
+    with DeltaDebugger(log=True) as dd:
+        mystery(failing_input)
+    max_passing_args, min_failing_args = dd.min_arg_diff()
+    max_passing_args['inp'], min_failing_args['inp']
+
+
+if __name__ == "__main__":
+    [c for c in min_failing_args['inp'] if c not in max_passing_args['inp']]
 
 
 # ## Reducing Program Code
@@ -846,7 +1104,7 @@ def compile_and_test_html_markup(lines):
                     ['''\nassert remove_html_markup('"foo"') == '"foo"', "My Test"\n'''])
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(AssertionError):
         compile_and_test_html_markup(assertions_source_lines)
 
 
@@ -874,7 +1132,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    reduced_lines = dd.reduced_args()['lines']
+    reduced_lines = dd.min_args()['lines']
     len(reduced_lines)
 
 
@@ -897,14 +1155,14 @@ def compile_and_test_html_markup(lines):
         ])
 
 if __name__ == "__main__":
-    with ExpectError():
-        compile_and_test_html_markup(dd.reduced_args()['lines'])
+    with ExpectError(RuntimeError):
+        compile_and_test_html_markup(dd.min_args()['lines'])
 
 
 if __name__ == "__main__":
     with DeltaDebugger(log=False) as dd:
         compile_and_test_html_markup(assertions_source_lines)
-    reduced_assertions_source_lines = dd.reduced_args()['lines']
+    reduced_assertions_source_lines = dd.min_args()['lines']
 
 
 if __name__ == "__main__":
@@ -945,7 +1203,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(AssertionError):
         compile_and_test_html_markup(reduced_assertions_source_characters)
 
 
@@ -956,13 +1214,13 @@ else:
 
 
 if __name__ == "__main__":
-    with Timer() as t:
-        with DeltaDebugger(log=False) as dd:
-            compile_and_test_html_markup(reduced_assertions_source_characters)
+    with DeltaDebugger(log=False) as dd:
+        compile_and_test_html_markup(reduced_assertions_source_characters)
 
 
 if __name__ == "__main__":
-    further_reduced_assertions_source_characters = dd.reduced_args()['lines']
+    with Timer() as t:
+        further_reduced_assertions_source_characters = dd.min_args()['lines']
     print_content("".join(further_reduced_assertions_source_characters), ".py")
 
 
@@ -1056,7 +1314,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(AssertionError):
         exec(fun_test_code, {}, {})
 
 
@@ -1169,7 +1427,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(UnboundLocalError):
         exec(fun_code, {}, {})
 
 
@@ -1204,7 +1462,7 @@ def compile_and_test_ast(tree, keep_list, test_tree=None):
     exec(code_object, {}, {})
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(AssertionError):
         compile_and_test_ast(fun_tree, fun_nodes, test_tree)
 
 
@@ -1214,7 +1472,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    reduced_nodes = dd.reduced_args()['keep_list']
+    reduced_nodes = dd.min_args()['keep_list']
     len(reduced_nodes)
 
 
@@ -1275,7 +1533,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    reduced_nodes = dd.reduced_args()['keep_list']
+    reduced_nodes = dd.min_args()['keep_list']
     reduced_fun_tree = copy_and_reduce(fun_tree, reduced_nodes)
     print_content(astor.to_source(reduced_fun_tree), '.py')
 
@@ -1292,7 +1550,7 @@ def myeval(inp):
     return eval(inp)
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(ZeroDivisionError):
         myeval('1 + 2 * 3 / 0')
 
 
@@ -1303,7 +1561,15 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    dd.reduced_args()
+    dd.min_args()
+
+
+if __name__ == "__main__":
+    dd.max_args()
+
+
+if __name__ == "__main__":
+    dd.min_arg_diff()
 
 
 if __name__ == "__main__":

@@ -14077,9 +14077,9 @@ a.anchor-link {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">inp</span> <span class="o">=</span> <span class="n">fuzz</span><span class="p">()</span>
+    <span class="n">fuzz_input</span> <span class="o">=</span> <span class="n">fuzz</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">mystery</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+        <span class="n">mystery</span><span class="p">(</span><span class="n">fuzz_input</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">break</span>
 </pre></div>
@@ -14102,7 +14102,7 @@ a.anchor-link {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">failing_input</span> <span class="o">=</span> <span class="n">inp</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">failing_input</span> <span class="o">=</span> <span class="n">fuzz_input</span>
 <span class="n">failing_input</span>
 </pre></div>
 
@@ -14136,7 +14136,7 @@ a.anchor-link {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">failing_input</span><span class="p">)</span>
 </pre></div>
 
@@ -14155,7 +14155,7 @@ a.anchor-link {
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-12-2c6d37965be6&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-12-4e5dc18f5c4d&gt;&#34;, line 2, in &lt;module&gt;
     mystery(failing_input)
   File &#34;&lt;ipython-input-4-26b70a4c8761&gt;&#34;, line 5, in mystery
     raise ValueError(&#34;Invalid input&#34;)
@@ -14278,7 +14278,7 @@ ValueError: Invalid input (expected)
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">first_half</span><span class="p">)</span>
 </pre></div>
 
@@ -14335,7 +14335,7 @@ ValueError: Invalid input (expected)
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">second_half</span><span class="p">)</span>
 </pre></div>
 
@@ -14416,7 +14416,7 @@ the first quarter, the second quarter, and so on.</p>
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">input_without_first_quarter</span><span class="p">)</span>
 </pre></div>
 
@@ -14435,7 +14435,7 @@ the first quarter, the second quarter, and so on.</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-19-3405be4be6b3&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-19-93dfdcc38bb3&gt;&#34;, line 2, in &lt;module&gt;
     mystery(input_without_first_quarter)
   File &#34;&lt;ipython-input-4-26b70a4c8761&gt;&#34;, line 5, in mystery
     raise ValueError(&#34;Invalid input&#34;)
@@ -14495,7 +14495,7 @@ ValueError: Invalid input (expected)
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">input_without_first_and_second_quarter</span><span class="p">)</span>
 </pre></div>
 
@@ -14626,7 +14626,7 @@ ValueError: Invalid input (expected)
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">mystery</span><span class="p">(</span><span class="n">input_without_first_and_third_quarter</span><span class="p">)</span>
 </pre></div>
 
@@ -14645,7 +14645,7 @@ ValueError: Invalid input (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-25-2736f29f5713&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-25-8ab1da14a84d&gt;&#34;, line 2, in &lt;module&gt;
     mystery(input_without_first_and_third_quarter)
   File &#34;&lt;ipython-input-4-26b70a4c8761&gt;&#34;, line 5, in mystery
     raise ValueError(&#34;Invalid input&#34;)
@@ -14921,7 +14921,7 @@ mystery(&#39;(&#39;): PASS
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -14939,7 +14939,7 @@ mystery(&#39;(&#39;): PASS
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[56]:</div>
+    <div class="prompt output_prompt">Out[76]:</div>
 
 
 
@@ -14964,7 +14964,7 @@ mystery(&#39;(&#39;): PASS
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -14988,37 +14988,38 @@ mystery(&#39;(&#39;): PASS
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed mystery(inp=&#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;) raising ValueError: Invalid input
 Test #1 mystery(inp=&#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
-Reducing inp...
-Test #2 mystery(inp=&#39;z*+s/Q,7)2@0_&#39;): PASS
-Test #3 mystery(inp=&#39;V&#34;/+!aF-(V4EO&#39;): PASS
-Test #4 mystery(inp=&#39;F-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
-Test #5 mystery(inp=&#39;Oz*+s/Q,7)2@0_&#39;): PASS
-Test #6 mystery(inp=&#39;F-(V4E,7)2@0_&#39;): FAIL (ValueError: Invalid input)
-Test #7 mystery(inp=&#39;,7)2@0_&#39;): PASS
-Test #8 mystery(inp=&#39;F-(V4E&#39;): PASS
-Test #9 mystery(inp=&#39;V4E,7)2@0_&#39;): PASS
-Test #10 mystery(inp=&#39;F-(,7)2@0_&#39;): FAIL (ValueError: Invalid input)
-Test #11 mystery(inp=&#39;F-(2@0_&#39;): PASS
-Test #12 mystery(inp=&#39;F-(,7)&#39;): FAIL (ValueError: Invalid input)
-Test #13 mystery(inp=&#39;,7)&#39;): PASS
-Test #14 mystery(inp=&#39;F-(&#39;): PASS
-Test #15 mystery(inp=&#39;-(,7)&#39;): FAIL (ValueError: Invalid input)
-Test #16 mystery(inp=&#39;(,7)&#39;): FAIL (ValueError: Invalid input)
-Test #17 mystery(inp=&#39;7)&#39;): PASS
-Test #18 mystery(inp=&#39;(,&#39;): PASS
-Test #19 mystery(inp=&#39;(7)&#39;): FAIL (ValueError: Invalid input)
-Test #20 mystery(inp=&#39;()&#39;): FAIL (ValueError: Invalid input)
-Test #21 mystery(inp=&#39;)&#39;): PASS
-Test #22 mystery(inp=&#39;(&#39;): PASS
-Reduced inp to &#39;()&#39;
-Reduced call to mystery(inp=&#39;()&#39;)
+Processing inp...
+Test #2 mystery(inp=&#39;V&#34;/+!aF-(V4EO&#39;): PASS
+Test #3 mystery(inp=&#39;z*+s/Q,7)2@0_&#39;): PASS
+Test #4 mystery(inp=&#39;-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #5 mystery(inp=&#39;*+s/Q,7)2@0_&#39;): PASS
+Test #6 mystery(inp=&#39;-(V4EOz7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #7 mystery(inp=&#39;7)2@0_&#39;): PASS
+Test #8 mystery(inp=&#39;-(V4EOz&#39;): PASS
+Test #9 mystery(inp=&#39;-(V47)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #10 mystery(inp=&#39;-(V4@0_&#39;): PASS
+Test #11 mystery(inp=&#39;-(V47)2&#39;): FAIL (ValueError: Invalid input)
+Test #12 mystery(inp=&#39;-7)2&#39;): PASS
+Test #13 mystery(inp=&#39;(V4&#39;): PASS
+Test #14 mystery(inp=&#39;-47)2&#39;): PASS
+Test #15 mystery(inp=&#39;-(V7)2&#39;): FAIL (ValueError: Invalid input)
+Test #16 mystery(inp=&#39;-(V2&#39;): PASS
+Test #17 mystery(inp=&#39;(V7)&#39;): FAIL (ValueError: Invalid input)
+Test #18 mystery(inp=&#39;7)&#39;): PASS
+Test #19 mystery(inp=&#39;(V&#39;): PASS
+Test #20 mystery(inp=&#39;(7)&#39;): FAIL (ValueError: Invalid input)
+Test #21 mystery(inp=&#39;()&#39;): FAIL (ValueError: Invalid input)
+Test #22 mystery(inp=&#39;)&#39;): PASS
+Test #23 mystery(inp=&#39;(&#39;): PASS
+Minimized inp to &#39;()&#39;
+Minimized failing call to mystery(inp=&#39;()&#39;)
 </pre>
 </div>
 </div>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[57]:</div>
+    <div class="prompt output_prompt">Out[77]:</div>
 
 
 
@@ -15043,7 +15044,7 @@ Reduced call to mystery(inp=&#39;()&#39;)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -15057,7 +15058,7 @@ Reduced call to mystery(inp=&#39;()&#39;)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">args</span><span class="p">()</span>
@@ -15073,7 +15074,7 @@ Reduced call to mystery(inp=&#39;()&#39;)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[59]:</div>
+    <div class="prompt output_prompt">Out[79]:</div>
 
 
 
@@ -15090,10 +15091,10 @@ Reduced call to mystery(inp=&#39;()&#39;)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15106,7 +15107,7 @@ Reduced call to mystery(inp=&#39;()&#39;)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[60]:</div>
+    <div class="prompt output_prompt">Out[80]:</div>
 
 
 
@@ -15139,11 +15140,12 @@ Reduced call to mystery(inp=&#39;()&#39;)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;x &gt; y&quot;&#39;</span><span class="p">)</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15162,22 +15164,32 @@ Reduced call to mystery(inp=&#39;()&#39;)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed remove_html_markup(s=&#39;&#34;x &gt; y&#34;&#39;) raising AssertionError
 Test #1 remove_html_markup(s=&#39;&#34;x &gt; y&#34;&#39;): FAIL (AssertionError)
-Reducing s...
-Test #2 remove_html_markup(s=&#39;&gt; y&#34;&#39;): PASS
-Test #3 remove_html_markup(s=&#39;&#34;x &#39;): PASS
-Test #4 remove_html_markup(s=&#39;x &gt; y&#34;&#39;): PASS
-Test #5 remove_html_markup(s=&#39;&#34;&gt; y&#34;&#39;): FAIL (AssertionError)
-Test #6 remove_html_markup(s=&#39;&#34;y&#34;&#39;): PASS
-Test #7 remove_html_markup(s=&#39;&#34;&gt; &#39;): FAIL (AssertionError)
-Test #8 remove_html_markup(s=&#39;&gt; &#39;): PASS
+Processing s...
+Test #2 remove_html_markup(s=&#39;&#34;x &gt;&#39;): FAIL (AssertionError)
+Test #3 remove_html_markup(s=&#39;&#34;x&#39;): PASS
+Test #4 remove_html_markup(s=&#39; &gt;&#39;): PASS
+Test #5 remove_html_markup(s=&#39;x &gt;&#39;): PASS
+Test #6 remove_html_markup(s=&#39;&#34; &gt;&#39;): FAIL (AssertionError)
+Test #7 remove_html_markup(s=&#39;&#34;&gt;&#39;): FAIL (AssertionError)
+Test #8 remove_html_markup(s=&#39;&gt;&#39;): PASS
 Test #9 remove_html_markup(s=&#39;&#34;&#39;): PASS
-Test #10 remove_html_markup(s=&#39;&#34; &#39;): PASS
-Test #11 remove_html_markup(s=&#39;&#34;&gt;&#39;): FAIL (AssertionError)
-Test #12 remove_html_markup(s=&#39;&gt;&#39;): PASS
-Reduced s to &#39;&#34;&gt;&#39;
-Reduced call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
+Minimized s to &#39;&#34;&gt;&#39;
+Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 </pre>
 </div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[82]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;s&#39;: &#39;&#34;&gt;&#39;}</pre>
+</div>
+
 </div>
 
 </div>
@@ -15194,7 +15206,7 @@ Reduced call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">string_error</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
@@ -15208,11 +15220,12 @@ Reduced call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
     <span class="n">string_error</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;foobar&quot;</span><span class="p">)</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -15231,25 +15244,37 @@ Reduced call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;) raising AssertionError: no substrings
 Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Reducing s2...
-Test #2 string_error(s2=&#39;bar&#39;, s1=&#39;foo&#39;): PASS
-Test #3 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Test #4 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
-Test #5 string_error(s2=&#39;f&#39;, s1=&#39;foo&#39;): PASS
-Test #6 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
-Reduced s2 to &#39;foo&#39;
-Reducing s1...
-Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;oo&#39;): FAIL (AssertionError: no substrings)
-Test #8 string_error(s2=&#39;foo&#39;, s1=&#39;o&#39;): FAIL (AssertionError: no substrings)
-Reduced s1 to &#39;o&#39;
-Reducing s2...
-Test #9 string_error(s2=&#39;oo&#39;, s1=&#39;o&#39;): FAIL (AssertionError: no substrings)
-Test #10 string_error(s2=&#39;o&#39;, s1=&#39;o&#39;): FAIL (AssertionError: no substrings)
-Reduced s2 to &#39;o&#39;
-Reducing s1...
-Reduced call to string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
+Processing s2...
+Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
+Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
+Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
+Minimized s2 to &#39;foo&#39;
+Processing s1...
+Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Minimized s1 to &#39;f&#39;
+Processing s2...
+Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Minimized s2 to &#39;f&#39;
+Processing s1...
+Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
 </pre>
 </div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[84]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;s2&#39;: &#39;f&#39;, &#39;s1&#39;: &#39;f&#39;}</pre>
+</div>
+
 </div>
 
 </div>
@@ -15263,14 +15288,14 @@ Reduced call to string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
 
 </div>
 </div>
-</div><div class="fragment">
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()</span>
-<span class="n">args</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">string_error_args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
+<span class="n">string_error_args</span>
 </pre></div>
 
     </div>
@@ -15283,13 +15308,40 @@ Reduced call to string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[65]:</div>
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
+Processing s2...
+Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
+Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
+Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
+Minimized s2 to &#39;foo&#39;
+Processing s1...
+Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Minimized s1 to &#39;f&#39;
+Processing s2...
+Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Minimized s2 to &#39;f&#39;
+Processing s1...
+Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[85]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;s2&#39;: &#39;o&#39;, &#39;s1&#39;: &#39;o&#39;}</pre>
+<pre>{&#39;s2&#39;: &#39;f&#39;, &#39;s1&#39;: &#39;f&#39;}</pre>
 </div>
 
 </div>
@@ -15297,14 +15349,14 @@ Reduced call to string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">string_error</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
+    <span class="n">string_error</span><span class="p">(</span><span class="n">string_error_args</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">],</span> <span class="n">string_error_args</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -15322,9 +15374,9 @@ Reduced call to string_error(s2=&#39;o&#39;, s1=&#39;o&#39;)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-66-2a031321095d&gt;&#34;, line 2, in &lt;module&gt;
-    string_error(args[&#39;s1&#39;], args[&#39;s2&#39;])
-  File &#34;&lt;ipython-input-63-bbb028ab5242&gt;&#34;, line 2, in string_error
+  File &#34;&lt;ipython-input-86-94fdeac63d8a&gt;&#34;, line 2, in &lt;module&gt;
+    string_error(string_error_args[&#39;s1&#39;], string_error_args[&#39;s2&#39;])
+  File &#34;&lt;ipython-input-83-bbb028ab5242&gt;&#34;, line 2, in string_error
     assert s1 not in s2, &#34;no substrings&#34;
 AssertionError: no substrings (expected)
 </pre>
@@ -15334,7 +15386,7 @@ AssertionError: no substrings (expected)
 </div>
 </div>
 
-</div></div></section><section>
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -15349,7 +15401,7 @@ You can use this shortcut to invoke an <a href="Debugger">interactive debugger</
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -15366,7 +15418,7 @@ You can use this shortcut to invoke an <a href="Debugger">interactive debugger</
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[69]:</div>
+    <div class="prompt output_prompt">Out[89]:</div>
 
 
 
@@ -15383,12 +15435,12 @@ You can use this shortcut to invoke an <a href="Debugger">interactive debugger</
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
-        <span class="n">string_error</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">string_error</span><span class="p">(</span><span class="o">**</span><span class="n">string_error_args</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15405,7 +15457,7 @@ You can use this shortcut to invoke an <a href="Debugger">interactive debugger</
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Calling string_error(s2 = &#39;o&#39;, s1 = &#39;o&#39;)
+<pre>Calling string_error(s2 = &#39;f&#39;, s1 = &#39;f&#39;)
 </pre>
 </div>
 </div>
@@ -15428,8 +15480,8 @@ You can use this shortcut to invoke an <a href="Debugger">interactive debugger</
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>s2 = &#39;o&#39;
-s1 = &#39;o&#39;
+<pre>s2 = &#39;f&#39;
+s1 = &#39;f&#39;
 </pre>
 </div>
 </div>
@@ -15453,9 +15505,9 @@ s1 = &#39;o&#39;
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-70-fa7c01311105&gt;&#34;, line 3, in &lt;module&gt;
-    string_error(**args)
-  File &#34;&lt;ipython-input-63-bbb028ab5242&gt;&#34;, line 2, in string_error
+  File &#34;&lt;ipython-input-90-f8a0c9a135a8&gt;&#34;, line 3, in &lt;module&gt;
+    string_error(**string_error_args)
+  File &#34;&lt;ipython-input-83-bbb028ab5242&gt;&#34;, line 2, in string_error
     assert s1 not in s2, &#34;no substrings&#34;
 AssertionError: no substrings (expected)
 </pre>
@@ -15476,7 +15528,7 @@ AssertionError: no substrings (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">list_error</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">):</span>
@@ -15490,7 +15542,7 @@ AssertionError: no substrings (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -15508,13 +15560,13 @@ AssertionError: no substrings (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[72]:</div>
+    <div class="prompt output_prompt">Out[92]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>list_error(maxlen=5, l2=[3], l1=[10])</pre>
+<pre>list_error(maxlen=5, l2=[1], l1=[1])</pre>
 </div>
 
 </div>
@@ -15526,7 +15578,245 @@ AssertionError: no substrings (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Reducing-Program-Code">Reducing Program Code<a class="anchor-link" href="#Reducing-Program-Code">&#182;</a></h2><p>One particularly fun application of reducers is on <em>program code</em>. Technically speaking, program code is just another input to a computation; and we can actually automatically determine which minimum of program code is required to produce a failure, using Delta Debugging.</p>
+<h2 id="Debugging-Inputs">Debugging Inputs<a class="anchor-link" href="#Debugging-Inputs">&#182;</a></h2><p>Sometimes, it may be useful to not <em>minimize</em> the input, but rather <em>maximize</em> it – that is, to find the <em>maximum</em> input that does <em>not</em> fail. For instance, you may have an input of which you want to <em>preserve</em> as much as possible – to repair it, or to establish a <em>context</em> that is as close as possible to the real input.</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is possible by using the <code>max_arg()</code> method. It implements the <code>ddmax</code> variant of the general Delta Debugging algorithm \cite{Kirschner2020}. With each step, it tries to add more and more characters to the passing input until it is <em>1-maximal</em> – that is, any additional character that would be added from the failing input also would cause the function to fail.</p>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
+    <span class="n">mystery</span><span class="p">(</span><span class="n">failing_input</span><span class="p">)</span>
+<span class="n">max_passing_input</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">max_args</span><span class="p">()[</span><span class="s1">&#39;inp&#39;</span><span class="p">]</span>
+<span class="n">max_passing_input</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Observed mystery(inp=&#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;) raising ValueError: Invalid input
+Test #1 mystery(inp=&#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Processing inp...
+Test #2 mystery(inp=&#39;z*+s/Q,7)2@0_&#39;): PASS
+Test #3 mystery(inp=&#39;-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #4 mystery(inp=&#39;V&#34;/+!aFz*+s/Q,7)2@0_&#39;): PASS
+Test #5 mystery(inp=&#39;V&#34;/+!aF4EOz*+s/Q,7)2@0_&#39;): PASS
+Test #6 mystery(inp=&#39;V&#34;/+!aF-4EOz*+s/Q,7)2@0_&#39;): PASS
+Test #7 mystery(inp=&#39;V&#34;/+!aF-V4EOz*+s/Q,7)2@0_&#39;): PASS
+Maximized inp to &#39;V&#34;/+!aF-V4EOz*+s/Q,7)2@0_&#39;
+Maximized passing call to mystery(inp=&#39;V&#34;/+!aF-V4EOz*+s/Q,7)2@0_&#39;)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[93]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;V&#34;/+!aF-V4EOz*+s/Q,7)2@0_&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An interesting property of maximized passing inputs is that they also neatly pinpoint failure-inducing inputs. To this end, one computes the <em>difference</em> between the failing input and the maximized passing input.</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">failing_input</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">max_passing_input</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[94]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;(&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Failure-Inducing-Differences">Failure-Inducing Differences<a class="anchor-link" href="#Failure-Inducing-Differences">&#182;</a></h2>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, Delta Debugging also allows us to determine failure-inducing differences directly – by both maximizing the passing input and minimizing the failing input until they meet somewhere in the middle. The remaining difference is what makes the difference between passing and failing.</p>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To compute the failure-inducing differences for <code>mystery()</code>, use the <code>min_arg_diff()</code> method:</p>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
+    <span class="n">mystery</span><span class="p">(</span><span class="n">failing_input</span><span class="p">)</span>
+<span class="n">max_passing_args</span><span class="p">,</span> <span class="n">min_failing_args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">()</span>
+<span class="n">max_passing_args</span><span class="p">[</span><span class="s1">&#39;inp&#39;</span><span class="p">],</span> <span class="n">min_failing_args</span><span class="p">[</span><span class="s1">&#39;inp&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Observed mystery(inp=&#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;) raising ValueError: Invalid input
+Test #1 mystery(inp=&#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Processing inp...
+Test #2 mystery(inp=&#39;V&#34;/+!aF-(V4EO&#39;): PASS
+Test #3 mystery(inp=&#39;z*+s/Q,7)2@0_&#39;): PASS
+Test #4 mystery(inp=&#39;V&#34;/+!aFz*+s/Q,7)2@0_&#39;): PASS
+Test #5 mystery(inp=&#39;-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #6 mystery(inp=&#39;-(Vz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #7 mystery(inp=&#39;(Vz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Test #8 mystery(inp=&#39;(z*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
+Maximized inp to &#39;z*+s/Q,7)2@0_&#39;
+Minimized inp to &#39;(z*+s/Q,7)2@0_&#39;
+Maximized passing call to mystery(inp=&#39;z*+s/Q,7)2@0_&#39;)
+Minimized failing call to mystery(inp=&#39;(z*+s/Q,7)2@0_&#39;)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[95]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&#39;z*+s/Q,7)2@0_&#39;, &#39;(z*+s/Q,7)2@0_&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Minimizing failure-inducing differences is especially efficient on large inputs, since the number of differences between a passing and a failing input is much smaller than the inputs themselves. Here is the failure-inducing difference as determined by Delta Debugging:</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">min_failing_args</span><span class="p">[</span><span class="s1">&#39;inp&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">max_passing_args</span><span class="p">[</span><span class="s1">&#39;inp&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[96]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;(&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Reducing-Program-Code">Reducing Program Code<a class="anchor-link" href="#Reducing-Program-Code">&#182;</a></h2><p>One particularly fun application of reducers is on <em>program code</em>. Technically speaking, program code is just another input to a computation; and we can actually automatically determine which minimum of program code is required to produce a failure, using Delta Debugging. Such minimization of code is typically used as it comes to debugging programs that accept code as their input, such as <em>compilers</em> and <em>interpreters</em>. However, it can also pinpoint failure causes in the (input) code itself.</p>
 
 </div>
 </div>
@@ -15541,7 +15831,7 @@ AssertionError: no substrings (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -15566,7 +15856,7 @@ AssertionError: no substrings (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">assertions_source_lines</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">Assertions</span><span class="p">)</span>
@@ -15584,7 +15874,7 @@ AssertionError: no substrings (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[76]:</div>
+    <div class="prompt output_prompt">Out[100]:</div>
 
 
 
@@ -15610,7 +15900,7 @@ AssertionError: no substrings (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">assertions_source_lines</span><span class="p">)</span>
@@ -15626,7 +15916,7 @@ AssertionError: no substrings (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[77]:</div>
+    <div class="prompt output_prompt">Out[101]:</div>
 
 
 
@@ -15651,7 +15941,7 @@ AssertionError: no substrings (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_run</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
@@ -15665,7 +15955,7 @@ AssertionError: no substrings (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">compile_and_run</span><span class="p">(</span><span class="n">assertions_source_lines</span><span class="p">)</span>
@@ -15686,7 +15976,7 @@ AssertionError: no substrings (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_test_html_markup</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
@@ -15709,10 +15999,10 @@ AssertionError: no substrings (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
     <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">assertions_source_lines</span><span class="p">)</span>
 </pre></div>
 
@@ -15731,11 +16021,11 @@ AssertionError: no substrings (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-81-d8f2cd9b0296&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-105-9d70d44e4338&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_html_markup(assertions_source_lines)
-  File &#34;&lt;ipython-input-80-4dd51a254e40&gt;&#34;, line 3, in compile_and_test_html_markup
+  File &#34;&lt;ipython-input-104-4dd51a254e40&gt;&#34;, line 3, in compile_and_test_html_markup
     [&#39;&#39;&#39;\nassert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;])
-  File &#34;&lt;ipython-input-78-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
+  File &#34;&lt;ipython-input-102-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
     exec(&#34;&#34;.join(lines), {}, {})
   File &#34;&lt;string&gt;&#34;, line 438, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -15765,7 +16055,7 @@ AssertionError: My Test (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What will the reduced set of lines contain?&quot;</span><span class="p">,</span>
@@ -15787,7 +16077,7 @@ AssertionError: My Test (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[82]:</div>
+    <div class="prompt output_prompt">Out[106]:</div>
 
 
 
@@ -15855,21 +16145,21 @@ AssertionError: My Test (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="73dda082-358c-11eb-ad64-1a0c39cab3aa" id="73dda082-358c-11eb-ad64-1a0c39cab3aa-1" onclick="clear_selection('73dda082-358c-11eb-ad64-1a0c39cab3aa')">
-        <label id="73dda082-358c-11eb-ad64-1a0c39cab3aa-1-label" for="73dda082-358c-11eb-ad64-1a0c39cab3aa-1">All of the source code in the assertions chapter.</label><br>
+        <input type="radio" name="39d8c824-37dc-11eb-ad64-1a0c39cab3aa" id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-1" onclick="clear_selection('39d8c824-37dc-11eb-ad64-1a0c39cab3aa')">
+        <label id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-1-label" for="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-1">All of the source code in the assertions chapter.</label><br>
     
-        <input type="radio" name="73dda082-358c-11eb-ad64-1a0c39cab3aa" id="73dda082-358c-11eb-ad64-1a0c39cab3aa-2" onclick="clear_selection('73dda082-358c-11eb-ad64-1a0c39cab3aa')">
-        <label id="73dda082-358c-11eb-ad64-1a0c39cab3aa-2-label" for="73dda082-358c-11eb-ad64-1a0c39cab3aa-2">Only the source code of <samp>remove_html_markup()</samp></label><br>
+        <input type="radio" name="39d8c824-37dc-11eb-ad64-1a0c39cab3aa" id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-2" onclick="clear_selection('39d8c824-37dc-11eb-ad64-1a0c39cab3aa')">
+        <label id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-2-label" for="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-2">Only the source code of <samp>remove_html_markup()</samp></label><br>
     
-        <input type="radio" name="73dda082-358c-11eb-ad64-1a0c39cab3aa" id="73dda082-358c-11eb-ad64-1a0c39cab3aa-3" onclick="clear_selection('73dda082-358c-11eb-ad64-1a0c39cab3aa')">
-        <label id="73dda082-358c-11eb-ad64-1a0c39cab3aa-3-label" for="73dda082-358c-11eb-ad64-1a0c39cab3aa-3">Only a subset of <samp>remove_html_markup()</samp></label><br>
+        <input type="radio" name="39d8c824-37dc-11eb-ad64-1a0c39cab3aa" id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-3" onclick="clear_selection('39d8c824-37dc-11eb-ad64-1a0c39cab3aa')">
+        <label id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-3-label" for="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-3">Only a subset of <samp>remove_html_markup()</samp></label><br>
     
-        <input type="radio" name="73dda082-358c-11eb-ad64-1a0c39cab3aa" id="73dda082-358c-11eb-ad64-1a0c39cab3aa-4" onclick="clear_selection('73dda082-358c-11eb-ad64-1a0c39cab3aa')">
-        <label id="73dda082-358c-11eb-ad64-1a0c39cab3aa-4-label" for="73dda082-358c-11eb-ad64-1a0c39cab3aa-4">No lines at all.</label><br>
+        <input type="radio" name="39d8c824-37dc-11eb-ad64-1a0c39cab3aa" id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-4" onclick="clear_selection('39d8c824-37dc-11eb-ad64-1a0c39cab3aa')">
+        <label id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-4-label" for="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-4">No lines at all.</label><br>
     
     </div>
     </p>
-    <input id="73dda082-358c-11eb-ad64-1a0c39cab3aa-submit" type="submit" value="Submit" onclick="check_selection('73dda082-358c-11eb-ad64-1a0c39cab3aa', 8, 0)">
+    <input id="39d8c824-37dc-11eb-ad64-1a0c39cab3aa-submit" type="submit" value="Submit" onclick="check_selection('39d8c824-37dc-11eb-ad64-1a0c39cab3aa', 8, 0)">
     </div>
     
 </div>
@@ -15890,7 +16180,7 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -15905,17 +16195,17 @@ AssertionError: My Test (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We get exactly <em>two</em> lines of code:</p>
+<p>We get exactly <em>four</em> lines of code:</p>
 
 </div>
 </div>
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_lines</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_lines</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">reduced_lines</span><span class="p">)</span>
 </pre></div>
 
@@ -15929,7 +16219,7 @@ AssertionError: My Test (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[84]:</div>
+    <div class="prompt output_prompt">Out[108]:</div>
 
 
 
@@ -15954,7 +16244,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reduced_lines</span><span class="p">),</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
@@ -15974,8 +16264,8 @@ AssertionError: My Test (expected)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root</span>(x):
-    <span class="ansi-blue-fg">return</span> out
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">test_square_root</span>():
+            quote = <span class="ansi-magenta-fg">not</span> quote
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
     tag = <span class="ansi-blue-fg">False</span></pre>
 </div>
@@ -15996,14 +16286,22 @@ AssertionError: My Test (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To ensure we do not remove code that actually would be necessary for normal behavior, let us add another check – one that checks for the <em>normal</em> functionality of <code>remove_html_markup()</code>. If this one fails (say, after the code has been tampered with too much), it raises an exception – but a <em>different</em> one from the original failure:</p>
+<p>At the same time, we also have a function <code>test_square_root()</code> which is equally devoid of any meaning – its code line does not even stem from its original implementation. Note, however, how the set of four lines is actually 1-minimal – removing any further line would result in a syntax error.</p>
 
 </div>
 </div>
 </div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To ensure we do not remove code that actually would be necessary for normal behavior, let us add another check – one that checks for the <em>normal</em> functionality of <code>remove_html_markup()</code>. If this one fails (say, after the code has been tampered with too much), it raises an exception – but a <em>different</em> one from the original failure:</p>
+
+</div>
+</div>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_test_html_markup</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
@@ -16019,7 +16317,7 @@ AssertionError: My Test (expected)
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -16030,11 +16328,11 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[112]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -16052,11 +16350,11 @@ AssertionError: My Test (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-88-ffa6ade91b22&gt;&#34;, line 2, in &lt;module&gt;
-    compile_and_test_html_markup(dd.reduced_args()[&#39;lines&#39;])
-  File &#34;&lt;ipython-input-87-123bdd50db7f&gt;&#34;, line 6, in compile_and_test_html_markup
+  File &#34;&lt;ipython-input-112-08963af09a55&gt;&#34;, line 2, in &lt;module&gt;
+    compile_and_test_html_markup(dd.min_args()[&#39;lines&#39;])
+  File &#34;&lt;ipython-input-111-123bdd50db7f&gt;&#34;, line 6, in compile_and_test_html_markup
     &#39;&#39;&#39;assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;
-  File &#34;&lt;ipython-input-78-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
+  File &#34;&lt;ipython-input-102-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
     exec(&#34;&#34;.join(lines), {}, {})
   File &#34;&lt;string&gt;&#34;, line 6, in &lt;module&gt;
 RuntimeError: Missing functionality (expected)
@@ -16086,12 +16384,12 @@ RuntimeError: Missing functionality (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[113]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
     <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">assertions_source_lines</span><span class="p">)</span>
-<span class="n">reduced_assertions_source_lines</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span>
+<span class="n">reduced_assertions_source_lines</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -16109,7 +16407,7 @@ RuntimeError: Missing functionality (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[114]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reduced_assertions_source_lines</span><span class="p">),</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
@@ -16160,7 +16458,7 @@ RuntimeError: Missing functionality (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[115]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">reduced_assertions_source_lines</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">assertions_source_lines</span><span class="p">)</span>
@@ -16176,7 +16474,7 @@ RuntimeError: Missing functionality (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[91]:</div>
+    <div class="prompt output_prompt">Out[115]:</div>
 
 
 
@@ -16201,7 +16499,7 @@ RuntimeError: Missing functionality (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup_source_lines</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">Assertions</span><span class="o">.</span><span class="n">remove_html_markup</span><span class="p">)</span>
@@ -16250,7 +16548,7 @@ RuntimeError: Missing functionality (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;In the reduced version, what has changed?&quot;</span><span class="p">,</span>
@@ -16273,7 +16571,7 @@ RuntimeError: Missing functionality (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[93]:</div>
+    <div class="prompt output_prompt">Out[117]:</div>
 
 
 
@@ -16341,21 +16639,21 @@ RuntimeError: Missing functionality (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="743f3892-358c-11eb-bbf6-1a0c39cab3aa" id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-1" onclick="clear_selection('743f3892-358c-11eb-bbf6-1a0c39cab3aa')">
-        <label id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-1-label" for="743f3892-358c-11eb-bbf6-1a0c39cab3aa-1">Comments are deleted</label><br>
+        <input type="checkbox" name="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa" id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-1" onclick="clear_selection('3a33b054-37dc-11eb-bbf6-1a0c39cab3aa')">
+        <label id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-1-label" for="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-1">Comments are deleted</label><br>
     
-        <input type="checkbox" name="743f3892-358c-11eb-bbf6-1a0c39cab3aa" id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-2" onclick="clear_selection('743f3892-358c-11eb-bbf6-1a0c39cab3aa')">
-        <label id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-2-label" for="743f3892-358c-11eb-bbf6-1a0c39cab3aa-2">Blank lines are deleted</label><br>
+        <input type="checkbox" name="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa" id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-2" onclick="clear_selection('3a33b054-37dc-11eb-bbf6-1a0c39cab3aa')">
+        <label id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-2-label" for="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-2">Blank lines are deleted</label><br>
     
-        <input type="checkbox" name="743f3892-358c-11eb-bbf6-1a0c39cab3aa" id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-3" onclick="clear_selection('743f3892-358c-11eb-bbf6-1a0c39cab3aa')">
-        <label id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-3-label" for="743f3892-358c-11eb-bbf6-1a0c39cab3aa-3">Initializations are deleted</label><br>
+        <input type="checkbox" name="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa" id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-3" onclick="clear_selection('3a33b054-37dc-11eb-bbf6-1a0c39cab3aa')">
+        <label id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-3-label" for="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-3">Initializations are deleted</label><br>
     
-        <input type="checkbox" name="743f3892-358c-11eb-bbf6-1a0c39cab3aa" id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-4" onclick="clear_selection('743f3892-358c-11eb-bbf6-1a0c39cab3aa')">
-        <label id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-4-label" for="743f3892-358c-11eb-bbf6-1a0c39cab3aa-4">The assertion is deleted</label><br>
+        <input type="checkbox" name="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa" id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-4" onclick="clear_selection('3a33b054-37dc-11eb-bbf6-1a0c39cab3aa')">
+        <label id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-4-label" for="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-4">The assertion is deleted</label><br>
     
     </div>
     </p>
-    <input id="743f3892-358c-11eb-bbf6-1a0c39cab3aa-submit" type="submit" value="Submit" onclick="check_selection('743f3892-358c-11eb-bbf6-1a0c39cab3aa', 22, 1)">
+    <input id="3a33b054-37dc-11eb-bbf6-1a0c39cab3aa-submit" type="submit" value="Submit" onclick="check_selection('3a33b054-37dc-11eb-bbf6-1a0c39cab3aa', 22, 1)">
     </div>
     
 </div>
@@ -16391,7 +16689,7 @@ RuntimeError: Missing functionality (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[118]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_assertions_source_characters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reduced_assertions_source_lines</span><span class="p">))</span>
@@ -16431,10 +16729,10 @@ RuntimeError: Missing functionality (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[119]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
     <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">reduced_assertions_source_characters</span><span class="p">)</span>
 </pre></div>
 
@@ -16453,11 +16751,11 @@ RuntimeError: Missing functionality (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-95-b2a0dac71e7c&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-119-9f9e3b457bcf&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_html_markup(reduced_assertions_source_characters)
-  File &#34;&lt;ipython-input-87-123bdd50db7f&gt;&#34;, line 6, in compile_and_test_html_markup
+  File &#34;&lt;ipython-input-111-123bdd50db7f&gt;&#34;, line 6, in compile_and_test_html_markup
     &#39;&#39;&#39;assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;
-  File &#34;&lt;ipython-input-78-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
+  File &#34;&lt;ipython-input-102-bf194b6c0f8d&gt;&#34;, line 2, in compile_and_run
     exec(&#34;&#34;.join(lines), {}, {})
   File &#34;&lt;string&gt;&#34;, line 17, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -16479,12 +16777,11 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[121]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
-        <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">reduced_assertions_source_characters</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
+    <span class="n">compile_and_test_html_markup</span><span class="p">(</span><span class="n">reduced_assertions_source_characters</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16502,10 +16799,11 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[122]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">further_reduced_assertions_source_characters</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">further_reduced_assertions_source_characters</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span>
 <span class="n">print_content</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">further_reduced_assertions_source_characters</span><span class="p">),</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -16524,12 +16822,11 @@ AssertionError: My Test (expected)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    tag=quote=<span class="ansi-blue-fg">False</span>
-    out=<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+    tag=quote=out=<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">True</span>
-        <span class="ansi-blue-fg">if</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">or</span> c==<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-magenta-fg">and</span> t:<span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span>:quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:out=out+c
     <span class="ansi-blue-fg">return</span> out</pre>
 </div>
@@ -16547,10 +16844,9 @@ AssertionError: My Test (expected)
 <li>All superfluous blanks and even newlines have been removed.</li>
 <li>As a curiosity, the initialization of <code>tag</code> and <code>quote</code> to <code>False</code> is now merged into a single (semantics-preserving) statement.</li>
 <li>The semantics and effect of <code>&lt;</code> and <code>&gt;</code> characters is preserved, as mandated by our <code>RuntimeError</code> check.</li>
-<li>The condition <code>c=="" and t</code> references a non-existing variable <code>t</code>, but this is never evaluated as <code>c</code> always holds one character.</li>
-<li>Double quotes still have the effect of not being included in the returned value: the remaining <code>not quote</code> has no effect.</li>
+<li>Double quotes still have the effect of not being included in the returned value: the remaining <code>quote</code> has no effect.</li>
 </ul>
-<p>Semantics-wise, this reduced variant still yields the "original" failure; the biggest semantic differences, though, are in the condition and code associated with double quotes – which actually also is the location of the defect to be fixed. This is how reducing code can also point to not only necessary, but also defective locations.</p>
+<p>Semantics-wise, this reduced variant still yields the "original" failure; the biggest semantic differences, though, are in the condition and code associated with double quotes – which actually also is the location of the defect to be fixed. This is how reducing code can also point to not only <em>necessary</em> locations, but also <em>defective</em> locations.</p>
 
 </div>
 </div>
@@ -16565,7 +16861,7 @@ AssertionError: My Test (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="prompt input_prompt">In&nbsp;[123]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">tests</span>
@@ -16581,13 +16877,13 @@ AssertionError: My Test (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[99]:</div>
+    <div class="prompt output_prompt">Out[123]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>6057</pre>
+<pre>18354</pre>
 </div>
 
 </div>
@@ -16599,14 +16895,14 @@ AssertionError: My Test (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And to do so, it required almost <em>one second</em>. This may be little for a human, but from a CPU standpoint, this is an enormous effort.</p>
+<p>And to do so, it even required <em>several seconds</em>. This may be little for a human, but from a CPU standpoint, this is an enormous effort.</p>
 
 </div>
 </div>
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[124]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
@@ -16622,13 +16918,13 @@ AssertionError: My Test (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[100]:</div>
+    <div class="prompt output_prompt">Out[124]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.31976877100532874</pre>
+<pre>4.821429044997785</pre>
 </div>
 
 </div>
@@ -16684,7 +16980,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
@@ -16697,7 +16993,7 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">fun_source</span><span class="p">,</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -16753,7 +17049,7 @@ AssertionError: My Test (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fun_source</span><span class="p">)</span>
@@ -16774,7 +17070,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">rich_output</span><span class="p">():</span>
@@ -16791,7 +17087,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[132]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">)</span>
@@ -18251,7 +18547,7 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_source</span> <span class="o">=</span> <span class="p">(</span>
@@ -18267,7 +18563,7 @@ AssertionError: My Test (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">test_source</span><span class="p">)</span>
@@ -18280,7 +18576,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">test_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -18320,7 +18616,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[113]:</div>
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_test_tree</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">)</span>
@@ -18342,7 +18638,7 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="prompt input_prompt">In&nbsp;[138]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_test_code</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">fun_test_tree</span><span class="p">,</span> <span class="s1">&#39;&lt;string&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">)</span>
@@ -18363,10 +18659,10 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[115]:</div>
+<div class="prompt input_prompt">In&nbsp;[139]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
     <span class="n">exec</span><span class="p">(</span><span class="n">fun_test_code</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{})</span>
 </pre></div>
 
@@ -18385,7 +18681,7 @@ AssertionError: My Test (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-115-912d847b8705&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-139-59dfdc161ac5&gt;&#34;, line 2, in &lt;module&gt;
     exec(fun_test_code, {}, {})
   File &#34;&lt;string&gt;&#34;, line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -18417,7 +18713,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[117]:</div>
+<div class="prompt input_prompt">In&nbsp;[141]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeCollector</span><span class="p">(</span><span class="n">NodeVisitor</span><span class="p">):</span>
@@ -18452,7 +18748,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[118]:</div>
+<div class="prompt input_prompt">In&nbsp;[142]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_nodes</span> <span class="o">=</span> <span class="n">NodeCollector</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">)</span>
@@ -18469,7 +18765,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[118]:</div>
+    <div class="prompt output_prompt">Out[142]:</div>
 
 
 
@@ -18486,7 +18782,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_nodes</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span>
@@ -18502,42 +18798,42 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[119]:</div>
+    <div class="prompt output_prompt">Out[143]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Module at 0x7feee641cfd0&gt;,
- &lt;_ast.FunctionDef at 0x7feee641ca58&gt;,
- &lt;_ast.arguments at 0x7feee641c940&gt;,
- &lt;_ast.arg at 0x7feee641c128&gt;,
- &lt;_ast.Assign at 0x7feee641c1d0&gt;,
- &lt;_ast.Name at 0x7feee641c7f0&gt;,
- &lt;_ast.Store at 0x7feee3035e10&gt;,
- &lt;_ast.NameConstant at 0x7feee641ce10&gt;,
- &lt;_ast.Assign at 0x7feee641a668&gt;,
- &lt;_ast.Name at 0x7feee641a240&gt;,
- &lt;_ast.Store at 0x7feee3035e10&gt;,
- &lt;_ast.NameConstant at 0x7feee641a128&gt;,
- &lt;_ast.Assign at 0x7feee641a0b8&gt;,
- &lt;_ast.Name at 0x7feee641a1d0&gt;,
- &lt;_ast.Store at 0x7feee3035e10&gt;,
- &lt;_ast.Str at 0x7feee641a2e8&gt;,
- &lt;_ast.For at 0x7feee641a6d8&gt;,
- &lt;_ast.Name at 0x7feee641a5f8&gt;,
- &lt;_ast.Store at 0x7feee3035e10&gt;,
- &lt;_ast.Name at 0x7feee641a470&gt;,
- &lt;_ast.Load at 0x7feee3035cf8&gt;,
- &lt;_ast.If at 0x7feee641a4e0&gt;,
- &lt;_ast.BoolOp at 0x7feee641a438&gt;,
- &lt;_ast.And at 0x7feee3039908&gt;,
- &lt;_ast.Compare at 0x7feee641a550&gt;,
- &lt;_ast.Name at 0x7feee641a320&gt;,
- &lt;_ast.Load at 0x7feee3035cf8&gt;,
- &lt;_ast.Eq at 0x7feee3040080&gt;,
- &lt;_ast.Str at 0x7feee641a5c0&gt;,
- &lt;_ast.UnaryOp at 0x7feee641a748&gt;]</pre>
+<pre>[&lt;_ast.Module at 0x7ffabf42d828&gt;,
+ &lt;_ast.FunctionDef at 0x7ffabf42d668&gt;,
+ &lt;_ast.arguments at 0x7ffabf42d1d0&gt;,
+ &lt;_ast.arg at 0x7ffabf42d780&gt;,
+ &lt;_ast.Assign at 0x7ffabf42d518&gt;,
+ &lt;_ast.Name at 0x7ffabf42d080&gt;,
+ &lt;_ast.Store at 0x7ffabb873b70&gt;,
+ &lt;_ast.NameConstant at 0x7ffabf42dd30&gt;,
+ &lt;_ast.Assign at 0x7ffabf42d860&gt;,
+ &lt;_ast.Name at 0x7ffabf42def0&gt;,
+ &lt;_ast.Store at 0x7ffabb873b70&gt;,
+ &lt;_ast.NameConstant at 0x7ffabf42d978&gt;,
+ &lt;_ast.Assign at 0x7ffabee10710&gt;,
+ &lt;_ast.Name at 0x7ffabee10208&gt;,
+ &lt;_ast.Store at 0x7ffabb873b70&gt;,
+ &lt;_ast.Str at 0x7ffabee105f8&gt;,
+ &lt;_ast.For at 0x7ffabee10c50&gt;,
+ &lt;_ast.Name at 0x7ffabee10dd8&gt;,
+ &lt;_ast.Store at 0x7ffabb873b70&gt;,
+ &lt;_ast.Name at 0x7ffabee10eb8&gt;,
+ &lt;_ast.Load at 0x7ffabb873a58&gt;,
+ &lt;_ast.If at 0x7ffabee10fd0&gt;,
+ &lt;_ast.BoolOp at 0x7ffabee10048&gt;,
+ &lt;_ast.And at 0x7ffabb8776a0&gt;,
+ &lt;_ast.Compare at 0x7ffabf420a20&gt;,
+ &lt;_ast.Name at 0x7ffabf4202b0&gt;,
+ &lt;_ast.Load at 0x7ffabb873a58&gt;,
+ &lt;_ast.Eq at 0x7ffabb87bdd8&gt;,
+ &lt;_ast.Str at 0x7ffabf420630&gt;,
+ &lt;_ast.UnaryOp at 0x7ffabf4205f8&gt;]</pre>
 </div>
 
 </div>
@@ -18586,7 +18882,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="prompt input_prompt">In&nbsp;[144]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeMarker</span><span class="p">(</span><span class="n">NodeVisitor</span><span class="p">):</span>
@@ -18610,7 +18906,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeReducer</span><span class="p">(</span><span class="n">NodeTransformer</span><span class="p">):</span>
@@ -18645,7 +18941,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">copy_and_reduce</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">keep_list</span><span class="p">):</span>
@@ -18678,7 +18974,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="prompt input_prompt">In&nbsp;[147]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_nodes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
@@ -18694,13 +18990,13 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[123]:</div>
+    <div class="prompt output_prompt">Out[147]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_ast.Assign at 0x7feee641c1d0&gt;</pre>
+<pre>&lt;_ast.Assign at 0x7ffabf42d518&gt;</pre>
 </div>
 
 </div>
@@ -18719,7 +19015,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[124]:</div>
+<div class="prompt input_prompt">In&nbsp;[148]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">fun_nodes</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
@@ -18735,7 +19031,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[124]:</div>
+    <div class="prompt output_prompt">Out[148]:</div>
 
 
 
@@ -18760,7 +19056,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[125]:</div>
+<div class="prompt input_prompt">In&nbsp;[149]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">keep_list</span> <span class="o">=</span> <span class="n">fun_nodes</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -18782,7 +19078,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[126]:</div>
+<div class="prompt input_prompt">In&nbsp;[150]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_fun_tree</span> <span class="o">=</span> <span class="n">copy_and_reduce</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">,</span> <span class="n">keep_list</span><span class="p">)</span>
@@ -20183,7 +20479,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="prompt input_prompt">In&nbsp;[151]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">new_fun_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -20234,7 +20530,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[152]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_fun_tree</span><span class="o">.</span><span class="n">body</span> <span class="o">+=</span> <span class="n">test_tree</span><span class="o">.</span><span class="n">body</span>
@@ -20247,7 +20543,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="prompt input_prompt">In&nbsp;[153]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fun_code</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">new_fun_tree</span><span class="p">,</span> <span class="s2">&quot;&lt;string&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">)</span>
@@ -20260,10 +20556,10 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[130]:</div>
+<div class="prompt input_prompt">In&nbsp;[154]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">UnboundLocalError</span><span class="p">):</span>
     <span class="n">exec</span><span class="p">(</span><span class="n">fun_code</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{})</span>
 </pre></div>
 
@@ -20282,7 +20578,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-130-2457bfc1140a&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-154-7b27e77c9f53&gt;&#34;, line 2, in &lt;module&gt;
     exec(fun_code, {}, {})
   File &#34;&lt;string&gt;&#34;, line 3, in &lt;module&gt;
   File &#34;&lt;string&gt;&#34;, line 13, in remove_html_markup
@@ -20305,7 +20601,7 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[131]:</div>
+<div class="prompt input_prompt">In&nbsp;[155]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">empty_tree</span> <span class="o">=</span> <span class="n">copy_and_reduce</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">,</span> <span class="p">[])</span>
@@ -20318,7 +20614,7 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[132]:</div>
+<div class="prompt input_prompt">In&nbsp;[156]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">empty_tree</span><span class="p">)</span>
@@ -20334,7 +20630,7 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[132]:</div>
+    <div class="prompt output_prompt">Out[156]:</div>
 
 
 
@@ -20359,7 +20655,7 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[133]:</div>
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_test_ast</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">keep_list</span><span class="p">,</span> <span class="n">test_tree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -20384,10 +20680,10 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[134]:</div>
+<div class="prompt input_prompt">In&nbsp;[158]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
     <span class="n">compile_and_test_ast</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">,</span> <span class="n">fun_nodes</span><span class="p">,</span> <span class="n">test_tree</span><span class="p">)</span>
 </pre></div>
 
@@ -20406,9 +20702,9 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-134-1cbc071095c7&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-158-5bb5087772bf&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_ast(fun_tree, fun_nodes, test_tree)
-  File &#34;&lt;ipython-input-133-084c70ab3c97&gt;&#34;, line 13, in compile_and_test_ast
+  File &#34;&lt;ipython-input-157-084c70ab3c97&gt;&#34;, line 13, in compile_and_test_ast
     exec(code_object, {}, {})
   File &#34;&lt;string&gt;&#34;, line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -20430,7 +20726,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[135]:</div>
+<div class="prompt input_prompt">In&nbsp;[159]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -20444,10 +20740,10 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="prompt input_prompt">In&nbsp;[160]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_nodes</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;keep_list&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_nodes</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;keep_list&#39;</span><span class="p">]</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">reduced_nodes</span><span class="p">)</span>
 </pre></div>
 
@@ -20461,7 +20757,7 @@ AssertionError: My Test (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[136]:</div>
+    <div class="prompt output_prompt">Out[160]:</div>
 
 
 
@@ -20486,7 +20782,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[161]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_fun_tree</span> <span class="o">=</span> <span class="n">copy_and_reduce</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">,</span> <span class="n">reduced_nodes</span><span class="p">)</span>
@@ -21777,7 +22073,7 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="prompt input_prompt">In&nbsp;[162]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">reduced_fun_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -21820,7 +22116,7 @@ AssertionError: My Test (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[139]:</div>
+<div class="prompt input_prompt">In&nbsp;[163]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">tests</span>
@@ -21836,13 +22132,13 @@ AssertionError: My Test (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[139]:</div>
+    <div class="prompt output_prompt">Out[163]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>981</pre>
+<pre>2611</pre>
 </div>
 
 </div>
@@ -21869,7 +22165,7 @@ AssertionError: My Test (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[164]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeReducer</span><span class="p">(</span><span class="n">NodeReducer</span><span class="p">):</span>
@@ -21896,7 +22192,7 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[141]:</div>
+<div class="prompt input_prompt">In&nbsp;[165]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeReducer</span><span class="p">(</span><span class="n">NodeReducer</span><span class="p">):</span>
@@ -21923,7 +22219,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[142]:</div>
+<div class="prompt input_prompt">In&nbsp;[166]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeReducer</span><span class="p">(</span><span class="n">NodeReducer</span><span class="p">):</span>
@@ -21949,7 +22245,7 @@ AssertionError: My Test (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[143]:</div>
+<div class="prompt input_prompt">In&nbsp;[167]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeReducer</span><span class="p">(</span><span class="n">NodeReducer</span><span class="p">):</span>
@@ -21975,7 +22271,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[144]:</div>
+<div class="prompt input_prompt">In&nbsp;[168]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -21997,10 +22293,10 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[145]:</div>
+<div class="prompt input_prompt">In&nbsp;[169]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_nodes</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()[</span><span class="s1">&#39;keep_list&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_nodes</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;keep_list&#39;</span><span class="p">]</span>
 <span class="n">reduced_fun_tree</span> <span class="o">=</span> <span class="n">copy_and_reduce</span><span class="p">(</span><span class="n">fun_tree</span><span class="p">,</span> <span class="n">reduced_nodes</span><span class="p">)</span>
 <span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">reduced_fun_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
@@ -22074,7 +22370,7 @@ AssertionError: My Test (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="prompt input_prompt">In&nbsp;[170]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">myeval</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
@@ -22088,10 +22384,10 @@ AssertionError: My Test (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="prompt input_prompt">In&nbsp;[171]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">):</span>
     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -22110,9 +22406,9 @@ AssertionError: My Test (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-147-deae668eac94&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-171-93ec01ccd5a1&gt;&#34;, line 2, in &lt;module&gt;
     myeval(&#39;1 + 2 * 3 / 0&#39;)
-  File &#34;&lt;ipython-input-146-e6018665ac61&gt;&#34;, line 2, in myeval
+  File &#34;&lt;ipython-input-170-e6018665ac61&gt;&#34;, line 2, in myeval
     return eval(inp)
   File &#34;&lt;string&gt;&#34;, line 1, in &lt;module&gt;
 ZeroDivisionError: division by zero (expected)
@@ -22139,7 +22435,7 @@ ZeroDivisionError: division by zero (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="prompt input_prompt">In&nbsp;[172]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -22157,13 +22453,13 @@ ZeroDivisionError: division by zero (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[148]:</div>
+    <div class="prompt output_prompt">Out[172]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>myeval(inp=&#39;2/0&#39;)</pre>
+<pre>myeval(inp=&#39;3/0&#39;)</pre>
 </div>
 
 </div>
@@ -22183,17 +22479,17 @@ ZeroDivisionError: division by zero (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There also is an interface to access the reduced input(s) programmatically. The method <code>reduced_args()</code> returns a dictionary in which all function arguments are minimized:</p>
+<p>There also is an interface to access the reduced input(s) programmatically. The method <code>min_args()</code> returns a dictionary in which all function arguments are minimized:</p>
 
 </div>
 </div>
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[149]:</div>
+<div class="prompt input_prompt">In&nbsp;[173]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">reduced_args</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -22206,13 +22502,95 @@ ZeroDivisionError: division by zero (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[149]:</div>
+    <div class="prompt output_prompt">Out[173]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;inp&#39;: &#39;2/0&#39;}</pre>
+<pre>{&#39;inp&#39;: &#39;3/0&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In contrast, <code>max_args()</code> returns a dictionary in which all function arguments are maximized, but still pass:</p>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[174]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">max_args</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[174]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;inp&#39;: &#39;1 + 2 * 3  &#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The method <code>min_arg_diff()</code> returns a pair of passing and failing inputs with a minimal failure-inducing difference.</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[175]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[175]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>({&#39;inp&#39;: &#39; 3 &#39;}, {&#39;inp&#39;: &#39; 3 /0&#39;})</pre>
 </div>
 
 </div>
@@ -22231,7 +22609,7 @@ ZeroDivisionError: division by zero (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[150]:</div>
+<div class="prompt input_prompt">In&nbsp;[176]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">function</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">dd</span><span class="o">.</span><span class="n">args</span><span class="p">()</span>
@@ -22247,7 +22625,7 @@ ZeroDivisionError: division by zero (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[150]:</div>
+    <div class="prompt output_prompt">Out[176]:</div>
 
 
 
@@ -22261,15 +22639,15 @@ ZeroDivisionError: division by zero (expected)
 </div>
 </div>
 
-</div></div></section><section>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>DelteDebugger</code> minimizes all arguments that support a <code>len()</code> operation and that can be indexed – notably <em>strings</em> and <em>lists</em>. If a function has multiple arguments, all arguments that can be minimized will be minimized.</p>
+<p><code>DeltaDebugger</code> processes (i.e., minimizes or maximizes) all arguments that support a <code>len()</code> operation and that can be indexed – notably <em>strings</em> and <em>lists</em>. If a function has multiple arguments, all arguments that can be processed will be processed.</p>
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -22293,11 +22671,19 @@ ZeroDivisionError: division by zero (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>The "lexical" delta debugging algorithm discussed here stems from \cite{Zeller2002}; actually, this is the exact Python implementation as used by Zeller in 2002.  The idea of systematically reducing inputs has been discovered a number of times, although not as  automatic and generic as delta debugging. \cite{Slutz1998}, for instance, discusses systematic reduction of SQL statements for SQL databases; the general process as manual work is well described by \cite{Kernighan1999}.</p>
+<h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>The "lexical" delta debugging algorithm discussed here – both in its simplifying <code>ddmin</code> as well as in its general <code>dd</code> form – stem from \cite{Zeller2002}; actually, <code>ddmin</code> is the exact Python implementation as used by Zeller in 2002. The <code>ddmax</code> variant was first evaluated in \cite{Kirschner2020}. This chapter is the first to show how both <code>ddmin</code> and <code>ddmax</code> can be implemented as small variations of <code>dd</code>.</p>
 
 </div>
 </div>
-</div></section><section>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The idea of systematically reducing inputs has been discovered a number of times, although not as  automatic and generic as delta debugging. \cite{Slutz1998}, for instance, discusses systematic reduction of SQL statements for SQL databases; the general process as manual work is well described by \cite{Kernighan1999}.</p>
+
+</div>
+</div>
+</div></div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
