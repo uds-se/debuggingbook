@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ExpectError.html
-# Last change: 2020-11-22 18:13:17+01:00
+# Last change: 2020-12-06 16:47:16+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -62,9 +62,10 @@ import traceback
 import sys
 
 class ExpectError(object):
-    def __init__(self, print_traceback=True, mute=False):
+    def __init__(self, exc_type=None, print_traceback=True, mute=False):
         self.print_traceback = print_traceback
         self.mute = mute
+        self.expected_exc_type = exc_type
 
     # Begin of `with` block
     def __enter__(self):
@@ -75,6 +76,10 @@ class ExpectError(object):
         if exc_type is None:
             # No exception
             return
+
+        if (self.expected_exc_type is not None
+            and exc_type != self.expected_exc_type):
+            raise  # Unexpected exception
 
         # An exception occurred
         if self.print_traceback:
@@ -103,6 +108,17 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     with ExpectError(print_traceback=False):
         fail_test()
+
+
+if __name__ == "__main__":
+    with ExpectError(ZeroDivisionError):
+        fail_test()
+
+
+if __name__ == "__main__":
+    with ExpectError():
+        with ExpectError(ZeroDivisionError):
+            some_nonexisting_function()
 
 
 # ## Catching Timeouts
