@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-12-03 18:22:46+01:00
+# Last change: 2020-12-07 19:46:58+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors

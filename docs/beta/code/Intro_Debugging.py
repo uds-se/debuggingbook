@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Intro_Debugging.html
-# Last change: 2020-12-05 13:04:19+01:00
+# Last change: 2020-12-07 19:35:45+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -151,23 +151,30 @@ if __name__ == "__main__":
     from IPython.display import display
 
 
-PASS = "✔"
-FAIL = "✘"
+if __name__ == "__main__":
+    # ignore
+    PASS = "✔"
+    FAIL = "✘"
 
-PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
-FAIL_COLOR = 'red4'  # '#8B0000' # darkred
+    PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
+    FAIL_COLOR = 'red4'  # '#8B0000' # darkred
 
-STEP_COLOR = 'peachpuff'
-FONT_NAME = 'Raleway'
+    STEP_COLOR = 'peachpuff'
+    FONT_NAME = 'Raleway'
 
-def graph(comment="default"):
-    return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
-        node_attr={'style': 'filled',
-                   'fillcolor': STEP_COLOR,
-                   'fontname': FONT_NAME},
-        edge_attr={'fontname': FONT_NAME})
 
 if __name__ == "__main__":
+    # ignore
+    def graph(comment="default"):
+        return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
+            node_attr={'style': 'filled',
+                       'fillcolor': STEP_COLOR,
+                       'fontname': FONT_NAME},
+            edge_attr={'fontname': FONT_NAME})
+
+
+if __name__ == "__main__":
+    # ignore
     state_machine = graph()
     state_machine.node('Start', )
     state_machine.edge('Start', '¬ tag')
@@ -191,6 +198,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     state_machine = graph()
     state_machine.node('Start')
     state_machine.edge('Start', '¬ quote\n¬ tag')
@@ -205,6 +213,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     display(state_machine)
 
 
@@ -484,6 +493,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     dot = graph()
 
     dot.node('Hypothesis')
@@ -515,6 +525,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     display(dot)
 
 
@@ -704,6 +715,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     display(state_machine)
 
 

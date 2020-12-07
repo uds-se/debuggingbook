@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-12-06 18:20:36+01:00
+# Last change: 2020-12-07 19:50:34+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -34,6 +34,11 @@ if __name__ == "__main__":
     print('# Reducing Failure-Inducing Inputs')
 
 
+
+
+if __name__ == "__main__":
+    from bookutils import YouTubeVideo
+    # YouTubeVideo("UNuso00zYiI")
 
 
 # ## Synopsis
@@ -429,6 +434,36 @@ if __name__ == "__main__":
     call_collector.call({'inp': 'foo'})
 
 
+class CallCollector(CallCollector):
+    def format_call(self, args=None):
+        """Return a string representing a call of the function with given args."""
+        if args is None:
+            args = self.args()
+        return self.function().__name__ + "(" + \
+            ", ".join(f"{arg}={repr(args[arg])}" for arg in args) + ")"
+
+    def format_exception(self, exc=None):
+        """Return a string representing the given exception."""
+        if exc is None:
+            exc = self.exception()
+        s = type(exc).__name__
+        if str(exc):
+            s += ": " + str(exc)
+        return s
+
+if __name__ == "__main__":
+    with CallCollector() as call_collector:
+        mystery(failing_input)
+
+
+if __name__ == "__main__":
+    call_collector.format_call()
+
+
+if __name__ == "__main__":
+    call_collector.format_exception()
+
+
 # #### Testing, Logging, and Caching
 
 if __name__ == "__main__":
@@ -469,20 +504,6 @@ class CallReducer(CallCollector):
         return PASS
 
 class CallReducer(CallReducer):
-    def format_call(self, args=None):
-        """Return a string representing a call of the function with given args."""
-        if args is None:
-            args = self.args()
-        return self.function().__name__ + "(" + \
-            ", ".join(f"{arg}={repr(args[arg])}" for arg in args) + ")"
-
-    def format_exception(self, exc):
-        """Return a string representing the given exception."""
-        s = type(exc).__name__
-        if str(exc):
-            s += ": " + str(exc)
-        return s
-
     def test(self, args):
         """Like run(), but also log detail and keep statistics."""
         outcome = self.run(args)

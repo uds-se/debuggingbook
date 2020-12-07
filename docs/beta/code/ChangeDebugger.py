@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-06 19:22:32+01:00
+# Last change: 2020-12-07 19:50:34+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    YouTubeVideo("w4u5gCgPlmg")
+    # YouTubeVideo("w4u5gCgPlmg")
 
 
 if __name__ == "__main__":
@@ -61,10 +61,81 @@ if __name__ == "__main__":
 
 
 
-# ## A Version History
+# ## Changes and Bugs
 
 if __name__ == "__main__":
-    print('\n## A Version History')
+    print('\n## Changes and Bugs')
+
+
+
+
+# ## Leveraging Version Histories
+
+if __name__ == "__main__":
+    print('\n## Leveraging Version Histories')
+
+
+
+
+if __name__ == "__main__":
+    from graphviz import Digraph, nohtml
+
+
+if __name__ == "__main__":
+    from IPython.display import display
+
+
+if __name__ == "__main__":
+    # ignore
+    PASS = "✔"
+    FAIL = "✘"
+    UNRESOLVED = "?"
+
+    PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
+    FAIL_COLOR = 'red4'  # '#8B0000' # darkred
+
+    STEP_COLOR = 'peachpuff'
+    FONT_NAME = 'Raleway'
+
+
+if __name__ == "__main__":
+    # ignore
+    def graph(comment="default"):
+        return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
+            node_attr={'style': 'filled',
+                       'shape': 'box',
+                       'fillcolor': STEP_COLOR,
+                       'fontname': FONT_NAME},
+            edge_attr={'fontname': FONT_NAME})
+
+
+if __name__ == "__main__":
+    # ignore
+    VERSIONS = 8
+
+    def display_versions(outcomes):
+        state_machine = graph()
+        for version_number in range(1, VERSIONS + 1):
+            id = f'v{version_number}'
+            label = f' {outcomes [version_number]}' \
+                if version_number in outcomes else ''
+            state_machine.node(id, label=f'{id}{label}')
+            if version_number > 1:
+                last_id = f'v{version_number - 1}'
+                state_machine.edge(last_id, id)
+
+        display(state_machine)
+
+
+if __name__ == "__main__":
+    # ignore
+    display_versions({1: PASS, 8: FAIL})
+
+
+# ## An Example Version History
+
+if __name__ == "__main__":
+    print('\n## An Example Version History')
 
 
 
@@ -97,10 +168,10 @@ if __name__ == "__main__":
     os.chdir(PROJECT)
 
 
-# ### Initialize git
+# ### Initialize Git
 
 if __name__ == "__main__":
-    print('\n### Initialize git')
+    print('\n### Initialize Git')
 
 
 
@@ -186,10 +257,10 @@ if __name__ == "__main__":
     os.system(f'git commit -m "Second version" remove_html_markup.py')
 
 
-# ### Excursion: More Revisions
+# ### Excursion: Adding More Revisions
 
 if __name__ == "__main__":
-    print('\n### Excursion: More Revisions')
+    print('\n### Excursion: Adding More Revisions')
 
 
 
@@ -366,6 +437,10 @@ if __name__ == "__main__":
     os.system(f'git commit -m "Eighth version (with proper assertion)" remove_html_markup.py')
 
 
+if __name__ == "__main__":
+    remove_html_markup('"foo"')
+
+
 if __package__ is None or __package__ == "":
     from ExpectError import ExpectError
 else:
@@ -385,11 +460,6 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    import os
-    os.system(f'git log --pretty=oneline')
-
-
 import subprocess
 
 def get_output(command):
@@ -406,6 +476,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     versions = [line.split()[0] for line in log.split('\n') if line]
     versions.reverse()
+    versions[0]
 
 
 if __name__ == "__main__":
@@ -466,20 +537,8 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    print_file('remove_html_markup.py')
-
-
-if __name__ == "__main__":
-    exec(open('remove_html_markup.py').read())
-
-
-if __name__ == "__main__":
-    remove_html_markup('"foo"')
-
-
-if __name__ == "__main__":
-    import os
-    os.system(f'git bisect bad')
+    # ignore
+    display_versions({1: PASS, 4: UNRESOLVED, 8: FAIL})
 
 
 if __name__ == "__main__":
@@ -500,6 +559,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
+    display_versions({1: PASS, 3: UNRESOLVED, 4: FAIL, 8: FAIL})
+
+
+if __name__ == "__main__":
     print_file('remove_html_markup.py')
 
 
@@ -509,6 +573,33 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     remove_html_markup('"foo"')
+
+
+if __name__ == "__main__":
+    import os
+    os.system(f'git bisect bad')
+
+
+if __name__ == "__main__":
+    # ignore
+    display_versions({1: PASS, 2: UNRESOLVED, 3: FAIL, 4: FAIL, 8: FAIL})
+
+
+if __name__ == "__main__":
+    print_file('remove_html_markup.py')
+
+
+if __name__ == "__main__":
+    exec(open('remove_html_markup.py').read())
+
+
+if __name__ == "__main__":
+    remove_html_markup('"foo"')
+
+
+if __name__ == "__main__":
+    # ignore
+    display_versions({1: PASS, 2: FAIL, 3: FAIL, 4: FAIL, 8: FAIL})
 
 
 if __name__ == "__main__":
@@ -519,11 +610,6 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     import os
     os.system(f'git diff HEAD^')
-
-
-if __name__ == "__main__":
-    import os
-    os.system(f'git bisect view')
 
 
 if __name__ == "__main__":
@@ -630,6 +716,7 @@ if __name__ == "__main__":
 from diff_match_patch import diff_match_patch
 
 def diff(s1, s2, mode='lines'):
+    """Compare s1 and s2 like `diff`; return a list of patches"""
     dmp = diff_match_patch()
     if mode == 'lines':
         (text1, text2, linearray) = dmp.diff_linesToChars(s1, s2)
@@ -658,11 +745,12 @@ if __name__ == "__main__":
         print(patch_string(p))
 
 
-def patch(s, patches):
+def patch(text, patches):
+    """Apply given patches on given text; return patched text."""
     dmp = diff_match_patch()
-    text, success = dmp.patch_apply(patches, s)
-    assert all(success)
-    return text
+    patched_text, success = dmp.patch_apply(patches, text)
+    assert all(success), "Could not apply some patch(es)"
+    return patched_text
 
 if __name__ == "__main__":
     print_content(patch(version_1, patches), '.py')
@@ -688,18 +776,22 @@ if __name__ == "__main__":
     print_content(patch(version_1, [patches[1]]))
 
 
+if __name__ == "__main__":
+    quiz("What has changed in version 1 after applying the second patch?",
+         [
+             "The initialization of quote is deleted",
+             "The condition after c == '&lt;' is expanded",
+             "The tag variable gets a different value",
+             "None of the above"
+         ], 1 / 1 + 1 ** 1 - 1 % 1 * 1)
+
+
 # ## Delta Debugging on Patches
 
 if __name__ == "__main__":
     print('\n## Delta Debugging on Patches')
 
 
-
-
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger
-else:
-    from .DeltaDebugger import DeltaDebugger
 
 
 def test_remove_html_markup(patches):
@@ -712,8 +804,22 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
+    with ExpectError(AssertionError):
         test_remove_html_markup(patches)
+
+
+# ### A Minimal Set of Patches
+
+if __name__ == "__main__":
+    print('\n### A Minimal Set of Patches')
+
+
+
+
+if __package__ is None or __package__ == "":
+    from DeltaDebugger import DeltaDebugger
+else:
+    from .DeltaDebugger import DeltaDebugger
 
 
 if __name__ == "__main__":
@@ -734,8 +840,17 @@ if __name__ == "__main__":
     print_content(patch(version_1, reduced_patches), '.py')
 
 
+# ### A Minimal Difference
+
 if __name__ == "__main__":
-    pass_patches, fail_patches, diffs = (arg['patches'] for arg in dd.min_arg_diff())
+    print('\n### A Minimal Difference')
+
+
+
+
+if __name__ == "__main__":
+    pass_patches, fail_patches, diffs = \
+        tuple(arg['patches'] for arg in dd.min_arg_diff())
 
 
 if __name__ == "__main__":
@@ -760,27 +875,31 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger, NotFailingError
+    from DeltaDebugger import CallCollector
 else:
-    from .DeltaDebugger import DeltaDebugger, NotFailingError
+    from .DeltaDebugger import CallCollector
 
 
-class ChangeDebugger(DeltaDebugger):
+class ChangeDebugger(CallCollector):
     def __init__(self, pass_source, fail_source, **ddargs):
-        super().__init__(**ddargs)
+        super().__init__()
         self._pass_source = pass_source
         self._fail_source = fail_source
         self._patches = diff(pass_source, fail_source)
+        self._ddargs = ddargs
+        self.log = ddargs['log'] if 'log' in ddargs else False
 
     def pass_source(self):
         return self._pass_source
+
     def fail_source(self):
         return self._fail_source
+
     def patches(self):
         return self._patches
 
 def test_remove_html_markup():
-    assert remove_html_markup('"foo"') == '"foo"'    
+    assert remove_html_markup('"foo"') == '"foo"'
 
 if __name__ == "__main__":
     with ChangeDebugger(version_1, version_2) as cd:
@@ -810,13 +929,14 @@ class ChangeDebugger(ChangeDebugger):
         exec(new_version, globals())
         self.call()
 
+class ChangeDebugger(ChangeDebugger):
+    def __enter__(self):
+        exec(self.fail_source(), globals())
+        return super().__enter__()
+
 if __name__ == "__main__":
-    with ChangeDebugger(version_1, version_2, log=True) as cd:
+    with ChangeDebugger(version_1, version_2) as cd:
         test_remove_html_markup()
-
-
-if __name__ == "__main__":
-    cd.function()
 
 
 if __name__ == "__main__":
@@ -831,13 +951,15 @@ if __name__ == "__main__":
 class ChangeDebugger(ChangeDebugger):
     def min_patches(self):
         patches = self.patches()
-        with self:
+        with DeltaDebugger(**self._ddargs) as dd:
             self.test_patches(patches)
-        return tuple(p['patches'] for p in dd.min_arg_diff())
 
+        return tuple(arg['patches'] for arg in dd.min_arg_diff())
+
+class ChangeDebugger(ChangeDebugger):
     def __repr__(self):
         pass_patches, fail_patches, diff_patches = self.min_patches()
-        return "".join(urllib.parse.unquote(str(p)) for p in diff_patches)
+        return "".join(patch_string(p) for p in diff_patches)
 
 if __name__ == "__main__":
     with ChangeDebugger(version_1, version_2) as cd:
@@ -851,6 +973,10 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     pass_patches, fail_patches, diffs = cd.min_patches()
     diffs
+
+
+if __name__ == "__main__":
+    print(patch_string(diffs[0]))
 
 
 if __name__ == "__main__":
@@ -868,18 +994,48 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    for p in cd.patches():
-        print(urllib.parse.unquote(str(p)))
+    len(cd.patches())
 
 
 if __name__ == "__main__":
     cd
 
 
+if __package__ is None or __package__ == "":
+    from DeltaDebugger import NoCallError, NotFailingError
+else:
+    from .DeltaDebugger import NoCallError, NotFailingError
+
+
+class NotPassingError(ValueError):
+    pass
+
+class ChangeDebugger(ChangeDebugger):
+    def after_collection(self):
+        if self.function() is None:
+            raise NoCallError("No function call observed")
+        if self.exception() is None:
+            raise NotFailingError(f"{self.format_call()} did not raise an exception")
+        
+        try:
+            self.test_patches([])
+        except Exception:
+            raise NotPassingError(f"{self.format_call()} raised an exception in its passing version")
+
+        try:
+            self.test_patches(self.patches())
+            raise NotFailingError(f"{self.format_call()} did not raise an exception in failing version")
+        except Exception:
+            pass
+
+        if self.log:
+            print(f"Observed {self.format_call()}" +
+                  f" raising {self.format_exception(self.exception())}")  
+
 if __name__ == "__main__":
-    with ExpectError(NotFailingError):
+    with ExpectError(NotPassingError):
         with ChangeDebugger(version_1, version_2) as cd:
-            remove_html_markup("foo")
+            test_remove_html_markup()
 
 
 # ## Synopsis
@@ -910,6 +1066,14 @@ if __name__ == "__main__":
     with ChangeDebugger(version_1, version_2) as cd:
         test_remove_html_markup()
     cd
+
+
+# ### Programmatic Interface
+
+if __name__ == "__main__":
+    print('\n### Programmatic Interface')
+
+
 
 
 if __name__ == "__main__":
@@ -962,6 +1126,13 @@ if __name__ == "__main__":
 
 
 
+if __name__ == "__main__":
+    try:
+        shutil.rmtree(PROJECT)
+    except FileNotFoundError:
+        pass
+
+
 # ## Exercises
 
 if __name__ == "__main__":
@@ -970,28 +1141,19 @@ if __name__ == "__main__":
 
 
 
-# ### Exercise 1: _Title_
+# ### Exercise 1: Fine-Grained Changes
 
 if __name__ == "__main__":
-    print('\n### Exercise 1: _Title_')
+    print('\n### Exercise 1: Fine-Grained Changes')
 
 
-
-
-if __name__ == "__main__":
-    # Some code that is part of the exercise
-    pass
 
 
 if __name__ == "__main__":
-    # Some code for the solution
-    2 + 2
+    patches = diff(version_1, version_2, mode='chars')
 
-
-# ### Exercise 2: _Title_
 
 if __name__ == "__main__":
-    print('\n### Exercise 2: _Title_')
-
-
+    for p in patches:
+        print(patch_string(p))
 
