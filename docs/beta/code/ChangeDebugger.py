@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-07 19:50:34+01:00
+# Last change: 2020-12-08 10:46:59+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -28,10 +28,10 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-# # Failure-Inducing Changes
+# # Isolating Failure-Inducing Changes
 
 if __name__ == "__main__":
-    print('# Failure-Inducing Changes')
+    print('# Isolating Failure-Inducing Changes')
 
 
 
