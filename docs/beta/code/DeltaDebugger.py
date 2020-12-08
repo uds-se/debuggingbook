@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-12-08 13:33:56+01:00
+# Last change: 2020-12-08 17:43:32+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    # YouTubeVideo("UNuso00zYiI")
+    YouTubeVideo("6fmJ5l257bM")
 
 
 # ## Synopsis
