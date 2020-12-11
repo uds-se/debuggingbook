@@ -123,14 +123,14 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     open('testassert.c', 'w').write(r'''
-    #include <stdio.h>
-    #include "assert.h"
+#include <stdio.h>
+#include "assert.h"
 
-    int main(int argc, char *argv[]) {
-        assert(2 + 2 == 5);
-        printf("Foo\n");
-    }
-    ''');
+int main(int argc, char *argv[]) {
+    assert(2 + 2 == 5);
+    printf("Foo\n");
+}
+''');
 
 
 if __name__ == "__main__":
@@ -155,20 +155,20 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     open('assert.h', 'w').write(r'''
-    #include <stdio.h>
-    #include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-    #ifndef NDEBUG
-    #define assert(cond) \
-        if (!(cond)) { \
-            fprintf(stderr, "Assertion failed: %s, function %s, file %s, line %d", \
-                #cond, __func__, __FILE__, __LINE__); \
-            exit(1); \
-        }
-    #else
-    #define assert(cond) ((void) 0)
-    #endif
-    ''');
+#ifndef NDEBUG
+#define assert(cond) \
+    if (!(cond)) { \
+        fprintf(stderr, "Assertion failed: %s, function %s, file %s, line %d", \
+            #cond, __func__, __FILE__, __LINE__); \
+        exit(1); \
+    }
+#else
+#define assert(cond) ((void) 0)
+#endif
+''');
 
 
 if __name__ == "__main__":
@@ -739,14 +739,14 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     open('testoverflow.c', 'w').write(r'''
-    #include <stdio.h>
+#include <stdio.h>
 
-    // Access memory out of bounds
-    int main(int argc, char *argv[]) {
-        int index = 10;
-        return "foo"[index];  // BOOM
-    }
-    ''');
+// Access memory out of bounds
+int main(int argc, char *argv[]) {
+    int index = 10;
+    return "foo"[index];  // BOOM
+}
+''');
 
 
 if __name__ == "__main__":
@@ -865,15 +865,15 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     open('testuseafterfree.c', 'w').write(r'''
-    #include <stdlib.h>
+#include <stdlib.h>
 
-    // Access a chunk of memory after it has been given back to the system
-    int main(int argc, char *argv[]) {
-        int *array = malloc(100 * sizeof(int));
-        free(array);
-        return array[10];  // BOOM
-    }
-    ''');
+// Access a chunk of memory after it has been given back to the system
+int main(int argc, char *argv[]) {
+    int *array = malloc(100 * sizeof(int));
+    free(array);
+    return array[10];  // BOOM
+}
+''');
 
 
 if __name__ == "__main__":

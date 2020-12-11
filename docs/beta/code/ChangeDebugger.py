@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-08 10:46:59+01:00
+# Last change: 2020-12-10 15:57:39+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -628,19 +628,19 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     open('test.py', 'w').write('''
-    #!/usr/bin/env python
+#!/usr/bin/env python
 
-    from remove_html_markup import remove_html_markup
-    import sys
+from remove_html_markup import remove_html_markup
+import sys
 
-    result = remove_html_markup('"foo"')
-    if result == '"foo"':
-        sys.exit(0)  # good/pass
-    elif result == 'foo':
-        sys.exit(1)  # bad/fail
-    else:
-        sys.exit(125)  # unresolved
-    ''');
+result = remove_html_markup('"foo"')
+if result == '"foo"':
+    sys.exit(0)  # good/pass
+elif result == 'foo':
+    sys.exit(1)  # bad/fail
+else:
+    sys.exit(125)  # unresolved
+''');
 
 
 if __name__ == "__main__":

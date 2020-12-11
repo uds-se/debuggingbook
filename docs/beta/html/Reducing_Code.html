@@ -11,7 +11,7 @@ with fuzzingbook adaptations -->
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" /><title>Release Notes for The Debugging Book - The Debugging Book</title>
+<meta charset="utf-8" /><title>Second Project - The Debugging Book</title>
 
 <style type="text/css">
     /*!
@@ -11790,14 +11790,10 @@ MathJax.Hub.Config({
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<meta property="og:url" content="https://www.debuggingbook.org/beta/html/ReleaseNotes.html" />
+<meta property="og:url" content="https://www.debuggingbook.org/beta/html/Reducing_Code.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Release Notes for The Debugging Book - The Debugging Book" />
-<meta property="og:description" content="# Release Notes for The Debugging Book
-
-This book comes with version numbers; these correspond to the version numbers in the Python pip package.
-
-" />
+<meta property="og:title" content="Second Project - The Debugging Book" />
+<meta property="og:description" content="In this project, you will implement a debugging reducer able to reduce a Python program containing a specific property down to a syntactically correct Python program that only contains said property.To do this, you will be given several Python parsers checking for specific properties as well as Python programs containing these properties.The time frame for this project is 2 weeks, and the Deadline is January 15th 23:59." />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
 <meta name="twitter:dnt" content="on">
@@ -11898,16 +11894,28 @@ This book comes with version numbers; these correspond to the version numbers in
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
      </li>
-     <li class="has-sub"><a href="#"><span title="Release Notes for The Debugging Book"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Release Notes for The Debugging Book</span></a>
-           
+     <li class="has-sub"><a href="#"><span title="Second Project"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Second Project</span></a>
+           <ul><li class="has-sub"><a href="#Description">&nbsp;&bull;&nbsp;&nbsp; Description</a>
+<ul><li class="has-sub"><a href="#Parsing-Python--">Parsing Python  </a>
+</li><li class="has-sub"><a href="#Reducing-Python">Reducing Python</a>
+</li><li class="has-sub"><a href="#Implementing-a-Debugging-Reducer">Implementing a Debugging Reducer</a>
+</ul></li><li class="has-sub"><a href="#Implementation">&nbsp;&bull;&nbsp;&nbsp; Implementation</a>
+</li><li class="has-sub"><a href="#Evaluation">&nbsp;&bull;&nbsp;&nbsp; Evaluation</a>
+<ul><li class="has-sub"><a href="#Parsers">Parsers</a>
+</li><li class="has-sub"><a href="#Input-Programs">Input Programs</a>
+</li><li class="has-sub"><a href="#Testing-Infrastructure">Testing Infrastructure</a>
+</ul></li><li class="has-sub"><a href="#Grading">&nbsp;&bull;&nbsp;&nbsp; Grading</a>
+<ul><li class="has-sub"><a href="#Must-have-Features">Must-have Features</a>
+</li><li class="has-sub"><a href="#May-have-Features">May-have Features</a>
+</ul></li></ul></li>
      </li>
      
      <li class="has-sub"><a href="#"><span title="Resources"><i class="fa fa-fw fa-cube"></i> </span><span class="menu_3">Resources</span></a>
      <ul>
-     <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/ReleaseNotes.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/slides/ReleaseNotes.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/code/ReleaseNotes.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
-     <li><a href="https://www.debuggingbook.org/beta/notebooks/ReleaseNotes.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
+     <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Reducing_Code.ipynb" target="_blank" class="edit_as_notebook"><i class="fa fa-fw fa-edit"></i> Edit as Notebook</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/slides/Reducing_Code.slides.html" target="_blank"><i class="fa fa-fw fa-video-camera"></i> View Slides</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/code/Reducing_Code.py"><i class="fa fa-fw fa-download"></i> Download Code (.py)</a></li>
+     <li><a href="https://www.debuggingbook.org/beta/notebooks/Reducing_Code.ipynb"><i class="fa fa-fw fa-download"></i> Download Notebook (.ipynb)</a></li>
      <li><a href="https://www.debuggingbook.org/beta/dist/debuggingbook-code.zip"><i class="fa fa-fw fa-cube"></i> All Code (.zip)</a></li>
      <li><a href="https://www.debuggingbook.org/beta/dist/debuggingbook-notebooks.zip"><i class="fa fa-fw fa-cube"></i> All Notebooks (.zip)</a></li>
      <li><a href="https://github.com/uds-se/debuggingbook/" target="_blank"><i class="fa fa-fw fa-github"></i> Project Page</a></li>
@@ -11917,13 +11925,13 @@ This book comes with version numbers; these correspond to the version numbers in
      
      <li class="has-sub"><a href="#"><span title="Share"><i class="fa fa-fw fa-comments"></i> </span> <span class="menu_4">Share</span></a>
         <ul>
-            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Release%20Notes%20for%20The%20Debugging%20Book%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReleaseNotes.html" target="popup" 
-onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Release%20Notes%20for%20The%20Debugging%20Book%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReleaseNotes.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://twitter.com/intent/tweet?text=I%20just%20read%20%22Second%20Project%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReducing_Code.html" target="popup" 
+onclick="window.open('https://twitter.com/intent/tweet?text=I%20just%20read%20%22Second%20Project%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReducing_Code.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-twitter"></i> Share on Twitter</a>
-            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReleaseNotes.html" target="popup" 
-onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReleaseNotes.html','popup','width=600,height=600'); return false;"
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReducing_Code.html" target="popup" 
+onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReducing_Code.html','popup','width=600,height=600'); return false;"
 ><i class="fa fa-fw fa-facebook"></i> Share on Facebook</a>
-            <li><a href="mailto:?subject=Release%20Notes%20for%20The%20Debugging%20Book&body=I%20just%20read%20%22Release%20Notes%20for%20The%20Debugging%20Book%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReleaseNotes.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
+            <li><a href="mailto:?subject=Second%20Project&body=I%20just%20read%20%22Second%20Project%22%20(part%20of%20@Debugging_Book)%20at%20https%3a%2f%2fwww.debuggingbook.org%2fbeta%2fhtml%2fReducing_Code.html"><i class="fa fa-fw fa-envelope"></i> Share by Email</a>
             <li><a href="#citation" id="cite" onclick="revealCitation()"><i class="fa fa-fw fa-mortar-board"></i> Cite</a>
         </ul>
      </li>
@@ -11946,7 +11954,3092 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Release-Notes-for-The-Debugging-Book">Release Notes for The Debugging Book<a class="anchor-link" href="#Release-Notes-for-The-Debugging-Book">&#182;</a></h1><p>This book comes with version numbers; these correspond to the version numbers in <a href="Importing.html">the Python pip package</a>.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Second-Project">Second Project<a class="anchor-link" href="#Second-Project">&#182;</a></h1></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>In this project, you will implement a debugging reducer able to reduce a Python program containing a specific property down to a syntactically correct Python program that <em>only</em> contains said property.
+To do this, you will be given several Python parsers checking for specific properties as well as Python programs containing these properties.</p>
+<p>The time frame for this project is <strong>2 weeks</strong>, and the Deadline is <strong>January 15th 23:59</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/ast.html" class="import" target="_blank">ast</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/random.html" class="import" target="_blank">random</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/astor.html" class="import" target="_blank">astor</a></span>
+<span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/copy.html" class="import" target="_blank">copy</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">rich_output</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">rich_output</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/showast.html" class="import" target="_blank">showast</a></span> <span class="k">import</span> <span class="n">show_ast</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">show_ast</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+        <span class="n">ast</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="k">import</span> <span class="n">ExpectError</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Description">Description<a class="anchor-link" href="#Description">&#182;</a></h2><p>Imagine, we want to create a new compiler for Python programs which transforms the code into a binary executable.
+To this end, at first we need to implement a parser that parses a given program into a set of individual statements which can then be converted to the bytecode.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Parsing-Python">Parsing Python<a class="anchor-link" href="#Parsing-Python">&#182;</a></h3><p>If we want to parse a programming language like Python, it makes sense to parse the code into an abstract syntax tree (AST) and work with the AST from this point onward.
+The reason we might want to do this, is to preserve the syntactic integrity of our program.
+Let's start with parsing a simple Python function (<code>foo</code>) into an AST using <code>ast.parse()</code> and printing it.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks whether a and b are true</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">and</span> <span class="n">b</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We take a string representation of <code>foo()</code>...</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>def foo(a, b):
+    &#34;&#34;&#34;
+    Checks whether a and b are true
+    &#34;&#34;&#34;
+    if a and b:
+        return 1
+    return 0
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>...and convert it to the AST:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">source_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">show_ast</span><span class="p">(</span><span class="n">source_ast</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<svg height="332pt" viewBox="0.00 0.00 494.00 332.00" width="494pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 328)">
+<title>%3</title>
+<polygon fill="#ffffff" points="-4,4 -4,-328 490,-328 490,4 -4,4" stroke="transparent"/>
+<!-- 0 -->
+<g class="node" id="node1">
+<title>0</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="163.5" y="-303.3">FunctionDef</text>
+</g>
+<!-- 1 -->
+<g class="node" id="node2">
+<title>1</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="44" y="-230.3">&quot;foo&quot;</text>
+</g>
+<!-- 0&#45;&#45;1 -->
+<g class="edge" id="edge1">
+<title>0--1</title>
+<path d="M208,-288C208,-288 137.1804,-272.1719 83,-252 79.925,-250.8552 76.755,-249.5721 73.6134,-248.2322" fill="none" stroke="#000000"/>
+</g>
+<!-- 2 -->
+<g class="node" id="node3">
+<title>2</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="100" y="-231.3">arguments</text>
+</g>
+<!-- 0&#45;&#45;2 -->
+<g class="edge" id="edge2">
+<title>0--2</title>
+<path d="M208,-288C208,-288 182.0063,-267.9478 161.6988,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 7 -->
+<g class="node" id="node8">
+<title>7</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="234.5" y="-231.3">If</text>
+</g>
+<!-- 0&#45;&#45;7 -->
+<g class="edge" id="edge7">
+<title>0--7</title>
+<path d="M208,-288C208,-288 220.9968,-267.9478 231.1506,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 19 -->
+<g class="node" id="node20">
+<title>19</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="358.5" y="-231.3">Return</text>
+</g>
+<!-- 0&#45;&#45;19 -->
+<g class="edge" id="edge19">
+<title>0--19</title>
+<path d="M208,-288C208,-288 299.4167,-259.9517 350.4815,-244.2841" fill="none" stroke="#000000"/>
+</g>
+<!-- 3 -->
+<g class="node" id="node4">
+<title>3</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="27" y="-159.3">arg</text>
+</g>
+<!-- 2&#45;&#45;3 -->
+<g class="edge" id="edge3">
+<title>2--3</title>
+<path d="M124,-216C124,-216 91.5964,-195.1691 67.0405,-179.3832" fill="none" stroke="#000000"/>
+</g>
+<!-- 5 -->
+<g class="node" id="node6">
+<title>5</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="99" y="-159.3">arg</text>
+</g>
+<!-- 2&#45;&#45;5 -->
+<g class="edge" id="edge5">
+<title>2--5</title>
+<path d="M124,-216C124,-216 119.5439,-195.9478 116.0627,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 4 -->
+<g class="node" id="node5">
+<title>4</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="27" y="-86.3">&quot;a&quot;</text>
+</g>
+<!-- 3&#45;&#45;4 -->
+<g class="edge" id="edge4">
+<title>3--4</title>
+<path d="M36.7196,-143.8314C34.7639,-133 32.288,-119.2876 30.3246,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 6 -->
+<g class="node" id="node7">
+<title>6</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="99" y="-86.3">&quot;b&quot;</text>
+</g>
+<!-- 5&#45;&#45;6 -->
+<g class="edge" id="edge6">
+<title>5--6</title>
+<path d="M108.7196,-143.8314C106.7639,-133 104.288,-119.2876 102.3246,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 8 -->
+<g class="node" id="node9">
+<title>8</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="217.5" y="-159.3">BoolOp</text>
+</g>
+<!-- 7&#45;&#45;8 -->
+<g class="edge" id="edge8">
+<title>7--8</title>
+<path d="M253,-216C253,-216 249.2866,-195.9478 246.3855,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 16 -->
+<g class="node" id="node17">
+<title>16</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="328.5" y="-159.3">Return</text>
+</g>
+<!-- 7&#45;&#45;16 -->
+<g class="edge" id="edge16">
+<title>7--16</title>
+<path d="M253,-216C253,-216 290.9875,-195.6898 320.3685,-179.9812" fill="none" stroke="#000000"/>
+</g>
+<!-- 9 -->
+<g class="node" id="node10">
+<title>9</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="171" y="-86.3">And</text>
+</g>
+<!-- 8&#45;&#45;9 -->
+<g class="edge" id="edge9">
+<title>8--9</title>
+<path d="M243,-144C243,-144 216.2637,-123.9478 195.3759,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 10 -->
+<g class="node" id="node11">
+<title>10</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="226" y="-87.3">Name</text>
+</g>
+<!-- 8&#45;&#45;10 -->
+<g class="edge" id="edge10">
+<title>8--10</title>
+<path d="M243,-144C243,-144 243,-123.9478 243,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 13 -->
+<g class="node" id="node14">
+<title>13</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="298" y="-87.3">Name</text>
+</g>
+<!-- 8&#45;&#45;13 -->
+<g class="edge" id="edge13">
+<title>8--13</title>
+<path d="M243,-144C243,-144 269.7363,-123.9478 290.6241,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 11 -->
+<g class="node" id="node12">
+<title>11</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="171" y="-14.3">&quot;a&quot;</text>
+</g>
+<!-- 10&#45;&#45;11 -->
+<g class="edge" id="edge11">
+<title>10--11</title>
+<path d="M235,-72C235,-72 211.2344,-51.9478 192.6675,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 12 -->
+<g class="node" id="node13">
+<title>12</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="243" y="-14.3">Load</text>
+</g>
+<!-- 10&#45;&#45;12 -->
+<g class="edge" id="edge12">
+<title>10--12</title>
+<path d="M235,-72C235,-72 237.9707,-51.9478 240.2916,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 14 -->
+<g class="node" id="node15">
+<title>14</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="315" y="-14.3">&quot;b&quot;</text>
+</g>
+<!-- 13&#45;&#45;14 -->
+<g class="edge" id="edge14">
+<title>13--14</title>
+<path d="M323,-72C323,-72 320.0293,-51.9478 317.7084,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 15 -->
+<g class="node" id="node16">
+<title>15</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="387" y="-14.3">Load</text>
+</g>
+<!-- 13&#45;&#45;15 -->
+<g class="edge" id="edge15">
+<title>13--15</title>
+<path d="M323,-72C323,-72 346.7656,-51.9478 365.3325,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 17 -->
+<g class="node" id="node18">
+<title>17</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="374" y="-87.3">Num</text>
+</g>
+<!-- 16&#45;&#45;17 -->
+<g class="edge" id="edge17">
+<title>16--17</title>
+<path d="M362.3273,-143.8314C367.2917,-133 373.5765,-119.2876 378.5606,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 18 -->
+<g class="node" id="node19">
+<title>18</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="459" y="-14.3">1</text>
+</g>
+<!-- 17&#45;&#45;18 -->
+<g class="edge" id="edge18">
+<title>17--18</title>
+<path d="M405.1686,-71.8314C416,-61 429.7124,-47.2876 440.5867,-36.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 20 -->
+<g class="node" id="node21">
+<title>20</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="433" y="-159.3">Num</text>
+</g>
+<!-- 19&#45;&#45;20 -->
+<g class="edge" id="edge20">
+<title>19--20</title>
+<path d="M399.6452,-215.8314C408.9722,-205 420.7801,-191.2876 430.1441,-180.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 21 -->
+<g class="node" id="node22">
+<title>21</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="459" y="-86.3">0</text>
+</g>
+<!-- 20&#45;&#45;21 -->
+<g class="edge" id="edge21">
+<title>20--21</title>
+<path d="M449.2804,-143.8314C451.2361,-133 453.712,-119.2876 455.6754,-108.4133" fill="none" stroke="#000000"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can see how the code is structured by inspecting the AST shown above.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>To learn the structure of an AST, have a look at the <a href="http://docs.python.org/3/library/ast">official Python <code>ast</code> reference</a> for a list of AST nodes and their attributes.
+This reference is complete, but a bit terse; the <a href="https://greentreesnakes.readthedocs.io/en/latest/manipulating.html">"Green Tree Snakes missing Python AST docs"</a> provide a good manual on how to modify the tree.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If we want to inspect certain elements of the source code, we can now use the <code>ast.NodeVisitor</code> to visit every node in the AST.
+This can be done by extending this class and implementing <em>visit-methods</em> for each type of node in the tree we want to inspect.<br>
+So, let's implement a parser that first parses the source code into an AST and then visits each node one after another.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">SimpleParser</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple parser printing all nodes in order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        When the parse function is called, we parse the source code</span>
+<span class="sd">        into a tree and then start visiting all nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_FunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_If</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Num</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_BoolOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Using this <code>SimpleParser</code>, we can visit each node and print the node object itself.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">SimpleParser</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;_ast.FunctionDef object at 0x7fea11deea58&gt;
+&lt;_ast.arguments object at 0x7fea11deeac8&gt;
+&lt;_ast.arg object at 0x7fea11deeb00&gt;
+&lt;_ast.arg object at 0x7fea11deeba8&gt;
+&lt;_ast.If object at 0x7fea11deeb38&gt;
+&lt;_ast.BoolOp object at 0x7fea11deea20&gt;
+&lt;_ast.Name object at 0x7fea11deeb70&gt;
+&lt;_ast.Name object at 0x7fea11deec88&gt;
+&lt;_ast.Return object at 0x7fea11deecc0&gt;
+&lt;_ast.Num object at 0x7fea11deeda0&gt;
+&lt;_ast.Return object at 0x7fea11deed30&gt;
+&lt;_ast.Num object at 0x7fea11deed68&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now imagine, instead of just parsing the input and printing each node, we start to process the information present in each node.
+To notify the user if anything breaks, we introduce a <code>ParserException</code> that is thrown when we encounter a parsing error.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ParserException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>For instance, let's consider our parser has troubles processing boolean operators.
+We simulate this behavior by extending our parser to throw an exception whenever it encounters a <code>BoolOp</code> node.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">SimpleParserPlus</span><span class="p">(</span><span class="n">SimpleParser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple parser printing all nodes in order until it reaches a BoolOp</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">visit_BoolOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If a BoolOp is encountered, we throw an exception</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">SimpleParserPlus</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;_ast.FunctionDef object at 0x7fea11deeda0&gt;
+&lt;_ast.arguments object at 0x7fea11deeb70&gt;
+&lt;_ast.arg object at 0x7fea11deec88&gt;
+&lt;_ast.arg object at 0x7fea11deed68&gt;
+&lt;_ast.If object at 0x7fea11deeba8&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-14-2281579d96da&gt;&#34;, line 2, in &lt;module&gt;
+    SimpleParserPlus().parse(source)
+  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 12, in parse
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 16, in visit_FunctionDef
+    self.generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 24, in visit_If
+    self.generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-13-336a87e01254&gt;&#34;, line 10, in visit_BoolOp
+    raise ParserException(&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>As we can see here, as soon as we encounter a boolean operation, an exception is thrown.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Reducing-Python">Reducing Python<a class="anchor-link" href="#Reducing-Python">&#182;</a></h3><p>Let's get back to our <code>SimpleParserPlus</code> example. This parser parses Python code into an AST and then iterates over all nodes. When it reaches a boolean operation, it encounters an error and crashes.<br>
+Of course our example is a very small and artificial one. Furthermore, the input triggering our bug is rather small as well.
+However, in reality a similar situation might present itself to you but with a far less obvious error and a far larger input that causes it.
+In this case, instead of using the entire input, one might want to reduce the input down to only those parts actually causing the error.<br>
+But how do we do that?<br>
+We could, for instance, randomly remove some parts of the program.
+However, this would likely produce syntactically invalid Python code and hence prevent the parser from reaching the desired code location.
+So instead of just removing random parts of the code itself, we will manipulate the AST to preserve the correct syntax.</p>
+<p>How do we manipulate an AST produced by <code>ast.parse</code>? We can make use of the <code>ast.NodeTransformer</code>:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeReducer</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeTransformer</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">visit_If</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instead of the `if` node return just its condition</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Apply other transformations to the children first</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="c1"># We create an expression around the node test</span>
+        <span class="n">new_node</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">Expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_node</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>ast.NodeTransformer</code> again uses the visitor pattern to walk over all nodes.
+This time, however, we change the resulting AST. In our case, if we encounter an <em>if-statement</em> we only return the condition.</p>
+<p>(Keep in mind, <code>NodeReducer</code> changes the ast in place, so if you want to preserve the original tree, you need to copy it with <code>copy.deepcopy(tree)</code>)</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">NodeReducer</span><span class="p">()</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">source_ast</span><span class="p">)</span>
+<span class="n">show_ast</span><span class="p">(</span><span class="n">source_ast</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<svg height="332pt" viewBox="0.00 0.00 441.50 332.00" width="442pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 328)">
+<title>%3</title>
+<polygon fill="#ffffff" points="-4,4 -4,-328 437.5,-328 437.5,4 -4,4" stroke="transparent"/>
+<!-- 0 -->
+<g class="node" id="node1">
+<title>0</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="135" y="-303.3">FunctionDef</text>
+</g>
+<!-- 1 -->
+<g class="node" id="node2">
+<title>1</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="29.5" y="-230.3">&quot;foo&quot;</text>
+</g>
+<!-- 0&#45;&#45;1 -->
+<g class="edge" id="edge1">
+<title>0--1</title>
+<path d="M181.5,-288C181.5,-288 117.6345,-271.0808 68.5,-252 65.4414,-250.8122 62.282,-249.501 59.147,-248.1439" fill="none" stroke="#000000"/>
+</g>
+<!-- 2 -->
+<g class="node" id="node3">
+<title>2</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="85.5" y="-231.3">arguments</text>
+</g>
+<!-- 0&#45;&#45;2 -->
+<g class="edge" id="edge2">
+<title>0--2</title>
+<path d="M181.5,-288C181.5,-288 159.9624,-267.9478 143.1362,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 7 -->
+<g class="node" id="node8">
+<title>7</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="223.5" y="-231.3">Expr</text>
+</g>
+<!-- 0&#45;&#45;7 -->
+<g class="edge" id="edge7">
+<title>0--7</title>
+<path d="M181.5,-288C181.5,-288 203.4089,-267.9478 220.5253,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 16 -->
+<g class="node" id="node17">
+<title>16</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="307" y="-231.3">Return</text>
+</g>
+<!-- 0&#45;&#45;16 -->
+<g class="edge" id="edge16">
+<title>0--16</title>
+<path d="M181.5,-288C181.5,-288 254.5024,-261.8932 298.9882,-245.9844" fill="none" stroke="#000000"/>
+</g>
+<!-- 3 -->
+<g class="node" id="node4">
+<title>3</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="35.5" y="-159.3">arg</text>
+</g>
+<!-- 2&#45;&#45;3 -->
+<g class="edge" id="edge3">
+<title>2--3</title>
+<path d="M115.5,-216C115.5,-216 90.6204,-195.9478 71.1831,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 5 -->
+<g class="node" id="node6">
+<title>5</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="107.5" y="-159.3">arg</text>
+</g>
+<!-- 2&#45;&#45;5 -->
+<g class="edge" id="edge5">
+<title>2--5</title>
+<path d="M115.5,-216C115.5,-216 117.3567,-195.9478 118.8072,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 4 -->
+<g class="node" id="node5">
+<title>4</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="46.5" y="-86.3">&quot;a&quot;</text>
+</g>
+<!-- 3&#45;&#45;4 -->
+<g class="edge" id="edge4">
+<title>3--4</title>
+<path d="M47.9953,-143.8314C47.6944,-133 47.3135,-119.2876 47.0115,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 6 -->
+<g class="node" id="node7">
+<title>6</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="118.5" y="-86.3">&quot;b&quot;</text>
+</g>
+<!-- 5&#45;&#45;6 -->
+<g class="edge" id="edge6">
+<title>5--6</title>
+<path d="M119.9953,-143.8314C119.6944,-133 119.3135,-119.2876 119.0115,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 8 -->
+<g class="node" id="node9">
+<title>8</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="235" y="-159.3">BoolOp</text>
+</g>
+<!-- 7&#45;&#45;8 -->
+<g class="edge" id="edge8">
+<title>7--8</title>
+<path d="M245.5468,-215.8314C248.5555,-205 252.3646,-191.2876 255.3852,-180.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 9 -->
+<g class="node" id="node10">
+<title>9</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="190.5" y="-86.3">And</text>
+</g>
+<!-- 8&#45;&#45;9 -->
+<g class="edge" id="edge9">
+<title>8--9</title>
+<path d="M260.5,-144C260.5,-144 234.5063,-123.9478 214.1988,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 10 -->
+<g class="node" id="node11">
+<title>10</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="245.5" y="-87.3">Name</text>
+</g>
+<!-- 8&#45;&#45;10 -->
+<g class="edge" id="edge10">
+<title>8--10</title>
+<path d="M260.5,-144C260.5,-144 261.2427,-123.9478 261.8229,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 13 -->
+<g class="node" id="node14">
+<title>13</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="317.5" y="-87.3">Name</text>
+</g>
+<!-- 8&#45;&#45;13 -->
+<g class="edge" id="edge13">
+<title>8--13</title>
+<path d="M260.5,-144C260.5,-144 287.979,-123.9478 309.447,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 11 -->
+<g class="node" id="node12">
+<title>11</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="190.5" y="-14.3">&quot;a&quot;</text>
+</g>
+<!-- 10&#45;&#45;11 -->
+<g class="edge" id="edge11">
+<title>10--11</title>
+<path d="M254.5,-72C254.5,-72 230.7344,-51.9478 212.1675,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 12 -->
+<g class="node" id="node13">
+<title>12</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="262.5" y="-14.3">Load</text>
+</g>
+<!-- 10&#45;&#45;12 -->
+<g class="edge" id="edge12">
+<title>10--12</title>
+<path d="M254.5,-72C254.5,-72 257.4707,-51.9478 259.7916,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 14 -->
+<g class="node" id="node15">
+<title>14</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="334.5" y="-14.3">&quot;b&quot;</text>
+</g>
+<!-- 13&#45;&#45;14 -->
+<g class="edge" id="edge14">
+<title>13--14</title>
+<path d="M342.5,-72C342.5,-72 339.5293,-51.9478 337.2084,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 15 -->
+<g class="node" id="node16">
+<title>15</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="406.5" y="-14.3">Load</text>
+</g>
+<!-- 13&#45;&#45;15 -->
+<g class="edge" id="edge15">
+<title>13--15</title>
+<path d="M342.5,-72C342.5,-72 366.2656,-51.9478 384.8325,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 17 -->
+<g class="node" id="node18">
+<title>17</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="326.5" y="-159.3">Num</text>
+</g>
+<!-- 16&#45;&#45;17 -->
+<g class="edge" id="edge17">
+<title>16--17</title>
+<path d="M334.2664,-215.8314C335.3194,-205 336.6526,-191.2876 337.7098,-180.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 18 -->
+<g class="node" id="node19">
+<title>18</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="406.5" y="-86.3">0</text>
+</g>
+<!-- 17&#45;&#45;18 -->
+<g class="edge" id="edge18">
+<title>17--18</title>
+<path d="M356.4069,-143.8314C366.4861,-133 379.2463,-119.2876 389.3654,-108.4133" fill="none" stroke="#000000"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>As you can see, after running the <code>NodeReducer</code> there is no longer an <em>if-statement</em>, but only its condition.
+A more sophisticated NodeReducer is presented in the <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs chapter</a> in the debugging book.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>To learn the structure of an AST, have a look at the <a href="http://docs.python.org/3/library/ast">official Python <code>ast</code> reference</a> for a list of AST nodes and their attributes. This reference is complete, but a bit terse; the <a href="https://greentreesnakes.readthedocs.io/en/latest/manipulating.html">"Green Tree Snakes missing Python AST docs"</a> provide a good manual on how to modify the tree.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Pro tip</strong>: You can learn the expected structure of any Python fragment by invoking <code>ast.dump()</code> on any (parsed) AST.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">demo_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if a == b:</span>
+<span class="s1">    c = d</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ast</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">demo_ast</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#34;Module(body=[If(test=Compare(left=Name(id=&#39;a&#39;, ctx=Load()), ops=[Eq()], comparators=[Name(id=&#39;b&#39;, ctx=Load())]), body=[Assign(targets=[Name(id=&#39;c&#39;, ctx=Store())], value=Name(id=&#39;d&#39;, ctx=Load()))], orelse=[])])&#34;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The nice thing is that this not only reveals the AST structure, it also tells you how to construct it. If you take the very structure as produced by <code>ast.dump()</code> and evaluate it, you obtain the same syntax tree.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/ast.html" class="import" target="_blank">ast</a></span> <span class="k">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">If</span><span class="p">,</span> <span class="n">Compare</span><span class="p">,</span> <span class="n">Load</span><span class="p">,</span> <span class="n">Eq</span><span class="p">,</span> <span class="n">Assign</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Store</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ast_from_scratch</span> <span class="o">=</span> <span class="n">Module</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="p">[</span><span class="n">If</span><span class="p">(</span><span class="n">test</span><span class="o">=</span><span class="n">Compare</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Load</span><span class="p">()),</span> <span class="n">ops</span><span class="o">=</span><span class="p">[</span><span class="n">Eq</span><span class="p">()],</span> <span class="n">comparators</span><span class="o">=</span><span class="p">[</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Load</span><span class="p">())]),</span> <span class="n">body</span><span class="o">=</span><span class="p">[</span><span class="n">Assign</span><span class="p">(</span><span class="n">targets</span><span class="o">=</span><span class="p">[</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Store</span><span class="p">())],</span> <span class="n">value</span><span class="o">=</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Load</span><span class="p">()))],</span> <span class="n">orelse</span><span class="o">=</span><span class="p">[])])</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">ast_from_scratch</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>if a == b:
+    c = d
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Hence, if you do not know what kind of AST fragment to produce, just parse its text with <code>ast.parse()</code> and study the expression produced by <code>ast.dump()</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Implementing-a-Debugging-Reducer">Implementing a Debugging Reducer<a class="anchor-link" href="#Implementing-a-Debugging-Reducer">&#182;</a></h3><p>Having seen how one can access and transform AST structures using a <code>NodeReducer</code> in Python, we can now use that knowledge to implement a <code>DebuggingReducer</code>
+capable of reducing the failure inducing Python code down to only that parts of the code that actually triggers the failure.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ReducingDebugger</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        We initialize the DebuggingReducer with a parser, as this is needed to verify whether the failure is still triggered after the code transformation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">parser</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_reducer</span> <span class="o">=</span> <span class="n">NodeReducer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function takes some Python code as string, reduces it using the NodeReducer defined earlier and returns the reduced program.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Parse the code to a tree</span>
+        <span class="n">code_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+
+        <span class="c1"># Use the visit-method of the NodeReducer to reduce if nodes down to their condition</span>
+        <span class="n">new_code_ast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_reducer</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">code_ast</span><span class="p">)</span>
+
+        <span class="c1"># After we&#39;ve updated nodes, we need to fix the tree</span>
+        <span class="n">ast</span><span class="o">.</span><span class="n">fix_missing_locations</span><span class="p">(</span><span class="n">new_code_ast</span><span class="p">)</span>
+
+        <span class="c1"># Generate code from the reduced tree</span>
+        <span class="n">new_code</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">new_code_ast</span><span class="p">)</span>
+
+        <span class="c1"># Test, whether the error is still triggered by the reduced code</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">new_code</span><span class="p">)</span>
+            <span class="c1"># No exception is thrown. This means the new_code does not </span>
+            <span class="c1"># trigger an error anymore. Therefore, we failed in</span>
+            <span class="c1"># reduction and return the initial code.</span>
+            <span class="k">return</span> <span class="n">code</span>
+        <span class="k">except</span> <span class="n">ParserException</span><span class="p">:</span>
+            <span class="c1"># The error is still triggered. Return the reduced code</span>
+            <span class="k">return</span> <span class="n">new_code</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>ReducingDebugger</code> implemented above takes some Python code as an input and replaces all if-statements with their conditions.
+Then, it checks whether the newly generated code still triggers the error. If not, it returns the initial code. If the exception is still triggered, it returns the reduced code.
+Let's apply it to the source code of our <code>foo</code> function:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reducing_debugger</span> <span class="o">=</span> <span class="n">ReducingDebugger</span><span class="p">(</span><span class="n">SimpleParserPlus</span><span class="p">())</span>
+<span class="n">new_source</span> <span class="o">=</span> <span class="n">reducing_debugger</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;_ast.FunctionDef object at 0x7fea11e49a90&gt;
+&lt;_ast.arguments object at 0x7fea11e49b38&gt;
+&lt;_ast.arg object at 0x7fea11deecc0&gt;
+&lt;_ast.arg object at 0x7fea11dee828&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">new_source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>def foo(a, b):
+    &#34;&#34;&#34;
+    Checks whether a and b are true
+    &#34;&#34;&#34;
+    a and b
+    return 0
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">SimpleParserPlus</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">new_source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;_ast.FunctionDef object at 0x7fea11e49ef0&gt;
+&lt;_ast.arguments object at 0x7fea11e49f60&gt;
+&lt;_ast.arg object at 0x7fea11e49cc0&gt;
+&lt;_ast.arg object at 0x7fea11e49eb8&gt;
+</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-25-48c47316858f&gt;&#34;, line 2, in &lt;module&gt;
+    SimpleParserPlus().parse(new_source)
+  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 12, in parse
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 16, in visit_FunctionDef
+    self.generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-13-336a87e01254&gt;&#34;, line 10, in visit_BoolOp
+    raise ParserException(&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>As we can see, our <code>DebuggingReducer</code> reduces the original function to a smaller input, while still preserving the property of the code that triggers the same error as before.
+However, this reducer is very simple: it applies only one transformation to all <code>if</code> nodes at once.
+Instead, one can consider various transformations of the same node as well as transformations of various node types and apply them one by one (or in batches) to gradually reduce the code.</p>
+<p>Keep in mind, that the changes should be made in a way that the code is still accepted by a regular Python interpreter.
+Besides, the goal is to obtain a minimal program that still triggers the error.
+So, your debugging reducer should not simply reduce all possible nodes, but also regularly check whether the reduced code still triggers the failure.</p>
+<p>Therefore, you are required to implement certain modifications that can be done to the AST. In general, these transformations can be one of the following:</p>
+<ol>
+<li>Delete a node,</li>
+<li>Substitute a node with the new node (e.g., <em>pass</em> node),</li>
+<li>Substitute a node with all of its children,</li>
+<li>Substitute a node with one of its children.</li>
+</ol>
+<p>More detailed, one can consider, for instance:</p>
+<ol>
+<li>Replacing a <code>BoolOp</code> node by <code>True</code>.</li>
+<li>Replacing a <code>BoolOp</code> node by <code>False</code>.</li>
+<li>Replacing a <code>BoolOp</code> node by its left operand.</li>
+<li>Replacing a <code>BoolOp</code> node by its right operand.</li>
+<li>Replacing an <code>If</code> node by its "then" body.</li>
+<li>Replacing an <code>If</code> node by its condition.</li>
+<li>Replacing an <code>If</code> node by its "else" body.</li>
+<li>Replacing all instances of a variable by a constant.</li>
+<li>Replacing expressions by a constant.</li>
+<li>etc.</li>
+</ol>
+<p>Please, refer to the <a href="http://docs.python.org/3/library/ast">official Python <code>ast</code> reference</a> for a full list of node types.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h2><p>To succeed in this project, you need to complete the <code>MyReducer</code> class.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">MyReducer</span><span class="p">(</span><span class="n">ReducingDebugger</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="c1"># TODO: implement this!</span>
+        <span class="k">return</span> <span class="n">code</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>To this end, you will need to extend the <code>NodeReducer</code> with additional transformations and implement a reducer strategy
+which collects all possible transformations and applies them to the AST until it is exhaustively minimized.
+Feel free to make your own implementation or extend the <code>DeltaDebugger</code> from the <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs chapter</a> with
+the proper strategy.</p>
+<h2 id="Evaluation">Evaluation<a class="anchor-link" href="#Evaluation">&#182;</a></h2><p>We evaluate your project based on public as well as secret tests. In this section, we present <strong>five</strong> different Python parsers as well as <strong>five</strong> Python input programs, which should be minified.
+These parsers check for a specific property in the code and fail the execution if the property exists. The input programs and parsers in this section make up the public test cases.
+If you pass all of those tests <strong>without hardcoding the modifications</strong> you are guaranteed to score 15 points in this project. You can get more points for passing secret tests.</p>
+<h3 id="Parsers">Parsers<a class="anchor-link" href="#Parsers">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The base class for a parser&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">parse_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;The input was successfully parsed.&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p><code>Parser</code> is the base class for a parser from which all other parsers are derived. It works the same way as the <code>SimpleParser</code> introduced earlier.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let's define a couple of parsers which model a failure during processing of a certain code feature.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Parser1</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains boolean operation</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">def</span> <span class="nf">visit_BoolOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If we feed this parser with an input program which contains a boolean operation, it fails:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parser1</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = True and False&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser1</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-29-4c9889da423c&gt;&#34;, line 5, in &lt;module&gt;
+    parser1.parse(input_program)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+    self.parse_tree(tree)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-28-f3923c2a5b4f&gt;&#34;, line 6, in visit_BoolOp
+    raise ParserException(f&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>In contrast to the above, an input program <em>without</em> a boolean operation is parsed correctly.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parser1</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = 1</span>
+<span class="s1">b = True</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">parser1</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;The input was successfully parsed.&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The other parsers are</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Parser2</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains `if` statement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">visit_If</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parser2</span> <span class="o">=</span> <span class="n">Parser2</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if a:</span>
+<span class="s1">    b = 1</span>
+<span class="s1">else:</span>
+<span class="s1">    b = 2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser2</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-32-20b0846060a6&gt;&#34;, line 9, in &lt;module&gt;
+    parser2.parse(input_program)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+    self.parse_tree(tree)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-31-376a81aa884c&gt;&#34;, line 6, in visit_If
+    raise ParserException(f&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Parser3</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains a special unicode character</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">check_unicode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">string</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="nf">generic_visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_unicode</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">s</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parser3</span> <span class="o">=</span> <span class="n">Parser3</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = u&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser3</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-34-7bf29c4eeeba&gt;&#34;, line 6, in &lt;module&gt;
+    parser3.parse(input_program)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+    self.parse_tree(tree)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 14, in generic_visit
+    super().generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 19, in visit_Assign
+    self.generic_visit(node)
+  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 14, in generic_visit
+    super().generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 24, in visit_Str
+    raise ParserException(f&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Parser4</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains a variable which is not defined</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">generic_visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">visit_Assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parser4</span> <span class="o">=</span> <span class="n">Parser4</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = 1</span>
+<span class="s1">b = c</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser4</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-36-26a8dfd040e2&gt;&#34;, line 7, in &lt;module&gt;
+    parser4.parse(input_program)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+    self.parse_tree(tree)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-35-a05ed93107e5&gt;&#34;, line 12, in generic_visit
+    super().generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-35-a05ed93107e5&gt;&#34;, line 27, in visit_Assign
+    self.generic_visit(node)
+  File &#34;&lt;ipython-input-35-a05ed93107e5&gt;&#34;, line 12, in generic_visit
+    super().generic_visit(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-35-a05ed93107e5&gt;&#34;, line 22, in visit_Name
+    raise ParserException(f&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Parser5</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">visit_List</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">parser5</span> <span class="o">=</span> <span class="n">Parser5</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = {x * 2 for x in map(int, [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;])}</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser5</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-38-9260c0f30b93&gt;&#34;, line 6, in &lt;module&gt;
+    parser5.parse(input_program)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+    self.parse_tree(tree)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-37-8b0d859d976a&gt;&#34;, line 7, in visit_List
+    raise ParserException(f&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>For secret tests we may use other parsers crafted in the same way.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Input-Programs">Input Programs<a class="anchor-link" href="#Input-Programs">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now we present five public tests.
+Each test case implements a <code>get_original()</code> method that returns an input program which your reducer should minify.
+It also has a <code>parser</code> field which stores a parser used for a respective input program.
+Besides, <code>get_minimized()</code> method provides a reference solution.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test1</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = True</span>
+<span class="s1">    b = not False</span>
+<span class="s1">    c = 30</span>
+<span class="s1">    for i in range(c):</span>
+<span class="s1">        if i == 15:</span>
+<span class="s1">            if a and b:</span>
+<span class="s1">                return 1</span>
+<span class="s1">    return 0</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">True and True&#39;&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test2</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser2</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = True</span>
+<span class="s1">    b = not False</span>
+<span class="s1">    c = 30</span>
+<span class="s1">    for i in range(c):</span>
+<span class="s1">        if i == 15:</span>
+<span class="s1">            if a and b:</span>
+<span class="s1">                return 1</span>
+<span class="s1">    return 0</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if True:</span>
+<span class="s1">    return</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test3</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser3</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = 1</span>
+<span class="s1">    b = a</span>
+<span class="s1">    c = a - b</span>
+<span class="s1">    if c &lt; a:</span>
+<span class="s1">        d = &#39;&#39;</span>
+<span class="s1">        while a == b:</span>
+<span class="s1">            d = u&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+<span class="s1">            a += 1</span>
+<span class="s1">        return d</span>
+<span class="s1">    return &#39;&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">d = u&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test4</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser4</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = 1</span>
+<span class="s1">    b = a</span>
+<span class="s1">    c = a - b</span>
+<span class="s1">    if c &lt; a:</span>
+<span class="s1">        while a == b:</span>
+<span class="s1">            a += 1</span>
+<span class="s1">        return d</span>
+<span class="s1">    return &#39;&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">return d</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test5</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser5</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = 1</span>
+<span class="s1">    b = 0</span>
+<span class="s1">    while True:</span>
+<span class="s1">        if a &lt; b:</span>
+<span class="s1">            return [1, 2, 3]</span>
+<span class="s1">        else:</span>
+<span class="s1">            return []</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">[]</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>For instance, let's take the input program of <code>Test1</code>:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">Test1</span><span class="p">()</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">get_original</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+def original():
+    a = True
+    b = not False
+    c = 30
+    for i in range(c):
+        if i == 15:
+            if a and b:
+                return 1
+    return 0
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>And parse it with the provided parser:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-45-460bfcdf8fdd&gt;&#34;, line 2, in &lt;module&gt;
+    test.parser.parse(source)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+    self.parse_tree(tree)
+  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+    self.visit(tree)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
+    self.visit(item)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
+    self.visit(value)
+  File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
+    return visitor(node)
+  File &#34;&lt;ipython-input-28-f3923c2a5b4f&gt;&#34;, line 6, in visit_BoolOp
+    raise ParserException(f&#34;Something went wrong&#34;)
+ParserException: Something went wrong (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The parser failed.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Testing-Infrastructure">Testing Infrastructure<a class="anchor-link" href="#Testing-Infrastructure">&#182;</a></h3><p>The following section introduces the testing infrastructure, which is used to assess your performance in the project. Passing all tests will be enough to complete the project successfully.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We are not going to directly compare a minimized program with the reference solution (as two strings). Instead, we again transform the code into AST and count the number of nodes in both trees.
+If the difference between them is lower than a <code>THRESHOLD</code> (and a parser still produces an error), the test is passed.
+To count the number of nodes in the AST, we need a helper class <code>NodeCounter</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NodeCounter</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This node counter is used to assess the amount of reductions performed by your reducer. It counts the number of nodes in the AST</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The AST of the input program is as follows:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The number of nodes is {NodeCounter().count(source)}&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_image output_svg output_subarea ">
+<svg height="476pt" viewBox="0.00 0.00 1633.00 476.00" width="1633pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 472)">
+<title>%3</title>
+<polygon fill="#ffffff" points="-4,4 -4,-472 1629,-472 1629,4 -4,4" stroke="transparent"/>
+<!-- 0 -->
+<g class="node" id="node1">
+<title>0</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="408.5" y="-447.3">FunctionDef</text>
+</g>
+<!-- 1 -->
+<g class="node" id="node2">
+<title>1</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="157" y="-374.3">&quot;original&quot;</text>
+</g>
+<!-- 0&#45;&#45;1 -->
+<g class="edge" id="edge1">
+<title>0--1</title>
+<path d="M457,-432C457,-432 322.2562,-419.5565 217,-396 213.9223,-395.3112 210.7719,-394.5475 207.6048,-393.7346" fill="none" stroke="#000000"/>
+</g>
+<!-- 2 -->
+<g class="node" id="node3">
+<title>2</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="272" y="-374.3">arguments</text>
+</g>
+<!-- 0&#45;&#45;2 -->
+<g class="edge" id="edge2">
+<title>0--2</title>
+<path d="M457,-432C457,-432 384.3934,-413.3284 327,-396 324.1146,-395.1288 321.1501,-394.2146 318.1647,-393.2795" fill="none" stroke="#000000"/>
+</g>
+<!-- 3 -->
+<g class="node" id="node4">
+<title>3</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="344.5" y="-375.3">Assign</text>
+</g>
+<!-- 0&#45;&#45;3 -->
+<g class="edge" id="edge3">
+<title>0--3</title>
+<path d="M457,-432C457,-432 424.6936,-411.9478 399.4542,-396.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 9 -->
+<g class="node" id="node10">
+<title>9</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="429.5" y="-375.3">Assign</text>
+</g>
+<!-- 0&#45;&#45;9 -->
+<g class="edge" id="edge9">
+<title>0--9</title>
+<path d="M457,-432C457,-432 456.2573,-411.9478 455.6771,-396.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 17 -->
+<g class="node" id="node18">
+<title>17</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="600.5" y="-375.3">Assign</text>
+</g>
+<!-- 0&#45;&#45;17 -->
+<g class="edge" id="edge17">
+<title>0--17</title>
+<path d="M457,-432C457,-432 542.888,-404.5565 592.2065,-388.7979" fill="none" stroke="#000000"/>
+</g>
+<!-- 23 -->
+<g class="node" id="node24">
+<title>23</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="928" y="-375.3">For</text>
+</g>
+<!-- 0&#45;&#45;23 -->
+<g class="edge" id="edge23">
+<title>0--23</title>
+<path d="M457,-432C457,-432 812.0133,-392.3911 913.941,-381.019" fill="none" stroke="#000000"/>
+</g>
+<!-- 54 -->
+<g class="node" id="node55">
+<title>54</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1173.5" y="-375.3">Return</text>
+</g>
+<!-- 0&#45;&#45;54 -->
+<g class="edge" id="edge54">
+<title>0--54</title>
+<path d="M457,-432C457,-432 745.9872,-413.3614 977,-396 1043.7078,-390.9867 1121.6389,-384.5289 1165.1601,-380.8685" fill="none" stroke="#000000"/>
+</g>
+<!-- 4 -->
+<g class="node" id="node5">
+<title>4</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="85" y="-303.3">Name</text>
+</g>
+<!-- 3&#45;&#45;4 -->
+<g class="edge" id="edge4">
+<title>3--4</title>
+<path d="M336,-366C336,-366 331.4434,-361.835 327,-360 250.7872,-328.526 223.8735,-348.0412 145,-324 139.8907,-322.4427 134.5578,-320.4919 129.4562,-318.4541" fill="none" stroke="#000000"/>
+</g>
+<!-- 7 -->
+<g class="node" id="node8">
+<title>7</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="162.5" y="-303.3">NameConstant</text>
+</g>
+<!-- 3&#45;&#45;7 -->
+<g class="edge" id="edge7">
+<title>3--7</title>
+<path d="M336,-366C336,-366 331.1834,-362.3686 327,-360 303.7502,-346.8362 276.7696,-333.9551 254.8945,-324.0769" fill="none" stroke="#000000"/>
+</g>
+<!-- 5 -->
+<g class="node" id="node6">
+<title>5</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="27" y="-230.3">&quot;a&quot;</text>
+</g>
+<!-- 4&#45;&#45;5 -->
+<g class="edge" id="edge5">
+<title>4--5</title>
+<path d="M94,-288C94,-288 69.1204,-267.9478 49.6831,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 6 -->
+<g class="node" id="node7">
+<title>6</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="102" y="-230.3">Store</text>
+</g>
+<!-- 4&#45;&#45;6 -->
+<g class="edge" id="edge6">
+<title>4--6</title>
+<path d="M94,-288C94,-288 96.9707,-267.9478 99.2916,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 8 -->
+<g class="node" id="node9">
+<title>8</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="177" y="-230.3">True</text>
+</g>
+<!-- 7&#45;&#45;8 -->
+<g class="edge" id="edge8">
+<title>7--8</title>
+<path d="M203.9157,-287.8314C198.5,-277 191.6438,-263.2876 186.2066,-252.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 10 -->
+<g class="node" id="node11">
+<title>10</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="307" y="-303.3">Name</text>
+</g>
+<!-- 9&#45;&#45;10 -->
+<g class="edge" id="edge10">
+<title>9--10</title>
+<path d="M444,-360C444,-360 386.6349,-334.1857 351.2299,-318.2534" fill="none" stroke="#000000"/>
+</g>
+<!-- 13 -->
+<g class="node" id="node14">
+<title>13</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="425.5" y="-303.3">UnaryOp</text>
+</g>
+<!-- 9&#45;&#45;13 -->
+<g class="edge" id="edge13">
+<title>9--13</title>
+<path d="M444,-360C444,-360 448.0847,-339.9478 451.2759,-324.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 11 -->
+<g class="node" id="node12">
+<title>11</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="249" y="-230.3">&quot;b&quot;</text>
+</g>
+<!-- 10&#45;&#45;11 -->
+<g class="edge" id="edge11">
+<title>10--11</title>
+<path d="M316,-288C316,-288 291.1204,-267.9478 271.6831,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 12 -->
+<g class="node" id="node13">
+<title>12</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="324" y="-230.3">Store</text>
+</g>
+<!-- 10&#45;&#45;12 -->
+<g class="edge" id="edge12">
+<title>10--12</title>
+<path d="M316,-288C316,-288 318.9707,-267.9478 321.2916,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 14 -->
+<g class="node" id="node15">
+<title>14</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="399" y="-230.3">Not</text>
+</g>
+<!-- 13&#45;&#45;14 -->
+<g class="edge" id="edge14">
+<title>13--14</title>
+<path d="M454,-288C454,-288 433.5764,-267.9478 417.6205,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 15 -->
+<g class="node" id="node16">
+<title>15</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="452.5" y="-231.3">NameConstant</text>
+</g>
+<!-- 13&#45;&#45;15 -->
+<g class="edge" id="edge15">
+<title>13--15</title>
+<path d="M454,-288C454,-288 472.1956,-267.9478 486.4108,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 16 -->
+<g class="node" id="node17">
+<title>16</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="503" y="-158.3">False</text>
+</g>
+<!-- 15&#45;&#45;16 -->
+<g class="edge" id="edge16">
+<title>15--16</title>
+<path d="M503,-215.8314C503,-205 503,-191.2876 503,-180.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 18 -->
+<g class="node" id="node19">
+<title>18</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="609" y="-303.3">Name</text>
+</g>
+<!-- 17&#45;&#45;18 -->
+<g class="edge" id="edge18">
+<title>17--18</title>
+<path d="M635,-360C635,-360 631.658,-339.9478 629.047,-324.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 21 -->
+<g class="node" id="node22">
+<title>21</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="705" y="-303.3">Num</text>
+</g>
+<!-- 17&#45;&#45;21 -->
+<g class="edge" id="edge21">
+<title>17--21</title>
+<path d="M635,-360C635,-360 666.6164,-339.4303 690.8227,-323.6816" fill="none" stroke="#000000"/>
+</g>
+<!-- 19 -->
+<g class="node" id="node20">
+<title>19</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="607" y="-230.3">&quot;c&quot;</text>
+</g>
+<!-- 18&#45;&#45;19 -->
+<g class="edge" id="edge19">
+<title>18--19</title>
+<path d="M630,-288C630,-288 621.4592,-267.9478 614.7868,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 20 -->
+<g class="node" id="node21">
+<title>20</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="682" y="-230.3">Store</text>
+</g>
+<!-- 18&#45;&#45;20 -->
+<g class="edge" id="edge20">
+<title>18--20</title>
+<path d="M630,-288C630,-288 649.3096,-267.9478 664.3952,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 22 -->
+<g class="node" id="node23">
+<title>22</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="757" y="-230.3">30</text>
+</g>
+<!-- 21&#45;&#45;22 -->
+<g class="edge" id="edge22">
+<title>21--22</title>
+<path d="M727.8413,-287.8314C733.7083,-277 741.1359,-263.2876 747.0261,-252.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 24 -->
+<g class="node" id="node25">
+<title>24</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="887" y="-303.3">Name</text>
+</g>
+<!-- 23&#45;&#45;24 -->
+<g class="edge" id="edge24">
+<title>23--24</title>
+<path d="M950,-360C950,-360 932.9185,-339.9478 919.5735,-324.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 27 -->
+<g class="node" id="node28">
+<title>27</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="962" y="-303.3">Call</text>
+</g>
+<!-- 23&#45;&#45;27 -->
+<g class="edge" id="edge27">
+<title>23--27</title>
+<path d="M950,-360C950,-360 960.7688,-339.9478 969.1819,-324.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 34 -->
+<g class="node" id="node35">
+<title>34</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1222.5" y="-303.3">If</text>
+</g>
+<!-- 23&#45;&#45;34 -->
+<g class="edge" id="edge34">
+<title>23--34</title>
+<path d="M950,-360C950,-360 1133.281,-324.7787 1203.8012,-311.2268" fill="none" stroke="#000000"/>
+</g>
+<!-- 25 -->
+<g class="node" id="node26">
+<title>25</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="829" y="-230.3">&quot;i&quot;</text>
+</g>
+<!-- 24&#45;&#45;25 -->
+<g class="edge" id="edge25">
+<title>24--25</title>
+<path d="M896,-288C896,-288 871.1204,-267.9478 851.6831,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 26 -->
+<g class="node" id="node27">
+<title>26</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="904" y="-230.3">Store</text>
+</g>
+<!-- 24&#45;&#45;26 -->
+<g class="edge" id="edge26">
+<title>24--26</title>
+<path d="M896,-288C896,-288 898.9707,-267.9478 901.2916,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 28 -->
+<g class="node" id="node29">
+<title>28</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="962" y="-231.3">Name</text>
+</g>
+<!-- 27&#45;&#45;28 -->
+<g class="edge" id="edge28">
+<title>27--28</title>
+<path d="M987,-288C987,-288 984.0293,-267.9478 981.7084,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 31 -->
+<g class="node" id="node32">
+<title>31</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1034" y="-231.3">Name</text>
+</g>
+<!-- 27&#45;&#45;31 -->
+<g class="edge" id="edge31">
+<title>27--31</title>
+<path d="M987,-288C987,-288 1010.7656,-267.9478 1029.3325,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 29 -->
+<g class="node" id="node30">
+<title>29</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="860" y="-158.3">&quot;range&quot;</text>
+</g>
+<!-- 28&#45;&#45;29 -->
+<g class="edge" id="edge29">
+<title>28--29</title>
+<path d="M962,-216C962,-216 923.8803,-195.819 894.2483,-180.1314" fill="none" stroke="#000000"/>
+</g>
+<!-- 30 -->
+<g class="node" id="node31">
+<title>30</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="943" y="-158.3">Load</text>
+</g>
+<!-- 28&#45;&#45;30 -->
+<g class="edge" id="edge30">
+<title>28--30</title>
+<path d="M962,-216C962,-216 954.9446,-195.9478 949.4325,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 32 -->
+<g class="node" id="node33">
+<title>32</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1015" y="-158.3">&quot;c&quot;</text>
+</g>
+<!-- 31&#45;&#45;32 -->
+<g class="edge" id="edge32">
+<title>31--32</title>
+<path d="M1051,-216C1051,-216 1037.6318,-195.9478 1027.188,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 33 -->
+<g class="node" id="node34">
+<title>33</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1087" y="-158.3">Load</text>
+</g>
+<!-- 31&#45;&#45;33 -->
+<g class="edge" id="edge33">
+<title>31--33</title>
+<path d="M1051,-216C1051,-216 1064.3682,-195.9478 1074.812,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 35 -->
+<g class="node" id="node36">
+<title>35</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1201.5" y="-231.3">Compare</text>
+</g>
+<!-- 34&#45;&#45;35 -->
+<g class="edge" id="edge35">
+<title>34--35</title>
+<path d="M1241,-288C1241,-288 1237.2866,-267.9478 1234.3855,-252.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 42 -->
+<g class="node" id="node43">
+<title>42</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1339.5" y="-231.3">If</text>
+</g>
+<!-- 34&#45;&#45;42 -->
+<g class="edge" id="edge42">
+<title>34--42</title>
+<path d="M1241,-288C1241,-288 1289.3015,-263.6235 1320.9994,-247.6265" fill="none" stroke="#000000"/>
+</g>
+<!-- 36 -->
+<g class="node" id="node37">
+<title>36</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1142" y="-159.3">Name</text>
+</g>
+<!-- 35&#45;&#45;36 -->
+<g class="edge" id="edge36">
+<title>35--36</title>
+<path d="M1231,-216C1231,-216 1204.2637,-195.9478 1183.3759,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 39 -->
+<g class="node" id="node40">
+<title>39</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1231" y="-158.3">Eq</text>
+</g>
+<!-- 35&#45;&#45;39 -->
+<g class="edge" id="edge39">
+<title>35--39</title>
+<path d="M1231,-216C1231,-216 1231,-195.9478 1231,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 40 -->
+<g class="node" id="node41">
+<title>40</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1290" y="-159.3">Num</text>
+</g>
+<!-- 35&#45;&#45;40 -->
+<g class="edge" id="edge40">
+<title>35--40</title>
+<path d="M1231,-216C1231,-216 1257.7363,-195.9478 1278.6241,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 37 -->
+<g class="node" id="node38">
+<title>37</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1090" y="-86.3">&quot;i&quot;</text>
+</g>
+<!-- 36&#45;&#45;37 -->
+<g class="edge" id="edge37">
+<title>36--37</title>
+<path d="M1152,-144C1152,-144 1128.9771,-123.9478 1110.9904,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 38 -->
+<g class="node" id="node39">
+<title>38</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1162" y="-86.3">Load</text>
+</g>
+<!-- 36&#45;&#45;38 -->
+<g class="edge" id="edge38">
+<title>36--38</title>
+<path d="M1152,-144C1152,-144 1155.7134,-123.9478 1158.6145,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 41 -->
+<g class="node" id="node42">
+<title>41</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1238" y="-86.3">15</text>
+</g>
+<!-- 40&#45;&#45;41 -->
+<g class="edge" id="edge41">
+<title>40--41</title>
+<path d="M1286.5978,-143.8314C1276.8195,-133 1264.4402,-119.2876 1254.6231,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 43 -->
+<g class="node" id="node44">
+<title>43</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1356.5" y="-159.3">BoolOp</text>
+</g>
+<!-- 42&#45;&#45;43 -->
+<g class="edge" id="edge43">
+<title>42--43</title>
+<path d="M1367,-216C1367,-216 1372.5701,-195.9478 1376.9217,-180.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 51 -->
+<g class="node" id="node52">
+<title>51</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1489.5" y="-159.3">Return</text>
+</g>
+<!-- 42&#45;&#45;51 -->
+<g class="edge" id="edge51">
+<title>42--51</title>
+<path d="M1367,-216C1367,-216 1437.7503,-190.1857 1481.4165,-174.2534" fill="none" stroke="#000000"/>
+</g>
+<!-- 44 -->
+<g class="node" id="node45">
+<title>44</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1310" y="-86.3">And</text>
+</g>
+<!-- 43&#45;&#45;44 -->
+<g class="edge" id="edge44">
+<title>43--44</title>
+<path d="M1382,-144C1382,-144 1355.2637,-123.9478 1334.3759,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 45 -->
+<g class="node" id="node46">
+<title>45</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1365" y="-87.3">Name</text>
+</g>
+<!-- 43&#45;&#45;45 -->
+<g class="edge" id="edge45">
+<title>43--45</title>
+<path d="M1382,-144C1382,-144 1382,-123.9478 1382,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 48 -->
+<g class="node" id="node49">
+<title>48</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1437" y="-87.3">Name</text>
+</g>
+<!-- 43&#45;&#45;48 -->
+<g class="edge" id="edge48">
+<title>43--48</title>
+<path d="M1382,-144C1382,-144 1408.7363,-123.9478 1429.6241,-108.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 46 -->
+<g class="node" id="node47">
+<title>46</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1310" y="-14.3">&quot;a&quot;</text>
+</g>
+<!-- 45&#45;&#45;46 -->
+<g class="edge" id="edge46">
+<title>45--46</title>
+<path d="M1374,-72C1374,-72 1350.2344,-51.9478 1331.6675,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 47 -->
+<g class="node" id="node48">
+<title>47</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1382" y="-14.3">Load</text>
+</g>
+<!-- 45&#45;&#45;47 -->
+<g class="edge" id="edge47">
+<title>45--47</title>
+<path d="M1374,-72C1374,-72 1376.9707,-51.9478 1379.2916,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 49 -->
+<g class="node" id="node50">
+<title>49</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1454" y="-14.3">&quot;b&quot;</text>
+</g>
+<!-- 48&#45;&#45;49 -->
+<g class="edge" id="edge49">
+<title>48--49</title>
+<path d="M1462,-72C1462,-72 1459.0293,-51.9478 1456.7084,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 50 -->
+<g class="node" id="node51">
+<title>50</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1526" y="-14.3">Load</text>
+</g>
+<!-- 48&#45;&#45;50 -->
+<g class="edge" id="edge50">
+<title>48--50</title>
+<path d="M1462,-72C1462,-72 1485.7656,-51.9478 1504.3325,-36.2819" fill="none" stroke="#000000"/>
+</g>
+<!-- 52 -->
+<g class="node" id="node53">
+<title>52</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1549" y="-87.3">Num</text>
+</g>
+<!-- 51&#45;&#45;52 -->
+<g class="edge" id="edge52">
+<title>51--52</title>
+<path d="M1526.8601,-143.8314C1533.9305,-133 1542.8817,-119.2876 1549.9802,-108.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 53 -->
+<g class="node" id="node54">
+<title>53</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1598" y="-14.3">1</text>
+</g>
+<!-- 52&#45;&#45;53 -->
+<g class="edge" id="edge53">
+<title>52--53</title>
+<path d="M1571.0843,-71.8314C1576.5,-61 1583.3562,-47.2876 1588.7934,-36.4133" fill="none" stroke="#000000"/>
+</g>
+<!-- 55 -->
+<g class="node" id="node56">
+<title>55</title>
+<text fill="#004080" font-family="Courier,monospace" font-size="14.00" font-weight="bold" text-anchor="start" x="1365" y="-303.3">Num</text>
+</g>
+<!-- 54&#45;&#45;55 -->
+<g class="edge" id="edge55">
+<title>54--55</title>
+<path d="M1232.6685,-364.4574C1266.8989,-350.6887 1319.2709,-329.6229 1350.914,-316.8949" fill="none" stroke="#000000"/>
+</g>
+<!-- 56 -->
+<g class="node" id="node57">
+<title>56</title>
+<text fill="#008040" font-family="Courier,monospace" font-size="14.00" text-anchor="middle" x="1420" y="-230.3">0</text>
+</g>
+<!-- 55&#45;&#45;56 -->
+<g class="edge" id="edge56">
+<title>55--56</title>
+<path d="M1388.5984,-287.8314C1394.9167,-277 1402.9156,-263.2876 1409.2589,-252.4133" fill="none" stroke="#000000"/>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The number of nodes is 42
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>As you can see, the input program of <code>Test1</code> has 42 nodes.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The testing framework takes a reducer and allows to execute a single test or all tests at once.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestingFramework</span><span class="p">:</span>
+    <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">test_cases</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;test1&#39;</span><span class="p">:</span> <span class="n">Test1</span><span class="p">(),</span>
+        <span class="s1">&#39;test2&#39;</span><span class="p">:</span> <span class="n">Test2</span><span class="p">(),</span>
+        <span class="s1">&#39;test3&#39;</span><span class="p">:</span> <span class="n">Test3</span><span class="p">(),</span>
+        <span class="s1">&#39;test4&#39;</span><span class="p">:</span> <span class="n">Test4</span><span class="p">(),</span>
+        <span class="s1">&#39;test5&#39;</span><span class="p">:</span> <span class="n">Test5</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reducer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span> <span class="o">=</span> <span class="n">reducer</span>
+
+    <span class="k">def</span> <span class="nf">count_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">100000</span>
+        <span class="k">return</span> <span class="n">NodeCounter</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run a single test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Running test </span><span class="si">{test.__class__.__name__}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">reducer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">parser</span><span class="p">)</span>
+        <span class="n">reduced_code</span> <span class="o">=</span> <span class="n">reducer</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">get_original</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_property</span><span class="p">(</span><span class="n">reduced_code</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">parser</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_minimized</span><span class="p">(</span><span class="n">reduced_code</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">get_minimized</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">run_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run all public tests</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">passed_tests</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_cases</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_test</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+               <span class="n">passed_tests</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;In total </span><span class="si">{passed_tests}</span><span class="s2"> tests passed&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;returns True if the parser fails to parse the source&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;HAS PROPERTY: FAIL&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="n">ParserException</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;HAS PROPERTY: OK&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;HAS PROPERTY: FAIL </span><span class="si">{e}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">is_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduced</span><span class="p">,</span> <span class="n">reference</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;returns True if the AST of the reduced code contains no more then the number of nodes in the reference + a THRESHOLD&quot;&quot;&quot;</span>
+        <span class="n">count_minimized</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_nodes</span><span class="p">(</span><span class="n">reduced</span><span class="p">)</span>
+        <span class="n">count_reference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_nodes</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">count_minimized</span> <span class="o">&lt;=</span> <span class="n">count_reference</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">THRESHOLD</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;IS MINIMIZED: OK&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;IS MINIMIZED: FAIL&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let's test our <code>ReducingDebugger</code> with the following test:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test0</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if a and b:</span>
+<span class="s1">    c = 1</span>
+<span class="s1">else:</span>
+<span class="s1">    c = 2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a and b&#39;&#39;&#39;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">TestingFramework</span><span class="p">(</span><span class="n">ReducingDebugger</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">run_test</span><span class="p">(</span><span class="n">Test0</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Running test Test0
+HAS PROPERTY: OK
+IS MINIMIZED: OK
+Success!
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The input program was successfully minimized.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>What if we run all public tests?</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">run_tests</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Running test Test1
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test2
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test3
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test4
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test5
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+In total 0 tests passed
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Unfortunately, our parser failed to minimize all input programs from the public test suite.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Grading">Grading<a class="anchor-link" href="#Grading">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>For this project, you can get a total of 30 Points:</p>
+<ul>
+<li>15 Points will be awarded for passing the public test (<strong>without hardcoding the minimized solution or the sequence of transformations</strong>) presented in this notebook.
+These 15 points mean that you successfully implemented the must-have implementation.</li>
+<li>5 Points will be awarded for passing secret tests.</li>
+<li>10 Points will be awarded for efficient implementation (see may-have implementation).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Must-have-Features">Must-have Features<a class="anchor-link" href="#Must-have-Features">&#182;</a></h3><p>Implement a reducer which minifies a given program so that its parser still produces an error.
+To this end, collect all possible transformations over the nodes of an AST tree and then apply one change at a time.
+These modifications should be repeated until no further updates can be made without triggering a parser exception.
+If your reducer passes secret test you are awarded additional 5 points.</p>
+<p><em>Note: Implementing the given modifications should be sufficient to successfully complete this project.</em></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="May-have-Features">May-have Features<a class="anchor-link" href="#May-have-Features">&#182;</a></h3><p>An implementation only of the must-have features aims for correctness but can be inefficient (if transformations are applied one at a time). So, it can be optimized, for instance, with help of the Delta Debugging approach.</p>
+<p>Implement an AST Delta Debugger which efficiently prunes the nodes.
+If your reducer can beat the runtime of our reference implementation (which simply collects all possible transformations and applies them randomly one at a time) you can get up to 10 points (depending on the margin).</p>
+<p>Hint: The <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs chapter</a> already tries to optimize the reduction of the AST with help of Delta Debugging.<br>
+Hint: For instance, you can find useful <em>Hierarchical Delta Debugging</em> paper from the Background section of <strong>Reducing Failure-Inducing Inputs</strong> Chapter.</p>
 </div>
 </div>
 </div>
@@ -11958,12 +15051,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ReleaseNotes.ipynb" target=_blank)>Last change: 2020-10-13 15:07:17+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Reducing_Code.ipynb" target=_blank)>Last change: 2020-12-11 16:34:26+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
 
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Release Notes for The Debugging Book" style="width:0;height:0;border:0; border:none;"></iframe>
+<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Second Project" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -11976,19 +15069,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ReleaseNotes.html">Release Notes for The Debugging Book</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ReleaseNotes.html">https://www.debuggingbook.org/beta/html/ReleaseNotes.html</a>.  Retrieved 2020-10-13 15:07:17+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Reducing_Code.html">Second Project</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Reducing_Code.html">https://www.debuggingbook.org/beta/html/Reducing_Code.html</a>.  Retrieved 2020-12-11 16:34:26+01:00.
 </p>
 <pre>
-@incollection{debuggingbook2020:ReleaseNotes,
+@incollection{debuggingbook2020:Reducing_Code,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
-    title = {Release Notes for The Debugging Book},
+    title = {Second Project},
     year = {2020},
     publisher = {CISPA},
-    howpublished = {\url{https://www.debuggingbook.org/beta/html/ReleaseNotes.html}},
-    note = {Retrieved 2020-10-13 15:07:17+02:00},
-    url = {https://www.debuggingbook.org/beta/html/ReleaseNotes.html},
-    urldate = {2020-10-13 15:07:17+02:00}
+    howpublished = {\url{https://www.debuggingbook.org/beta/html/Reducing_Code.html}},
+    note = {Retrieved 2020-12-11 16:34:26+01:00},
+    url = {https://www.debuggingbook.org/beta/html/Reducing_Code.html},
+    urldate = {2020-12-11 16:34:26+01:00}
 }
 </pre>
 </div>
