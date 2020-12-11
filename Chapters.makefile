@@ -87,7 +87,8 @@ EXTRAS = \
 	Guide_for_Authors.ipynb \
 	Template.ipynb \
 	404.ipynb \
-	Time_Travel_Debugger.ipynb
+	Time_Travel_Debugger.ipynb \
+	Reducing_Code.ipynb
 	
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
