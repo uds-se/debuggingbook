@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-10 15:57:39+01:00
+# Last change: 2020-12-15 19:17:37+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    # YouTubeVideo("w4u5gCgPlmg")
+    YouTubeVideo("hX9ViNEXGL8")
 
 
 if __name__ == "__main__":
