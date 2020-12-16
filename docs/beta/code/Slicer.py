@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-15 19:38:09+01:00
+# Last change: 2020-12-16 19:01:58+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -28,17 +28,17 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-# # Tracking Origins
+# # Tracking Failure Origins
 
 if __name__ == "__main__":
-    print('# Tracking Origins')
+    print('# Tracking Failure Origins')
 
 
 
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    YouTubeVideo("w4u5gCgPlmg")
+    # YouTubeVideo("w4u5gCgPlmg")
 
 
 if __name__ == "__main__":
@@ -77,8 +77,261 @@ def middle(x, y, z):
     return z
 
 if __name__ == "__main__":
+    m = middle(1, 2, 3)
+    m
+
+
+if __name__ == "__main__":
     m = middle(2, 1, 3)
     m
+
+
+class Dependencies(object):
+    def __init__(self, data, control):
+        self.data = data
+        self.control = control
+        
+    def validate(self):
+        pass
+
+# ## Drawing Dependencies
+
+if __name__ == "__main__":
+    print('\n## Drawing Dependencies')
+
+
+
+
+if __name__ == "__main__":
+    from graphviz import Digraph, nohtml
+
+
+import html
+
+import inspect
+
+class Dependencies(Dependencies):
+    def source(self, node):
+        (name, location) = node
+        code_name, lineno = location
+        fun = globals()[code_name]
+        source_lines, first_lineno = inspect.getsourcelines(fun)
+
+        try:
+            line = source_lines[lineno - first_lineno].strip()
+        except IndexError:
+            return ''
+
+        return line
+
+class Dependencies(Dependencies):
+    NODE_COLOR = 'peachpuff'
+    FONT_NAME = 'Fira Mono'
+
+    def make_graph(self, name="dependencies", comment="Dependencies"):
+        return Digraph(name=name, comment=comment, 
+            graph_attr={
+            },
+            node_attr={
+                'style': 'filled',
+                'shape': 'box',
+                'fillcolor': self.NODE_COLOR,
+                'fontname': self.FONT_NAME
+            },
+            edge_attr={
+                'fontname': self.FONT_NAME
+            })
+
+class Dependencies(Dependencies):
+    def id(self, node):
+        id = ""
+        for c in repr(node):
+            if c.isalnum() or c == '_':
+                id += c
+            if c == ':' or c == ',':
+                id += '_'
+        return id
+
+    def label(self, node):
+        (name, location) = node
+        source = self.source(node)
+
+        title = html.escape(name)
+        if name.startswith('<'):
+            title = f'<I>{title}</I>'
+
+        return (f'<'
+                f'<B>{title}</B>'
+                f'<FONT POINT-SIZE="9.0"><BR/><BR/>'
+                f'{html.escape(source)}'
+                f'</FONT>'
+                f'>')
+
+    def tooltip(self, node):
+        (name, location) = node
+        code_name, lineno = location
+        return f"{code_name}:{lineno}"
+
+class Dependencies(Dependencies):
+    def graph(self):
+        """Draw dependencies."""
+        self.validate()
+
+        g = self.make_graph()
+        self.draw_dependencies(g)
+        self.add_hierarchy(g)
+        return g
+
+class Dependencies(Dependencies):
+    def draw_dependencies(self, g):
+        for node in self.data:
+            g.node(self.id(node), 
+                   label=self.label(node),
+                   tooltip=self.tooltip(node))
+
+            for source in self.data[node]:
+                g.edge(self.id(source), self.id(node))
+
+            for source in self.control[node]:
+                g.edge(self.id(source), self.id(node),
+                       style='dashed', color='grey')
+
+class Dependencies(Dependencies):
+    def all_vars(self):
+        all_vars = set()
+        for node in self.data:
+            all_vars.add(node)
+
+            for source in self.data[node]:
+                all_vars.add(source)
+
+            for source in self.control[node]:
+                all_vars.add(source)
+
+        return all_vars
+
+class Dependencies(Dependencies):
+    def all_codes(self):
+        code_names = {}
+        for node in self.all_vars():
+            (name, location) = node
+            code_name, lineno = location
+            if code_name not in code_names:
+                code_names[code_name] = []
+            code_names[code_name].append((lineno, node))
+
+        for code_name in code_names:
+            code_names[code_name].sort()
+
+        return code_names
+
+class Dependencies(Dependencies):
+    def add_hierarchy(self, g):
+        """Add invisible edges for a proper hierarchy."""
+        code_names = self.all_codes()
+        for code_name in code_names:
+            last_node = None
+            last_lineno = 0
+            for (lineno, node) in code_names[code_name]:
+                if last_node is not None and lineno > last_lineno:
+                    g.edge(self.id(last_node),
+                           self.id(node),
+                           style='invis')
+
+                last_node = node
+                last_lineno = lineno
+
+        return g
+
+class Dependencies(Dependencies):
+    def expand_items(self, items):
+        all_items = []
+        for item in items:
+            if isinstance(item, str):
+                for node in self.all_vars():
+                    (name, location) = node
+                    if name == item:
+                        all_items.append(node)
+            else:
+                all_items.append(item)
+
+        return all_items
+
+    def backward_slice(self, *items, mode="cd"):
+        data = {}
+        control = {}
+        queue = self.expand_items(items)
+        seen = set()
+
+        while len(queue) > 0:
+            var = queue[0]
+            queue = queue[1:]
+            seen.add(var)
+
+            if 'd' in mode:
+                data[var] = self.data[var]
+                for next_var in data[var]:
+                    if next_var not in seen:
+                        queue.append(next_var)
+            else:
+                data[var] = set()
+
+            if 'c' in mode:
+                control[var] = self.control[var]
+                for next_var in control[var]:
+                    if next_var not in seen:
+                        queue.append(next_var)
+            else:
+                control[var] = set()
+
+        return Dependencies(data, control)
+
+if __name__ == "__main__":
+    middle_deps = Dependencies({('z', ('middle', 1)): set(), ('y', ('middle', 1)): set(), ('x', ('middle', 1)): set(), ('<test>', ('middle', 2)): {('y', ('middle', 1)), ('z', ('middle', 1))}, ('<test>', ('middle', 3)): {('y', ('middle', 1)), ('x', ('middle', 1))}, ('<test>', ('middle', 5)): {('z', ('middle', 1)), ('x', ('middle', 1))}, ('<middle() return value>', ('middle', 6)): {('y', ('middle', 1))}}, {('z', ('middle', 1)): set(), ('y', ('middle', 1)): set(), ('x', ('middle', 1)): set(), ('<test>', ('middle', 2)): set(), ('<test>', ('middle', 3)): {('<test>', ('middle', 2))}, ('<test>', ('middle', 5)): {('<test>', ('middle', 3))}, ('<middle() return value>', ('middle', 6)): {('<test>', ('middle', 5))}})
+
+
+# ### Data Dependencies
+
+if __name__ == "__main__":
+    print('\n### Data Dependencies')
+
+
+
+
+if __name__ == "__main__":
+    middle_deps.backward_slice('<middle() return value>', mode='d').graph()
+
+
+# ### Control Dependencies
+
+if __name__ == "__main__":
+    print('\n### Control Dependencies')
+
+
+
+
+if __name__ == "__main__":
+    middle_deps.backward_slice('<middle() return value>', mode='c').graph()
+
+
+# ### All Dependencies
+
+if __name__ == "__main__":
+    print('\n### All Dependencies')
+
+
+
+
+if __name__ == "__main__":
+    middle_deps.graph()
+
+
+# ### Slices
+
+if __name__ == "__main__":
+    print('\n### Slices')
+
+
 
 
 # ## Instrumenting Code
@@ -116,7 +369,7 @@ if __name__ == "__main__":
 
 
 from ast import NodeTransformer, Subscript, Name, Load, Store, \
-    Assign, Attribute, With, withitem, Return, Index, Str, Call
+    Assign, Attribute, With, withitem, Return, Index, Str, Call, Expr
 
 DATA_STORE = '_data'
 
@@ -131,50 +384,79 @@ def make_data_access(id, ctx):
         ctx=ctx
     )
 
-class AccessTransformer(NodeTransformer):
+class TrackAccessTransformer(NodeTransformer):
     def visit_Name(self, node):
         if node.id in dir(__builtins__):
             return node  # Do not change built-in names
         return make_data_access(node.id, node.ctx)
 
+def dump_tree(tree):
+    ast.fix_missing_locations(tree)
+    print(astor.to_source(tree))
+    code = compile(tree, '<string>', 'exec')
+
 if __name__ == "__main__":
-    AccessTransformer().visit(middle_tree)
-    print(astor.to_source(middle_tree))
+    TrackAccessTransformer().visit(middle_tree)
+    dump_tree(middle_tree)
 
 
-class SaveArgsTransformer(NodeTransformer):
+if __name__ == "__main__":
+    print(ast.dump(ast.parse(f"{DATA_STORE}.param('x', x)")))
+
+
+class TrackParamsTransformer(NodeTransformer):
     def visit_FunctionDef(self, node):
+        self.generic_visit(node)
+
         named_args = []
         for child in ast.iter_child_nodes(node.args):
             if isinstance(child, ast.arg):
                 named_args.append(child.arg)
 
-        assign_stmts = []
+        create_stmts = []
         for arg in named_args:
-            assign_stmt = Assign(
-                targets=[make_data_access(arg, Store())],
-                value=Name(id=arg, ctx=Load())
+            create_stmt = Expr(
+                value=Call(
+                    func=Attribute(value=Name(id=DATA_STORE, ctx=Load()),
+                                   attr='param', ctx=Load()),
+                    args=[Str(s=arg), Name(id=arg, ctx=Load())],
+                    keywords=[]
+                )
             )
-            assign_stmts.append(assign_stmt)
+            create_stmts.append(create_stmt)
+        create_stmts.reverse()
 
-        node.body = assign_stmts + node.body
+        node.body = create_stmts + node.body
         return node
 
 if __name__ == "__main__":
-    SaveArgsTransformer().visit(middle_tree)
-    print(astor.to_source(middle_tree))
+    TrackParamsTransformer().visit(middle_tree)
+    dump_tree(middle_tree)
 
 
-class SaveReturnTransformer(NodeTransformer):
-    RETURN_VALUE = '<return value>'
+class TrackReturnTransformer(NodeTransformer):
+    def __init__(self):
+        self.function_name = None
+        super().__init__()
+
+    def visit_FunctionDef(self, node):
+        self.function_name = node.name
+        self.generic_visit(node)
+        return node
+
+    def return_value(self):
+        if self.function_name is None:
+            return "<return value>"
+        else:
+            return f"<{self.function_name}() return value>"
 
     def visit_Return(self, node):
         assign_node = Assign(
-                targets=[make_data_access(self.RETURN_VALUE, Store())],
+                targets=[make_data_access(self.return_value(), Store())],
                 value=node.value
             )
         return_node = Return(
-                value=make_data_access(self.RETURN_VALUE, Load())
+                value=make_data_access(self.return_value(), Load())
             )
         ast.copy_location(assign_node, node)
         ast.copy_location(return_node, node)
@@ -185,11 +467,11 @@ class SaveReturnTransformer(NodeTransformer):
         ]
 
 if __name__ == "__main__":
-    SaveReturnTransformer().visit(middle_tree)
-    print(astor.to_source(middle_tree))
+    TrackReturnTransformer().visit(middle_tree)
+    dump_tree(middle_tree)
 
 
-class ControlTransformer(NodeTransformer):
+class TrackControlTransformer(NodeTransformer):
     def make_with(self, block):
         if len(block) == 0:
             return []
@@ -204,32 +486,76 @@ class ControlTransformer(NodeTransformer):
         )]
 
     def make_test(self, test):
-        return Call(func=Attribute(value=Name(id='_data', ctx=Load()),
+        return Call(func=Attribute(value=Name(id=DATA_STORE, ctx=Load()),
                                    attr='test',
                                    ctx=Load()),
                      args=[test],
                      keywords=[])
 
     def visit_If(self, node):
+        self.generic_visit(node)
         node.test = self.make_test(node.test)
         node.body = self.make_with(node.body)
         node.orelse = self.make_with(node.orelse)
-        return self.generic_visit(node)
+        return node
 
     def visit_While(self, node):
+        self.generic_visit(node)
         node.test = self.make_test(node.test)
         node.body = self.make_with(node.body)
         node.orelse = self.make_with(node.orelse)
-        return self.generic_visit(node)
+        return node
 
     def visit_For(self, node):
+        self.generic_visit(node)
         node.body = self.make_with(node.body)
         node.orelse = self.make_with(node.orelse)
-        return self.generic_visit(node)
+        return node
 
 if __name__ == "__main__":
-    ControlTransformer().visit(middle_tree)
-    print(astor.to_source(middle_tree))
+    TrackControlTransformer().visit(middle_tree)
+    dump_tree(middle_tree)
+
+
+class TrackCallTransformer(NodeTransformer):
+    def make_call(self, node, fun):
+        return Call(func=Attribute(value=Name(id=DATA_STORE,
+                                              ctx=Load()),
+                                   attr=fun,
+                                   ctx=Load()),
+                     args=[node],
+                     keywords=[])
+
+    def visit_Call(self, node):
+        self.generic_visit(node)
+
+        new_args = []
+        for arg in node.args:
+            new_args.append(self.make_call(arg, 'arg'))
+        node.args = new_args
+
+        for kw in node.keywords:
+            kw.value = self.make_call(kw.value, 'arg')
+
+        node.func = self.make_call(node.func, 'call')
+        return self.make_call(node, 'ret')
+
+def test_call():
+    x = middle(1, 2, middle(1, 2, 3))
+
+if __name__ == "__main__":
+    call_tree = ast.parse(inspect.getsource(test_call))
+    dump_tree(call_tree)
+
+
+if __name__ == "__main__":
+    TrackCallTransformer().visit(call_tree)
+    dump_tree(call_tree)
+
+
+if __name__ == "__main__":
+    ast.fix_missing_locations(call_tree)
+    compile(call_tree, '<string>', 'exec')
 
 
 def print_ast_ids(tree):
@@ -265,7 +591,7 @@ class DataStore(dict):
     def __getitem__(self, name):
         if self.log:
             code_name, lineno = self.caller_location()
-            print(f"{code_name}:{lineno}: setting {name}")
+            print(f"{code_name}:{lineno}: getting {name}")
 
         if name in self:
             return super().__getitem__(name)
@@ -280,13 +606,44 @@ class DataStore(dict):
         return super().__setitem__(name, value)
 
 class DataStore(DataStore):
-    def test(self, value):
+    def test(self, cond):
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: testing condition")
 
+        return cond
+
+    def param(self, name, value):
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: initializing {name}")
+
+        return self.__setitem__(name, value)
+
+    def arg(self, value):
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: pushing arg")
+
         return value
 
+class DataStore(DataStore):
+    def ret(self, value):
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: returned from call")
+
+        return value
+
+class DataStore(DataStore):
+    def call(self, fun):
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: calling {fun}")
+
+        return fun
+
+class DataStore(DataStore):
     def __repr__(self):
         return super().__repr__()
 
@@ -304,11 +661,6 @@ if __name__ == "__main__":
 
 
 
-class Dependencies(object):
-    def __init__(self, data, control):
-        self.data = data
-        self.control = control
-
 import itertools
 
 class DataTracker(DataStore):
@@ -317,45 +669,83 @@ class DataTracker(DataStore):
         self.origins = {}
         self.data_dependencies = {}
         self.control_dependencies = {}
+
+        self.data = [[]]  # Data stack
+        self.control = [[]]  # Control stack
         self.last_read = []
-        self.last_read_location = None
-        self.control = [[]]
+        self.last_checked_location = None
+        self._ignore_location_change = False
+
+        self.args = []  # Argument stack
+
+class DataTracker(DataTracker):
+    def clear_read(self):
+        if self.log:
+            direct_caller = inspect.currentframe().f_back.f_code.co_name
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: "
+                  f"clearing read variables {self.last_read} "
+                  f"(from {direct_caller})")
+
+        self.last_read = []
+
+    def check_location(self):
+        location = self.caller_location()
+        if self.last_checked_location != location:
+            if self._ignore_location_change:
+                self._ignore_location_change = False
+            else:
+                self.clear_read()
+
+        self.last_checked_location = location
+
+    def ignore_next_location_change(self):
+        self._ignore_location_change = True
+
+    def ignore_location_change(self):
+        self.last_checked_location = self.caller_location()
 
     def __getitem__(self, name):
-        location = self.caller_location()
-        if location != self.last_read_location:
-            self.last_read_location = location
-            self.last_read = []
+        self.check_location()
         self.last_read.append(name)
         return super().__getitem__(name)
 
+class DataTracker(DataTracker):
     def __setitem__(self, name, value):
+        def add_dependencies(dependencies, vars_read, tp):
+            for var_read in vars_read:
+                if var_read in self.origins:
+                    origin = self.origins[var_read]
+                    dependencies.add((var_read, origin))
+                    if self.log:
+                        origin_name, origin_lineno = origin
+                        code_name, lineno = self.caller_location()
+                        print(f"{code_name}:{lineno}: "
+                              f"new {tp} dependency: "
+                              f"{name} <= {var_read} "
+                              f"({origin_name}:{origin_lineno})")
+
+        self.check_location()
+        ret = super().__setitem__(name, value)
         location = self.caller_location()
 
-        new_data_dependencies = self.data_dependencies[(name, location)] \
-            if (name, location) in self.data_dependencies else set()
+        if (name, location) not in self.data_dependencies:
+            self.data_dependencies[(name, location)] = set()
+        if (name, location) not in self.control_dependencies:
+            self.control_dependencies[(name, location)] = set()
 
-        for var_read in self.last_read:
-            if var_read in self.origins:
-                new_data_dependencies.add((var_read, self.origins[var_read]))
-
-        new_control_dependencies = self.control_dependencies[(name, location)] \
-            if (name, location) in self.control_dependencies else set()
-
-        for var_read in itertools.chain.from_iterable(self.control):
-            if var_read in self.origins:
-                new_control_dependencies.add((var_read, self.origins[var_read]))
-
-        self.data_dependencies[(name, location)] = new_data_dependencies
-        self.control_dependencies[(name, location)] = new_control_dependencies
+        add_dependencies(self.data_dependencies[(name, location)],
+                         self.last_read, tp="data")
+        add_dependencies(self.control_dependencies[(name, location)],
+                         itertools.chain.from_iterable(self.control),
+                         tp="control")
 
         self.origins[name] = location
 
         # Reset read info for next line
-        self.last_read_location = None
-        self.last_read = []
+        self.clear_read()
 
-        return super().__setitem__(name, value)
+        return ret
 
 class DataTracker(DataTracker):
     TEST = '<test>'
@@ -367,34 +757,141 @@ class DataTracker(DataTracker):
 
     def __enter__(self):
         self.control.append(self.last_read)
-        self.last_read_location = None
-        self.last_read = []
+        self.clear_read()
+        super().__enter__()
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.control.pop()
-        self.last_read_location = None
-        self.last_read = []
+        self.clear_read()
+        self.last_read = self.control.pop()
+        self.ignore_next_location_change()
+        super().__exit__(exc_type, exc_value, traceback)
 
     def dependencies(self):
         return Dependencies(self.data_dependencies,
                             self.control_dependencies)
 
+class DataTracker(DataTracker):
+    def call(self, fun):
+        # Save context
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: "
+                  f"saving read variables {self.last_read}")
+
+        self.data.append(self.last_read)
+        self.clear_read()
+        self.ignore_next_location_change()
+
+        return super().call(fun)
+
+    def ret(self, value):
+        super().ret(value)
+
+        # Restore old context and add return value
+        ret_name = None
+        for var in self.last_read:
+            if var.startswith("<"):
+                ret_name = var
+
+        self.last_read = self.data.pop()
+        self.last_read.append(ret_name)
+        self.ignore_location_change()
+
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: "
+                  f"restored read variables {self.last_read}")
+
+        return value
+
+class DataTracker(DataTracker):
+    def arg(self, value):
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: "
+                  f"saving arg reads {self.last_read}")
+
+        self.args.append(self.last_read)
+        self.clear_read()
+        return super().arg(value)
+
+    def param(self, name, value):
+        self.clear_read()
+        if self.args:
+            self.last_read = self.args.pop()
+            self.ignore_location_change()
+
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: "
+                  f"restored param {self.last_read}")
+
+        return super().param(name, value)
+
+# #### Diagnostics
+
+if __name__ == "__main__":
+    print('\n#### Diagnostics')
+
+
+
+
+import re
+import sys
+
 class Dependencies(Dependencies):
     def format_var(self, var):
         name, location = var
         location_name, lineno = location
-        return(f"{name} ({location_name}:{lineno}):")
+        return(f"{name} ({location_name}:{lineno})")
 
+class Dependencies(Dependencies):
+    def validate(self):
+        for var in self.all_vars():
+            source = self.source(var)
+            for dep_var in self.data[var] | self.control[var]:
+                dep_name, dep_location = dep_var
+
+                if dep_name == DataTracker.TEST:
+                    continue
+
+                if dep_name.endswith('return value>'):
+                    if source.find('(') < 0:
+                        print(f"Warning: {self.format_var(var)} "
+                              f"depends on {self.format_var(dep_var)}, "
+                              f"but {repr(source)} does not seem to have a call",
+                              file=sys.stderr
+                             )
+                    continue
+
+                if source.startswith('def'):
+                    continue   # function call
+
+                rx = re.compile(r'\b' + dep_name + r'\b')
+                if rx.search(source) is None:
+                    print(f"Warning: {self.format_var(var)} "
+                          f"depends on {self.format_var(dep_var)}, "
+                          f"but {repr(dep_name)} does not occur "
+                          f"in {repr(source)}",
+                          file=sys.stderr
+                         )
+
+class Dependencies(Dependencies):
     def __repr__(self):
+        self.validate()
+
         out = ""
         for var in set(self.data.keys() | set(self.control.keys())):
-            out += self.format_var(var) + "\n"
+            out += self.format_var(var) + ":\n"
             for data_dep in self.data[var]:
                 out += f"    <= {self.format_var(data_dep)}\n"
             for control_dep in self.control[var]:
                 out += f"    <- {self.format_var(control_dep)}\n"
 
         return out
+
+    def dump(self):
+        return f"Dependencies({self.data}, {self.control})"
 
 # ## Slicing Code
 
@@ -433,13 +930,15 @@ if __name__ == "__main__":
 
 
 class Slicer(Instrumenter):
-    def __init__(self, *items_to_instrument, data_tracker=None, log=False):
+    def __init__(self, *items_to_instrument, 
+                 data_tracker=None,
+                 log=False):
         super().__init__(*items_to_instrument, log=log)
         if len(items_to_instrument) == 0:
             raise ValueError("Need one or more items to instrument")
 
         if data_tracker is None:
-            data_tracker = DataTracker()
+            data_tracker = DataTracker(log=(log > 1))
         self.data_tracker = data_tracker
         self.data_store = None
 
@@ -448,16 +947,25 @@ class Slicer(Instrumenter):
         tree = ast.parse("".join(source_lines))
         ast.increment_lineno(tree, lineno - 1)
 
-        AccessTransformer().visit(tree)
-        SaveArgsTransformer().visit(tree)
-        SaveReturnTransformer().visit(tree)
-        ControlTransformer().visit(tree)
+        TrackAccessTransformer().visit(tree)
+        TrackCallTransformer().visit(tree)
+        TrackControlTransformer().visit(tree)
+        TrackReturnTransformer().visit(tree)
+        TrackParamsTransformer().visit(tree)
 
         ast.fix_missing_locations(tree)
         # print_ast_ids(tree)
 
         if self.log:
             print(f"Instrumenting {item}:")
+
+            if self.log > 1:
+                n = lineno
+                for line in source_lines:
+                    print(f"{n:4} {line.rstrip()}")
+                    n += 1
+                print()
+
             print(astor.to_source(tree))
 
         code = compile(tree, '<string>', 'exec')
@@ -489,137 +997,6 @@ if __name__ == "__main__":
     middle(2, 1, 3)
 
 
-# ## Drawing Dependencies
-
-if __name__ == "__main__":
-    print('\n## Drawing Dependencies')
-
-
-
-
-if __name__ == "__main__":
-    from graphviz import Digraph, nohtml
-
-
-import html
-
-class Dependencies(Dependencies):
-    STEP_COLOR = 'peachpuff'
-    FONT_NAME = 'Fira Mono'
-
-class Dependencies(Dependencies):
-    def make_graph(self, name="dependencies", comment="Dependencies"):
-        return Digraph(name=name, comment=comment, 
-            graph_attr={
-            },
-            node_attr={
-                'style': 'filled',
-                'shape': 'box',
-                'fillcolor': self.STEP_COLOR,
-                'fontname': self.FONT_NAME
-            },
-            edge_attr={
-                'fontname': self.FONT_NAME
-            })
-
-class Dependencies(Dependencies):
-    def id(self, node):
-        id = ""
-        for c in repr(node):
-            if c.isalnum() or c == '_':
-                id += c
-            if c == ':' or c == ',':
-                id += '_'
-        return id
-
-    def label(self, node):
-        (name, location) = node
-        code_name, lineno = location
-        fun = globals()[code_name]
-        source_lines, first_lineno = inspect.getsourcelines(fun)
-        source = source_lines[lineno - first_lineno].strip()
-        
-        title = html.escape(name)
-        if name.startswith('<'):
-            title = f"<I>{title}</I>"
-
-        return (f'<' +
-            f'<B>{title}</B>' +
-            f'<FONT POINT-SIZE="9.0"><BR/><BR/>{html.escape(source)}</FONT>' +
-            '>')
-
-    def tooltip(self, node):
-        (name, location) = node
-        code_name, lineno = location
-        return f"{code_name}:{lineno}"
-
-class Dependencies(Dependencies):
-    def graph(self):
-        """Draw dependencies."""
-        g = self.make_graph()
-        self.draw_dependencies(g)
-        self.add_hierarchy(g)
-        return g
-
-class Dependencies(Dependencies):
-    def draw_dependencies(self, g):
-        for node in self.data:
-            g.node(self.id(node), 
-                   label=self.label(node),
-                   tooltip=self.tooltip(node))
-
-            for source in self.data[node]:
-                g.edge(self.id(source), self.id(node))
-
-            for source in self.control[node]:
-                g.edge(self.id(source), self.id(node),
-                       style='dashed', color='grey')
-
-class Dependencies(Dependencies):
-    def all_vars(self):
-        all_vars = set()
-        for node in self.data:
-            all_vars.add(node)
-
-            for source in self.data[node]:
-                all_vars.add(source)
-
-            for source in self.control[node]:
-                all_vars.add(source)
-
-        return all_vars
-
-    def all_codes(self):
-        code_names = {}
-        for node in self.all_vars():
-            (name, location) = node
-            code_name, lineno = location
-            if code_name not in code_names:
-                code_names[code_name] = []
-            code_names[code_name].append((lineno, node))
-
-        for code_name in code_names:
-            code_names[code_name].sort()
-
-        return code_names
-
-    def add_hierarchy(self, g):
-        """Add invisible edges for a proper hierarchy."""
-        code_names = self.all_codes()
-        for code_name in code_names:
-            last_node = None
-            last_lineno = 0
-            for (lineno, node) in code_names[code_name]:
-                if last_node is not None and lineno > last_lineno:
-                    g.edge(self.id(last_node),
-                           self.id(node),
-                           style='invis')
-
-                last_node = node
-                last_lineno = lineno
-
-        return g
-
 if __name__ == "__main__":
     with Slicer(middle) as middle_slicer:
         y = middle(2, 1, 3)
@@ -629,50 +1006,16 @@ if __name__ == "__main__":
     middle_slicer.dependencies().graph()
 
 
-class Dependencies(Dependencies):
-    def expand_items(self, items):
-        all_items = []
-        for item in items:
-            if isinstance(item, str):
-                for node in self.all_vars():
-                    (name, location) = node
-                    if name == item:
-                        all_items.append(node)
-            else:
-                all_items.append(item)
-                
-        return all_items
+if __name__ == "__main__":
+    print(middle_slicer.dependencies().dump())
 
-    def backward_slice(self, *items, mode="cd"):
-        data = {}
-        control = {}
-        queue = self.expand_items(items)
-        seen = set()
 
-        while len(queue) > 0:
-            var = queue[0]; queue = queue[1:]
-            seen.add(var)
-            
-            if 'd' in mode:
-                data[var] = self.data[var]
-                for next_var in data[var]:
-                    if next_var not in seen:
-                        queue.append(next_var)
-            else:
-                data[var] = set()
-
-            if 'c' in mode:
-                control[var] = self.control[var]
-                for next_var in control[var]:
-                    if next_var not in seen:
-                        queue.append(next_var)
-            else:
-                control[var] = set()
-        
-        return Dependencies(data, control)
+# ## More Examples
 
 if __name__ == "__main__":
-    middle_slicer.dependencies().backward_slice('<return value>', mode='d').graph()
+    print('\n## More Examples')
+
+
 
 
 if __package__ is None or __package__ == "":
@@ -682,7 +1025,7 @@ else:
 
 
 if __name__ == "__main__":
-    with Slicer(square_root) as root_slicer:
+    with Slicer(square_root, log=True) as root_slicer:
         y = square_root(2.0)
 
 
@@ -709,21 +1052,77 @@ if __name__ == "__main__":
     rhm_slicer.dependencies().backward_slice('tag', mode='c').graph()
 
 
-def add_to(x, y):
-    x += y
-    return x
+def add_to(n, m):
+    n += m
+    return n
 
 def mul_with(x, y):
     x *= y
     return x
 
+def test_math():
+    return mul_with(1, add_to(2, 2))
+
 if __name__ == "__main__":
-    with Slicer(add_to, mul_with) as math_slicer:
-        y = mul_with(3, add_to(2, 2))
+    with Slicer(add_to, mul_with, test_math) as math_slicer:
+        test_math()
 
 
 if __name__ == "__main__":
     math_slicer.dependencies().graph()
+
+
+# ## Things that do not Work
+
+if __name__ == "__main__":
+    print('\n## Things that do not Work')
+
+
+
+
+# ### Multiple Assignments
+
+if __name__ == "__main__":
+    print('\n### Multiple Assignments')
+
+
+
+
+def test_multiple_assignment():
+    x, y = 0, 1
+    t = (x * x, y * y)
+    return t[x]
+
+with Slicer(test_multiple_assignment) as multi_slicer:
+    test_multiple_assignment()
+
+if __name__ == "__main__":
+    multi_slicer.dependencies().graph()
+
+
+# ### Attributes
+
+if __name__ == "__main__":
+    print('\n### Attributes')
+
+
+
+
+class X(object):
+    pass
+
+def test_attributes(y):
+    x = X()
+    x.attr = y
+    return x.attr
+
+if __name__ == "__main__":
+    with Slicer(test_attributes, log=True) as attr_slicer:
+        test_attributes(10)
+
+
+if __name__ == "__main__":
+    attr_slicer.dependencies().graph()
 
 
 if __package__ is None or __package__ == "":
