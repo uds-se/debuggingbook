@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-16 19:01:58+01:00
+# Last change: 2020-12-16 22:54:36+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -90,7 +90,7 @@ class Dependencies(object):
     def __init__(self, data, control):
         self.data = data
         self.control = control
-        
+
     def validate(self):
         pass
 
@@ -111,8 +111,8 @@ import html
 import inspect
 
 class Dependencies(Dependencies):
-    def source(self, node):
-        (name, location) = node
+    def source(self, var):
+        (name, location) = var
         code_name, lineno = location
         fun = globals()[code_name]
         source_lines, first_lineno = inspect.getsourcelines(fun)
@@ -120,7 +120,7 @@ class Dependencies(Dependencies):
         try:
             line = source_lines[lineno - first_lineno].strip()
         except IndexError:
-            return ''
+            line = ''
 
         return line
 
@@ -143,18 +143,18 @@ class Dependencies(Dependencies):
             })
 
 class Dependencies(Dependencies):
-    def id(self, node):
+    def id(self, var):
         id = ""
-        for c in repr(node):
+        for c in repr(var):
             if c.isalnum() or c == '_':
                 id += c
             if c == ':' or c == ',':
                 id += '_'
         return id
 
-    def label(self, node):
-        (name, location) = node
-        source = self.source(node)
+    def label(self, var):
+        (name, location) = var
+        source = self.source(var)
 
         title = html.escape(name)
         if name.startswith('<'):
@@ -167,8 +167,8 @@ class Dependencies(Dependencies):
                 f'</FONT>'
                 f'>')
 
-    def tooltip(self, node):
-        (name, location) = node
+    def tooltip(self, var):
+        (name, location) = var
         code_name, lineno = location
         return f"{code_name}:{lineno}"
 
@@ -184,28 +184,28 @@ class Dependencies(Dependencies):
 
 class Dependencies(Dependencies):
     def draw_dependencies(self, g):
-        for node in self.data:
-            g.node(self.id(node), 
-                   label=self.label(node),
-                   tooltip=self.tooltip(node))
+        for var in self.data:
+            g.node(self.id(var), 
+                   label=self.label(var),
+                   tooltip=self.tooltip(var))
 
-            for source in self.data[node]:
-                g.edge(self.id(source), self.id(node))
+            for source in self.data[var]:
+                g.edge(self.id(source), self.id(var))
 
-            for source in self.control[node]:
-                g.edge(self.id(source), self.id(node),
+            for source in self.control[var]:
+                g.edge(self.id(source), self.id(var),
                        style='dashed', color='grey')
 
 class Dependencies(Dependencies):
     def all_vars(self):
         all_vars = set()
-        for node in self.data:
-            all_vars.add(node)
+        for var in self.data:
+            all_vars.add(var)
 
-            for source in self.data[node]:
+            for source in self.data[var]:
                 all_vars.add(source)
 
-            for source in self.control[node]:
+            for source in self.control[var]:
                 all_vars.add(source)
 
         return all_vars
@@ -213,12 +213,12 @@ class Dependencies(Dependencies):
 class Dependencies(Dependencies):
     def all_codes(self):
         code_names = {}
-        for node in self.all_vars():
-            (name, location) = node
+        for var in self.all_vars():
+            (name, location) = var
             code_name, lineno = location
             if code_name not in code_names:
                 code_names[code_name] = []
-            code_names[code_name].append((lineno, node))
+            code_names[code_name].append((lineno, var))
 
         for code_name in code_names:
             code_names[code_name].sort()
@@ -230,15 +230,15 @@ class Dependencies(Dependencies):
         """Add invisible edges for a proper hierarchy."""
         code_names = self.all_codes()
         for code_name in code_names:
-            last_node = None
+            last_var = None
             last_lineno = 0
-            for (lineno, node) in code_names[code_name]:
-                if last_node is not None and lineno > last_lineno:
-                    g.edge(self.id(last_node),
-                           self.id(node),
+            for (lineno, var) in code_names[code_name]:
+                if last_var is not None and lineno > last_lineno:
+                    g.edge(self.id(last_var),
+                           self.id(var),
                            style='invis')
 
-                last_node = node
+                last_var = var
                 last_lineno = lineno
 
         return g
@@ -248,10 +248,10 @@ class Dependencies(Dependencies):
         all_items = []
         for item in items:
             if isinstance(item, str):
-                for node in self.all_vars():
-                    (name, location) = node
+                for var in self.all_vars():
+                    (name, location) = var
                     if name == item:
-                        all_items.append(node)
+                        all_items.append(var)
             else:
                 all_items.append(item)
 
@@ -285,6 +285,116 @@ class Dependencies(Dependencies):
                 control[var] = set()
 
         return Dependencies(data, control)
+
+if __package__ is None or __package__ == "":
+    from bookutils import print_content
+else:
+    from .bookutils import print_content
+
+
+class Dependencies(Dependencies):
+    def format_var(self, var, current_location=None):
+        name, location = var
+        location_name, lineno = location
+        if location_name != current_location:
+            return f"{name} ({location_name}:{lineno})"
+        else:
+            return f"{name} ({lineno})"
+
+class Dependencies(Dependencies):
+    def __str__(self):
+        self.validate()
+
+        out = ""
+        for code_name in self.all_codes():
+            if out != "":
+                out += "\n"
+            out += f"{code_name}():\n"
+
+            all_vars = list(set(self.data.keys()) | set(self.control.keys()))
+            all_vars.sort(key=lambda var: var[1][1])
+
+            for var in all_vars:
+                (name, location) = var
+                var_code, var_lineno = location
+                if var_code != code_name:
+                    continue
+
+                all_deps = ""
+                for (source, arrow) in [(self.data, "<="), (self.control, "<-")]:
+                    deps = ""
+                    for data_dep in source[var]:
+                        if deps == "":
+                            deps = f" {arrow} "
+                        else:
+                            deps += ", "
+                        deps += self.format_var(data_dep, code_name)
+
+                    if deps != "":
+                        if all_deps != "":
+                            all_deps += ";"
+                        all_deps += deps
+
+                if all_deps == "":
+                    continue
+
+                out += ("    " + 
+                        self.format_var(var, code_name) +
+                        all_deps + "\n")
+
+        return out
+
+    def __repr__(self):
+        # Useful for saving and restoring values
+        return f"Dependencies({self.data}, {self.control})"
+
+class Dependencies(Dependencies):
+    def code(self, item, mode='cd'):
+        all_vars = self.all_vars()
+        slice_locations = set(location for name, location in all_vars)
+
+        source_lines, first_lineno = inspect.getsourcelines(item)
+
+        n = first_lineno
+        for line in source_lines:
+            line_location = (item.__name__, n)
+            if line_location in slice_locations:
+                prefix = "* "
+            else:
+                prefix = "  "
+
+            print(f"{prefix}{n:4} ", end="")
+
+            comment = ""
+            for (mode_control, source, arrow) in [
+                ('d', self.data, '<='),
+                ('c', self.control, '<-')
+            ]:
+                if mode_control not in mode:
+                    continue
+
+                deps = ""
+                for var in source:
+                    name, location = var
+                    if location == line_location:
+                        for dep_var in source[var]:
+                            if deps == "":
+                                deps = arrow + " "
+                            else:
+                                deps += ", "
+                            deps += self.format_var(dep_var, item.__name__)
+
+                if deps != "":
+                    if comment != "":
+                        comment += "; "
+                    comment += deps
+
+            if comment != "":
+                line = line.rstrip() + "  # " + comment
+
+            print_content(line.rstrip(), '.py')
+            print()
+            n += 1
 
 if __name__ == "__main__":
     middle_deps = Dependencies({('z', ('middle', 1)): set(), ('y', ('middle', 1)): set(), ('x', ('middle', 1)): set(), ('<test>', ('middle', 2)): {('y', ('middle', 1)), ('z', ('middle', 1))}, ('<test>', ('middle', 3)): {('y', ('middle', 1)), ('x', ('middle', 1))}, ('<test>', ('middle', 5)): {('z', ('middle', 1)), ('x', ('middle', 1))}, ('<middle() return value>', ('middle', 6)): {('y', ('middle', 1))}}, {('z', ('middle', 1)): set(), ('y', ('middle', 1)): set(), ('x', ('middle', 1)): set(), ('<test>', ('middle', 2)): set(), ('<test>', ('middle', 3)): {('<test>', ('middle', 2))}, ('<test>', ('middle', 5)): {('<test>', ('middle', 3))}, ('<middle() return value>', ('middle', 6)): {('<test>', ('middle', 5))}})
@@ -323,6 +433,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    print(middle_deps)
+
+
+if __name__ == "__main__":
     middle_deps.graph()
 
 
@@ -332,6 +446,10 @@ if __name__ == "__main__":
     print('\n### Slices')
 
 
+
+
+if __name__ == "__main__":
+    middle_deps.code(middle)
 
 
 # ## Instrumenting Code
@@ -398,6 +516,14 @@ def dump_tree(tree):
 if __name__ == "__main__":
     TrackAccessTransformer().visit(middle_tree)
     dump_tree(middle_tree)
+
+
+# ### Excursion: More Transformations
+
+if __name__ == "__main__":
+    print('\n### Excursion: More Transformations')
+
+
 
 
 if __name__ == "__main__":
@@ -553,11 +679,6 @@ if __name__ == "__main__":
     dump_tree(call_tree)
 
 
-if __name__ == "__main__":
-    ast.fix_missing_locations(call_tree)
-    compile(call_tree, '<string>', 'exec')
-
-
 def print_ast_ids(tree):
     for node in ast.walk(tree):
         print(node)
@@ -567,6 +688,18 @@ def print_ast_ids(tree):
             print("(No source)\n")
 
 # print_ast_ids(new_square_root_tree)
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
+if __name__ == "__main__":
+    dump_tree(middle_tree)
+
 
 # ## Tracking Data
 
@@ -653,6 +786,37 @@ class DataStore(DataStore):
     def __exit__(self, exc_type, exc_value, traceback):
         pass
 
+if __name__ == "__main__":
+    _data = DataStore(log=True)
+
+
+if __name__ == "__main__":
+    middle_code = compile(middle_tree, '<string>', 'exec')
+
+
+if __name__ == "__main__":
+    original_middle = middle
+
+
+if __name__ == "__main__":
+    print_content(inspect.getsource(middle), '.py', start_line_number=1)
+
+
+if __name__ == "__main__":
+    exec(middle_code, globals())
+    middle(2, 1, 3)
+
+
+if __name__ == "__main__":
+    del _data
+    del middle_code
+    middle = original_middle
+
+
+if __name__ == "__main__":
+    middle(2, 1, 3)
+
+
 # ## Tracking Dependencies
 
 if __name__ == "__main__":
@@ -722,8 +886,8 @@ class DataTracker(DataTracker):
                         code_name, lineno = self.caller_location()
                         print(f"{code_name}:{lineno}: "
                               f"new {tp} dependency: "
-                              f"{name} <= {var_read} "
-                              f"({origin_name}:{origin_lineno})")
+                              f"{name} <= {var_read}@"
+                              f"{origin_name}:{origin_lineno}")
 
         self.check_location()
         ret = super().__setitem__(name, value)
@@ -840,12 +1004,6 @@ import re
 import sys
 
 class Dependencies(Dependencies):
-    def format_var(self, var):
-        name, location = var
-        location_name, lineno = location
-        return(f"{name} ({location_name}:{lineno})")
-
-class Dependencies(Dependencies):
     def validate(self):
         for var in self.all_vars():
             source = self.source(var)
@@ -859,7 +1017,8 @@ class Dependencies(Dependencies):
                     if source.find('(') < 0:
                         print(f"Warning: {self.format_var(var)} "
                               f"depends on {self.format_var(dep_var)}, "
-                              f"but {repr(source)} does not seem to have a call",
+                              f"but {repr(source)} does not "
+                              f"seem to have a call",
                               file=sys.stderr
                              )
                     continue
@@ -875,23 +1034,6 @@ class Dependencies(Dependencies):
                           f"in {repr(source)}",
                           file=sys.stderr
                          )
-
-class Dependencies(Dependencies):
-    def __repr__(self):
-        self.validate()
-
-        out = ""
-        for var in set(self.data.keys() | set(self.control.keys())):
-            out += self.format_var(var) + ":\n"
-            for data_dep in self.data[var]:
-                out += f"    <= {self.format_var(data_dep)}\n"
-            for control_dep in self.control[var]:
-                out += f"    <- {self.format_var(control_dep)}\n"
-
-        return out
-
-    def dump(self):
-        return f"Dependencies({self.data}, {self.control})"
 
 # ## Slicing Code
 
@@ -980,8 +1122,19 @@ class Slicer(Instrumenter):
 
     def dependencies(self):
         if self.data_store is None:
-            return None
+            return Dependencies({}, {})
         return self.data_store.dependencies()
+
+    def code(self, *args, **kwargs):
+        first = True
+        for item in self.items_to_instrument:
+            if not first:
+                print()
+            self.dependencies().code(item, *args, **kwargs)
+            first = False
+
+    def graph(self, *args, **kwargs):
+        return self.dependencies().graph(*args, **kwargs)
 
 if __name__ == "__main__":
     with Slicer(middle) as slicer:
@@ -990,7 +1143,15 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    print(slicer.dependencies())
+
+
+if __name__ == "__main__":
     slicer.dependencies()
+
+
+if __name__ == "__main__":
+    slicer.code()
 
 
 if __name__ == "__main__":
@@ -1003,11 +1164,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    middle_slicer.dependencies().graph()
+    middle_slicer.graph()
 
 
 if __name__ == "__main__":
-    print(middle_slicer.dependencies().dump())
+    print(middle_slicer.dependencies())
 
 
 # ## More Examples
@@ -1030,7 +1191,15 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    root_slicer.dependencies().graph()
+    root_slicer.graph()
+
+
+if __name__ == "__main__":
+    root_slicer.code()
+
+
+if __name__ == "__main__":
+    root_slicer.dependencies()
 
 
 if __package__ is None or __package__ == "":
@@ -1045,7 +1214,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    rhm_slicer.dependencies().graph()
+    rhm_slicer.graph()
+
+
+if __name__ == "__main__":
+    rhm_slicer.code()
 
 
 if __name__ == "__main__":
@@ -1069,7 +1242,15 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    math_slicer.dependencies().graph()
+    math_slicer.graph()
+
+
+if __name__ == "__main__":
+    math_slicer.code()
+
+
+if __name__ == "__main__":
+    print(math_slicer.dependencies())
 
 
 # ## Things that do not Work
@@ -1093,11 +1274,13 @@ def test_multiple_assignment():
     t = (x * x, y * y)
     return t[x]
 
-with Slicer(test_multiple_assignment) as multi_slicer:
-    test_multiple_assignment()
+if __name__ == "__main__":
+    with Slicer(test_multiple_assignment) as multi_slicer:
+        test_multiple_assignment()
+
 
 if __name__ == "__main__":
-    multi_slicer.dependencies().graph()
+    multi_slicer.graph()
 
 
 # ### Attributes
@@ -1122,7 +1305,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    attr_slicer.dependencies().graph()
+    attr_slicer.graph()
 
 
 if __package__ is None or __package__ == "":
@@ -1201,197 +1384,4 @@ if __name__ == "__main__":
     print('\n### Exercise 2: _Title_')
 
 
-
-
-import traceback
-
-class tint(int):
-    def __new__(cls, value, *args, **kw):
-        return int.__new__(cls, value)
-
-    def __init__(self, value, slice=None, **kwargs):
-        self.slice = [self.current_location()]
-        if slice is not None:
-            self.slice += slice
-
-    def current_location(self):
-        frame = inspect.currentframe()
-        while ('self' in frame.f_locals and 
-               isinstance(frame.f_locals['self'], tint)):
-            frame = frame.f_back
-
-        return (frame.f_code.co_name, frame.f_lineno)
-
-class tint(tint):
-    def __repr__(self):
-        return int.__repr__(self)
-
-class tint(tint):
-    def __str__(self):
-        return int.__str__(self)
-
-if __name__ == "__main__":
-    x = tint(2)
-    x
-
-
-if __name__ == "__main__":
-    x.slice
-
-
-if __name__ == "__main__":
-    x == 2
-
-
-if __name__ == "__main__":
-    type(x)
-
-
-class tint(tint):
-    def create(self, x):
-        return tint(x, slice=self.slice)
-
-class tint(tint):
-    def __add__(self, x):
-        return self.create(int(self) + x)
-    def __radd__(self, x):
-        return self.create(x + int(self))
-
-if __name__ == "__main__":
-    x = tint(2)
-    x = x + 2
-    type(x)
-
-
-if __name__ == "__main__":
-    x
-
-
-class tint(tint):
-    def __sub__(self, x):
-        return self.create(int(self) - x)
-    def __rsub__(self, x):
-        return self.create(x - int(self))
-
-class tint(tint):
-    def __mul__(self, x):
-        return self.create(int(self) * x)
-    def __rmul__(self, x):
-        return self.create(x * int(self))
-
-class tint(tint):
-    def __matmul__(self, x):
-        return self.create(int(self) @ x)
-    def __rmatmul__(self, x):
-        return self.create(x @ int(self))
-
-class tint(tint):
-    def __truediv__(self, x):
-        return self.create(int(self) / x)
-    def __rtruediv__(self, x):
-        return self.create(x / int(self))
-
-class tint(tint):
-    def __floordiv__(self, x):
-        return self.create(int(self) // x)
-    def __rfloordiv__(self, x):
-        return self.create(x // int(self))
-
-class tint(tint):
-    def __mod__(self, x):
-        return self.create(int(self) % x)
-    def __rmod__(self, x):
-        return self.create(x % int(self))
-
-class tint(tint):
-    def __divmod__(self, x):
-        return self.create(divmod(int(self), x))
-    def __rdivmod__(self, x):
-        return self.create(divmod(x, int(self)))
-
-class tint(tint):
-    def __pow__(self, x):
-        return self.create(int(self) ** x)
-    def __rpow__(self, x):
-        return self.create(x ** int(self))
-
-class tint(tint):
-    def __lshift__(self, x):
-        return self.create(int(self) << x)
-    def __rlshift__(self, x):
-        return self.create(x << int(self))
-
-class tint(tint):
-    def __rshift__(self, x):
-        return self.create(int(self) >> x)
-    def __rrshift__(self, x):
-        return self.create(x >> int(self))
-
-class tint(tint):
-    def __and__(self, x):
-        return self.create(int(self) & x)
-    def __rand__(self, x):
-        return self.create(x & int(self))
-
-class tint(tint):
-    def __xor__(self, x):
-        return self.create(int(self) ^ x)
-    def __rxor__(self, x):
-        return self.create(x ^ int(self))
-
-class tint(tint):
-    def __or__(self, x):
-        return self.create(int(self) | x)
-    def __ror__(self, x):
-        return self.create(x | int(self))
-
-class tint(tint):
-    def __neg__(self):
-        return self.create(-int(self))
-    def __pos__(self):
-        return self.create(+int(self))
-    def __abs__(self):
-        return self.create(abs(int(self)))
-    def __invert__(self):
-        return self.create(-int(self))
-
-class tint(tint):
-    def __index__(self):
-        return int(self)
-
-if __name__ == "__main__":
-    x = tint(2)
-    y = x + 3 - (3 + x)
-
-
-if __name__ == "__main__":
-    y, type(y), y.slice
-
-
-if __name__ == "__main__":
-    x = tint(2)
-    y = tint(1)
-    z = tint(3)
-    m = middle(x, y, z)
-    m, m.slice
-
-
-if __name__ == "__main__":
-    x = tint(4)
-    y = square_root(x)
-
-
-if __name__ == "__main__":
-    y.slice
-
-
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
-
-
-if __name__ == "__main__":
-    with ExpectError():
-        y = square_root(tint(2))
 
