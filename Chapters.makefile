@@ -40,8 +40,8 @@ OBSERVING_PART_TODO = \
 	Tracer.ipynb \
 	Debugger.ipynb \
 	Assertions.ipynb \
-	StatisticalDebugger.ipynb \
-	Slicer.ipynb
+	Slicer.ipynb \
+	StatisticalDebugger.ipynb
 
 # Simplifying Failures
 EXPERIMENTING_PART = 
