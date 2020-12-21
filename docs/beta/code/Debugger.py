@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Debugger.html
-# Last change: 2020-11-28 23:33:34+01:00
+# Last change: 2020-12-20 15:39:18+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -95,6 +95,7 @@ class Debugger(Tracer):
         self.interact = True
 
         self.frame = None
+        self.local_vars = None
         self.event = None
         self.arg = None
 
@@ -104,6 +105,7 @@ class Debugger(Debugger):
     def traceit(self, frame, event, arg):
         """Tracing function; called at every line"""
         self.frame = frame
+        self.local_vars = frame.f_locals  # Dereference exactly once
         self.event = event
         self.arg = arg
 
@@ -300,7 +302,7 @@ if __name__ == "__main__":
 class Debugger(Debugger):
     def print_command(self, arg=""):
         """Print an expression. If no expression is given, print all variables"""
-        vars = self.frame.f_locals
+        vars = self.local_vars
         self.log("\n".join([f"{var} = {repr(vars[var])}" for var in vars]))
 
 if __name__ == "__main__":
@@ -321,7 +323,7 @@ if __name__ == "__main__":
 class Debugger(Debugger):
     def print_command(self, arg=""):
         """Print an expression. If no expression is given, print all variables"""
-        vars = self.frame.f_locals
+        vars = self.local_vars
 
         if not arg:
             self.log("\n".join([f"{var} = {repr(vars[var])}" for var in vars]))
@@ -658,21 +660,22 @@ class Debugger(Debugger):
         sep = arg.find('=')
         if sep > 0:
             var = arg[:sep].strip()
-            value = arg[sep + 1:].strip()
+            expr = arg[sep + 1:].strip()
         else:
             self.help_command("assign")
             return
 
+        vars = self.local_vars
         try:
-            self.frame.f_locals[var] = eval(value, globals(),
-                                            self.frame.f_locals)
+            vars[var] = eval(expr, self.frame.f_globals, vars)
         except Exception as err:
             self.log(f"{err.__class__.__name__}: {err}")
 
 if __name__ == "__main__":
     # ignore
-    next_inputs(["assign b = 45", "assign s = 'xyz'", "print", "step",
-                 "print", "continue"]);
+    next_inputs(["assign s = 'xyz'", "print", "step", "print", "step",
+                 "assign tag = True", "assign s = 'abc'", "print",
+                 "step", "print", "continue"]);
 
 
 if __name__ == "__main__":
