@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-27 20:08:48+01:00
+# Last change: 2020-12-28 00:35:54+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -979,7 +979,7 @@ class LoadVisitor(NodeVisitor):
     def __init__(self):
         super().__init__()
         self.names = set()
-        
+
     def visit(self, node):
         if hasattr(node, 'ctx') and isinstance(node.ctx, Load):
             name = leftmost_name(node)
@@ -1080,22 +1080,28 @@ class TrackReturnTransformer(NodeTransformer):
     def visit_AsyncFunctionDef(self, node):
         return self.visit_FunctionDef(node)
 
-    def return_value(self):
+    def return_value(self, tp="return"):
         if self.function_name is None:
-            return "<return value>"
+            return f"<{tp} value>"
         else:
-            return f"<{self.function_name}() return value>"
+            return f"<{self.function_name}() {tp} value>"
 
-    def visit_Return(self, node):
+    def visit_return_or_yield(self, node, tp):
         if node.value is not None:
             value = astor.to_source(node.value)
             if not value.startswith(DATA_TRACKER + '.set'):
-                node.value = make_set_data(self.return_value(), node.value)
+                node.value = make_set_data(self.return_value(tp), node.value)
 
         return node
 
+    def visit_Return(self, node):
+        return self.visit_return_or_yield(node, "return")
+
     def visit_Yield(self, node):
-        return self.visit_Return(node)
+        return self.visit_return_or_yield(node, "yield")
+
+    def visit_YieldFrom(self, node):
+        return self.visit_return_or_yield(node, "yield")
 
 if __name__ == "__main__":
     TrackReturnTransformer().visit(middle_tree)
@@ -1184,7 +1190,7 @@ class TrackControlTransformer(TrackControlTransformer):
         # node.body = self.make_with(node.body)
         # node.orelse = self.make_with(node.orelse)
         return node
-    
+
     def visit_AsyncFor(self, node):
         return self.visit_For(node)
 
@@ -1237,7 +1243,7 @@ class TrackCallTransformer(NodeTransformer):
     def make_call(self, node, func, pos=None, kw=None):
         """Return _data.call(FUNC)(NODE)"""
         keywords = []
-        
+
         # `Num()` and `Str()` are deprecated in favor of `Constant()`
         if pos:
             keywords.append(keyword(arg='pos', value=Num(pos)))
@@ -1276,6 +1282,7 @@ class TrackCallTransformer(NodeTransformer):
 
 def test_call():
     x = middle(1, 2, z=middle(1, 2, 3))
+    return x
 
 if __name__ == "__main__":
     call_tree = ast.parse(inspect.getsource(test_call))
@@ -1759,18 +1766,15 @@ if __name__ == "__main__":
 
 
 
-class DependencyTracker(DependencyTracker):
-    def in_generator(self):
-        """True if we are calling a generator function"""
-        return len(self.data) > 0 and self.data[-1] is None
+import functools
+import copy
 
+class DependencyTracker(DependencyTracker):
     def call(self, fun):
+        super().call(fun)
+
         if inspect.isgeneratorfunction(fun):
-            # Can't track calls of generator functions
-            self.data.append(None)
-            self.frames.append(None)
-            assert self.in_generator()
-            return super().call(fun)
+            return self.call_generator(fun)
 
         # Save context
         if self.log:
@@ -1785,17 +1789,13 @@ class DependencyTracker(DependencyTracker):
         self.frames.append(self.args)
         self.args = {}
 
-        return super().call(fun)
+        return fun
 
     def ret(self, value):
-        if self.in_generator():
-            # Can't track calls of generator functions
-            # Pop the two 'None' values pushed earlier
-            self.data.pop()
-            self.frames.pop()
-            return value
-
         super().ret(value)
+
+        if self.in_generator():
+            return self.ret_generator(value)
 
         # Restore old context and add return value
         ret_name = None
@@ -1818,6 +1818,53 @@ class DependencyTracker(DependencyTracker):
 
         return value
 
+class DependencyTracker(DependencyTracker):
+    def in_generator(self):
+        """True if we are calling a generator function"""
+        return len(self.data) > 0 and self.data[-1] is None
+
+    def call_generator(self, fun):
+        # Can't track calls of generator functions
+        # Mark the fact that we're in a generator with `None` values
+        self.data.append(None)
+        self.frames.append(None)
+        assert self.in_generator()
+
+        self.clear_read()
+        return fun
+
+    def ret_generator(self, generator):
+        # Pop the two 'None' values pushed earlier
+        self.data.pop()
+        self.frames.pop()
+
+        if self.log:
+            code_name, lineno = self.caller_location()
+            print(f"{code_name}:{lineno}: "
+                  f"wrapping generator {generator} (args={self.args})")
+
+        # At this point, we already have collected the args.
+        # The returned generator depends on all of them.
+        for arg in self.args:
+            self.last_read += self.args[arg]
+
+        # Wrap the generator such that the args are restored 
+        # when it is actually invoked, such that we can map them
+        # to parameters.
+        saved_args = copy.deepcopy(self.args)
+
+        def wrapper():
+            self.args = saved_args
+            if self.log:
+                code_name, lineno = self.caller_location()
+                print(f"{code_name}:{lineno}: "
+                  f"calling generator (args={self.args})")
+
+            self.ignore_next_location_change()
+            yield from generator
+
+        return wrapper()
+
 # ### End of Excursion
 
 if __name__ == "__main__":
@@ -1836,14 +1883,10 @@ if __name__ == "__main__":
 
 class DependencyTracker(DependencyTracker):
     def arg(self, value, pos=None, kw=None):
-        if self.in_generator():
-            # Can't track args of generator functions
-            return value
-
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: "
-                  f"saving arg reads {self.last_read}")
+                  f"saving args read {self.last_read}")
 
         if pos:
             self.args[pos] = self.last_read
@@ -1874,17 +1917,29 @@ class DependencyTracker(DependencyTracker):
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: "
-                  f"restored param {self.last_read}")
+                  f"restored params read {self.last_read}")
 
+        self.ignore_location_change()
         return super().param(name, value, pos)
 
 def call_test():
+    c = 47
+
+    def gen(z):
+        yield z * c
+
     def just_x(x, y):
         return x
 
     a = 42
-    b = 47
-    return just_x(a, y=b)
+    b = gen(a)
+    d = list(b)[0]
+
+    return just_x(just_x(d, y=b), a)
+
+if __name__ == "__main__":
+    call_test()
+
 
 if __name__ == "__main__":
     call_tree = ast.parse(inspect.getsource(call_test))
@@ -1902,7 +1957,7 @@ class DependencyTrackerTester(DataTrackerTester):
         return DependencyTracker(log=self.log)
 
 if __name__ == "__main__":
-    with DependencyTrackerTester(call_tree, call_test, log=False) as deps:
+    with DependencyTrackerTester(call_tree, call_test) as deps:
         call_test()
 
 
@@ -1944,7 +1999,7 @@ class Dependencies(Dependencies):
                 if dep_name == DependencyTracker.TEST:
                     continue  # dependency on <test>
 
-                if dep_name.endswith('return value>'):
+                if dep_name.endswith(' value>'):
                     if source.find('(') < 0:
                         print(f"Warning: {self.format_var(var)} "
                               f"depends on {self.format_var(dep_var)}, "
@@ -2291,27 +2346,6 @@ if __name__ == "__main__":
     print('\n## Things that do not Work')
 
 
-
-
-def generator_test():
-    def gen(x):
-        yield x
-
-    def inner(*args):
-        return args[0]
-
-    x = 0
-    y = inner(x)
-    z = gen(y)
-    return y
-
-if __name__ == "__main__":
-    with Slicer(generator_test, log=True) as generator_slicer:
-        generator_test()
-
-
-if __name__ == "__main__":
-    generator_slicer.graph()
 
 
 # ## Synopsis
