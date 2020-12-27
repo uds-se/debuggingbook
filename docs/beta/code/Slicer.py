@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-27 19:16:01+01:00
+# Last change: 2020-12-27 20:08:48+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -1076,7 +1076,7 @@ class TrackReturnTransformer(NodeTransformer):
         self.generic_visit(node)
         self.function_name = outer_name
         return node
-    
+
     def visit_AsyncFunctionDef(self, node):
         return self.visit_FunctionDef(node)
 
@@ -1093,6 +1093,9 @@ class TrackReturnTransformer(NodeTransformer):
                 node.value = make_set_data(self.return_value(), node.value)
 
         return node
+
+    def visit_Yield(self, node):
+        return self.visit_Return(node)
 
 if __name__ == "__main__":
     TrackReturnTransformer().visit(middle_tree)
@@ -1757,7 +1760,18 @@ if __name__ == "__main__":
 
 
 class DependencyTracker(DependencyTracker):
+    def in_generator(self):
+        """True if we are calling a generator function"""
+        return len(self.data) > 0 and self.data[-1] is None
+
     def call(self, fun):
+        if inspect.isgeneratorfunction(fun):
+            # Can't track calls of generator functions
+            self.data.append(None)
+            self.frames.append(None)
+            assert self.in_generator()
+            return super().call(fun)
+
         # Save context
         if self.log:
             code_name, lineno = self.caller_location()
@@ -1774,6 +1788,13 @@ class DependencyTracker(DependencyTracker):
         return super().call(fun)
 
     def ret(self, value):
+        if self.in_generator():
+            # Can't track calls of generator functions
+            # Pop the two 'None' values pushed earlier
+            self.data.pop()
+            self.frames.pop()
+            return value
+
         super().ret(value)
 
         # Restore old context and add return value
@@ -1785,8 +1806,9 @@ class DependencyTracker(DependencyTracker):
         self.last_read = self.data.pop()
         if ret_name is not None:
             self.last_read.append(ret_name)
+
         self.ignore_location_change()
-        
+
         self.args = self.frames.pop()
 
         if self.log:
@@ -1814,6 +1836,10 @@ if __name__ == "__main__":
 
 class DependencyTracker(DependencyTracker):
     def arg(self, value, pos=None, kw=None):
+        if self.in_generator():
+            # Can't track args of generator functions
+            return value
+
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: "
@@ -1829,7 +1855,7 @@ class DependencyTracker(DependencyTracker):
 
     def param(self, name, value, pos=None, vararg=""):
         self.clear_read()
-        
+
         if vararg == '*':
             # We overapproximate by setting `args` to _all_ positional args
             for index in self.args:
@@ -2062,7 +2088,7 @@ class Slicer(Slicer):
             print_content(astor.to_source(tree), '.py')
             print()
             print()
-            
+
         return tree
 
 class Slicer(Slicer):
@@ -2280,23 +2306,12 @@ def generator_test():
     return y
 
 if __name__ == "__main__":
-    with Slicer(generator_test) as generator_slicer:
+    with Slicer(generator_test, log=True) as generator_slicer:
         generator_test()
 
 
 if __name__ == "__main__":
     generator_slicer.graph()
-
-
-if __name__ == "__main__":
-    quiz("What is all wrong?",
-        [
-            "The `inner()` source code lines are not shown",
-            "The variable `y` does not flow into `gen(y)`",
-            "The variable `z` _does_ flow into `return y`",
-            "All of the above"
-        ], square_root(square_root(square_root(0o200000)))
-        )
 
 
 # ## Synopsis
