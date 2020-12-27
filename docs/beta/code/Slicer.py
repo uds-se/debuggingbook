@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-21 13:32:52+01:00
+# Last change: 2020-12-27 19:16:01+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -47,6 +47,12 @@ if __name__ == "__main__":
     random.seed(2001)
 
 
+if __package__ is None or __package__ == "":
+    from bookutils import quiz, next_inputs, print_content
+else:
+    from .bookutils import quiz, next_inputs, print_content
+
+
 # ## Synopsis
 
 if __name__ == "__main__":
@@ -86,6 +92,22 @@ if __name__ == "__main__":
     m
 
 
+if __package__ is None or __package__ == "":
+    from Debugger import Debugger
+else:
+    from .Debugger import Debugger
+
+
+if __name__ == "__main__":
+    # ignore
+    next_inputs(["step", "step", "step", "step", "quit"]);
+
+
+if __name__ == "__main__":
+    with Debugger():
+        middle(2, 1, 3)
+
+
 # ### Excursion: Visualizing Dependencies
 
 if __name__ == "__main__":
@@ -116,7 +138,7 @@ denoting a unique location in the code.
             data = {}
         if control is None:
             control = {}
-            
+
         self.data = data
         self.control = control
 
@@ -132,7 +154,7 @@ class Dependencies(Dependencies):
         """Check dependency structure."""
         assert isinstance(self.data, dict)
         assert isinstance(self.control, dict)
-        
+
         for node in (self.data.keys()) | set(self.control.keys()):
             var_name, location = node
             assert isinstance(var_name, str)
@@ -181,7 +203,7 @@ import html
 
 class Dependencies(Dependencies):
     NODE_COLOR = 'peachpuff'
-    FONT_NAME = 'Fira Mono'
+    FONT_NAME = 'Fira Mono, Courier, monospace'
 
     def make_graph(self, name="dependencies", comment="Dependencies"):
         return Digraph(name=name, comment=comment, 
@@ -364,8 +386,8 @@ class Dependencies(Dependencies):
                         queue.append(next_var)
             else:
                 control[var] = set()
-                
-            depth = depth - 1
+
+            depth -= 1
 
         return Dependencies(data, control)
 
@@ -498,12 +520,6 @@ if __name__ == "__main__":
     print(middle_deps())
 
 
-if __package__ is None or __package__ == "":
-    from bookutils import print_content
-else:
-    from .bookutils import print_content
-
-
 class Dependencies(Dependencies):
     def code(self, item, mode='cd'):
         """List ITEM on standard output, including dependencies as comments."""
@@ -566,20 +582,79 @@ if __name__ == "__main__":
     middle_deps().code(middle)
 
 
+if __name__ == "__main__":
+    quiz("Which of the following `middle()` code lines should be fixed?",
+        [
+            "Line 2: `if y < z:`",
+            "Line 3: `if x < y:`",
+            "Line 5: `elif x < z:`",
+            "Line 6: `return z`",
+        ], (1 ** 0 + 1 ** 1) ** (1 ** 2 + 1 ** 3))
+
+
+# ## Slices
+
+if __name__ == "__main__":
+    print('\n## Slices')
+
+
+
+
 if __package__ is None or __package__ == "":
-    from bookutils import quiz
+    from Intro_Debugging import remove_html_markup
 else:
-    from .bookutils import quiz
+    from .Intro_Debugging import remove_html_markup
 
 
 if __name__ == "__main__":
-    quiz("Which of the following <samp>middle()</samp> code lines should be fixed?",
+    print_content(inspect.getsource(remove_html_markup), '.py')
+
+
+if __name__ == "__main__":
+    remove_html_markup('<foo>bar</foo>')
+
+
+if __name__ == "__main__":
+    # ignore
+    def remove_html_markup_deps():
+        return Dependencies({('s', ('remove_html_markup', 136)): set(), ('tag', ('remove_html_markup', 137)): set(), ('quote', ('remove_html_markup', 138)): set(), ('out', ('remove_html_markup', 139)): set(), ('c', ('remove_html_markup', 141)): {('s', ('remove_html_markup', 136))}, ('<test>', ('remove_html_markup', 144)): {('quote', ('remove_html_markup', 138)), ('c', ('remove_html_markup', 141))}, ('tag', ('remove_html_markup', 145)): set(), ('<test>', ('remove_html_markup', 146)): {('quote', ('remove_html_markup', 138)), ('c', ('remove_html_markup', 141))}, ('<test>', ('remove_html_markup', 148)): {('c', ('remove_html_markup', 141))}, ('<test>', ('remove_html_markup', 150)): {('tag', ('remove_html_markup', 147)), ('tag', ('remove_html_markup', 145))}, ('tag', ('remove_html_markup', 147)): set(), ('out', ('remove_html_markup', 151)): {('out', ('remove_html_markup', 151)), ('c', ('remove_html_markup', 141)), ('out', ('remove_html_markup', 139))}, ('<remove_html_markup() return value>', ('remove_html_markup', 153)): {('<test>', ('remove_html_markup', 146)), ('out', ('remove_html_markup', 151))}}, {('s', ('remove_html_markup', 136)): set(), ('tag', ('remove_html_markup', 137)): set(), ('quote', ('remove_html_markup', 138)): set(), ('out', ('remove_html_markup', 139)): set(), ('c', ('remove_html_markup', 141)): set(), ('<test>', ('remove_html_markup', 144)): set(), ('tag', ('remove_html_markup', 145)): {('<test>', ('remove_html_markup', 144))}, ('<test>', ('remove_html_markup', 146)): {('<test>', ('remove_html_markup', 144))}, ('<test>', ('remove_html_markup', 148)): {('<test>', ('remove_html_markup', 146))}, ('<test>', ('remove_html_markup', 150)): {('<test>', ('remove_html_markup', 148))}, ('tag', ('remove_html_markup', 147)): {('<test>', ('remove_html_markup', 146))}, ('out', ('remove_html_markup', 151)): {('<test>', ('remove_html_markup', 150))}, ('<remove_html_markup() return value>', ('remove_html_markup', 153)): set()})
+
+
+if __name__ == "__main__":
+    # ignore
+    remove_html_markup_deps().graph()
+
+
+if __name__ == "__main__":
+    quiz("Why does the first line `tag = False` not influence anything?",
         [
-            "Line 2: <samp>if y < z:</samp>",
-            "Line 3: <samp>if x < y:</samp>",
-            "Line 5: <samp>elif x < z:</samp>",
-            "Line 6: <samp>return z</samp>",
-        ], (1 ** 0 + 1 ** 1) ** (1 ** 2 + 1 ** 3))
+            "Because the input contains only tags",
+            "Because `tag` is set to True with the first character",
+            "Because `tag` is not read by any variable",
+            "Because the input contains no tags",
+        ], (1 << 1 + 1 >> 1))
+
+
+if __name__ == "__main__":
+    # ignore
+    tag_deps = Dependencies({('tag', ('remove_html_markup', 145)): set(), ('<test>', ('remove_html_markup', 144)): {('quote', ('remove_html_markup', 138)), ('c', ('remove_html_markup', 141))}, ('quote', ('remove_html_markup', 138)): set(), ('c', ('remove_html_markup', 141)): {('s', ('remove_html_markup', 136))}, ('s', ('remove_html_markup', 136)): set()}, {('tag', ('remove_html_markup', 145)): {('<test>', ('remove_html_markup', 144))}, ('<test>', ('remove_html_markup', 144)): set(), ('quote', ('remove_html_markup', 138)): set(), ('c', ('remove_html_markup', 141)): set(), ('s', ('remove_html_markup', 136)): set()})
+    tag_deps.graph()
+
+
+if __name__ == "__main__":
+    # ignore
+    tag_deps.code(remove_html_markup)
+
+
+if __name__ == "__main__":
+    quiz("How does the slice of `tag = True` change "
+         "for a different value of `s`?",
+        [
+            "Not at all",
+            "If `s` contains a quote, the `quote` slice is included, too",
+            "If `s` contains no HTML tag, the slice will be empty"
+        ], 
+         [1, 2, 3][1:])
 
 
 # ## Tracking Techniques
@@ -648,7 +723,7 @@ class DataTracker(DataTracker):
         frame = inspect.currentframe()
         while ('self' in frame.f_locals and 
                isinstance(frame.f_locals['self'], self.__class__)):
-               frame = frame.f_back
+            frame = frame.f_back
         return frame
 
     def caller_location(self):
@@ -657,10 +732,10 @@ class DataTracker(DataTracker):
         if frame.f_code.co_name in globals():
             return frame.f_code.co_name, frame.f_lineno
         else:
-            return frame.f_code.co_filename, frame.f_lineno
+            return frame.f_code.co_name, frame.f_lineno
 
 class DataTracker(DataTracker):
-    def set(self, name, value):
+    def set(self, name, value, loads=None):
         """Track setting NAME to VALUE."""
         if self.log:
             code_name, lineno = self.caller_location()
@@ -675,7 +750,7 @@ class DataTracker(DataTracker):
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: getting {name}")
-            
+
         return value
 
 class DataTracker(DataTracker):
@@ -729,7 +804,7 @@ if __name__ == "__main__":
 
 
 
-from ast import NodeTransformer
+from ast import NodeTransformer, NodeVisitor
 
 DATA_TRACKER = '_data'
 
@@ -740,20 +815,26 @@ class TrackGetTransformer(NodeTransformer):
         if node.id in dir(__builtins__):
             # Do not change built-in names
             return node
-        
+
         if node.id == DATA_TRACKER:
             # Do not change own accesses
             return node
-        
-        if isinstance(node.ctx, Store):
-            # Do not change stores
+
+        if not isinstance(node.ctx, Load):
+            # Only change loads (not stores, not deletions)
             return node
 
-        return make_get_data(node.id)
+        new_node = make_get_data(node.id)
+        ast.copy_location(new_node, node)
+        return new_node
 
-from ast import Module, Subscript, Name, Load, Store, \
-    Assign, AugAssign, Attribute, Constant, \
-    With, withitem, Return, Index, Str, Call, Expr
+from ast import Module, Name, Load, Store, Tuple, \
+    Attribute, With, withitem, keyword, Call, Expr
+
+if __name__ == "__main__":
+    # Starting with Python 3.8, these will become Constant
+    from ast import Num, Str
+
 
 def make_get_data(id, method='get'):
     return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()), 
@@ -774,9 +855,9 @@ if __name__ == "__main__":
 
 
 def dump_tree(tree):
-    print(astor.to_source(tree))
+    print_content(astor.to_source(tree), '.py')
     ast.fix_missing_locations(tree)  # Must run this before compiling
-    _ = compile(tree, '<string>', 'exec')
+    _ = compile(tree, '<dump_tree>', 'exec')
 
 if __name__ == "__main__":
     dump_tree(middle_tree)
@@ -784,10 +865,10 @@ if __name__ == "__main__":
 
 class DataTrackerTester(object):
     def __init__(self, tree, func, log=True):
-        self.code = compile(tree, '<string>', 'exec')
+        self.code = compile(tree, '<DataTracker>', 'exec')
         self.func = func
         self.log = log
-        
+
     def make_data_tracker(self):
         return DataTracker(log=self.log)
 
@@ -825,24 +906,110 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    print(ast.dump(ast.parse("_data.set('x', value)")))
+    print(ast.dump(ast.parse("_data.set('x', value, loads=(a, b))")))
 
 
-def make_set_data(id, value, method='set'):
-    """Construct a subtree _data.METHOD('ID', VALUE)"""
-    return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()), 
-                               attr=method, ctx=Load()), 
-                args=[Str(s=id), value], 
-                keywords=[])
+def make_set_data(id, value, loads=None, method='set'):
+    """Construct a subtree _data.METHOD('ID', VALUE). 
+    If LOADS is set to [X1, X2, ...], make it
+    _data.METHOD('ID', VALUE, loads=(X1, X2, ...))
+    """
+    keywords=[]
+
+    if loads:
+        keywords = [
+            keyword(arg='loads',
+                    value=Tuple(
+                        elts=[Name(id=load, ctx=Load()) for load in loads],
+                        ctx=Load()
+                    ))
+        ]
+
+    new_node = Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()),
+                                   attr=method, ctx=Load()),
+                    args=[Str(s=id), value],
+                    keywords=keywords)
+
+    ast.copy_location(new_node, value)
+
+    return new_node
+
+class LeftmostNameVisitor(NodeVisitor):
+    def __init__(self):
+        super().__init__()
+        self.leftmost_name = None
+        
+    def visit_Name(self, node):
+        if self.leftmost_name is None:
+            self.leftmost_name = node.id
+        self.generic_visit(node)
+
+def leftmost_name(tree):
+    visitor = LeftmostNameVisitor()
+    visitor.visit(tree)
+    return visitor.leftmost_name
+
+if __name__ == "__main__":
+    leftmost_name(ast.parse('a[x] = 25'))
+
+
+class StoreVisitor(NodeVisitor):
+    def __init__(self):
+        super().__init__()
+        self.names = set()
+        
+    def visit(self, node):
+        if hasattr(node, 'ctx') and isinstance(node.ctx, Store):
+            name = leftmost_name(node)
+            if name is not None:
+                self.names.add(name)
+
+        self.generic_visit(node)
+
+def store_names(tree):
+    visitor = StoreVisitor()
+    visitor.visit(tree)
+    return visitor.names
+
+if __name__ == "__main__":
+    store_names(ast.parse('a[x], b[y], c = 1, 2, 3'))
+
+
+class LoadVisitor(NodeVisitor):
+    def __init__(self):
+        super().__init__()
+        self.names = set()
+        
+    def visit(self, node):
+        if hasattr(node, 'ctx') and isinstance(node.ctx, Load):
+            name = leftmost_name(node)
+            if name is not None:
+                self.names.add(name)
+
+        self.generic_visit(node)
+
+def load_names(tree):
+    visitor = LoadVisitor()
+    visitor.visit(tree)
+    return visitor.names
+
+if __name__ == "__main__":
+    load_names(ast.parse('a[x], b[y], c = 1, 2, 3'))
+
 
 class TrackSetTransformer(NodeTransformer):
     def visit_Assign(self, node):
         value = astor.to_source(node.value)
-        if value.startswith(DATA_TRACKER):
+        if value.startswith(DATA_TRACKER + '.set'):
             return node  # Do not apply twice
-        
-        id = astor.to_source(node).split(' = ')[0].strip()
-        node.value = make_set_data(id, node.value)
+
+        for target in node.targets:
+            loads = load_names(target)
+            for store_name in store_names(target):
+                node.value = make_set_data(store_name, node.value, 
+                                           loads=loads)
+                loads = set()
+
         return node
 
 class TrackSetTransformer(TrackSetTransformer):
@@ -850,9 +1017,10 @@ class TrackSetTransformer(TrackSetTransformer):
         value = astor.to_source(node.value)
         if value.startswith(DATA_TRACKER):
             return node  # Do not apply twice
-        
-        id = astor.to_source(node.target).strip()
+
+        id = leftmost_name(node.target)
         node.value = make_set_data(id, node.value, method='augment')
+
         return node
 
 class DataTracker(DataTracker):
@@ -862,9 +1030,9 @@ class DataTracker(DataTracker):
         return value
 
 def assign_test(x):
-    forty_two = 42
+    fourty_two = forty_two = 42
     a, b, c = 1, 2, 3
-    c[x] = 47
+    c[d[x]].attr = 47
     foo *= bar + 1
 
 if __name__ == "__main__":
@@ -908,6 +1076,9 @@ class TrackReturnTransformer(NodeTransformer):
         self.generic_visit(node)
         self.function_name = outer_name
         return node
+    
+    def visit_AsyncFunctionDef(self, node):
+        return self.visit_FunctionDef(node)
 
     def return_value(self):
         if self.function_name is None:
@@ -920,6 +1091,7 @@ class TrackReturnTransformer(NodeTransformer):
             value = astor.to_source(node.value)
             if not value.startswith(DATA_TRACKER + '.set'):
                 node.value = make_set_data(self.return_value(), node.value)
+
         return node
 
 if __name__ == "__main__":
@@ -961,31 +1133,35 @@ class TrackControlTransformer(TrackControlTransformer):
         """Create a subtree 'with _data: BLOCK'"""
         if len(block) == 0:
             return []
-        
+
         block_as_text = astor.to_source(block[0])
         if block_as_text.startswith('with ' + DATA_TRACKER):
             return block  # Do not apply twice
 
-        return [With(
+        new_node = With(
             items=[
                 withitem(
                     context_expr=Name(id=DATA_TRACKER, ctx=Load()),
                     optional_vars=None)
             ],
             body=block
-        )]
+        )
+        ast.copy_location(new_node, block[0])
+        return [new_node]
 
 class TrackControlTransformer(TrackControlTransformer):
     def make_test(self, test):
         test_as_text = astor.to_source(test)
         if test_as_text.startswith(DATA_TRACKER + '.test'):
-            return test
+            return test  # Do not apply twice
 
-        return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()),
-                                   attr='test',
-                                   ctx=Load()),
-                     args=[test],
-                     keywords=[])
+        new_test = Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()),
+                                       attr='test',
+                                       ctx=Load()),
+                         args=[test],
+                         keywords=[])
+        ast.copy_location(new_test, test)
+        return new_test
 
 class TrackControlTransformer(TrackControlTransformer):
     def visit_While(self, node):
@@ -1005,6 +1181,9 @@ class TrackControlTransformer(TrackControlTransformer):
         # node.body = self.make_with(node.body)
         # node.orelse = self.make_with(node.orelse)
         return node
+    
+    def visit_AsyncFor(self, node):
+        return self.visit_For(node)
 
 if __name__ == "__main__":
     TrackControlTransformer().visit(middle_tree)
@@ -1052,14 +1231,22 @@ if __name__ == "__main__":
 
 
 class TrackCallTransformer(NodeTransformer):
-    def make_call(self, node, func):
+    def make_call(self, node, func, pos=None, kw=None):
         """Return _data.call(FUNC)(NODE)"""
+        keywords = []
+        
+        # `Num()` and `Str()` are deprecated in favor of `Constant()`
+        if pos:
+            keywords.append(keyword(arg='pos', value=Num(pos)))
+        if kw:
+            keywords.append(keyword(arg='kw', value=Str(kw)))
+
         return Call(func=Attribute(value=Name(id=DATA_TRACKER,
                                               ctx=Load()),
                                    attr=func,
                                    ctx=Load()),
                      args=[node],
-                     keywords=[])
+                     keywords=keywords)
 
     def visit_Call(self, node):
         self.generic_visit(node)
@@ -1067,24 +1254,25 @@ class TrackCallTransformer(NodeTransformer):
         call_as_text = astor.to_source(node)
         if call_as_text.startswith(DATA_TRACKER + '.ret'):
             return node  # Already applied
-        
+
         func_as_text = astor.to_source(node)
         if func_as_text.startswith(DATA_TRACKER + '.'):
             return node  # Own function
 
         new_args = []
-        for arg in node.args:
-            new_args.append(self.make_call(arg, 'arg'))
+        for n, arg in enumerate(node.args):
+            new_args.append(self.make_call(arg, 'arg', pos=n + 1))
         node.args = new_args
 
         for kw in node.keywords:
-            kw.value = self.make_call(kw.value, 'arg')
+            id = kw.arg if hasattr(kw, 'arg') else None
+            kw.value = self.make_call(kw.value, 'arg', kw=id)
 
         node.func = self.make_call(node.func, 'call')
         return self.make_call(node, 'ret')
 
 def test_call():
-    x = middle(1, 2, middle(1, 2, 3))
+    x = middle(1, 2, z=middle(1, 2, 3))
 
 if __name__ == "__main__":
     call_tree = ast.parse(inspect.getsource(test_call))
@@ -1092,7 +1280,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    TrackGetTransformer().visit(call_tree);
+    TrackCallTransformer().visit(call_tree);
 
 
 if __name__ == "__main__":
@@ -1116,10 +1304,16 @@ if __name__ == "__main__":
 
 
 class DataTracker(DataTracker):
-    def arg(self, value):
+    def arg(self, value, pos=None, kw=None):
         if self.log:
             code_name, lineno = self.caller_location()
-            print(f"{code_name}:{lineno}: pushing arg")
+            info = ""
+            if pos:
+                info += f" #{pos}"
+            if kw:
+                info += f" {repr(kw)}"
+
+            print(f"{code_name}:{lineno}: pushing arg{info}")
 
         return value
 
@@ -1161,7 +1355,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    print(ast.dump(ast.parse("_data.param('x', x)")))
+    print(ast.dump(ast.parse("_data.param('x', x, pos=1)")))
 
 
 class TrackParamsTransformer(NodeTransformer):
@@ -1171,23 +1365,28 @@ class TrackParamsTransformer(NodeTransformer):
         named_args = []
         for child in ast.iter_child_nodes(node.args):
             if isinstance(child, ast.arg):
-                named_args.append(child.arg)
+                named_args.append(child)
 
         create_stmts = []
-        for arg in named_args:
+        for n, child in enumerate(named_args):
+            keywords=[keyword(arg='pos', value=Num(n=n + 1))]
+            if child is node.args.vararg:
+                keywords.append(keyword(arg='vararg', value=Str(s='*')))
+            if child is node.args.kwarg:
+                keywords.append(keyword(arg='vararg', value=Str(s='**')))
+
             create_stmt = Expr(
                 value=Call(
                     func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()),
                                    attr='param', ctx=Load()),
-                    args=[Str(s=arg), Name(id=arg, ctx=Load())],
-                    keywords=[]
+                    args=[Str(s=child.arg),
+                          Name(id=child.arg, ctx=Load())
+                         ],
+                    keywords=keywords
                 )
             )
+            ast.copy_location(create_stmt, node)
             create_stmts.append(create_stmt)
-            
-        # Reverse parameters such that we can later easily match them
-        # with passed arguments (evaluated left to right)
-        create_stmts.reverse()
 
         node.body = create_stmts + node.body
         return node
@@ -1198,16 +1397,34 @@ if __name__ == "__main__":
 
 
 class DataTracker(DataTracker):
-    def param(self, name, value):
+    def param(self, name, value, pos=None, vararg=""):
         if self.log:
             code_name, lineno = self.caller_location()
-            print(f"{code_name}:{lineno}: initializing {name}")
+            info = ""
+            if pos is not None:
+                info += f" #{pos}"
+
+            print(f"{code_name}:{lineno}: initializing {vararg}{name}{info}")
 
         return self.set(name, value)
 
 if __name__ == "__main__":
     with DataTrackerTester(middle_tree, middle):
         middle(2, 1, 3)
+
+
+def args_test(x, *args, **kwargs):
+    print(x, *args, **kwargs)
+
+if __name__ == "__main__":
+    args_tree = ast.parse(inspect.getsource(args_test))
+    TrackParamsTransformer().visit(args_tree)
+    dump_tree(args_tree)
+
+
+if __name__ == "__main__":
+    with DataTrackerTester(args_tree, args_test):
+        args_test(1, 2, 3)
 
 
 # ### End of Excursion
@@ -1226,6 +1443,52 @@ if __name__ == "__main__":
     with DataTrackerTester(middle_tree, middle):
         m = middle(2, 1, 3)
     m
+
+
+# ### Excursion: Transformer Stress Test
+
+if __name__ == "__main__":
+    print('\n### Excursion: Transformer Stress Test')
+
+
+
+
+if __package__ is None or __package__ == "":
+    import Assertions
+else:
+    from . import Assertions
+
+if __package__ is None or __package__ == "":
+    import Debugger
+else:
+    from . import Debugger
+
+
+if __name__ == "__main__":
+    for module in [Assertions, Debugger, inspect, ast, astor]:
+        module_tree = ast.parse(inspect.getsource(module))
+        TrackCallTransformer().visit(module_tree)
+        TrackSetTransformer().visit(module_tree)
+        TrackGetTransformer().visit(module_tree)
+        TrackControlTransformer().visit(module_tree)
+        TrackReturnTransformer().visit(module_tree)
+        TrackParamsTransformer().visit(module_tree)
+        # dump_tree(module_tree)
+        ast.fix_missing_locations(module_tree)  # Must run this before compiling
+        module_code = compile(module_tree, '<stress_test>', 'exec')
+        print(f"{repr(module.__name__)} instrumented successfully.")
+
+    #     globals()[DATA_TRACKER] = DataTracker()
+    #     exec(module_code, globals())
+    #     print(f"{repr(module.__name__)} executed successfully.")
+
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
 
 
 # ## Tracking Dependencies
@@ -1251,7 +1514,8 @@ class DependencyTracker(DataTracker):
         self.data = [[]]  # Data stack
         self.control = [[]]  # Control stack
 
-        self.args = []  # Argument stack
+        self.frames = [{}]  # Argument stack
+        self.args = {}  # Current args
 
 # ### Data Dependencies
 
@@ -1274,7 +1538,7 @@ class DependencyTracker(DependencyTracker):
         self.check_location()
         self.last_read.append(name)
         return super().get(name, value)
-    
+
     def check_location(self):
         pass  # More on that below
 
@@ -1313,6 +1577,10 @@ class DependencyTracker(DependencyTracker):
 
     def check_location(self):
         location = self.caller_location()
+        code_name, lineno = location
+        if code_name.startswith('<'):
+            return  # List comprehension, eval(), exec()
+
         if self.last_checked_location != location:
             if self._ignore_location_change:
                 self._ignore_location_change = False
@@ -1361,7 +1629,7 @@ if __name__ == "__main__":
 import itertools
 
 class DependencyTracker(DependencyTracker):
-    def set(self, name, value):
+    def set(self, name, value, loads=None):
 
         def add_dependencies(dependencies, vars_read, tp):
             """Add origins of VARS_READ to DEPENDENCIES."""
@@ -1422,10 +1690,10 @@ if __name__ == "__main__":
     _test_data.dependencies().graph()
 
 
-# ### Control Dependencies
+# ### Excursion: Control Dependencies
 
 if __name__ == "__main__":
-    print('\n### Control Dependencies')
+    print('\n### Excursion: Control Dependencies')
 
 
 
@@ -1472,10 +1740,18 @@ if __name__ == "__main__":
     _test_data.dependencies().graph()
 
 
-# ### Calls and Returns
+# ### End of Excursion
 
 if __name__ == "__main__":
-    print('\n### Calls and Returns')
+    print('\n### End of Excursion')
+
+
+
+
+# ### Excursion: Calls and Returns
+
+if __name__ == "__main__":
+    print('\n### Excursion: Calls and Returns')
 
 
 
@@ -1492,6 +1768,9 @@ class DependencyTracker(DependencyTracker):
         self.clear_read()
         self.ignore_next_location_change()
 
+        self.frames.append(self.args)
+        self.args = {}
+
         return super().call(fun)
 
     def ret(self, value):
@@ -1507,6 +1786,8 @@ class DependencyTracker(DependencyTracker):
         if ret_name is not None:
             self.last_read.append(ret_name)
         self.ignore_location_change()
+        
+        self.args = self.frames.pop()
 
         if self.log:
             code_name, lineno = self.caller_location()
@@ -1515,37 +1796,61 @@ class DependencyTracker(DependencyTracker):
 
         return value
 
-# ### Function Arguments
+# ### End of Excursion
 
 if __name__ == "__main__":
-    print('\n### Function Arguments')
+    print('\n### End of Excursion')
+
+
+
+
+# ### Excursion: Function Arguments
+
+if __name__ == "__main__":
+    print('\n### Excursion: Function Arguments')
 
 
 
 
 class DependencyTracker(DependencyTracker):
-    def arg(self, value):
+    def arg(self, value, pos=None, kw=None):
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: "
                   f"saving arg reads {self.last_read}")
 
-        self.args.append(self.last_read)
-        self.clear_read()
-        return super().arg(value)
+        if pos:
+            self.args[pos] = self.last_read
+        if kw:
+            self.args[kw] = self.last_read
 
-    def param(self, name, value):
         self.clear_read()
-        if self.args:
-            self.last_read = self.args.pop()
-            self.ignore_location_change()
+        return super().arg(value, pos, kw)
+
+    def param(self, name, value, pos=None, vararg=""):
+        self.clear_read()
+        
+        if vararg == '*':
+            # We overapproximate by setting `args` to _all_ positional args
+            for index in self.args:
+                if isinstance(index, int) and index >= pos:
+                    self.last_read += self.args[index]
+        elif vararg == '**':
+            # We overapproximate by setting `kwargs` to _all_ passed keyword args
+            for index in self.args:
+                if isinstance(index, str):
+                    self.last_read += self.args[index]
+        elif name in self.args:
+            self.last_read = self.args[name]
+        elif pos in self.args:
+            self.last_read = self.args[pos]
 
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: "
                   f"restored param {self.last_read}")
 
-        return super().param(name, value)
+        return super().param(name, value, pos)
 
 def call_test():
     def just_x(x, y):
@@ -1553,7 +1858,7 @@ def call_test():
 
     a = 42
     b = 47
-    return just_x(a, b)
+    return just_x(a, y=b)
 
 if __name__ == "__main__":
     call_tree = ast.parse(inspect.getsource(call_test))
@@ -1579,10 +1884,18 @@ if __name__ == "__main__":
     deps.dependencies().graph()
 
 
-# ### Diagnostics
+# ### End of Excursion
 
 if __name__ == "__main__":
-    print('\n### Diagnostics')
+    print('\n### End of Excursion')
+
+
+
+
+# ### Excursion: Diagnostics
+
+if __name__ == "__main__":
+    print('\n### Excursion: Diagnostics')
 
 
 
@@ -1603,7 +1916,7 @@ class Dependencies(Dependencies):
                 dep_name, dep_location = dep_var
 
                 if dep_name == DependencyTracker.TEST:
-                    continue
+                    continue  # dependency on <test>
 
                 if dep_name.endswith('return value>'):
                     if source.find('(') < 0:
@@ -1627,10 +1940,26 @@ class Dependencies(Dependencies):
                           file=sys.stderr
                          )
 
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
 # ## Slicing Code
 
 if __name__ == "__main__":
     print('\n## Slicing Code')
+
+
+
+
+# ### An Instrumenter Base Class
+
+if __name__ == "__main__":
+    print('\n### An Instrumenter Base Class')
 
 
 
@@ -1647,6 +1976,7 @@ class Instrumenter(object):
         return self
 
     def instrument(self, item):
+        """Instrument item. To be overloaded in subclasses."""
         if self.log:
             print("Instrumenting", item)
 
@@ -1660,8 +1990,16 @@ class Instrumenter(Instrumenter):
             globals()[item.__name__] = item
 
 if __name__ == "__main__":
-    with Instrumenter(middle) as ins:
+    with Instrumenter(middle, log=True) as ins:
         pass
+
+
+# ### The Slicer Class
+
+if __name__ == "__main__":
+    print('\n### The Slicer Class')
+
+
 
 
 class Slicer(Instrumenter):
@@ -1678,6 +2016,21 @@ class Slicer(Instrumenter):
         self.saved_dependencies = None
 
 class Slicer(Slicer):
+    def parse(self, item):
+        """Parse ITEM, returning its AST"""
+        source_lines, lineno = inspect.getsourcelines(item)
+        source = "".join(source_lines)
+
+        if self.log >= 2:
+            print_content(source, '.py', start_line_number=lineno)
+            print()
+            print()
+
+        tree = ast.parse(source)
+        ast.increment_lineno(tree, lineno - 1)
+        return tree
+
+class Slicer(Slicer):
     def transformers(self):
         """List of transformers to apply. To be extended in subclasses."""
         return [
@@ -1689,22 +2042,9 @@ class Slicer(Slicer):
             TrackParamsTransformer()
         ]
 
-    def instrument(self, item):
-        """Instrument ITEM, transforming its source code using."""
-        source_lines, lineno = inspect.getsourcelines(item)
-        tree = ast.parse("".join(source_lines))
-        ast.increment_lineno(tree, lineno - 1)
-
-        if self.log:
-            print(f"Instrumenting {item}:")
-
-            if self.log >= 2:
-                n = lineno
-                for line in source_lines:
-                    print(f"{n:4} {line.rstrip()}")
-                    n += 1
-                print()
-
+    def transform(self, tree):
+        """Apply transformers on tree. May be extended in subclasses."""
+        # Apply transformers
         for transformer in self.transformers():
             if self.log >= 3:
                 print(transformer.__class__.__name__ + ':')
@@ -1712,15 +2052,35 @@ class Slicer(Slicer):
             transformer.visit(tree)
             ast.fix_missing_locations(tree)
             if self.log >= 3:
-                print(astor.to_source(tree))
+                print_content(astor.to_source(tree, 
+                                              add_line_information=self.log >= 4),
+                              '.py')
+                print()
+                print()
 
-        if self.log:
-            print(astor.to_source(tree))
+        if 0 < self.log < 3:
+            print_content(astor.to_source(tree), '.py')
+            print()
+            print()
+            
+        return tree
 
-        code = compile(tree, '<string>', 'exec')
+class Slicer(Slicer):
+    def execute(self, tree):
+        """Compile and execute tree. May be extended in subclasses."""
+        code = compile(tree, f'<{self.__class__.__name__}>', 'exec')
         exec(code, globals())
         globals()[DATA_TRACKER] = self.dependency_tracker
 
+class Slicer(Slicer):
+    def instrument(self, item):
+        """Instrument ITEM, transforming its source code, and re-defining it."""
+        super().instrument(item)
+        tree = self.parse(item)
+        tree = self.transform(tree)
+        self.execute(tree)
+
+class Slicer(Slicer):
     def restore(self):
         """Restore original code."""
         if DATA_TRACKER in globals():
@@ -1756,28 +2116,23 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    slicer.dependencies()
-
-
-if __name__ == "__main__":
     slicer.code()
 
 
 if __name__ == "__main__":
-    middle(2, 1, 3)
+    slicer.graph()
 
 
 if __name__ == "__main__":
-    with Slicer(middle) as middle_slicer:
-        y = middle(2, 1, 3)
+    slicer.dependencies()
 
 
-if __name__ == "__main__":
-    middle_slicer.graph()
-
+# ### Diagnostics
 
 if __name__ == "__main__":
-    print(middle_slicer.dependencies())
+    print('\n### Diagnostics')
+
+
 
 
 # ## More Examples
@@ -1788,20 +2143,24 @@ if __name__ == "__main__":
 
 
 
-import math
-
-def f():
-    math.isclose
+# ### Square Root
 
 if __name__ == "__main__":
-    with Slicer(f, log=2) as f_slicer:
-        f()
+    print('\n### Square Root')
 
+
+
+
+import math
 
 if __package__ is None or __package__ == "":
     from Assertions import square_root
 else:
     from .Assertions import square_root
+
+
+if __name__ == "__main__":
+    print_content(inspect.getsource(square_root), '.py')
 
 
 if __name__ == "__main__":
@@ -1818,13 +2177,25 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    root_slicer.dependencies()
+    quiz("Why don't `assert` statements induce control dependencies?",
+         [
+             "We have no special handling of `assert` statements",
+             "We have no special handling of `raise` statements",
+             "Assertions are not supposed to act as controlling mechanisms",
+             "All of the above",
+         ],
+         (1 * 1 << 1 * 1 << 1 * 1)
+        )
 
 
-if __package__ is None or __package__ == "":
-    from Intro_Debugging import remove_html_markup
-else:
-    from .Intro_Debugging import remove_html_markup
+# root_slicer.dependencies()
+
+# ### Removing HTML Markup
+
+if __name__ == "__main__":
+    print('\n### Removing HTML Markup')
+
+
 
 
 if __name__ == "__main__":
@@ -1836,12 +2207,32 @@ if __name__ == "__main__":
     rhm_slicer.graph()
 
 
+# rhm_slicer.dependencies()
+
 if __name__ == "__main__":
     rhm_slicer.code()
 
 
 if __name__ == "__main__":
-    rhm_slicer.dependencies().backward_slice('tag', mode='c').graph()
+    _, start_remove_html_markup = inspect.getsourcelines(remove_html_markup)
+    start_remove_html_markup
+
+
+if __name__ == "__main__":
+    slicing_criterion = ('tag', ('remove_html_markup', 
+                                 start_remove_html_markup + 9))
+    tag_deps = rhm_slicer.dependencies().backward_slice(slicing_criterion)
+    tag_deps.graph()
+
+
+# tag_deps
+
+# ### Calls and Augmented Assign
+
+if __name__ == "__main__":
+    print('\n### Calls and Augmented Assign')
+
+
 
 
 def add_to(n, m):
@@ -1853,7 +2244,7 @@ def mul_with(x, y):
     return x
 
 def test_math():
-    return mul_with(1, add_to(2, 2))
+    return mul_with(1, add_to(2, 3))
 
 if __name__ == "__main__":
     with Slicer(add_to, mul_with, test_math) as math_slicer:
@@ -1868,10 +2259,6 @@ if __name__ == "__main__":
     math_slicer.code()
 
 
-if __name__ == "__main__":
-    print(math_slicer.dependencies())
-
-
 # ## Things that do not Work
 
 if __name__ == "__main__":
@@ -1880,64 +2267,36 @@ if __name__ == "__main__":
 
 
 
-# ### Data Structures
+def generator_test():
+    def gen(x):
+        yield x
+
+    def inner(*args):
+        return args[0]
+
+    x = 0
+    y = inner(x)
+    z = gen(y)
+    return y
 
 if __name__ == "__main__":
-    print('\n### Data Structures')
-
-
-
-
-def test_array():
-    x = [1, 2, 3]
-    y = 4
-    x[2] = y
-    return x[2]
-
-if __name__ == "__main__":
-    with Slicer(test_array, log=True) as array_slicer:
-        test_array()
+    with Slicer(generator_test) as generator_slicer:
+        generator_test()
 
 
 if __name__ == "__main__":
-    array_slicer.graph()
-
-
-# ### Attributes
-
-if __name__ == "__main__":
-    print('\n### Attributes')
-
-
-
-
-class X(object):
-    pass
-
-def test_attributes(y):
-    x = X()
-    x.attr = y
-    return x.attr
-
-if __name__ == "__main__":
-    with Slicer(test_attributes, log=True) as attr_slicer:
-        test_attributes(10)
+    generator_slicer.graph()
 
 
 if __name__ == "__main__":
-    attr_slicer.graph()
-
-
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
-
-
-if __name__ == "__main__":
-    with ExpectError():
-        with Slicer() as slicer:
-            y = square_root(9)
+    quiz("What is all wrong?",
+        [
+            "The `inner()` source code lines are not shown",
+            "The variable `y` does not flow into `gen(y)`",
+            "The variable `z` _does_ flow into `return y`",
+            "All of the above"
+        ], square_root(square_root(square_root(0o200000)))
+        )
 
 
 # ## Synopsis
@@ -1946,6 +2305,42 @@ if __name__ == "__main__":
     print('\n## Synopsis')
 
 
+
+
+def demo(x):
+    z = x
+    while x <= z <= 64:
+        z *= 2
+    return z
+
+if __name__ == "__main__":
+    with Slicer(demo) as slicer:
+        demo(10)
+
+
+if __name__ == "__main__":
+    slicer.graph()
+
+
+if __name__ == "__main__":
+    slicer.code()
+
+
+if __name__ == "__main__":
+    slicer.dependencies()
+
+
+if __name__ == "__main__":
+    slicer.dependencies().all_vars()
+
+
+if __name__ == "__main__":
+    _, start_demo = inspect.getsourcelines(demo)
+    start_demo
+
+
+if __name__ == "__main__":
+    slicer.dependencies().backward_slice(('z', ('demo', start_demo + 1))).graph()
 
 
 # ## Lessons Learned
@@ -1980,28 +2375,18 @@ if __name__ == "__main__":
 
 
 
-# ### Exercise 1: _Title_
+# ### Exercise 1: Forward Slicing
 
 if __name__ == "__main__":
-    print('\n### Exercise 1: _Title_')
+    print('\n### Exercise 1: Forward Slicing')
 
 
 
 
-if __name__ == "__main__":
-    # Some code that is part of the exercise
-    pass
-
+# ### Exercise 2: Determine Instrumented Functions Dynamically
 
 if __name__ == "__main__":
-    # Some code for the solution
-    2 + 2
-
-
-# ### Exercise 2: _Title_
-
-if __name__ == "__main__":
-    print('\n### Exercise 2: _Title_')
+    print('\n### Exercise 2: Determine Instrumented Functions Dynamically')
 
 
 

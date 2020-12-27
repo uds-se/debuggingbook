@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-12-19 15:32:45+01:00
+# Last change: 2020-12-27 19:00:39+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -212,13 +212,13 @@ else:
 
 
 if __name__ == "__main__":
-    quiz("Let the input be <code>&quot;&lt;b&gt;Don't do this!&lt;/b&gt;&quot;</code>. "
+    quiz('Let the input be `"<b>Don\'t do this!</b>"`. '
          "Which of these lines are executed? Use the code to find out!",
          [
-             "<code>tag = True</code>",
-             "<code>tag = False</code>",
-             "<code>quote = not quote</code>",
-             "<code>out = out + c</code>"
+             "`tag = True`",
+             "`tag = False`",
+             "`quote = not quote`",
+             "`out = out + c`"
          ], [ord(c) - ord('a') - 1 for c in 'cdf'])
 
 
@@ -632,7 +632,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    quiz("Does the line <code>quote = not quote</code> actually contain the defect?",
+    quiz("Does the line `quote = not quote` actually contain the defect?",
         [
             "Yes, it should be fixed",
             "No, the defect is elsewhere"
@@ -796,7 +796,8 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    quiz('In which color will the <code>quote = not quote</code> "culprit" line be shown after executing the above code?',
+    quiz('In which color will the `quote = not quote` "culprit" line '
+         'be shown after executing the above code?',
         [
             '<span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span>',
             '<span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span>',
@@ -862,10 +863,10 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     quiz("Which of the above lines should be fixed?",
         [
-            '<span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span>',
-            '<span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span>',
-            '<span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span>',
-            '<span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span>',
+            '<span style="background-color: hsl(45.0, 100%, 80%)">Line 3: `elif x < y`</span>',
+            '<span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: `elif x < z`</span>',
+            '<span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: `return y`</span>',
+            '<span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: `return y`</span>',
         ],
          len(" middle \n".strip()[:3])
         )
@@ -1265,6 +1266,14 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print('\n## Exercises')
+
+
+
+
+# ### Exercise 1: Statistical Dependencies
+
+if __name__ == "__main__":
+    print('\n### Exercise 1: Statistical Dependencies')
 
 
 

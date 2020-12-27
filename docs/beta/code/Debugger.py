@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Debugger.html
-# Last change: 2020-12-20 15:39:18+01:00
+# Last change: 2020-12-27 18:27:32+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -447,12 +447,12 @@ else:
 
 
 if __name__ == "__main__":
-    quiz("What happens if we enter 'break 2 + 3'?",
+    quiz("What happens if we enter the command `break 2 + 3`?",
          [
              "A breakpoint is set in Line 2.",
              "A breakpoint is set in Line 5.",
              "Two breakpoints are set in Lines 2 and 3.",
-             "The debugger raises a ValueError exception."
+             "The debugger raises a `ValueError` exception."
          ], 12345 % 7)
 
 
@@ -495,7 +495,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    quiz("What does the command 'delete' (without argument) do?",
+    quiz("What does the command `delete` (without argument) do?",
         [
             "It deletes all breakpoints",
             "It deletes the source code",
@@ -606,7 +606,6 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     with Debugger():
         ret = remove_html_markup('abc')
-    ret
 
 
 if __name__ == "__main__":

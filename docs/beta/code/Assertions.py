@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Assertions.html
-# Last change: 2020-12-06 16:55:18+01:00
+# Last change: 2020-12-27 18:20:02+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -199,10 +199,10 @@ def fun():
     assert 2 + 2 == 5
 
 if __name__ == "__main__":
-    quiz("If we invoke fun() and the assertion fails,"
+    quiz("If we invoke `fun()` and the assertion fails,"
          " which information do we get?",
          [
-             "The failing condition (2 + 2 == 5)",
+             "The failing condition (`2 + 2 == 5`)",
              "The location of the assertion in the program",
              "The list of callers",
              "All of the above"
@@ -252,10 +252,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    quiz("If we did not check for the type of x, "
-         "would the assertion 'x >= 0' still catch a bad call?",
+    quiz("If we did not check for the type of `x`, "
+         "would the assertion `x >= 0` still catch a bad call?",
          [
-             "Yes, since >= is only defined between numbers",
+             "Yes, since `>=` is only defined between numbers",
              "No, because an empty list or string would evaluate to 0"
          ],
          0b10 - 0b01
@@ -281,11 +281,11 @@ def square_root(x):
     assert y * y == x
 
 if __name__ == "__main__":
-    quiz("Why could the assertion fail despite square_root() being correct?",
+    quiz("Why could the assertion fail despite `square_root()` being correct?",
          [
-             "We need to compute y^2, not y * y",
+             "We need to compute `y ** 2`, not `y * y`",
              "We may encounter rounding errors",
-             "The value of x may have changed during computation",
+             "The value of `x` may have changed during computation",
              "The interpreter / compiler may be buggy"
          ],
         0b110011 - 0o61
@@ -409,10 +409,10 @@ def remove_html_markup(s):
 if __name__ == "__main__":
     quiz("Which of these inputs causes the assertion to fail?",
         [
-            '<samp>&lt;foo&gt;bar&lt/foo&gt;</samp>',
-            '<samp>"foo"</samp>',
-            '<samp>&gt;foo&lt;</samp>',
-            '<samp>"x &gt; y"</samp>'
+            '`<foo>bar</foo>`',
+            '`"foo"`',
+            '`>foo<`',
+            '`"x > y"`'
         ], 1 + 1 -(-1) + (1 * -1) + 1 ** (1 - 1) + 1)
 
 
@@ -442,9 +442,9 @@ def some_obscure_function(x, y, z):
 if __name__ == "__main__":
     quiz("What does this function do?",
         [
-            "It returns the minimum value out of x, y, z",
-            "It returns the middle value out of x, y, z",
-            "It returns the maximum value out of x, y, z",
+            "It returns the minimum value out of `x`, `y`, `z`",
+            "It returns the middle value out of `x`, `y`, `z`",
+            "It returns the maximum value out of `x`, `y`, `z`",
         ],
           int(0.5 ** math.cos(math.pi))
         )
@@ -461,10 +461,10 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     quiz("Which function is faulty here?",
          [
-            "<code>g()</code> because it raises an exception",
-            "<code>f()</code>"
-            " because it violates the precondition of <code>g()</code>",
-            "Both <code>f()</code> and <code>g()</code>"
+            "`g()` because it raises an exception",
+            "`f()`"
+            " because it violates the precondition of `g()`",
+            "Both `f()` and `g()`"
             " because they are incompatible",
             "None of the above"
          ],

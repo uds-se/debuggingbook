@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-12-19 16:48:22+01:00
+# Last change: 2020-12-27 18:27:33+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -1169,8 +1169,8 @@ if __name__ == "__main__":
     quiz("What will the reduced set of lines contain?",
          [
              "All of the source code in the assertions chapter.",
-             "Only the source code of <samp>remove_html_markup()</samp>",
-             "Only a subset of <samp>remove_html_markup()</samp>",
+             "Only the source code of `remove_html_markup()`",
+             "Only a subset of `remove_html_markup()`",
              "No lines at all."
          ], [x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1])
 

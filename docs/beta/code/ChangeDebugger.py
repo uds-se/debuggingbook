@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-15 19:17:37+01:00
+# Last change: 2020-12-27 18:23:57+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -780,7 +780,7 @@ if __name__ == "__main__":
     quiz("What has changed in version 1 after applying the second patch?",
          [
              "The initialization of quote is deleted",
-             "The condition after c == '&lt;' is expanded",
+             "The condition after `if c == '<'` is expanded",
              "The tag variable gets a different value",
              "None of the above"
          ], 1 / 1 + 1 ** 1 - 1 % 1 * 1)

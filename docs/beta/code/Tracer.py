@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Tracer.html
-# Last change: 2020-11-28 23:35:04+01:00
+# Last change: 2020-12-27 18:27:32+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -119,15 +119,15 @@ if __name__ == "__main__":
 import math
 
 if __name__ == "__main__":
-    quiz("What happens if the tracing function returns None"
-         " while tracing function f()?"
-         " Lookup sys.setttrace() in the Python documentation"
+    quiz("What happens if the tracing function returns `None`"
+         " while tracing function `f()`?"
+         " Lookup `sys.setttrace()` in the Python documentation"
          " or try it out yourself.",
          ['Tracing stops for all functions;'
           ' the tracing function is no longer called',
-          'Tracing stops for f(): the tracing function is called when f() returns',
-          'Tracing stops for f() the rest of the execution: the tracing function'
-          ' is no longer called for calls to f()',
+          'Tracing stops for `f()`: the tracing function is called when `f()` returns',
+          'Tracing stops for `f()` the rest of the execution: the tracing function'
+          ' is no longer called for calls to `f()`',
           'Nothing changes'], math.log(7.38905609893065))
 
 
@@ -399,9 +399,9 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    quiz("If the program under test contains a variable named 'line', "
-         "which 'line' does the condition refer to?",
-         ["'line' as in the debugger", "'line' as in the program"],
+    quiz("If the program under test contains a variable named `line`, "
+         "which `line` does the condition refer to?",
+         ["`line` as in the debugger", "`line` as in the program"],
          (326 * 27 == 8888) + 1)
 
 
@@ -557,11 +557,11 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     quiz("In the above example, "
-         "where is the <code>EventTracer.traceit()</code> function called?",
-         ["When <code>some_extreme_function()</code> returns",
-          "For each line of <code>some_extreme_function()</code>",
-          "When <code>remove_html_markup()</code> returns",
-          "For each line of <code>remove_html_markup()</code>"],
+         "where is the `EventTracer.traceit()` function called?",
+         ["When `some_extreme_function()` returns",
+          "For each line of `some_extreme_function()`",
+          "When `remove_html_markup()` returns",
+          "For each line of `remove_html_markup()`"],
          [ord(c) - 100 for c in 'efgh'])
 
 
