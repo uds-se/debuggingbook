@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ClassDiagram.html
-# Last change: 2020-12-28 18:22:42+01:00
+# Last change: 2020-12-28 19:06:46+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -227,7 +227,7 @@ def display_class_hierarchy(classes, include_methods=True,
 
     if project == 'debuggingbook':
         CLASS_FONT = 'Raleway, Helvetica, Arial, sans-serif'
-        CLASS_COLOR = 'purple'
+        CLASS_COLOR = '#6A0DAD'  # HTML 'purple'
     else:
         CLASS_FONT = 'Patua One, Helvetica, sans-serif'
         CLASS_COLOR = '#B03A2E'
