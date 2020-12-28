@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ClassDiagram.html
-# Last change: 2020-12-28 16:38:14+01:00
+# Last change: 2020-12-28 18:22:42+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -69,18 +69,20 @@ def class_hierarchy(cls):
     return hierarchy
 
 class A_Class:
-    """A Class which does A thing right"""
+    """A Class which does A thing right.
+    Comes with a longer docstring."""
     def foo(self):
         """The Adventures of the glorious Foo"""
         pass
 
 class B_Class(A_Class):
-    """A Class with multiple inheritance"""
-    def foo(self):
-        """A WW2 foo fighter"""
+    """A subclass inheriting some methods."""
+    def foo(self, fight=False):
+        """A WW2 foo fighter."""
         pass
-    def bar(self):
-        """A qux walks into a bar"""
+    def bar(self, qux=None, bartender=42):
+        """A qux walks into a bar.
+        `bartender` is an optional attribute."""
         pass
 
 class C_Class:
@@ -88,6 +90,8 @@ class C_Class:
         pass
 
 class D_Class(B_Class, C_Class):
+    """A subclass inheriting from multiple superclasses.
+    Comes with a fairly long, but meaningless documentation."""
     def foo(self):
         B_Class.foo(self)
 
@@ -190,19 +194,32 @@ import html
 
 import re
 
-RXSPACE = re.compile(r'\s+')
+def escape(text):
+    text = html.escape(text)
+    assert '<' not in text
+    assert '>' not in text
+    text = text.replace('{', '&#x7b;')
+    text = text.replace('|', '&#x7c;')
+    text = text.replace('}', '&#x7d;')
+    return text
 
-def format_doc(docstring):
-    docstring = RXSPACE.sub(' ', docstring)
-    docstring = html.escape(docstring)
-    docstring = docstring.replace('{', '&#x7b;')
-    docstring = docstring.replace('|', '&#x7c;')
-    docstring = docstring.replace('}', '&#x7d;')
+if __name__ == "__main__":
+    escape("f(foo={})")
+
+
+def escape_doc(docstring):
+    DOC_INDENT = 4
+    docstring = "&#x0a;".join(
+        ' ' * DOC_INDENT + escape(line).strip()
+        for line in docstring.split('\n')
+    )
     return docstring
 
 if __name__ == "__main__":
-    format_doc("'Hello\n    {You|Me}'")
+    print(escape_doc("'Hello\n    {You|Me}'"))
 
+
+from inspect import signature
 
 def display_class_hierarchy(classes, include_methods=True,
                             project='fuzzingbook'):
@@ -224,7 +241,7 @@ def display_class_hierarchy(classes, include_methods=True,
         starting_class = classes
         classes = [starting_class]
 
-    title = starting_class.__name__ + " hierarchy"
+    title = starting_class.__name__ + " class hierarchy"
 
     dot = Digraph(comment=title)
     dot.attr('node', shape='record', fontname=CLASS_FONT)
@@ -252,10 +269,10 @@ def display_class_hierarchy(classes, include_methods=True,
             for (name, f) in methods:
                 if ((show_doc and f.__doc__ is not None) or
                         (not show_doc and f.__doc__ is None)):
+
+                    method_doc = escape(name + str(inspect.signature(f)))
                     if f.__doc__:
-                        method_doc = format_doc(f.__doc__)
-                    else:
-                        method_doc = name + "()"
+                        method_doc += ":&#x0a;" + escape_doc(f.__doc__)
 
                     # Tooltips are only shown if a href is present, too
                     tooltip = f' tooltip="{method_doc}"'
@@ -263,6 +280,7 @@ def display_class_hierarchy(classes, include_methods=True,
                     methods_string += f'<tr><td align="left" border="0"{tooltip}{href}>'
                     methods_string += method_string(name, f)
                     methods_string += '</td></tr>'
+
         methods_string += '</table>'
         return methods_string
 
@@ -280,10 +298,9 @@ def display_class_hierarchy(classes, include_methods=True,
         else:
             spec = '<' + cls.__name__ + '>'
 
+        class_doc = escape('class ' + cls.__name__)
         if cls.__doc__:
-            class_doc = format_doc(cls.__doc__)
-        else:
-            class_doc = cls.__name__
+            class_doc += ':&#x0a;' + escape_doc(cls.__doc__)
 
         dot.node(name, spec, tooltip=class_doc, href=url)
 
