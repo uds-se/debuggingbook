@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-28 00:35:54+01:00
+# Last change: 2020-12-28 12:53:01+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -833,7 +833,7 @@ from ast import Module, Name, Load, Store, Tuple, \
 
 if __name__ == "__main__":
     # Starting with Python 3.8, these will become Constant
-    from ast import Num, Str
+    from ast import Num, Str, NameConstant
 
 
 def make_get_data(id, method='get'):
@@ -1086,7 +1086,7 @@ class TrackReturnTransformer(NodeTransformer):
         else:
             return f"<{self.function_name}() {tp} value>"
 
-    def visit_return_or_yield(self, node, tp):
+    def visit_return_or_yield(self, node, tp="return"):
         if node.value is not None:
             value = astor.to_source(node.value)
             if not value.startswith(DATA_TRACKER + '.set'):
@@ -1095,13 +1095,13 @@ class TrackReturnTransformer(NodeTransformer):
         return node
 
     def visit_Return(self, node):
-        return self.visit_return_or_yield(node, "return")
+        return self.visit_return_or_yield(node, tp="return")
 
     def visit_Yield(self, node):
-        return self.visit_return_or_yield(node, "yield")
+        return self.visit_return_or_yield(node, tp="yield")
 
     def visit_YieldFrom(self, node):
-        return self.visit_return_or_yield(node, "yield")
+        return self.visit_return_or_yield(node, tp="yield")
 
 if __name__ == "__main__":
     TrackReturnTransformer().visit(middle_tree)
@@ -1181,6 +1181,7 @@ class TrackControlTransformer(TrackControlTransformer):
         return node
 
 class TrackControlTransformer(TrackControlTransformer):
+    # regular `for` loop
     def visit_For(self, node):
         self.generic_visit(node)
         id = astor.to_source(node.target).strip()
@@ -1191,8 +1192,16 @@ class TrackControlTransformer(TrackControlTransformer):
         # node.orelse = self.make_with(node.orelse)
         return node
 
+    # `for` loops in async functions
     def visit_AsyncFor(self, node):
         return self.visit_For(node)
+
+    # `for` clause in comprehensions
+    def visit_comprehension(self, node):
+        self.generic_visit(node)
+        id = astor.to_source(node.target).strip()
+        node.iter = make_set_data(id, node.iter)
+        return node
 
 if __name__ == "__main__":
     TrackControlTransformer().visit(middle_tree)
@@ -1365,7 +1374,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    print(ast.dump(ast.parse("_data.param('x', x, pos=1)")))
+    print(ast.dump(ast.parse("_data.param('x', x, pos=1, last=True)")))
 
 
 class TrackParamsTransformer(NodeTransformer):
@@ -1384,6 +1393,9 @@ class TrackParamsTransformer(NodeTransformer):
                 keywords.append(keyword(arg='vararg', value=Str(s='*')))
             if child is node.args.kwarg:
                 keywords.append(keyword(arg='vararg', value=Str(s='**')))
+            if n == len(named_args) - 1:
+                keywords.append(keyword(arg='last',
+                                        value=NameConstant(value=True)))
 
             create_stmt = Expr(
                 value=Call(
@@ -1407,7 +1419,7 @@ if __name__ == "__main__":
 
 
 class DataTracker(DataTracker):
-    def param(self, name, value, pos=None, vararg=""):
+    def param(self, name, value, pos=None, vararg="", last=False):
         if self.log:
             code_name, lineno = self.caller_location()
             info = ""
@@ -1464,9 +1476,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    import Assertions
+    import Assertions  # minor dependency
 else:
-    from . import Assertions
+    from . import Assertions  # minor dependency
 
 if __package__ is None or __package__ == "":
     import Debugger
@@ -1518,7 +1530,7 @@ class DependencyTracker(DataTracker):
         self.control_dependencies = {}
 
         self.last_read = []  # List of last read variables
-        self.last_checked_location = None
+        self.last_checked_location = ("<None>", 1)
         self._ignore_location_change = False
 
         self.data = [[]]  # Data stack
@@ -1545,6 +1557,7 @@ if __name__ == "__main__":
 
 class DependencyTracker(DependencyTracker):
     def get(self, name, value):
+        """Track a read access for variable NAME with value VALUE"""
         self.check_location()
         self.last_read.append(name)
         return super().get(name, value)
@@ -1576,6 +1589,7 @@ if __name__ == "__main__":
 
 class DependencyTracker(DependencyTracker):
     def clear_read(self):
+        """Clear set of read variables"""
         if self.log:
             direct_caller = inspect.currentframe().f_back.f_code.co_name
             code_name, lineno = self.caller_location()
@@ -1586,15 +1600,22 @@ class DependencyTracker(DependencyTracker):
         self.last_read = []
 
     def check_location(self):
+        """If we are in a new location, clear set of read variables"""
         location = self.caller_location()
         code_name, lineno = location
-        if code_name.startswith('<'):
-            return  # List comprehension, eval(), exec()
+        last_code_name, last_lineno = self.last_checked_location
 
         if self.last_checked_location != location:
             if self._ignore_location_change:
                 self._ignore_location_change = False
+            elif code_name.startswith('<'):
+                # Entering list comprehension, eval(), exec(), ...
+                pass
+            elif last_code_name.startswith('<'):
+                # Exiting list comprehension, eval(), exec(), ...
+                pass
             else:
+                # Standard case
                 self.clear_read()
 
         self.last_checked_location = location
@@ -1639,12 +1660,19 @@ if __name__ == "__main__":
 import itertools
 
 class DependencyTracker(DependencyTracker):
+    TEST = '<test>'
+
     def set(self, name, value, loads=None):
+        """Add a dependency for NAME = VALUE"""
 
         def add_dependencies(dependencies, vars_read, tp):
             """Add origins of VARS_READ to DEPENDENCIES."""
             for var_read in vars_read:
                 if var_read in self.origins:
+                    if var_read == self.TEST and tp == "data":
+                        # Can't have data dependencies on conditions
+                        continue
+
                     origin = self.origins[var_read]
                     dependencies.add((var_read, origin))
 
@@ -1671,12 +1699,12 @@ class DependencyTracker(DependencyTracker):
         self.origins[name] = location
 
         # Reset read info for next line
-        # self.clear_read()
         self.last_read = [name]
 
         return ret
 
     def dependencies(self):
+        """Return dependencies"""
         return Dependencies(self.data_dependencies,
                             self.control_dependencies)
 
@@ -1709,20 +1737,21 @@ if __name__ == "__main__":
 
 
 class DependencyTracker(DependencyTracker):
-    TEST = '<test>'
-
     def test(self, value):
+        """Track a test for condition VALUE"""
         self.set(self.TEST, value)
         return super().test(value)
 
 class DependencyTracker(DependencyTracker):
     def __enter__(self):
+        """Track entering an if/while/for block"""
         self.control.append(self.last_read)
         self.clear_read()
         super().__enter__()
 
 class DependencyTracker(DependencyTracker):
     def __exit__(self, exc_type, exc_value, traceback):
+        """Track exiting an if/while/for block"""
         self.clear_read()
         self.last_read = self.control.pop()
         self.ignore_next_location_change()
@@ -1766,11 +1795,9 @@ if __name__ == "__main__":
 
 
 
-import functools
-import copy
-
 class DependencyTracker(DependencyTracker):
     def call(self, fun):
+        """Track a call of function FUN"""
         super().call(fun)
 
         if inspect.isgeneratorfunction(fun):
@@ -1791,7 +1818,9 @@ class DependencyTracker(DependencyTracker):
 
         return fun
 
+class DependencyTracker(DependencyTracker):
     def ret(self, value):
+        """Track a return of function FUN"""
         super().ret(value)
 
         if self.in_generator():
@@ -1818,13 +1847,15 @@ class DependencyTracker(DependencyTracker):
 
         return value
 
+import copy
+
 class DependencyTracker(DependencyTracker):
     def in_generator(self):
         """True if we are calling a generator function"""
         return len(self.data) > 0 and self.data[-1] is None
 
     def call_generator(self, fun):
-        # Can't track calls of generator functions
+        """Track a call of a generator function"""
         # Mark the fact that we're in a generator with `None` values
         self.data.append(None)
         self.frames.append(None)
@@ -1834,6 +1865,7 @@ class DependencyTracker(DependencyTracker):
         return fun
 
     def ret_generator(self, generator):
+        """Track the return of a generator function"""
         # Pop the two 'None' values pushed earlier
         self.data.pop()
         self.frames.pop()
@@ -1883,6 +1915,8 @@ if __name__ == "__main__":
 
 class DependencyTracker(DependencyTracker):
     def arg(self, value, pos=None, kw=None):
+        """Track passing an argument VALUE
+        (with given position POS 1..n or keyword KW)"""
         if self.log:
             code_name, lineno = self.caller_location()
             print(f"{code_name}:{lineno}: "
@@ -1896,7 +1930,11 @@ class DependencyTracker(DependencyTracker):
         self.clear_read()
         return super().arg(value, pos, kw)
 
-    def param(self, name, value, pos=None, vararg=""):
+class DependencyTracker(DependencyTracker):
+    def param(self, name, value, pos=None, vararg="", last=False):
+        """Track getting a parameter NAME with value VALUE
+        (with given position POS).
+        vararg parameters are indicated by '*' (*args) or '**' (**kwargs)"""
         self.clear_read()
 
         if vararg == '*':
@@ -1920,13 +1958,20 @@ class DependencyTracker(DependencyTracker):
                   f"restored params read {self.last_read}")
 
         self.ignore_location_change()
-        return super().param(name, value, pos)
+        ret = super().param(name, value, pos)
+
+        if last:
+            self.clear_read()
+        return ret
 
 def call_test():
     c = 47
 
-    def gen(z):
-        yield z * c
+    def sq(n):
+        return n * n
+
+    def gen(e):
+        yield e * c
 
     def just_x(x, y):
         return x
@@ -1935,7 +1980,10 @@ def call_test():
     b = gen(a)
     d = list(b)[0]
 
-    return just_x(just_x(d, y=b), a)
+    xs = [1, 2, 3, 4]
+    ys = [sq(elem) for elem in xs if elem > 2]
+
+    return just_x(just_x(d, y=b), ys[0])
 
 if __name__ == "__main__":
     call_test()
@@ -1957,7 +2005,7 @@ class DependencyTrackerTester(DataTrackerTester):
         return DependencyTracker(log=self.log)
 
 if __name__ == "__main__":
-    with DependencyTrackerTester(call_tree, call_test) as deps:
+    with DependencyTrackerTester(call_tree, call_test, log=False) as deps:
         call_test()
 
 
@@ -1986,6 +2034,7 @@ import sys
 
 class Dependencies(Dependencies):
     def validate(self):
+        """Perform a simple syntactic validation of dependencies"""
         super().validate()
 
         for var in self.all_vars():
@@ -2047,6 +2096,7 @@ if __name__ == "__main__":
 
 class Instrumenter(object):
     def __init__(self, *items_to_instrument, log=False):
+        """Create an instrumenter"""
         self.log = log
         self.items_to_instrument = items_to_instrument
 
@@ -2087,6 +2137,10 @@ class Slicer(Instrumenter):
     def __init__(self, *items_to_instrument, 
                  dependency_tracker=None,
                  log=False):
+        """Create a slicer.
+        ITEMS_TO_INSTRUMENT are Python functions or modules with source code.
+        DEPENDENCY_TRACKER is the tracker to be used (default: DependencyTracker).
+        LOG=True or LOG > 0 turns on logging"""
         super().__init__(*items_to_instrument, log=log)
         if len(items_to_instrument) == 0:
             raise ValueError("Need one or more items to instrument")
@@ -2171,11 +2225,13 @@ class Slicer(Slicer):
 
 class Slicer(Slicer):
     def dependencies(self):
+        """Return collected dependencies."""
         if self.saved_dependencies is None:
             return Dependencies({}, {})
         return self.saved_dependencies.dependencies()
 
     def code(self, *args, **kwargs):
+        """Show code of instrumented items, annotated with dependencies."""
         first = True
         for item in self.items_to_instrument:
             if not first:
@@ -2184,6 +2240,7 @@ class Slicer(Slicer):
             first = False
 
     def graph(self, *args, **kwargs):
+        """Show dependency graph."""
         return self.dependencies().graph(*args, **kwargs)
 
 if __name__ == "__main__":
@@ -2235,9 +2292,9 @@ if __name__ == "__main__":
 import math
 
 if __package__ is None or __package__ == "":
-    from Assertions import square_root
+    from Assertions import square_root  # minor dependency
 else:
-    from .Assertions import square_root
+    from .Assertions import square_root  # minor dependency
 
 
 if __name__ == "__main__":
@@ -2280,7 +2337,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with Slicer(remove_html_markup, log=True) as rhm_slicer:
+    with Slicer(remove_html_markup) as rhm_slicer:
         s = remove_html_markup("<foo>bar</foo>")
 
 
@@ -2432,10 +2489,18 @@ if __name__ == "__main__":
 
 
 
-# ### Exercise 2: Determine Instrumented Functions Dynamically
+# ### Exercise 2: Code with Forward Dependencies
 
 if __name__ == "__main__":
-    print('\n### Exercise 2: Determine Instrumented Functions Dynamically')
+    print('\n### Exercise 2: Code with Forward Dependencies')
+
+
+
+
+# ### Exercise 3: Determine Instrumented Functions Dynamically
+
+if __name__ == "__main__":
+    print('\n### Exercise 3: Determine Instrumented Functions Dynamically')
 
 
 
