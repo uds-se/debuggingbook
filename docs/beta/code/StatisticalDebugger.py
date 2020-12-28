@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-12-28 00:35:55+01:00
+# Last change: 2020-12-28 13:50:15+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -1230,12 +1230,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    display_class_hierarchy([TarantulaDebugger, OchiaiDebugger])
+    display_class_hierarchy([TarantulaDebugger, OchiaiDebugger], project='debuggingbook')
 
 
 if __name__ == "__main__":
     # ignore
-    display_class_hierarchy([CoverageCollector, ValueCollector])
+    display_class_hierarchy([CoverageCollector, ValueCollector], project='debuggingbook')
 
 
 # ## Lessons Learned

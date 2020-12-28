@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-12-27 18:27:33+01:00
+# Last change: 2020-12-28 15:56:40+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -771,7 +771,7 @@ if __name__ == "__main__":
 
 class DeltaDebugger(DeltaDebugger):
     def reducible(self, arg):
-        """Return true if arg supports len() and indexing."""
+        # Return True if `arg` supports len() and indexing.
         try:
             _ = len(arg)
         except TypeError:
@@ -797,7 +797,7 @@ class NoCallError(ValueError):
 
 class DeltaDebugger(DeltaDebugger):
     def check_reproducibility(self):
-        """Check whether running the function again fails"""
+        # Check whether running the function again fails
         self.reset()
         outcome = self.test(self.args())
         if outcome == UNRESOLVED:
@@ -890,6 +890,7 @@ class DeltaDebugger(DeltaDebugger):
 
 class DeltaDebugger(DeltaDebugger):
     def after_collection(self):
+        # Some post-collection checks
         if self.function() is None:
             raise NoCallError("No function call observed")
         if self.exception() is None:
@@ -995,9 +996,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from Assertions import remove_html_markup
+    from Assertions import remove_html_markup  # minor dependency
 else:
-    from .Assertions import remove_html_markup
+    from .Assertions import remove_html_markup  # minor dependency
 
 
 if __name__ == "__main__":
@@ -1148,6 +1149,12 @@ if __name__ == "__main__":
     compile_and_run(assertions_source_lines)
 
 
+if __package__ is None or __package__ == "":
+    from Assertions import remove_html_markup  # minor dependency
+else:
+    from .Assertions import remove_html_markup  # minor dependency
+
+
 def compile_and_test_html_markup(lines):
     compile_and_run(lines + 
                     ['''\nassert remove_html_markup('"foo"') == '"foo"', "My Test"\n'''])
@@ -1287,12 +1294,6 @@ if __name__ == "__main__":
     print('\n### Reducing Syntax Trees')
 
 
-
-
-if __package__ is None or __package__ == "":
-    from Assertions import remove_html_markup
-else:
-    from .Assertions import remove_html_markup
 
 
 if __name__ == "__main__":
@@ -1623,6 +1624,16 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     dd.function().__name__, dd.args()
+
+
+if __name__ == "__main__":
+    # ignore
+    from ClassDiagram import display_class_hierarchy
+
+
+if __name__ == "__main__":
+    # ignore
+    display_class_hierarchy([DeltaDebugger], project='debuggingbook')
 
 
 # ## Lessons Learned

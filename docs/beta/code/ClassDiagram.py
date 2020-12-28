@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ClassDiagram.html
-# Last change: 2020-11-16 20:31:00+01:00
+# Last change: 2020-12-28 16:38:14+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -69,13 +69,18 @@ def class_hierarchy(cls):
     return hierarchy
 
 class A_Class:
+    """A Class which does A thing right"""
     def foo(self):
+        """The Adventures of the glorious Foo"""
         pass
 
 class B_Class(A_Class):
+    """A Class with multiple inheritance"""
     def foo(self):
+        """A WW2 foo fighter"""
         pass
     def bar(self):
+        """A qux walks into a bar"""
         pass
 
 class C_Class:
@@ -85,7 +90,6 @@ class C_Class:
 class D_Class(B_Class, C_Class):
     def foo(self):
         B_Class.foo(self)
-
 
 if __name__ == "__main__":
     class_hierarchy(A_Class)
@@ -113,12 +117,11 @@ def class_tree(cls):
     return ret
 
 def class_tree(cls):
-    
     def base_tree(base):
         while base.__name__ == cls.__name__:
             base = base.__bases__[0]
         return class_tree(base)
-    
+
     ret = []
     for base in cls.__bases__:
         ret.append((cls, base_tree(base)))
@@ -143,6 +146,7 @@ def class_methods(cls):
         all_methods = inspect.getmembers(cls, lambda m: inspect.isfunction(m))
         for base in cls.__bases__:
             all_methods += _class_methods(base)
+
         return all_methods
 
     unique_methods = []
@@ -159,10 +163,12 @@ if __name__ == "__main__":
 
 
 def public_class_methods(cls):
-    return [(name, method) for (name, method) in class_methods(cls) if method.__qualname__.startswith(cls.__name__)]
+    return [(name, method) for (name, method) in class_methods(cls) 
+            if method.__qualname__.startswith(cls.__name__)]
 
 def doc_class_methods(cls):
-    return [(name, method) for (name, method) in public_class_methods(cls) if method.__doc__ is not None]
+    return [(name, method) for (name, method) in public_class_methods(cls) 
+            if method.__doc__ is not None]
 
 if __name__ == "__main__":
     public_class_methods(D_Class)
@@ -180,6 +186,24 @@ if __name__ == "__main__":
 
 
 
+import html
+
+import re
+
+RXSPACE = re.compile(r'\s+')
+
+def format_doc(docstring):
+    docstring = RXSPACE.sub(' ', docstring)
+    docstring = html.escape(docstring)
+    docstring = docstring.replace('{', '&#x7b;')
+    docstring = docstring.replace('|', '&#x7c;')
+    docstring = docstring.replace('}', '&#x7d;')
+    return docstring
+
+if __name__ == "__main__":
+    format_doc("'Hello\n    {You|Me}'")
+
+
 def display_class_hierarchy(classes, include_methods=True,
                             project='fuzzingbook'):
     from graphviz import Digraph
@@ -191,7 +215,7 @@ def display_class_hierarchy(classes, include_methods=True,
         CLASS_FONT = 'Patua One, Helvetica, sans-serif'
         CLASS_COLOR = '#B03A2E'
 
-    METHOD_FONT = "'Fira Mono', 'Source Code Pro', monospace"
+    METHOD_FONT = "'Fira Mono', 'Source Code Pro', 'Courier', monospace"
     METHOD_COLOR = 'black'
 
     if isinstance(classes, list):
@@ -200,9 +224,11 @@ def display_class_hierarchy(classes, include_methods=True,
         starting_class = classes
         classes = [starting_class]
 
-    dot = Digraph(comment=starting_class.__name__ + " hierarchy")
+    title = starting_class.__name__ + " hierarchy"
+
+    dot = Digraph(comment=title)
     dot.attr('node', shape='record', fontname=CLASS_FONT)
-    dot.attr('graph', rankdir='BT')
+    dot.attr('graph', rankdir='BT', tooltip=title)
     dot.attr('edge', arrowhead='empty')
     edges = set()
 
@@ -215,15 +241,26 @@ def display_class_hierarchy(classes, include_methods=True,
         method_string += '</font>'
         return method_string
 
-    def class_methods_string(cls):
+    def class_methods_string(cls, url):
         methods = public_class_methods(cls)
         # return "<br/>".join([name + "()" for (name, f) in methods])
+        if len(methods) == 0:
+            return ""
 
-        methods_string = '<table border="0" cellpadding="0" cellspacing="0" align="left">'
-        for doc in [True, False]:
+        methods_string = f'<table border="0" cellpadding="0" cellspacing="0" align="left" tooltip="{cls.__name__}" href="#">'
+        for show_doc in [True, False]:
             for (name, f) in methods:
-                if (doc and f.__doc__ is not None) or (not doc and f.__doc__ is None):
-                    methods_string += '<tr><td align="left" border="0">'
+                if ((show_doc and f.__doc__ is not None) or
+                        (not show_doc and f.__doc__ is None)):
+                    if f.__doc__:
+                        method_doc = format_doc(f.__doc__)
+                    else:
+                        method_doc = name + "()"
+
+                    # Tooltips are only shown if a href is present, too
+                    tooltip = f' tooltip="{method_doc}"'
+                    href = f' href="{url}"'
+                    methods_string += f'<tr><td align="left" border="0"{tooltip}{href}>'
                     methods_string += method_string(name, f)
                     methods_string += '</td></tr>'
         methods_string += '</table>'
@@ -231,14 +268,24 @@ def display_class_hierarchy(classes, include_methods=True,
 
     def display_class_node(cls):
         name = cls.__name__
-        url = cls.__module__ + '.ipynb'
+        if cls.__module__ == '__main__':
+            url = '#'
+        else:
+            url = cls.__module__ + '.ipynb'
+
         if include_methods:
-            methods = class_methods_string(cls)
+            methods = class_methods_string(cls, url)
             spec = '<{<b><font color="' + CLASS_COLOR + '">' + \
                 cls.__name__ + '</font></b>|' + methods + '}>'
         else:
             spec = '<' + cls.__name__ + '>'
-        dot.node(name, spec, href=url)
+
+        if cls.__doc__:
+            class_doc = format_doc(cls.__doc__)
+        else:
+            class_doc = cls.__name__
+
+        dot.node(name, spec, tooltip=class_doc, href=url)
 
     def display_class_tree(trees):
         for tree in trees:

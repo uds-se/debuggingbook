@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Tracer.html
-# Last change: 2020-12-27 18:27:32+01:00
+# Last change: 2020-12-28 15:56:37+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -140,11 +140,12 @@ if __name__ == "__main__":
 
 
 class Tracer(object):
+    """A class for tracing a piece of code. Use as `with Tracer(): block()`"""
+
     def __init__(self, file=sys.stdout):
-        """Trace a block of code, sending logs to file (default: stdout)"""
+        """Trace a block of code, sending logs to `file` (default: stdout)"""
         self.original_trace_function = None
         self.file = file
-        pass
 
     def log(self, *objects, sep=' ', end='\n', flush=False):
         """Like print(), but always sending to file given at initialization,
@@ -246,10 +247,12 @@ if __name__ == "__main__":
 
 class Tracer(Tracer):
     def __init__(self, file=sys.stdout):
+        """Create a new tracer. If `file is given, output to `file`."""
         self.last_vars = {}
         super().__init__(file=file)
 
     def changed_vars(self, new_vars):
+        """Track changed variables, based on `new_vars` observed."""
         changed = {}
         for var_name in new_vars:
             if (var_name not in self.last_vars or
@@ -285,6 +288,7 @@ if __name__ == "__main__":
 
 class Tracer(Tracer):
     def print_debugger_status(self, frame, event, arg):
+        """Show current source line and changed vars"""
         changes = self.changed_vars(frame.f_locals)
         changes_s = ", ".join([var + " = " + repr(changes[var])
                                for var in changes])
@@ -414,13 +418,17 @@ if __name__ == "__main__":
 
 
 class EventTracer(ConditionalTracer):
+    """Log when a given event expression changes its value"""
+
     def __init__(self, file=sys.stdout, condition=None, events=[]):
+        """Constructor. `events` is a list of expressions to watch."""
         self.events = events
         self.last_event_values = {}
         super().__init__(file=file, condition=condition)
 
 class EventTracer(EventTracer):
     def events_changed(self, events, frame):
+        """Return True if any of the observed `events` has changed"""
         change = False
         for event in events:
             value = self.eval_in_context(event, frame)
@@ -434,6 +442,7 @@ class EventTracer(EventTracer):
 
 class EventTracer(EventTracer):
     def do_report(self, frame, event, arg):
+        """Return True if a line should be shown"""
         return (self.eval_in_context(self.condition, frame) or
                 self.events_changed(self.events, frame))
 
@@ -589,6 +598,16 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     with EventTracer(events=["c == '/'"]):
         remove_html_markup('<b>foo</b>bar')
+
+
+if __name__ == "__main__":
+    # ignore
+    from ClassDiagram import display_class_hierarchy
+
+
+if __name__ == "__main__":
+    # ignore
+    display_class_hierarchy(EventTracer, project='debuggingbook')
 
 
 # ## Lessons Learned

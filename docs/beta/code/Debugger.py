@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Debugger.html
-# Last change: 2020-12-27 18:27:32+01:00
+# Last change: 2020-12-28 15:56:37+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -103,7 +103,7 @@ class Debugger(Tracer):
 
 class Debugger(Debugger):
     def traceit(self, frame, event, arg):
-        """Tracing function; called at every line"""
+        # Tracing function; called at every line
         self.frame = frame
         self.local_vars = frame.f_locals  # Dereference exactly once
         self.event = event
@@ -116,12 +116,12 @@ class Debugger(Debugger):
 
 class Debugger(Debugger):
     def stop_here(self):
-        """Return true if we should stop"""
+        # Return true if we should stop
         return self.stepping or self.frame.f_lineno in self.breakpoints
 
 class Debugger(Debugger):
     def interaction_loop(self):
-        """Interact with the user"""
+        # Interact with the user
         self.print_debugger_status(self.frame, self.event, self.arg)
 
         self.interact = True
@@ -204,6 +204,7 @@ if __name__ == "__main__":
 
 class Debugger(Debugger):
     def commands(self):
+        # Return a list of commands
         cmds = [method.replace('_command', '')
                 for method in dir(self.__class__)
                 if method.endswith('_command')]
@@ -217,6 +218,7 @@ if __name__ == "__main__":
 
 class Debugger(Debugger):
     def command_method(self, command):
+        # Convert `command` into the method to be called
         if command.startswith('#'):
             return None  # Comment
 
@@ -241,6 +243,7 @@ if __name__ == "__main__":
 
 class Debugger(Debugger):
     def execute(self, command):
+        # Execute given command
         sep = command.find(' ')
         if sep > 0:
             cmd = command[:sep].strip()
@@ -611,6 +614,16 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     assert not next_inputs()
+
+
+if __name__ == "__main__":
+    # ignore
+    from ClassDiagram import display_class_hierarchy
+
+
+if __name__ == "__main__":
+    # ignore
+    display_class_hierarchy(Debugger, project='debuggingbook')
 
 
 # ## Lessons Learned

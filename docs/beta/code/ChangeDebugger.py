@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2020-12-27 18:23:57+01:00
+# Last change: 2020-12-28 15:56:40+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -882,6 +882,10 @@ else:
 
 class ChangeDebugger(CallCollector):
     def __init__(self, pass_source, fail_source, **ddargs):
+        """Constructor. Takes a passing source file (`pass_source`)
+        and a failing source file (`fail_source`).
+        Additional arguments are passed to `DeltaDebugger` constructor.
+        """
         super().__init__()
         self._pass_source = pass_source
         self._fail_source = fail_source
@@ -890,12 +894,15 @@ class ChangeDebugger(CallCollector):
         self.log = ddargs['log'] if 'log' in ddargs else False
 
     def pass_source(self):
+        """Return the passing source file."""
         return self._pass_source
 
     def fail_source(self):
+        """Return the failing source file."""
         return self._fail_source
 
     def patches(self):
+        """Return the diff between passing and failing source files."""
         return self._patches
 
 def test_remove_html_markup():
@@ -950,6 +957,7 @@ if __name__ == "__main__":
 
 class ChangeDebugger(ChangeDebugger):
     def min_patches(self):
+        """Compute a minimal set of patches."""
         patches = self.patches()
         with DeltaDebugger(**self._ddargs) as dd:
             self.test_patches(patches)
@@ -1012,11 +1020,12 @@ class NotPassingError(ValueError):
 
 class ChangeDebugger(ChangeDebugger):
     def after_collection(self):
+        """Diagnostics."""
         if self.function() is None:
             raise NoCallError("No function call observed")
         if self.exception() is None:
             raise NotFailingError(f"{self.format_call()} did not raise an exception")
-        
+
         try:
             self.test_patches([])
         except Exception:
@@ -1083,6 +1092,16 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     for p in diffs:
         print(urllib.parse.unquote(str(p)))
+
+
+if __name__ == "__main__":
+    # ignore
+    from ClassDiagram import display_class_hierarchy
+
+
+if __name__ == "__main__":
+    # ignore
+    display_class_hierarchy([ChangeDebugger], project='debuggingbook')
 
 
 # ### Supporting Functions

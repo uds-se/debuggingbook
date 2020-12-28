@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-28 12:53:01+01:00
+# Last change: 2020-12-28 15:56:38+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -93,9 +93,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from Debugger import Debugger
+    from Debugger import Debugger  # minor dependency
 else:
-    from .Debugger import Debugger
+    from .Debugger import Debugger  # minor dependency
 
 
 if __name__ == "__main__":
@@ -1481,9 +1481,9 @@ else:
     from . import Assertions  # minor dependency
 
 if __package__ is None or __package__ == "":
-    import Debugger
+    import Debugger  # minor dependency
 else:
-    from . import Debugger
+    from . import Debugger  # minor dependency
 
 
 if __name__ == "__main__":
@@ -2430,10 +2430,6 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     slicer.code()
-
-
-if __name__ == "__main__":
-    slicer.dependencies()
 
 
 if __name__ == "__main__":
