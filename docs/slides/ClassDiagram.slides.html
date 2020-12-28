@@ -13966,7 +13966,9 @@ a.anchor-link {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">A_Class</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A Class which does A thing right&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The Adventures of the glorious Foo&quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </pre></div>
 
@@ -13981,9 +13983,12 @@ a.anchor-link {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">B_Class</span><span class="p">(</span><span class="n">A_Class</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Class with multiple inheritance&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A WW2 foo fighter&quot;&quot;&quot;</span>
         <span class="k">pass</span>
     <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A qux walks into a bar&quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </pre></div>
 
@@ -13991,7 +13996,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
@@ -14006,7 +14011,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
@@ -14021,7 +14026,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div></section><section>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
@@ -14054,7 +14059,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -14129,12 +14134,11 @@ a.anchor-link {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">class_tree</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    
     <span class="k">def</span> <span class="nf">base_tree</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
         <span class="k">while</span> <span class="n">base</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
             <span class="n">base</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">class_tree</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-    
+
     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">cls</span><span class="p">,</span> <span class="n">base_tree</span><span class="p">(</span><span class="n">base</span><span class="p">)))</span>
@@ -14179,7 +14183,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div></section><section>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -14187,7 +14191,7 @@ a.anchor-link {
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -14205,6 +14209,7 @@ a.anchor-link {
         <span class="n">all_methods</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
             <span class="n">all_methods</span> <span class="o">+=</span> <span class="n">_class_methods</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">all_methods</span>
 
     <span class="n">unique_methods</span> <span class="o">=</span> <span class="p">[]</span>
@@ -14275,7 +14280,8 @@ a.anchor-link {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
 </pre></div>
 
     </div>
@@ -14289,14 +14295,15 @@ a.anchor-link {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">doc_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
@@ -14329,7 +14336,7 @@ a.anchor-link {
 </div>
 </div>
 
-</div></div></section><section>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
@@ -14362,17 +14369,82 @@ a.anchor-link {
 </div>
 </div>
 
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Drawing-Class-Hierarchy-with-Method-Names">Drawing Class Hierarchy with Method Names<a class="anchor-link" href="#Drawing-Class-Hierarchy-with-Method-Names">&#182;</a></h2>
 </div>
 </div>
-</div></section><section>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">RXSPACE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">format_doc</span><span class="p">(</span><span class="n">docstring</span><span class="p">):</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">RXSPACE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">docstring</span><span class="p">)</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">docstring</span><span class="p">)</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;#x7b;&#39;</span><span class="p">)</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;#x7c;&#39;</span><span class="p">)</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;#x7d;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">docstring</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">format_doc</span><span class="p">(</span><span class="s2">&quot;&#39;Hello</span><span class="se">\n</span><span class="s2">    {You|Me}&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;&amp;#x27;Hello &amp;#x7b;You&amp;#x7c;Me&amp;#x7d;&amp;#x27;&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">display_class_hierarchy</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="n">include_methods</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -14386,7 +14458,7 @@ a.anchor-link {
         <span class="n">CLASS_FONT</span> <span class="o">=</span> <span class="s1">&#39;Patua One, Helvetica, sans-serif&#39;</span>
         <span class="n">CLASS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#B03A2E&#39;</span>
 
-    <span class="n">METHOD_FONT</span> <span class="o">=</span> <span class="s2">&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot;</span>
+    <span class="n">METHOD_FONT</span> <span class="o">=</span> <span class="s2">&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, &#39;Courier&#39;, monospace&quot;</span>
     <span class="n">METHOD_COLOR</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -14395,9 +14467,11 @@ a.anchor-link {
         <span class="n">starting_class</span> <span class="o">=</span> <span class="n">classes</span>
         <span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">starting_class</span><span class="p">]</span>
 
-    <span class="n">dot</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">starting_class</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot; hierarchy&quot;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">starting_class</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot; hierarchy&quot;</span>
+
+    <span class="n">dot</span> <span class="o">=</span> <span class="n">Digraph</span><span class="p">(</span><span class="n">comment</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
     <span class="n">dot</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;record&#39;</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="n">CLASS_FONT</span><span class="p">)</span>
-    <span class="n">dot</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;graph&#39;</span><span class="p">,</span> <span class="n">rankdir</span><span class="o">=</span><span class="s1">&#39;BT&#39;</span><span class="p">)</span>
+    <span class="n">dot</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;graph&#39;</span><span class="p">,</span> <span class="n">rankdir</span><span class="o">=</span><span class="s1">&#39;BT&#39;</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
     <span class="n">dot</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="n">arrowhead</span><span class="o">=</span><span class="s1">&#39;empty&#39;</span><span class="p">)</span>
     <span class="n">edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
@@ -14410,15 +14484,26 @@ a.anchor-link {
         <span class="n">method_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/font&gt;&#39;</span>
         <span class="k">return</span> <span class="n">method_string</span>
 
-    <span class="k">def</span> <span class="nf">class_methods_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">class_methods_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
         <span class="n">methods</span> <span class="o">=</span> <span class="n">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="c1"># return &quot;&lt;br/&gt;&quot;.join([name + &quot;()&quot; for (name, f) in methods])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">methods</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
-        <span class="n">methods_string</span> <span class="o">=</span> <span class="s1">&#39;&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&#39;</span>
-        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+        <span class="n">methods_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot; tooltip=&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&quot; href=&quot;#&quot;&gt;&#39;</span>
+        <span class="k">for</span> <span class="n">show_doc</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
             <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">doc</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">doc</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-                    <span class="n">methods_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&#39;</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">show_doc</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span>
+                        <span class="p">(</span><span class="ow">not</span> <span class="n">show_doc</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span>
+                        <span class="n">method_doc</span> <span class="o">=</span> <span class="n">format_doc</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">method_doc</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;()&quot;</span>
+
+                    <span class="c1"># Tooltips are only shown if a href is present, too</span>
+                    <span class="n">tooltip</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; tooltip=&quot;</span><span class="si">{</span><span class="n">method_doc</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+                    <span class="n">href</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; href=&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+                    <span class="n">methods_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;</span><span class="si">{</span><span class="n">tooltip</span><span class="si">}{</span><span class="n">href</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
                     <span class="n">methods_string</span> <span class="o">+=</span> <span class="n">method_string</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
                     <span class="n">methods_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/td&gt;&lt;/tr&gt;&#39;</span>
         <span class="n">methods_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/table&gt;&#39;</span>
@@ -14426,14 +14511,24 @@ a.anchor-link {
 
     <span class="k">def</span> <span class="nf">display_class_node</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s1">&#39;.ipynb&#39;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;#&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">+</span> <span class="s1">&#39;.ipynb&#39;</span>
+
         <span class="k">if</span> <span class="n">include_methods</span><span class="p">:</span>
-            <span class="n">methods</span> <span class="o">=</span> <span class="n">class_methods_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="n">methods</span> <span class="o">=</span> <span class="n">class_methods_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&lt;{&lt;b&gt;&lt;font color=&quot;&#39;</span> <span class="o">+</span> <span class="n">CLASS_COLOR</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> \
                 <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;&lt;/font&gt;&lt;/b&gt;|&#39;</span> <span class="o">+</span> <span class="n">methods</span> <span class="o">+</span> <span class="s1">&#39;}&gt;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span>
-        <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span>
+            <span class="n">class_doc</span> <span class="o">=</span> <span class="n">format_doc</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">class_doc</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
+
+        <span class="n">dot</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">class_doc</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">display_class_tree</span><span class="p">(</span><span class="n">trees</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">:</span>
@@ -14460,7 +14555,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">A_Class</span><span class="p">],</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;debuggingbook&#39;</span><span class="p">)</span>
@@ -14476,7 +14571,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[20]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -14491,27 +14586,45 @@ a.anchor-link {
  viewBox="0.00 0.00 164.00 220.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 216)">
 <title>%3</title>
+<g id="a_graph0"><a xlink:title="D_Class hierarchy">
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-216 160,-216 160,4 -4,4"/>
+</a>
+</g>
 <!-- D_Class -->
 <g id="node1" class="node">
 <title>D_Class</title>
-<g id="a_node1"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;purple&quot;&gt;D_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node1"><a xlink:href="#" xlink:title="D_Class">
 <polygon fill="none" stroke="#000000" points="43,-.5 43,-42.5 112,-42.5 112,-.5 43,-.5"/>
 <text text-anchor="start" x="51" y="-28.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#a020f0">D_Class</text>
 <polyline fill="none" stroke="#000000" points="43,-19.5 112,-19.5 "/>
-<text text-anchor="start" x="62.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="D_Class">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="foo()">
+<text text-anchor="start" x="62.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
 <!-- B_Class -->
 <g id="node2" class="node">
 <title>B_Class</title>
-<g id="a_node2"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;purple&quot;&gt;B_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;bar()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node2"><a xlink:href="#" xlink:title="A Class with multiple inheritance">
 <polygon fill="none" stroke="#000000" points="0,-79.5 0,-132.5 69,-132.5 69,-79.5 0,-79.5"/>
 <text text-anchor="start" x="8" y="-118.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#a020f0">B_Class</text>
 <polyline fill="none" stroke="#000000" points="0,-109.5 69,-109.5 "/>
-<text text-anchor="start" x="19.5" y="-97.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">bar()</text>
-<text text-anchor="start" x="19.5" y="-86.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="A qux walks into a bar">
+<text text-anchor="start" x="19.5" y="-98.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
+</a>
+</g>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="A WW2 foo fighter">
+<text text-anchor="start" x="19.5" y="-87.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14524,11 +14637,17 @@ a.anchor-link {
 <!-- C_Class -->
 <g id="node4" class="node">
 <title>C_Class</title>
-<g id="a_node4"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;purple&quot;&gt;C_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;qux()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node4"><a xlink:href="#" xlink:title="C_Class">
 <polygon fill="none" stroke="#000000" points="87,-85 87,-127 156,-127 156,-85 87,-85"/>
 <text text-anchor="start" x="95" y="-112.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#a020f0">C_Class</text>
 <polyline fill="none" stroke="#000000" points="87,-104 156,-104 "/>
-<text text-anchor="start" x="106.5" y="-91.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">qux()</text>
+<g id="a_node4_5"><a xlink:href="#" xlink:title="C_Class">
+<g id="a_node4_6"><a xlink:href="#" xlink:title="qux()">
+<text text-anchor="start" x="106.5" y="-91.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14541,11 +14660,17 @@ a.anchor-link {
 <!-- A_Class -->
 <g id="node3" class="node">
 <title>A_Class</title>
-<g id="a_node3"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;purple&quot;&gt;A_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node3"><a xlink:href="#" xlink:title="A Class which does A thing right">
 <polygon fill="none" stroke="#000000" points=".5,-169.5 .5,-211.5 68.5,-211.5 68.5,-169.5 .5,-169.5"/>
 <text text-anchor="start" x="8.5" y="-197.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#a020f0">A_Class</text>
 <polyline fill="none" stroke="#000000" points=".5,-188.5 68.5,-188.5 "/>
-<text text-anchor="start" x="19.5" y="-176" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node3_7"><a xlink:href="#" xlink:title="A_Class">
+<g id="a_node3_8"><a xlink:href="#" xlink:title="The Adventures of the glorious Foo">
+<text text-anchor="start" x="19.5" y="-177" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14568,7 +14693,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">A_Class</span><span class="p">],</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;fuzzingbook&#39;</span><span class="p">)</span>
@@ -14584,7 +14709,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[21]:</div>
+    <div class="prompt output_prompt">Out[26]:</div>
 
 
 
@@ -14599,27 +14724,45 @@ a.anchor-link {
  viewBox="0.00 0.00 157.50 220.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 216)">
 <title>%3</title>
+<g id="a_graph0"><a xlink:title="D_Class hierarchy">
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-216 153.5,-216 153.5,4 -4,4"/>
+</a>
+</g>
 <!-- D_Class -->
 <g id="node1" class="node">
 <title>D_Class</title>
-<g id="a_node1"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;D_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node1"><a xlink:href="#" xlink:title="D_Class">
 <polygon fill="none" stroke="#000000" points="42,-.5 42,-42.5 108,-42.5 108,-.5 42,-.5"/>
 <text text-anchor="start" x="50" y="-28.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">D_Class</text>
 <polyline fill="none" stroke="#000000" points="42,-19.5 108,-19.5 "/>
-<text text-anchor="start" x="60" y="-7" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="D_Class">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="foo()">
+<text text-anchor="start" x="60" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
 <!-- B_Class -->
 <g id="node2" class="node">
 <title>B_Class</title>
-<g id="a_node2"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;B_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;bar()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node2"><a xlink:href="#" xlink:title="A Class with multiple inheritance">
 <polygon fill="none" stroke="#000000" points="0,-79.5 0,-132.5 66,-132.5 66,-79.5 0,-79.5"/>
 <text text-anchor="start" x="8" y="-118.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
 <polyline fill="none" stroke="#000000" points="0,-109.5 66,-109.5 "/>
-<text text-anchor="start" x="18" y="-97.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">bar()</text>
-<text text-anchor="start" x="18" y="-86.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="A qux walks into a bar">
+<text text-anchor="start" x="18" y="-98.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
+</a>
+</g>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="A WW2 foo fighter">
+<text text-anchor="start" x="18" y="-87.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14632,11 +14775,17 @@ a.anchor-link {
 <!-- C_Class -->
 <g id="node4" class="node">
 <title>C_Class</title>
-<g id="a_node4"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;C_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;qux()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node4"><a xlink:href="#" xlink:title="C_Class">
 <polygon fill="none" stroke="#000000" points="84.5,-85 84.5,-127 149.5,-127 149.5,-85 84.5,-85"/>
 <text text-anchor="start" x="92.5" y="-112.8" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">C_Class</text>
 <polyline fill="none" stroke="#000000" points="84.5,-104 149.5,-104 "/>
-<text text-anchor="start" x="102" y="-91.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">qux()</text>
+<g id="a_node4_5"><a xlink:href="#" xlink:title="C_Class">
+<g id="a_node4_6"><a xlink:href="#" xlink:title="qux()">
+<text text-anchor="start" x="102" y="-91.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14649,11 +14798,17 @@ a.anchor-link {
 <!-- A_Class -->
 <g id="node3" class="node">
 <title>A_Class</title>
-<g id="a_node3"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;A_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node3"><a xlink:href="#" xlink:title="A Class which does A thing right">
 <polygon fill="none" stroke="#000000" points="0,-169.5 0,-211.5 66,-211.5 66,-169.5 0,-169.5"/>
 <text text-anchor="start" x="8" y="-197.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">A_Class</text>
 <polyline fill="none" stroke="#000000" points="0,-188.5 66,-188.5 "/>
-<text text-anchor="start" x="18" y="-176" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node3_7"><a xlink:href="#" xlink:title="A_Class">
+<g id="a_node3_8"><a xlink:href="#" xlink:title="The Adventures of the glorious Foo">
+<text text-anchor="start" x="18" y="-177" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14691,7 +14846,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
@@ -14707,7 +14862,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[22]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
@@ -14722,27 +14877,45 @@ a.anchor-link {
  viewBox="0.00 0.00 157.50 220.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 216)">
 <title>%3</title>
+<g id="a_graph0"><a xlink:title="D_Class hierarchy">
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-216 153.5,-216 153.5,4 -4,4"/>
+</a>
+</g>
 <!-- D_Class -->
 <g id="node1" class="node">
 <title>D_Class</title>
-<g id="a_node1"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;D_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node1"><a xlink:href="#" xlink:title="D_Class">
 <polygon fill="none" stroke="#000000" points="42,-.5 42,-42.5 108,-42.5 108,-.5 42,-.5"/>
 <text text-anchor="start" x="50" y="-28.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">D_Class</text>
 <polyline fill="none" stroke="#000000" points="42,-19.5 108,-19.5 "/>
-<text text-anchor="start" x="60" y="-7" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="D_Class">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="foo()">
+<text text-anchor="start" x="60" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
 <!-- B_Class -->
 <g id="node2" class="node">
 <title>B_Class</title>
-<g id="a_node2"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;B_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;bar()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node2"><a xlink:href="#" xlink:title="A Class with multiple inheritance">
 <polygon fill="none" stroke="#000000" points="0,-79.5 0,-132.5 66,-132.5 66,-79.5 0,-79.5"/>
 <text text-anchor="start" x="8" y="-118.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
 <polyline fill="none" stroke="#000000" points="0,-109.5 66,-109.5 "/>
-<text text-anchor="start" x="18" y="-97.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">bar()</text>
-<text text-anchor="start" x="18" y="-86.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="A qux walks into a bar">
+<text text-anchor="start" x="18" y="-98.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
+</a>
+</g>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="A WW2 foo fighter">
+<text text-anchor="start" x="18" y="-87.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14755,11 +14928,17 @@ a.anchor-link {
 <!-- C_Class -->
 <g id="node4" class="node">
 <title>C_Class</title>
-<g id="a_node4"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;C_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;qux()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node4"><a xlink:href="#" xlink:title="C_Class">
 <polygon fill="none" stroke="#000000" points="84.5,-85 84.5,-127 149.5,-127 149.5,-85 84.5,-85"/>
 <text text-anchor="start" x="92.5" y="-112.8" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">C_Class</text>
 <polyline fill="none" stroke="#000000" points="84.5,-104 149.5,-104 "/>
-<text text-anchor="start" x="102" y="-91.5" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">qux()</text>
+<g id="a_node4_5"><a xlink:href="#" xlink:title="C_Class">
+<g id="a_node4_6"><a xlink:href="#" xlink:title="qux()">
+<text text-anchor="start" x="102" y="-91.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14772,11 +14951,17 @@ a.anchor-link {
 <!-- A_Class -->
 <g id="node3" class="node">
 <title>A_Class</title>
-<g id="a_node3"><a xlink:href="__main__.ipynb" xlink:title="{&lt;b&gt;&lt;font color=&quot;#B03A2E&quot;&gt;A_Class&lt;/font&gt;&lt;/b&gt;|&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; align=&quot;left&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&gt;&lt;font face=&quot;&#39;Fira Mono&#39;, &#39;Source Code Pro&#39;, monospace&quot; point&#45;size=&quot;10&quot;&gt;&lt;font color=&quot;black&quot;&gt;foo()&lt;/font&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;}">
+<g id="a_node3"><a xlink:href="#" xlink:title="A Class which does A thing right">
 <polygon fill="none" stroke="#000000" points="0,-169.5 0,-211.5 66,-211.5 66,-169.5 0,-169.5"/>
 <text text-anchor="start" x="8" y="-197.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">A_Class</text>
 <polyline fill="none" stroke="#000000" points="0,-188.5 66,-188.5 "/>
-<text text-anchor="start" x="18" y="-176" font-family="'Fira Mono', 'Source Code Pro', monospace" font-size="10.00" fill="#000000">foo()</text>
+<g id="a_node3_7"><a xlink:href="#" xlink:title="A_Class">
+<g id="a_node3_8"><a xlink:href="#" xlink:title="The Adventures of the glorious Foo">
+<text text-anchor="start" x="18" y="-177" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
 </a>
 </g>
 </g>
@@ -14854,7 +15039,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Some code that is part of the exercise</span>
