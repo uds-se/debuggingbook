@@ -28,8 +28,8 @@ INTRO_PART_TODO = \
 # Tracking Failures (also: where the bugs are)
 TRACKING_PART = 
 TRACKING_PART_READY =
-TRACKING_PART_TODO = 
-	# 02_Tracking.ipynb \
+TRACKING_PART_TODO = \
+	02_Tracking.ipynb
 	# Tracking.ipynb
 
 # Observing Executions
@@ -53,11 +53,11 @@ EXPERIMENTING_PART_TODO = \
 	# Grammars.ipynb \
 	# GrammarReducer.ipynb
 
-# Mining Specifications
+# Abstracting Failures
 ABSTRACTING_PART =
 ABSTRACTING_PART_READY =
-ABSTRACTING_PART_TODO = 
-	# 05_Abstracting.ipynb \
+ABSTRACTING_PART_TODO = \
+	05_Abstracting.ipynb
 	# DynamicInvariants.ipynb \
 	# DDSet.ipynb \
 	# Alhazen.ipynb
@@ -65,9 +65,9 @@ ABSTRACTING_PART_TODO =
 # Repairing Failures
 REPAIRING_PART =
 REPAIRING_PART_READY =
-REPAIRING_PART_TODO = 
-	# 05_Repairing.ipynb \
-	# Repair.ipynb
+REPAIRING_PART_TODO = \
+	06_Repairing.ipynb \
+	Repairer.ipynb
 
 # Appendices for the book
 APPENDICES = \
