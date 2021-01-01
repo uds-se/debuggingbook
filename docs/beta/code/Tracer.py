@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Tracer.html
-# Last change: 2020-12-28 18:16:49+01:00
+# Last change: 2021-01-01 14:35:19+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -172,7 +172,7 @@ class Tracer(object):
         return self
 
     def __exit__(self, tp, value, traceback):
-        """Called at begin of `with` block. Turn tracing off."""
+        """Called at end of `with` block. Turn tracing off."""
         sys.settrace(self.original_trace_function)
 
 if __name__ == "__main__":
@@ -699,17 +699,9 @@ import ast
 import astor
 
 if __package__ is None or __package__ == "":
-    from bookutils import rich_output
+    from bookutils import show_ast
 else:
-    from .bookutils import rich_output
-
-
-if __name__ == "__main__":
-    if rich_output():
-        from showast import show_ast
-    else:
-        def show_ast(tree):
-            ast.dump(tree)
+    from .bookutils import show_ast
 
 
 if __name__ == "__main__":

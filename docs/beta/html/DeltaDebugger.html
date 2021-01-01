@@ -11873,6 +11873,8 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="Tours.html">Tours through the Book&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Intro_Debugging.html">Introduction to Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+</ul><li class="has-sub"><a href="02_Tracking.html" class="chapters"><span class="part_number">II</span> Tracking Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
 </ul><li class="has-sub"><a href="03_Observing.html" class="chapters"><span class="part_number">III</span> Observing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11884,6 +11886,11 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="DeltaDebugger.html" class="this_page">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+</ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+</ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="Repairer.html">Repairing Code&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
@@ -12041,9 +12048,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
 
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-178-93ec01ccd5a1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-177-93ec01ccd5a1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-177-e6018665ac61&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">myeval</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-176-e6018665ac61&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">myeval</span>
     <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
   <span class="n">File</span> <span class="s2">&quot;&lt;string&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">ZeroDivisionError</span><span class="p">:</span> <span class="n">division</span> <span class="n">by</span> <span class="n">zero</span> <span class="p">(</span><span class="n">expected</span><span class="p">)</span>
@@ -13293,7 +13300,7 @@ mystery(&#39;(&#39;): PASS
 <ol>
 <li>We collect the name and args of the first call in the <code>with</code> body, as well as the exception it raises.</li>
 <li>We set up an infrastructure such that we can repeat calls with different arguments.</li>
-<li>We make sure that multiple tests with the same arguments can outcomes from a cache.</li>
+<li>We make sure that multiple tests with the same arguments can return outcomes from a cache.</li>
 <li>We create a <code>DeltaDebugger</code> class that implements the general Delta Debugging algorithm – an algorithm than can minimize failing inputs as well as maximize passing inputs.</li>
 <li>We provide an infrastructure that applies Delta Debugging on multiple arguments.</li>
 <li>Finally, custom methods like <code>min_args()</code> allow to invoke delta debugging on arguments.</li>
@@ -13432,6 +13439,15 @@ mystery(&#39;(&#39;): PASS
 
 </div>
 </div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>FIXME: Make this a subclass of <code>Tracer</code>, such that it can be joined with <code>CoverageCollector</code> (for <a href="Repairer.html">automatic repair</a>)</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -15273,18 +15289,18 @@ Minimized failing call to mystery(inp=&#39;()&#39;)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="8c9b76c6-4937-11eb-ad64-f218984d6a0c" id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-1" onclick="clear_selection('8c9b76c6-4937-11eb-ad64-f218984d6a0c')">
-        <label id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-1-label" for="8c9b76c6-4937-11eb-ad64-f218984d6a0c-1">Delta debugging searches for the minimal input that produces the same result</label><br>
+        <input type="radio" name="2a2d615a-4c36-11eb-ad64-f218984d6a0c" id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-1" onclick="clear_selection('2a2d615a-4c36-11eb-ad64-f218984d6a0c')">
+        <label id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-1-label" for="2a2d615a-4c36-11eb-ad64-f218984d6a0c-1">Delta debugging searches for the minimal input that produces the same result</label><br>
 
-        <input type="radio" name="8c9b76c6-4937-11eb-ad64-f218984d6a0c" id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-2" onclick="clear_selection('8c9b76c6-4937-11eb-ad64-f218984d6a0c')">
-        <label id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-2-label" for="8c9b76c6-4937-11eb-ad64-f218984d6a0c-2">Delta debugging starts a fuzzer to find an exception</label><br>
+        <input type="radio" name="2a2d615a-4c36-11eb-ad64-f218984d6a0c" id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-2" onclick="clear_selection('2a2d615a-4c36-11eb-ad64-f218984d6a0c')">
+        <label id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-2-label" for="2a2d615a-4c36-11eb-ad64-f218984d6a0c-2">Delta debugging starts a fuzzer to find an exception</label><br>
 
-        <input type="radio" name="8c9b76c6-4937-11eb-ad64-f218984d6a0c" id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-3" onclick="clear_selection('8c9b76c6-4937-11eb-ad64-f218984d6a0c')">
-        <label id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-3-label" for="8c9b76c6-4937-11eb-ad64-f218984d6a0c-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
+        <input type="radio" name="2a2d615a-4c36-11eb-ad64-f218984d6a0c" id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-3" onclick="clear_selection('2a2d615a-4c36-11eb-ad64-f218984d6a0c')">
+        <label id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-3-label" for="2a2d615a-4c36-11eb-ad64-f218984d6a0c-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
 
     </div>
     </p>
-    <input id="8c9b76c6-4937-11eb-ad64-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8c9b76c6-4937-11eb-ad64-f218984d6a0c', 8, 0)">
+    <input id="2a2d615a-4c36-11eb-ad64-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2a2d615a-4c36-11eb-ad64-f218984d6a0c', 8, 0)">
     </div>
 
 </div>
@@ -15464,19 +15480,14 @@ Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;) raising AssertionError: no substrings
 Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Processing s2...
-Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
-Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
-Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
-Minimized s2 to &#39;foo&#39;
 Processing s1...
-Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
-Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #2 string_error(s2=&#39;foobar&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;foobar&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s1 to &#39;f&#39;
 Processing s2...
-Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
-Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #4 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #5 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #6 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s2 to &#39;f&#39;
 Processing s1...
 Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
@@ -15522,19 +15533,14 @@ Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Processing s2...
-Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
-Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
-Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
-Minimized s2 to &#39;foo&#39;
 Processing s1...
-Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
-Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #2 string_error(s2=&#39;foobar&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;foobar&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s1 to &#39;f&#39;
 Processing s2...
-Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
-Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #4 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #5 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #6 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s2 to &#39;f&#39;
 Processing s1...
 Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
@@ -16240,21 +16246,21 @@ AssertionError: My Test (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="8cd259fa-4937-11eb-bbf6-f218984d6a0c" id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-1" onclick="clear_selection('8cd259fa-4937-11eb-bbf6-f218984d6a0c')">
-        <label id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-1-label" for="8cd259fa-4937-11eb-bbf6-f218984d6a0c-1">All of the source code in the assertions chapter.</label><br>
+        <input type="radio" name="2a64e81e-4c36-11eb-bbf6-f218984d6a0c" id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-1" onclick="clear_selection('2a64e81e-4c36-11eb-bbf6-f218984d6a0c')">
+        <label id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-1-label" for="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-1">All of the source code in the assertions chapter.</label><br>
 
-        <input type="radio" name="8cd259fa-4937-11eb-bbf6-f218984d6a0c" id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-2" onclick="clear_selection('8cd259fa-4937-11eb-bbf6-f218984d6a0c')">
-        <label id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-2-label" for="8cd259fa-4937-11eb-bbf6-f218984d6a0c-2">Only the source code of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="2a64e81e-4c36-11eb-bbf6-f218984d6a0c" id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-2" onclick="clear_selection('2a64e81e-4c36-11eb-bbf6-f218984d6a0c')">
+        <label id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-2-label" for="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-2">Only the source code of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="8cd259fa-4937-11eb-bbf6-f218984d6a0c" id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-3" onclick="clear_selection('8cd259fa-4937-11eb-bbf6-f218984d6a0c')">
-        <label id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-3-label" for="8cd259fa-4937-11eb-bbf6-f218984d6a0c-3">Only a subset of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="2a64e81e-4c36-11eb-bbf6-f218984d6a0c" id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-3" onclick="clear_selection('2a64e81e-4c36-11eb-bbf6-f218984d6a0c')">
+        <label id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-3-label" for="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-3">Only a subset of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="8cd259fa-4937-11eb-bbf6-f218984d6a0c" id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-4" onclick="clear_selection('8cd259fa-4937-11eb-bbf6-f218984d6a0c')">
-        <label id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-4-label" for="8cd259fa-4937-11eb-bbf6-f218984d6a0c-4">No lines at all.</label><br>
+        <input type="radio" name="2a64e81e-4c36-11eb-bbf6-f218984d6a0c" id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-4" onclick="clear_selection('2a64e81e-4c36-11eb-bbf6-f218984d6a0c')">
+        <label id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-4-label" for="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-4">No lines at all.</label><br>
 
     </div>
     </p>
-    <input id="8cd259fa-4937-11eb-bbf6-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8cd259fa-4937-11eb-bbf6-f218984d6a0c', 8, 0)">
+    <input id="2a64e81e-4c36-11eb-bbf6-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2a64e81e-4c36-11eb-bbf6-f218984d6a0c', 8, 0)">
     </div>
 
 </div>
@@ -16682,21 +16688,21 @@ RuntimeError: Missing functionality (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="8d292028-4937-11eb-abf8-f218984d6a0c" id="8d292028-4937-11eb-abf8-f218984d6a0c-1" onclick="clear_selection('8d292028-4937-11eb-abf8-f218984d6a0c')">
-        <label id="8d292028-4937-11eb-abf8-f218984d6a0c-1-label" for="8d292028-4937-11eb-abf8-f218984d6a0c-1">Comments are deleted</label><br>
+        <input type="checkbox" name="2ac3008c-4c36-11eb-abf8-f218984d6a0c" id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-1" onclick="clear_selection('2ac3008c-4c36-11eb-abf8-f218984d6a0c')">
+        <label id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-1-label" for="2ac3008c-4c36-11eb-abf8-f218984d6a0c-1">Comments are deleted</label><br>
 
-        <input type="checkbox" name="8d292028-4937-11eb-abf8-f218984d6a0c" id="8d292028-4937-11eb-abf8-f218984d6a0c-2" onclick="clear_selection('8d292028-4937-11eb-abf8-f218984d6a0c')">
-        <label id="8d292028-4937-11eb-abf8-f218984d6a0c-2-label" for="8d292028-4937-11eb-abf8-f218984d6a0c-2">Blank lines are deleted</label><br>
+        <input type="checkbox" name="2ac3008c-4c36-11eb-abf8-f218984d6a0c" id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-2" onclick="clear_selection('2ac3008c-4c36-11eb-abf8-f218984d6a0c')">
+        <label id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-2-label" for="2ac3008c-4c36-11eb-abf8-f218984d6a0c-2">Blank lines are deleted</label><br>
 
-        <input type="checkbox" name="8d292028-4937-11eb-abf8-f218984d6a0c" id="8d292028-4937-11eb-abf8-f218984d6a0c-3" onclick="clear_selection('8d292028-4937-11eb-abf8-f218984d6a0c')">
-        <label id="8d292028-4937-11eb-abf8-f218984d6a0c-3-label" for="8d292028-4937-11eb-abf8-f218984d6a0c-3">Initializations are deleted</label><br>
+        <input type="checkbox" name="2ac3008c-4c36-11eb-abf8-f218984d6a0c" id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-3" onclick="clear_selection('2ac3008c-4c36-11eb-abf8-f218984d6a0c')">
+        <label id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-3-label" for="2ac3008c-4c36-11eb-abf8-f218984d6a0c-3">Initializations are deleted</label><br>
 
-        <input type="checkbox" name="8d292028-4937-11eb-abf8-f218984d6a0c" id="8d292028-4937-11eb-abf8-f218984d6a0c-4" onclick="clear_selection('8d292028-4937-11eb-abf8-f218984d6a0c')">
-        <label id="8d292028-4937-11eb-abf8-f218984d6a0c-4-label" for="8d292028-4937-11eb-abf8-f218984d6a0c-4">The assertion is deleted</label><br>
+        <input type="checkbox" name="2ac3008c-4c36-11eb-abf8-f218984d6a0c" id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-4" onclick="clear_selection('2ac3008c-4c36-11eb-abf8-f218984d6a0c')">
+        <label id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-4-label" for="2ac3008c-4c36-11eb-abf8-f218984d6a0c-4">The assertion is deleted</label><br>
 
     </div>
     </p>
-    <input id="8d292028-4937-11eb-abf8-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8d292028-4937-11eb-abf8-f218984d6a0c', 22, 1)">
+    <input id="2ac3008c-4c36-11eb-abf8-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2ac3008c-4c36-11eb-abf8-f218984d6a0c', 22, 1)">
     </div>
 
 </div>
@@ -16947,7 +16953,7 @@ AssertionError: My Test (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>4.732963863003533
+<pre>4.6482521019997876
 </pre>
 </div>
 
@@ -17111,25 +17117,7 @@ AssertionError: My Test (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">rich_output</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">rich_output</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/showast.html" class="import" target="_blank">showast</a></span> <span class="k">import</span> <span class="n">show_ast</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">show_ast</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
-        <span class="n">ast</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">show_ast</span>
 </pre></div>
 
 </div>
@@ -18734,7 +18722,7 @@ AssertionError: My Test (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-146-59dfdc161ac5&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-145-59dfdc161ac5&gt;&#34;, line 2, in &lt;module&gt;
     exec(fun_test_code, {}, {})
   File &#34;&lt;string&gt;&#34;, line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -18855,36 +18843,36 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Module at 0x7f95414d4320&gt;,
- &lt;_ast.FunctionDef at 0x7f95414d4048&gt;,
- &lt;_ast.arguments at 0x7f95414d4f60&gt;,
- &lt;_ast.arg at 0x7f95414d4908&gt;,
- &lt;_ast.Assign at 0x7f95414d4780&gt;,
- &lt;_ast.Name at 0x7f95414d47f0&gt;,
- &lt;_ast.Store at 0x7f953f152b70&gt;,
- &lt;_ast.NameConstant at 0x7f95414d4d30&gt;,
- &lt;_ast.Assign at 0x7f95414d4e48&gt;,
- &lt;_ast.Name at 0x7f95414d41d0&gt;,
- &lt;_ast.Store at 0x7f953f152b70&gt;,
- &lt;_ast.NameConstant at 0x7f95414d4940&gt;,
- &lt;_ast.Assign at 0x7f95414d4d68&gt;,
- &lt;_ast.Name at 0x7f95414d4be0&gt;,
- &lt;_ast.Store at 0x7f953f152b70&gt;,
- &lt;_ast.Str at 0x7f95414d4da0&gt;,
- &lt;_ast.For at 0x7f95414d4c18&gt;,
- &lt;_ast.Name at 0x7f95414d4cf8&gt;,
- &lt;_ast.Store at 0x7f953f152b70&gt;,
- &lt;_ast.Name at 0x7f95414d44a8&gt;,
- &lt;_ast.Load at 0x7f953f152a58&gt;,
- &lt;_ast.If at 0x7f95414d4cc0&gt;,
- &lt;_ast.BoolOp at 0x7f95414d4b70&gt;,
- &lt;_ast.And at 0x7f953f1566a0&gt;,
- &lt;_ast.Compare at 0x7f95414d4710&gt;,
- &lt;_ast.Name at 0x7f95414d4ba8&gt;,
- &lt;_ast.Load at 0x7f953f152a58&gt;,
- &lt;_ast.Eq at 0x7f953f15add8&gt;,
- &lt;_ast.Str at 0x7f95414d4b38&gt;,
- &lt;_ast.UnaryOp at 0x7f95414d4b00&gt;]
+<pre>[&lt;_ast.Module at 0x7fea84cde278&gt;,
+ &lt;_ast.FunctionDef at 0x7fea84cdef60&gt;,
+ &lt;_ast.arguments at 0x7fea84cde4a8&gt;,
+ &lt;_ast.arg at 0x7fea84cde208&gt;,
+ &lt;_ast.Assign at 0x7fea84cde2b0&gt;,
+ &lt;_ast.Name at 0x7fea84cdec18&gt;,
+ &lt;_ast.Store at 0x7fea82173be0&gt;,
+ &lt;_ast.NameConstant at 0x7fea84cdea20&gt;,
+ &lt;_ast.Assign at 0x7fea84cdec88&gt;,
+ &lt;_ast.Name at 0x7fea84cde438&gt;,
+ &lt;_ast.Store at 0x7fea82173be0&gt;,
+ &lt;_ast.NameConstant at 0x7fea84cdeb38&gt;,
+ &lt;_ast.Assign at 0x7fea84cde7b8&gt;,
+ &lt;_ast.Name at 0x7fea84cdeb00&gt;,
+ &lt;_ast.Store at 0x7fea82173be0&gt;,
+ &lt;_ast.Str at 0x7fea84cdea90&gt;,
+ &lt;_ast.For at 0x7fea84cdecc0&gt;,
+ &lt;_ast.Name at 0x7fea84cdebe0&gt;,
+ &lt;_ast.Store at 0x7fea82173be0&gt;,
+ &lt;_ast.Name at 0x7fea84cde9e8&gt;,
+ &lt;_ast.Load at 0x7fea82173ac8&gt;,
+ &lt;_ast.If at 0x7fea84cde9b0&gt;,
+ &lt;_ast.BoolOp at 0x7fea84cdef98&gt;,
+ &lt;_ast.And at 0x7fea82178710&gt;,
+ &lt;_ast.Compare at 0x7fea84cdecf8&gt;,
+ &lt;_ast.Name at 0x7fea84cdef28&gt;,
+ &lt;_ast.Load at 0x7fea82173ac8&gt;,
+ &lt;_ast.Eq at 0x7fea8217be48&gt;,
+ &lt;_ast.Str at 0x7fea84cdeeb8&gt;,
+ &lt;_ast.UnaryOp at 0x7fea84cded68&gt;]
 </pre>
 </div>
 
@@ -19047,7 +19035,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_ast.Assign at 0x7f95414d4780&gt;
+<pre>&lt;_ast.Assign at 0x7fea84cde2b0&gt;
 </pre>
 </div>
 
@@ -20603,7 +20591,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-161-7b27e77c9f53&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-160-7b27e77c9f53&gt;&#34;, line 2, in &lt;module&gt;
     exec(fun_code, {}, {})
   File &#34;&lt;string&gt;&#34;, line 3, in &lt;module&gt;
   File &#34;&lt;string&gt;&#34;, line 13, in remove_html_markup
@@ -20713,9 +20701,9 @@ UnboundLocalError: local variable &#39;tag&#39; referenced before assignment (ex
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-165-5bb5087772bf&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-164-5bb5087772bf&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_ast(fun_tree, fun_nodes, test_tree)
-  File &#34;&lt;ipython-input-164-084c70ab3c97&gt;&#34;, line 13, in compile_and_test_ast
+  File &#34;&lt;ipython-input-163-084c70ab3c97&gt;&#34;, line 13, in compile_and_test_ast
     exec(code_object, {}, {})
   File &#34;&lt;string&gt;&#34;, line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -22450,7 +22438,7 @@ AssertionError: My Test (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2020-12-28 15:56:40+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-01-01 14:30:47+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -22468,19 +22456,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">https://www.debuggingbook.org/beta/html/DeltaDebugger.html</a>.  Retrieved 2020-12-28 15:56:40+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">https://www.debuggingbook.org/beta/html/DeltaDebugger.html</a>.  Retrieved 2021-01-01 14:30:47+01:00.
 </p>
 <pre>
-@incollection{debuggingbook2020:DeltaDebugger,
+@incollection{debuggingbook2021:DeltaDebugger,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
     title = {Reducing Failure-Inducing Inputs},
-    year = {2020},
+    year = {2021},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DeltaDebugger.html}},
-    note = {Retrieved 2020-12-28 15:56:40+01:00},
+    note = {Retrieved 2021-01-01 14:30:47+01:00},
     url = {https://www.debuggingbook.org/beta/html/DeltaDebugger.html},
-    urldate = {2020-12-28 15:56:40+01:00}
+    urldate = {2021-01-01 14:30:47+01:00}
 }
 </pre>
 </div>

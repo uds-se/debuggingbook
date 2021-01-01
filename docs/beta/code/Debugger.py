@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Debugger.html
-# Last change: 2020-12-28 18:16:25+01:00
+# Last change: 2020-12-29 14:15:56+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -386,10 +386,16 @@ if __name__ == "__main__":
 
 import inspect
 
+if __package__ is None or __package__ == "":
+    from bookutils import getsourcelines  # like inspect.getsourcelines(), but in color
+else:
+    from .bookutils import getsourcelines  # like inspect.getsourcelines(), but in color
+
+
 class Debugger(Debugger):
     def list_command(self, arg=""):
         """Show current function."""
-        source_lines, line_number = inspect.getsourcelines(self.frame.f_code)
+        source_lines, line_number = getsourcelines(self.frame.f_code)
 
         for line in source_lines:
             self.log(f'{line_number:4} {line}', end='')
@@ -530,7 +536,7 @@ class Debugger(Debugger):
             current_line = -1
         else:
             source_lines, line_number = \
-                inspect.getsourcelines(self.frame.f_code)
+                getsourcelines(self.frame.f_code)
             current_line = self.frame.f_lineno
 
         for line in source_lines:

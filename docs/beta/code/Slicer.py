@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2020-12-28 15:56:38+01:00
+# Last change: 2021-01-01 14:32:35+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -229,6 +229,10 @@ class Dependencies(Dependencies):
         self.add_hierarchy(g)
         return g
 
+    # In Jupyter, render dependencies as graph
+    def _repr_svg_(self):
+        return self.graph()._repr_svg_()
+
 class Dependencies(Dependencies):
     def all_vars(self):
         all_vars = set()
@@ -332,7 +336,7 @@ def middle_deps():
     return Dependencies({('z', ('middle', 1)): set(), ('y', ('middle', 1)): set(), ('x', ('middle', 1)): set(), ('<test>', ('middle', 2)): {('y', ('middle', 1)), ('z', ('middle', 1))}, ('<test>', ('middle', 3)): {('y', ('middle', 1)), ('x', ('middle', 1))}, ('<test>', ('middle', 5)): {('z', ('middle', 1)), ('x', ('middle', 1))}, ('<middle() return value>', ('middle', 6)): {('y', ('middle', 1))}}, {('z', ('middle', 1)): set(), ('y', ('middle', 1)): set(), ('x', ('middle', 1)): set(), ('<test>', ('middle', 2)): set(), ('<test>', ('middle', 3)): {('<test>', ('middle', 2))}, ('<test>', ('middle', 5)): {('<test>', ('middle', 3))}, ('<middle() return value>', ('middle', 6)): {('<test>', ('middle', 5))}})
 
 if __name__ == "__main__":
-    middle_deps().graph()
+    middle_deps()
 
 
 # #### Slices
@@ -409,7 +413,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    middle_deps().backward_slice('<middle() return value>', mode='d').graph()
+    middle_deps().backward_slice('<middle() return value>', mode='d')
 
 
 # ### Control Dependencies
@@ -422,12 +426,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    middle_deps().backward_slice('<middle() return value>', mode='c', depth=1).graph()
+    middle_deps().backward_slice('<middle() return value>', mode='c', depth=1)
 
 
 if __name__ == "__main__":
     # ignore
-    middle_deps().backward_slice('<middle() return value>', mode='c').graph()
+    middle_deps().backward_slice('<middle() return value>', mode='c')
 
 
 # ### Dependency Graphs
@@ -440,7 +444,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    middle_deps().graph()
+    middle_deps()
 
 
 # ### Showing Dependencies with Code
@@ -638,7 +642,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     # ignore
     tag_deps = Dependencies({('tag', ('remove_html_markup', 145)): set(), ('<test>', ('remove_html_markup', 144)): {('quote', ('remove_html_markup', 138)), ('c', ('remove_html_markup', 141))}, ('quote', ('remove_html_markup', 138)): set(), ('c', ('remove_html_markup', 141)): {('s', ('remove_html_markup', 136))}, ('s', ('remove_html_markup', 136)): set()}, {('tag', ('remove_html_markup', 145)): {('<test>', ('remove_html_markup', 144))}, ('<test>', ('remove_html_markup', 144)): set(), ('quote', ('remove_html_markup', 138)): set(), ('c', ('remove_html_markup', 141)): set(), ('s', ('remove_html_markup', 136)): set()})
-    tag_deps.graph()
+    tag_deps
 
 
 if __name__ == "__main__":
@@ -778,17 +782,9 @@ import ast
 import astor
 
 if __package__ is None or __package__ == "":
-    from bookutils import rich_output
+    from bookutils import show_ast
 else:
-    from .bookutils import rich_output
-
-
-if __name__ == "__main__":
-    if rich_output():
-        from showast import show_ast
-    else:
-        def show_ast(tree):
-            ast.dump(tree)
+    from .bookutils import show_ast
 
 
 if __name__ == "__main__":
@@ -1776,7 +1772,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    _test_data.dependencies().graph()
+    _test_data.dependencies()
 
 
 # ### End of Excursion
@@ -2010,7 +2006,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    deps.dependencies().graph()
+    deps.dependencies()
 
 
 # ### End of Excursion
@@ -2030,7 +2026,7 @@ if __name__ == "__main__":
 
 
 import re
-import sys
+import warnings
 
 class Dependencies(Dependencies):
     def validate(self):
@@ -2050,12 +2046,10 @@ class Dependencies(Dependencies):
 
                 if dep_name.endswith(' value>'):
                     if source.find('(') < 0:
-                        print(f"Warning: {self.format_var(var)} "
-                              f"depends on {self.format_var(dep_var)}, "
-                              f"but {repr(source)} does not "
-                              f"seem to have a call",
-                              file=sys.stderr
-                             )
+                        warnings.warn(f"Warning: {self.format_var(var)} "
+                                  f"depends on {self.format_var(dep_var)}, "
+                                  f"but {repr(source)} does not "
+                                  f"seem to have a call")
                     continue
 
                 if source.startswith('def'):
@@ -2063,12 +2057,10 @@ class Dependencies(Dependencies):
 
                 rx = re.compile(r'\b' + dep_name + r'\b')
                 if rx.search(source) is None:
-                    print(f"Warning: {self.format_var(var)} "
-                          f"depends on {self.format_var(dep_var)}, "
-                          f"but {repr(dep_name)} does not occur "
-                          f"in {repr(source)}",
-                          file=sys.stderr
-                         )
+                    warnings.warn(f"{self.format_var(var)} "
+                              f"depends on {self.format_var(dep_var)}, "
+                              f"but {repr(dep_name)} does not occur "
+                              f"in {repr(source)}")
 
 # ### End of Excursion
 
@@ -2243,6 +2235,9 @@ class Slicer(Slicer):
         """Show dependency graph."""
         return self.dependencies().graph(*args, **kwargs)
 
+    def _repr_svg_(self):
+        return self.graph()._repr_svg_()
+
 if __name__ == "__main__":
     with Slicer(middle) as slicer:
         m = middle(2, 1, 3)
@@ -2258,11 +2253,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    slicer.graph()
+    slicer
 
 
 if __name__ == "__main__":
-    slicer.dependencies()
+    repr(slicer.dependencies())
 
 
 # ### Diagnostics
@@ -2307,7 +2302,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    root_slicer.graph()
+    root_slicer
 
 
 if __name__ == "__main__":
@@ -2326,7 +2321,7 @@ if __name__ == "__main__":
         )
 
 
-# root_slicer.dependencies()
+# repr(root_slicer)
 
 # ### Removing HTML Markup
 
@@ -2342,10 +2337,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    rhm_slicer.graph()
+    rhm_slicer
 
 
-# rhm_slicer.dependencies()
+# repr(rhm_slicer)
 
 if __name__ == "__main__":
     rhm_slicer.code()
@@ -2360,10 +2355,10 @@ if __name__ == "__main__":
     slicing_criterion = ('tag', ('remove_html_markup', 
                                  start_remove_html_markup + 9))
     tag_deps = rhm_slicer.dependencies().backward_slice(slicing_criterion)
-    tag_deps.graph()
+    tag_deps
 
 
-# tag_deps
+# repr(tag_deps)
 
 # ### Calls and Augmented Assign
 
@@ -2390,7 +2385,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    math_slicer.graph()
+    math_slicer
 
 
 if __name__ == "__main__":
@@ -2425,7 +2420,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    slicer.graph()
+    slicer
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2020-12-28 15:56:40+01:00
+# Last change: 2021-01-01 14:30:47+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -1320,17 +1320,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from bookutils import rich_output
+    from bookutils import show_ast
 else:
-    from .bookutils import rich_output
-
-
-if __name__ == "__main__":
-    if rich_output():
-        from showast import show_ast
-    else:
-        def show_ast(tree):
-            ast.dump(tree)
+    from .bookutils import show_ast
 
 
 if __name__ == "__main__":

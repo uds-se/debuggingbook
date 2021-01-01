@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Assertions.html
-# Last change: 2020-12-27 18:20:02+01:00
+# Last change: 2020-12-29 13:54:43+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors

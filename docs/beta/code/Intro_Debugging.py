@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Intro_Debugging.html
-# Last change: 2020-12-07 19:35:45+01:00
+# Last change: 2020-12-31 16:17:39+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
