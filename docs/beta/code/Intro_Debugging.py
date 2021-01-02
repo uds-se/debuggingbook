@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Intro_Debugging.html
-# Last change: 2020-12-31 16:17:39+01:00
+# Last change: 2021-01-01 16:36:33+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -669,6 +669,22 @@ if __name__ == "__main__":
 
 
 
+# ### Checking Diagnoses
+
+if __name__ == "__main__":
+    print('\n### Checking Diagnoses')
+
+
+
+
+# ### Fixing the Code
+
+if __name__ == "__main__":
+    print('\n### Fixing the Code')
+
+
+
+
 def remove_html_markup(s):
     tag = False
     quote = False
@@ -697,10 +713,42 @@ if __name__ == "__main__":
     assert remove_html_markup('<"b">foo</"b">') == 'foo'
 
 
-# ## Alternate Paths
+# ### Alternate Paths
 
 if __name__ == "__main__":
-    print('\n## Alternate Paths')
+    print('\n### Alternate Paths')
+
+
+
+
+# ## Homework after the Fix
+
+if __name__ == "__main__":
+    print('\n## Homework after the Fix')
+
+
+
+
+# ### Check for further Defect Occurrences
+
+if __name__ == "__main__":
+    print('\n### Check for further Defect Occurrences')
+
+
+
+
+# ### Check your Tests
+
+if __name__ == "__main__":
+    print('\n### Check your Tests')
+
+
+
+
+# ### Add Assertions
+
+if __name__ == "__main__":
+    print('\n### Add Assertions')
 
 
 
@@ -737,6 +785,22 @@ def remove_html_markup(s):
             out = out + c
 
     return out
+
+# ### Commit the Fix
+
+if __name__ == "__main__":
+    print('\n### Commit the Fix')
+
+
+
+
+# ### Close the Bug Report
+
+if __name__ == "__main__":
+    print('\n### Close the Bug Report')
+
+
+
 
 # ## Become a Better Debugger
 
