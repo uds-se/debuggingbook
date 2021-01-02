@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2020-12-31 19:35:11+01:00
+# Last change: 2021-01-02 20:24:27+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -121,6 +121,7 @@ class Collector(Collector):
         self._function = None
         self._args = None
         self._argstring = None
+        self._exception = None
 
     def traceit(self, frame, event, arg):
         if self._function is None and event == 'call':
@@ -153,6 +154,11 @@ class Collector(Collector):
         """Return a dict of argument names and values from the first call"""
         return self._args
 
+    def exception(self):
+        """Return the exception class from the first call,
+        or None if no exception was raised."""
+        return self._exception
+
     def __repr__(self):
         # We use the ID as default representation when printed
         return self.id()
@@ -173,7 +179,6 @@ if __name__ == "__main__":
 
 class CoverageCollector(Collector):
     """A class to record covered locations during execution."""
-
     def __init__(self):
         super().__init__()
         self.coverage = set()
@@ -263,7 +268,7 @@ if __name__ == "__main__":
 class StatisticalDebugger():
     """A class to collect events for multiple outcomes."""
 
-    def __init__(self, collector_class, log=False):
+    def __init__(self, collector_class=CoverageCollector, log=False):
         self.collector_class = collector_class
         self.collectors = {}
         self.log = log
@@ -273,6 +278,9 @@ class StatisticalDebugger(StatisticalDebugger):
         """Return a collector for the given outcome. 
         Additional args are passed to the collector."""
         collector = self.collector_class(*args, **kwargs)
+        return self.add_collector(outcome, collector)
+
+    def add_collector(self, outcome, collector):
         if outcome not in self.collectors:
             self.collectors[outcome] = []
         self.collectors[outcome].append(collector)
@@ -292,7 +300,7 @@ class StatisticalDebugger(StatisticalDebugger):
         return all_events
 
 if __name__ == "__main__":
-    s = StatisticalDebugger(CoverageCollector)
+    s = StatisticalDebugger()
     with s.collect('PASS'):
         remove_html_markup("abc")
     with s.collect('PASS'):
@@ -371,7 +379,7 @@ class StatisticalDebugger(StatisticalDebugger):
         """Return a tooltip string for the given event, or None.
            To be overloaded in subclasses."""
         return None
-    
+
     def event_str(self, event):
         """Format the given event. To be overloaded in subclasses."""
         if isinstance(event, str):
@@ -459,7 +467,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    s = StatisticalDebugger(CoverageCollector)
+    s = StatisticalDebugger()
     with s.collect('PASS'):
         remove_html_markup("abc")
     with s.collect('PASS'):
@@ -487,17 +495,16 @@ if __name__ == "__main__":
 
 class DifferenceDebugger(StatisticalDebugger):
     """A class to collect events for passing and failing outcomes."""
-
     PASS = 'PASS'
     FAIL = 'FAIL'
 
-    def collect_pass(self, *args):
+    def collect_pass(self, *args, **kwargs):
         """Return a collector for passing runs."""
-        return self.collect(self.PASS, *args)
+        return self.collect(self.PASS, *args, **kwargs)
 
-    def collect_fail(self, *args):
+    def collect_fail(self, *args, **kwargs):
         """Return a collector for failing runs."""
-        return self.collect(self.FAIL, *args)
+        return self.collect(self.FAIL, *args, **kwargs)
 
     def pass_collectors(self):
         return self.collectors[self.PASS]
@@ -514,8 +521,46 @@ def test_debugger_html(debugger):
         remove_html_markup('"abc"')
     return debugger
 
+class DifferenceDebugger(DifferenceDebugger):
+    def __enter__(self):
+        """Enter a `with` block. Collect coverage and outcome;
+        classify as FAIL if the block raises an exception,
+        and PASS if it does not.
+        """
+        self.collector = self.collector_class()
+        self.collector.__enter__()
+        return self
+
+    def __exit__(self, exc_tp, value, traceback):
+        """Exit the `with` block."""
+        self.collector.__exit__(exc_tp, value, traceback)
+        if exc_tp is None:
+            outcome = self.PASS
+        else:
+            outcome = self.FAIL
+        self.add_collector(outcome, self.collector)
+        return True  # Ignore exception
+
+def test_debugger_html(debugger):
+    with debugger:
+        remove_html_markup('abc')
+    with debugger:
+        remove_html_markup('<b>abc</b>')
+    with debugger:
+        remove_html_markup('"abc"')
+        assert False
+    return debugger
+
+# ### Analyzing Events
+
 if __name__ == "__main__":
-    debugger = test_debugger_html(DifferenceDebugger(CoverageCollector))
+    print('\n### Analyzing Events')
+
+
+
+
+if __name__ == "__main__":
+    debugger = test_debugger_html(DifferenceDebugger())
 
 
 if __name__ == "__main__":
@@ -563,7 +608,7 @@ class DifferenceDebugger(DifferenceDebugger):
         return self.all_pass_events() - self.all_fail_events()
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(DifferenceDebugger(CoverageCollector))
+    debugger = test_debugger_html(DifferenceDebugger())
 
 
 if __name__ == "__main__":
@@ -622,7 +667,7 @@ class DiscreteSpectrumDebugger(DifferenceDebugger):
             return 'lightyellow'
 
         return 'honeydew'
-    
+
     def tooltip(self, event):
         """Return a tooltip for the given event."""
         passing = self.all_pass_events()
@@ -657,12 +702,12 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
         functions = self.covered_functions()
         if function:
             functions = [function]
-            
+
         out = ""
         for function in functions:
             if isinstance(function, str):
                 function = globals()[function]
-                
+
             if out:
                 out += '\n'
 
@@ -701,23 +746,23 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
 
                 out += line + '\n'
                 line_number += 1
-                
+
         return out
 
     def _repr_html_(self):
         # In Jupyter, visualize with color
         return self.code(color=True)
-    
+
     def __str__(self):
         # Outside of Jupyter, show as string
         return self.code(color=False, suspiciousness=True)
-    
+
     def __repr__(self):
         # Outside of Jupyter, show as string
         return self.code(color=False, suspiciousness=True)
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(DiscreteSpectrumDebugger(CoverageCollector))
+    debugger = test_debugger_html(DiscreteSpectrumDebugger())
 
 
 if __name__ == "__main__":
@@ -751,7 +796,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(DiscreteSpectrumDebugger(CoverageCollector))
+    debugger = test_debugger_html(DiscreteSpectrumDebugger())
     with debugger.collect_pass():
         remove_html_markup('<b link="blue"></b>')
 
@@ -814,7 +859,7 @@ class ContinuousSpectrumDebugger(ContinuousSpectrumDebugger):
         return self.percentage(event)
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ContinuousSpectrumDebugger(CoverageCollector))
+    debugger = test_debugger_html(ContinuousSpectrumDebugger())
 
 
 if __name__ == "__main__":
@@ -832,7 +877,7 @@ class ContinuousSpectrumDebugger(ContinuousSpectrumDebugger):
         return max(self.passed_fraction(line), self.failed_fraction(line))
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ContinuousSpectrumDebugger(CoverageCollector))
+    debugger = test_debugger_html(ContinuousSpectrumDebugger())
     for line in debugger.only_fail_events():
         print(line, debugger.brightness(line))
 
@@ -849,7 +894,7 @@ class ContinuousSpectrumDebugger(ContinuousSpectrumDebugger):
         return f"hsl({hue * 120}, {saturation * 100}%, 80%)"
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ContinuousSpectrumDebugger(CoverageCollector))
+    debugger = test_debugger_html(ContinuousSpectrumDebugger())
 
 
 if __name__ == "__main__":
@@ -925,7 +970,7 @@ def test_debugger_middle(debugger):
     return debugger
 
 if __name__ == "__main__":
-    debugger = test_debugger_middle(ContinuousSpectrumDebugger(CoverageCollector))
+    debugger = test_debugger_middle(ContinuousSpectrumDebugger())
 
 
 if __name__ == "__main__":
@@ -995,7 +1040,7 @@ class TarantulaDebugger(ContinuousSpectrumDebugger, RankingDebugger):
     pass
 
 if __name__ == "__main__":
-    tarantula_html = test_debugger_html(TarantulaDebugger(CoverageCollector))
+    tarantula_html = test_debugger_html(TarantulaDebugger())
 
 
 if __name__ == "__main__":
@@ -1011,7 +1056,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    tarantula_middle = test_debugger_middle(TarantulaDebugger(CoverageCollector))
+    tarantula_middle = test_debugger_middle(TarantulaDebugger())
 
 
 if __name__ == "__main__":
@@ -1054,7 +1099,7 @@ class OchiaiDebugger(ContinuousSpectrumDebugger, RankingDebugger):
         return 1 - suspiciousness
 
 if __name__ == "__main__":
-    ochiai_html = test_debugger_html(OchiaiDebugger(CoverageCollector))
+    ochiai_html = test_debugger_html(OchiaiDebugger())
 
 
 if __name__ == "__main__":
@@ -1070,7 +1115,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    ochiai_middle = test_debugger_middle(OchiaiDebugger(CoverageCollector))
+    ochiai_middle = test_debugger_middle(OchiaiDebugger())
 
 
 if __name__ == "__main__":
@@ -1156,7 +1201,7 @@ class ClassifyingDebugger(DifferenceDebugger):
         return samples
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     debugger.samples()
 
 
@@ -1170,7 +1215,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         return features
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     debugger.features()
 
 
@@ -1179,7 +1224,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         return [repr(feature) for feature in self.all_events()]
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     debugger.feature_names()
 
 
@@ -1195,7 +1240,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         return x
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     debugger.shape("remove_html_markup(s='abc')")
 
 
@@ -1208,7 +1253,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         return X
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     debugger.X()
 
 
@@ -1221,7 +1266,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         return Y
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     debugger.Y()
 
 
@@ -1252,7 +1297,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         return graphviz.Source(dot_data)
 
 if __name__ == "__main__":
-    debugger = test_debugger_html(ClassifyingDebugger(CoverageCollector))
+    debugger = test_debugger_html(ClassifyingDebugger())
     classifier = debugger.classifier()
     debugger.show_classifier(classifier)
 
@@ -1269,8 +1314,16 @@ if __name__ == "__main__":
 
 
 
+# ### Collecting Events from Calls
+
 if __name__ == "__main__":
-    debugger = TarantulaDebugger(CoverageCollector)
+    print('\n### Collecting Events from Calls')
+
+
+
+
+if __name__ == "__main__":
+    debugger = TarantulaDebugger()
     with debugger.collect_pass():
         remove_html_markup("abc")
     with debugger.collect_pass():
@@ -1279,16 +1332,67 @@ if __name__ == "__main__":
         remove_html_markup('"abc"')
 
 
+# ### Collecting Events from Tests
+
+if __name__ == "__main__":
+    print('\n### Collecting Events from Tests')
+
+
+
+
+if __name__ == "__main__":
+    debugger = TarantulaDebugger()
+    with debugger:
+        remove_html_markup("abc")
+    with debugger:
+        remove_html_markup('<b>abc</b>')
+    with debugger:
+        remove_html_markup('"abc"')
+        assert False  # raise an exception
+
+
+# ### Visualizing Events as a Table
+
+if __name__ == "__main__":
+    print('\n### Visualizing Events as a Table')
+
+
+
+
 if __name__ == "__main__":
     debugger.event_table(args=True, color=True)
+
+
+# ### Visualizing Suspicious Code
+
+if __name__ == "__main__":
+    print('\n### Visualizing Suspicious Code')
+
+
 
 
 if __name__ == "__main__":
     debugger
 
 
+# ### Ranking Events
+
+if __name__ == "__main__":
+    print('\n### Ranking Events')
+
+
+
+
 if __name__ == "__main__":
     debugger.rank()
+
+
+# ### Classes and Methods
+
+if __name__ == "__main__":
+    print('\n### Classes and Methods')
+
+
 
 
 if __name__ == "__main__":

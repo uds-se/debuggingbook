@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-02 01:12:18+01:00
+# Last change: 2021-01-02 21:07:02+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -63,6 +63,14 @@ if __name__ == "__main__":
 
 
 
+# ### The middle() Function
+
+if __name__ == "__main__":
+    print('\n### The middle() Function')
+
+
+
+
 if __package__ is None or __package__ == "":
     from StatisticalDebugger import middle
 else:
@@ -94,11 +102,27 @@ if __name__ == "__main__":
     middle(2, 1, 3)
 
 
+# ### Validated Repairs
+
+if __name__ == "__main__":
+    print('\n### Validated Repairs')
+
+
+
+
 def middle_sort_of_fixed(x, y, z):
     return x
 
 if __name__ == "__main__":
     middle_sort_of_fixed(2, 1, 3)
+
+
+# ### Genetic Optimization
+
+if __name__ == "__main__":
+    print('\n### Genetic Optimization')
+
+
 
 
 # ## A Test Suite
@@ -186,30 +210,37 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from StatisticalDebugger import OchiaiDebugger, CoverageCollector
+    from StatisticalDebugger import OchiaiDebugger, DifferenceDebugger
 else:
-    from .StatisticalDebugger import OchiaiDebugger, CoverageCollector
+    from .StatisticalDebugger import OchiaiDebugger, DifferenceDebugger
 
 
 if __name__ == "__main__":
-    debugger = OchiaiDebugger(CoverageCollector)
+    middle_debugger = OchiaiDebugger()
 
-    for x, y, z in MIDDLE_PASSING_TESTCASES:
-        with debugger.collect_pass():
-            m = middle(x, y, z)
+    for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
+        with middle_debugger:
+            m = middle_test(x, y, z)
 
-    for x, y, z in MIDDLE_FAILING_TESTCASES:
-        with debugger.collect_fail():
-            m = middle(x, y, z)
+
+# middle_debugger  # FIXME
+
+if __name__ == "__main__":
+    from IPython.display import HTML
 
 
 if __name__ == "__main__":
-    debugger
+    with ExpectError():
+        middle_debugger.code()  # FIXME
+
+
+if __name__ == "__main__":
+    HTML(middle_debugger.code(function=middle, color=True))
 
 
 if __name__ == "__main__":
     # ignore
-    location = debugger.rank()[0]
+    location = middle_debugger.rank()[0]
     (func_name, lineno) = location
     lines, first_lineno = inspect.getsourcelines(middle)
     print(lineno, end="")
@@ -218,7 +249,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    debugger.suspiciousness(location)
+    middle_debugger.suspiciousness(location)
 
 
 # ## Random Code Mutations
@@ -288,12 +319,12 @@ class StatementVisitor(NodeVisitor):
         elems = getattr(node, attr, [])
         if not isinstance(elems, list):
             elems = [elems]
-            
+
         for elem in elems:
             stmt = (elem, self.func_name)
             if stmt in self.statements_seen:
                 continue
-                
+
             self.statements.append(stmt)
             self.statements_seen.add(stmt)
 
@@ -313,17 +344,17 @@ class StatementVisitor(NodeVisitor):
     def generic_visit(self, node):
         self.visit_node(node)
         super().generic_visit(node)
-        
+
     def visit_FunctionDef(self, node):
         if self.func_name is None:
             self.func_name = node.name
-        
+
         self.visit_node(node)
         super().generic_visit(node)
         self.func_name = None
 
     def visit_AsyncFunctionDef(self, node):
-        return visit_FunctionDef(self, node)
+        return self.visit_FunctionDef(self, node)
 
 def all_statements_and_functions(tree, tp=None):
     visitor = StatementVisitor()
@@ -366,32 +397,41 @@ import copy
 
 class StatementMutator(NodeTransformer):
     """Mutate statements in an AST for automated repair."""
-    def __init__(self, suspiciousness_func=None, statements=None, log=False):
+
+    def __init__(self, suspiciousness_func=None, source=None, log=False):
         """Constructor.
-        `suspiciousness_func` is a function that takes a location 
+        `suspiciousness_func` is a function that takes a location
         (function, line_number) and returns a suspiciousness value
-        between 0 and 1.0. If not given, all locations get the 
-        same suspiciousness.
-        `statements` is a list of statements to choose from.
+        between 0 and 1.0. If not given, all locations get the
+        same suspiciousness of 1.0.
+        `source` is a list of statements to choose from.
         """
         super().__init__()
+        self.log = log
 
         if suspiciousness_func is None:
-            suspiciousness_func = lambda location: 1.0
+            def suspiciousness_func(location):
+                return 1.0
+
         self.suspiciousness_func = suspiciousness_func
 
-        if statements is None:
-            statements = []
-        self.statements = statements
+        if source is None:
+            source = []
+        self.source = source
 
-        self.log = log
+        if self.log > 1:
+            for i, node in enumerate(self.source):
+                print(f"Source for repairs #{i}:")
+                print_content(astor.to_source(node), '.py')
+                print()
+                print()
 
         self.mutations = 0
 
-# #### Choosing Nodes to Mutate
+# #### Choosing Suspicious Statements to Mutate
 
 if __name__ == "__main__":
-    print('\n#### Choosing Nodes to Mutate')
+    print('\n#### Choosing Suspicious Statements to Mutate')
 
 
 
@@ -399,17 +439,6 @@ if __name__ == "__main__":
 import warnings
 
 class StatementMutator(StatementMutator):
-    def format_node(self, node):
-        if node is None:
-            return None
-        if isinstance(node, list):
-            return "; ".join(self.format_node(elem) for elem in node)
-
-        s = RE_SPACE.sub(' ', astor.to_source(node)).strip()
-        if len(s) > 20:
-            s = s[:20] + "..."
-        return repr(s)
-
     def node_suspiciousness(self, stmt, func_name):
         if not hasattr(stmt, 'lineno'):
             warnings.warn(f"{self.format_node(stmt)}: Expected line number")
@@ -428,7 +457,7 @@ class StatementMutator(StatementMutator):
 
         weights = [self.node_suspiciousness(stmt, func_name) 
                    for stmt, func_name in statements]
-        assert sum(weights) > 0, "No suspicious location"
+        stmts = [stmt for stmt, func_name in statements]
 
         if self.log > 1:
             print("Weights:")
@@ -436,14 +465,16 @@ class StatementMutator(StatementMutator):
                 node, func_name = stmt
                 print(f"{weights[i]:.2} {self.format_node(node)}")
 
-        stmts = [stmt for stmt, func_name in statements]
+        if sum(weights) == 0.0:
+            # No suspicious line
+            return random.choice(stmts)
+        else:
+            return random.choices(stmts, weights=weights)[0]
 
-        return random.choices(stmts, weights=weights)[0]
-
-# #### Choosing an Operator
+# #### Choosing a Mutation Method
 
 if __name__ == "__main__":
-    print('\n#### Choosing an Operator')
+    print('\n#### Choosing a Mutation Method')
 
 
 
@@ -461,13 +492,13 @@ class StatementMutator(StatementMutator):
 
         if not node.mutate_me:
             return node
-        
+
         op = self.choose_op()
         new_node = op(node)
         self.mutations += 1
 
         if self.log:
-            print(f"{node.lineno:4}:{op.__name__:6}: "
+            print(f"{node.lineno:4}:{op.__name__ + ':':7} "
                   f"{self.format_node(node)} "
                   f"becomes {self.format_node(new_node)}")
 
@@ -483,11 +514,11 @@ if __name__ == "__main__":
 
 class StatementMutator(StatementMutator):
     def choose_statement(self):
-        return copy.deepcopy(random.choice(self.statements))
+        return copy.deepcopy(random.choice(self.source))
 
 class StatementMutator(StatementMutator):
     def swap(self, node):
-        # Replace with a random node from statements
+        """Replace `node` with a random node from `source`"""
         new_node = self.choose_statement()
 
         if isinstance(new_node, ast.stmt):
@@ -512,7 +543,7 @@ if __name__ == "__main__":
 
 class StatementMutator(StatementMutator):
     def insert(self, node):
-        # Insert a random node from statements
+        """Insert a random node from `source` after `node`"""
         new_node = self.choose_statement()
 
         if isinstance(new_node, ast.stmt) and hasattr(new_node, 'body'):
@@ -544,7 +575,7 @@ if __name__ == "__main__":
 
 class StatementMutator(StatementMutator):
     def delete(self, node):
-        # Delete this node
+        """Delete `node`."""
 
         branches = [attr for attr in ['body', 'orelse', 'finalbody']
                     if hasattr(node, attr) and getattr(node, attr)]
@@ -562,6 +593,48 @@ class StatementMutator(StatementMutator):
 
         return None  # Just delete
 
+if __package__ is None or __package__ == "":
+    from bookutils import quiz
+else:
+    from .bookutils import quiz
+
+
+if __name__ == "__main__":
+    quiz("Why are statements replaced by `pass` rather than deleted?",
+         [
+             "Because `if P: pass` is valid Python, while `if P:` is not",
+             "Because in Python, bodies for `if`, `while`, etc. cannot be empty",
+             "Because a `pass` node makes a target for future mutations",
+             "Because it causes the tests to pass"
+         ],
+         [3 ^ n for n in range(3)]
+        )
+
+
+# #### Helpers
+
+if __name__ == "__main__":
+    print('\n#### Helpers')
+
+
+
+
+class StatementMutator(StatementMutator):
+    NODE_MAX_LENGTH = 20
+
+    def format_node(self, node):
+        """Return a string representation for `node`."""
+        if node is None:
+            return "None"
+
+        if isinstance(node, list):
+            return "; ".join(self.format_node(elem) for elem in node)
+
+        s = RE_SPACE.sub(' ', astor.to_source(node)).strip()
+        if len(s) > self.NODE_MAX_LENGTH - len("..."):
+            s = s[:self.NODE_MAX_LENGTH] + "..."
+        return repr(s)
+
 # #### All Together
 
 if __name__ == "__main__":
@@ -571,15 +644,16 @@ if __name__ == "__main__":
 
 
 class StatementMutator(StatementMutator):
-    def visit(self, node):
-        if not self.statements:
-            self.statements = all_statements(node)
-
-        return super().visit(node)
-
-class StatementMutator(StatementMutator):
     def mutate(self, tree):
+        """Mutate the given AST `tree` in place. Return mutated tree."""
+
+        assert isinstance(tree, ast.AST)
+
         tree = copy.deepcopy(tree)
+
+        if not self.source:
+            self.source = all_statements(tree)
+
         for node in ast.walk(tree):
             node.mutate_me = False
 
@@ -587,6 +661,7 @@ class StatementMutator(StatementMutator):
         node.mutate_me = True
 
         self.mutations = 0
+
         tree = self.visit(tree)
 
         if self.mutations == 0:
@@ -660,7 +735,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    middle_fitness(ast.parse("def middle(x, y, z): return z"))
+    middle_fitness(ast.parse("def middle(x, y, z): return x"))
 
 
 if __package__ is None or __package__ == "":
@@ -686,23 +761,23 @@ if __name__ == "__main__":
 
 
 
-POPULATION_SIZE = 50
-mutator = StatementMutator()
+POPULATION_SIZE = 40  # From \cite{LeGoues2012}
+middle_mutator = StatementMutator()
 
 MIDDLE_POPULATION = [middle_tree()] + \
-    [mutator.mutate(middle_tree()) for i in range(POPULATION_SIZE - 1)]
+    [middle_mutator.mutate(middle_tree()) for i in range(POPULATION_SIZE - 1)]
 
 if __name__ == "__main__":
     MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
 
 
 if __name__ == "__main__":
-    print(astor.to_source(MIDDLE_POPULATION[0]), 
+    print(astor.to_source(MIDDLE_POPULATION[0]),
           middle_fitness(MIDDLE_POPULATION[0]))
 
 
 if __name__ == "__main__":
-    print(astor.to_source(MIDDLE_POPULATION[-1]), 
+    print(astor.to_source(MIDDLE_POPULATION[-1]),
           middle_fitness(MIDDLE_POPULATION[-1]))
 
 
@@ -717,17 +792,19 @@ if __name__ == "__main__":
 def evolve_middle():
     global MIDDLE_POPULATION
 
-    statements = all_statements(middle_tree())
-    mutator = StatementMutator(statements=statements)
+    source = all_statements(middle_tree())
+    mutator = StatementMutator(source=source)
 
     n = len(MIDDLE_POPULATION)
 
-    MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
-    MIDDLE_POPULATION = MIDDLE_POPULATION[:n // 2]
-
-    offspring = [mutator.mutate(tree) for tree in MIDDLE_POPULATION]
+    offspring = []
+    while len(offspring) < n:
+        parent = random.choice(MIDDLE_POPULATION)
+        offspring.append(mutator.mutate(parent))
 
     MIDDLE_POPULATION += offspring
+    MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
+    MIDDLE_POPULATION = MIDDLE_POPULATION[:n]
 
 if __name__ == "__main__":
     evolve_middle()
@@ -741,29 +818,44 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     for i in range(50):
         evolve_middle()
-        best_tree = MIDDLE_POPULATION[0]
-        fitness = middle_fitness(best_tree)
+        best_middle_tree = MIDDLE_POPULATION[0]
+        fitness = middle_fitness(best_middle_tree)
         print(f"\rIteration {i:2}: fitness = {fitness}  ", end="")
         if fitness >= 1.0:
             break
 
 
 if __name__ == "__main__":
-    print_content(astor.to_source(best_tree), '.py')
+    print_content(astor.to_source(best_middle_tree), '.py', start_line_number=1)
+
+
+if __name__ == "__main__":
+    original_middle = globals()['middle']
+    code = compile(best_middle_tree, '<string>', 'exec')
+    exec(code, globals())
+
+    for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
+        middle_test(x, y, z)
+
+    globals()['middle'] = original_middle
+
+
+if __name__ == "__main__":
+    quiz("Some of the lines in our fix candidate are redundant. Which are these?",
+        [
+            "Line 3: `if x < y`",
+            "Line 7: `if y < z`",
+            "Line 9: `return z`",
+            "Line 13: `return z`"
+        ],
+        [eval(chr(100 - x)) for x in [49, 50]]
+        )
 
 
 # ## Simplifying
 
 if __name__ == "__main__":
     print('\n## Simplifying')
-
-
-
-
-# ### Textual Reduction
-
-if __name__ == "__main__":
-    print('\n### Textual Reduction')
 
 
 
@@ -775,7 +867,7 @@ else:
 
 
 if __name__ == "__main__":
-    middle_lines = astor.to_source(best_tree).split('\n')
+    middle_lines = astor.to_source(best_middle_tree).split('\n')
 
 
 def test_middle_lines(lines):
@@ -794,69 +886,48 @@ if __name__ == "__main__":
     print_content(repaired_source, '.py')
 
 
-if __name__ == "__main__":
-    original_source = astor.to_source(middle_tree())
-
-
-if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff
-else:
-    from .ChangeDebugger import diff
-
-
-import urllib
-
-def print_patch(p):
-    print_content(urllib.parse.unquote(str(p)), '.py')
+# ## Crossover Operations
 
 if __name__ == "__main__":
-    for patch in diff(original_source, repaired_source):
-        print_patch(patch)
+    print('\n## Crossover Operations')
 
 
-# ## Crossover
+
+
+# ### Crossing Statement Lists
 
 if __name__ == "__main__":
-    print('\n## Crossover')
+    print('\n### Crossing Statement Lists')
 
 
 
 
 def p1():
-    def inner():
-        print(a)
-        print(b)
-        print(c)
-
     a = 1
     b = 2
     c = 3
 
 def p2():
-    def inner():
-        print(x)
-        print(y)
-        print(z)
-
     x = 1
     y = 2
     z = 3
 
-class BodyCrossover:
+class CrossoverOperator:
     def __init__(self, log=False):
         self.log = log
 
     def cross_bodies(self, body_1, body_2):
-        """Crossover the statement lists `body_1` x `body_2`.
+        """CrossoverOperator the statement lists `body_1` x `body_2`.
         Return new lists.
         """
 
         assert isinstance(body_1, list)
         assert isinstance(body_2, list)
 
-        split_1 = len(body_1) // 2
-        split_2 = len(body_2) // 2
-        return body_1[:split_1] + body_2[split_2:], body_2[:split_2] + body_1[split_1:]
+        crossover_point_1 = len(body_1) // 2
+        crossover_point_2 = len(body_2) // 2
+        return (body_1[:crossover_point_1] + body_2[crossover_point_2:],
+                body_2[:crossover_point_2] + body_1[crossover_point_1:])
 
 if __name__ == "__main__":
     tree_p1 = ast.parse(inspect.getsource(p1))
@@ -870,7 +941,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    crosser = BodyCrossover()
+    crosser = CrossoverOperator()
     tree_p1.body[0].body, tree_p2.body[0].body = crosser.cross_bodies(body_p1, body_p2)
 
 
@@ -882,7 +953,15 @@ if __name__ == "__main__":
     print_content(astor.to_source(tree_p2), '.py')
 
 
-class BodyCrossover(BodyCrossover):
+# ### Applying Crossover on Programs
+
+if __name__ == "__main__":
+    print('\n### Applying Crossover on Programs')
+
+
+
+
+class CrossoverOperator(CrossoverOperator):
     # In modules and class defs, the ordering of elements does not matter (much)
     SKIP_LIST = {ast.Module, ast.ClassDef}
 
@@ -893,9 +972,9 @@ class BodyCrossover(BodyCrossover):
         body = getattr(tree, body_attr, [])
         return body and len(body) >= 2
 
-class BodyCrossover(BodyCrossover):
+class CrossoverOperator(CrossoverOperator):
     def crossover_attr(self, t1, t2, body_attr):
-        """Crossover the bodies `body_attr` of two trees `t1` and `t2`.
+        """CrossoverOperator the bodies `body_attr` of two trees `t1` and `t2`.
         Return True if successful."""
         assert isinstance(t1, ast.AST)
         assert isinstance(t2, ast.AST)
@@ -904,16 +983,19 @@ class BodyCrossover(BodyCrossover):
         if not getattr(t1, body_attr, None) or not getattr(t2, body_attr, None):
             return False
 
+        if self.crossover_branches(t1, t2):
+            return t1, t2
+
+        if self.log > 1:
+            print(f"Checking {t1}.{body_attr} x {t2}.{body_attr}")
+
         body_1 = getattr(t1, body_attr)
         body_2 = getattr(t2, body_attr)
-
-        # print(f"t1.{body_attr} = {body_1}")
-        # print(f"t2.{body_attr} = {body_2}")
 
         # If both trees have the attribute, we can cross their bodies
         if self.can_cross(t1, body_attr) and self.can_cross(t2, body_attr):
             if self.log:
-                print(f"Crossing {t1}.{body_attr} and {t2}.{body_attr}")
+                print(f"Crossing {t1}.{body_attr} x {t2}.{body_attr}")
 
             new_body_1, new_body_2 = self.cross_bodies(body_1, body_2)
             setattr(t1, body_attr, new_body_1)
@@ -926,18 +1008,18 @@ class BodyCrossover(BodyCrossover):
                 for child_2 in body_2:
                     if (hasattr(child_2, 'name') and
                            child_1.name == child_2.name):
-                        if self.crossover(child_1, child_2):
+                        if self.crossover_attr(child_1, child_2, body_attr):
                             return True
 
         # Strategy 2: Find matches anywhere
         for child_1 in random.sample(body_1, len(body_1)):
             for child_2 in random.sample(body_2, len(body_2)):
-                if self.crossover(child_1, child_2):
+                if self.crossover_attr(child_1, child_2, body_attr):
                     return True
 
         return False
 
-class BodyCrossover(BodyCrossover):
+class CrossoverOperator(CrossoverOperator):
     def crossover_branches(self, t1, t2):
         """Special case:
         `t1` = `if P: S1 else: S2` x `t2` = `if P': S1' else: S2'`
@@ -947,33 +1029,34 @@ class BodyCrossover(BodyCrossover):
         """
         assert isinstance(t1, ast.AST)
         assert isinstance(t2, ast.AST)
-        
-        if (hasattr(t1, 'body') and hasattr(t1, 'orelse') and
-            hasattr(t2, 'body') and hasattr(t2, 'orelse')):
+
+        if (getattr(t1, 'body', None) and getattr(t1, 'orelse', None) and
+            getattr(t2, 'body', None) and getattr(t2, 'orelse', None)):
+
+            if self.log:
+                print(f"Crossing branches {t1} x {t2}")
+
             t1.body, t1.orelse, t2.body, t2.orelse = \
-                t2.orelse, t2.body, t2.orelse, t1.body
+                t2.orelse, t2.body, t1.orelse, t1.body
             return True
 
         return False
 
-class CrossoverError(ValueError):
-    pass
-
-class BodyCrossover(BodyCrossover):
+class CrossoverOperator(CrossoverOperator):
     def crossover(self, t1, t2):
         """Do a crossover of ASTs `t1` and `t2`.
         Raises `CrossoverError` if no crossover is found."""
         assert isinstance(t1, ast.AST)
         assert isinstance(t2, ast.AST)
 
-        if self.crossover_branches(t1, t2):
-            return t1, t2
-
         for body_attr in ['body', 'orelse', 'finalbody']:
             if self.crossover_attr(t1, t2, body_attr):
                 return t1, t2
 
         raise CrossoverError("No crossover found")
+
+class CrossoverError(ValueError):
+    pass
 
 def p1():
     if True:
@@ -985,12 +1068,12 @@ def p2():
     if True:
         print(a)
         print(b)
-    if False:
+    else:
         print(c)
         print(d)
 
 if __name__ == "__main__":
-    crossover = BodyCrossover(log=True)
+    crossover = CrossoverOperator(log=True)
     tree_p1 = ast.parse(inspect.getsource(p1))
     tree_p2 = ast.parse(inspect.getsource(p2))
     crossover.crossover(tree_p1, tree_p2)
@@ -1004,6 +1087,19 @@ if __name__ == "__main__":
     print_content(astor.to_source(tree_p2), '.py')
 
 
+if __name__ == "__main__":
+    middle_t1, middle_t2 = crossover.crossover(middle_tree(),
+                                              ast.parse(inspect.getsource(p2)))
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(middle_t1), '.py')
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(middle_t2), '.py')
+
+
 # ## A Repairer Class
 
 if __name__ == "__main__":
@@ -1012,21 +1108,100 @@ if __name__ == "__main__":
 
 
 
-class RobustCoverageCollector(CoverageCollector):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.exception_type = None
+class Repairer():
+    def __init__(self, debugger, targets=None, sources=None, log=False,
+                 mutator_class=StatementMutator,
+                 crossover_class=CrossoverOperator,
+                 reducer_class=DeltaDebugger):
+        """Constructor.
+        `debugger`: a `DifferenceDebugger` to take tests and coverage from.
+        `targets`: a list of functions/modules to be repaired.
+        (default: the covered functions in `debugger`, except tests)
+        `sources`: a list of functions/modules to take repairs from.
+        (default: same as `targets`)
+        """
+        assert isinstance(debugger, DifferenceDebugger)
+        self.debugger = debugger
+        self.log = log
 
-    def __exit__(self, tp, value, traceback):
-        """Called at end of `with` block. Turn tracing off."""
-        super().__exit__(tp, value, traceback)
-        self.exception_type = tp
-        return True  # ignore exception
+        if targets is None:
+            targets = self.default_functions()
+        if not targets:
+            raise ValueError("No targets to repair")
 
-class Repairer(OchiaiDebugger):
-    def __init__(self, *args, **kwargs):
+        if sources is None:
+            sources = self.default_functions()
+        if not sources:
+            raise ValueError("No sources to take repairs from")
+
+        if self.debugger.function() is None:
+            raise ValueError("Multiple entry points observed")
+
+        self.target_tree = self.parse(targets)
+        self.source_tree = self.parse(sources)
+
+        self.log_tree("Target code to be repaired:", self.target_tree)
+        if ast.dump(self.target_tree) != ast.dump(self.source_tree):
+            self.log_tree("Source code to take repairs from:", self.source_tree)
+
         self.fitness_cache = {}
-        return super().__init__(RobustCoverageCollector, *args, **kwargs)
+
+        self.mutator = \
+            mutator_class(
+                source=all_statements(self.source_tree),
+                suspiciousness_func=self.debugger.suspiciousness,
+                log=(self.log >= 3))
+        self.crossover = crossover_class(log=(self.log >= 3))
+        self.reducer_class = reducer_class
+
+# ### Helper Functions
+
+if __name__ == "__main__":
+    print('\n### Helper Functions')
+
+
+
+
+class Repairer(Repairer):
+    def getsource(self, item):
+        """Get the source for `item`. Can also be a string."""
+        if isinstance(item, str):
+            item = globals()[item]
+        return inspect.getsource(item)
+
+class Repairer(Repairer):
+    def default_functions(self):
+        """Return the set of functions to be repaired.
+        Functions whose names start or end in `test` are excluded."""
+        def is_test(name):
+            return name.startswith('test') or name.endswith('test')
+
+        return [name for name in self.debugger.covered_functions()
+                if not is_test(name)]
+
+class Repairer(Repairer):
+    def log_tree(self, description, tree):
+        """Print out `tree` as source code prefixed by `description`."""
+        if self.log:
+            print(description)
+            print_content(astor.to_source(tree), '.py')
+            print()
+            print()
+
+class Repairer(Repairer):
+    def parse(self, items):
+        """Read in a set of items into a single tree"""
+        tree = ast.parse("")
+        for item in items:
+            if isinstance(item, str):
+                item = globals()[item]
+
+            item_lines, item_first_lineno = inspect.getsourcelines(item)
+            item_tree = ast.parse("".join(item_lines))
+            ast.increment_lineno(item_tree, item_first_lineno - 1)
+            tree.body += item_tree.body
+
+        return tree
 
 # ### Running Tests
 
@@ -1036,14 +1211,15 @@ if __name__ == "__main__":
 
 
 
-class FailureNotReproducedError(ValueError):
-    pass
-
 class Repairer(Repairer):
     def run_test_set(self, test_set, validate=False):
+        """Run given `test_set`
+        (`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).
+        If `validate` is set, check expectations.
+        Return number of passed tests."""
         passed = 0
-        collectors = self.collectors[test_set]
-        function = globals()[self.function().__name__]  # may be redefined
+        collectors = self.debugger.collectors[test_set]
+        function = globals()[self.debugger.function().__name__]  # may be redefined
 
         for c in collectors:
             if self.log >= 4:
@@ -1055,7 +1231,7 @@ class Repairer(Repairer):
                 if self.log >= 4:
                     print(f"failed ({err.__class__.__name__})")
 
-                if validate and test_set == self.PASS:
+                if validate and test_set == self.debugger.PASS:
                     raise err(
                         f"{c.id()} should have passed, but failed")
                 continue
@@ -1064,51 +1240,40 @@ class Repairer(Repairer):
             if self.log >= 4:
                 print("passed")
 
-            if validate and test_set == self.FAIL:
+            if validate and test_set == self.debugger.FAIL:
                 raise FailureNotReproducedError(
                     f"{c.id()} should have failed, but passed")
 
         return passed
 
+class FailureNotReproducedError(ValueError):
+    pass
+
 class Repairer(Repairer):
     def weight(self, test_set):
+        """Return the weight of `test_set`
+        (`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).
+        """
         return {
-            self.PASS: WEIGHT_PASSING,
-            self.FAIL: WEIGHT_FAILING
+            self.debugger.PASS: WEIGHT_PASSING,
+            self.debugger.FAIL: WEIGHT_FAILING
         }[test_set]
 
     def run_tests(self, validate=False):
-        # Run tests
+        """Run passing and failing tests, returning weighted fitness."""
         fitness = 0
 
-        for test_set in [self.PASS, self.FAIL]:
+        for test_set in [self.debugger.PASS, self.debugger.FAIL]:
             passed = self.run_test_set(test_set, validate=validate)
-            ratio = passed / len(self.collectors[test_set])
+            ratio = passed / len(self.debugger.collectors[test_set])
             fitness += self.weight(test_set) * ratio
 
         return fitness
 
-class DefinitionVisitor(NodeVisitor):
-    def __init__(self):
-        self.definitions = []
-
-    def add_definition(self, node):
-        self.definitions.append(node.name)
-
-    def visit_FunctionDef(self, node):
-        self.add_definition(node)
-
-    def visit_AsyncFunctionDef(self, node):
-        self.add_definition(node)
-
-    def visit_Class(self, node):
-        self.add_definition(node)
-
 class Repairer(Repairer):
-    def toplevel_defs(self, tree):
-        visitor = DefinitionVisitor()
-        visitor.visit(tree)
-        return visitor.definitions
+    def validate(self):
+        fitness = self.run_tests(validate=True)
+        assert fitness == self.weight(self.debugger.PASS)
 
 # ### (Re)defining Functions
 
@@ -1120,6 +1285,7 @@ if __name__ == "__main__":
 
 class Repairer(Repairer):
     def fitness(self, tree):
+        """Test `tree`, returning its fitness"""
         key = ast.dump(tree)
         if key in self.fitness_cache:
             return self.fitness_cache[key]
@@ -1158,9 +1324,27 @@ class Repairer(Repairer):
         return fitness
 
 class Repairer(Repairer):
-    def validate(self):
-        fitness = self.run_tests(validate=True)
-        assert fitness == self.weight(self.PASS)
+    def toplevel_defs(self, tree):
+        """Return a list of defined functions and classes in `tree`"""
+        visitor = DefinitionVisitor()
+        visitor.visit(tree)
+        return visitor.definitions
+
+class DefinitionVisitor(NodeVisitor):
+    def __init__(self):
+        self.definitions = []
+
+    def add_definition(self, node):
+        self.definitions.append(node.name)
+
+    def visit_FunctionDef(self, node):
+        self.add_definition(node)
+
+    def visit_AsyncFunctionDef(self, node):
+        self.add_definition(node)
+
+    def visit_Class(self, node):
+        self.add_definition(node)
 
 # ### Repairing
 
@@ -1171,61 +1355,25 @@ if __name__ == "__main__":
 
 
 class Repairer(Repairer):
-    def getsource(self, item):
-        if isinstance(item, str):
-            item = globals()[item]
-        return inspect.getsource(item)
+    def initial_population(self, size):
+        """Return an initial population of size `size`"""
+        return [self.target_tree] + \
+            [self.mutator.mutate(copy.deepcopy(self.target_tree))
+                for i in range(size - 1)]
 
-class Repairer(Repairer):
-    def repair(self, targets=None, sources=None, 
-               population_size=POPULATION_SIZE,
-               iterations=100, 
-               mutator_cls=StatementMutator, mutator=None, 
-               crossover_cls=BodyCrossover, crossover=None):
-        """Repair the function test runs collected from.
-        `targets`: a list of functions/modules to be repaired.
-        (default: covered functions)
-        `sources`: a list of functions/modules to take repairs from.
-        (default: `targets`)
-        """
-        if targets is None:
-            targets = self.default_functions()
-        if not targets:
-            raise ValueError("No targets to repair")
-
-        if sources is None:
-            sources = self.default_functions()
-        if not sources:
-            raise ValueError("No sources to take repairs from")
-
-        if self.function() is None:
-            raise ValueError("Multiple entry points observed")
-            
-        target_tree = self.parse(targets)
-        source_tree = self.parse(sources)
-
-        self.log_tree("Target code to be repaired:", target_tree)
-        if ast.dump(target_tree) != ast.dump(source_tree):
-            self.log_tree("Source code to take repairs from:", source_tree)
-
+    def repair(self, population_size=POPULATION_SIZE, iterations=100):
+        """Repair the function we collected test runs from.
+        Use a population size of `population_size` and
+        at most `iterations` iterations.
+        Returns the AST of the repaired function."""
         self.validate()
 
-        if mutator is None:
-            statements = all_statements(source_tree)
-            mutator = mutator_cls(statements=statements, 
-                                  suspiciousness_func=self.suspiciousness,
-                                  log=(self.log >= 3))
-        if crossover is None:
-            crossover = crossover_cls()
+        population = self.initial_population(population_size)
 
-        population = [target_tree] + \
-            [mutator.mutate(copy.deepcopy(target_tree))
-                for i in range(population_size)]
-
-        last_key = ast.dump(target_tree)
+        last_key = ast.dump(self.target_tree)
 
         for iteration in range(iterations):
-            population = self.evolve(population, mutator, crossover)
+            population = self.evolve(population)
 
             best_tree = population[0]
             fitness = self.fitness(best_tree)
@@ -1269,47 +1417,38 @@ if __name__ == "__main__":
 
 
 class Repairer(Repairer):
-    def evolve(self, population, mutator, crossover):
+    def evolve(self, population):
+        """Evolve the candidate population by mutating and crossover."""
         n = len(population)
 
-        population.sort(key=self.fitness, reverse=True)
-        population = population[:n // 2]
+        # Create offspring as crossover of parents
+        offspring = []
+        while len(offspring) < n:
+            parent_1 = copy.deepcopy(random.choice(population))
+            parent_2 = copy.deepcopy(random.choice(population))
+            try:
+                self.crossover.crossover(parent_1, parent_2)
+            except CrossoverError:
+                pass  # Just keep parents
+            offspring += [parent_1, parent_2]
 
-        offspring = [mutator.mutate(tree) for tree in population]
+        # Mutate offspring
+        offspring = [self.mutator.mutate(tree) for tree in offspring]
+
+        # Add it to population
         population += offspring
+
+        # Keep the fitter part of the population
+        population.sort(key=self.fitness_key, reverse=True)
+        population = population[:n]
 
         return population
 
 class Repairer(Repairer):
     def fitness_key(self, tree):
+        """Key to be used for sorting the population"""
         tree_size = len([node for node in ast.walk(tree)])
         return (self.fitness(tree), -tree_size)
-
-class Repairer(Repairer):
-    def evolve(self, population, mutator, crossover):
-        n = len(population)
-
-        # Keep the fitter half of the population
-        population.sort(key=self.fitness_key, reverse=True)
-        population = population[:n // 2]
-
-        # Create offspring as crossover of parents
-        offspring = []
-        while len(offspring) < n // 2:
-            parent_1 = copy.deepcopy(random.choice(population))
-            parent_2 = copy.deepcopy(random.choice(population))
-            try:
-                crossover.crossover(parent_1, parent_2)
-                offspring += [parent_1, parent_2]
-            except CrossoverError:
-                # Try different parents
-                pass
-
-        # Mutate offspring
-        offspring = [mutator.mutate(tree) for tree in offspring]
-        population += offspring
-
-        return population
 
 # ### Reducing
 
@@ -1320,8 +1459,8 @@ if __name__ == "__main__":
 
 
 class Repairer(Repairer):
-    def test_reduce(self, lines, original_fitness):
-        source = "\n".join(lines)
+    def test_reduce(self, source_lines, original_fitness):
+        source = "\n".join(source_lines)
         tree = ast.parse(source)
         assert self.fitness(tree) < original_fitness
 
@@ -1329,45 +1468,13 @@ class Repairer(Repairer):
         original_fitness = self.fitness(tree)
         source_lines = astor.to_source(tree).split('\n')
 
-        with DeltaDebugger() as dd:
+        with self.reducer_class(log=(self.log >= 3)) as reducer:
             self.test_reduce(source_lines, original_fitness)
 
-        reduced_source = "\n".join(dd.min_args()['lines'])
+        reduced_lines = reducer.min_args()['source_lines']
+        reduced_source = "\n".join(reduced_lines)
+
         return ast.parse(reduced_source)
-
-# ### Helper Functions
-
-if __name__ == "__main__":
-    print('\n### Helper Functions')
-
-
-
-
-class Repairer(Repairer):
-    def default_functions(self):
-        def is_test(name):
-            return name.startswith('test') or name.endswith('test')
-
-        return [name for name in self.covered_functions()
-                if not is_test(name)]
-
-    def log_tree(self, description, tree):
-        if self.log:
-            print(description)
-            print_content(astor.to_source(tree), '.py')
-            print()
-            print()
-            
-    def parse(self, names):
-        tree = ast.parse("")
-        for name in names:
-            item = globals()[name]
-            item_lines, item_first_lineno = inspect.getsourcelines(item)
-            item_tree = ast.parse("".join(item_lines))
-            ast.increment_lineno(item_tree, item_first_lineno - 1)
-            tree.body += item_tree.body
-
-        return tree
 
 # ### Repairer in Action
 
@@ -1378,29 +1485,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    repairer = Repairer(log=2)
-
-
-if __name__ == "__main__":
-    for x, y, z in MIDDLE_PASSING_TESTCASES:
-        with repairer.collect_pass():
-            m = middle_test(x, y, z)
-
-
-if __name__ == "__main__":
-    for x, y, z in MIDDLE_FAILING_TESTCASES:
-        with repairer.collect_fail():
-            m = middle_test(x, y, z)
-
-
-if __name__ == "__main__":
-    print(repairer.code(function=middle, suspiciousness=True))
-
-
-# repairer  # FIXME
-
-if __name__ == "__main__":
-    repairer.suspiciousness(('middle', 508))
+    repairer = Repairer(middle_debugger, log=2)
 
 
 if __name__ == "__main__":
@@ -1415,12 +1500,28 @@ if __name__ == "__main__":
     fitness
 
 
-# ## More Examples
+if __name__ == "__main__":
+    repaired_source = astor.to_source(best_tree)
+
 
 if __name__ == "__main__":
-    print('\n## More Examples')
+    original_source = astor.to_source(middle_tree())
 
 
+if __package__ is None or __package__ == "":
+    from ChangeDebugger import diff
+else:
+    from .ChangeDebugger import diff
+
+
+import urllib
+
+def print_patch(p):
+    print_content(urllib.parse.unquote(str(p)), '.py')
+
+if __name__ == "__main__":
+    for patch in diff(original_source, repaired_source):
+        print_patch(patch)
 
 
 # ### Removing HTML Markup
@@ -1456,23 +1557,12 @@ def remove_html_markup_test(html, plain):
     assert outcome == plain, \
         f"Got {repr(outcome)}, expected {repr(plain)}"
 
-if __name__ == "__main__":
-    globals()['remove_html_markup_test']
-
+# ### Excursion: Creating Test Cases for remove_html_markup()
 
 if __name__ == "__main__":
-    remove_html_markup_test('<foo>bar</foo>', 'bar')
+    print('\n### Excursion: Creating Test Cases for remove_html_markup()')
 
 
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
-
-
-if __name__ == "__main__":
-    with ExpectError():
-        remove_html_markup_test('<foo>"bar"</foo>', '"bar"')
 
 
 def random_string(length=5, start=ord(' '), end=ord('~')):
@@ -1527,8 +1617,21 @@ REMOVE_HTML_PASSING_TESTCASES = \
 REMOVE_HTML_FAILING_TESTCASES = \
     [remove_html_testcase(False) for i in range(100)]
 
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
 if __name__ == "__main__":
     REMOVE_HTML_PASSING_TESTCASES[0]
+
+
+if __name__ == "__main__":
+    html, plain = REMOVE_HTML_PASSING_TESTCASES[0]
+    remove_html_markup_test(html, plain)
 
 
 if __name__ == "__main__":
@@ -1536,59 +1639,82 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    for html, plain in REMOVE_HTML_FAILING_TESTCASES:
-        try:
-            remove_html_markup_test(html, plain)
-            assert False
-        except:
-            pass
-
-
-if __name__ == "__main__":
-    for html, plain in REMOVE_HTML_PASSING_TESTCASES:
+    with ExpectError():
+        html, plain = REMOVE_HTML_FAILING_TESTCASES[0]
         remove_html_markup_test(html, plain)
 
 
 if __name__ == "__main__":
-    repairer = Repairer(log=2)
+    html_debugger = OchiaiDebugger()
 
 
 if __name__ == "__main__":
-    for html, plain in REMOVE_HTML_PASSING_TESTCASES:
-        with repairer.collect_pass():
+    for html, plain in (REMOVE_HTML_PASSING_TESTCASES + 
+                        REMOVE_HTML_FAILING_TESTCASES):
+        with html_debugger:
             remove_html_markup_test(html, plain)
-
-
-if __name__ == "__main__":
-    for html, plain in REMOVE_HTML_FAILING_TESTCASES:
-        with repairer.collect_fail():
-            remove_html_markup_test(html, plain)
-
-
-if __name__ == "__main__":
-    from IPython.display import HTML
 
 
 if __name__ == "__main__":
     with ExpectError():
-        repairer.code()  # FIXME
+        html_debugger.code()  # FIXME
 
 
 if __name__ == "__main__":
-    HTML(repairer.code(function=remove_html_markup, color=True))
+    HTML(html_debugger.code(function=remove_html_markup, color=True))
 
 
 if __name__ == "__main__":
-    best_tree, fitness = repairer.repair()
+    html_repairer = Repairer(html_debugger, log=True)
 
-
-# ## Mutate Conditions
 
 if __name__ == "__main__":
-    print('\n## Mutate Conditions')
+    best_tree, fitness = html_repairer.repair()
+
+
+if __name__ == "__main__":
+    quiz("Why couldn't `Repairer()` repair `remove_html_markup()`?",
+         [
+             "The population is too small!",
+             "The suspiciousness is too evenly distributed!",
+             "We need more test cases!",
+             "We need more iterations!",
+             "There is no statement in the source with a correct condition!",
+             "The population is too big!",
+         ], 5242880 >> 20)
+
+
+# ## Mutating Conditions
+
+if __name__ == "__main__":
+    print('\n## Mutating Conditions')
 
 
 
+
+# ### Collecting Conditions
+
+if __name__ == "__main__":
+    print('\n### Collecting Conditions')
+
+
+
+
+def all_conditions(trees, tp=None):
+    """Return all conditions from the AST (or AST list) `trees`.
+    If `tp` is given, return only elements of that type."""
+    if not isinstance(trees, list):
+        assert isinstance(trees, ast.AST)
+        trees = [trees]
+
+    visitor = ConditionVisitor()
+    for tree in trees:
+        visitor.visit(tree)
+    conditions = visitor.conditions
+    if tp is not None:
+        conditions = [c for c in conditions if isinstance(c, tp)]
+
+    return conditions
 
 class ConditionVisitor(NodeVisitor):
     def __init__(self):
@@ -1621,33 +1747,32 @@ class ConditionVisitor(NodeVisitor):
             self.add_conditions(node, 'test')
         return super().generic_visit(node)
 
-def all_conditions(trees, tp=None):
-    if not isinstance(trees, list):
-        assert isinstance(trees, ast.AST)
-        trees = [trees]
+if __name__ == "__main__":
+    [astor.to_source(cond).strip()
+         for cond in all_conditions(remove_html_markup_tree())]
 
-    visitor = ConditionVisitor()
-    for tree in trees:
-        visitor.visit(tree)
-    conditions = visitor.conditions
-    if tp is not None:
-        conditions = [c for c in conditions if isinstance(c, tp)]
 
-    return conditions
+# ### Mutating Conditions
 
 if __name__ == "__main__":
-    [astor.to_source(cond).strip() for cond in all_conditions(remove_html_markup_tree())]
+    print('\n### Mutating Conditions')
+
+
 
 
 class ConditionMutator(StatementMutator):
+    """Mutate conditions in an AST"""
+
     def __init__(self, *args, **kwargs):
+        """Constructor"""
         super().__init__(*args, **kwargs)
-        self.conditions = all_conditions(self.statements)
+        self.conditions = all_conditions(self.source)
         if self.log:
             print("Found conditions",
                   [astor.to_source(cond).strip() for cond in self.conditions])
 
     def choose_condition(self):
+        """Return a random condition from source."""
         return copy.deepcopy(random.choice(self.conditions))
 
 class ConditionMutator(ConditionMutator):
@@ -1655,23 +1780,23 @@ class ConditionMutator(ConditionMutator):
         return random.choice(['set', 'not', 'and', 'or'])
 
     def swap(self, node):
+        """Replace `node` condition by a condition from `source`"""
         if not hasattr(node, 'test'):
             return super().swap(node)
 
-        c1 = self.choose_condition()
-        c2 = self.choose_condition()
+        cond = self.choose_condition()
         new_test = None
 
         choice = self.choose_bool_op()
 
         if choice == 'set':
-            new_test = c1
+            new_test = cond
         elif choice == 'not':
-            new_test = ast.UnaryOp(op=ast.Not(), operand=c1)
+            new_test = ast.UnaryOp(op=ast.Not(), operand=node.test)
         elif choice == 'and':
-            new_test = ast.BoolOp(op=ast.And(), values=[c1, c2])
+            new_test = ast.BoolOp(op=ast.And(), values=[cond, node.test])
         elif choice == 'or':
-            new_test = ast.BoolOp(op=ast.Or(), values=[c1, c2])
+            new_test = ast.BoolOp(op=ast.Or(), values=[cond, node.test])
         else:
             raise ValueError("Unknown boolean operand")
 
@@ -1682,32 +1807,73 @@ class ConditionMutator(ConditionMutator):
         return node
 
 if __name__ == "__main__":
-    mutator = ConditionMutator(
-        statements=all_statements(remove_html_markup_tree()), log=True)
+    mutator = ConditionMutator(source=all_statements(remove_html_markup_tree()),
+                               log=True)
 
 
 if __name__ == "__main__":
-    new_tree = mutator.mutate(remove_html_markup_tree())
+    for i in range(10):
+        new_tree = mutator.mutate(remove_html_markup_tree())
 
 
 if __name__ == "__main__":
-    repairer = Repairer(log=2)
+    condition_repairer = Repairer(html_debugger,
+                                  mutator_class=ConditionMutator,
+                                  log=2)
 
 
 if __name__ == "__main__":
-    for html, plain in REMOVE_HTML_PASSING_TESTCASES:
-        with repairer.collect_pass():
-            remove_html_markup_test(html, plain)
+    best_tree, fitness = condition_repairer.repair(iterations=200)
 
 
 if __name__ == "__main__":
-    for html, plain in REMOVE_HTML_FAILING_TESTCASES:
-        with repairer.collect_fail():
-            remove_html_markup_test(html, plain)
+    repaired_source = astor.to_source(best_tree)
 
 
 if __name__ == "__main__":
-    repairer.repair(mutator_cls=ConditionMutator)
+    original_source = astor.to_source(remove_html_markup_tree())
+
+
+if __name__ == "__main__":
+    for patch in diff(original_source, repaired_source):
+        print_patch(patch)
+
+
+if __name__ == "__main__":
+    quiz("Is this actually the best solution?",
+        [
+            "Yes, sure, of course. Why?",
+            "Err - what happened to single quotes?"
+        ], 1 << 1)
+
+
+if __name__ == "__main__":
+    quiz("Why aren't single quotes handled in the solution?",
+        [
+            "Because they're not important. I mean, who uses 'em anyway?",
+            "Because they are not part of our tests? "
+                "Let me look up how they are constructed..."
+        ], 1 << 1)
+
+
+if __name__ == "__main__":
+    remove_html_markup("<foo quote='>abc'>\"me\"</foo>")
+
+
+if __name__ == "__main__":
+    REMOVE_HTML_PASSING_TESTCASES.append(("<foo quote='>abc'>\"me\"</foo>", '"me"'))
+
+
+if __name__ == "__main__":
+    best_tree, fitness = condition_repairer.repair(iterations=200)
+
+
+if __name__ == "__main__":
+    print_content(astor.to_source(best_tree), '.py')
+
+
+if __name__ == "__main__":
+    fitness
 
 
 # ## Synopsis
@@ -1718,18 +1884,31 @@ if __name__ == "__main__":
 
 
 
+if __name__ == "__main__":
+    # ignore
+    print_content(middle_source, '.py')
+
+
+if __name__ == "__main__":
+    middle_debugger = OchiaiDebugger()
+
+
+if __name__ == "__main__":
+    for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
+        with middle_debugger:
+            m = middle_test(x, y, z)
+
+
+if __name__ == "__main__":
+    middle_repairer = Repairer(middle_debugger)
+    tree, fitness = middle_repairer.repair()
+    print(astor.to_source(tree), fitness)
+
+
 # ## Lessons Learned
 
 if __name__ == "__main__":
     print('\n## Lessons Learned')
-
-
-
-
-# ## Next Steps
-
-if __name__ == "__main__":
-    print('\n## Next Steps')
 
 
 
@@ -1774,75 +1953,4 @@ if __name__ == "__main__":
     print('\n### Exercise 2: _Title_')
 
 
-
-
-class PrunePassTransformer(NodeTransformer):
-    def prune_pass(self, body):
-        if not body:
-            return body
-
-        # Get rid of `pass` statements
-        new_body = list(filter(lambda stmt: not isinstance(stmt, ast.Pass), body))
-        if len(new_body) == 0:
-            # Oops – we need at least one `pass`
-            new_node = ast.Pass()
-            ast.copy_location(new_node, body[0])
-            new_body = [new_node]
-
-        return new_body
-    
-    def visit_node(self, node):
-        if hasattr(node, 'body'):
-            node.body = self.prune_pass(node.body)
-        if hasattr(node, 'orelse'):
-            node.orelse = self.prune_pass(node.orelse)
-        return node
-
-    def generic_visit(self, node):
-        node = super().generic_visit(node)
-        return self.visit_node(node)
-
-if __name__ == "__main__":
-    prune_passes = PrunePassTransformer()
-    prune_passes.visit(best_tree)
-    print_content(astor.to_source(best_tree), '.py')
-
-
-class PruneReturnTransformer(NodeTransformer):
-    def ends_in_return(self, body):
-        return len(body) > 0 and isinstance(body[-1], ast.Return)
-
-    def prune_returns(self, body):
-        if body is None:
-            return None
-
-        # Get rid of statements after `return`
-        for i, stmt in enumerate(body):
-            if isinstance(stmt, ast.Return):
-                body = body[:i + 1]
-                break
-            if isinstance(stmt, ast.If):
-                body_returns = self.ends_in_return(stmt.body)
-                orelse_returns = self.ends_in_return(stmt.orelse)
-                if body_returns and orelse_returns:
-                    body = body[:i + 1]
-                    break
-
-        return body
-
-    def visit_node(self, node):
-        if hasattr(node, 'body'):
-            node.body = self.prune_returns(node.body)
-        if hasattr(node, 'orelse'):
-            node.orelse = self.prune_returns(node.orelse)
-        return node
-
-    def generic_visit(self, node):
-        node = super().generic_visit(node)
-        return self.visit_node(node)
-
-if __name__ == "__main__":
-    prune_returns = PruneReturnTransformer()
-    prune_returns.visit(best_tree)
-    print_content(astor.to_source(best_tree), '.py')
 

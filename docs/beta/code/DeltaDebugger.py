@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-01 14:30:47+01:00
+# Last change: 2021-01-02 20:37:24+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
