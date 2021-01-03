@@ -11927,13 +11927,15 @@ MathJax.Hub.Config({
 </ul></li><li class="has-sub"><a href="#Mutating-Conditions">&nbsp;&bull;&nbsp;&nbsp; Mutating Conditions</a>
 <ul><li class="has-sub"><a href="#Collecting-Conditions">Collecting Conditions</a>
 </li><li class="has-sub"><a href="#Mutating-Conditions">Mutating Conditions</a>
-</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+</ul></li><li class="has-sub"><a href="#Limitations">&nbsp;&bull;&nbsp;&nbsp; Limitations</a>
+</li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
 <ul><li class="has-sub"><a href="#Exercise-1:-Automated-Repair-Parameters">Exercise 1: Automated Repair Parameters</a>
 </li><li class="has-sub"><a href="#Exercise-2:-Elitism">Exercise 2: Elitism</a>
 </li><li class="has-sub"><a href="#Exercise-3:-Evolving-Values">Exercise 3: Evolving Values</a>
 </li><li class="has-sub"><a href="#Exercise-4:-Evolving-Variable-Names">Exercise 4: Evolving Variable Names</a>
+</li><li class="has-sub"><a href="#Exercise-5:-Parallel-Repair">Exercise 5: Parallel Repair</a>
 </ul></li></ul></li>
      </li>
      
@@ -12089,6 +12091,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">y</span>
         <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">z</span><span class="p">:</span>
+            <span class="k">pass</span>
             <span class="k">return</span> <span class="n">x</span>
     <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">y</span>
@@ -12166,18 +12169,18 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>540  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):
-541      <span class="ansi-blue-fg">if</span> y &lt; z:
-542          <span class="ansi-blue-fg">if</span> x &lt; y:
-543              <span class="ansi-blue-fg">return</span> y
-544          <span class="ansi-blue-fg">elif</span> x &lt; z:
-545              <span class="ansi-blue-fg">return</span> y
-546      <span class="ansi-blue-fg">else</span>:
-547          <span class="ansi-blue-fg">if</span> x &gt; y:
-548              <span class="ansi-blue-fg">return</span> y
-549          <span class="ansi-blue-fg">elif</span> x &gt; z:
-550              <span class="ansi-blue-fg">return</span> x
-551      <span class="ansi-blue-fg">return</span> z
+<pre>570  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):
+571      <span class="ansi-blue-fg">if</span> y &lt; z:
+572          <span class="ansi-blue-fg">if</span> x &lt; y:
+573              <span class="ansi-blue-fg">return</span> y
+574          <span class="ansi-blue-fg">elif</span> x &lt; z:
+575              <span class="ansi-blue-fg">return</span> y
+576      <span class="ansi-blue-fg">else</span>:
+577          <span class="ansi-blue-fg">if</span> x &gt; y:
+578              <span class="ansi-blue-fg">return</span> y
+579          <span class="ansi-blue-fg">elif</span> x &gt; z:
+580              <span class="ansi-blue-fg">return</span> x
+581      <span class="ansi-blue-fg">return</span> z
 </pre>
 </div>
 
@@ -12756,67 +12759,10 @@ AssertionError (expected)
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># middle_debugger  # FIXME</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html" class="import" target="_blank">IPython.display</a></span> <span class="k">import</span> <span class="n">HTML</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">middle_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">()</span>  <span class="c1"># FIXME</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-29-8e8a05f6f5cc&gt;&#34;, line 2, in &lt;module&gt;
-    middle_debugger.code()  # FIXME
-  File &#34;StatisticalDebugger.ipynb&#34;, line 421, in code
-    function = globals()[function]
-KeyError: &#39;middle_test&#39; (expected)
-</pre>
-</div>
-
-</div>
-
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>We see that there is a clear focus on the upper half of the code:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>We see that the upper half of the <code>middle()</code> code is definitely more suspicious:</p>
 </div>
 </div>
 </div>
@@ -12828,7 +12774,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">middle_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">middle</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_debugger</span>
 </pre></div>
 
 </div>
@@ -12841,29 +12787,36 @@ KeyError: &#39;middle_test&#39; (expected)
 <div class="output_html rendered_html output_subarea output_execute_result">
 
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 540:  70%"> 540 def middle(x, y, z):</pre>
+                    title="Line 570:  70%"> 570 def middle(x, y, z):</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 541:  70%"> 541     if y &lt; z:</pre>
+                    title="Line 571:  70%"> 571     if y &lt; z:</pre>
 <pre style="background-color:hsl(14.34589124092514, 100.0%, 80%)"
-                    title="Line 542:  88%"> 542         if x &lt; y:</pre>
+                    title="Line 572:  88%"> 572         if x &lt; y:</pre>
 <pre style="background-color:hsl(120.0, 7.000000000000001%, 80%)"
-                    title="Line 543:   0%"> 543             return y</pre>
+                    title="Line 573:   0%"> 573             return y</pre>
 <pre style="background-color:hsl(11.357104748977767, 100.0%, 80%)"
-                    title="Line 544:  90%"> 544         elif x &lt; z:</pre>
+                    title="Line 574:  90%"> 574         elif x &lt; z:</pre>
 <pre style="background-color:hsl(4.529946162074849, 100.0%, 80%)"
-                    title="Line 545:  96%"> 545             return y</pre>
-<pre title="Line 546: not executed"> 546     else:
+                    title="Line 575:  96%"> 575             return y</pre>
+<pre title="Line 576: not executed"> 576     else:
 </pre>
 <pre style="background-color:hsl(120.0, 71.0%, 80%)"
-                    title="Line 547:   0%"> 547         if x &gt; y:</pre>
+                    title="Line 577:   0%"> 577         if x &gt; y:</pre>
 <pre style="background-color:hsl(120.0, 20.0%, 80%)"
-                    title="Line 548:   0%"> 548             return y</pre>
+                    title="Line 578:   0%"> 578             return y</pre>
 <pre style="background-color:hsl(120.0, 51.0%, 80%)"
-                    title="Line 549:   0%"> 549         elif x &gt; z:</pre>
+                    title="Line 579:   0%"> 579         elif x &gt; z:</pre>
 <pre style="background-color:hsl(120.0, 19.0%, 80%)"
-                    title="Line 550:   0%"> 550             return x</pre>
+                    title="Line 580:   0%"> 580             return x</pre>
 <pre style="background-color:hsl(120.0, 46.0%, 80%)"
-                    title="Line 551:   0%"> 551     return z</pre>
+                    title="Line 581:   0%"> 581     return z</pre>
+
+<p/><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 1:  70%">   1 def middle_test(x, y, z):</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 2:  70%">   2     m = middle(x, y, z)</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 3:  70%">   3     assert m == sorted([x, y, z])[1]</pre>
 
 </div>
 
@@ -12881,7 +12834,7 @@ KeyError: &#39;middle_test&#39; (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>545            <span class="ansi-blue-fg">return</span> y
+<pre>575            <span class="ansi-blue-fg">return</span> y
 </pre>
 </div>
 
@@ -14048,11 +14001,11 @@ KeyError: &#39;middle_test&#39; (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Return at 0x7fab599ebc18&gt;,
- &lt;_ast.Return at 0x7fab599ebb70&gt;,
- &lt;_ast.Return at 0x7fab599eb6d8&gt;,
- &lt;_ast.Return at 0x7fab599ebda0&gt;,
- &lt;_ast.Return at 0x7fab599ebb38&gt;]
+<pre>[&lt;_ast.Return at 0x7ffdef277390&gt;,
+ &lt;_ast.Return at 0x7ffdef26bb38&gt;,
+ &lt;_ast.Return at 0x7ffdef277908&gt;,
+ &lt;_ast.Return at 0x7ffdef2770b8&gt;,
+ &lt;_ast.Return at 0x7ffdef277630&gt;]
 </pre>
 </div>
 
@@ -14075,11 +14028,11 @@ KeyError: &#39;middle_test&#39; (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[(&lt;_ast.If at 0x7fab599ebe10&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599ebd30&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599eb978&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599eb780&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599eba20&gt;, &#39;middle&#39;)]
+<pre>[(&lt;_ast.If at 0x7ffdef3ecba8&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef3ec8d0&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef2772e8&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef277588&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef277940&gt;, &#39;middle&#39;)]
 </pre>
 </div>
 
@@ -14641,21 +14594,21 @@ KeyError: &#39;middle_test&#39; (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-1" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-1-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-1">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-1" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-1-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-1">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br>
 
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-2" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-2-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-2">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-2" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-2-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-2">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br>
 
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-3" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-3-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-3">Because a <code>pass</code> node makes a target for future mutations</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-3" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-3-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-3">Because a <code>pass</code> node makes a target for future mutations</label><br>
 
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-4" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-4-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-4">Because it causes the tests to pass</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-4" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-4-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-4">Because it causes the tests to pass</label><br>
 
     </div>
     </p>
-    <input id="c9189902-4dcf-11eb-ae51-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c', 14, 1)">
+    <input id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c', 14, 1)">
     </div>
 
 </div>
@@ -15487,21 +15440,21 @@ KeyError: &#39;middle_test&#39; (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-1" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-1-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-1">Line 3: <code>if x &lt; y</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-1" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-1-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-1">Line 3: <code>if x &lt; y</code></label><br>
 
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-2" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-2-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-2">Line 4: <code>if x &gt; z</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-2" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-2-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-2">Line 4: <code>if x &gt; z</code></label><br>
 
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-3" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-3-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-3">Line 5: <code>return x</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-3" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-3-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-3">Line 5: <code>return x</code></label><br>
 
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-4" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-4-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-4">Line 13: <code>return z</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-4" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-4-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-4">Line 13: <code>return z</code></label><br>
 
     </div>
     </p>
-    <input id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c', 12, 1)">
+    <input id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c', 12, 1)">
     </div>
 
 </div>
@@ -15694,9 +15647,9 @@ KeyError: &#39;middle_test&#39; (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Assign at 0x7fab59b3dc88&gt;,
- &lt;_ast.Assign at 0x7fab59b3de10&gt;,
- &lt;_ast.Assign at 0x7fab59b3d898&gt;]
+<pre>[&lt;_ast.Assign at 0x7ffdef504e80&gt;,
+ &lt;_ast.Assign at 0x7ffdef504550&gt;,
+ &lt;_ast.Assign at 0x7ffdef504da0&gt;]
 </pre>
 </div>
 
@@ -16305,7 +16258,7 @@ KeyError: &#39;middle_test&#39; (expected)
                 <span class="n">suspiciousness_func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">debugger</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">,</span>
                 <span class="n">log</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">crossover</span> <span class="o">=</span> <span class="n">crossover_class</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reducer_class</span> <span class="o">=</span> <span class="n">reducer_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span> <span class="o">=</span> <span class="n">reducer_class</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -16322,6 +16275,40 @@ KeyError: &#39;middle_test&#39; (expected)
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>When we access or execute functions, we do so in the  caller's environment, not ours. The <code>caller_globals()</code> method acts as replacement for <code>globals()</code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Repairer</span><span class="p">(</span><span class="n">Repairer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">caller_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the frame of the caller.&quot;&quot;&quot;</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
+        <span class="k">while</span> <span class="p">(</span><span class="s1">&#39;self&#39;</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span> <span class="ow">and</span> 
+               <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)):</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span>
+        <span class="k">return</span> <span class="n">frame</span>
+
+    <span class="k">def</span> <span class="nf">caller_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the globals() environment of the caller.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">()</span><span class="o">.</span><span class="n">f_globals</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -16332,7 +16319,7 @@ KeyError: &#39;middle_test&#39; (expected)
     <span class="k">def</span> <span class="nf">getsource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the source for `item`. Can also be a string.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">item</span><span class="p">]</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">()[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </pre></div>
 
@@ -16354,8 +16341,8 @@ KeyError: &#39;middle_test&#39; (expected)
         <span class="k">def</span> <span class="nf">is_test</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugger</span><span class="o">.</span><span class="n">covered_functions</span><span class="p">()</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_test</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">func</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugger</span><span class="o">.</span><span class="n">covered_functions</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_test</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
 </pre></div>
 
 </div>
@@ -16396,10 +16383,17 @@ KeyError: &#39;middle_test&#39; (expected)
         <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">item</span><span class="p">]</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">()[</span><span class="n">item</span><span class="p">]</span>
 
             <span class="n">item_lines</span><span class="p">,</span> <span class="n">item_first_lineno</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-            <span class="n">item_tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">item_lines</span><span class="p">))</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">item_tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">item_lines</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">IndentationError</span><span class="p">:</span>
+                <span class="c1"># inner function or likewise</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Can&#39;t parse </span><span class="si">{item.__name__}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
             <span class="n">ast</span><span class="o">.</span><span class="n">increment_lineno</span><span class="p">(</span><span class="n">item_tree</span><span class="p">,</span> <span class="n">item_first_lineno</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">tree</span><span class="o">.</span><span class="n">body</span> <span class="o">+=</span> <span class="n">item_tree</span><span class="o">.</span><span class="n">body</span>
 
@@ -16434,7 +16428,7 @@ KeyError: &#39;middle_test&#39; (expected)
 <span class="sd">        Return number of passed tests.&quot;&quot;&quot;</span>
         <span class="n">passed</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">collectors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugger</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">test_set</span><span class="p">]</span>
-        <span class="n">function</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">debugger</span><span class="o">.</span><span class="n">function</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span>  <span class="c1"># may be redefined</span>
+        <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">()[</span><span class="bp">self</span><span class="o">.</span><span class="n">debugger</span><span class="o">.</span><span class="n">function</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">collectors</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
@@ -16575,7 +16569,7 @@ KeyError: &#39;middle_test&#39; (expected)
         <span class="c1"># Save defs</span>
         <span class="n">original_defs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">toplevel_defs</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
-            <span class="n">original_defs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">original_defs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Repair candidate:&quot;</span><span class="p">)</span>
@@ -16592,12 +16586,12 @@ KeyError: &#39;middle_test&#39; (expected)
             <span class="n">fitness</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">return</span> <span class="n">fitness</span>
 
-        <span class="n">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+        <span class="n">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">())</span>
 
         <span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_tests</span><span class="p">(</span><span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">original_defs</span><span class="p">:</span>
-            <span class="nb">globals</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_defs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_defs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Fitness = </span><span class="si">{fitness}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -16839,10 +16833,10 @@ KeyError: &#39;middle_test&#39; (expected)
         <span class="n">original_fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
         <span class="n">source_lines</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer_class</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">))</span> <span class="k">as</span> <span class="n">reducer</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">test_reduce</span><span class="p">(</span><span class="n">source_lines</span><span class="p">,</span> <span class="n">original_fitness</span><span class="p">)</span>
 
-        <span class="n">reduced_lines</span> <span class="o">=</span> <span class="n">reducer</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;source_lines&#39;</span><span class="p">]</span>
+        <span class="n">reduced_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;source_lines&#39;</span><span class="p">]</span>
         <span class="n">reduced_source</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reduced_lines</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">reduced_source</span><span class="p">)</span>
@@ -17567,9 +17561,9 @@ Reduced code (fitness = 1.0):
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-153-bfe5da826454&gt;&#34;, line 3, in &lt;module&gt;
+  File &#34;&lt;ipython-input-151-bfe5da826454&gt;&#34;, line 3, in &lt;module&gt;
     remove_html_markup_test(html, plain)
-  File &#34;&lt;ipython-input-139-a492611f8c18&gt;&#34;, line 4, in remove_html_markup_test
+  File &#34;&lt;ipython-input-137-a492611f8c18&gt;&#34;, line 4, in remove_html_markup_test
     f&#34;Got {repr(outcome)}, expected {repr(plain)}&#34;
 AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#39;, expected &#39;&#34;Y^0?-1XPjy04ex&#39; (expected)
 </pre>
@@ -17620,7 +17614,7 @@ AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>The suspiciousness distribution will not be of much help here – pretty much all lines have the same suspiciousness.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>The suspiciousness distribution will not be of much help here – pretty much all lines in <code>remove_html_markup()</code> have the same suspiciousness.</p>
 </div>
 </div>
 </div>
@@ -17632,36 +17626,7 @@ AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">html_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">()</span>  <span class="c1"># FIXME</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-156-f9732768cfbb&gt;&#34;, line 2, in &lt;module&gt;
-    html_debugger.code()  # FIXME
-  File &#34;StatisticalDebugger.ipynb&#34;, line 421, in code
-    function = globals()[function]
-KeyError: &#39;remove_html_markup_test&#39; (expected)
-</pre>
-</div>
-
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">html_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">html_debugger</span>
 </pre></div>
 
 </div>
@@ -17703,6 +17668,15 @@ KeyError: &#39;remove_html_markup_test&#39; (expected)
 <pre title="Line 15: not executed">  15 &nbsp;</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
                     title="Line 16:  70%">  16     return out</pre>
+
+<p/><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 1:  70%">   1 def remove_html_markup_test(html, plain):</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 2:  70%">   2     outcome = remove_html_markup(html)</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 3:  70%">   3     assert outcome == plain, \</pre>
+<pre style="background-color:hsl(0.0, 100.0%, 80%)"
+                    title="Line 4: 100%">   4         f&quot;Got {repr(outcome)}, expected {repr(plain)}&quot;</pre>
 
 </div>
 
@@ -17882,27 +17856,27 @@ Reduced code (fitness = 0.99):
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-1" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-1-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-1">The population is too small!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-1" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-1-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-1">The population is too small!</label><br>
 
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-2" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-2-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-2">The suspiciousness is too evenly distributed!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-2" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-2-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-2">The suspiciousness is too evenly distributed!</label><br>
 
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-3" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-3-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-3">We need more test cases!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-3" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-3-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-3">We need more test cases!</label><br>
 
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-4" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-4-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-4">We need more iterations!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-4" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-4-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-4">We need more iterations!</label><br>
 
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-5" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-5-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-5">There is no statement in the source with a correct condition!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-5" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-5-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-5">There is no statement in the source with a correct condition!</label><br>
 
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-6" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-6-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-6">The population is too big!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-6" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-6-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-6">The population is too big!</label><br>
 
     </div>
     </p>
-    <input id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c', 32, 0)">
+    <input id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c', 32, 0)">
     </div>
 
 </div>
@@ -18364,8 +18338,10 @@ Reduced code (fitness = 1.0):
     tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
+    out = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            <span class="ansi-blue-fg">pass</span>
             tag = <span class="ansi-blue-fg">True</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
             tag = <span class="ansi-blue-fg">False</span>
@@ -18443,7 +18419,17 @@ Reduced code (fitness = 1.0):
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -<span class="ansi-blue-fg">206</span>,<span class="ansi-blue-fg">51</span> +<span class="ansi-blue-fg">206</span>,<span class="ansi-blue-fg">39</span> @@
+<pre>@@ -<span class="ansi-blue-fg">67</span>,<span class="ansi-blue-fg">16</span> +<span class="ansi-blue-fg">67</span>,<span class="ansi-blue-fg">29</span> @@
+ ut = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
+
++    out = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
+
+     <span class="ansi-blue-fg">for</span>@@ -<span class="ansi-blue-fg">123</span>,<span class="ansi-blue-fg">32</span> +<span class="ansi-blue-fg">123</span>,<span class="ansi-blue-fg">49</span> @@
+  <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+
++            <span class="ansi-blue-fg">pass</span>
+
+             tag@@ -<span class="ansi-blue-fg">236</span>,<span class="ansi-blue-fg">51</span> +<span class="ansi-blue-fg">236</span>,<span class="ansi-blue-fg">39</span> @@
  lse
 
 -        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
@@ -18519,15 +18505,15 @@ Reduced code (fitness = 1.0):
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e77b39c2-4dcf-11eb-a389-f218984d6a0c" id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-1" onclick="clear_selection('e77b39c2-4dcf-11eb-a389-f218984d6a0c')">
-        <label id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-1-label" for="e77b39c2-4dcf-11eb-a389-f218984d6a0c-1">Yes, sure, of course. Why?</label><br>
+        <input type="radio" name="248b2854-4e1b-11eb-a389-f218984d6a0c" id="248b2854-4e1b-11eb-a389-f218984d6a0c-1" onclick="clear_selection('248b2854-4e1b-11eb-a389-f218984d6a0c')">
+        <label id="248b2854-4e1b-11eb-a389-f218984d6a0c-1-label" for="248b2854-4e1b-11eb-a389-f218984d6a0c-1">Yes, sure, of course. Why?</label><br>
 
-        <input type="radio" name="e77b39c2-4dcf-11eb-a389-f218984d6a0c" id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-2" onclick="clear_selection('e77b39c2-4dcf-11eb-a389-f218984d6a0c')">
-        <label id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-2-label" for="e77b39c2-4dcf-11eb-a389-f218984d6a0c-2">Err - what happened to single quotes?</label><br>
+        <input type="radio" name="248b2854-4e1b-11eb-a389-f218984d6a0c" id="248b2854-4e1b-11eb-a389-f218984d6a0c-2" onclick="clear_selection('248b2854-4e1b-11eb-a389-f218984d6a0c')">
+        <label id="248b2854-4e1b-11eb-a389-f218984d6a0c-2-label" for="248b2854-4e1b-11eb-a389-f218984d6a0c-2">Err - what happened to single quotes?</label><br>
 
     </div>
     </p>
-    <input id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e77b39c2-4dcf-11eb-a389-f218984d6a0c', 4, 0)">
+    <input id="248b2854-4e1b-11eb-a389-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('248b2854-4e1b-11eb-a389-f218984d6a0c', 4, 0)">
     </div>
 
 </div>
@@ -18608,15 +18594,15 @@ Reduced code (fitness = 1.0):
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c" id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-1" onclick="clear_selection('e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c')">
-        <label id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-1-label" for="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-1">Because they're not important. I mean, who uses 'em anyway?</label><br>
+        <input type="radio" name="248c6c28-4e1b-11eb-a7ea-f218984d6a0c" id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-1" onclick="clear_selection('248c6c28-4e1b-11eb-a7ea-f218984d6a0c')">
+        <label id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-1-label" for="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-1">Because they're not important. I mean, who uses 'em anyway?</label><br>
 
-        <input type="radio" name="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c" id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-2" onclick="clear_selection('e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c')">
-        <label id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-2-label" for="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-2">Because they are not part of our tests? Let me look up how they are constructed...</label><br>
+        <input type="radio" name="248c6c28-4e1b-11eb-a7ea-f218984d6a0c" id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-2" onclick="clear_selection('248c6c28-4e1b-11eb-a7ea-f218984d6a0c')">
+        <label id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-2-label" for="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-2">Because they are not part of our tests? Let me look up how they are constructed...</label><br>
 
     </div>
     </p>
-    <input id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c', 4, 0)">
+    <input id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('248c6c28-4e1b-11eb-a7ea-f218984d6a0c', 4, 0)">
     </div>
 
 </div>
@@ -18856,6 +18842,26 @@ Reduced code (fitness = 1.0):
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Limitations">Limitations<a class="anchor-link" href="#Limitations">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The <code>Repairer</code> class is hardly tested. Things that do not work include</p>
+<ul>
+<li>Functions with inner functions are not be repaired.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h2 id="Lessons-Learned">Lessons Learned<a class="anchor-link" href="#Lessons-Learned">&#182;</a></h2><ul>
 <li>Automated repair based on genetic optimization uses five ingredients:<ol>
 <li>A <em>test suite</em> to determine passing and failing tests</li>
@@ -18978,7 +18984,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-185-751aff5e3a1c&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-182-751aff5e3a1c&gt;&#34;, line 2, in &lt;module&gt;
     square_root_of_zero = square_root(0)
   File &#34;Assertions.ipynb&#34;, line 58, in square_root
     guess = (approx + x / approx) / 2
@@ -19012,13 +19018,25 @@ ZeroDivisionError: float division by zero (expected)
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-5:-Parallel-Repair">Exercise 5: Parallel Repair<a class="anchor-link" href="#Exercise-5:-Parallel-Repair">&#182;</a></h3><p>Automatic Repair is a technique that is embarassingly parallel – both the tests can all be run in parallel, and the</p>
+
+    
+<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/Repairer.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
+</div>
+</div>
+</div>
+</div>
+
         
 <p class="imprint">
 <img style="float:right" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License">
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairer.ipynb" target=_blank)>Last change: 2021-01-03 15:28:05+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairer.ipynb" target=_blank)>Last change: 2021-01-04 00:28:27+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19036,7 +19054,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairer.html">Repairing Code Automatically</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairer.html">https://www.debuggingbook.org/beta/html/Repairer.html</a>.  Retrieved 2021-01-03 15:28:05+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairer.html">Repairing Code Automatically</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairer.html">https://www.debuggingbook.org/beta/html/Repairer.html</a>.  Retrieved 2021-01-04 00:28:27+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Repairer,
@@ -19046,9 +19064,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairer.html"
     year = {2021},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Repairer.html}},
-    note = {Retrieved 2021-01-03 15:28:05+01:00},
+    note = {Retrieved 2021-01-04 00:28:27+01:00},
     url = {https://www.debuggingbook.org/beta/html/Repairer.html},
-    urldate = {2021-01-03 15:28:05+01:00}
+    urldate = {2021-01-04 00:28:27+01:00}
 }
 </pre>
 </div>

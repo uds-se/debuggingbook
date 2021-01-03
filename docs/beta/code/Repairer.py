@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-03 15:28:05+01:00
+# Last change: 2021-01-04 00:24:02+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -223,19 +223,8 @@ if __name__ == "__main__":
             m = middle_test(x, y, z)
 
 
-# middle_debugger  # FIXME
-
 if __name__ == "__main__":
-    from IPython.display import HTML
-
-
-if __name__ == "__main__":
-    with ExpectError():
-        middle_debugger.code()  # FIXME
-
-
-if __name__ == "__main__":
-    HTML(middle_debugger.code(function=middle, color=True))
+    middle_debugger
 
 
 if __name__ == "__main__":
@@ -1156,7 +1145,7 @@ class Repairer():
                 suspiciousness_func=self.debugger.suspiciousness,
                 log=(self.log >= 3))
         self.crossover = crossover_class(log=(self.log >= 3))
-        self.reducer_class = reducer_class
+        self.reducer = reducer_class(log=(self.log >= 3))
 
 # #### Helper Functions
 
@@ -1167,10 +1156,23 @@ if __name__ == "__main__":
 
 
 class Repairer(Repairer):
+    def caller_frame(self):
+        """Return the frame of the caller."""
+        frame = inspect.currentframe()
+        while ('self' in frame.f_locals and 
+               isinstance(frame.f_locals['self'], self.__class__)):
+            frame = frame.f_back
+        return frame
+
+    def caller_globals(self):
+        """Return the globals() environment of the caller."""
+        return self.caller_frame().f_globals
+
+class Repairer(Repairer):
     def getsource(self, item):
         """Get the source for `item`. Can also be a string."""
         if isinstance(item, str):
-            item = globals()[item]
+            item = self.caller_globals()[item]
         return inspect.getsource(item)
 
 class Repairer(Repairer):
@@ -1180,8 +1182,8 @@ class Repairer(Repairer):
         def is_test(name):
             return name.startswith('test') or name.endswith('test')
 
-        return [name for name in self.debugger.covered_functions()
-                if not is_test(name)]
+        return [func for func in self.debugger.covered_functions()
+                if not is_test(func.__name__)]
 
 class Repairer(Repairer):
     def log_tree(self, description, tree):
@@ -1198,10 +1200,17 @@ class Repairer(Repairer):
         tree = ast.parse("")
         for item in items:
             if isinstance(item, str):
-                item = globals()[item]
+                item = self.caller_globals()[item]
 
             item_lines, item_first_lineno = inspect.getsourcelines(item)
-            item_tree = ast.parse("".join(item_lines))
+            
+            try:
+                item_tree = ast.parse("".join(item_lines))
+            except IndentationError:
+                # inner function or likewise
+                warnings.warn(f"Can't parse {item.__name__}")
+                continue
+
             ast.increment_lineno(item_tree, item_first_lineno - 1)
             tree.body += item_tree.body
 
@@ -1223,7 +1232,7 @@ class Repairer(Repairer):
         Return number of passed tests."""
         passed = 0
         collectors = self.debugger.collectors[test_set]
-        function = globals()[self.debugger.function().__name__]  # may be redefined
+        function = self.caller_globals()[self.debugger.function().__name__]
 
         for c in collectors:
             if self.log >= 4:
@@ -1297,7 +1306,7 @@ class Repairer(Repairer):
         # Save defs
         original_defs = {}
         for name in self.toplevel_defs(tree):
-            original_defs[name] = globals()[name]
+            original_defs[name] = self.caller_globals()[name]
 
         if self.log >= 3:
             print("Repair candidate:")
@@ -1314,12 +1323,12 @@ class Repairer(Repairer):
             fitness = 0
             return fitness
 
-        exec(code, globals())
+        exec(code, self.caller_globals())
 
         fitness = self.run_tests(validate=False)
 
         for name in original_defs:
-            globals()[name] = original_defs[name]
+            self.caller_globals()[name] = original_defs[name]
 
         if self.log >= 3:
             print(f"Fitness = {fitness}")
@@ -1468,10 +1477,10 @@ class Repairer(Repairer):
         original_fitness = self.fitness(tree)
         source_lines = astor.to_source(tree).split('\n')
 
-        with self.reducer_class(log=(self.log >= 3)) as reducer:
+        with self.reducer:
             self.test_reduce(source_lines, original_fitness)
 
-        reduced_lines = reducer.min_args()['source_lines']
+        reduced_lines = self.reducer.min_args()['source_lines']
         reduced_source = "\n".join(reduced_lines)
 
         return ast.parse(reduced_source)
@@ -1671,12 +1680,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    with ExpectError():
-        html_debugger.code()  # FIXME
-
-
-if __name__ == "__main__":
-    HTML(html_debugger.code(function=remove_html_markup, color=True))
+    html_debugger
 
 
 if __name__ == "__main__":
@@ -1891,6 +1895,14 @@ if __name__ == "__main__":
     fitness
 
 
+# ## Limitations
+
+if __name__ == "__main__":
+    print('\n## Limitations')
+
+
+
+
 # ## Synopsis
 
 if __name__ == "__main__":
@@ -2001,6 +2013,14 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print('\n### Exercise 4: Evolving Variable Names')
+
+
+
+
+# ### Exercise 5: Parallel Repair
+
+if __name__ == "__main__":
+    print('\n### Exercise 5: Parallel Repair')
 
 
 

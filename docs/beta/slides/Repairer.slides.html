@@ -13995,18 +13995,18 @@ a.anchor-link {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>540  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):
-541      <span class="ansi-blue-fg">if</span> y &lt; z:
-542          <span class="ansi-blue-fg">if</span> x &lt; y:
-543              <span class="ansi-blue-fg">return</span> y
-544          <span class="ansi-blue-fg">elif</span> x &lt; z:
-545              <span class="ansi-blue-fg">return</span> y
-546      <span class="ansi-blue-fg">else</span>:
-547          <span class="ansi-blue-fg">if</span> x &gt; y:
-548              <span class="ansi-blue-fg">return</span> y
-549          <span class="ansi-blue-fg">elif</span> x &gt; z:
-550              <span class="ansi-blue-fg">return</span> x
-551      <span class="ansi-blue-fg">return</span> z</pre>
+<pre>570  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):
+571      <span class="ansi-blue-fg">if</span> y &lt; z:
+572          <span class="ansi-blue-fg">if</span> x &lt; y:
+573              <span class="ansi-blue-fg">return</span> y
+574          <span class="ansi-blue-fg">elif</span> x &lt; z:
+575              <span class="ansi-blue-fg">return</span> y
+576      <span class="ansi-blue-fg">else</span>:
+577          <span class="ansi-blue-fg">if</span> x &gt; y:
+578              <span class="ansi-blue-fg">return</span> y
+579          <span class="ansi-blue-fg">elif</span> x &gt; z:
+580              <span class="ansi-blue-fg">return</span> x
+581      <span class="ansi-blue-fg">return</span> z</pre>
 </div>
 </div>
 
@@ -14579,26 +14579,20 @@ AssertionError (expected)
 </div>
 
 </div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We see that the upper half of the <code>middle()</code> code is definitely more suspicious:</p>
+
+</div>
+</div>
+</div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># middle_debugger  # FIXME</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">middle_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">()</span>  <span class="c1"># FIXME</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_debugger</span>
 </pre></div>
 
     </div>
@@ -14611,79 +14605,42 @@ AssertionError (expected)
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-29-8e8a05f6f5cc&gt;&#34;, line 2, in &lt;module&gt;
-    middle_debugger.code()  # FIXME
-  File &#34;StatisticalDebugger.ipynb&#34;, line 421, in code
-    function = globals()[function]
-KeyError: &#39;middle_test&#39; (expected)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We see that there is a clear focus on the upper half of the code:</p>
-
-</div>
-</div>
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">middle_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">middle</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 540:  70%"> 540 def middle(x, y, z):</pre>
+                    title="Line 570:  70%"> 570 def middle(x, y, z):</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 541:  70%"> 541     if y &lt; z:</pre>
+                    title="Line 571:  70%"> 571     if y &lt; z:</pre>
 <pre style="background-color:hsl(14.34589124092514, 100.0%, 80%)"
-                    title="Line 542:  88%"> 542         if x &lt; y:</pre>
+                    title="Line 572:  88%"> 572         if x &lt; y:</pre>
 <pre style="background-color:hsl(120.0, 7.000000000000001%, 80%)"
-                    title="Line 543:   0%"> 543             return y</pre>
+                    title="Line 573:   0%"> 573             return y</pre>
 <pre style="background-color:hsl(11.357104748977767, 100.0%, 80%)"
-                    title="Line 544:  90%"> 544         elif x &lt; z:</pre>
+                    title="Line 574:  90%"> 574         elif x &lt; z:</pre>
 <pre style="background-color:hsl(4.529946162074849, 100.0%, 80%)"
-                    title="Line 545:  96%"> 545             return y</pre>
-<pre title="Line 546: not executed"> 546     else:
+                    title="Line 575:  96%"> 575             return y</pre>
+<pre title="Line 576: not executed"> 576     else:
 </pre>
 <pre style="background-color:hsl(120.0, 71.0%, 80%)"
-                    title="Line 547:   0%"> 547         if x &gt; y:</pre>
+                    title="Line 577:   0%"> 577         if x &gt; y:</pre>
 <pre style="background-color:hsl(120.0, 20.0%, 80%)"
-                    title="Line 548:   0%"> 548             return y</pre>
+                    title="Line 578:   0%"> 578             return y</pre>
 <pre style="background-color:hsl(120.0, 51.0%, 80%)"
-                    title="Line 549:   0%"> 549         elif x &gt; z:</pre>
+                    title="Line 579:   0%"> 579         elif x &gt; z:</pre>
 <pre style="background-color:hsl(120.0, 19.0%, 80%)"
-                    title="Line 550:   0%"> 550             return x</pre>
+                    title="Line 580:   0%"> 580             return x</pre>
 <pre style="background-color:hsl(120.0, 46.0%, 80%)"
-                    title="Line 551:   0%"> 551     return z</pre>
+                    title="Line 581:   0%"> 581     return z</pre>
+
+<p/><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 1:  70%">   1 def middle_test(x, y, z):</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 2:  70%">   2     m = middle(x, y, z)</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 3:  70%">   3     assert m == sorted([x, y, z])[1]</pre>
 
 </div>
 
@@ -14692,7 +14649,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -14700,10 +14657,10 @@ KeyError: &#39;middle_test&#39; (expected)
 
 </div>
 </div>
-</div></div></section><section>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -14728,14 +14685,14 @@ KeyError: &#39;middle_test&#39; (expected)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>545            <span class="ansi-blue-fg">return</span> y</pre>
+<pre>575            <span class="ansi-blue-fg">return</span> y</pre>
 </div>
 </div>
 
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -14746,7 +14703,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -14763,7 +14720,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[32]:</div>
+    <div class="prompt output_prompt">Out[29]:</div>
 
 
 
@@ -14795,7 +14752,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span>
@@ -14811,7 +14768,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[34]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -14828,7 +14785,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">*</span> \
@@ -14846,7 +14803,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[35]:</div>
+    <div class="prompt output_prompt">Out[32]:</div>
 
 
 
@@ -14881,7 +14838,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_tree</span><span class="p">():</span>
@@ -14895,7 +14852,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">())</span>
@@ -15683,7 +15640,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">()))</span>
@@ -15722,7 +15679,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ast</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">()</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -15738,7 +15695,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[41]:</div>
+    <div class="prompt output_prompt">Out[38]:</div>
 
 
 
@@ -15770,7 +15727,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementVisitor</span><span class="p">(</span><span class="n">NodeVisitor</span><span class="p">):</span>
@@ -15838,7 +15795,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">all_statements_and_functions</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -15858,7 +15815,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">all_statements</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -15880,7 +15837,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">all_statements</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">(),</span> <span class="n">ast</span><span class="o">.</span><span class="n">Return</span><span class="p">)</span>
@@ -15896,17 +15853,17 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[46]:</div>
+    <div class="prompt output_prompt">Out[43]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Return at 0x7fab599ebc18&gt;,
- &lt;_ast.Return at 0x7fab599ebb70&gt;,
- &lt;_ast.Return at 0x7fab599eb6d8&gt;,
- &lt;_ast.Return at 0x7fab599ebda0&gt;,
- &lt;_ast.Return at 0x7fab599ebb38&gt;]</pre>
+<pre>[&lt;_ast.Return at 0x7ffdef277390&gt;,
+ &lt;_ast.Return at 0x7ffdef26bb38&gt;,
+ &lt;_ast.Return at 0x7ffdef277908&gt;,
+ &lt;_ast.Return at 0x7ffdef2770b8&gt;,
+ &lt;_ast.Return at 0x7ffdef277630&gt;]</pre>
 </div>
 
 </div>
@@ -15917,7 +15874,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">all_statements_and_functions</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">(),</span> <span class="n">ast</span><span class="o">.</span><span class="n">If</span><span class="p">)</span>
@@ -15933,17 +15890,17 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[47]:</div>
+    <div class="prompt output_prompt">Out[44]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[(&lt;_ast.If at 0x7fab599ebe10&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599ebd30&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599eb978&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599eb780&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fab599eba20&gt;, &#39;middle&#39;)]</pre>
+<pre>[(&lt;_ast.If at 0x7ffdef3ecba8&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef3ec8d0&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef2772e8&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef277588&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7ffdef277940&gt;, &#39;middle&#39;)]</pre>
 </div>
 
 </div>
@@ -15962,7 +15919,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">random_node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">all_statements</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">()))</span>
@@ -15979,7 +15936,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[49]:</div>
+    <div class="prompt output_prompt">Out[46]:</div>
 
 
 
@@ -16012,7 +15969,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">NodeTransformer</span><span class="p">):</span>
@@ -16064,7 +16021,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16095,7 +16052,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16148,7 +16105,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">RE_SPACE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[ \t\n]+&#39;</span><span class="p">)</span>
@@ -16161,7 +16118,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16210,7 +16167,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16225,7 +16182,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16270,7 +16227,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16321,7 +16278,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16352,7 +16309,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Why are statements replaced by `pass` rather than deleted?&quot;</span><span class="p">,</span>
@@ -16376,7 +16333,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[64]:</div>
+    <div class="prompt output_prompt">Out[61]:</div>
 
 
 
@@ -16444,21 +16401,21 @@ KeyError: &#39;middle_test&#39; (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-1" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-1-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-1">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-1" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-1-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-1">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br>
     
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-2" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-2-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-2">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-2" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-2-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-2">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br>
     
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-3" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-3-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-3">Because a <code>pass</code> node makes a target for future mutations</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-3" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-3-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-3">Because a <code>pass</code> node makes a target for future mutations</label><br>
     
-        <input type="checkbox" name="c9189902-4dcf-11eb-ae51-f218984d6a0c" id="c9189902-4dcf-11eb-ae51-f218984d6a0c-4" onclick="clear_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c')">
-        <label id="c9189902-4dcf-11eb-ae51-f218984d6a0c-4-label" for="c9189902-4dcf-11eb-ae51-f218984d6a0c-4">Because it causes the tests to pass</label><br>
+        <input type="checkbox" name="dd5592a8-4e1a-11eb-ae51-f218984d6a0c" id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-4" onclick="clear_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c')">
+        <label id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-4-label" for="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-4">Because it causes the tests to pass</label><br>
     
     </div>
     </p>
-    <input id="c9189902-4dcf-11eb-ae51-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('c9189902-4dcf-11eb-ae51-f218984d6a0c', 14, 1)">
+    <input id="dd5592a8-4e1a-11eb-ae51-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dd5592a8-4e1a-11eb-ae51-f218984d6a0c', 14, 1)">
     </div>
     
 </div>
@@ -16487,7 +16444,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16522,7 +16479,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatementMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -16568,7 +16525,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mutator</span> <span class="o">=</span> <span class="n">StatementMutator</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -16618,7 +16575,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">new_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -16672,7 +16629,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">WEIGHT_PASSING</span> <span class="o">=</span> <span class="mf">0.99</span>
@@ -16686,7 +16643,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_fitness</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
@@ -16744,7 +16701,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_fitness</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">())</span>
@@ -16760,7 +16717,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[71]:</div>
+    <div class="prompt output_prompt">Out[68]:</div>
 
 
 
@@ -16785,7 +16742,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_fitness</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;def middle(x, y, z): return x&quot;</span><span class="p">))</span>
@@ -16801,7 +16758,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[72]:</div>
+    <div class="prompt output_prompt">Out[69]:</div>
 
 
 
@@ -16826,7 +16783,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_fixed_source</span> <span class="o">=</span> \
@@ -16840,7 +16797,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_fitness</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">middle_fixed_source</span><span class="p">))</span>
@@ -16856,7 +16813,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[75]:</div>
+    <div class="prompt output_prompt">Out[72]:</div>
 
 
 
@@ -16881,7 +16838,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">POPULATION_SIZE</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># From \cite{LeGoues2012}</span>
@@ -16895,7 +16852,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">MIDDLE_POPULATION</span> <span class="o">=</span> <span class="p">[</span><span class="n">middle_tree</span><span class="p">()]</span> <span class="o">+</span> \
@@ -16917,7 +16874,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">MIDDLE_POPULATION</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">middle_fitness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -16938,7 +16895,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">MIDDLE_POPULATION</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
@@ -16989,7 +16946,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">MIDDLE_POPULATION</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
@@ -17038,7 +16995,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">evolve_middle</span><span class="p">():</span>
@@ -17074,7 +17031,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">evolve_middle</span><span class="p">()</span>
@@ -17087,7 +17044,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">MIDDLE_POPULATION</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -17138,7 +17095,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
@@ -17182,7 +17139,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">best_middle_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="n">start_line_number</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -17232,7 +17189,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">original_middle</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;middle&#39;</span><span class="p">]</span>
@@ -17265,10 +17222,23 @@ KeyError: &#39;middle_test&#39; (expected)
 
 </div>
 </div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Some of the lines in our fix candidate are redundant. Which are these?&quot;</span><span class="p">,</span>
@@ -17292,7 +17262,7 @@ KeyError: &#39;middle_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[87]:</div>
+    <div class="prompt output_prompt">Out[84]:</div>
 
 
 
@@ -17360,21 +17330,21 @@ KeyError: &#39;middle_test&#39; (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-1" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-1-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-1">Line 3: <code>if x &lt; y</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-1" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-1-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-1">Line 3: <code>if x &lt; y</code></label><br>
     
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-2" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-2-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-2">Line 4: <code>if x &gt; z</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-2" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-2-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-2">Line 4: <code>if x &gt; z</code></label><br>
     
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-3" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-3-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-3">Line 5: <code>return x</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-3" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-3-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-3">Line 5: <code>return x</code></label><br>
     
-        <input type="checkbox" name="c9bcf600-4dcf-11eb-be15-f218984d6a0c" id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-4" onclick="clear_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c')">
-        <label id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-4-label" for="c9bcf600-4dcf-11eb-be15-f218984d6a0c-4">Line 13: <code>return z</code></label><br>
+        <input type="checkbox" name="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c" id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-4" onclick="clear_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c')">
+        <label id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-4-label" for="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-4">Line 13: <code>return z</code></label><br>
     
     </div>
     </p>
-    <input id="c9bcf600-4dcf-11eb-be15-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('c9bcf600-4dcf-11eb-be15-f218984d6a0c', 12, 1)">
+    <input id="ddf9f6e2-4e1a-11eb-be15-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ddf9f6e2-4e1a-11eb-be15-f218984d6a0c', 12, 1)">
     </div>
     
 </div>
@@ -17432,7 +17402,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">p1</span><span class="p">():</span>
@@ -17449,7 +17419,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">p2</span><span class="p">():</span>
@@ -17476,7 +17446,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crossover</span> <span class="o">=</span> <span class="n">CrossoverOperator</span><span class="p">()</span>
@@ -17500,7 +17470,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">tree_p1</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -17533,7 +17503,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">tree_p2</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -17578,7 +17548,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_t1</span><span class="p">,</span> <span class="n">middle_t2</span> <span class="o">=</span> <span class="n">crossover</span><span class="o">.</span><span class="n">crossover</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">(),</span>
@@ -17600,7 +17570,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">middle_t1</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -17637,7 +17607,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">middle_t2</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -17701,7 +17671,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="prompt input_prompt">In&nbsp;[125]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">middle_debugger</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -17752,7 +17722,7 @@ KeyError: &#39;middle_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">best_tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">()</span>
@@ -17824,7 +17794,7 @@ Reduced code (fitness = 1.0):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">best_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -17864,7 +17834,7 @@ Reduced code (fitness = 1.0):
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[130]:</div>
+<div class="prompt input_prompt">In&nbsp;[128]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fitness</span>
@@ -17880,7 +17850,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[130]:</div>
+    <div class="prompt output_prompt">Out[128]:</div>
 
 
 
@@ -17913,7 +17883,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[131]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">repaired_source</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">best_tree</span><span class="p">)</span>
@@ -17926,7 +17896,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[132]:</div>
+<div class="prompt input_prompt">In&nbsp;[130]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">original_source</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">middle_tree</span><span class="p">())</span>
@@ -17939,7 +17909,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[135]:</div>
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
@@ -17953,7 +17923,7 @@ Reduced code (fitness = 1.0):
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">patch</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">original_source</span><span class="p">,</span> <span class="n">repaired_source</span><span class="p">):</span>
@@ -18007,7 +17977,7 @@ Reduced code (fitness = 1.0):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -18035,7 +18005,7 @@ Reduced code (fitness = 1.0):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_tree</span><span class="p">():</span>
@@ -18057,7 +18027,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[139]:</div>
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup_test</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">plain</span><span class="p">):</span>
@@ -18089,7 +18059,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[150]:</div>
+<div class="prompt input_prompt">In&nbsp;[148]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">REMOVE_HTML_PASSING_TESTCASES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -18105,7 +18075,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[150]:</div>
+    <div class="prompt output_prompt">Out[148]:</div>
 
 
 
@@ -18122,7 +18092,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[151]:</div>
+<div class="prompt input_prompt">In&nbsp;[149]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">html</span><span class="p">,</span> <span class="n">plain</span> <span class="o">=</span> <span class="n">REMOVE_HTML_PASSING_TESTCASES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -18144,7 +18114,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[152]:</div>
+<div class="prompt input_prompt">In&nbsp;[150]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">REMOVE_HTML_FAILING_TESTCASES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -18160,7 +18130,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[152]:</div>
+    <div class="prompt output_prompt">Out[150]:</div>
 
 
 
@@ -18177,7 +18147,7 @@ Reduced code (fitness = 1.0):
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[153]:</div>
+<div class="prompt input_prompt">In&nbsp;[151]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
@@ -18200,9 +18170,9 @@ Reduced code (fitness = 1.0):
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-153-bfe5da826454&gt;&#34;, line 3, in &lt;module&gt;
+  File &#34;&lt;ipython-input-151-bfe5da826454&gt;&#34;, line 3, in &lt;module&gt;
     remove_html_markup_test(html, plain)
-  File &#34;&lt;ipython-input-139-a492611f8c18&gt;&#34;, line 4, in remove_html_markup_test
+  File &#34;&lt;ipython-input-137-a492611f8c18&gt;&#34;, line 4, in remove_html_markup_test
     f&#34;Got {repr(outcome)}, expected {repr(plain)}&#34;
 AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#39;, expected &#39;&#34;Y^0?-1XPjy04ex&#39; (expected)
 </pre>
@@ -18223,7 +18193,7 @@ AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[154]:</div>
+<div class="prompt input_prompt">In&nbsp;[152]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">html_debugger</span> <span class="o">=</span> <span class="n">OchiaiDebugger</span><span class="p">()</span>
@@ -18236,7 +18206,7 @@ AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[155]:</div>
+<div class="prompt input_prompt">In&nbsp;[153]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">html</span><span class="p">,</span> <span class="n">plain</span> <span class="ow">in</span> <span class="p">(</span><span class="n">REMOVE_HTML_PASSING_TESTCASES</span> <span class="o">+</span> 
@@ -18253,54 +18223,17 @@ AssertionError: Got &#39;Y^0?&lt;tqfen yuzeb=b}g[u&gt;-1XPj&lt;/tqfen&gt;y04ex&#
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The suspiciousness distribution will not be of much help here – pretty much all lines have the same suspiciousness.</p>
+<p>The suspiciousness distribution will not be of much help here – pretty much all lines in <code>remove_html_markup()</code> have the same suspiciousness.</p>
 
 </div>
 </div>
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[156]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">html_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">()</span>  <span class="c1"># FIXME</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-156-f9732768cfbb&gt;&#34;, line 2, in &lt;module&gt;
-    html_debugger.code()  # FIXME
-  File &#34;StatisticalDebugger.ipynb&#34;, line 421, in code
-    function = globals()[function]
-KeyError: &#39;remove_html_markup_test&#39; (expected)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="prompt input_prompt">In&nbsp;[154]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">html_debugger</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">html_debugger</span>
 </pre></div>
 
     </div>
@@ -18313,7 +18246,7 @@ KeyError: &#39;remove_html_markup_test&#39; (expected)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[157]:</div>
+    <div class="prompt output_prompt">Out[154]:</div>
 
 
 
@@ -18349,14 +18282,23 @@ KeyError: &#39;remove_html_markup_test&#39; (expected)
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
                     title="Line 16:  70%">  16     return out</pre>
 
-</div>
+<p/><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 1:  70%">   1 def remove_html_markup_test(html, plain):</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 2:  70%">   2     outcome = remove_html_markup(html)</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 3:  70%">   3     assert outcome == plain, \</pre>
+<pre style="background-color:hsl(0.0, 100.0%, 80%)"
+                    title="Line 4: 100%">   4         f&quot;Got {repr(outcome)}, expected {repr(plain)}&quot;</pre>
 
 </div>
 
 </div>
+
+</div>
 </div>
 
-</div><div class="fragment">
+</div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -18364,10 +18306,10 @@ KeyError: &#39;remove_html_markup_test&#39; (expected)
 
 </div>
 </div>
-</div></div></section><section>
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[158]:</div>
+<div class="prompt input_prompt">In&nbsp;[155]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">html_repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">html_debugger</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -18413,7 +18355,7 @@ KeyError: &#39;remove_html_markup_test&#39; (expected)
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[159]:</div>
+<div class="prompt input_prompt">In&nbsp;[156]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">best_tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">html_repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">()</span>
@@ -18484,7 +18426,7 @@ Reduced code (fitness = 0.99):
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[160]:</div>
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Why couldn&#39;t `Repairer()` repair `remove_html_markup()`?&quot;</span><span class="p">,</span>
@@ -18508,7 +18450,7 @@ Reduced code (fitness = 0.99):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[160]:</div>
+    <div class="prompt output_prompt">Out[157]:</div>
 
 
 
@@ -18576,27 +18518,27 @@ Reduced code (fitness = 0.99):
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-1" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-1-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-1">The population is too small!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-1" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-1-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-1">The population is too small!</label><br>
     
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-2" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-2-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-2">The suspiciousness is too evenly distributed!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-2" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-2-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-2">The suspiciousness is too evenly distributed!</label><br>
     
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-3" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-3-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-3">We need more test cases!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-3" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-3-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-3">We need more test cases!</label><br>
     
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-4" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-4-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-4">We need more iterations!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-4" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-4-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-4">We need more iterations!</label><br>
     
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-5" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-5-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-5">There is no statement in the source with a correct condition!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-5" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-5-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-5">There is no statement in the source with a correct condition!</label><br>
     
-        <input type="radio" name="d8f57980-4dcf-11eb-8d96-f218984d6a0c" id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-6" onclick="clear_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c')">
-        <label id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-6-label" for="d8f57980-4dcf-11eb-8d96-f218984d6a0c-6">The population is too big!</label><br>
+        <input type="radio" name="fd58c46c-4e1a-11eb-8d96-f218984d6a0c" id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-6" onclick="clear_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c')">
+        <label id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-6-label" for="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-6">The population is too big!</label><br>
     
     </div>
     </p>
-    <input id="d8f57980-4dcf-11eb-8d96-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('d8f57980-4dcf-11eb-8d96-f218984d6a0c', 32, 0)">
+    <input id="fd58c46c-4e1a-11eb-8d96-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('fd58c46c-4e1a-11eb-8d96-f218984d6a0c', 32, 0)">
     </div>
     
 </div>
@@ -18640,7 +18582,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[161]:</div>
+<div class="prompt input_prompt">In&nbsp;[158]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">all_conditions</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -18675,7 +18617,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[162]:</div>
+<div class="prompt input_prompt">In&nbsp;[159]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionVisitor</span><span class="p">(</span><span class="n">NodeVisitor</span><span class="p">):</span>
@@ -18725,7 +18667,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[163]:</div>
+<div class="prompt input_prompt">In&nbsp;[160]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -18742,7 +18684,7 @@ Reduced code (fitness = 0.99):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[163]:</div>
+    <div class="prompt output_prompt">Out[160]:</div>
 
 
 
@@ -18778,7 +18720,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[164]:</div>
+<div class="prompt input_prompt">In&nbsp;[161]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionMutator</span><span class="p">(</span><span class="n">StatementMutator</span><span class="p">):</span>
@@ -18819,7 +18761,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[165]:</div>
+<div class="prompt input_prompt">In&nbsp;[162]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionMutator</span><span class="p">(</span><span class="n">ConditionMutator</span><span class="p">):</span>
@@ -18869,7 +18811,7 @@ Reduced code (fitness = 0.99):
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[166]:</div>
+<div class="prompt input_prompt">In&nbsp;[163]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mutator</span> <span class="o">=</span> <span class="n">ConditionMutator</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">all_statements</span><span class="p">(</span><span class="n">remove_html_markup_tree</span><span class="p">()),</span>
@@ -18901,7 +18843,7 @@ Reduced code (fitness = 0.99):
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[167]:</div>
+<div class="prompt input_prompt">In&nbsp;[164]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
@@ -18950,7 +18892,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[168]:</div>
+<div class="prompt input_prompt">In&nbsp;[165]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">condition_repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">html_debugger</span><span class="p">,</span>
@@ -19006,7 +18948,7 @@ Reduced code (fitness = 0.99):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[169]:</div>
+<div class="prompt input_prompt">In&nbsp;[166]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">best_tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">condition_repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
@@ -19089,8 +19031,10 @@ Reduced code (fitness = 1.0):
     tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
+    out = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            <span class="ansi-blue-fg">pass</span>
             tag = <span class="ansi-blue-fg">True</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
             tag = <span class="ansi-blue-fg">False</span>
@@ -19126,7 +19070,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[170]:</div>
+<div class="prompt input_prompt">In&nbsp;[167]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">repaired_source</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">best_tree</span><span class="p">)</span>
@@ -19139,7 +19083,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[171]:</div>
+<div class="prompt input_prompt">In&nbsp;[168]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">original_source</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">remove_html_markup_tree</span><span class="p">())</span>
@@ -19149,10 +19093,10 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[172]:</div>
+<div class="prompt input_prompt">In&nbsp;[169]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">patch</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">original_source</span><span class="p">,</span> <span class="n">repaired_source</span><span class="p">):</span>
@@ -19173,7 +19117,17 @@ Reduced code (fitness = 1.0):
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -<span class="ansi-blue-fg">206</span>,<span class="ansi-blue-fg">51</span> +<span class="ansi-blue-fg">206</span>,<span class="ansi-blue-fg">39</span> @@
+<pre>@@ -<span class="ansi-blue-fg">67</span>,<span class="ansi-blue-fg">16</span> +<span class="ansi-blue-fg">67</span>,<span class="ansi-blue-fg">29</span> @@
+ ut = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
+
++    out = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#39;</span>
+
+     <span class="ansi-blue-fg">for</span>@@ -<span class="ansi-blue-fg">123</span>,<span class="ansi-blue-fg">32</span> +<span class="ansi-blue-fg">123</span>,<span class="ansi-blue-fg">49</span> @@
+  <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+
++            <span class="ansi-blue-fg">pass</span>
+
+             tag@@ -<span class="ansi-blue-fg">236</span>,<span class="ansi-blue-fg">51</span> +<span class="ansi-blue-fg">236</span>,<span class="ansi-blue-fg">39</span> @@
  lse
 
 -        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
@@ -19185,10 +19139,10 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 
-</div></div></section><section>
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[173]:</div>
+<div class="prompt input_prompt">In&nbsp;[170]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Is this actually the best solution?&quot;</span><span class="p">,</span>
@@ -19208,7 +19162,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[173]:</div>
+    <div class="prompt output_prompt">Out[170]:</div>
 
 
 
@@ -19276,15 +19230,15 @@ Reduced code (fitness = 1.0):
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="e77b39c2-4dcf-11eb-a389-f218984d6a0c" id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-1" onclick="clear_selection('e77b39c2-4dcf-11eb-a389-f218984d6a0c')">
-        <label id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-1-label" for="e77b39c2-4dcf-11eb-a389-f218984d6a0c-1">Yes, sure, of course. Why?</label><br>
+        <input type="radio" name="248b2854-4e1b-11eb-a389-f218984d6a0c" id="248b2854-4e1b-11eb-a389-f218984d6a0c-1" onclick="clear_selection('248b2854-4e1b-11eb-a389-f218984d6a0c')">
+        <label id="248b2854-4e1b-11eb-a389-f218984d6a0c-1-label" for="248b2854-4e1b-11eb-a389-f218984d6a0c-1">Yes, sure, of course. Why?</label><br>
     
-        <input type="radio" name="e77b39c2-4dcf-11eb-a389-f218984d6a0c" id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-2" onclick="clear_selection('e77b39c2-4dcf-11eb-a389-f218984d6a0c')">
-        <label id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-2-label" for="e77b39c2-4dcf-11eb-a389-f218984d6a0c-2">Err - what happened to single quotes?</label><br>
+        <input type="radio" name="248b2854-4e1b-11eb-a389-f218984d6a0c" id="248b2854-4e1b-11eb-a389-f218984d6a0c-2" onclick="clear_selection('248b2854-4e1b-11eb-a389-f218984d6a0c')">
+        <label id="248b2854-4e1b-11eb-a389-f218984d6a0c-2-label" for="248b2854-4e1b-11eb-a389-f218984d6a0c-2">Err - what happened to single quotes?</label><br>
     
     </div>
     </p>
-    <input id="e77b39c2-4dcf-11eb-a389-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e77b39c2-4dcf-11eb-a389-f218984d6a0c', 4, 0)">
+    <input id="248b2854-4e1b-11eb-a389-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('248b2854-4e1b-11eb-a389-f218984d6a0c', 4, 0)">
     </div>
     
 </div>
@@ -19305,7 +19259,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[174]:</div>
+<div class="prompt input_prompt">In&nbsp;[171]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Why aren&#39;t single quotes handled in the solution?&quot;</span><span class="p">,</span>
@@ -19326,7 +19280,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[174]:</div>
+    <div class="prompt output_prompt">Out[171]:</div>
 
 
 
@@ -19394,15 +19348,15 @@ Reduced code (fitness = 1.0):
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c" id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-1" onclick="clear_selection('e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c')">
-        <label id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-1-label" for="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-1">Because they're not important. I mean, who uses 'em anyway?</label><br>
+        <input type="radio" name="248c6c28-4e1b-11eb-a7ea-f218984d6a0c" id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-1" onclick="clear_selection('248c6c28-4e1b-11eb-a7ea-f218984d6a0c')">
+        <label id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-1-label" for="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-1">Because they're not important. I mean, who uses 'em anyway?</label><br>
     
-        <input type="radio" name="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c" id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-2" onclick="clear_selection('e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c')">
-        <label id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-2-label" for="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-2">Because they are not part of our tests? Let me look up how they are constructed...</label><br>
+        <input type="radio" name="248c6c28-4e1b-11eb-a7ea-f218984d6a0c" id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-2" onclick="clear_selection('248c6c28-4e1b-11eb-a7ea-f218984d6a0c')">
+        <label id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-2-label" for="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-2">Because they are not part of our tests? Let me look up how they are constructed...</label><br>
     
     </div>
     </p>
-    <input id="e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e77c6bf8-4dcf-11eb-a7ea-f218984d6a0c', 4, 0)">
+    <input id="248c6c28-4e1b-11eb-a7ea-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('248c6c28-4e1b-11eb-a7ea-f218984d6a0c', 4, 0)">
     </div>
     
 </div>
@@ -19423,7 +19377,7 @@ Reduced code (fitness = 1.0):
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[175]:</div>
+<div class="prompt input_prompt">In&nbsp;[172]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s2">&quot;&lt;foo quote=&#39;&gt;abc&#39;&gt;</span><span class="se">\&quot;</span><span class="s2">me</span><span class="se">\&quot;</span><span class="s2">&lt;/foo&gt;&quot;</span><span class="p">)</span>
@@ -19439,7 +19393,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[175]:</div>
+    <div class="prompt output_prompt">Out[172]:</div>
 
 
 
@@ -19456,7 +19410,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[176]:</div>
+<div class="prompt input_prompt">In&nbsp;[173]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">REMOVE_HTML_PASSING_TESTCASES</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;&lt;foo quote=&#39;&gt;abc&#39;&gt;</span><span class="se">\&quot;</span><span class="s2">me</span><span class="se">\&quot;</span><span class="s2">&lt;/foo&gt;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;me&quot;&#39;</span><span class="p">))</span>
@@ -19469,7 +19423,7 @@ Reduced code (fitness = 1.0):
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[177]:</div>
+<div class="prompt input_prompt">In&nbsp;[174]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">best_tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">condition_repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
@@ -19578,7 +19532,7 @@ Reduced code (fitness = 1.0):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[178]:</div>
+<div class="prompt input_prompt">In&nbsp;[175]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">best_tree</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -19629,7 +19583,7 @@ Reduced code (fitness = 1.0):
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[179]:</div>
+<div class="prompt input_prompt">In&nbsp;[176]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fitness</span>
@@ -19645,7 +19599,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[179]:</div>
+    <div class="prompt output_prompt">Out[176]:</div>
 
 
 
@@ -19675,6 +19629,24 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Limitations">Limitations<a class="anchor-link" href="#Limitations">&#182;</a></h2>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>Repairer</code> class is hardly tested. Things that do not work include</p>
+<ul>
+<li>Functions with inner functions are not be repaired.</li>
+</ul>
+
+</div>
+</div>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -19724,7 +19696,7 @@ Reduced code (fitness = 1.0):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[180]:</div>
+<div class="prompt input_prompt">In&nbsp;[177]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -19774,7 +19746,7 @@ Reduced code (fitness = 1.0):
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[181]:</div>
+<div class="prompt input_prompt">In&nbsp;[178]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_debugger</span> <span class="o">=</span> <span class="n">OchiaiDebugger</span><span class="p">()</span>
@@ -19787,7 +19759,7 @@ Reduced code (fitness = 1.0):
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[182]:</div>
+<div class="prompt input_prompt">In&nbsp;[179]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">MIDDLE_PASSING_TESTCASES</span> <span class="o">+</span> <span class="n">MIDDLE_FAILING_TESTCASES</span><span class="p">:</span>
@@ -19810,7 +19782,7 @@ Reduced code (fitness = 1.0):
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[183]:</div>
+<div class="prompt input_prompt">In&nbsp;[180]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">middle_debugger</span><span class="p">)</span>
@@ -19837,6 +19809,7 @@ Reduced code (fitness = 1.0):
         if x &lt; y:
             return y
         elif x &lt; z:
+            pass
             return x
     elif x &gt; y:
         return y
@@ -19934,7 +19907,7 @@ Reduced code (fitness = 1.0):
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[185]:</div>
+<div class="prompt input_prompt">In&nbsp;[182]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
@@ -19956,7 +19929,7 @@ Reduced code (fitness = 1.0):
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-185-751aff5e3a1c&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-182-751aff5e3a1c&gt;&#34;, line 2, in &lt;module&gt;
     square_root_of_zero = square_root(0)
   File &#34;Assertions.ipynb&#34;, line 58, in square_root
     guess = (approx + x / approx) / 2
@@ -19981,6 +19954,14 @@ ZeroDivisionError: float division by zero (expected)
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Exercise-4:-Evolving-Variable-Names">Exercise 4: Evolving Variable Names<a class="anchor-link" href="#Exercise-4:-Evolving-Variable-Names">&#182;</a></h3><p>Following the steps of <code>ConditionMutator</code>, implement a <code>IdentifierMutator</code> class that replaces one identifier by another one found in the source (say, <code>y</code> by <code>x</code>). Does it help fixing the <code>middle()</code> error?</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Exercise-5:-Parallel-Repair">Exercise 5: Parallel Repair<a class="anchor-link" href="#Exercise-5:-Parallel-Repair">&#182;</a></h3><p>Automatic Repair is a technique that is embarassingly parallel – both the tests can all be run in parallel, and the</p>
 
 </div>
 </div>

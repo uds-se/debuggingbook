@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-02 21:12:10+01:00
+# Last change: 2021-01-03 18:41:48+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -177,26 +177,44 @@ if __name__ == "__main__":
 
 
 
+from types import FunctionType
+
 class CoverageCollector(Collector):
     """A class to record covered locations during execution."""
+
     def __init__(self):
         super().__init__()
-        self.coverage = set()
+        self._coverage = set()
 
     def collect(self, frame, event, arg):
-        location = (frame.f_code.co_name, frame.f_lineno)
-        self.coverage.add(location)
+        """Save coverage for an observed event."""
+        name = frame.f_code.co_name
+        if name in frame.f_globals:
+            # Access exactly this function
+            function = frame.f_globals[name]
+        else:
+            # Create new function from given code
+            function = FunctionType(frame.f_code,
+                                    globals=frame.f_globals,
+                                    name=name)
+
+        location = (function, frame.f_lineno)
+        self._coverage.add(location)
 
 class CoverageCollector(CoverageCollector):
     def events(self):
         """Return the set of locations covered.
         Each location comes as a pair (`function_name`, `lineno`)."""
-        return self.coverage
+        return {(func.__name__, lineno) for func, lineno in self._coverage}
 
 class CoverageCollector(CoverageCollector):
     def covered_functions(self):
-        """Return a set with the names of all functions covered."""
-        return {func_name for (func_name, lineno) in self.coverage}
+        """Return a set with all functions covered."""
+        return {func for func, lineno in self._coverage}
+
+    def coverage(self):
+        """Return a set (function, lineno) with all locations covered."""
+        return self._coverage
 
 if __name__ == "__main__":
     with CoverageCollector() as c:
@@ -218,12 +236,12 @@ def code_with_coverage(function, coverage):
 
     line_number = starting_line_number
     for line in source_lines:
-        marker = '*' if (function.__name__, line_number) in coverage else ' '
+        marker = '*' if (function, line_number) in coverage else ' '
         print(f"{line_number:4} {marker} {line}", end='')
         line_number += 1
 
 if __name__ == "__main__":
-    code_with_coverage(remove_html_markup, c.coverage)
+    code_with_coverage(remove_html_markup, c.coverage())
 
 
 if __package__ is None or __package__ == "":
@@ -361,14 +379,22 @@ class StatisticalDebugger(StatisticalDebugger):
         if len(functions) != 1:
             return None  # ambiguous
         return functions[0]
-    
+
     def covered_functions(self):
-        """Return the names of all functions observed"""
+        """Return a set of all functions observed"""
         functions = set()
         for outcome in self.collectors:
             for collector in self.collectors[outcome]:
                 functions |= collector.covered_functions()
         return functions
+    
+    def coverage(self):
+        """Return a set of all (functions, line_numbers) observed"""
+        coverage = set()
+        for outcome in self.collectors:
+            for collector in self.collectors[outcome]:
+                coverage |= collector.coverage()
+        return coverage
 
     def color(self, event):
         """Return a color for the given event, or None.
@@ -548,7 +574,8 @@ def test_debugger_html(debugger):
         remove_html_markup('<b>abc</b>')
     with debugger:
         remove_html_markup('"abc"')
-        assert False
+        assert False  # Mark test as failing
+
     return debugger
 
 # ### Analyzing Events
@@ -691,28 +718,31 @@ class DiscreteSpectrumDebugger(DifferenceDebugger):
             return ' ' * len('100%')
 
 class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
-    def code(self, function=None, color=False, suspiciousness=False,
+    def code(self, functions=None, color=False, suspiciousness=False,
              line_numbers=True):
-        """Print a listing of `function` (default: covered functions).
+        """Print a listing of `functions` (default: covered functions).
            If `color` is set, render as HTML, using suspiciousness colors.
            If `suspiciousness` is set, include suspiciousness values.
            If `line_numbers` is set, include line numbers.
            """
 
-        functions = self.covered_functions()
-        if function:
-            functions = [function]
+        if not functions:
+            functions = self.covered_functions()
 
         out = ""
+        seen = set()
         for function in functions:
-            if isinstance(function, str):
-                function = globals()[function]
-
             if out:
                 out += '\n'
+                if color:
+                    out += '<p/>'
 
             source_lines, starting_line_number = \
                inspect.getsourcelines(function)
+
+            if (function.__name__, starting_line_number) in seen:
+                continue
+            seen.add((function.__name__, starting_line_number))
 
             line_number = starting_line_number
             for line in source_lines:

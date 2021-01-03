@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-02 21:12:10+01:00
+# Last change: 2021-01-04 00:20:36+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -303,6 +303,10 @@ class CallCollector(object):
 
     def __init__(self):
         """Initialize collector"""
+        self.init()
+
+    def init(self):
+        """Reset for new collection."""
         self._function = None
         self._args = None
         self._exception = None
@@ -321,6 +325,8 @@ class CallCollector(object):
             if name in frame.f_globals:
                 # Access exactly this function
                 self._function = frame.f_globals[name]
+            elif name in frame.f_locals:
+                self._function = frame.f_locals[name]
             else:
                 # Create new function from given code
                 self._function = FunctionType(frame.f_code,
@@ -352,6 +358,7 @@ class CallCollector(object):
 
     def __enter__(self):
         """Called at begin of `with` block. Turn tracing on."""
+        self.init()
         self.original_trace_function = sys.gettrace()
         sys.settrace(self.traceit)
         return self
