@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2021-01-01 17:43:44+01:00
+# Last change: 2021-01-02 21:12:09+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors

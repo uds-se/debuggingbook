@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-02 21:07:02+01:00
+# Last change: 2021-01-03 15:28:05+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -844,60 +844,34 @@ if __name__ == "__main__":
     quiz("Some of the lines in our fix candidate are redundant. Which are these?",
         [
             "Line 3: `if x < y`",
-            "Line 7: `if y < z`",
-            "Line 9: `return z`",
+            "Line 4: `if x > z`",
+            "Line 5: `return x`",
             "Line 13: `return z`"
         ],
         [eval(chr(100 - x)) for x in [49, 50]]
         )
 
 
-# ## Simplifying
+# ## Crossover
 
 if __name__ == "__main__":
-    print('\n## Simplifying')
+    print('\n## Crossover')
 
 
 
 
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger
-else:
-    from .DeltaDebugger import DeltaDebugger
-
+# ### Excursion: Implementing Crossover
 
 if __name__ == "__main__":
-    middle_lines = astor.to_source(best_middle_tree).split('\n')
+    print('\n### Excursion: Implementing Crossover')
 
 
-def test_middle_lines(lines):
-    source = "\n".join(lines)
-    tree = ast.parse(source)
-    assert middle_fitness(tree) < 1.0  # "Fail" only while fitness is 1.0
 
-if __name__ == "__main__":
-    with DeltaDebugger() as dd:
-        test_middle_lines(middle_lines)
 
+# #### Crossing Statement Lists
 
 if __name__ == "__main__":
-    reduced_source = "\n".join(dd.min_args()['lines'])
-    repaired_source = astor.to_source(ast.parse(reduced_source))  # normalize
-    print_content(repaired_source, '.py')
-
-
-# ## Crossover Operations
-
-if __name__ == "__main__":
-    print('\n## Crossover Operations')
-
-
-
-
-# ### Crossing Statement Lists
-
-if __name__ == "__main__":
-    print('\n### Crossing Statement Lists')
+    print('\n#### Crossing Statement Lists')
 
 
 
@@ -953,10 +927,10 @@ if __name__ == "__main__":
     print_content(astor.to_source(tree_p2), '.py')
 
 
-# ### Applying Crossover on Programs
+# #### Applying Crossover on Programs
 
 if __name__ == "__main__":
-    print('\n### Applying Crossover on Programs')
+    print('\n#### Applying Crossover on Programs')
 
 
 
@@ -1058,6 +1032,22 @@ class CrossoverOperator(CrossoverOperator):
 class CrossoverError(ValueError):
     pass
 
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
+# ### Crossover in Action
+
+if __name__ == "__main__":
+    print('\n### Crossover in Action')
+
+
+
+
 def p1():
     if True:
         print(1)
@@ -1073,10 +1063,10 @@ def p2():
         print(d)
 
 if __name__ == "__main__":
-    crossover = CrossoverOperator(log=True)
+    crossover = CrossoverOperator()
     tree_p1 = ast.parse(inspect.getsource(p1))
     tree_p2 = ast.parse(inspect.getsource(p2))
-    crossover.crossover(tree_p1, tree_p2)
+    crossover.crossover(tree_p1, tree_p2);
 
 
 if __name__ == "__main__":
@@ -1106,6 +1096,20 @@ if __name__ == "__main__":
     print('\n## A Repairer Class')
 
 
+
+
+# ### Excursion: Implementing Repairer
+
+if __name__ == "__main__":
+    print('\n### Excursion: Implementing Repairer')
+
+
+
+
+if __package__ is None or __package__ == "":
+    from DeltaDebugger import DeltaDebugger
+else:
+    from .DeltaDebugger import DeltaDebugger
 
 
 class Repairer():
@@ -1154,10 +1158,10 @@ class Repairer():
         self.crossover = crossover_class(log=(self.log >= 3))
         self.reducer_class = reducer_class
 
-# ### Helper Functions
+# #### Helper Functions
 
 if __name__ == "__main__":
-    print('\n### Helper Functions')
+    print('\n#### Helper Functions')
 
 
 
@@ -1203,10 +1207,10 @@ class Repairer(Repairer):
 
         return tree
 
-# ### Running Tests
+# #### Running Tests
 
 if __name__ == "__main__":
-    print('\n### Running Tests')
+    print('\n#### Running Tests')
 
 
 
@@ -1275,10 +1279,10 @@ class Repairer(Repairer):
         fitness = self.run_tests(validate=True)
         assert fitness == self.weight(self.debugger.PASS)
 
-# ### (Re)defining Functions
+# #### (Re)defining Functions
 
 if __name__ == "__main__":
-    print('\n### (Re)defining Functions')
+    print('\n#### (Re)defining Functions')
 
 
 
@@ -1346,10 +1350,10 @@ class DefinitionVisitor(NodeVisitor):
     def visit_Class(self, node):
         self.add_definition(node)
 
-# ### Repairing
+# #### Repairing
 
 if __name__ == "__main__":
-    print('\n### Repairing')
+    print('\n#### Repairing')
 
 
 
@@ -1408,10 +1412,10 @@ class Repairer(Repairer):
 
         return best_tree, fitness
 
-# ### Evolving
+# #### Evolving
 
 if __name__ == "__main__":
-    print('\n### Evolving')
+    print('\n#### Evolving')
 
 
 
@@ -1450,21 +1454,17 @@ class Repairer(Repairer):
         tree_size = len([node for node in ast.walk(tree)])
         return (self.fitness(tree), -tree_size)
 
-# ### Reducing
+# #### Simplifying
 
 if __name__ == "__main__":
-    print('\n### Reducing')
+    print('\n#### Simplifying')
 
 
 
 
 class Repairer(Repairer):
-    def test_reduce(self, source_lines, original_fitness):
-        source = "\n".join(source_lines)
-        tree = ast.parse(source)
-        assert self.fitness(tree) < original_fitness
-
     def reduce(self, tree):
+        """Simplify `tree` using delta debugging."""
         original_fitness = self.fitness(tree)
         source_lines = astor.to_source(tree).split('\n')
 
@@ -1475,6 +1475,21 @@ class Repairer(Repairer):
         reduced_source = "\n".join(reduced_lines)
 
         return ast.parse(reduced_source)
+
+class Repairer(Repairer):
+    def test_reduce(self, source_lines, original_fitness):
+        """Test function for delta debugging."""
+        source = "\n".join(source_lines)
+        tree = ast.parse(source)
+        assert self.fitness(tree) < original_fitness
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
 
 # ### Repairer in Action
 
@@ -1557,10 +1572,10 @@ def remove_html_markup_test(html, plain):
     assert outcome == plain, \
         f"Got {repr(outcome)}, expected {repr(plain)}"
 
-# ### Excursion: Creating Test Cases for remove_html_markup()
+# ### Excursion: Creating HTML Test Cases
 
 if __name__ == "__main__":
-    print('\n### Excursion: Creating Test Cases for remove_html_markup()')
+    print('\n### Excursion: Creating HTML Test Cases')
 
 
 
@@ -1929,28 +1944,63 @@ if __name__ == "__main__":
 
 
 
-# ### Exercise 1: _Title_
+# ### Exercise 1: Automated Repair Parameters
 
 if __name__ == "__main__":
-    print('\n### Exercise 1: _Title_')
+    print('\n### Exercise 1: Automated Repair Parameters')
 
 
+
+
+# ### Exercise 2: Elitism
+
+if __name__ == "__main__":
+    print('\n### Exercise 2: Elitism')
+
+
+
+
+# ### Exercise 3: Evolving Values
+
+if __name__ == "__main__":
+    print('\n### Exercise 3: Evolving Values')
+
+
+
+
+if __package__ is None or __package__ == "":
+    from Assertions import square_root
+else:
+    from .Assertions import square_root
 
 
 if __name__ == "__main__":
-    # Some code that is part of the exercise
-    pass
+    with ExpectError():
+        square_root_of_zero = square_root(0)
 
+
+import math
+
+def square_root_fixed(x):
+    assert x >= 0  # precondition
+
+    approx = 0  # <-- FIX: Change `None` to 0
+    guess = x / 2
+    while approx != guess:
+        approx = guess
+        guess = (approx + x / approx) / 2
+
+    assert math.isclose(approx * approx, x)
+    return approx
 
 if __name__ == "__main__":
-    # Some code for the solution
-    2 + 2
+    square_root_fixed(0)
 
 
-# ### Exercise 2: _Title_
+# ### Exercise 4: Evolving Variable Names
 
 if __name__ == "__main__":
-    print('\n### Exercise 2: _Title_')
+    print('\n### Exercise 4: Evolving Variable Names')
 
 
 
