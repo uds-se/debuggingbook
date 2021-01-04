@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2021-01-04 00:14:39+01:00
+# Last change: 2021-01-04 01:01:15+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -165,6 +165,7 @@ class Dependencies(Dependencies):
             assert isinstance(lineno, int)
 
 import inspect
+from types import FunctionType
 
 class StackInspector(object):
     def caller_frame(self):
@@ -216,8 +217,15 @@ class StackInspector(object):
             return FunctionType(frame.f_code,
                                 globals=frame.f_globals,
                                 name=name)
-        except Exception:
+        except TypeError:
+            # Unsuitable code for creating a function
             # Last resort: Return some function
+            return self.unknown
+            
+        except Exception as exc:
+            # Any other exception
+            warnings.warn(f"Couldn't create function for {name} "
+                          f" ({type(exc).__name__}: {exc})")
             return self.unknown
         
     def unknown():
@@ -233,8 +241,6 @@ class Dependencies(Dependencies):
         # Return source line, or ''
         (name, location) = node
         func, lineno = location
-        if isinstance(func, str):
-            func = self.func(func)
         if not func:
             # No source
             return ''
@@ -260,10 +266,7 @@ class Dependencies(Dependencies):
 
         (name, location) = node
         func, lineno = location
-        if isinstance(func, str):
-            code_name = func
-        else:
-            code_name = func.__name__
+        code_name = func.__name__
 
         if code_name.startswith('<'):
             return code_name
@@ -580,10 +583,10 @@ class Dependencies(Dependencies):
         """Return string for `var` in `current_func`."""
         name, location = var
         func, lineno = location
-        if func != current_func:
-            return f"{name} ({func.__name__}:{lineno})"
-        else:
+        if func == current_func or func.__name__ == current_func.__name__:
             return f"{name} ({lineno})"
+        else:
+            return f"{name} ({func.__name__}:{lineno})"
 
 class Dependencies(Dependencies):
     def __str__(self):
@@ -604,10 +607,7 @@ class Dependencies(Dependencies):
             for var in all_vars:
                 (name, location) = var
                 var_func, var_lineno = location
-                if isinstance(var_func, str):
-                    var_code_name = var_func
-                else:
-                    var_code_name = var_func.__name__
+                var_code_name = var_func.__name__
 
                 if var_code_name != code_name:
                     continue
@@ -717,7 +717,7 @@ class Dependencies(Dependencies):
                                 deps = arrow + " "
                             else:
                                 deps += ", "
-                            deps += self.format_var(dep_var, item.__name__)
+                            deps += self.format_var(dep_var, item)
 
                 if deps != "":
                     if comment != "":
