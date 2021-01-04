@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-04 00:28:27+01:00
+# Last change: 2021-01-04 01:06:59+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -1533,9 +1533,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff
+    from ChangeDebugger import diff  # minor dependency
 else:
-    from .ChangeDebugger import diff
+    from .ChangeDebugger import diff  # minor dependency
 
 
 import urllib
