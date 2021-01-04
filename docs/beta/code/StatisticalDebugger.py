@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-03 18:41:48+01:00
+# Last change: 2021-01-04 23:51:09+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -127,7 +127,7 @@ class Collector(Collector):
         if self._function is None and event == 'call':
             # Save function
             self._function = FunctionType(frame.f_code,
-                                          globals=globals(),
+                                          globals=frame.f_globals,
                                           name=frame.f_code.co_name)
             self._args = frame.f_locals.copy()
             self._argstring = ", ".join([f"{var}={repr(self._args[var])}" 

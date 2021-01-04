@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2021-01-04 18:00:13+01:00
+# Last change: 2021-01-04 23:40:56+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -170,17 +170,14 @@ from types import FunctionType
 class StackInspector(object):
     def caller_frame(self):
         """Return the frame of the caller."""
-        frame = inspect.currentframe()
-        caller_frame = frame.f_back
-        while frame:
-            if ('self' in frame.f_locals and
-                   isinstance(frame.f_locals['self'], self.__class__)):
-                caller_frame = frame.f_back
 
+        # Walk up the call tree until we leave the current class
+        frame = inspect.currentframe()
+        while ('self' in frame.f_locals and
+               isinstance(frame.f_locals['self'], self.__class__)):
             frame = frame.f_back
 
-        assert not frame
-        return caller_frame
+        return frame
 
     def caller_globals(self):
         """Return the globals() environment of the caller."""
@@ -2252,11 +2249,18 @@ if __name__ == "__main__":
 
 
 
-class Instrumenter(object):
-    def __init__(self, *items_to_instrument, log=False):
-        """Create an instrumenter"""
+class Instrumenter(StackInspector):
+    def __init__(self, *items_to_instrument, globals=None, log=False):
+        """Create an instrumenter.
+        `items_to_instrument` is a list of items to instrument.
+        `globals` is a namespace to use (default: caller's globals())
+        """
         self.log = log
         self.items_to_instrument = items_to_instrument
+
+        if globals is None:
+            globals = self.caller_globals()
+        self.globals = globals
 
     def __enter__(self):
         """Instrument sources"""
@@ -2276,10 +2280,7 @@ class Instrumenter(Instrumenter):
 
     def restore(self):
         for item in self.items_to_instrument:
-            self.caller_globals()[item.__name__] = item
-
-class Instrumenter(Instrumenter, StackInspector):
-    pass
+            self.globals[item.__name__] = item
 
 if __name__ == "__main__":
     with Instrumenter(middle, log=True) as ins:
@@ -2297,20 +2298,23 @@ if __name__ == "__main__":
 class Slicer(Instrumenter):
     def __init__(self, *items_to_instrument, 
                  dependency_tracker=None,
-                 log=False):
+                 globals=None, log=False):
         """Create a slicer.
         `items_to_instrument` are Python functions
             or modules with source code.
         `dependency_tracker` is the tracker to be used
             (default: DependencyTracker).
+        `globals` is the namespace to be used
+            (default: caller's `globals()`)
         `log`=True or `log` > 0 turns on logging"""
-        super().__init__(*items_to_instrument, log=log)
+        super().__init__(*items_to_instrument, globals=globals, log=log)
         if len(items_to_instrument) == 0:
             raise ValueError("Need one or more items to instrument")
 
         if dependency_tracker is None:
             dependency_tracker = DependencyTracker(log=(log > 1))
         self.dependency_tracker = dependency_tracker
+
         self.saved_dependencies = None
 
 class Slicer(Slicer):
@@ -2373,8 +2377,8 @@ class Slicer(Slicer):
         code = compile(tree, inspect.getsourcefile(item), 'exec')
 
         # Execute the code, resulting in a redefinition of item
-        exec(code, self.caller_globals())
-        self.caller_globals()[DATA_TRACKER] = self.dependency_tracker
+        exec(code, self.globals)
+        self.globals[DATA_TRACKER] = self.dependency_tracker
 
 class Slicer(Slicer):
     def instrument(self, item):
@@ -2388,9 +2392,9 @@ class Slicer(Slicer):
 class Slicer(Slicer):
     def restore(self):
         """Restore original code."""
-        if DATA_TRACKER in self.caller_globals():
-            self.saved_dependencies = self.caller_globals()[DATA_TRACKER]
-            del self.caller_globals()[DATA_TRACKER]
+        if DATA_TRACKER in self.globals:
+            self.saved_dependencies = self.globals[DATA_TRACKER]
+            del self.globals[DATA_TRACKER]
         super().restore()
 
 class Slicer(Slicer):

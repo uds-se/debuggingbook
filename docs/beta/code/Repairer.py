@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-04 18:18:31+01:00
+# Last change: 2021-01-04 23:45:56+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -681,6 +681,7 @@ WEIGHT_PASSING = 0.99
 WEIGHT_FAILING = 0.01
 
 def middle_fitness(tree):
+    """Compute fitness of a `middle()` candidate given in `tree`"""
     original_middle = middle
 
     try:
@@ -819,14 +820,14 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    original_middle = globals()['middle']
+    original_middle = middle
     code = compile(best_middle_tree, '<string>', 'exec')
     exec(code, globals())
 
     for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
         middle_test(x, y, z)
 
-    globals()['middle'] = original_middle
+    middle = original_middle
 
 
 if __name__ == "__main__":
@@ -1157,13 +1158,16 @@ class Repairer():
     def __init__(self, debugger, targets=None, sources=None, log=False,
                  mutator_class=StatementMutator,
                  crossover_class=CrossoverOperator,
-                 reducer_class=DeltaDebugger):
+                 reducer_class=DeltaDebugger,
+                 globals=None):
         """Constructor.
         `debugger`: a `DifferenceDebugger` to take tests and coverage from.
         `targets`: a list of functions/modules to be repaired.
-        (default: the covered functions in `debugger`, except tests)
+            (default: the covered functions in `debugger`, except tests)
         `sources`: a list of functions/modules to take repairs from.
-        (default: same as `targets`)
+            (default: same as `targets`)
+        `globals`: if given, a `globals()` dict for executing targets
+            (default: `globals()` of caller)
         """
         assert isinstance(debugger, DifferenceDebugger)
         self.debugger = debugger
@@ -1187,7 +1191,8 @@ class Repairer():
 
         self.log_tree("Target code to be repaired:", self.target_tree)
         if ast.dump(self.target_tree) != ast.dump(self.source_tree):
-            self.log_tree("Source code to take repairs from:", self.source_tree)
+            self.log_tree("Source code to take repairs from:", 
+                          self.source_tree)
 
         self.fitness_cache = {}
 
@@ -1198,6 +1203,10 @@ class Repairer():
                 log=(self.log >= 3))
         self.crossover = crossover_class(log=(self.log >= 3))
         self.reducer = reducer_class(log=(self.log >= 3))
+
+        if globals is None:
+            globals = self.caller_globals()
+        self.globals = globals
 
 # #### Helper Functions
 
@@ -1220,7 +1229,7 @@ class Repairer(Repairer):
     def getsource(self, item):
         """Get the source for `item`. Can also be a string."""
         if isinstance(item, str):
-            item = self.caller_globals()[item]
+            item = self.globals[item]
         return inspect.getsource(item)
 
 class Repairer(Repairer):
@@ -1248,7 +1257,7 @@ class Repairer(Repairer):
         tree = ast.parse("")
         for item in items:
             if isinstance(item, str):
-                item = self.caller_globals()[item]
+                item = self.globals[item]
 
             item_lines, item_first_lineno = inspect.getsourcelines(item)
 
@@ -1280,7 +1289,7 @@ class Repairer(Repairer):
         Return number of passed tests."""
         passed = 0
         collectors = self.debugger.collectors[test_set]
-        function = self.search_func(self.debugger.function().__name__)
+        function = self.debugger.function()
 
         for c in collectors:
             if self.log >= 4:
@@ -1293,7 +1302,7 @@ class Repairer(Repairer):
                     print(f"failed ({err.__class__.__name__})")
 
                 if validate and test_set == self.debugger.PASS:
-                    raise err(
+                    raise err.__class__(
                         f"{c.id()} should have passed, but failed")
                 continue
 
@@ -1309,6 +1318,13 @@ class Repairer(Repairer):
 
 class FailureNotReproducedError(ValueError):
     pass
+
+if __name__ == "__main__":
+    repairer = Repairer(middle_debugger)
+    assert repairer.run_test_set(middle_debugger.PASS) == \
+        len(MIDDLE_PASSING_TESTCASES)
+    assert repairer.run_test_set(middle_debugger.FAIL) == 0
+
 
 class Repairer(Repairer):
     def weight(self, test_set):
@@ -1336,6 +1352,11 @@ class Repairer(Repairer):
         fitness = self.run_tests(validate=True)
         assert fitness == self.weight(self.debugger.PASS)
 
+if __name__ == "__main__":
+    repairer = Repairer(middle_debugger)
+    repairer.validate()
+
+
 # #### (Re)defining Functions
 
 if __name__ == "__main__":
@@ -1354,9 +1375,8 @@ class Repairer(Repairer):
         # Save defs
         original_defs = {}
         for name in self.toplevel_defs(tree):
-            caller_globals = self.caller_globals()
-            if name in caller_globals:
-                original_defs[name] = caller_globals[name]
+            if name in self.globals:
+                original_defs[name] = self.globals[name]
             else:
                 warnings.warn(f"Couldn't find definition of {repr(name)}")
 
@@ -1371,19 +1391,30 @@ class Repairer(Repairer):
         try:
             code = compile(tree, '<Repairer>', 'exec')
         except ValueError:  # Compilation error
-            if self.log >= 3:
-                print(f"Fitness = 0 (compilation error)")
+            code = None
 
-            fitness = 0
+        if code is None:
+            if self.log >= 3:
+                print(f"Fitness = 0.0 (compilation error)")
+
+            fitness = 0.0
             return fitness
 
-        # Execute new code (= define functions) in caller's frame
-        exec(code, caller_globals, self.caller_locals())
+        # Execute new code, defining new functions in `self.globals`
+        exec(code, self.globals)
+
+        # Set new definitions in the namespace (`__globals__`)
+        # of the function we will be calling.
+        function = self.debugger.function()
+        for name in original_defs:
+            function.__globals__[name] = self.globals[name]
 
         fitness = self.run_tests(validate=False)
 
+        # Restore definitions
         for name in original_defs:
-            caller_globals[name] = original_defs[name]
+            function.__globals__[name] = original_defs[name]
+            self.globals[name] = original_defs[name]
 
         if self.log >= 3:
             print(f"Fitness = {fitness}")
@@ -1413,6 +1444,31 @@ class DefinitionVisitor(NodeVisitor):
 
     def visit_Class(self, node):
         self.add_definition(node)
+
+if __name__ == "__main__":
+    repairer = Repairer(middle_debugger, log=4)
+
+
+if __name__ == "__main__":
+    good_fitness = repairer.fitness(middle_tree())
+    good_fitness
+
+
+if __name__ == "__main__":
+    # ignore
+    assert good_fitness >= 0.99, "fitness() failed"
+
+
+if __name__ == "__main__":
+    bad_middle_tree = ast.parse("def middle(x, y, z): return x")
+    bad_fitness = repairer.fitness(bad_middle_tree)
+    bad_fitness
+
+
+if __name__ == "__main__":
+    # ignore
+    assert bad_fitness < 0.5, "fitness() failed"
+
 
 # #### Repairing
 
@@ -1835,7 +1891,8 @@ class ConditionMutator(StatementMutator):
         self.conditions = all_conditions(self.source)
         if self.log:
             print("Found conditions",
-                  [astor.to_source(cond).strip() for cond in self.conditions])
+                  [astor.to_source(cond).strip() 
+                   for cond in self.conditions])
 
     def choose_condition(self):
         """Return a random condition from source."""
