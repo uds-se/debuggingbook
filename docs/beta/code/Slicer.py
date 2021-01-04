@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2021-01-04 23:40:56+01:00
+# Last change: 2021-01-05 00:39:18+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -260,7 +260,8 @@ class Dependencies(Dependencies):
         try:
             source_lines, first_lineno = inspect.getsourcelines(func)
         except OSError:
-            warnings.warn(f"Couldn't find source for {func} ({func.__name__})")
+            warnings.warn(f"Couldn't find source "
+                          f"for {func} ({func.__name__})")
             return ''
 
         try:
@@ -489,7 +490,9 @@ class Dependencies(Dependencies):
         return all_vars
 
     def backward_slice(self, *criteria, mode="cd", depth=-1):
-        """Create a backward slice from nodes `criteria`."""
+        """Create a backward slice from nodes `criteria`.
+        `mode` can contain 'c' (draw control dependencies)
+            and 'd' (draw data dependencies) (default: 'cd')"""
         data = {}
         control = {}
         queue = self.expand_criteria(criteria)
@@ -657,7 +660,7 @@ class Dependencies(Dependencies):
         name, location = var
         func, lineno = location
         return f"({repr(name)}, ({func.__name__}, {lineno}))"
-    
+
     def repr_deps(self, var_set):
         if len(var_set) == 0:
             return "set()"
@@ -666,14 +669,14 @@ class Dependencies(Dependencies):
                 ", ".join(f"{self.repr_var(var)}"
                          for var in var_set) +
                 "}")
-    
+
     def repr_dependencies(self, vars):
         return ("{\n        " +
                 ",\n        ".join(
                     f"{self.repr_var(var)}: {self.repr_deps(vars[var])}"
                     for var in vars) +
                 "}")
-            
+
     def __repr__(self):
         # Useful for saving and restoring values
         return (f"Dependencies(\n" +
@@ -685,10 +688,23 @@ if __name__ == "__main__":
 
 
 class Dependencies(Dependencies):
-    def code(self, item, mode='cd'):
-        """List `item` on standard output, 
-        including dependencies as comments."""
+    def code(self, *items, mode='cd'):
+        """List `items` on standard output, 
+        including dependencies as comments. 
+        If `items` is empty, all included functions are listed.
+        `mode` can contain 'c' (draw control dependencies)
+            and 'd' (draw data dependencies) (default: 'cd')."""
 
+        if len(items) == 0:
+            items = self.all_functions().keys()
+
+        for i, item in enumerate(items):
+            if i > 0:
+                print()
+            self._code(item, mode)
+
+class Dependencies(Dependencies):
+    def _code(self, item, mode):
         # The functions in dependencies may be (instrumented) copies
         # of the original function. Find the function with the same name.
         func = item
@@ -753,7 +769,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    middle_deps().code(middle)
+    middle_deps().code()
 
 
 if __name__ == "__main__":
@@ -817,7 +833,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     # ignore
-    tag_deps.code(remove_html_markup)
+    tag_deps.code()
 
 
 if __name__ == "__main__":
@@ -2163,12 +2179,16 @@ class DependencyTrackerTester(DataTrackerTester):
         return DependencyTracker(log=self.log)
 
 if __name__ == "__main__":
-    with DependencyTrackerTester(call_tree, call_test, log=False) as deps:
+    with DependencyTrackerTester(call_tree, call_test, log=False) as call_deps:
         call_test()
 
 
 if __name__ == "__main__":
-    deps.dependencies()
+    call_deps.dependencies()
+
+
+if __name__ == "__main__":
+    call_deps.dependencies().code()
 
 
 # ### End of Excursion
