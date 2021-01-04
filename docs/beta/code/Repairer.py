@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-04 23:45:56+01:00
+# Last change: 2021-01-05 00:46:14+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -890,9 +890,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff, print_patch
+    from ChangeDebugger import diff, print_patch  # minor dependency
 else:
-    from .ChangeDebugger import diff, print_patch
+    from .ChangeDebugger import diff, print_patch  # minor dependency
 
 
 if __name__ == "__main__":
@@ -2100,9 +2100,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from Assertions import square_root
+    from Assertions import square_root  # minor dependency
 else:
-    from .Assertions import square_root
+    from .Assertions import square_root  # minor dependency
 
 
 if __name__ == "__main__":

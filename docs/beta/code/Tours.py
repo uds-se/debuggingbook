@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Tours.html
-# Last change: 2020-10-13 15:07:16+02:00
+# Last change: 2021-01-05 00:51:14+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -37,10 +37,12 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    # ignore
     from IPython.display import SVG
 
 
 if __name__ == "__main__":
+    # ignore
     SVG(filename='PICS/Sitemap.svg')
 
 
