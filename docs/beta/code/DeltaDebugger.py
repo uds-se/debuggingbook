@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-04 00:20:36+01:00
+# Last change: 2021-01-04 16:35:28+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -308,7 +308,7 @@ class CallCollector(object):
     def init(self):
         """Reset for new collection."""
         self._function = None
-        self._args = None
+        self._args = {}
         self._exception = None
 
     def traceit(self, frame, event, arg):
@@ -541,8 +541,9 @@ if __name__ == "__main__":
 
 class CachingCallReducer(CallReducer):
     """Like CallReducer, but cache test outcomes."""
-    def reset(self):
-        super().reset()
+
+    def init(self):
+        super().init()
         self._cache = {}
 
     def test(self, args):
@@ -550,6 +551,9 @@ class CachingCallReducer(CallReducer):
         try:
             index = frozenset((k, v) for k, v in args.items())
         except TypeError:
+            index = None
+
+        if index is None:
             # Non-hashable value – do not use cache
             return super().test(args)
 
@@ -805,6 +809,11 @@ class NoCallError(ValueError):
 class DeltaDebugger(DeltaDebugger):
     def check_reproducibility(self):
         # Check whether running the function again fails
+        assert self.function(), \
+            "No call collected. Use `with dd: func()` first."
+        assert self.args(), \
+            "No arguments collected. Use `with dd: func(args)` first."
+
         self.reset()
         outcome = self.test(self.args())
         if outcome == UNRESOLVED:
@@ -826,6 +835,7 @@ class DeltaDebugger(DeltaDebugger):
     def process_args(self, strategy, **strategy_args):
         """Reduce all reducible arguments, using strategy(var, args).
         Can be overloaded in subclasses."""
+
         pass_args = {}  # Local copy
         fail_args = {}  # Local copy
         diff_args = {}

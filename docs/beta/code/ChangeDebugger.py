@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ChangeDebugger.html
-# Last change: 2021-01-02 21:12:10+01:00
+# Last change: 2021-01-04 16:03:07+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -740,9 +740,12 @@ import urllib
 def patch_string(p):
     return urllib.parse.unquote(str(p).strip())
 
+def print_patch(p):
+    print_content(patch_string(p), '.py')
+
 if __name__ == "__main__":
     for p in patches:
-        print(patch_string(p))
+        print_patch(p)
 
 
 def patch(text, patches):
@@ -833,7 +836,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     for p in reduced_patches:
-        print(urllib.parse.unquote(str(p)))
+        print_patch(p)
 
 
 if __name__ == "__main__":
@@ -863,7 +866,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     for p in diffs:
-        print(urllib.parse.unquote(str(p)))
+        print_patch(p)
 
 
 # ## A ChangeDebugger class
@@ -1091,7 +1094,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     for p in diffs:
-        print(urllib.parse.unquote(str(p)))
+        print_patch(p)
 
 
 if __name__ == "__main__":
@@ -1118,7 +1121,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     for p in diff(version_1, version_2):
-        print(urllib.parse.unquote(str(p)))
+        print_patch(p)
 
 
 # ## Lessons Learned

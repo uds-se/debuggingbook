@@ -12127,7 +12127,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
-<span class="o">&gt;&gt;&gt;</span>     <span class="k">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
 <span class="err">@@</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">199</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
  <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
@@ -12293,30 +12293,24 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </pre></div>
 <p>Conversely, the <code>diff()</code> function computes patches between two texts. It returns a list of patch objects that can be applied on text.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">):</span>
-<span class="o">&gt;&gt;&gt;</span>     <span class="k">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+<span class="o">&gt;&gt;&gt;</span>     <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
 <span class="err">@@</span> <span class="o">-</span><span class="mi">32</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">32</span><span class="p">,</span><span class="mi">42</span> <span class="err">@@</span>
  <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="o">+</span>    <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
 
-     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-<span class="err">@@</span> <span class="o">-</span><span class="mi">88</span><span class="p">,</span><span class="mi">50</span> <span class="o">+</span><span class="mi">88</span><span class="p">,</span><span class="mi">43</span> <span class="err">@@</span>
+     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="err">@@</span> <span class="o">-</span><span class="mi">88</span><span class="p">,</span><span class="mi">50</span> <span class="o">+</span><span class="mi">88</span><span class="p">,</span><span class="mi">43</span> <span class="err">@@</span>
   <span class="n">s</span><span class="p">:</span>
 
 <span class="o">-</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
 
-<span class="o">+</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
-
-<span class="err">@@</span> <span class="o">-</span><span class="mi">146</span><span class="p">,</span><span class="mi">48</span> <span class="o">+</span><span class="mi">146</span><span class="p">,</span><span class="mi">45</span> <span class="err">@@</span>
+<span class="o">+</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span><span class="err">@@</span> <span class="o">-</span><span class="mi">146</span><span class="p">,</span><span class="mi">48</span> <span class="o">+</span><span class="mi">146</span><span class="p">,</span><span class="mi">45</span> <span class="err">@@</span>
  <span class="n">rue</span>
 
 <span class="o">-</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
 
-<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
-
-<span class="err">@@</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">199</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
+<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span><span class="err">@@</span> <span class="o">-</span><span class="mi">199</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">199</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
  <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
@@ -12803,7 +12797,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master (root-commit) 456560d] First version
+<pre>[master (root-commit) 754bbbd] First version
  1 file changed, 13 insertions(+)
  create mode 100644 remove_html_markup.py
 </pre>
@@ -12941,7 +12935,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master f439ee8] Second version
+<pre>[master 92e8694] Second version
  1 file changed, 5 insertions(+), 2 deletions(-)
 </pre>
 </div>
@@ -13032,7 +13026,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 9f35d89] Third version (with debugging output)
+<pre>[master 35b83b6] Third version (with debugging output)
  1 file changed, 2 insertions(+)
 </pre>
 </div>
@@ -13099,7 +13093,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 637410a] Fourth version (clueless)
+<pre>[master de17b1a] Fourth version (clueless)
  1 file changed, 2 insertions(+), 4 deletions(-)
 </pre>
 </div>
@@ -13168,7 +13162,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 7644290] Fifth version (with assert)
+<pre>[master 27f5987] Fifth version (with assert)
  1 file changed, 4 insertions(+), 2 deletions(-)
 </pre>
 </div>
@@ -13236,7 +13230,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 69cf1d3] Sixth version (with another assert)
+<pre>[master 4dc84a9] Sixth version (with another assert)
  1 file changed, 1 insertion(+), 2 deletions(-)
 </pre>
 </div>
@@ -13303,7 +13297,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 7c759ff] Seventh version (fixed)
+<pre>[master c88beeb] Seventh version (fixed)
  1 file changed, 1 insertion(+), 2 deletions(-)
 </pre>
 </div>
@@ -13384,7 +13378,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 75c5e22] Eighth version (with proper assertion)
+<pre>[master c2ad214] Eighth version (with proper assertion)
  1 file changed, 4 insertions(+), 1 deletion(-)
 </pre>
 </div>
@@ -13556,14 +13550,14 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>75c5e229d54c9840cb434c4a733f75e0ca0221be Eighth version (with proper assertion)
-7c759ffc4bee28b68392da142d423f8397ddfda7 Seventh version (fixed)
-69cf1d3599a8d398e5f20799a9980a1904b5bfb6 Sixth version (with another assert)
-76442905ba3ecfb07b4628a4ab9b5afb54016803 Fifth version (with assert)
-637410abc7f9a6263b2b362bd8b4174ded5a763b Fourth version (clueless)
-9f35d89e94bb85298ed0a91106ca38d571b8e27e Third version (with debugging output)
-f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38 Second version
-456560d681ddeac1e27c26e35b35fcc6c5c15b02 First version
+<pre>c2ad2141ef48fee4a3016b2fb1198da89e40a87a Eighth version (with proper assertion)
+c88beeb7c1e2dee31afed10b035123976fab17b2 Seventh version (fixed)
+4dc84a9b4c8f654e14c696a2136f54af05e78f05 Sixth version (with another assert)
+27f59879d1d6218f6f881aae318cd7e28314fc4f Fifth version (with assert)
+de17b1a18c3ff94fcd78bf4e09f10635999ba9a9 Fourth version (clueless)
+35b83b6fd0c4c37358a3027ae1da2c98c902fbf2 Third version (with debugging output)
+92e86947b3a72db9df5b62b193ffb71107895b3b Second version
+754bbbd5aa37e9fcc1f66482d233521d54ae6a83 First version
 </pre>
 </div>
 
@@ -13597,7 +13591,7 @@ f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38 Second version
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;456560d681ddeac1e27c26e35b35fcc6c5c15b02&#39;
+<pre>&#39;754bbbd5aa37e9fcc1f66482d233521d54ae6a83&#39;
 </pre>
 </div>
 
@@ -13629,7 +13623,7 @@ f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38 Second version
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>HEAD is now at 456560d First version
+<pre>HEAD is now at 754bbbd First version
 </pre>
 </div>
 
@@ -13742,8 +13736,8 @@ f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38 Second version
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was 456560d First version
-HEAD is now at 75c5e22 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 754bbbd First version
+HEAD is now at c2ad214 Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -13923,7 +13917,7 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[637410abc7f9a6263b2b362bd8b4174ded5a763b] Fourth version (clueless)
+[de17b1a18c3ff94fcd78bf4e09f10635999ba9a9] Fourth version (clueless)
 </pre>
 </div>
 
@@ -14184,7 +14178,7 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 0 revisions left to test after this (roughly 1 step)
-[9f35d89e94bb85298ed0a91106ca38d571b8e27e] Third version (with debugging output)
+[35b83b6fd0c4c37358a3027ae1da2c98c902fbf2] Third version (with debugging output)
 </pre>
 </div>
 
@@ -14436,7 +14430,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38] Second version
+[92e86947b3a72db9df5b62b193ffb71107895b3b] Second version
 </pre>
 </div>
 
@@ -14783,10 +14777,10 @@ c = &#39;&#34;&#39; tag = False quote = True
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38 is the first bad commit
-<span class="ansi-yellow-fg">commit f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38</span>
+<pre>92e86947b3a72db9df5b62b193ffb71107895b3b is the first bad commit
+<span class="ansi-yellow-fg">commit 92e86947b3a72db9df5b62b193ffb71107895b3b</span>
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Mon Jan 4 00:24:19 2021 +0100
+Date:   Mon Jan 4 16:36:28 2021 +0100
 
     Second version
 
@@ -14875,8 +14869,8 @@ Date:   Mon Jan 4 00:24:19 2021 +0100
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was f439ee8 Second version
-HEAD is now at 75c5e22 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 92e8694 Second version
+HEAD is now at c2ad214 Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -15049,7 +15043,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[637410abc7f9a6263b2b362bd8b4174ded5a763b] Fourth version (clueless)
+[de17b1a18c3ff94fcd78bf4e09f10635999ba9a9] Fourth version (clueless)
 </pre>
 </div>
 
@@ -15083,7 +15077,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>running python test.py
 Bisecting: 0 revisions left to test after this (roughly 1 step)
-[9f35d89e94bb85298ed0a91106ca38d571b8e27e] Third version (with debugging output)
+[35b83b6fd0c4c37358a3027ae1da2c98c902fbf2] Third version (with debugging output)
 running python test.py
 c = &#39;&#34;&#39; tag = False quote = False
 c = &#39;f&#39; tag = False quote = True
@@ -15091,12 +15085,12 @@ c = &#39;o&#39; tag = False quote = True
 c = &#39;o&#39; tag = False quote = True
 c = &#39;&#34;&#39; tag = False quote = True
 Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38] Second version
+[92e86947b3a72db9df5b62b193ffb71107895b3b] Second version
 running python test.py
-f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38 is the first bad commit
-commit f439ee8c62a1f15a4322d7e3f9ac6264f71bcd38
+92e86947b3a72db9df5b62b193ffb71107895b3b is the first bad commit
+commit 92e86947b3a72db9df5b62b193ffb71107895b3b
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Mon Jan 4 00:24:19 2021 +0100
+Date:   Mon Jan 4 16:36:28 2021 +0100
 
     Second version
 
@@ -15186,8 +15180,8 @@ bisect run success
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was f439ee8 Second version
-HEAD is now at 75c5e22 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 92e8694 Second version
+HEAD is now at c2ad214 Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -15456,10 +15450,10 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc473a8dd8&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc473a8f28&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc473a8d68&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc473a8fd0&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33b297f98&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33b297a58&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33b297d30&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33b2977b8&gt;]
 </pre>
 </div>
 
@@ -15509,8 +15503,23 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">print_content</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">patches</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+    <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -15521,33 +15530,28 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -32,24 +32,42 @@
- tag = False
+<pre>@@ -<span class="ansi-blue-fg">32</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">32</span>,<span class="ansi-blue-fg">42</span> @@
+ tag = <span class="ansi-blue-fg">False</span>
 
-+    quote = False
++    quote = <span class="ansi-blue-fg">False</span>
 
-     out = &#34;&#34;
-@@ -88,50 +88,43 @@
+     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>@@ -<span class="ansi-blue-fg">88</span>,<span class="ansi-blue-fg">50</span> +<span class="ansi-blue-fg">88</span>,<span class="ansi-blue-fg">43</span> @@
   s:
 
--        if c == &#39;&lt;&#39;:    # start of markup
+-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
 
-+        if c == &#39;&lt;&#39; and not quote:
-
-@@ -146,48 +146,45 @@
++        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:@@ -<span class="ansi-blue-fg">146</span>,<span class="ansi-blue-fg">48</span> +<span class="ansi-blue-fg">146</span>,<span class="ansi-blue-fg">45</span> @@
  rue
 
--        elif c == &#39;&gt;&#39;:  # end of markup
+-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
 
-+        elif c == &#39;&gt;&#39; and not quote:
++        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:@@ -<span class="ansi-blue-fg">199</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">199</span>,<span class="ansi-blue-fg">97</span> @@
+ tag = <span class="ansi-blue-fg">False</span>
 
-@@ -199,24 +199,97 @@
- tag = False
++        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
 
-+        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
-            quote = not quote
-
-         elif
+         <span class="ansi-blue-fg">elif</span>
 </pre>
 </div>
 
@@ -15866,21 +15870,21 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="d2e0be68-4e1a-11eb-a588-f218984d6a0c" id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-1" onclick="clear_selection('d2e0be68-4e1a-11eb-a588-f218984d6a0c')">
-        <label id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-1-label" for="d2e0be68-4e1a-11eb-a588-f218984d6a0c-1">The initialization of quote is deleted</label><br>
+        <input type="radio" name="a1bc320a-4ea2-11eb-a588-f218984d6a0c" id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-1" onclick="clear_selection('a1bc320a-4ea2-11eb-a588-f218984d6a0c')">
+        <label id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-1-label" for="a1bc320a-4ea2-11eb-a588-f218984d6a0c-1">The initialization of quote is deleted</label><br>
 
-        <input type="radio" name="d2e0be68-4e1a-11eb-a588-f218984d6a0c" id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-2" onclick="clear_selection('d2e0be68-4e1a-11eb-a588-f218984d6a0c')">
-        <label id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-2-label" for="d2e0be68-4e1a-11eb-a588-f218984d6a0c-2">The condition after <code>if c == '&lt;'</code> is expanded</label><br>
+        <input type="radio" name="a1bc320a-4ea2-11eb-a588-f218984d6a0c" id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-2" onclick="clear_selection('a1bc320a-4ea2-11eb-a588-f218984d6a0c')">
+        <label id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-2-label" for="a1bc320a-4ea2-11eb-a588-f218984d6a0c-2">The condition after <code>if c == '&lt;'</code> is expanded</label><br>
 
-        <input type="radio" name="d2e0be68-4e1a-11eb-a588-f218984d6a0c" id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-3" onclick="clear_selection('d2e0be68-4e1a-11eb-a588-f218984d6a0c')">
-        <label id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-3-label" for="d2e0be68-4e1a-11eb-a588-f218984d6a0c-3">The tag variable gets a different value</label><br>
+        <input type="radio" name="a1bc320a-4ea2-11eb-a588-f218984d6a0c" id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-3" onclick="clear_selection('a1bc320a-4ea2-11eb-a588-f218984d6a0c')">
+        <label id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-3-label" for="a1bc320a-4ea2-11eb-a588-f218984d6a0c-3">The tag variable gets a different value</label><br>
 
-        <input type="radio" name="d2e0be68-4e1a-11eb-a588-f218984d6a0c" id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-4" onclick="clear_selection('d2e0be68-4e1a-11eb-a588-f218984d6a0c')">
-        <label id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-4-label" for="d2e0be68-4e1a-11eb-a588-f218984d6a0c-4">None of the above</label><br>
+        <input type="radio" name="a1bc320a-4ea2-11eb-a588-f218984d6a0c" id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-4" onclick="clear_selection('a1bc320a-4ea2-11eb-a588-f218984d6a0c')">
+        <label id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-4-label" for="a1bc320a-4ea2-11eb-a588-f218984d6a0c-4">None of the above</label><br>
 
     </div>
     </p>
-    <input id="d2e0be68-4e1a-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('d2e0be68-4e1a-11eb-a588-f218984d6a0c', 4, 0)">
+    <input id="a1bc320a-4ea2-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('a1bc320a-4ea2-11eb-a588-f218984d6a0c', 4, 0)">
     </div>
 
 </div>
@@ -15979,9 +15983,9 @@ HEAD is now at 75c5e22 Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-112-5bb74024c957&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-113-5bb74024c957&gt;&#34;, line 2, in &lt;module&gt;
     test_remove_html_markup(patches)
-  File &#34;&lt;ipython-input-110-4525dbd53ca7&gt;&#34;, line 4, in test_remove_html_markup
+  File &#34;&lt;ipython-input-111-4525dbd53ca7&gt;&#34;, line 4, in test_remove_html_markup
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -16057,7 +16061,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">reduced_patches</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+    <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16068,20 +16072,18 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -32,24 +32,42 @@
- tag = False
+<pre>@@ -<span class="ansi-blue-fg">32</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">32</span>,<span class="ansi-blue-fg">42</span> @@
+ tag = <span class="ansi-blue-fg">False</span>
 
-+    quote = False
++    quote = <span class="ansi-blue-fg">False</span>
 
-     out = &#34;&#34;
+     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>@@ -<span class="ansi-blue-fg">199</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">199</span>,<span class="ansi-blue-fg">97</span> @@
+ tag = <span class="ansi-blue-fg">False</span>
 
-@@ -199,24 +199,97 @@
- tag = False
++        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
 
-+        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
-            quote = not quote
-
-         elif
+         <span class="ansi-blue-fg">elif</span>
 </pre>
 </div>
 
@@ -16289,7 +16291,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+    <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16300,13 +16302,13 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>@@ -199,24 +199,97 @@
- tag = False
+<pre>@@ -<span class="ansi-blue-fg">199</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">199</span>,<span class="ansi-blue-fg">97</span> @@
+ tag = <span class="ansi-blue-fg">False</span>
 
-+        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
-            quote = not quote
++        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
 
-         elif
+         <span class="ansi-blue-fg">elif</span>
 </pre>
 </div>
 
@@ -16448,11 +16450,11 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-126-1cdc3d223902&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-127-1cdc3d223902&gt;&#34;, line 2, in &lt;module&gt;
     cd.call()
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 172, in call
     return self.function()(**args)
-  File &#34;&lt;ipython-input-124-623e88c5083e&gt;&#34;, line 2, in test_remove_html_markup
+  File &#34;&lt;ipython-input-125-623e88c5083e&gt;&#34;, line 2, in test_remove_html_markup
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -16559,10 +16561,10 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc4739c668&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc4739c240&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc47ce0908&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc47ce0f98&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bd40cf8&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bd40908&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bd409b0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bd40a90&gt;]
 </pre>
 </div>
 
@@ -16679,13 +16681,13 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-134-27b59634b5f9&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-135-27b59634b5f9&gt;&#34;, line 2, in &lt;module&gt;
     cd.test_patches(cd.patches())
-  File &#34;&lt;ipython-input-130-c2b7a799cf41&gt;&#34;, line 5, in test_patches
+  File &#34;&lt;ipython-input-131-c2b7a799cf41&gt;&#34;, line 5, in test_patches
     self.call()
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 172, in call
     return self.function()(**args)
-  File &#34;&lt;ipython-input-124-623e88c5083e&gt;&#34;, line 2, in test_remove_html_markup
+  File &#34;&lt;ipython-input-125-623e88c5083e&gt;&#34;, line 2, in test_remove_html_markup
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -16799,10 +16801,10 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc47cf8be0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc47cf81d0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc47cf88d0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc473a8710&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bcf0b00&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bcf0630&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bcf0c18&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bcf0a58&gt;]
 </pre>
 </div>
 
@@ -16835,7 +16837,7 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fdc473a8710&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fc33bcf0a58&gt;]
 </pre>
 </div>
 
@@ -17220,7 +17222,7 @@ This paper generalized over [<a href="https://www.computer.org/csdl/proceedings-
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ChangeDebugger.ipynb" target=_blank)>Last change: 2021-01-02 21:12:10+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ChangeDebugger.ipynb" target=_blank)>Last change: 2021-01-04 16:03:07+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -17238,7 +17240,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">Isolating Failure-Inducing Changes</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">https://www.debuggingbook.org/beta/html/ChangeDebugger.html</a>.  Retrieved 2021-01-02 21:12:10+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">Isolating Failure-Inducing Changes</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">https://www.debuggingbook.org/beta/html/ChangeDebugger.html</a>.  Retrieved 2021-01-04 16:03:07+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:ChangeDebugger,
@@ -17248,9 +17250,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger
     year = {2021},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/ChangeDebugger.html}},
-    note = {Retrieved 2021-01-02 21:12:10+01:00},
+    note = {Retrieved 2021-01-04 16:03:07+01:00},
     url = {https://www.debuggingbook.org/beta/html/ChangeDebugger.html},
-    urldate = {2021-01-02 21:12:10+01:00}
+    urldate = {2021-01-04 16:03:07+01:00}
 }
 </pre>
 </div>

@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-04 01:06:59+01:00
+# Last change: 2021-01-04 18:00:16+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -841,6 +841,64 @@ if __name__ == "__main__":
         )
 
 
+# ## Simplifying
+
+if __name__ == "__main__":
+    print('\n## Simplifying')
+
+
+
+
+if __package__ is None or __package__ == "":
+    from DeltaDebugger import DeltaDebugger
+else:
+    from .DeltaDebugger import DeltaDebugger
+
+
+if __name__ == "__main__":
+    middle_lines = astor.to_source(best_middle_tree).strip().split('\n')
+
+
+def test_middle_lines(lines):
+    source = "\n".join(lines)
+    tree = ast.parse(source)
+    assert middle_fitness(tree) < 1.0  # "Fail" only while fitness is 1.0
+
+if __name__ == "__main__":
+    with DeltaDebugger() as dd:
+        test_middle_lines(middle_lines)
+
+
+if __name__ == "__main__":
+    reduced_lines = dd.min_args()['lines']
+
+
+# assert len(reduced_lines) < len(middle_lines)
+
+if __name__ == "__main__":
+    reduced_source = "\n".join(reduced_lines)
+
+
+if __name__ == "__main__":
+    repaired_source = astor.to_source(ast.parse(reduced_source))  # normalize
+    print_content(repaired_source, '.py')
+
+
+if __name__ == "__main__":
+    original_source = astor.to_source(ast.parse(middle_source))  # normalize
+
+
+if __package__ is None or __package__ == "":
+    from ChangeDebugger import diff, print_patch
+else:
+    from .ChangeDebugger import diff, print_patch
+
+
+if __name__ == "__main__":
+    for patch in diff(original_source, repaired_source):
+        print_patch(patch)
+
+
 # ## Crossover
 
 if __name__ == "__main__":
@@ -1095,12 +1153,6 @@ if __name__ == "__main__":
 
 
 
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger
-else:
-    from .DeltaDebugger import DeltaDebugger
-
-
 class Repairer():
     def __init__(self, debugger, targets=None, sources=None, log=False,
                  mutator_class=StatementMutator,
@@ -1155,18 +1207,14 @@ if __name__ == "__main__":
 
 
 
-class Repairer(Repairer):
-    def caller_frame(self):
-        """Return the frame of the caller."""
-        frame = inspect.currentframe()
-        while ('self' in frame.f_locals and 
-               isinstance(frame.f_locals['self'], self.__class__)):
-            frame = frame.f_back
-        return frame
+if __package__ is None or __package__ == "":
+    from Slicer import StackInspector  # minor dependency
+else:
+    from .Slicer import StackInspector  # minor dependency
 
-    def caller_globals(self):
-        """Return the globals() environment of the caller."""
-        return self.caller_frame().f_globals
+
+class Repairer(Repairer, StackInspector):
+    pass
 
 class Repairer(Repairer):
     def getsource(self, item):
@@ -1203,7 +1251,7 @@ class Repairer(Repairer):
                 item = self.caller_globals()[item]
 
             item_lines, item_first_lineno = inspect.getsourcelines(item)
-            
+
             try:
                 item_tree = ast.parse("".join(item_lines))
             except IndentationError:
@@ -1232,7 +1280,7 @@ class Repairer(Repairer):
         Return number of passed tests."""
         passed = 0
         collectors = self.debugger.collectors[test_set]
-        function = self.caller_globals()[self.debugger.function().__name__]
+        function = self.search_func(self.debugger.function().__name__)
 
         for c in collectors:
             if self.log >= 4:
@@ -1306,7 +1354,13 @@ class Repairer(Repairer):
         # Save defs
         original_defs = {}
         for name in self.toplevel_defs(tree):
-            original_defs[name] = self.caller_globals()[name]
+            caller_globals = self.caller_globals()
+            if name in caller_globals:
+                original_defs[name] = caller_globals[name]
+            else:
+                warnings.warn(f"Couldn't find definition of {repr(name)}")
+
+        assert original_defs, f"Couldn't find any definition"
 
         if self.log >= 3:
             print("Repair candidate:")
@@ -1323,12 +1377,13 @@ class Repairer(Repairer):
             fitness = 0
             return fitness
 
-        exec(code, self.caller_globals())
+        # Execute new code (= define functions) in caller's frame
+        exec(code, caller_globals, self.caller_locals())
 
         fitness = self.run_tests(validate=False)
 
         for name in original_defs:
-            self.caller_globals()[name] = original_defs[name]
+            caller_globals[name] = original_defs[name]
 
         if self.log >= 3:
             print(f"Fitness = {fitness}")
@@ -1474,6 +1529,7 @@ if __name__ == "__main__":
 class Repairer(Repairer):
     def reduce(self, tree):
         """Simplify `tree` using delta debugging."""
+
         original_fitness = self.fitness(tree)
         source_lines = astor.to_source(tree).split('\n')
 
@@ -1485,12 +1541,27 @@ class Repairer(Repairer):
 
         return ast.parse(reduced_source)
 
+import traceback
+
 class Repairer(Repairer):
     def test_reduce(self, source_lines, original_fitness):
         """Test function for delta debugging."""
-        source = "\n".join(source_lines)
-        tree = ast.parse(source)
-        assert self.fitness(tree) < original_fitness
+
+        try:
+            source = "\n".join(source_lines)
+            tree = ast.parse(source)
+            fitness = self.fitness(tree)
+            assert fitness < original_fitness
+
+        except AssertionError:
+            raise
+        except SyntaxError:
+            raise
+        except IndentationError:
+            raise
+        except Exception:
+            # traceback.print_exc()  # Uncomment to see internal errors
+            raise
 
 # ### End of Excursion
 
@@ -1509,7 +1580,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    repairer = Repairer(middle_debugger, log=2)
+    repairer = Repairer(middle_debugger, log=True)
 
 
 if __name__ == "__main__":
@@ -1524,34 +1595,10 @@ if __name__ == "__main__":
     fitness
 
 
-if __name__ == "__main__":
-    repaired_source = astor.to_source(best_tree)
-
+# ## Removing HTML Markup
 
 if __name__ == "__main__":
-    original_source = astor.to_source(middle_tree())
-
-
-if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff  # minor dependency
-else:
-    from .ChangeDebugger import diff  # minor dependency
-
-
-import urllib
-
-def print_patch(p):
-    print_content(urllib.parse.unquote(str(p)), '.py')
-
-if __name__ == "__main__":
-    for patch in diff(original_source, repaired_source):
-        print_patch(patch)
-
-
-# ### Removing HTML Markup
-
-if __name__ == "__main__":
-    print('\n### Removing HTML Markup')
+    print('\n## Removing HTML Markup')
 
 
 
@@ -1768,7 +1815,7 @@ class ConditionVisitor(NodeVisitor):
 
 if __name__ == "__main__":
     [astor.to_source(cond).strip()
-         for cond in all_conditions(remove_html_markup_tree())]
+        for cond in all_conditions(remove_html_markup_tree())]
 
 
 # ### Mutating Conditions
@@ -1847,6 +1894,10 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     repaired_source = astor.to_source(best_tree)
+
+
+if __name__ == "__main__":
+    print_content(repaired_source, '.py')
 
 
 if __name__ == "__main__":
@@ -1930,6 +1981,17 @@ if __name__ == "__main__":
     middle_repairer = Repairer(middle_debugger)
     tree, fitness = middle_repairer.repair()
     print(astor.to_source(tree), fitness)
+
+
+if __name__ == "__main__":
+    # ignore
+    from ClassDiagram import display_class_hierarchy
+
+
+if __name__ == "__main__":
+    # ignore
+    display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
+                            project='debuggingbook')
 
 
 # ## Lessons Learned

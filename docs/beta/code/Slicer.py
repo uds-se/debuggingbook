@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2021-01-04 01:01:15+01:00
+# Last change: 2021-01-04 18:00:13+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -171,23 +171,33 @@ class StackInspector(object):
     def caller_frame(self):
         """Return the frame of the caller."""
         frame = inspect.currentframe()
-        while ('self' in frame.f_locals and 
-               isinstance(frame.f_locals['self'], self.__class__)):
+        caller_frame = frame.f_back
+        while frame:
+            if ('self' in frame.f_locals and
+                   isinstance(frame.f_locals['self'], self.__class__)):
+                caller_frame = frame.f_back
+
             frame = frame.f_back
-        return frame
+
+        assert not frame
+        return caller_frame
 
     def caller_globals(self):
         """Return the globals() environment of the caller."""
         return self.caller_frame().f_globals
-    
+
+    def caller_locals(self):
+        """Return the locals() environment of the caller."""
+        return self.caller_frame().f_locals
+
     def caller_location(self):
         """Return the location (func, lineno) of the caller."""
         return self.caller_function(), self.caller_frame().f_lineno
 
-    def func(self, name):
-        """Search in callers for a definition of the function `name`"""
+    def search_frame(self, name):
+        """Return a pair (`frame`, `item`) 
+        in which the function `name` is defined as `item`."""
         frame = self.caller_frame()
-        func = None
         while frame:
             item = None
             if name in frame.f_globals:
@@ -195,17 +205,22 @@ class StackInspector(object):
             if name in frame.f_locals:
                 item = frame.f_locals[name]
             if item and callable(item):
-                return item
+                return frame, item
 
             frame = frame.f_back
 
-        return None
-    
+        return None, None
+
+    def search_func(self, name):
+        """Search in callers for a definition of the function `name`"""
+        frame, func = self.search_frame(name)
+        return func
+
     def caller_function(self):
         """Return the calling function"""
         frame = self.caller_frame()
         name = frame.f_code.co_name
-        func = self.func(name)
+        func = self.search_func(name)
         if func:
             return func
 
@@ -221,13 +236,13 @@ class StackInspector(object):
             # Unsuitable code for creating a function
             # Last resort: Return some function
             return self.unknown
-            
+
         except Exception as exc:
             # Any other exception
             warnings.warn(f"Couldn't create function for {name} "
                           f" ({type(exc).__name__}: {exc})")
             return self.unknown
-        
+
     def unknown():
         pass
 
@@ -2284,9 +2299,11 @@ class Slicer(Instrumenter):
                  dependency_tracker=None,
                  log=False):
         """Create a slicer.
-        ITEMS_TO_INSTRUMENT are Python functions or modules with source code.
-        DEPENDENCY_TRACKER is the tracker to be used (default: DependencyTracker).
-        LOG=True or LOG > 0 turns on logging"""
+        `items_to_instrument` are Python functions
+            or modules with source code.
+        `dependency_tracker` is the tracker to be used
+            (default: DependencyTracker).
+        `log`=True or `log` > 0 turns on logging"""
         super().__init__(*items_to_instrument, log=log)
         if len(items_to_instrument) == 0:
             raise ValueError("Need one or more items to instrument")
@@ -2333,8 +2350,9 @@ class Slicer(Slicer):
             transformer.visit(tree)
             ast.fix_missing_locations(tree)
             if self.log >= 3:
-                print_content(astor.to_source(tree, 
-                                              add_line_information=self.log >= 4),
+                print_content(
+                    astor.to_source(tree,
+                                    add_line_information=self.log >= 4),
                               '.py')
                 print()
                 print()
@@ -2598,6 +2616,17 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()
+
+
+if __name__ == "__main__":
+    # ignore
+    from ClassDiagram import display_class_hierarchy
+
+
+if __name__ == "__main__":
+    # ignore
+    display_class_hierarchy([Slicer, DependencyTracker, Dependencies],
+                            project='debuggingbook')
 
 
 # ## Lessons Learned
