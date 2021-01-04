@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/ExpectError.html
-# Last change: 2021-01-04 14:46:03+01:00
+# Last change: 2021-01-04 18:34:53+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -144,6 +144,7 @@ if __name__ == "__main__":
 
             def __str__(self):
                 return repr(self.value)
+
 
 
 class ExpectTimeout(object):
