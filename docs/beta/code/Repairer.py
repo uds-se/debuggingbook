@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-05 00:46:14+01:00
+# Last change: 2021-01-05 10:20:09+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -1290,6 +1290,7 @@ class Repairer(Repairer):
         passed = 0
         collectors = self.debugger.collectors[test_set]
         function = self.debugger.function()
+        # FIXME: function may have been redefined
 
         for c in collectors:
             if self.log >= 4:

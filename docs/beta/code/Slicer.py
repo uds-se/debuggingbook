@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Slicer.html
-# Last change: 2021-01-05 00:39:18+01:00
+# Last change: 2021-01-05 17:47:48+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    # YouTubeVideo("w4u5gCgPlmg")
+    YouTubeVideo("sjf3cOR0lcI")
 
 
 if __name__ == "__main__":
@@ -187,6 +187,7 @@ class StackInspector(object):
         """Return the locals() environment of the caller."""
         return self.caller_frame().f_locals
 
+class StackInspector(StackInspector):
     def caller_location(self):
         """Return the location (func, lineno) of the caller."""
         return self.caller_function(), self.caller_frame().f_lineno
