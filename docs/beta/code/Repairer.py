@@ -3,7 +3,7 @@
 
 # This material is part of "The Fuzzing Book".
 # Web site: https://www.fuzzingbook.org/html/Repairer.html
-# Last change: 2021-01-05 10:20:09+01:00
+# Last change: 2021-01-08 14:53:08+01:00
 #
 #!/
 # Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
@@ -751,7 +751,7 @@ if __name__ == "__main__":
 
 
 
-POPULATION_SIZE = 40  # From \cite{LeGoues2012}
+POPULATION_SIZE = 40
 middle_mutator = StatementMutator()
 
 MIDDLE_POPULATION = [middle_tree()] + \
