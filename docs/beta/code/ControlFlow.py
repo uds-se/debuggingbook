@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Fuzzing Book".
-# Web site: https://www.fuzzingbook.org/html/ControlFlow.html
+# This material is part of "The Debugging Book".
+# Web site: https://www.debuggingbook.org/html/ControlFlow.html
 # Last change: 2020-10-13 15:12:26+02:00
 #
 #!/
-# Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
+# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -910,14 +910,14 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     maze_string = """
-    +-+-----+
-    |X|     |
-    | | --+ |
-    | |   | |
-    | +-- | |
-    |     |#|
-    +-----+-+
-    """
++-+-----+
+|X|     |
+| | --+ |
+| |   | |
+| +-- | |
+|     |#|
++-----+-+
+"""
 
 
 def generate_print_maze(maze_string):

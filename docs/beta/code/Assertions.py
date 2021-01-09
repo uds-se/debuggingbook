@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Fuzzing Book".
-# Web site: https://www.fuzzingbook.org/html/Assertions.html
+# This material is part of "The Debugging Book".
+# Web site: https://www.debuggingbook.org/html/Assertions.html
 # Last change: 2021-01-03 15:28:05+01:00
 #
 #!/
-# Copyright (c) 2018-2020 CISPA, Saarland University, authors, and contributors
+# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
