@@ -29,8 +29,8 @@ INTRO_PART_TODO = \
 TRACKING_PART = 
 TRACKING_PART_READY =
 TRACKING_PART_TODO = \
-	02_Tracking.ipynb
-	# Tracking.ipynb
+	02_Tracking.ipynb \
+	Tracking.ipynb
 
 # Observing Executions
 OBSERVING_PART = 
@@ -135,3 +135,10 @@ TODO_CHAPTERS = \
 	$(EXPERIMENTING_PART_TODO) \
 	$(ABSTRACTING_PART_TODO) \
 	$(REPAIRING_PART_TODO)
+
+
+
+## Specific settings
+# No timeouts; debuggingbook/Tracing can take up to 10 minutes to render
+EXECUTE_TIMEOUT = 600
+TIME = time
