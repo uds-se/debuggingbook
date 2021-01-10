@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
 # Last change: 2020-12-28 19:06:46+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -382,12 +383,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # Some code that is part of the exercise
     pass
 
 
 if __name__ == "__main__":
-    # Some code for the solution
     2 + 2
 
 
