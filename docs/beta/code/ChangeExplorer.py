@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-10 13:21:53+01:00
+# Last change: 2021-01-10 15:08:28+01:00
 #
 #!/
 # Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
@@ -240,7 +240,7 @@ class FixCounter(ChangeCounter):
         if node and node in self.messages:
             return "<br>".join(self.messages[node])
         return ""
-    
+
     def map_hoverinfo(self):
         return 'label'
 
@@ -285,7 +285,7 @@ int main(int argc, char *argv[]) {
 DELIMITERS = [
     (
         # Python
-        re.compile(r'^Python.*'),
+        re.compile(r'^python.*'),
 
         # Beginning of element
         re.compile(r'^(async\s+)?(def|class)\s+(?P<name>\w+)\W.*'),
@@ -295,26 +295,20 @@ DELIMITERS = [
     ),
     (
         # Jupyter Notebooks
-        re.compile(r'^(JSON|exported SGML|Jupyter).*'),
+        re.compile(r'^(json|exported sgml|jupyter).*'),
         re.compile(r'^\s+"(async\s+)?(def|class)\s+(?P<name>\w+)\W'),
         re.compile(r'^(\s+"[^#\s\\]|\s+\])')
     ),
     (
-        # C source code
-        re.compile(r'^C source.*'),
-        re.compile(r'^[^\s].*\s+(?P<name>\w+)\s*[({].*'),
-        re.compile(r'^[}]')
-    ),
-    (
-        # Catchall (like C; should work for any language using { } as delimiters)
-        re.compile(r'^.*'),
+        # C source code (actually, any { }-delimited language)
+        re.compile(r'^(c |c\+\+|c#|java|perl|php).*'),
         re.compile(r'^[^\s].*\s+(?P<name>\w+)\s*[({].*'),
         re.compile(r'^[}]')
     )
 ]
 
 def rxdelim(s):
-    tp = magic.from_buffer(s)
+    tp = magic.from_buffer(s).lower()
     for rxtp, rxbegin, rxend in DELIMITERS:
         if rxtp.match(tp):
             return rxbegin, rxend
@@ -332,7 +326,7 @@ def elem_mapping(s, log=False):
 
     for line in s.split('\n'):
         lineno += 1
-        
+
         match = rxbegin.match(line)
         if match:
             current_elem = match.group('name')
@@ -340,10 +334,10 @@ def elem_mapping(s, log=False):
             current_elem = None
 
         mapping.append(current_elem)
-        
+
         if log:
             print(f"{lineno:3} {current_elem}\t{line}")
-        
+
     return mapping
 
 if __name__ == "__main__":
@@ -408,7 +402,7 @@ class FineChangeCounter(ChangeCounter):
         for line in range(start, start + length + 1):
             if line < len(mapping) and mapping[line]:
                 elems.add(mapping[line])
-                
+
         return elems
 
     def elem_size(self, elem, mapping, source):
