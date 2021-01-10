@@ -139,6 +139,6 @@ TODO_CHAPTERS = \
 
 
 ## Specific settings
-# No timeouts; debuggingbook/Tracing can take up to 10 minutes to render
-EXECUTE_TIMEOUT = 600
+# No timeouts; debuggingbook/Tracing can take up to 15 minutes to render
+EXECUTE_TIMEOUT = 900
 TIME = time
