@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-10 15:08:28+01:00
+# Last change: 2021-01-10 17:33:18+01:00
 #
 #!/
 # Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
@@ -67,9 +67,6 @@ from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
 
 import pickle
 
-REPO = 'https://github.com/uds-se/debuggingbook.git'
-# REPO = '..'
-
 class ChangeCounter:
     def __init__(self, repo, filter=None, log=False, **kwargs):
         self.repo = repo
@@ -83,7 +80,7 @@ class ChangeCounter:
         self.messages = {}
         self.sizes = {}
         self.hashes = set()
-        
+
         self.mine(**kwargs)
 
 class ChangeCounter(ChangeCounter):
@@ -97,8 +94,11 @@ class ChangeCounter(ChangeCounter):
                 m.committer_date = commit.committer_date
                 m.msg = commit.msg
 
-                if self.filter(m):
+                if self.include(m):
                     self.update_stats(m)
+
+    def include(self, m):
+        return self.filter(m)
 
 class ChangeCounter(ChangeCounter):
     def update_stats(self, m):
@@ -106,25 +106,34 @@ class ChangeCounter(ChangeCounter):
             return
 
         node = tuple(m.new_path.split('/'))
-        
+
         if m.hash not in self.hashes:
             self.hashes.add(m.hash)
             self.update_size(node, len(m.source_code) if m.source_code else 0)
             self.update_changes(node, m.msg)
-            
+
         self.update_elems(node, m)
 
     def update_size(self, node, size):
         self.sizes[node] = size
-        
+
     def update_changes(self, node, msg):
         self.changes.setdefault(node, 0)
         self.messages.setdefault(node, [])
         self.changes[node] += 1
         self.messages[node].append(msg)
-        
+
     def update_elems(self, node, m):
         pass
+
+DEBUGGINGBOOK_REPO = 'https://github.com/uds-se/debuggingbook.git'
+# DEBUGGINGBOOK_REPO = '..'
+
+def debuggingbook_change_counter(cls):
+    def filter(m):
+        return m.new_path and not m.new_path.startswith('docs/')
+
+    return cls(DEBUGGINGBOOK_REPO, filter=filter)
 
 if __package__ is None or __package__ == "":
     from Timer import Timer
@@ -134,7 +143,7 @@ else:
 
 if __name__ == "__main__":
     with Timer() as t:
-        change_counter = ChangeCounter(REPO)
+        change_counter = debuggingbook_change_counter(ChangeCounter)
 
     t.elapsed_time()
 
@@ -184,15 +193,15 @@ class ChangeCounter(ChangeCounter):
         if node and node in self.changes:
             return self.changes[node]
         return None
-    
+
     def map_node_text(self, node):
         if node and node in self.changes:
             return self.changes[node]
         return None
-    
+
     def map_hoverinfo(self):
         return 'label+text'
-    
+
     def map_colorscale(self):
         return 'YlOrRd'
 
@@ -209,11 +218,11 @@ class ChangeCounter(ChangeCounter):
 
         fig = go.Figure(treemap)
         fig.update_layout(margin=dict(l=0, r=0, t=30, b=0))
-        
+
         return fig
 
 if __name__ == "__main__":
-    change_counter = ChangeCounter(REPO)
+    change_counter = debuggingbook_change_counter(ChangeCounter)
 
 
 if __name__ == "__main__":
@@ -229,13 +238,10 @@ if __name__ == "__main__":
 
 
 class FixCounter(ChangeCounter):
-    def __init__(self, repo, **kwargs):
-        super().__init__(repo, filter=self.is_fix, **kwargs)
+    def include(self, m):
+        return super().include(m) and m and m.msg.startswith("Fix:")
 
-    def is_fix(self, m):
-        return m.msg.startswith("Fix:") and not "show output" in m.msg    
-
-class FixCounter(ChangeCounter):
+class FixCounter(FixCounter):
     def map_node_text(self, node):
         if node and node in self.messages:
             return "<br>".join(self.messages[node])
@@ -245,7 +251,7 @@ class FixCounter(ChangeCounter):
         return 'label'
 
 if __name__ == "__main__":
-    fix_counter = FixCounter(REPO)
+    fix_counter = debuggingbook_change_counter(FixCounter)
 
 
 if __name__ == "__main__":
@@ -416,7 +422,7 @@ class FineChangeCounter(ChangeCounter):
         return size
 
 if __name__ == "__main__":
-    fine_change_counter = FineChangeCounter(REPO)
+    fine_change_counter = debuggingbook_change_counter(FineChangeCounter)
 
 
 if __name__ == "__main__":
@@ -470,7 +476,7 @@ class FineChangeCounter(FineChangeCounter):
 
 if __name__ == "__main__":
     with Timer() as t:
-        fine_change_counter = FineChangeCounter(REPO)
+        fine_change_counter = debuggingbook_change_counter(FineChangeCounter)
 
     t.elapsed_time()
 
