@@ -62,11 +62,12 @@ REPAIRING_PART_TODO = \
 	05_Repairing.ipynb \
 	Repairer.ipynb
 
-# Tracking Failures (also: where the bugs are)
+# Debugging in the Large
 IN_THE_LARGE_PART = 
 IN_THE_LARGE_PART_READY =
 IN_THE_LARGE_PART_TODO = \
 	06_In_the_Large.ipynb \
+	Tracking.ipynb \
 	ChangeExplorer.ipynb
 
 # Appendices for the book
