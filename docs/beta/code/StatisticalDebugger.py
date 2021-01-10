@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
 # Last change: 2021-01-10 13:21:52+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -1308,9 +1309,7 @@ class ClassifyingDebugger(ClassifyingDebugger):
         classifier = classifier.fit(self.X(), self.Y())
         return classifier
 
-if __name__ == "__main__":
-    import graphviz
-
+import graphviz
 
 class ClassifyingDebugger(ClassifyingDebugger):
     def show_classifier(self, classifier):
@@ -1425,19 +1424,18 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy([TarantulaDebugger, OchiaiDebugger],
                             project='debuggingbook')
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy([CoverageCollector, ValueCollector],
                             project='debuggingbook')
 

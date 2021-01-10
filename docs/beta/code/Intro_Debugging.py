@@ -3,10 +3,11 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2021-01-01 16:36:33+01:00
+# Last change: 2021-01-10 19:35:14+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -143,38 +144,29 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    from graphviz import Digraph, nohtml
-
+from graphviz import Digraph, nohtml
 
 if __name__ == "__main__":
     from IPython.display import display
 
 
-if __name__ == "__main__":
-    # ignore
-    PASS = "✔"
-    FAIL = "✘"
+PASS = "✔"
+FAIL = "✘"
 
-    PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
-    FAIL_COLOR = 'red4'  # '#8B0000' # darkred
+PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
+FAIL_COLOR = 'red4'  # '#8B0000' # darkred
 
-    STEP_COLOR = 'peachpuff'
-    FONT_NAME = 'Raleway'
+STEP_COLOR = 'peachpuff'
+FONT_NAME = 'Raleway'
 
-
-if __name__ == "__main__":
-    # ignore
-    def graph(comment="default"):
-        return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
-            node_attr={'style': 'filled',
-                       'fillcolor': STEP_COLOR,
-                       'fontname': FONT_NAME},
-            edge_attr={'fontname': FONT_NAME})
-
+def graph(comment="default"):
+    return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
+        node_attr={'style': 'filled',
+                   'fillcolor': STEP_COLOR,
+                   'fontname': FONT_NAME},
+        edge_attr={'fontname': FONT_NAME})
 
 if __name__ == "__main__":
-    # ignore
     state_machine = graph()
     state_machine.node('Start', )
     state_machine.edge('Start', '¬ tag')
@@ -185,7 +177,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display(state_machine)
 
 
@@ -198,7 +189,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     state_machine = graph()
     state_machine.node('Start')
     state_machine.edge('Start', '¬ quote\n¬ tag')
@@ -213,7 +203,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display(state_machine)
 
 
@@ -369,107 +358,100 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    # ignore
-    def execution_diagram(show_steps=True, variables=[],
-                          steps=3, error_step=666,
-                          until=666, fault_path=[]):
-        dot = graph()
+def execution_diagram(show_steps=True, variables=[],
+                      steps=3, error_step=666,
+                      until=666, fault_path=[]):
+    dot = graph()
 
-        dot.node('input', shape='none', fillcolor='white', label=f"Input {PASS}",
-                 fontcolor=PASS_COLOR)
-        last_outgoing_states = ['input']
+    dot.node('input', shape='none', fillcolor='white', label=f"Input {PASS}",
+             fontcolor=PASS_COLOR)
+    last_outgoing_states = ['input']
 
-        for step in range(1, min(steps + 1, until)):
+    for step in range(1, min(steps + 1, until)):
 
-            if step == error_step:
-                step_label = f'Step {step} {FAIL}'
-                step_color = FAIL_COLOR
-            else:
-                step_label = f'Step {step}'
-                step_color = None
+        if step == error_step:
+            step_label = f'Step {step} {FAIL}'
+            step_color = FAIL_COLOR
+        else:
+            step_label = f'Step {step}'
+            step_color = None
 
-            if step >= error_step:
-                state_label = f'State {step} {FAIL}'
-                state_color = FAIL_COLOR
-            else:
-                state_label = f'State {step} {PASS}'
-                state_color = PASS_COLOR
+        if step >= error_step:
+            state_label = f'State {step} {FAIL}'
+            state_color = FAIL_COLOR
+        else:
+            state_label = f'State {step} {PASS}'
+            state_color = PASS_COLOR
 
-            state_name = f's{step}'
-            outgoing_states = []
-            incoming_states = []
+        state_name = f's{step}'
+        outgoing_states = []
+        incoming_states = []
 
-            if not variables:
-                dot.node(name=state_name, shape='box',
-                         label=state_label, color=state_color,
-                         fontcolor=state_color)
-            else:
-                var_labels = []
-                for v in variables:
-                    vpath = f's{step}:{v}'
-                    if vpath in fault_path:
-                        var_label = f'<{v}>{v} ✘'
-                        outgoing_states.append(vpath)
-                        incoming_states.append(vpath)
-                    else:
-                        var_label = f'<{v}>{v}'
-                    var_labels.append(var_label)
-                record_string = " | ".join(var_labels)
-                dot.node(name=state_name, shape='record',
-                         label=nohtml(record_string), color=state_color,
-                         fontcolor=state_color)
+        if not variables:
+            dot.node(name=state_name, shape='box',
+                     label=state_label, color=state_color,
+                     fontcolor=state_color)
+        else:
+            var_labels = []
+            for v in variables:
+                vpath = f's{step}:{v}'
+                if vpath in fault_path:
+                    var_label = f'<{v}>{v} ✘'
+                    outgoing_states.append(vpath)
+                    incoming_states.append(vpath)
+                else:
+                    var_label = f'<{v}>{v}'
+                var_labels.append(var_label)
+            record_string = " | ".join(var_labels)
+            dot.node(name=state_name, shape='record',
+                     label=nohtml(record_string), color=state_color,
+                     fontcolor=state_color)
 
-            if not outgoing_states:
-                outgoing_states = [state_name]
-            if not incoming_states:
-                incoming_states = [state_name]
+        if not outgoing_states:
+            outgoing_states = [state_name]
+        if not incoming_states:
+            incoming_states = [state_name]
 
-            for outgoing_state in last_outgoing_states:
-                for incoming_state in incoming_states:
-                    if show_steps:
-                        dot.edge(outgoing_state, incoming_state,
-                                 label=step_label, fontcolor=step_color)
-                    else:
-                        dot.edge(outgoing_state, incoming_state)
+        for outgoing_state in last_outgoing_states:
+            for incoming_state in incoming_states:
+                if show_steps:
+                    dot.edge(outgoing_state, incoming_state,
+                             label=step_label, fontcolor=step_color)
+                else:
+                    dot.edge(outgoing_state, incoming_state)
 
-            last_outgoing_states = outgoing_states
+        last_outgoing_states = outgoing_states
 
-        if until > steps + 1:
-            # Show output
-            if error_step > steps:
-                dot.node('output', shape='none', fillcolor='white',
-                         label=f"Output {PASS}", fontcolor=PASS_COLOR)
-            else:
-                dot.node('output', shape='none', fillcolor='white',
-                         label=f"Output {FAIL}", fontcolor=FAIL_COLOR)
+    if until > steps + 1:
+        # Show output
+        if error_step > steps:
+            dot.node('output', shape='none', fillcolor='white',
+                     label=f"Output {PASS}", fontcolor=PASS_COLOR)
+        else:
+            dot.node('output', shape='none', fillcolor='white',
+                     label=f"Output {FAIL}", fontcolor=FAIL_COLOR)
 
-            for outgoing_state in last_outgoing_states:
-                label = "Execution" if steps == 0 else None
-                dot.edge(outgoing_state, 'output', label=label)
+        for outgoing_state in last_outgoing_states:
+            label = "Execution" if steps == 0 else None
+            dot.edge(outgoing_state, 'output', label=label)
 
-        display(dot)
-
+    display(dot)
 
 if __name__ == "__main__":
-    # ignore
     execution_diagram(show_steps=False, steps=0, error_step=0)
 
 
 if __name__ == "__main__":
-    # ignore
     for until in range(1, 6):
         execution_diagram(show_steps=False, until=until, error_step=2)
 
 
 if __name__ == "__main__":
-    # ignore
     for until in range(1, 6):
         execution_diagram(show_steps=True, until=until, error_step=2)
 
 
 if __name__ == "__main__":
-    # ignore
     for until in range(1, 6):
         execution_diagram(show_steps=True, variables=['v1', 'v2', 'v3'],
                           error_step=2,
@@ -493,7 +475,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     dot = graph()
 
     dot.node('Hypothesis')
@@ -525,7 +506,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display(dot)
 
 
@@ -596,8 +576,6 @@ def remove_html_markup_with_tag_assert(s):
 
     return out
 
-# remove_html_markup_with_tag_assert('"foo"')
-
 if __name__ == "__main__":
     quiz("What happens after inserting the above assertion?",
         ["The program raises an exception. (i.e., tag is set)",
@@ -637,8 +615,6 @@ def remove_html_markup_with_quote_assert(s):
             out = out + c
 
     return out
-
-# remove_html_markup_with_quote_assert('"foo"')
 
 if __name__ == "__main__":
     quiz("What happens after inserting the 'assert' tag?",
@@ -763,7 +739,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display(state_machine)
 
 

@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/Repairer.html
 # Last change: 2021-01-10 13:21:53+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -77,18 +78,15 @@ else:
     from .StatisticalDebugger import middle
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from bookutils import print_content
+else:
+    from .bookutils import print_content
 
+
+import inspect
 
 if __name__ == "__main__":
-    # ignore
-    import inspect
-
-
-if __name__ == "__main__":
-    # ignore
     _, first_lineno = inspect.getsourcelines(middle)
     middle_source = inspect.getsource(middle)
     print_content(middle_source, '.py', start_line_number=first_lineno)
@@ -228,7 +226,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     location = middle_debugger.rank()[0]
     (func_name, lineno) = location
     lines, first_lineno = inspect.getsourcelines(middle)
@@ -237,7 +234,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     middle_debugger.suspiciousness(location)
 
 
@@ -874,8 +870,6 @@ if __name__ == "__main__":
     reduced_lines = dd.min_args()['lines']
 
 
-# assert len(reduced_lines) < len(middle_lines)
-
 if __name__ == "__main__":
     reduced_source = "\n".join(reduced_lines)
 
@@ -1456,7 +1450,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert good_fitness >= 0.99, "fitness() failed"
 
 
@@ -1467,7 +1460,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert bad_fitness < 0.5, "fitness() failed"
 
 
@@ -2021,7 +2013,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     print_content(middle_source, '.py')
 
 
@@ -2041,13 +2032,13 @@ if __name__ == "__main__":
     print(astor.to_source(tree), fitness)
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
                             project='debuggingbook')
 

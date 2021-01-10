@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/Tracer.html
 # Last change: 2021-01-01 14:35:19+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -600,13 +601,13 @@ if __name__ == "__main__":
         remove_html_markup('<b>foo</b>bar')
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy(EventTracer, project='debuggingbook')
 
 

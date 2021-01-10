@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/Debugger.html
 # Last change: 2020-12-29 14:15:56+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -172,7 +173,6 @@ else:
 
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["step", "step", "continue"])
 
 
@@ -182,7 +182,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -309,7 +308,6 @@ class Debugger(Debugger):
         self.log("\n".join([f"{var} = {repr(vars[var])}" for var in vars]))
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["step", "step", "step", "print", "continue"]);
 
 
@@ -319,7 +317,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -337,7 +334,6 @@ class Debugger(Debugger):
                 self.log(f"{err.__class__.__name__}: {err}")
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["p s", "c"]);
 
 
@@ -347,12 +343,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["print (s[0], 2 + 2)", "continue"]);
 
 
@@ -362,7 +356,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["help print", "continue"]);
 
 
@@ -372,7 +365,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -402,7 +394,6 @@ class Debugger(Debugger):
             line_number += 1
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["list", "continue"]);
 
 
@@ -412,7 +403,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -432,7 +422,6 @@ class Debugger(Debugger):
         self.log("Breakpoints:", self.breakpoints)
 
 if __name__ == "__main__":
-    # ignore
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs([f"break {remove_html_markup_starting_line_number + 13}",
@@ -445,7 +434,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -486,7 +474,6 @@ class Debugger(Debugger):
         self.log("Breakpoints:", self.breakpoints)
 
 if __name__ == "__main__":
-    # ignore
     next_inputs([f"break {remove_html_markup_starting_line_number + 15}",
                  "continue", "print",
                  f"delete {remove_html_markup_starting_line_number + 15}",
@@ -499,7 +486,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -549,7 +535,6 @@ class Debugger(Debugger):
             line_number += 1
 
 if __name__ == "__main__":
-    # ignore
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs([f"break {remove_html_markup_starting_line_number + 13}",
@@ -562,7 +547,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -582,7 +566,6 @@ class Debugger(Debugger):
         self.interact = False
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["help", "quit"]);
 
 
@@ -592,7 +575,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
@@ -605,7 +587,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs(["help", f"break {remove_html_markup_starting_line_number + 13}",
@@ -618,17 +599,16 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy(Debugger, project='debuggingbook')
 
 
@@ -690,7 +670,6 @@ class Debugger(Debugger):
             self.log(f"{err.__class__.__name__}: {err}")
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["assign s = 'xyz'", "print", "step", "print", "step",
                  "assign tag = True", "assign s = 'abc'", "print",
                  "step", "print", "continue"]);
@@ -702,7 +681,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     assert not next_inputs()
 
 

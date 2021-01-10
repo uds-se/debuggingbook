@@ -3,10 +3,11 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-10 17:33:18+01:00
+# Last change: 2021-01-10 22:41:14+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -45,6 +46,12 @@ if __name__ == "__main__":
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
+
+
+if __package__ is None or __package__ == "":
+    import Tracking
+else:
+    from . import Tracking
 
 
 # ## Synopsis
@@ -383,9 +390,6 @@ def main(argc):
     some_python_mapping = elem_mapping(some_python_source, log=True)
 
 
-# some_jupyter_source = open("Slicer.ipynb").read()
-# some_jupyter_mapping = elem_mapping(some_jupyter_source, log=False)
-
 # ### Determining Changed Elements
 
 if __name__ == "__main__":
@@ -395,9 +399,9 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff, patch, print_patch
+    from ChangeDebugger import diff  # minor dependency
 else:
-    from .ChangeDebugger import diff, patch, print_patch
+    from .ChangeDebugger import diff  # minor dependency
 
 
 from diff_match_patch import diff_match_patch
@@ -493,13 +497,13 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy([FineChangeCounter, FixCounter],
                             project='debuggingbook')
 
@@ -545,12 +549,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # Some code that is part of the exercise
     pass
 
 
 if __name__ == "__main__":
-    # Some code for the solution
     2 + 2
 
 

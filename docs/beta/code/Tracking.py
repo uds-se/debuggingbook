@@ -3,10 +3,11 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-01-09 18:33:14+01:00
+# Last change: 2021-01-10 22:52:55+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -38,7 +39,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    YouTubeVideo("w4u5gCgPlmg")
+    # YouTubeVideo("w4u5gCgPlmg")
 
 
 if __name__ == "__main__":
@@ -47,448 +48,512 @@ if __name__ == "__main__":
     random.seed(2001)
 
 
-# ## Synopsis
+if __package__ is None or __package__ == "":
+    import Intro_Debugging
+else:
+    from . import Intro_Debugging
+
+
+# ## A Change Tracker
 
 if __name__ == "__main__":
-    print('\n## Synopsis')
+    print('\n## A Change Tracker')
 
 
 
 
-# ## Tracking Failures
-
-if __name__ == "__main__":
-    print('\n## Tracking Failures')
-
-
-
-
-# ## Mining Past Changes
+# ### Excursion: Setting up Redmine
 
 if __name__ == "__main__":
-    print('\n## Mining Past Changes')
+    print('\n### Excursion: Setting up Redmine')
 
 
 
 
-from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
+import subprocess
 
-import pickle
+import os
+import sys
 
-REPO_CACHE = "repocache.pickle"
+def with_ruby(cmd, inp='', show_stdout=False):
+    shell = subprocess.Popen(['/bin/sh', '-c', f'''rvm_redmine=$HOME/.rvm/gems/ruby-2.7.2@redmine; \
+rvm_global=$HOME/.rvm/gems/ruby-2.7.2@global; \
+export GEM_PATH=$rvm_redmine:$rvm_global; \
+export PATH=$rvm_redmine/bin:$rvm_global/bin:$HOME/.rvm/rubies/ruby-2.7.2/bin:$HOME/.rvm/bin:$PATH; \
+cd $HOME/lib/redmine && {cmd}'''],
+                             stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True)
+    stdout_data, stderr_data = shell.communicate(inp)
+    print(stderr_data, file=sys.stderr, end="")
+    if show_stdout:
+        print(stdout_data, end="")
 
-def all_modifications(repo):
-    try:
-        with open(REPO_CACHE, 'rb') as f:
-            all_modifications = pickle.load(f)
-    except FileNotFoundError:
-        all_modifications = {}
-    except EOFError:
-        all_modifications = {}
-    except TypeError:
-        all_modifications = {}
-    except pickle.PickleError:
-        all_modifications = {}
-
-    if repo not in all_modifications:
-        miner = RepositoryMining(repo)
-        all_modifications[repo] = []
-
-        for commit in miner.traverse_commits():
-            for m in commit.modifications:
-                m.hash = commit.hash
-                m.committer = commit.committer
-                m.committer_date = commit.committer_date
-                m.msg = commit.msg
-                all_modifications[repo].append(m)
-
-        with open(REPO_CACHE, 'wb') as f:
-            pickle.dump(all_modifications, f)
-
-    return all_modifications[repo]
-
-REPO = 'https://github.com/uds-se/debuggingbook.git'
-# REPO = '..'
-
-class ChangeCounter:
-    def __init__(self, repo, filter=None, log=False):
-        self.repo = repo
-        self.log = log
-
-        self.changes = {}
-        self.messages = {}
-        self.sizes = {}
-        self.hashes = set()
-
-        for m in all_modifications(repo):
-            if filter is None or filter(m):
-                self.update_stats(m)
-
-class ChangeCounter(ChangeCounter):
-    def update_stats(self, m):
-        if not m.new_path:
-            return
-
-        node = tuple(m.new_path.split('/'))
-        
-        if m.hash not in self.hashes:
-            self.hashes.add(m.hash)
-            self.update_size(node, len(m.source_code) if m.source_code else 0)
-            self.update_changes(node, m.msg)
-            
-        self.update_elems(node, m)
-
-    def update_size(self, node, size):
-        self.sizes[node] = size
-        
-    def update_changes(self, node, msg):
-        self.changes.setdefault(node, 0)
-        self.messages.setdefault(node, [])
-        self.changes[node] += 1
-        self.messages[node].append(msg)
-        
-    def update_elems(self, node, m):
-        pass
+def with_mysql(cmd, show_stdout=False):
+    sql = subprocess.Popen(["mysql", "-u", "root",
+                           "--default-character-set=utf8mb4"],
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, 
+                            universal_newlines=True)
+    stdout_data, stderr_data = sql.communicate(cmd + ';')
+    print(stderr_data, file=sys.stderr, end="")
+    if show_stdout:
+        print(stdout_data, end="")
 
 if __name__ == "__main__":
-    change_counter = ChangeCounter(REPO)
+    with_ruby("bundle install --without development test")
 
 
 if __name__ == "__main__":
-    list(change_counter.changes.keys())[:10]
+    with_ruby("mysql.server start")
 
 
 if __name__ == "__main__":
-    change_counter.changes[('Chapters.makefile',)]
+    with_mysql("drop database redmine")
 
 
 if __name__ == "__main__":
-    change_counter.messages[('Chapters.makefile',)]
+    with_mysql("drop user 'redmine'@'localhost'")
 
 
 if __name__ == "__main__":
-    change_counter.sizes[('Chapters.makefile',)]
+    with_mysql("create database redmine character set utf8")
 
-
-# ## Past Changes
 
 if __name__ == "__main__":
-    print('\n## Past Changes')
+    with_mysql("create user 'redmine'@'localhost' identified by 'my_password'")
+
+
+if __name__ == "__main__":
+    with_mysql("grant all privileges on redmine.* to 'redmine'@'localhost'")
+
+
+if __name__ == "__main__":
+    with_ruby("bundle exec rake generate_secret_token")
+
+
+if __name__ == "__main__":
+    with_ruby("RAILS_ENV=production bundle exec rake db:migrate")
+
+
+if __name__ == "__main__":
+    with_ruby("RAILS_ENV=production bundle exec rake redmine:load_default_data", '\n')
+
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
 
 
 
 
-import easyplotly as ep
-import plotly.graph_objects as go
+# ### Excursion: Starting Redmine
 
-import math
+if __name__ == "__main__":
+    print('\n### Excursion: Starting Redmine')
 
-class ChangeCounter(ChangeCounter):
-    def map_node_sizes(self):
-        # Default: use log scale
-        return {node: math.log(self.sizes[node]) if self.sizes[node] else 0
-             for node in self.sizes}
 
-        # Alternative: use sqrt size
-        return {node: math.sqrt(self.sizes[node]) for node in self.sizes}
 
-        # Alternative: use absolute size
-        return self.sizes
 
-    def map_node_color(self, node):
-        if node and node in self.changes:
-            return self.changes[node]
-        return None
+import os
+import time
+
+from multiprocessing import Process
+
+def run_redmine(port):
+    with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1')
+
+def start_redmine(port=3000):
+    process = Process(target=run_redmine, args=(port,))
+    process.start()
+    time.sleep(5)
+
+    url = f"http://localhost:{port}"
+    return process, url
+
+if __name__ == "__main__":
+    redmine_process, redmine_url = start_redmine()
+
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
+# ### Excursion: Remote Control with Selenium
+
+if __name__ == "__main__":
+    print('\n### Excursion: Remote Control with Selenium')
+
+
+
+
+from selenium import webdriver
+
+from selenium.webdriver.common.keys import Keys
+
+BROWSER = 'firefox'
+
+if __package__ is None or __package__ == "":
+    from bookutils import rich_output
+else:
+    from .bookutils import rich_output
+
+
+HEADLESS = not rich_output()
+
+def start_webdriver(browser=BROWSER, headless=HEADLESS, zoom=1.4):
+    if browser == 'firefox':
+        options = webdriver.FirefoxOptions()
+    if browser == 'chrome':
+        options = webdriver.ChromeOptions()
+
+    if headless and browser == 'chrome':
+        options.add_argument('headless')
+    else:
+        options.headless = headless
+
+    # Start the browser, and obtain a _web driver_ object such that we can interact with it.
+    if browser == 'firefox':
+        # For firefox, set a higher resolution for our screenshots
+        profile = webdriver.firefox.firefox_profile.FirefoxProfile()
+        profile.set_preference("layout.css.devPixelsPerPx", repr(zoom))
+        gui_driver = webdriver.Firefox(firefox_profile=profile, options=options)
+
+        # We set the window size such that it fits
+        gui_driver.set_window_size(500, 600)  # was 1024, 600
+
+    elif browser == 'chrome':
+        gui_driver = webdriver.Chrome(options=options)
+        gui_driver.set_window_size(1024, 510 if headless else 640)
+
+    return gui_driver
+
+if __name__ == "__main__":
+    gui_driver = start_webdriver(browser=BROWSER, headless=HEADLESS)
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url)
+
+
+if __name__ == "__main__":
+    from IPython.display import display, Image
+
+
+if __name__ == "__main__":
+    Image(gui_driver.get_screenshot_as_png())
+
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
+# ### Excursion: Screenshots with Drop Shadows
+
+if __name__ == "__main__":
+    print('\n### Excursion: Screenshots with Drop Shadows')
+
+
+
+
+import tempfile
+
+def drop_shadow(contents):
+    with tempfile.NamedTemporaryFile() as tmp:
+        tmp.write(contents)
+        convert = subprocess.Popen(
+            ['convert', tmp.name,
+            '(', '+clone', '-background', 'black', '-shadow', '50x10+15+15', ')',
+            '+swap', '-background', 'none', '-layers', 'merge', '+repage', '-'],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout_data, stderr_data = convert.communicate()
     
-    def map_node_text(self, node):
-        if node and node in self.changes:
-            return self.changes[node]
-        return None
-    
-    def map_hoverinfo(self):
-        return 'label+text'
-    
-    def map_colorscale(self):
-        return 'YlOrRd'
-
-    def map(self):
-        treemap = ep.Treemap(
-                     self.map_node_sizes(),
-                     text=self.map_node_text,
-                     hoverinfo=self.map_hoverinfo(),
-                     marker_colors=self.map_node_color,
-                     marker_colorscale=self.map_colorscale(),
-                     root_label=self.repo,
-                     branchvalues='total'
-                    )
-
-        fig = go.Figure(treemap)
-        fig.update_layout(margin=dict(l=0, r=0, t=30, b=0))
+    if stderr_data:
+        print(stderr_data.decode("utf-8"), file=sys.stderr, end="")
         
-        return fig
+    return stdout_data
+
+def screenshot(driver):
+    return Image(drop_shadow(gui_driver.get_screenshot_as_png()))
 
 if __name__ == "__main__":
-    change_counter = ChangeCounter(REPO)
+    screenshot(gui_driver)
 
 
-if __name__ == "__main__":
-    change_counter.map()
-
-
-# ## Past Fixes
+# ### End of Excursion
 
 if __name__ == "__main__":
-    print('\n## Past Fixes')
+    print('\n### End of Excursion')
 
 
 
 
-class FixCounter(ChangeCounter):
-    def __init__(self, repo, **kwargs):
-        super().__init__(repo, filter=self.is_fix, **kwargs)
-
-    def is_fix(self, m):
-        return m.msg.startswith("Fix:") and not "show output" in m.msg    
-
-class FixCounter(ChangeCounter):
-    def map_node_text(self, node):
-        if node and node in self.messages:
-            return "<br>".join(self.messages[node])
-        return ""
-    
-    def map_hoverinfo(self):
-        return 'label'
+# ### Excursion: First Registration at Redmine
 
 if __name__ == "__main__":
-    fix_counter = FixCounter(REPO)
+    print('\n### Excursion: First Registration at Redmine')
+
+
 
 
 if __name__ == "__main__":
-    fix_counter.map()
+    gui_driver.get(redmine_url + '/login')
 
-
-# ## Fine-Grained Changes
 
 if __name__ == "__main__":
-    print('\n## Fine-Grained Changes')
+    screenshot(gui_driver)
 
-
-
-
-# ### Mapping Elements to Locations
 
 if __name__ == "__main__":
-    print('\n### Mapping Elements to Locations')
+    gui_driver.find_element_by_id("username").send_keys("admin")
+    gui_driver.find_element_by_id("password").send_keys("admin")
+    gui_driver.find_element_by_name("login").click()
 
-
-
-
-import re
-
-import magic  # https://github.com/ahupp/python-magic
 
 if __name__ == "__main__":
-    magic.from_buffer('''
-#include <stdio.h>
+    time.sleep(2)
 
-int main(int argc, char *argv[]) {
-    printf("Hello, world!\n")
-}
-''')
-
-
-DELIMITERS = [
-    (
-        # Python
-        re.compile(r'^Python.*'),
-
-        # Beginning of element
-        re.compile(r'^(async\s+)?(def|class)\s+(?P<name>\w+)\W.*'),
-
-        # End of element
-        re.compile(r'^[^#\s]')
-    ),
-    (
-        # Jupyter Notebooks
-        re.compile(r'^(JSON|exported SGML).*'),
-        re.compile(r'^\s+"(async\s+)?(def|class)\s+(?P<name>\w+)\W'),
-        re.compile(r'^(\s+"[^#\s\\]|\s+\])')
-    ),
-    (
-        # C source code
-        re.compile(r'^C source.*'),
-        re.compile(r'^[^\s].*\s+(?P<name>\w+)\s*[({].*'),
-        re.compile(r'^[}]')
-    ),
-]
-
-def rxdelim(s):
-    tp = magic.from_buffer(s)
-    for rxtp, rxbegin, rxend in DELIMITERS:
-        if rxtp.match(tp):
-            return rxbegin, rxend
-
-    return None, None
-
-def elem_mapping(s, log=False):
-    rxbegin, rxend = rxdelim(s)
-    if rxbegin is None:
-        return []
-
-    mapping = [None]
-    current_elem = None
-    lineno = 0
-
-    for line in s.split('\n'):
-        lineno += 1
-        
-        match = rxbegin.match(line)
-        if match:
-            current_elem = match.group('name')
-        elif rxend.match(line):
-            current_elem = None
-
-        mapping.append(current_elem)
-        
-        if log:
-            print(f"{lineno:3} {current_elem}\t{line}")
-        
-    return mapping
 
 if __name__ == "__main__":
-    some_c_source = """
-#include <stdio.h>
+    if gui_driver.current_url.endswith('my/password'):
+        gui_driver.get(redmine_url + '/my/password')
+        gui_driver.find_element_by_id("password").send_keys("admin")
+        gui_driver.find_element_by_id("new_password").send_keys("admin001")
+        gui_driver.find_element_by_id("new_password_confirmation").send_keys("admin001")
+        display(screenshot(gui_driver))
+        gui_driver.find_element_by_name("commit").click()
 
-int foo(int x) {
-    return x;
-}
 
-struct bar {
-    int x, y;
-}
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/logout')
+    gui_driver.find_element_by_name("commit").click()
 
-int main(int argc, char *argv[]) {
-    return foo(argc);
-}
 
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/login')
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.find_element_by_id("username").send_keys("admin")
+    gui_driver.find_element_by_id("password").send_keys("admin001")
+    gui_driver.find_element_by_name("login").click()
+    screenshot(gui_driver)
+
+
+# ### Excursion: Creating a Project
+
+if __name__ == "__main__":
+    print('\n### Excursion: Creating a Project')
+
+
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/projects')
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/projects/new')
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/projects/new')
+    gui_driver.find_element_by_id('project_name').send_keys("The Debugging Book")
+    gui_driver.find_element_by_id('project_description').send_keys("A Book on Automated Debugging")
+    gui_driver.find_element_by_id('project_identifier').clear()
+    gui_driver.find_element_by_id('project_identifier').send_keys("debuggingbook")
+    gui_driver.find_element_by_id('project_homepage').send_keys("https://www.debuggingbook.org/")
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.find_element_by_name('commit').click()
+
+
+# ### End of Excursion
+
+if __name__ == "__main__":
+    print('\n### End of Excursion')
+
+
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/projects')
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/projects/debuggingbook')
+    screenshot(gui_driver)
+
+
+# ## Reporting a Bug
+
+if __name__ == "__main__":
+    print('\n## Reporting a Bug')
+
+
+
+
+if __name__ == "__main__":
+    gui_driver.get(redmine_url + '/issues/new')
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    issue_title = "Does not render correctly on Nokia Communicator"
+
+
+if __name__ == "__main__":
+    issue_description = \
+    """The Debugging Book does not render correctly on the Nokia Communicator 9000.
+
+Steps to reproduce:
+1. On the Nokia, go to "https://debuggingbook.org/"
+2. From the menu on top, select the chapter "Tracking Origins".
+3. Scroll down to a place where a graph is supposed to be shown.
+4. Instead of the graph, only a blank space is displayed.
+
+How to fix:
+* The graphs seem to come as SVG elements, but the Nokia Communicator
+does not support SVG rendering. Render them as JPEGs instead.
 """
-    some_c_mapping = elem_mapping(some_c_source, log=True)
 
 
 if __name__ == "__main__":
-    some_python_source = """
-def foo(x):
-    return x
+    gui_driver.get(redmine_url + '/issues/new')
 
-class bar(blue):
-    x = 25
-    def f(x):
-        return 26
+    gui_driver.find_element_by_id('issue_subject').send_keys(issue_title)
+    gui_driver.find_element_by_id('issue_description').send_keys(issue_description)
+    screenshot(gui_driver)
 
-def main(argc):
-    return foo(argc)
-
-"""
-    some_python_mapping = elem_mapping(some_python_source, log=True)
-
-
-# some_jupyter_source = open("Slicer.ipynb").read()
-# some_jupyter_mapping = elem_mapping(some_jupyter_source, log=False)
-
-# ### Determining Changed Elements
 
 if __name__ == "__main__":
-    print('\n### Determining Changed Elements')
+    gui_driver.find_element_by_id('issue_assigned_to_id').click()
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    screenshot(gui_driver)
+
+
+if __name__ == "__main__":
+    gui_driver.find_element_by_name('commit').click()
+    screenshot(gui_driver)
+
+
+# ## The Life Cycle of a Bug
+
+if __name__ == "__main__":
+    print('\n## The Life Cycle of a Bug')
 
 
 
 
 if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff, patch, print_patch
+    from Intro_Debugging import graph
 else:
-    from .ChangeDebugger import diff, patch, print_patch
-
-
-from diff_match_patch import diff_match_patch
-
-class FineChangeCounter(ChangeCounter):
-    def changed_elems(self, mapping, start, length=0):
-        elems = set()
-        for line in range(start, start + length + 1):
-            if line < len(mapping) and mapping[line]:
-                elems.add(mapping[line])
-                
-        return elems
-
-    def elem_size(self, elem, mapping, source):
-        source_lines = [''] + source.split('\n')
-        size = 0
-
-        for line_no in range(len(mapping)):
-            if mapping[line_no] == elem:
-                size += len(source_lines[line_no])
-
-        return size
-
-if __name__ == "__main__":
-    fine_change_counter = FineChangeCounter(REPO)
+    from .Intro_Debugging import graph
 
 
 if __name__ == "__main__":
-    assert fine_change_counter.changed_elems(some_python_mapping, 4) == {'foo'}
+    from IPython.display import display
 
 
 if __name__ == "__main__":
-    assert fine_change_counter.changed_elems(some_python_mapping, 4, 1) == {'foo', 'bar'}
+    life_cycle = graph()
+    # life_cycle.node('Unconfirmed')
+    life_cycle.node('New')
+    life_cycle.node('Assigned')
+    life_cycle.node('Resolved')
+    # life_cycle.node('Reopen')
+    # life_cycle.node('Verified')
+    life_cycle.node('Closed')
+
+    life_cycle.edge('New', 'Assigned')
+    life_cycle.edge('Assigned', 'Resolved')
+    life_cycle.edge('Resolved', 'Closed')
+
+    life_cycle
 
 
 if __name__ == "__main__":
-    assert fine_change_counter.changed_elems(some_python_mapping, 10, 2) == {'main'}
+    life_cycle.node('Unconfirmed')
+    life_cycle.node('Reopen')
+    life_cycle.node('Verified')
+
+    life_cycle.edge('Unconfirmed', 'New')
+    life_cycle.edge('Assigned', 'New')
+    life_cycle.edge('Resolved', 'Verified')
+    life_cycle.edge('Resolved', 'Reopen')
+    life_cycle.edge('Resolved', 'Unconfirmed')
+    life_cycle.edge('Closed', 'Unconfirmed')
+    life_cycle.edge('Verified', 'Reopen')
+    life_cycle.edge('Reopen', 'Assigned')
+
+    life_cycle
 
 
-class FineChangeCounter(FineChangeCounter):
-    def update_elems(self, node, m):
-        old_source = m.source_code_before if m.source_code_before else ""
-        new_source = m.source_code if m.source_code else ""
-        patches = diff(old_source, new_source)
-
-        old_mapping = elem_mapping(old_source)
-        new_mapping = elem_mapping(new_source)
-
-        elems = set()
-
-        for patch in patches:
-            old_start_line = patch.start1 + 1
-            new_start_line = patch.start2 + 1
-
-            for (op, data) in patch.diffs:
-                data_length = data.count('\n')
-
-                if op == diff_match_patch.DIFF_INSERT:
-                    elems |= self.changed_elems(old_mapping, old_start_line)
-                    elems |= self.changed_elems(new_mapping, new_start_line,
-                                                 data_length)
-                elif op == diff_match_patch.DIFF_DELETE:
-                    elems |= self.changed_elems(old_mapping, old_start_line, 
-                                                 data_length)
-                    elems |= self.changed_elems(new_mapping, new_start_line)
-
-                old_start_line += data_length
-                new_start_line += data_length
-
-        for elem in elems:
-            elem_node = node + (elem,)
-
-            self.update_size(elem_node,
-                             self.elem_size(elem, new_mapping, new_source))
-            self.update_changes(elem_node, m.msg)
+# ### Assigning Bug Reports
 
 if __name__ == "__main__":
-    fine_change_counter = FineChangeCounter(REPO)
+    print('\n### Assigning Bug Reports')
+
+
+
+
+# ## Prioritizing Bug Reports
+
+if __name__ == "__main__":
+    print('\n## Prioritizing Bug Reports')
+
+
+
+
+# ## Cleanup
+
+if __name__ == "__main__":
+    print('\n## Cleanup')
+
+
+
+
+import os
+
+if __name__ == "__main__":
+    redmine_process.terminate()
 
 
 if __name__ == "__main__":
-    fine_change_counter.map()
+    gui_driver.close()
+
+
+if __name__ == "__main__":
+    os.system("pkill ruby")
 
 
 # ## Synopsis
@@ -499,15 +564,12 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    # ignore
-    from ClassDiagram import display_class_hierarchy
-
+# ## Synopsis
 
 if __name__ == "__main__":
-    # ignore
-    display_class_hierarchy([FineChangeCounter, FixCounter],
-                            project='debuggingbook')
+    print('\n## Synopsis')
+
+
 
 
 # ## Lessons Learned
@@ -551,12 +613,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # Some code that is part of the exercise
     pass
 
 
 if __name__ == "__main__":
-    # Some code for the solution
     2 + 2
 
 

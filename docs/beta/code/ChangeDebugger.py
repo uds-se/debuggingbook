@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
 # Last change: 2021-01-10 13:21:52+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -77,58 +78,46 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    from graphviz import Digraph, nohtml
-
+from graphviz import Digraph, nohtml
 
 if __name__ == "__main__":
     from IPython.display import display
 
 
-if __name__ == "__main__":
-    # ignore
-    PASS = "✔"
-    FAIL = "✘"
-    UNRESOLVED = "?"
+PASS = "✔"
+FAIL = "✘"
+UNRESOLVED = "?"
 
-    PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
-    FAIL_COLOR = 'red4'  # '#8B0000' # darkred
+PASS_COLOR = 'darkgreen'  # '#006400' # darkgreen
+FAIL_COLOR = 'red4'  # '#8B0000' # darkred
 
-    STEP_COLOR = 'peachpuff'
-    FONT_NAME = 'Raleway'
+STEP_COLOR = 'peachpuff'
+FONT_NAME = 'Raleway'
 
+def graph(comment="default"):
+    return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
+        node_attr={'style': 'filled',
+                   'shape': 'box',
+                   'fillcolor': STEP_COLOR,
+                   'fontname': FONT_NAME},
+        edge_attr={'fontname': FONT_NAME})
 
-if __name__ == "__main__":
-    # ignore
-    def graph(comment="default"):
-        return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
-            node_attr={'style': 'filled',
-                       'shape': 'box',
-                       'fillcolor': STEP_COLOR,
-                       'fontname': FONT_NAME},
-            edge_attr={'fontname': FONT_NAME})
+VERSIONS = 8
 
+def display_versions(outcomes):
+    state_machine = graph()
+    for version_number in range(1, VERSIONS + 1):
+        id = f'v{version_number}'
+        label = f' {outcomes [version_number]}' \
+            if version_number in outcomes else ''
+        state_machine.node(id, label=f'{id}{label}')
+        if version_number > 1:
+            last_id = f'v{version_number - 1}'
+            state_machine.edge(last_id, id)
 
-if __name__ == "__main__":
-    # ignore
-    VERSIONS = 8
-
-    def display_versions(outcomes):
-        state_machine = graph()
-        for version_number in range(1, VERSIONS + 1):
-            id = f'v{version_number}'
-            label = f' {outcomes [version_number]}' \
-                if version_number in outcomes else ''
-            state_machine.node(id, label=f'{id}{label}')
-            if version_number > 1:
-                last_id = f'v{version_number - 1}'
-                state_machine.edge(last_id, id)
-
-        display(state_machine)
-
+    display(state_machine)
 
 if __name__ == "__main__":
-    # ignore
     display_versions({1: PASS, 8: FAIL})
 
 
@@ -537,7 +526,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display_versions({1: PASS, 4: UNRESOLVED, 8: FAIL})
 
 
@@ -559,7 +547,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display_versions({1: PASS, 3: UNRESOLVED, 4: FAIL, 8: FAIL})
 
 
@@ -581,7 +568,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display_versions({1: PASS, 2: UNRESOLVED, 3: FAIL, 4: FAIL, 8: FAIL})
 
 
@@ -598,7 +584,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     display_versions({1: PASS, 2: FAIL, 3: FAIL, 4: FAIL, 8: FAIL})
 
 
@@ -626,7 +611,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     open('test.py', 'w').write('''
 #!/usr/bin/env python
 
@@ -1097,13 +1081,13 @@ if __name__ == "__main__":
         print_patch(p)
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy([ChangeDebugger], project='debuggingbook')
 
 

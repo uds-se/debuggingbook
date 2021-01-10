@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/Tours.html
 # Last change: 2021-01-05 00:56:11+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -37,12 +38,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     from IPython.display import SVG
 
 
 if __name__ == "__main__":
-    # ignore
     SVG(filename='PICS/Sitemap.svg')
 
 

@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/Slicer.html
 # Last change: 2021-01-10 13:21:51+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -99,7 +100,6 @@ else:
 
 
 if __name__ == "__main__":
-    # ignore
     next_inputs(["step", "step", "step", "step", "quit"]);
 
 
@@ -300,9 +300,7 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    from graphviz import Digraph, nohtml
-
+from graphviz import Digraph, nohtml
 
 import html
 
@@ -543,7 +541,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     middle_deps().backward_slice('<middle() return value>', mode='d')
 
 
@@ -556,12 +553,10 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     middle_deps().backward_slice('<middle() return value>', mode='c', depth=1)
 
 
 if __name__ == "__main__":
-    # ignore
     middle_deps().backward_slice('<middle() return value>', mode='c')
 
 
@@ -574,7 +569,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     middle_deps()
 
 
@@ -769,7 +763,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     middle_deps().code()
 
 
@@ -805,14 +798,10 @@ if __name__ == "__main__":
     remove_html_markup('<foo>bar</foo>')
 
 
-if __name__ == "__main__":
-    # ignore
-    def remove_html_markup_deps():
-        return Dependencies({('s', (remove_html_markup, 136)): set(), ('tag', (remove_html_markup, 137)): set(), ('quote', (remove_html_markup, 138)): set(), ('out', (remove_html_markup, 139)): set(), ('c', (remove_html_markup, 141)): {('s', (remove_html_markup, 136))}, ('<test>', (remove_html_markup, 144)): {('quote', (remove_html_markup, 138)), ('c', (remove_html_markup, 141))}, ('tag', (remove_html_markup, 145)): set(), ('<test>', (remove_html_markup, 146)): {('quote', (remove_html_markup, 138)), ('c', (remove_html_markup, 141))}, ('<test>', (remove_html_markup, 148)): {('c', (remove_html_markup, 141))}, ('<test>', (remove_html_markup, 150)): {('tag', (remove_html_markup, 147)), ('tag', (remove_html_markup, 145))}, ('tag', (remove_html_markup, 147)): set(), ('out', (remove_html_markup, 151)): {('out', (remove_html_markup, 151)), ('c', (remove_html_markup, 141)), ('out', (remove_html_markup, 139))}, ('<remove_html_markup() return value>', (remove_html_markup, 153)): {('<test>', (remove_html_markup, 146)), ('out', (remove_html_markup, 151))}}, {('s', (remove_html_markup, 136)): set(), ('tag', (remove_html_markup, 137)): set(), ('quote', (remove_html_markup, 138)): set(), ('out', (remove_html_markup, 139)): set(), ('c', (remove_html_markup, 141)): set(), ('<test>', (remove_html_markup, 144)): set(), ('tag', (remove_html_markup, 145)): {('<test>', (remove_html_markup, 144))}, ('<test>', (remove_html_markup, 146)): {('<test>', (remove_html_markup, 144))}, ('<test>', (remove_html_markup, 148)): {('<test>', (remove_html_markup, 146))}, ('<test>', (remove_html_markup, 150)): {('<test>', (remove_html_markup, 148))}, ('tag', (remove_html_markup, 147)): {('<test>', (remove_html_markup, 146))}, ('out', (remove_html_markup, 151)): {('<test>', (remove_html_markup, 150))}, ('<remove_html_markup() return value>', (remove_html_markup, 153)): set()})
-
+def remove_html_markup_deps():
+    return Dependencies({('s', (remove_html_markup, 136)): set(), ('tag', (remove_html_markup, 137)): set(), ('quote', (remove_html_markup, 138)): set(), ('out', (remove_html_markup, 139)): set(), ('c', (remove_html_markup, 141)): {('s', (remove_html_markup, 136))}, ('<test>', (remove_html_markup, 144)): {('quote', (remove_html_markup, 138)), ('c', (remove_html_markup, 141))}, ('tag', (remove_html_markup, 145)): set(), ('<test>', (remove_html_markup, 146)): {('quote', (remove_html_markup, 138)), ('c', (remove_html_markup, 141))}, ('<test>', (remove_html_markup, 148)): {('c', (remove_html_markup, 141))}, ('<test>', (remove_html_markup, 150)): {('tag', (remove_html_markup, 147)), ('tag', (remove_html_markup, 145))}, ('tag', (remove_html_markup, 147)): set(), ('out', (remove_html_markup, 151)): {('out', (remove_html_markup, 151)), ('c', (remove_html_markup, 141)), ('out', (remove_html_markup, 139))}, ('<remove_html_markup() return value>', (remove_html_markup, 153)): {('<test>', (remove_html_markup, 146)), ('out', (remove_html_markup, 151))}}, {('s', (remove_html_markup, 136)): set(), ('tag', (remove_html_markup, 137)): set(), ('quote', (remove_html_markup, 138)): set(), ('out', (remove_html_markup, 139)): set(), ('c', (remove_html_markup, 141)): set(), ('<test>', (remove_html_markup, 144)): set(), ('tag', (remove_html_markup, 145)): {('<test>', (remove_html_markup, 144))}, ('<test>', (remove_html_markup, 146)): {('<test>', (remove_html_markup, 144))}, ('<test>', (remove_html_markup, 148)): {('<test>', (remove_html_markup, 146))}, ('<test>', (remove_html_markup, 150)): {('<test>', (remove_html_markup, 148))}, ('tag', (remove_html_markup, 147)): {('<test>', (remove_html_markup, 146))}, ('out', (remove_html_markup, 151)): {('<test>', (remove_html_markup, 150))}, ('<remove_html_markup() return value>', (remove_html_markup, 153)): set()})
 
 if __name__ == "__main__":
-    # ignore
     remove_html_markup_deps().graph()
 
 
@@ -827,13 +816,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     tag_deps = Dependencies({('tag', (remove_html_markup, 145)): set(), ('<test>', (remove_html_markup, 144)): {('quote', (remove_html_markup, 138)), ('c', (remove_html_markup, 141))}, ('quote', (remove_html_markup, 138)): set(), ('c', (remove_html_markup, 141)): {('s', (remove_html_markup, 136))}, ('s', (remove_html_markup, 136)): set()}, {('tag', (remove_html_markup, 145)): {('<test>', (remove_html_markup, 144))}, ('<test>', (remove_html_markup, 144)): set(), ('quote', (remove_html_markup, 138)): set(), ('c', (remove_html_markup, 141)): set(), ('s', (remove_html_markup, 136)): set()})
     tag_deps
 
 
 if __name__ == "__main__":
-    # ignore
     tag_deps.code()
 
 
@@ -999,10 +986,6 @@ class TrackGetTransformer(NodeTransformer):
 
 from ast import Module, Name, Load, Store, Tuple, \
     Attribute, With, withitem, keyword, Call, Expr
-
-# Starting with Python 3.8, these will become Constant.
-# from ast import Num, Str, NameConstant
-# Use `ast.Num`, `ast.Str`, and `ast.NameConstant` for compatibility
 
 def make_get_data(id, method='get'):
     return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()), 
@@ -1898,7 +1881,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     _test_data.dependencies().graph()
 
 
@@ -1949,7 +1931,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     _test_data.dependencies()
 
 
@@ -2524,8 +2505,6 @@ if __name__ == "__main__":
         )
 
 
-# print(repr(root_slicer))
-
 # ### Removing HTML Markup
 
 if __name__ == "__main__":
@@ -2543,8 +2522,6 @@ if __name__ == "__main__":
     rhm_slicer
 
 
-# print(repr(rhm_slicer.dependencies()))
-
 if __name__ == "__main__":
     rhm_slicer.code()
 
@@ -2560,8 +2537,6 @@ if __name__ == "__main__":
     tag_deps = rhm_slicer.dependencies().backward_slice(slicing_criterion)
     tag_deps
 
-
-# repr(tag_deps)
 
 # ### Calls and Augmented Assign
 
@@ -2643,13 +2618,13 @@ if __name__ == "__main__":
     slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from ClassDiagram import display_class_hierarchy
+else:
+    from .ClassDiagram import display_class_hierarchy
 
 
 if __name__ == "__main__":
-    # ignore
     display_class_hierarchy([Slicer, DependencyTracker, Dependencies],
                             project='debuggingbook')
 

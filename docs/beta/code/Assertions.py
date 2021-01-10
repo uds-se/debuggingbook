@@ -5,8 +5,9 @@
 # Web site: https://www.debuggingbook.org/html/Assertions.html
 # Last change: 2021-01-03 15:28:05+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -121,7 +122,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     open('testassert.c', 'w').write(r'''
 #include <stdio.h>
 #include "assert.h"
@@ -133,9 +133,10 @@ int main(int argc, char *argv[]) {
 ''');
 
 
-if __name__ == "__main__":
-    # ignore
+if __package__ is None or __package__ == "":
     from bookutils import print_content
+else:
+    from .bookutils import print_content
 
 
 if __name__ == "__main__":
@@ -153,7 +154,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     open('assert.h', 'w').write(r'''
 #include <stdio.h>
 #include <stdlib.h>
@@ -737,7 +737,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     open('testoverflow.c', 'w').write(r'''
 #include <stdio.h>
 
@@ -863,7 +862,6 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    # ignore
     open('testuseafterfree.c', 'w').write(r'''
 #include <stdlib.h>
 
@@ -1352,11 +1350,8 @@ if __name__ == "__main__":
 
 
 
-if __name__ == "__main__":
-    # ignore
-    import os
-    os.system('rm -fr assert.h testassert* testoverflow* testuseafterfree*');
-
+import os
+os.system('rm -fr assert.h testassert* testoverflow* testuseafterfree*');
 
 # ## Next Steps
 

@@ -15,7 +15,7 @@ RE_IMPORT_BOOKUTILS = re.compile(r'^import bookutils.*$', re.MULTILINE)
 RE_FROM_BOOKUTILS = re.compile(r'^from bookutils import .*$', re.MULTILINE)
 
 # Things to import only if main (reduces dependencies)
-RE_IMPORT_IF_MAIN = re.compile(r'^(from|import)[ \t]+(matplotlib|graphviz|mpl_toolkits|numpy|scipy|IPython|requests|FTB|Collector|bookutils import YouTubeVideo).*$', re.MULTILINE)
+RE_IMPORT_IF_MAIN = re.compile(r'^(from|import)[ \t]+(matplotlib|mpl_toolkits|numpy|scipy|IPython|requests|FTB|Collector|bookutils import YouTubeVideo).*$', re.MULTILINE)
 
 # Strip blank lines
 RE_BLANK_LINES = re.compile(r'^[ \t]*$', re.MULTILINE)
@@ -31,8 +31,9 @@ HEADER = """#!/usr/bin/env python3
 # Web site: https://www.{project}.org/html/{module}.html
 # Last change: {timestamp}
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
@@ -72,7 +73,6 @@ def prefix_code(code, prefix):
     quote = ''
 
     for i, c in enumerate(code):
-        assert code[i] == c
         if c == '\n' and not quote:  # do not indent quotes
             out += '\n' + prefix
         else:
@@ -170,6 +170,14 @@ def export_notebook_code(notebook_name, project="fuzzingbook", path=None):
     for cell in notebook.cells:
         if cell.cell_type == 'code':
             code = cell.source
+                
+            while code.startswith('#') or code.startswith('\n'):
+                # Skip leading comments
+                if code.find('\n') >= 0:
+                    code = code[code.find('\n') + 1:]
+                else:
+                    code = ''
+
             if len(code.strip()) == 0:
                 # Empty code
                 continue
