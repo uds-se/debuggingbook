@@ -25,18 +25,11 @@ INTRO_PART_TODO = \
 	Tours.ipynb \
 	Intro_Debugging.ipynb
 
-# Tracking Failures (also: where the bugs are)
-TRACKING_PART = 
-TRACKING_PART_READY =
-TRACKING_PART_TODO = \
-	02_Tracking.ipynb \
-	Tracking.ipynb
-
 # Observing Executions
 OBSERVING_PART = 
 OBSERVING_PART_READY = 
 OBSERVING_PART_TODO = \
-	03_Observing.ipynb \
+	02_Observing.ipynb \
 	Tracer.ipynb \
 	Debugger.ipynb \
 	Assertions.ipynb \
@@ -47,7 +40,7 @@ OBSERVING_PART_TODO = \
 EXPERIMENTING_PART = 
 EXPERIMENTING_PART_READY =
 EXPERIMENTING_PART_TODO = \
-	04_Inputs.ipynb \
+	03_Inputs.ipynb \
 	DeltaDebugger.ipynb \
 	ChangeDebugger.ipynb
 	# Grammars.ipynb \
@@ -57,7 +50,7 @@ EXPERIMENTING_PART_TODO = \
 ABSTRACTING_PART =
 ABSTRACTING_PART_READY =
 ABSTRACTING_PART_TODO = \
-	05_Abstracting.ipynb
+	04_Abstracting.ipynb
 	# DynamicInvariants.ipynb \
 	# DDSet.ipynb \
 	# Alhazen.ipynb
@@ -66,8 +59,15 @@ ABSTRACTING_PART_TODO = \
 REPAIRING_PART =
 REPAIRING_PART_READY =
 REPAIRING_PART_TODO = \
-	06_Repairing.ipynb \
+	05_Repairing.ipynb \
 	Repairer.ipynb
+
+# Tracking Failures (also: where the bugs are)
+IN_THE_LARGE_PART = 
+IN_THE_LARGE_PART_READY =
+IN_THE_LARGE_PART_TODO = \
+	06_In_the_Large.ipynb \
+	ChangeExplorer.ipynb
 
 # Appendices for the book
 APPENDICES = \
@@ -93,7 +93,7 @@ EXTRAS = \
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
 	$(INTRO_PART) \
-	$(TRACKING_PART) \
+	$(IN_THE_LARGE_PART) \
 	$(OBSERVING_PART) \
 	$(EXPERIMENTING_PART) \
 	$(ABSTRACTING_PART) \
@@ -104,9 +104,6 @@ CHAPTERS = \
 	$(INTRO_PART) \
 	$(INTRO_PART_READY) \
 	$(INTRO_PART_TODO) \
-	$(TRACKING_PART) \
-	$(TRACKING_PART_READY) \
-	$(TRACKING_PART_TODO) \
 	$(OBSERVING_PART) \
 	$(OBSERVING_PART_READY) \
 	$(OBSERVING_PART_TODO) \
@@ -118,23 +115,26 @@ CHAPTERS = \
 	$(ABSTRACTING_PART_TODO) \
 	$(REPAIRING_PART) \
 	$(REPAIRING_PART_READY) \
-	$(REPAIRING_PART_TODO)
+	$(REPAIRING_PART_TODO) \
+	$(IN_THE_LARGE_PART) \
+	$(IN_THE_LARGE_PART_READY) \
+	$(IN_THE_LARGE_PART_TODO)
 
 READY_CHAPTERS = \
 	$(INTRO_PART_READY) \
-	$(TRACKING_PART_READY) \
 	$(OBSERVING_PART_READY) \
 	$(EXPERIMENTING_PART_READY) \
 	$(ABSTRACTING_PART_READY) \
-	$(REPAIRING_PART_READY)
+	$(REPAIRING_PART_READY) \
+	$(IN_THE_LARGE_PART_READY)
 
 TODO_CHAPTERS = \
 	$(INTRO_PART_TODO) \
-	$(TRACKING_PART_TODO) \
 	$(OBSERVING_PART_TODO) \
 	$(EXPERIMENTING_PART_TODO) \
 	$(ABSTRACTING_PART_TODO) \
-	$(REPAIRING_PART_TODO)
+	$(REPAIRING_PART_TODO) \
+	$(IN_THE_LARGE_PART_TODO)
 
 
 
