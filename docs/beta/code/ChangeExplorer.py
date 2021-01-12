@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-10 22:41:14+01:00
+# Last change: 2021-01-12 16:50:31+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -133,8 +133,32 @@ class ChangeCounter(ChangeCounter):
     def update_elems(self, node, m):
         pass
 
-DEBUGGINGBOOK_REPO = 'https://github.com/uds-se/debuggingbook.git'
-# DEBUGGINGBOOK_REPO = '..'
+import os
+
+def current_repo():
+    path = os.getcwd()
+    while True:
+        if os.path.exists(os.path.join(path, '.git')):
+            return os.path.normpath(path)
+        
+        # Go one level up
+        new_path = os.path.normpath(os.path.join(path, '..'))
+        if new_path != path:
+            path = new_path
+        else:
+            return None
+    
+    return None     
+
+CURRENT_REPO = current_repo()
+if CURRENT_REPO:
+    DEBUGGINGBOOK_REPO = CURRENT_REPO
+else:
+    DEBUGGINGBOOK_REPO = 'https://github.com/uds-se/debuggingbook.git'
+
+if __name__ == "__main__":
+    DEBUGGINGBOOK_REPO
+
 
 def debuggingbook_change_counter(cls):
     def filter(m):
