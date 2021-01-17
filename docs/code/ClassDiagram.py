@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2020-12-28 19:06:46+01:00
+# Last change: 2021-01-17 15:35:45+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -340,60 +340,4 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     display_class_hierarchy(D_Class)
-
-
-# ## Lessons Learned
-
-if __name__ == "__main__":
-    print('\n## Lessons Learned')
-
-
-
-
-# ## Next Steps
-
-if __name__ == "__main__":
-    print('\n## Next Steps')
-
-
-
-
-# ## Background
-
-if __name__ == "__main__":
-    print('\n## Background')
-
-
-
-
-# ## Exercises
-
-if __name__ == "__main__":
-    print('\n## Exercises')
-
-
-
-
-# ### Exercise 1: _Title_
-
-if __name__ == "__main__":
-    print('\n### Exercise 1: _Title_')
-
-
-
-
-if __name__ == "__main__":
-    pass
-
-
-if __name__ == "__main__":
-    2 + 2
-
-
-# ### Exercise 2: _Title_
-
-if __name__ == "__main__":
-    print('\n### Exercise 2: _Title_')
-
-
 
