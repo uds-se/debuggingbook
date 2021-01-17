@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-01-17 18:59:23+01:00
+# Last change: 2021-01-17 19:05:02+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -1056,16 +1056,22 @@ if __name__ == "__main__":
 def prop_function_text(prop):
     return "lambda " + ", ".join(metavars(prop)) + ": " + prop
 
-def prop_function(prop):
-    return eval(prop_function_text(prop))
-
 if __name__ == "__main__":
     prop_function_text("X > Y")
 
 
+def prop_function(prop):
+    return eval(prop_function_text(prop))
+
 if __name__ == "__main__":
     p = prop_function("X > Y")
 
+
+if __name__ == "__main__":
+    quiz("What is p(100, 1)?", [
+        "False",
+        "True"
+    ], p(100, 1) + 1)
 
 
 if __name__ == "__main__":
