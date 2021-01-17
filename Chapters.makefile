@@ -50,8 +50,8 @@ EXPERIMENTING_PART_TODO = \
 ABSTRACTING_PART =
 ABSTRACTING_PART_READY =
 ABSTRACTING_PART_TODO = \
-	04_Abstracting.ipynb
-	# DynamicInvariants.ipynb \
+	04_Abstracting.ipynb \
+	DynamicInvariants.ipynb
 	# DDSet.ipynb \
 	# Alhazen.ipynb
 	
