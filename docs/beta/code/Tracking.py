@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-01-12 16:23:22+01:00
+# Last change: 2021-01-17 18:12:43+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -81,8 +81,10 @@ import subprocess
 import os
 import sys
 
-def with_ruby(cmd, inp='', show_stdout=False):
-    shell = subprocess.Popen(['/bin/sh', '-c', f'''rvm_redmine=$HOME/.rvm/gems/ruby-2.7.2@redmine; \
+def with_ruby(cmd, inp='', timeout=10, show_stdout=False):
+    print(f"$ {cmd}")
+    shell = subprocess.Popen(['/bin/sh', '-c',
+        f'''rvm_redmine=$HOME/.rvm/gems/ruby-2.7.2@redmine; \
 rvm_global=$HOME/.rvm/gems/ruby-2.7.2@global; \
 export GEM_PATH=$rvm_redmine:$rvm_global; \
 export PATH=$rvm_redmine/bin:$rvm_global/bin:$HOME/.rvm/rubies/ruby-2.7.2/bin:$HOME/.rvm/bin:$PATH; \
@@ -91,29 +93,60 @@ cd $HOME/lib/redmine && {cmd}'''],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
                              universal_newlines=True)
-    stdout_data, stderr_data = shell.communicate(inp)
+    try:
+        stdout_data, stderr_data = shell.communicate(inp, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        shell.kill()
+#         stdout_data, stderr_data = shell.communicate(inp)
+#         if show_stdout:
+#             print(stdout_data, end="")
+#         print(stderr_data, file=sys.stderr, end="")
+        raise
+
     print(stderr_data, file=sys.stderr, end="")
     if show_stdout:
         print(stdout_data, end="")
 
-def with_mysql(cmd, show_stdout=False):
+def with_mysql(cmd, timeout=2, show_stdout=False):
+    print(f"sql>{cmd}")
     sql = subprocess.Popen(["mysql", "-u", "root",
                            "--default-character-set=utf8mb4"],
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, 
                             universal_newlines=True)
-    stdout_data, stderr_data = sql.communicate(cmd + ';')
+    try:
+        stdout_data, stderr_data = sql.communicate(cmd + ';', 
+                                                   timeout=timeout)
+    except suprocess.TimeoutExpired:
+        sql.kill()
+#         stdout_data, stderr_data = sql.communicate(inp)
+#         if show_stdout:
+#             print(stdout_data, end="")
+#         print(stderr_data, file=sys.stderr, end="")
+        raise
+
     print(stderr_data, file=sys.stderr, end="")
     if show_stdout:
         print(stdout_data, end="")
 
 if __name__ == "__main__":
-    with_ruby("bundle install --without development test")
+    with_ruby("bundle config set without development test")
 
 
 if __name__ == "__main__":
-    with_ruby("mysql.server start")
+    with_ruby("bundle install")
+
+
+if __name__ == "__main__":
+    with_ruby("pkill sql; sleep 5")
+
+
+if __name__ == "__main__":
+    try:
+        with_ruby("mysql.server start", show_stdout=True)
+    except subprocess.TimeoutExpired:
+        pass  # Can actually start without producing output
 
 
 if __name__ == "__main__":
@@ -170,7 +203,8 @@ import time
 from multiprocessing import Process
 
 def run_redmine(port):
-    with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1')
+    with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1',
+             timeout=600)
 
 def start_redmine(port=3000):
     process = Process(target=run_redmine, args=(port,))
@@ -206,13 +240,17 @@ from selenium.webdriver.common.keys import Keys
 
 BROWSER = 'firefox'
 
+if __name__ == "__main__":
+    with_ruby("pkill Firefox.app firefox-bin")
+
+
 if __package__ is None or __package__ == "":
     from bookutils import rich_output
 else:
     from .bookutils import rich_output
 
 
-HEADLESS = not rich_output()
+HEADLESS = False
 
 def start_webdriver(browser=BROWSER, headless=HEADLESS, zoom=1.4):
     if browser == 'firefox':

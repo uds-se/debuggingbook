@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-01-03 15:28:05+01:00
+# Last change: 2021-01-17 18:22:51+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -497,8 +497,10 @@ class Time(object):
 class Time(Time):
     def hours(self):
         return self._hours
+
     def minutes(self):
         return self._minutes
+
     def seconds(self):
         return self._seconds
 
@@ -706,6 +708,7 @@ class RedBlackTree(RedBlackTree):
     def __init__(self, checkRepOK=False):
         ...
         self.checkRepOK = checkRepOK
+
     def repOK(self):
         if not self.checkRepOK:
             return True

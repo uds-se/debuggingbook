@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-12 16:50:31+01:00
+# Last change: 2021-01-17 15:35:32+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
