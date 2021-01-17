@@ -14003,7 +14003,7 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Why-Generic-Error-Checking-is-Not-Enough">Why Generic Error Checking is Not Enough<a class="anchor-link" href="#Why-Generic-Error-Checking-is-Not-Enough">&#182;</a></h2><p>Before we go into <em>mining</em> specifications, let us first discuss why it could be useful to <em>have</em> them.  As a motivating example, consider the full implementation of <code>square_root()</code> from the <a href="Assertions.slides.html">chapter on assertions</a>:</p>
+<h2 id="Beyond-Generic-Failures">Beyond Generic Failures<a class="anchor-link" href="#Beyond-Generic-Failures">&#182;</a></h2><p>Before we go into <em>mining</em> specifications, let us first discuss why it could be useful to <em>have</em> them.  As a motivating example, consider the full implementation of <code>square_root()</code> from the <a href="Assertions.slides.html">chapter on assertions</a>:</p>
 
 </div>
 </div>
@@ -14145,10 +14145,10 @@ ZeroDivisionError: float division by zero (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-9-ffe15314321c&gt;&#34;, line 2, in &lt;module&gt;
     x = square_root(-1.0)
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
-    guess = (approx + x / approx) / 2
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
-    guess = (approx + x / approx) / 2
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 5, in square_root
+    while approx != guess:
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 5, in square_root
+    while approx != guess:
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -14179,7 +14179,7 @@ TimeoutError (expected)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Specifying-and-Checking-Data-Types">Specifying and Checking Data Types<a class="anchor-link" href="#Specifying-and-Checking-Data-Types">&#182;</a></h2><p>For our Python code, one of the most important "specifications" we need is <em>types</em>.  Python being a "dynamically" typed language means that all data types are determined at run time; the code itself does not explicitly state whether a variable is an integer, a string, an array, a dictionary – or whatever.</p>
+<h2 id="Mining-Data-Types">Mining Data Types<a class="anchor-link" href="#Mining-Data-Types">&#182;</a></h2><p>For our Python code, one of the most important "specifications" we need is <em>types</em>.  Python being a "dynamically" typed language means that all data types are determined at run time; the code itself does not explicitly state whether a variable is an integer, a string, an array, a dictionary – or whatever.</p>
 
 </div>
 </div>
@@ -14440,21 +14440,21 @@ enforce.exceptions.RuntimeTypeError:
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-1" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-1-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-1" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-1-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
     
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-2" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-2-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-2" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-2-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-2"><code>1</code> is a subtype of float. It will pass.</label><br>
     
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-3" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-3-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-3" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-3-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
     
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-4" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-4-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-4" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-4-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-4">The function will fail for some other reason.</label><br>
     
     </div>
     </p>
-    <input id="aafb30e8-58ee-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c', 2, 0)">
+    <input id="ec59eb28-58ef-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c', 2, 0)">
     </div>
     
 </div>
@@ -14678,7 +14678,7 @@ enforce.exceptions.RuntimeTypeError:
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpg3ri1709.py&#39;</pre>
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpprjt3gen.py&#39;</pre>
 </div>
 
 </div>
@@ -15845,7 +15845,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Specifying-and-Checking-Invariants">Specifying and Checking Invariants<a class="anchor-link" href="#Specifying-and-Checking-Invariants">&#182;</a></h2><p>Besides basic data types. we can check several further properties from arguments.  We can, for instance, whether an argument can be negative, zero, or positive; or that one argument should be smaller than the second; or that the result should be the sum of two arguments – properties that cannot be expressed in a (Python) type.</p>
+<h2 id="Mining-Invariants">Mining Invariants<a class="anchor-link" href="#Mining-Invariants">&#182;</a></h2><p>Besides basic data types. we can check several further properties from arguments.  We can, for instance, whether an argument can be negative, zero, or positive; or that one argument should be smaller than the second; or that the result should be the sum of two arguments – properties that cannot be expressed in a (Python) type.</p>
 <p>Such properties are called <em>invariants</em>, as they hold across all invocations of a function. Specifically, invariants come as <em>pre</em>- and <em>postconditions</em> – conditions that always hold at the beginning and at the end of a function.  (There are also <em>data</em> and <em>object</em> invariants that express always-holding properties over the state of data or objects, but we do not consider these in this book.)</p>
 
 </div>
@@ -16703,15 +16703,15 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ac5d1d68-58ee-11eb-8163-f218984d6a0c" id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-1" onclick="clear_selection('ac5d1d68-58ee-11eb-8163-f218984d6a0c')">
-        <label id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-1-label" for="ac5d1d68-58ee-11eb-8163-f218984d6a0c-1">False</label><br>
+        <input type="radio" name="edaf3d2c-58ef-11eb-8163-f218984d6a0c" id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-1" onclick="clear_selection('edaf3d2c-58ef-11eb-8163-f218984d6a0c')">
+        <label id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-1-label" for="edaf3d2c-58ef-11eb-8163-f218984d6a0c-1">False</label><br>
     
-        <input type="radio" name="ac5d1d68-58ee-11eb-8163-f218984d6a0c" id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-2" onclick="clear_selection('ac5d1d68-58ee-11eb-8163-f218984d6a0c')">
-        <label id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-2-label" for="ac5d1d68-58ee-11eb-8163-f218984d6a0c-2">True</label><br>
+        <input type="radio" name="edaf3d2c-58ef-11eb-8163-f218984d6a0c" id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-2" onclick="clear_selection('edaf3d2c-58ef-11eb-8163-f218984d6a0c')">
+        <label id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-2-label" for="edaf3d2c-58ef-11eb-8163-f218984d6a0c-2">True</label><br>
     
     </div>
     </p>
-    <input id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ac5d1d68-58ee-11eb-8163-f218984d6a0c', 4, 0)">
+    <input id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('edaf3d2c-58ef-11eb-8163-f218984d6a0c', 4, 0)">
     </div>
     
 </div>
@@ -18536,15 +18536,15 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="b0520b9a-58ee-11eb-88a0-f218984d6a0c" id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-1" onclick="clear_selection('b0520b9a-58ee-11eb-88a0-f218984d6a0c')">
-        <label id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-1-label" for="b0520b9a-58ee-11eb-88a0-f218984d6a0c-1">Yes</label><br>
+        <input type="radio" name="f17c27d0-58ef-11eb-88a0-f218984d6a0c" id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-1" onclick="clear_selection('f17c27d0-58ef-11eb-88a0-f218984d6a0c')">
+        <label id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-1-label" for="f17c27d0-58ef-11eb-88a0-f218984d6a0c-1">Yes</label><br>
     
-        <input type="radio" name="b0520b9a-58ee-11eb-88a0-f218984d6a0c" id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-2" onclick="clear_selection('b0520b9a-58ee-11eb-88a0-f218984d6a0c')">
-        <label id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-2-label" for="b0520b9a-58ee-11eb-88a0-f218984d6a0c-2">No</label><br>
+        <input type="radio" name="f17c27d0-58ef-11eb-88a0-f218984d6a0c" id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-2" onclick="clear_selection('f17c27d0-58ef-11eb-88a0-f218984d6a0c')">
+        <label id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-2-label" for="f17c27d0-58ef-11eb-88a0-f218984d6a0c-2">No</label><br>
     
     </div>
     </p>
-    <input id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('b0520b9a-58ee-11eb-88a0-f218984d6a0c', 4, 0)">
+    <input id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('f17c27d0-58ef-11eb-88a0-f218984d6a0c', 4, 0)">
     </div>
     
 </div>
@@ -19067,10 +19067,10 @@ AssertionError: Precondition violated (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-201-7435f8733bc1&gt;&#34;, line 2, in &lt;module&gt;
     square_root(-1.0)
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)

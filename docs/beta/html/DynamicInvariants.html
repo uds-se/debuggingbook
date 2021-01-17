@@ -11906,15 +11906,15 @@ MathJax.Hub.Config({
      <li class="has-sub"><a href="#"><span title="Mining Function Specifications"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Mining Function Specifications <i class="fa fa-fw fa-wrench"></i></span></a>
            <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
 </li><li class="has-sub"><a href="#Specifications-and-Assertions">&nbsp;&bull;&nbsp;&nbsp; Specifications and Assertions</a>
-</li><li class="has-sub"><a href="#Why-Generic-Error-Checking-is-Not-Enough">&nbsp;&bull;&nbsp;&nbsp; Why Generic Error Checking is Not Enough</a>
-</li><li class="has-sub"><a href="#Specifying-and-Checking-Data-Types">&nbsp;&bull;&nbsp;&nbsp; Specifying and Checking Data Types</a>
+</li><li class="has-sub"><a href="#Beyond-Generic-Failures">&nbsp;&bull;&nbsp;&nbsp; Beyond Generic Failures</a>
+</li><li class="has-sub"><a href="#Mining-Data-Types">&nbsp;&bull;&nbsp;&nbsp; Mining Data Types</a>
 <ul><li class="has-sub"><a href="#Runtime-Type-Checking">Runtime Type Checking</a>
 </li><li class="has-sub"><a href="#Static-Type-Checking">Static Type Checking</a>
 </ul></li><li class="has-sub"><a href="#Mining-Type-Specifications">&nbsp;&bull;&nbsp;&nbsp; Mining Type Specifications</a>
 <ul><li class="has-sub"><a href="#Tracing-Calls">Tracing Calls</a>
 </li><li class="has-sub"><a href="#Getting-Types">Getting Types</a>
 </li><li class="has-sub"><a href="#Annotating-Functions-with-Types">Annotating Functions with Types</a>
-</ul></li><li class="has-sub"><a href="#Specifying-and-Checking-Invariants">&nbsp;&bull;&nbsp;&nbsp; Specifying and Checking Invariants</a>
+</ul></li><li class="has-sub"><a href="#Mining-Invariants">&nbsp;&bull;&nbsp;&nbsp; Mining Invariants</a>
 <ul><li class="has-sub"><a href="#Annotating-Functions-with-Pre--and-Postconditions">Annotating Functions with Pre- and Postconditions</a>
 </li><li class="has-sub"><a href="#Mining-Invariants">Mining Invariants</a>
 </li><li class="has-sub"><a href="#Defining-Properties">Defining Properties</a>
@@ -12149,7 +12149,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Why-Generic-Error-Checking-is-Not-Enough">Why Generic Error Checking is Not Enough<a class="anchor-link" href="#Why-Generic-Error-Checking-is-Not-Enough">&#182;</a></h2><p>Before we go into <em>mining</em> specifications, let us first discuss why it could be useful to <em>have</em> them.  As a motivating example, consider the full implementation of <code>square_root()</code> from the <a href="Assertions.html">chapter on assertions</a>:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Beyond-Generic-Failures">Beyond Generic Failures<a class="anchor-link" href="#Beyond-Generic-Failures">&#182;</a></h2><p>Before we go into <em>mining</em> specifications, let us first discuss why it could be useful to <em>have</em> them.  As a motivating example, consider the full implementation of <code>square_root()</code> from the <a href="Assertions.html">chapter on assertions</a>:</p>
 </div>
 </div>
 </div>
@@ -12302,10 +12302,10 @@ ZeroDivisionError: float division by zero (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-9-ffe15314321c&gt;&#34;, line 2, in &lt;module&gt;
     x = square_root(-1.0)
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
-    guess = (approx + x / approx) / 2
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
-    guess = (approx + x / approx) / 2
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 5, in square_root
+    while approx != guess:
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 5, in square_root
+    while approx != guess:
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -12335,7 +12335,7 @@ TimeoutError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Specifying-and-Checking-Data-Types">Specifying and Checking Data Types<a class="anchor-link" href="#Specifying-and-Checking-Data-Types">&#182;</a></h2><p>For our Python code, one of the most important "specifications" we need is <em>types</em>.  Python being a "dynamically" typed language means that all data types are determined at run time; the code itself does not explicitly state whether a variable is an integer, a string, an array, a dictionary – or whatever.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Mining-Data-Types">Mining Data Types<a class="anchor-link" href="#Mining-Data-Types">&#182;</a></h2><p>For our Python code, one of the most important "specifications" we need is <em>types</em>.  Python being a "dynamically" typed language means that all data types are determined at run time; the code itself does not explicitly state whether a variable is an integer, a string, an array, a dictionary – or whatever.</p>
 </div>
 </div>
 </div>
@@ -12586,21 +12586,21 @@ enforce.exceptions.RuntimeTypeError:
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-1" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-1-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-1" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-1-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
 
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-2" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-2-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-2" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-2-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-2"><code>1</code> is a subtype of float. It will pass.</label><br>
 
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-3" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-3-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-3" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-3-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
 
-        <input type="radio" name="aafb30e8-58ee-11eb-a588-f218984d6a0c" id="aafb30e8-58ee-11eb-a588-f218984d6a0c-4" onclick="clear_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c')">
-        <label id="aafb30e8-58ee-11eb-a588-f218984d6a0c-4-label" for="aafb30e8-58ee-11eb-a588-f218984d6a0c-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="ec59eb28-58ef-11eb-a588-f218984d6a0c" id="ec59eb28-58ef-11eb-a588-f218984d6a0c-4" onclick="clear_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c')">
+        <label id="ec59eb28-58ef-11eb-a588-f218984d6a0c-4-label" for="ec59eb28-58ef-11eb-a588-f218984d6a0c-4">The function will fail for some other reason.</label><br>
 
     </div>
     </p>
-    <input id="aafb30e8-58ee-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('aafb30e8-58ee-11eb-a588-f218984d6a0c', 2, 0)">
+    <input id="ec59eb28-58ef-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ec59eb28-58ef-11eb-a588-f218984d6a0c', 2, 0)">
     </div>
 
 </div>
@@ -12810,7 +12810,7 @@ enforce.exceptions.RuntimeTypeError:
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpg3ri1709.py&#39;
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpprjt3gen.py&#39;
 </pre>
 </div>
 
@@ -15798,7 +15798,7 @@ the appropriate type of a given value (as a string):</p>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Specifying-and-Checking-Invariants">Specifying and Checking Invariants<a class="anchor-link" href="#Specifying-and-Checking-Invariants">&#182;</a></h2><p>Besides basic data types. we can check several further properties from arguments.  We can, for instance, whether an argument can be negative, zero, or positive; or that one argument should be smaller than the second; or that the result should be the sum of two arguments – properties that cannot be expressed in a (Python) type.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Mining-Invariants">Mining Invariants<a class="anchor-link" href="#Mining-Invariants">&#182;</a></h2><p>Besides basic data types. we can check several further properties from arguments.  We can, for instance, whether an argument can be negative, zero, or positive; or that one argument should be smaller than the second; or that the result should be the sum of two arguments – properties that cannot be expressed in a (Python) type.</p>
 <p>Such properties are called <em>invariants</em>, as they hold across all invocations of a function. Specifically, invariants come as <em>pre</em>- and <em>postconditions</em> – conditions that always hold at the beginning and at the end of a function.  (There are also <em>data</em> and <em>object</em> invariants that express always-holding properties over the state of data or objects, but we do not consider these in this book.)</p>
 </div>
 </div>
@@ -16673,15 +16673,15 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ac5d1d68-58ee-11eb-8163-f218984d6a0c" id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-1" onclick="clear_selection('ac5d1d68-58ee-11eb-8163-f218984d6a0c')">
-        <label id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-1-label" for="ac5d1d68-58ee-11eb-8163-f218984d6a0c-1">False</label><br>
+        <input type="radio" name="edaf3d2c-58ef-11eb-8163-f218984d6a0c" id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-1" onclick="clear_selection('edaf3d2c-58ef-11eb-8163-f218984d6a0c')">
+        <label id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-1-label" for="edaf3d2c-58ef-11eb-8163-f218984d6a0c-1">False</label><br>
 
-        <input type="radio" name="ac5d1d68-58ee-11eb-8163-f218984d6a0c" id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-2" onclick="clear_selection('ac5d1d68-58ee-11eb-8163-f218984d6a0c')">
-        <label id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-2-label" for="ac5d1d68-58ee-11eb-8163-f218984d6a0c-2">True</label><br>
+        <input type="radio" name="edaf3d2c-58ef-11eb-8163-f218984d6a0c" id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-2" onclick="clear_selection('edaf3d2c-58ef-11eb-8163-f218984d6a0c')">
+        <label id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-2-label" for="edaf3d2c-58ef-11eb-8163-f218984d6a0c-2">True</label><br>
 
     </div>
     </p>
-    <input id="ac5d1d68-58ee-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ac5d1d68-58ee-11eb-8163-f218984d6a0c', 4, 0)">
+    <input id="edaf3d2c-58ef-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('edaf3d2c-58ef-11eb-8163-f218984d6a0c', 4, 0)">
     </div>
 
 </div>
@@ -18368,15 +18368,15 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="b0520b9a-58ee-11eb-88a0-f218984d6a0c" id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-1" onclick="clear_selection('b0520b9a-58ee-11eb-88a0-f218984d6a0c')">
-        <label id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-1-label" for="b0520b9a-58ee-11eb-88a0-f218984d6a0c-1">Yes</label><br>
+        <input type="radio" name="f17c27d0-58ef-11eb-88a0-f218984d6a0c" id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-1" onclick="clear_selection('f17c27d0-58ef-11eb-88a0-f218984d6a0c')">
+        <label id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-1-label" for="f17c27d0-58ef-11eb-88a0-f218984d6a0c-1">Yes</label><br>
 
-        <input type="radio" name="b0520b9a-58ee-11eb-88a0-f218984d6a0c" id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-2" onclick="clear_selection('b0520b9a-58ee-11eb-88a0-f218984d6a0c')">
-        <label id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-2-label" for="b0520b9a-58ee-11eb-88a0-f218984d6a0c-2">No</label><br>
+        <input type="radio" name="f17c27d0-58ef-11eb-88a0-f218984d6a0c" id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-2" onclick="clear_selection('f17c27d0-58ef-11eb-88a0-f218984d6a0c')">
+        <label id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-2-label" for="f17c27d0-58ef-11eb-88a0-f218984d6a0c-2">No</label><br>
 
     </div>
     </p>
-    <input id="b0520b9a-58ee-11eb-88a0-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('b0520b9a-58ee-11eb-88a0-f218984d6a0c', 4, 0)">
+    <input id="f17c27d0-58ef-11eb-88a0-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('f17c27d0-58ef-11eb-88a0-f218984d6a0c', 4, 0)">
     </div>
 
 </div>
@@ -18884,10 +18884,10 @@ AssertionError: Precondition violated (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-201-7435f8733bc1&gt;&#34;, line 2, in &lt;module&gt;
     square_root(-1.0)
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
-  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
+  File &#34;&lt;ipython-input-5-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -19471,7 +19471,7 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2021-01-17 19:05:02+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2021-01-17 19:14:23+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19489,7 +19489,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">https://www.debuggingbook.org/beta/html/DynamicInvariants.html</a>.  Retrieved 2021-01-17 19:05:02+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller (eds.), "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">https://www.debuggingbook.org/beta/html/DynamicInvariants.html</a>.  Retrieved 2021-01-17 19:14:23+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:DynamicInvariants,
@@ -19499,9 +19499,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvaria
     year = {2021},
     publisher = {CISPA},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DynamicInvariants.html}},
-    note = {Retrieved 2021-01-17 19:05:02+01:00},
+    note = {Retrieved 2021-01-17 19:14:23+01:00},
     url = {https://www.debuggingbook.org/beta/html/DynamicInvariants.html},
-    urldate = {2021-01-17 19:05:02+01:00}
+    urldate = {2021-01-17 19:14:23+01:00}
 }
 </pre>
 </div>

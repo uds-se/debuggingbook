@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-01-17 19:05:02+01:00
+# Last change: 2021-01-17 19:14:23+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -73,10 +73,10 @@ def square_root(x):
     assert result * result == x  # Postcondition
     return result
 
-# ## Why Generic Error Checking is Not Enough
+# ## Beyond Generic Failures
 
 if __name__ == "__main__":
-    print('\n## Why Generic Error Checking is Not Enough')
+    print('\n## Beyond Generic Failures')
 
 
 
@@ -118,10 +118,10 @@ if __name__ == "__main__":
         x = square_root(-1.0)
 
 
-# ## Specifying and Checking Data Types
+# ## Mining Data Types
 
 if __name__ == "__main__":
-    print('\n## Specifying and Checking Data Types')
+    print('\n## Mining Data Types')
 
 
 
@@ -813,10 +813,10 @@ if __name__ == "__main__":
 
 
 
-# ## Specifying and Checking Invariants
+# ## Mining Invariants
 
 if __name__ == "__main__":
-    print('\n## Specifying and Checking Invariants')
+    print('\n## Mining Invariants')
 
 
 
