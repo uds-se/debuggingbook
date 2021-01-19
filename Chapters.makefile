@@ -87,8 +87,9 @@ EXTRAS = \
 	Template.ipynb \
 	404.ipynb \
 	Time_Travel_Debugger.ipynb \
-	Reducing_Code.ipynb
-	
+	Reducing_Code.ipynb \
+	Repairing_Code.ipynb
+
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
 	$(INTRO_PART) \
