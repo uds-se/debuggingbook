@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-01-19 17:15:46+01:00
+# Last change: 2021-01-19 18:13:43+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -35,6 +35,11 @@ if __name__ == "__main__":
     print('# Mining Function Specifications')
 
 
+
+
+if __name__ == "__main__":
+    from bookutils import YouTubeVideo
+    YouTubeVideo("yZWqJZUqn0w")
 
 
 if __name__ == "__main__":
