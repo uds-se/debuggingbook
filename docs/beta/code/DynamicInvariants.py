@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-01-17 19:14:23+01:00
+# Last change: 2021-01-19 17:15:46+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -917,60 +917,48 @@ INVARIANT_PROPERTIES = [
     # "X != 0",  # implied by "not X", below
 ]
 
-if __name__ == "__main__":
-    INVARIANT_PROPERTIES += [
-        "X == Y",
-        "X > Y",
-        "X < Y",
-        "X >= Y",
-        "X <= Y",
-    ]
+INVARIANT_PROPERTIES += [
+    "X == Y",
+    "X > Y",
+    "X < Y",
+    "X >= Y",
+    "X <= Y",
+]
 
+INVARIANT_PROPERTIES += [
+    "isinstance(X, bool)",
+    "isinstance(X, int)",
+    "isinstance(X, float)",
+    "isinstance(X, list)",
+    "isinstance(X, dict)",
+]
 
-if __name__ == "__main__":
-    INVARIANT_PROPERTIES += [
-        "isinstance(X, bool)",
-        "isinstance(X, int)",
-        "isinstance(X, float)",
-        "isinstance(X, list)",
-        "isinstance(X, dict)",
-    ]
+INVARIANT_PROPERTIES += [
+    "X == Y + Z",
+    "X == Y * Z",
+    "X == Y - Z",
+    "X == Y / Z",
+]
 
+INVARIANT_PROPERTIES += [
+    "X < Y < Z",
+    "X <= Y <= Z",
+    "X > Y > Z",
+    "X >= Y >= Z",
+]
 
-if __name__ == "__main__":
-    INVARIANT_PROPERTIES += [
-        "X == Y + Z",
-        "X == Y * Z",
-        "X == Y - Z",
-        "X == Y / Z",
-    ]
+INVARIANT_PROPERTIES += [
+    "X",
+    "not X"
+]
 
-
-if __name__ == "__main__":
-    INVARIANT_PROPERTIES += [
-        "X < Y < Z",
-        "X <= Y <= Z",
-        "X > Y > Z",
-        "X >= Y >= Z",
-    ]
-
-
-if __name__ == "__main__":
-    INVARIANT_PROPERTIES += [
-        "X",
-        "not X"
-    ]
-
-
-if __name__ == "__main__":
-    INVARIANT_PROPERTIES += [
-        "X == len(Y)",
-        "X == sum(Y)",
-        "X in Y",
-        "X.startswith(Y)",
-        "X.endswith(Y)",
-    ]
-
+INVARIANT_PROPERTIES += [
+    "X == len(Y)",
+    "X == sum(Y)",
+    "X in Y",
+    "X.startswith(Y)",
+    "X.endswith(Y)",
+]
 
 # ### Extracting Meta-Variables
 
