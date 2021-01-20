@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-17 15:35:32+01:00
+# Last change: 2021-01-20 20:08:13+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -529,6 +529,20 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([FineChangeCounter, FixCounter],
+                            central_methods=[
+                                ChangeCounter.__init__,
+                                ChangeCounter.map,
+                                ChangeCounter.include,
+                                ChangeCounter.map_hoverinfo,
+                                ChangeCounter.map_colorscale,
+                                ChangeCounter.map_node_sizes,
+                                ChangeCounter.map_node_text,
+                                ChangeCounter.update_elems,
+                                ChangeCounter.update_size,
+                                ChangeCounter.update_changes,
+                                FineChangeCounter.include,
+                                FixCounter.include
+                            ],
                             project='debuggingbook')
 
 

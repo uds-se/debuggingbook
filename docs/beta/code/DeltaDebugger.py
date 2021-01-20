@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-14 19:09:32+01:00
+# Last change: 2021-01-20 20:07:41+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -1641,7 +1641,24 @@ else:
 
 
 if __name__ == "__main__":
-    display_class_hierarchy([DeltaDebugger], project='debuggingbook')
+    display_class_hierarchy([DeltaDebugger],
+                            central_methods=[
+                                CallCollector.__init__,
+                                CallCollector.__enter__,
+                                CallCollector.__exit__,
+                                CallCollector.function,
+                                CallCollector.args,
+                                CallCollector.exception,
+                                CallCollector.call,
+                                CallReducer.__init__,
+                                CallReducer.reduce_arg,
+                                DeltaDebugger.dd,
+                                DeltaDebugger.min_args,
+                                DeltaDebugger.max_args,
+                                DeltaDebugger.min_arg_diff,
+                                DeltaDebugger.__repr__
+                            ],
+                            project='debuggingbook')
 
 
 # ## Lessons Learned

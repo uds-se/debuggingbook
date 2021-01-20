@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-01-17 15:35:45+01:00
+# Last change: 2021-01-20 20:12:58+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -76,6 +76,10 @@ class A_Class:
         """The Adventures of the glorious Foo"""
         pass
 
+    def quux(self):
+        """A method that is not used."""
+        pass
+
 class B_Class(A_Class):
     """A subclass inheriting some methods."""
     def foo(self, fight=False):
@@ -113,15 +117,6 @@ if __name__ == "__main__":
 
 
 def class_tree(cls):
-    ret = []
-    for base in cls.__bases__:
-        if base.__name__ == cls.__name__:
-            ret += class_tree(base)
-        else:
-            ret.append((cls, class_tree(base)))
-    return ret
-
-def class_tree(cls):
     def base_tree(base):
         while base.__name__ == cls.__name__:
             base = base.__bases__[0]
@@ -134,6 +129,30 @@ def class_tree(cls):
 
 if __name__ == "__main__":
     class_tree(D_Class)
+
+
+def class_set(classes):
+    if not isinstance(classes, list):
+        classes = [classes]
+
+    ret = set()
+    def traverse_tree(tree):
+        for (cls, subtrees) in tree:
+            ret.add(cls)
+            for subtree in subtrees:
+                traverse_tree(subtrees)
+
+    for cls in classes:
+        traverse_tree(class_tree(cls))
+
+    return ret
+
+if __name__ == "__main__":
+    class_set(D_Class)
+
+
+if __name__ == "__main__":
+    class_set([B_Class, C_Class])
 
 
 # ## Getting methods
@@ -183,6 +202,20 @@ if __name__ == "__main__":
     doc_class_methods(D_Class)
 
 
+def overloaded_class_methods(classes):
+    all_methods = {}
+    for cls in class_set(classes):
+        for (name, method) in class_methods(cls):
+            if method.__qualname__.startswith(cls.__name__):
+                all_methods.setdefault(name, set())
+                all_methods[name].add(cls)
+            
+    return [name for name in all_methods if len(all_methods[name]) >= 2]
+
+if __name__ == "__main__":
+    overloaded_class_methods(D_Class)
+
+
 # ## Drawing Class Hierarchy with Method Names
 
 if __name__ == "__main__":
@@ -223,6 +256,7 @@ if __name__ == "__main__":
 from inspect import signature
 
 def display_class_hierarchy(classes, include_methods=True,
+                            central_methods=None,
                             project='fuzzingbook'):
     from graphviz import Digraph
 
@@ -249,15 +283,34 @@ def display_class_hierarchy(classes, include_methods=True,
     dot.attr('graph', rankdir='BT', tooltip=title)
     dot.attr('edge', arrowhead='empty')
     edges = set()
+    overloaded_methods = set()
 
-    def method_string(method_name, f):
+    def method_string(method_name, f, central, overloaded):
         method_string = f'<font face="{METHOD_FONT}" point-size="10">'
-        if f.__doc__ is not None:
-            method_string += '<b>' + method_name + '()</b>'
+
+        if overloaded:
+            name = f'<i>{method_name}()</i>'
         else:
-            method_string += f'<font color="{METHOD_COLOR}">{method_name}()</font>'
+            name = f'{method_name}()'
+
+        if central:
+            method_string += f'<b>{name}</b>'
+        else:
+            method_string += f'<font color="{METHOD_COLOR}">' \
+                             f'{name}</font>'
+
         method_string += '</font>'
         return method_string
+
+    def is_overloaded(method_name, f):
+        return (method_name in overloaded_methods or
+                (f.__doc__ is not None and "in subclasses" in f.__doc__))
+
+    def is_central(method_name, f):
+        if central_methods:
+            return method_name in central_methods or f in central_methods
+        else:
+            return f.__doc__ is not None
 
     def class_methods_string(cls, url):
         methods = public_class_methods(cls)
@@ -265,22 +318,31 @@ def display_class_hierarchy(classes, include_methods=True,
         if len(methods) == 0:
             return ""
 
-        methods_string = f'<table border="0" cellpadding="0" cellspacing="0" align="left" tooltip="{cls.__name__}" href="#">'
-        for show_doc in [True, False]:
+        methods_string = f'<table border="0" cellpadding="0" ' \
+                         f'cellspacing="0" ' \
+                         f'align="left" tooltip="{cls.__name__}" href="#">'
+
+        for central in [True, False]:
             for (name, f) in methods:
-                if ((show_doc and f.__doc__ is not None) or
-                        (not show_doc and f.__doc__ is None)):
+                if central != is_central(name, f):
+                    continue
 
-                    method_doc = escape(name + str(inspect.signature(f)))
-                    if f.__doc__:
-                        method_doc += ":&#x0a;" + escape_doc(f.__doc__)
+                overloaded = is_overloaded(name, f)
 
-                    # Tooltips are only shown if a href is present, too
-                    tooltip = f' tooltip="{method_doc}"'
-                    href = f' href="{url}"'
-                    methods_string += f'<tr><td align="left" border="0"{tooltip}{href}>'
-                    methods_string += method_string(name, f)
-                    methods_string += '</td></tr>'
+                method_doc = escape(name + str(inspect.signature(f)))
+                if f.__doc__:
+                    method_doc += ":&#x0a;" + escape_doc(f.__doc__)
+
+                # Tooltips are only shown if a href is present, too
+                tooltip = f' tooltip="{method_doc}"'
+                href = f' href="{url}"'
+                methods_string += f'<tr><td align="left" border="0"' \
+                                  f'{tooltip}{href}>'
+
+                methods_string += \
+                    method_string(name, f, central, overloaded)
+
+                methods_string += '</td></tr>'
 
         methods_string += '</table>'
         return methods_string
@@ -311,23 +373,26 @@ def display_class_hierarchy(classes, include_methods=True,
             display_class_node(cls)
             for subtree in subtrees:
                 (subcls, _) = subtree
+
                 if (cls, subcls) not in edges:
                     dot.edge(cls.__name__, subcls.__name__)
                     edges.add((cls, subcls))
+
             display_class_tree(subtrees)
 
     for cls in classes:
         tree = class_tree(cls)
+        overloaded_methods = overloaded_class_methods(cls)
         display_class_tree(tree)
 
     return dot
 
 if __name__ == "__main__":
-    display_class_hierarchy([D_Class, A_Class], project='debuggingbook')
+    display_class_hierarchy(D_Class, project='debuggingbook')
 
 
 if __name__ == "__main__":
-    display_class_hierarchy([D_Class, A_Class], project='fuzzingbook')
+    display_class_hierarchy(D_Class, project='fuzzingbook')
 
 
 # ## Synopsis

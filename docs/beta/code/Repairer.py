@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-01-12 14:58:57+01:00
+# Last change: 2021-01-20 20:07:35+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -2040,6 +2040,15 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
+                            central_methods=[
+                                Repairer.__init__,
+                                Repairer.repair,
+                                StatementMutator.__init__,
+                                StatementMutator.mutate,
+                                ConditionMutator.__init__,
+                                CrossoverOperator.__init__,
+                                CrossoverOperator.crossover,
+                            ],
                             project='debuggingbook')
 
 

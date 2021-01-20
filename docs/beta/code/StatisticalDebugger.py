@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-17 15:28:43+01:00
+# Last change: 2021-01-20 20:06:35+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -1432,11 +1432,52 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([TarantulaDebugger, OchiaiDebugger],
+                            central_methods=[
+                                StatisticalDebugger.__init__,
+                                StatisticalDebugger.all_events,
+                                StatisticalDebugger.event_table,
+                                StatisticalDebugger.function,
+                                StatisticalDebugger.coverage,
+                                StatisticalDebugger.covered_functions,
+                                DifferenceDebugger.__enter__,
+                                DifferenceDebugger.__exit__,
+                                DifferenceDebugger.all_pass_events,
+                                DifferenceDebugger.all_fail_events,
+                                DifferenceDebugger.collect_pass,
+                                DifferenceDebugger.collect_fail,
+                                DifferenceDebugger.only_pass_events,
+                                DifferenceDebugger.only_fail_events,
+                                DiscreteSpectrumDebugger.code,
+                                DiscreteSpectrumDebugger.__repr__,
+                                DiscreteSpectrumDebugger._repr_html_,
+                                ContinuousSpectrumDebugger.code,
+                                ContinuousSpectrumDebugger.__repr__,
+                                RankingDebugger.rank
+                            ],
                             project='debuggingbook')
 
 
 if __name__ == "__main__":
     display_class_hierarchy([CoverageCollector, ValueCollector],
+                            central_methods=[
+                                Tracer.__init__,
+                                Tracer.__enter__,
+                                Tracer.__exit__,
+                                Tracer.changed_vars,
+                                Collector.__init__,
+                                Collector.__repr__,
+                                Collector.function,
+                                Collector.args,
+                                Collector.argstring,
+                                Collector.exception,
+                                Collector.id,
+                                Collector.collect,
+                                CoverageCollector.coverage,
+                                CoverageCollector.covered_functions,
+                                CoverageCollector.events,
+                                ValueCollector.__init__,
+                                ValueCollector.events
+                            ],
                             project='debuggingbook')
 
 

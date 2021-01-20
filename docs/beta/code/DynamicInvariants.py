@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-01-19 18:51:06+01:00
+# Last change: 2021-01-20 16:41:55+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security

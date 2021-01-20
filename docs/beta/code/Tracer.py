@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-01-01 14:35:19+01:00
+# Last change: 2021-01-20 20:14:36+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -608,7 +608,17 @@ else:
 
 
 if __name__ == "__main__":
-    display_class_hierarchy(EventTracer, project='debuggingbook')
+    display_class_hierarchy(EventTracer,
+                            central_methods=[
+                                Tracer.__init__,
+                                Tracer.__enter__,
+                                Tracer.__exit__,
+                                Tracer.changed_vars,
+                                Tracer.print_debugger_status,
+                                ConditionalTracer.__init__,
+                                EventTracer.__init__,
+                            ],
+                            project='debuggingbook')
 
 
 # ## Lessons Learned

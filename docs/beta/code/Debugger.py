@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-01-17 15:23:17+01:00
+# Last change: 2021-01-20 19:49:37+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -609,7 +609,15 @@ else:
 
 
 if __name__ == "__main__":
-    display_class_hierarchy(Debugger, project='debuggingbook')
+    display_class_hierarchy(Debugger, 
+                            central_methods=[
+                                Tracer.__init__,
+                                Tracer.__enter__,
+                                Tracer.__exit__,
+                                Tracer.traceit,
+                                Debugger.__init__,
+                            ],
+        project='debuggingbook')
 
 
 # ## Lessons Learned

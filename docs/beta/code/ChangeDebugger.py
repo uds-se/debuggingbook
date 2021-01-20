@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-01-10 13:21:52+01:00
+# Last change: 2021-01-20 20:08:25+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -1088,7 +1088,24 @@ else:
 
 
 if __name__ == "__main__":
-    display_class_hierarchy([ChangeDebugger], project='debuggingbook')
+    display_class_hierarchy([ChangeDebugger], 
+                            central_methods = [
+                                CallCollector.__init__,
+                                CallCollector.__enter__,
+                                CallCollector.__exit__,
+                                CallCollector.call,
+                                CallCollector.args,
+                                CallCollector.function,
+                                CallCollector.exception,
+                                ChangeDebugger.__init__,
+                                ChangeDebugger.min_patches,
+                                ChangeDebugger.patches,
+                                ChangeDebugger.pass_source,
+                                ChangeDebugger.fail_source,
+                                ChangeDebugger.__repr__,
+                                ChangeDebugger.__enter__
+                            ],
+                            project='debuggingbook')
 
 
 # ### Supporting Functions

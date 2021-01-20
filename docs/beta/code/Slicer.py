@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-01-10 13:21:51+01:00
+# Last change: 2021-01-20 20:08:34+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -1178,7 +1178,8 @@ class TrackSetTransformer(TrackSetTransformer):
 
 class DataTracker(DataTracker):
     def augment(self, name, value):
-        """Track augmenting `name` with `value`."""
+        """Track augmenting `name` with `value`.
+        To be overloaded in subclasses."""
         self.set(name, self.get(name, value))
         return value
 
@@ -1363,6 +1364,7 @@ if __name__ == "__main__":
 
 class DataTracker(DataTracker):
     def test(self, cond):
+        """Test condition `cond`. To be overloaded in subclasses."""
         if self.log:
             caller_func, lineno = self.caller_location()
             print(f"{caller_func.__name__}:{lineno}: testing condition")
@@ -1371,11 +1373,13 @@ class DataTracker(DataTracker):
 
 class DataTracker(DataTracker):
     def __enter__(self):
+        """Enter `with` block. To be overloaded in subclasses."""
         if self.log:
             caller_func, lineno = self.caller_location()
             print(f"{caller_func.__name__}:{lineno}: entering block")
 
     def __exit__(self, exc_type, exc_value, traceback):
+        """Exit `with` block. To be overloaded in subclasses."""
         if self.log:
             caller_func, lineno = self.caller_location()
             print(f"{caller_func.__name__}:{lineno}: exiting block")
@@ -2626,6 +2630,57 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([Slicer, DependencyTracker, Dependencies],
+                            central_methods=[
+                                StackInspector.caller_frame,
+                                StackInspector.caller_function,
+                                StackInspector.caller_globals,
+                                StackInspector.caller_locals,
+                                StackInspector.caller_location,
+                                StackInspector.search_frame,
+                                StackInspector.search_func,
+                                Instrumenter.__init__,
+                                Instrumenter.__enter__,
+                                Instrumenter.__exit__,
+                                Instrumenter.instrument,
+                                Slicer.__init__,
+                                Slicer.code,
+                                Slicer.dependencies,
+                                Slicer.graph,
+                                Slicer._repr_svg_,
+                                DataTracker.__init__,
+                                DataTracker.__enter__,
+                                DataTracker.__exit__,
+                                DataTracker.arg,
+                                DataTracker.augment,
+                                DataTracker.call,
+                                DataTracker.get,
+                                DataTracker.param,
+                                DataTracker.ret,
+                                DataTracker.set,
+                                DataTracker.test,
+                                DataTracker.__repr__,
+                                DependencyTracker.__init__,
+                                DependencyTracker.__enter__,
+                                DependencyTracker.__exit__,
+                                DependencyTracker.arg,
+                                # DependencyTracker.augment,
+                                DependencyTracker.call,
+                                DependencyTracker.get,
+                                DependencyTracker.param,
+                                DependencyTracker.ret,
+                                DependencyTracker.set,
+                                DependencyTracker.test,
+                                DependencyTracker.__repr__,
+                                Dependencies.__init__,
+                                Dependencies.__repr__,
+                                Dependencies.__str__,
+                                Dependencies._repr_svg_,
+                                Dependencies.code,
+                                Dependencies.graph,
+                                Dependencies.backward_slice,
+                                Dependencies.all_functions,
+                                Dependencies.all_vars,
+                            ],
                             project='debuggingbook')
 
 
