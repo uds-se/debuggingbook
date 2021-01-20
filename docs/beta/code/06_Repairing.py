@@ -3,10 +3,11 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/06_Repairing.html
-# Last change: 2021-01-01 14:19:02+01:00
+# Last change: 2021-01-20 15:39:58+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the

@@ -3,10 +3,11 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/05_Abstracting.html
-# Last change: 2021-01-01 14:20:20+01:00
+# Last change: 2021-01-20 15:39:53+01:00
 #
-#!/
-# Copyright (c) 2018-2021 CISPA, Saarland University, authors, and contributors
+#
+# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the
