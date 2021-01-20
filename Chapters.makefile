@@ -32,15 +32,20 @@ OBSERVING_PART_TODO = \
 	02_Observing.ipynb \
 	Tracer.ipynb \
 	Debugger.ipynb \
-	Assertions.ipynb \
-	Slicer.ipynb \
-	StatisticalDebugger.ipynb
+	Assertions.ipynb
+
+# Flows and Dependencies
+DEPENDENCIES_PART =
+DEPENDENCIES_PART_READY =
+DEPENDENCIES_PART_TODO = \
+	03_Dependencies.ipynb \
+	Slicer.ipynb
 
 # Simplifying Failures
 EXPERIMENTING_PART = 
 EXPERIMENTING_PART_READY =
 EXPERIMENTING_PART_TODO = \
-	03_Inputs.ipynb \
+	04_Reducing.ipynb \
 	DeltaDebugger.ipynb \
 	ChangeDebugger.ipynb
 	# Grammars.ipynb \
@@ -50,23 +55,24 @@ EXPERIMENTING_PART_TODO = \
 ABSTRACTING_PART =
 ABSTRACTING_PART_READY =
 ABSTRACTING_PART_TODO = \
-	04_Abstracting.ipynb \
-	DynamicInvariants.ipynb
-	# DDSet.ipynb \
+	05_Abstracting.ipynb \
+	StatisticalDebugger.ipynb \
+	DynamicInvariants.ipynb \
+	DDSet.ipynb
 	# Alhazen.ipynb
 	
 # Repairing Failures
 REPAIRING_PART =
 REPAIRING_PART_READY =
 REPAIRING_PART_TODO = \
-	05_Repairing.ipynb \
+	06_Repairing.ipynb \
 	Repairer.ipynb
 
 # Debugging in the Large
 IN_THE_LARGE_PART = 
 IN_THE_LARGE_PART_READY =
 IN_THE_LARGE_PART_TODO = \
-	06_In_the_Large.ipynb \
+	07_In_the_Large.ipynb \
 	Tracking.ipynb \
 	ChangeExplorer.ipynb
 
@@ -107,6 +113,9 @@ CHAPTERS = \
 	$(OBSERVING_PART) \
 	$(OBSERVING_PART_READY) \
 	$(OBSERVING_PART_TODO) \
+	$(DEPENDENCIES_PART) \
+	$(DEPENDENCIES_PART_READY) \
+	$(DEPENDENCIES_PART_TODO) \
 	$(EXPERIMENTING_PART) \
 	$(EXPERIMENTING_PART_READY) \
 	$(EXPERIMENTING_PART_TODO) \
@@ -123,6 +132,7 @@ CHAPTERS = \
 READY_CHAPTERS = \
 	$(INTRO_PART_READY) \
 	$(OBSERVING_PART_READY) \
+	$(DEPENDENCIES_PART_READY) \
 	$(EXPERIMENTING_PART_READY) \
 	$(ABSTRACTING_PART_READY) \
 	$(REPAIRING_PART_READY) \
@@ -131,6 +141,7 @@ READY_CHAPTERS = \
 TODO_CHAPTERS = \
 	$(INTRO_PART_TODO) \
 	$(OBSERVING_PART_TODO) \
+	$(DEPENDENCIES_PART_TODO) \
 	$(EXPERIMENTING_PART_TODO) \
 	$(ABSTRACTING_PART_TODO) \
 	$(REPAIRING_PART_TODO) \
