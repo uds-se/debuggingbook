@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DDSet.html
-# Last change: 2021-01-20 15:48:16+01:00
+# Last change: 2021-01-20 16:17:51+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -29,10 +29,10 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-# # The Language of Failures
+# # The Language of Failure
 
 if __name__ == "__main__":
-    print('# The Language of Failures')
+    print('# The Language of Failure')
 
 
 
@@ -48,10 +48,16 @@ if __name__ == "__main__":
     random.seed(2001)
 
 
-# ## Synopsis
+if __package__ is None or __package__ == "":
+    import DeltaDebugger
+else:
+    from . import DeltaDebugger
+
+
+# # Synopsis
 
 if __name__ == "__main__":
-    print('\n## Synopsis')
+    print('\n# Synopsis')
 
 
 
