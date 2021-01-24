@@ -74,7 +74,7 @@ IN_THE_LARGE_PART_READY =
 IN_THE_LARGE_PART_TODO = \
 	07_In_the_Large.ipynb \
 	Tracking.ipynb \
-	ChangeExplorer.ipynb
+	ChangeCounter.ipynb
 
 # Appendices for the book
 APPENDICES = \
