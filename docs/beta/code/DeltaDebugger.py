@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-20 20:07:41+01:00
+# Last change: 2021-01-23 13:12:57+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -945,6 +945,7 @@ class DeltaDebugger(DeltaDebugger):
 
 class DeltaDebugger(DeltaDebugger):
     def __repr__(self):
+        """Return a string representation of the minimized call."""
         return self.format_call(self.min_args())
 
 # ### End of Excursion
@@ -1642,7 +1643,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([DeltaDebugger],
-                            central_methods=[
+                            public_methods=[
                                 CallCollector.__init__,
                                 CallCollector.__enter__,
                                 CallCollector.__exit__,

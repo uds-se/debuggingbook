@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-01-20 20:07:35+01:00
+# Last change: 2021-01-23 13:42:45+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -385,12 +385,12 @@ class StatementMutator(NodeTransformer):
 
     def __init__(self, suspiciousness_func=None, source=None, log=False):
         """Constructor.
-        `suspiciousness_func` is a function that takes a location
-        (function, line_number) and returns a suspiciousness value
-        between 0 and 1.0. If not given, all locations get the
-        same suspiciousness of 1.0.
-        `source` is a list of statements to choose from.
-        """
+`suspiciousness_func` is a function that takes a location
+  (function, line_number) and returns a suspiciousness value
+  between 0 and 1.0. If not given, all locations get the
+  same suspiciousness of 1.0.
+`source` is a list of statements to choose from."""
+
         super().__init__()
         self.log = log
 
@@ -930,6 +930,7 @@ def p2():
 
 class CrossoverOperator:
     def __init__(self, log=False):
+        """Constructor. If `log` is set, turn on logging."""
         self.log = log
 
     def cross_bodies(self, body_1, body_2):
@@ -1155,14 +1156,14 @@ class Repairer():
                  reducer_class=DeltaDebugger,
                  globals=None):
         """Constructor.
-        `debugger`: a `DifferenceDebugger` to take tests and coverage from.
-        `targets`: a list of functions/modules to be repaired.
-            (default: the covered functions in `debugger`, except tests)
-        `sources`: a list of functions/modules to take repairs from.
-            (default: same as `targets`)
-        `globals`: if given, a `globals()` dict for executing targets
-            (default: `globals()` of caller)
-        """
+`debugger`: a `DifferenceDebugger` to take tests and coverage from.
+`targets`: a list of functions/modules to be repaired.
+    (default: the covered functions in `debugger`, except tests)
+`sources`: a list of functions/modules to take repairs from.
+    (default: same as `targets`)
+`globals`: if given, a `globals()` dict for executing targets
+    (default: `globals()` of caller)"""
+
         assert isinstance(debugger, DifferenceDebugger)
         self.debugger = debugger
         self.log = log
@@ -1879,7 +1880,7 @@ class ConditionMutator(StatementMutator):
     """Mutate conditions in an AST"""
 
     def __init__(self, *args, **kwargs):
-        """Constructor"""
+        """Constructor. Arguments are as with `StatementMutator` constructor."""
         super().__init__(*args, **kwargs)
         self.conditions = all_conditions(self.source)
         if self.log:
@@ -2040,7 +2041,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
-                            central_methods=[
+                            public_methods=[
                                 Repairer.__init__,
                                 Repairer.repair,
                                 StatementMutator.__init__,

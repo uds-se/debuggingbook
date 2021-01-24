@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-01-20 20:08:34+01:00
+# Last change: 2021-01-23 13:06:19+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -332,12 +332,13 @@ class Dependencies(Dependencies):
         self.add_hierarchy(g)
         return g
 
-    # In Jupyter, render dependencies as graph
     def _repr_svg_(self):
+        """If the object is output in Jupyter, render dependencies as a SVG graph"""
         return self.graph()._repr_svg_()
 
 class Dependencies(Dependencies):
     def all_vars(self):
+        """Return a set of all variables (as `var_name`, `location`) in the dependencies"""
         all_vars = set()
         for var in self.data:
             all_vars.add(var)
@@ -422,6 +423,8 @@ class Dependencies(Dependencies):
 
 class Dependencies(Dependencies):
     def all_functions(self):
+        """Return mapping {`function`: [(`lineno`, `var`), (`lineno`, `var`), ...], ...}
+for all functions in the dependencies."""
         functions = {}
         for var in self.all_vars():
             (name, location) = var
@@ -673,6 +676,7 @@ class Dependencies(Dependencies):
                 "}")
 
     def __repr__(self):
+        """Represent dependencies as a Python expression"""
         # Useful for saving and restoring values
         return (f"Dependencies(\n" +
                 f"    data={self.repr_dependencies(self.data)},\n" +
@@ -892,7 +896,7 @@ if __name__ == "__main__":
 
 class DataTracker(object):
     def __init__(self, log=False):
-        """Initialize. If `log` is set, turn on logging."""
+        """Constructor. If `log` is set, turn on logging."""
         self.log = log
 
 class DataTracker(DataTracker, StackInspector):
@@ -916,10 +920,6 @@ class DataTracker(DataTracker):
             print(f"{caller_func.__name__}:{lineno}: getting {name}")
 
         return value
-
-class DataTracker(DataTracker):
-    def __repr__(self):
-        return super().__repr__()
 
 if __name__ == "__main__":
     _test_data = DataTracker(log=True)
@@ -1016,6 +1016,7 @@ if __name__ == "__main__":
 
 class DataTrackerTester(object):
     def __init__(self, tree, func, log=True):
+        """Constructor. Execute the code in `tree` while instrumenting `func`."""
         # We pass the source file of `func` such that we can retrieve it
         # when accessing the location of the new compiled code
         self.code = compile(tree, inspect.getsourcefile(func), 'exec')
@@ -1481,6 +1482,10 @@ if __name__ == "__main__":
 
 class DataTracker(DataTracker):
     def arg(self, value, pos=None, kw=None):
+        """Track `value` being passed as argument.
+`pos` (if given) is the argument position (starting with 1).
+`kw` (if given) is the argument keyword.
+"""
         if self.log:
             caller_func, lineno = self.caller_location()
             info = ""
@@ -1495,6 +1500,7 @@ class DataTracker(DataTracker):
 
 class DataTracker(DataTracker):
     def ret(self, value):
+        """Track `value` being used as return value."""
         if self.log:
             caller_func, lineno = self.caller_location()
             print(f"{caller_func.__name__}:{lineno}: returned from call")
@@ -1503,6 +1509,7 @@ class DataTracker(DataTracker):
 
 class DataTracker(DataTracker):
     def call(self, func):
+        """Track a call to `func`."""
         if self.log:
             caller_func, lineno = self.caller_location()
             print(f"{caller_func.__name__}:{lineno}: calling {func}")
@@ -1585,6 +1592,12 @@ if __name__ == "__main__":
 
 class DataTracker(DataTracker):
     def param(self, name, value, pos=None, vararg="", last=False):
+        """At the beginning of a function, track parameter `name` being set to `value`.
+`pos` is the position of the argument (starting with 1).
+`vararg` is "*" if `name` is a vararg parameter (as in *args),
+  and "**" is `name` is a kwargs parameter (as in *kwargs).
+`last` is True if `name` is the last parameter.
+"""
         if self.log:
             caller_func, lineno = self.caller_location()
             info = ""
@@ -1684,6 +1697,7 @@ if __name__ == "__main__":
 
 class DependencyTracker(DataTracker):
     def __init__(self, *args, **kwargs):
+        """Constructor. Arguments are passed to DataTracker.__init__()"""
         super().__init__(*args, **kwargs)
 
         self.origins = {}  # Where current variables were last set
@@ -2424,6 +2438,7 @@ class Slicer(Slicer):
         return self.dependencies().graph(*args, **kwargs)
 
     def _repr_svg_(self):
+        """If the object is output in Jupyter, render dependencies as a SVG graph"""
         return self.graph()._repr_svg_()
 
 if __name__ == "__main__":
@@ -2574,6 +2589,14 @@ if __name__ == "__main__":
     math_slicer.code()
 
 
+# ## More Applications
+
+if __name__ == "__main__":
+    print('\n## More Applications')
+
+
+
+
 # ## Things that do not Work
 
 if __name__ == "__main__":
@@ -2630,7 +2653,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([Slicer, DependencyTracker, Dependencies],
-                            central_methods=[
+                            public_methods=[
                                 StackInspector.caller_frame,
                                 StackInspector.caller_function,
                                 StackInspector.caller_globals,

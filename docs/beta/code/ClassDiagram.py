@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-01-20 20:12:58+01:00
+# Last change: 2021-01-23 15:02:36+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -101,7 +101,7 @@ class D_Class(B_Class, C_Class):
         B_Class.foo(self)
 
 if __name__ == "__main__":
-    class_hierarchy(A_Class)
+    class_hierarchy(D_Class)
 
 
 # ## Getting a Class Tree
@@ -255,9 +255,20 @@ if __name__ == "__main__":
 
 from inspect import signature
 
-def display_class_hierarchy(classes, include_methods=True,
-                            central_methods=None,
+import warnings
+
+def display_class_hierarchy(classes, 
+                            public_methods=None,
+                            include_methods=True,
+                            include_legend=True,
                             project='fuzzingbook'):
+    """Visualize a class hierarchy.
+`classes` is a Python class (or a list of classes) to be visualized.
+`public_methods`, if given, is a list of methods to be shown as "public" (bold).
+  (Default: all methods with a docstring)
+`include_methods`: if True, include all methods (default)
+`include_legend`: if True, include a legend (default)
+    """
     from graphviz import Digraph
 
     if project == 'debuggingbook':
@@ -285,15 +296,15 @@ def display_class_hierarchy(classes, include_methods=True,
     edges = set()
     overloaded_methods = set()
 
-    def method_string(method_name, f, central, overloaded):
-        method_string = f'<font face="{METHOD_FONT}" point-size="10">'
+    def method_string(method_name, public, overloaded, fontsize=10):
+        method_string = f'<font face="{METHOD_FONT}" point-size="{str(fontsize)}">'
 
         if overloaded:
             name = f'<i>{method_name}()</i>'
         else:
             name = f'{method_name}()'
 
-        if central:
+        if public:
             method_string += f'<b>{name}</b>'
         else:
             method_string += f'<font color="{METHOD_COLOR}">' \
@@ -306,9 +317,9 @@ def display_class_hierarchy(classes, include_methods=True,
         return (method_name in overloaded_methods or
                 (f.__doc__ is not None and "in subclasses" in f.__doc__))
 
-    def is_central(method_name, f):
-        if central_methods:
-            return method_name in central_methods or f in central_methods
+    def is_public(method_name, f):
+        if public_methods:
+            return method_name in public_methods or f in public_methods
         else:
             return f.__doc__ is not None
 
@@ -322,10 +333,14 @@ def display_class_hierarchy(classes, include_methods=True,
                          f'cellspacing="0" ' \
                          f'align="left" tooltip="{cls.__name__}" href="#">'
 
-        for central in [True, False]:
+        for public in [True, False]:
             for (name, f) in methods:
-                if central != is_central(name, f):
+                if public != is_public(name, f):
                     continue
+                    
+                if is_public(name, f) and not f.__doc__:
+                    warnings.warn(f"{f.__qualname__}() is listed as public,"
+                                  f" but has no docstring")
 
                 overloaded = is_overloaded(name, f)
 
@@ -339,8 +354,7 @@ def display_class_hierarchy(classes, include_methods=True,
                 methods_string += f'<tr><td align="left" border="0"' \
                                   f'{tooltip}{href}>'
 
-                methods_string += \
-                    method_string(name, f, central, overloaded)
+                methods_string += method_string(name, public, overloaded)
 
                 methods_string += '</td></tr>'
 
@@ -380,10 +394,34 @@ def display_class_hierarchy(classes, include_methods=True,
 
             display_class_tree(subtrees)
 
+    def display_legend():
+        fontsize = 8.0
+
+        label = f'<b><font color="{CLASS_COLOR}">Legend</font></b><br align="left"/>' 
+        
+        for item in [
+            method_string("public_method",
+                            public=True, overloaded=False, fontsize=fontsize),
+            method_string("private_method",
+                            public=False, overloaded=False, fontsize=fontsize),
+            method_string("overloaded_method",
+                            public=False, overloaded=True, fontsize=fontsize)
+        ]:
+            label += '&bull;&nbsp;' + item + '<br align="left"/>'
+        
+        label += f'<font face="Helvetica" point-size="{str(fontsize + 1)}">' \
+                 'Hover over names to see doc' \
+                 '</font><br align="left"/>'
+
+        dot.node('Legend', label=f'<{label}>', shape='plain', fontsize=str(fontsize + 2))
+
     for cls in classes:
         tree = class_tree(cls)
         overloaded_methods = overloaded_class_methods(cls)
         display_class_tree(tree)
+        
+    if include_legend:
+        display_legend()
 
     return dot
 
@@ -405,4 +443,11 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     display_class_hierarchy(D_Class)
+
+
+if __name__ == "__main__":
+    display_class_hierarchy([A_Class, B_Class],
+                            public_methods=[
+                                A_Class.quux,
+                            ])
 

@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-20 20:08:13+01:00
+# Last change: 2021-01-23 14:09:31+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -75,7 +75,14 @@ from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
 import pickle
 
 class ChangeCounter:
+    """Count the number of changes for a repository."""
+    
     def __init__(self, repo, filter=None, log=False, **kwargs):
+        """Constructor. `repo` is a git repository (as URL or directory).
+`filter` is a predicate that takes a modification and returns True 
+  if it should be considered (default: consider all).
+`log` turns on logging if set.
+`kwargs` are passed to the `RepositoryMining()` constructor."""
         self.repo = repo
         self.log = log
 
@@ -92,6 +99,7 @@ class ChangeCounter:
 
 class ChangeCounter(ChangeCounter):
     def mine(self, **kwargs):
+        """Gather data from repository. To be extended in subclasses."""
         miner = RepositoryMining(self.repo, **kwargs)
 
         for commit in miner.traverse_commits():
@@ -105,10 +113,14 @@ class ChangeCounter(ChangeCounter):
                     self.update_stats(m)
 
     def include(self, m):
+        """Return True if the modification `m` should be included
+(default: the `filter` predicate given to the constructor).
+To be overloaded in subclasses."""
         return self.filter(m)
 
 class ChangeCounter(ChangeCounter):
     def update_stats(self, m):
+        """Update counters with modification `m`. Can be extended in subclasses."""
         if not m.new_path:
             return
 
@@ -122,15 +134,20 @@ class ChangeCounter(ChangeCounter):
         self.update_elems(node, m)
 
     def update_size(self, node, size):
+        """Update counters for `node` with `size`. Can be extended in subclasses."""
         self.sizes[node] = size
 
-    def update_changes(self, node, msg):
+    def update_changes(self, node, commit_msg):
+        """Update stats for `node` changed with `commit_msg`.
+Can be extended in subclasses."""
         self.changes.setdefault(node, 0)
         self.messages.setdefault(node, [])
         self.changes[node] += 1
-        self.messages[node].append(msg)
+        self.messages[node].append(commit_msg)
 
     def update_elems(self, node, m):
+        """Update counters for subelements of `node` with modification `m`.
+To be defined in subclasses."""
         pass
 
 import os
@@ -210,6 +227,7 @@ import math
 
 class ChangeCounter(ChangeCounter):
     def map_node_sizes(self):
+        """Return a mapping of nodes to sizes. Can be overloaded in subclasses."""
         # Default: use log scale
         return {node: math.log(self.sizes[node]) if self.sizes[node] else 0
              for node in self.sizes}
@@ -221,22 +239,28 @@ class ChangeCounter(ChangeCounter):
         return self.sizes
 
     def map_node_color(self, node):
+        """Return a color of the node, as a number. Can be overloaded in subclasses."""
         if node and node in self.changes:
             return self.changes[node]
         return None
 
     def map_node_text(self, node):
+        """Return the text to be shown for the node (default: #changes). 
+Can be overloaded in subclasses."""
         if node and node in self.changes:
             return self.changes[node]
         return None
 
     def map_hoverinfo(self):
+        """Return the text to be shown when hovering over a node."""
         return 'label+text'
 
     def map_colorscale(self):
+        """Return the colorscale for the map."""
         return 'YlOrRd'
 
     def map(self):
+        """Produce an interactive tree map of the repository."""
         treemap = ep.Treemap(
                      self.map_node_sizes(),
                      text=self.map_node_text,
@@ -270,6 +294,7 @@ if __name__ == "__main__":
 
 class FixCounter(ChangeCounter):
     def include(self, m):
+        """Include all modifications whose commit messages start with 'Fix:'"""
         return super().include(m) and m and m.msg.startswith("Fix:")
 
 class FixCounter(FixCounter):
@@ -529,7 +554,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([FineChangeCounter, FixCounter],
-                            central_methods=[
+                            public_methods=[
                                 ChangeCounter.__init__,
                                 ChangeCounter.map,
                                 ChangeCounter.include,

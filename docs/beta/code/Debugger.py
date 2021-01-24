@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-01-20 19:49:37+01:00
+# Last change: 2021-01-23 13:09:42+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -104,7 +104,7 @@ class Debugger(Tracer):
 
 class Debugger(Debugger):
     def traceit(self, frame, event, arg):
-        # Tracing function; called at every line
+        """Tracing function; called at every line. To be overloaded in subclasses."""
         self.frame = frame
         self.local_vars = frame.f_locals  # Dereference exactly once
         self.event = event
@@ -610,7 +610,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy(Debugger, 
-                            central_methods=[
+                            public_methods=[
                                 Tracer.__init__,
                                 Tracer.__enter__,
                                 Tracer.__exit__,

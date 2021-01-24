@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-20 20:06:35+01:00
+# Last change: 2021-01-23 13:19:38+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -119,12 +119,14 @@ from types import FunctionType
 
 class Collector(Collector):
     def __init__(self):
+        """Constructor."""
         self._function = None
         self._args = None
         self._argstring = None
         self._exception = None
 
     def traceit(self, frame, event, arg):
+        """Tracing function. Saves the first function and calls collect()."""
         if self._function is None and event == 'call':
             # Save function
             self._function = FunctionType(frame.f_code,
@@ -135,6 +137,10 @@ class Collector(Collector):
                                          for var in self._args])
 
         self.collect(frame, event, arg)
+        
+    def collect(self, frame, event, arg):
+        """Collector function. To be overloaded in subclasses."""
+        pass
 
     def id(self):
         """Return an identifier for the collector, 
@@ -161,6 +167,7 @@ class Collector(Collector):
         return self._exception
 
     def __repr__(self):
+        """Return a string representation of the collector"""
         # We use the ID as default representation when printed
         return self.id()
 
@@ -288,6 +295,7 @@ class StatisticalDebugger():
     """A class to collect events for multiple outcomes."""
 
     def __init__(self, collector_class=CoverageCollector, log=False):
+        """Constructor. Use instances of `collector_class` to collect events."""
         self.collector_class = collector_class
         self.collectors = {}
         self.log = log
@@ -781,15 +789,15 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
         return out
 
     def _repr_html_(self):
-        # In Jupyter, visualize with color
+        """When output in Jupyter, visualize as HTML"""
         return self.code(color=True)
 
     def __str__(self):
-        # Outside of Jupyter, show as string
+        """Show code as string"""
         return self.code(color=False, suspiciousness=True)
 
     def __repr__(self):
-        # Outside of Jupyter, show as string
+        """Show code as string"""
         return self.code(color=False, suspiciousness=True)
 
 if __name__ == "__main__":
@@ -1181,6 +1189,7 @@ class ValueCollector(Collector):
     """"A class to collect local variables and their values."""
 
     def __init__(self):
+        """Constructor."""
         super().__init__()
         self.vars = set()
 
@@ -1432,7 +1441,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([TarantulaDebugger, OchiaiDebugger],
-                            central_methods=[
+                            public_methods=[
                                 StatisticalDebugger.__init__,
                                 StatisticalDebugger.all_events,
                                 StatisticalDebugger.event_table,
@@ -1459,7 +1468,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     display_class_hierarchy([CoverageCollector, ValueCollector],
-                            central_methods=[
+                            public_methods=[
                                 Tracer.__init__,
                                 Tracer.__enter__,
                                 Tracer.__exit__,

@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-01-20 20:14:36+01:00
+# Last change: 2021-01-23 13:10:48+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -193,6 +193,8 @@ import inspect
 
 class Tracer(Tracer):
     def traceit(self, frame, event, arg):
+        """Tracing function; called at every line. To be overloaded in subclasses."""
+
         if event == 'line':
             module = inspect.getmodule(frame.f_code)
             if module is None:
@@ -313,6 +315,7 @@ class Tracer(Tracer):
             self.last_vars = {}  # Delete 'last' variables
 
     def traceit(self, frame, event, arg):
+        """Tracing function; called at every line. To be overloaded in subclasses."""
         self.print_debugger_status(frame, event, arg)
 
 if __name__ == "__main__":
@@ -330,8 +333,11 @@ if __name__ == "__main__":
 
 class ConditionalTracer(Tracer):
     def __init__(self, file=sys.stdout, condition=None):
+        """Constructor. Trace all events for which `condition` (a Python expr) holds."""
+
         if condition is None:
             condition = "False"
+
         self.condition = condition
         self.last_report = None
         super().__init__(file=file)
@@ -609,7 +615,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy(EventTracer,
-                            central_methods=[
+                            public_methods=[
                                 Tracer.__init__,
                                 Tracer.__enter__,
                                 Tracer.__exit__,

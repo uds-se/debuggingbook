@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-01-20 20:08:25+01:00
+# Last change: 2021-01-23 13:43:57+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -925,6 +925,7 @@ class ChangeDebugger(ChangeDebugger):
 
 class ChangeDebugger(ChangeDebugger):
     def __enter__(self):
+        """Called at begin of a `with` block. Checks if current source fails."""
         exec(self.fail_source(), globals())
         return super().__enter__()
 
@@ -953,6 +954,7 @@ class ChangeDebugger(ChangeDebugger):
 
 class ChangeDebugger(ChangeDebugger):
     def __repr__(self):
+        """Return readable list of minimal patches"""
         pass_patches, fail_patches, diff_patches = self.min_patches()
         return "".join(patch_string(p) for p in diff_patches)
 
@@ -1089,7 +1091,7 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([ChangeDebugger], 
-                            central_methods = [
+                            public_methods = [
                                 CallCollector.__init__,
                                 CallCollector.__enter__,
                                 CallCollector.__exit__,
