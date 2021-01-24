@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeExplorer.html
-# Last change: 2021-01-23 14:09:31+01:00
+# Last change: 2021-01-24 21:23:35+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -70,85 +70,15 @@ if __name__ == "__main__":
 
 
 
+# ## Mining with PyDriller
+
+if __name__ == "__main__":
+    print('\n## Mining with PyDriller')
+
+
+
+
 from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
-
-import pickle
-
-class ChangeCounter:
-    """Count the number of changes for a repository."""
-    
-    def __init__(self, repo, filter=None, log=False, **kwargs):
-        """Constructor. `repo` is a git repository (as URL or directory).
-`filter` is a predicate that takes a modification and returns True 
-  if it should be considered (default: consider all).
-`log` turns on logging if set.
-`kwargs` are passed to the `RepositoryMining()` constructor."""
-        self.repo = repo
-        self.log = log
-
-        if filter is None:
-            filter = lambda m: True
-        self.filter = filter
-
-        self.changes = {}
-        self.messages = {}
-        self.sizes = {}
-        self.hashes = set()
-
-        self.mine(**kwargs)
-
-class ChangeCounter(ChangeCounter):
-    def mine(self, **kwargs):
-        """Gather data from repository. To be extended in subclasses."""
-        miner = RepositoryMining(self.repo, **kwargs)
-
-        for commit in miner.traverse_commits():
-            for m in commit.modifications:
-                m.hash = commit.hash
-                m.committer = commit.committer
-                m.committer_date = commit.committer_date
-                m.msg = commit.msg
-
-                if self.include(m):
-                    self.update_stats(m)
-
-    def include(self, m):
-        """Return True if the modification `m` should be included
-(default: the `filter` predicate given to the constructor).
-To be overloaded in subclasses."""
-        return self.filter(m)
-
-class ChangeCounter(ChangeCounter):
-    def update_stats(self, m):
-        """Update counters with modification `m`. Can be extended in subclasses."""
-        if not m.new_path:
-            return
-
-        node = tuple(m.new_path.split('/'))
-
-        if m.hash not in self.hashes:
-            self.hashes.add(m.hash)
-            self.update_size(node, len(m.source_code) if m.source_code else 0)
-            self.update_changes(node, m.msg)
-
-        self.update_elems(node, m)
-
-    def update_size(self, node, size):
-        """Update counters for `node` with `size`. Can be extended in subclasses."""
-        self.sizes[node] = size
-
-    def update_changes(self, node, commit_msg):
-        """Update stats for `node` changed with `commit_msg`.
-Can be extended in subclasses."""
-        self.changes.setdefault(node, 0)
-        self.messages.setdefault(node, [])
-        self.changes[node] += 1
-        self.messages[node].append(commit_msg)
-
-    def update_elems(self, node, m):
-        """Update counters for subelements of `node` with modification `m`.
-To be defined in subclasses."""
-        pass
 
 import os
 
@@ -167,18 +97,189 @@ def current_repo():
     
     return None     
 
-CURRENT_REPO = current_repo()
-if CURRENT_REPO:
-    DEBUGGINGBOOK_REPO = CURRENT_REPO
-else:
-    DEBUGGINGBOOK_REPO = 'https://github.com/uds-se/debuggingbook.git'
+if __name__ == "__main__":
+    current_repo()
+
+
+if __name__ == "__main__":
+    book_miner = RepositoryMining(current_repo())
+
+
+if __name__ == "__main__":
+    book_commits = book_miner.traverse_commits()
+    book_first_commit = next(book_commits)
+
+
+if __name__ == "__main__":
+    [attr for attr in dir(book_first_commit) if not attr.startswith('_')]
+
+
+if __name__ == "__main__":
+    book_first_commit.msg
+
+
+if __name__ == "__main__":
+    [attr for attr in dir(book_first_commit.author) if not attr.startswith('_')]
+
+
+if __name__ == "__main__":
+    book_first_commit.author.name, book_first_commit.author.email
+
+
+if __name__ == "__main__":
+    book_first_commit.modifications
+
+
+if __name__ == "__main__":
+    [attr for attr in dir(book_first_commit.modifications[0]) if not attr.startswith('_')]
+
+
+if __name__ == "__main__":
+    book_first_commit.modifications[0].new_path
+
+
+if __name__ == "__main__":
+    print(book_first_commit.modifications[0].source_code)
+
+
+if __name__ == "__main__":
+    print(book_first_commit.modifications[0].source_code_before)
+
+
+if __name__ == "__main__":
+    book_second_commit = next(book_commits)
+
+
+if __name__ == "__main__":
+    [m.new_path for m in book_second_commit.modifications]
+
+
+if __name__ == "__main__":
+    readme_modification = [m for m in book_second_commit.modifications if m.new_path == 'README.md'][0]
+
+
+if __name__ == "__main__":
+    print(readme_modification.source_code_before)
+
+
+if __name__ == "__main__":
+    print(readme_modification.source_code[:400])
+
+
+if __name__ == "__main__":
+    print(readme_modification.diff[:100])
+
+
+if __name__ == "__main__":
+    readme_modification.diff_parsed['added'][:10]
+
+
+# ## Counting Changes
+
+if __name__ == "__main__":
+    print('\n## Counting Changes')
+
+
+
+
+class ChangeCounter:
+    """Count the number of changes for a repository."""
+    
+    def __init__(self, repo, filter=None, log=False, **kwargs):
+        """Constructor. `repo` is a git repository (as URL or directory).
+`filter` is a predicate that takes a modification and returns True 
+  if it should be considered (default: consider all).
+`log` turns on logging if set.
+`kwargs` are passed to the `RepositoryMining()` constructor."""
+        self.repo = repo
+        self.log = log
+
+        if filter is None:
+            filter = lambda m: True
+        self.filter = filter
+
+        # A node is an tuple (f_1, f_2, f_3, ..., f_n) denoting
+        # a folder f_1 holding a folder f_2 ... holding a file f_n
+        self.changes = {}    # Mapping node -> #of changes
+        self.messages = {}   # Mapping node -> list of commit messages
+        self.sizes = {}      # Mapping node -> last size seen
+        self.hashes = set()  # All hashes already considered
+
+        self.mine(**kwargs)
+
+class ChangeCounter(ChangeCounter):
+    def mine(self, **kwargs):
+        """Gather data from repository. To be extended in subclasses."""
+        miner = RepositoryMining(self.repo, **kwargs)
+
+        for commit in miner.traverse_commits():
+            for m in commit.modifications:
+                m.hash = commit.hash
+                m.committer = commit.committer
+                m.committer_date = commit.committer_date
+                m.msg = commit.msg
+
+                if self.include(m):
+                    self.update_stats(m)
+
+class ChangeCounter(ChangeCounter):
+    def include(self, m):
+        """Return True if the modification `m` should be included
+(default: the `filter` predicate given to the constructor).
+To be overloaded in subclasses."""
+        return self.filter(m)
+
+if __name__ == "__main__":
+    tuple('debuggingbook/notebooks/ChangeExplorer.ipynb'.split('/'))
+
+
+class ChangeCounter(ChangeCounter):
+    def update_stats(self, m):
+        """Update counters with modification `m`. Can be extended in subclasses."""
+        if not m.new_path:
+            return
+
+        node = tuple(m.new_path.split('/'))
+
+        if m.hash not in self.hashes:
+            self.hashes.add(m.hash)
+            self.update_size(node, len(m.source_code) if m.source_code else 0)
+            self.update_changes(node, m.msg)
+
+        self.update_elems(node, m)
+
+class ChangeCounter(ChangeCounter):
+    def update_size(self, node, size):
+        """Update counters for `node` with `size`. Can be extended in subclasses."""
+        self.sizes[node] = size
+
+class ChangeCounter(ChangeCounter):
+    def update_changes(self, node, commit_msg):
+        """Update stats for `node` changed with `commit_msg`.
+Can be extended in subclasses."""
+        self.changes.setdefault(node, 0)
+        self.changes[node] += 1
+
+        self.messages.setdefault(node, [])
+        self.messages[node].append(commit_msg)
+
+class ChangeCounter(ChangeCounter):
+    def update_elems(self, node, m):
+        """Update counters for subelements of `node` with modification `m`.
+To be defined in subclasses."""
+        pass
+
+DEBUGGINGBOOK_REPO = current_repo()
 
 if __name__ == "__main__":
     DEBUGGINGBOOK_REPO
 
 
 def debuggingbook_change_counter(cls):
+    """Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo"""
+    
     def filter(m):
+        """Do not include the `docs/` directory; it only holds Web pages"""
         return m.new_path and not m.new_path.startswith('docs/')
 
     return cls(DEBUGGINGBOOK_REPO, filter=filter)
@@ -209,13 +310,18 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
+    for node in change_counter.changes:
+        assert len(change_counter.messages[node]) == change_counter.changes[node]
+
+
+if __name__ == "__main__":
     change_counter.sizes[('Chapters.makefile',)]
 
 
-# ## Past Changes
+# ## Visualizing Past Changes
 
 if __name__ == "__main__":
-    print('\n## Past Changes')
+    print('\n## Visualizing Past Changes')
 
 
 
@@ -238,12 +344,14 @@ class ChangeCounter(ChangeCounter):
         # Alternative: use absolute size
         return self.sizes
 
+class ChangeCounter(ChangeCounter):
     def map_node_color(self, node):
         """Return a color of the node, as a number. Can be overloaded in subclasses."""
         if node and node in self.changes:
             return self.changes[node]
         return None
 
+class ChangeCounter(ChangeCounter):
     def map_node_text(self, node):
         """Return the text to be shown for the node (default: #changes). 
 Can be overloaded in subclasses."""
@@ -251,14 +359,17 @@ Can be overloaded in subclasses."""
             return self.changes[node]
         return None
 
+class ChangeCounter(ChangeCounter):
     def map_hoverinfo(self):
-        """Return the text to be shown when hovering over a node."""
+        """Return the text to be shown when hovering over a node.
+To be overloaded in subclasses."""
         return 'label+text'
 
     def map_colorscale(self):
-        """Return the colorscale for the map."""
+        """Return the colorscale for the map. To be overloaded in subclasses."""
         return 'YlOrRd'
 
+class ChangeCounter(ChangeCounter):
     def map(self):
         """Produce an interactive tree map of the repository."""
         treemap = ep.Treemap(
@@ -282,6 +393,38 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     change_counter.map()
+
+
+if __name__ == "__main__":
+    all_nodes = list(change_counter.changes.keys())
+    all_nodes.sort(key=lambda node: change_counter.changes[node], reverse=True)
+    [(node, change_counter.changes[node]) for node in all_nodes[:4]]
+
+
+if __name__ == "__main__":
+    all_notebooks = [node for node in change_counter.changes.keys()
+                     if len(node) == 2 and node[1].endswith('.ipynb')]
+    all_notebooks.sort(key=lambda node: change_counter.changes[node], reverse=True)
+
+
+if __package__ is None or __package__ == "":
+    from bookutils import quiz
+else:
+    from .bookutils import quiz
+
+
+if __name__ == "__main__":
+    quiz("Which two notebooks have seen the most changes over time?",
+        [
+            f"`{all_notebooks[3][1].split('.')[0]}`",
+            f"`{all_notebooks[1][1].split('.')[0]}`",
+            f"`{all_notebooks[2][1].split('.')[0]}`",
+            f"`{all_notebooks[0][1].split('.')[0]}`",
+        ], [1234 % 3, 3702 / 1234])
+
+
+if __name__ == "__main__":
+    all_notebooks[0][1].split('.')[0], all_notebooks[1][1].split('.')[0]
 
 
 # ## Past Fixes
@@ -330,9 +473,7 @@ if __name__ == "__main__":
 
 
 
-import re
-
-import magic  # https://github.com/ahupp/python-magic
+import magic
 
 if __name__ == "__main__":
     magic.from_buffer('''
@@ -343,6 +484,19 @@ int main(int argc, char *argv[]) {
 }
 ''')
 
+
+if __name__ == "__main__":
+    magic.from_buffer('''
+def foo():
+    print("Hello, world!")
+''')
+
+
+if __name__ == "__main__":
+    magic.from_buffer(open(os.path.join(current_repo(), 'notebooks', 'ChangeExplorer.ipynb')).read())
+
+
+import re
 
 DELIMITERS = [
     (
@@ -369,16 +523,19 @@ DELIMITERS = [
     )
 ]
 
-def rxdelim(s):
-    tp = magic.from_buffer(s).lower()
+def rxdelim(content):
+    """Return suitable begin and end delimiters for the content `content`.
+If no matching delimiters are found, return `None, None`."""
+    tp = magic.from_buffer(content).lower()
     for rxtp, rxbegin, rxend in DELIMITERS:
         if rxtp.match(tp):
             return rxbegin, rxend
 
     return None, None
 
-def elem_mapping(s, log=False):
-    rxbegin, rxend = rxdelim(s)
+def elem_mapping(content, log=False):
+    """Return a list of the elements in `content`, indexed by line number."""
+    rxbegin, rxend = rxdelim(content)
     if rxbegin is None:
         return []
 
@@ -386,7 +543,7 @@ def elem_mapping(s, log=False):
     current_elem = None
     lineno = 0
 
-    for line in s.split('\n'):
+    for line in content.split('\n'):
         lineno += 1
 
         match = rxbegin.match(line)
@@ -398,7 +555,7 @@ def elem_mapping(s, log=False):
         mapping.append(current_elem)
 
         if log:
-            print(f"{lineno:3} {current_elem}\t{line}")
+            print(f"{lineno:3} {str(current_elem):15} {line}")
 
     return mapping
 
@@ -420,6 +577,10 @@ int main(int argc, char *argv[]) {
 
 """
     some_c_mapping = elem_mapping(some_c_source, log=True)
+
+
+if __name__ == "__main__":
+    some_c_mapping[1], some_c_mapping[8]
 
 
 if __name__ == "__main__":
@@ -447,6 +608,41 @@ if __name__ == "__main__":
 
 
 
+def changed_elems_by_mapping(mapping, start, length=0):
+    """Within `mapping`, return the set of elements affected by a change
+starting in line `start` and extending over `length` additional lines"""
+    elems = set()
+    for line in range(start, start + length + 1):
+        if line < len(mapping) and mapping[line]:
+            elems.add(mapping[line])
+
+    return elems
+
+if __name__ == "__main__":
+    changed_elems_by_mapping(some_python_mapping, start=2, length=4)
+
+
+def elem_size(elem, source):
+    """Within `source`, return the size of `elem`"""
+    source_lines = [''] + source.split('\n')
+    size = 0
+    mapping = elem_mapping(source)
+
+    for line_no in range(len(mapping)):
+        if mapping[line_no] == elem or mapping[line_no] is elem:
+            size += len(source_lines[line_no] + '\n')
+
+    return size
+
+if __name__ == "__main__":
+    elem_size('foo', some_python_source)
+
+
+if __name__ == "__main__":
+    assert sum(elem_size(name, some_python_source) 
+               for name in ['foo', 'bar', 'main']) == len(some_python_source)
+
+
 if __package__ is None or __package__ == "":
     from ChangeDebugger import diff  # minor dependency
 else:
@@ -455,76 +651,71 @@ else:
 
 from diff_match_patch import diff_match_patch
 
+def changed_elems(old_source, new_source):
+    """Determine the elements affected by the change from `old_source` to `new_source`"""
+    patches = diff(old_source, new_source)
+
+    old_mapping = elem_mapping(old_source)
+    new_mapping = elem_mapping(new_source)
+
+    elems = set()
+
+    for patch in patches:
+        old_start_line = patch.start1 + 1
+        new_start_line = patch.start2 + 1
+
+        for (op, data) in patch.diffs:
+            length = data.count('\n')
+
+            if op == diff_match_patch.DIFF_INSERT:
+                elems |= changed_elems_by_mapping(old_mapping, old_start_line)
+                elems |= changed_elems_by_mapping(new_mapping, new_start_line, length)
+            elif op == diff_match_patch.DIFF_DELETE:
+                elems |= changed_elems_by_mapping(old_mapping, old_start_line, length)
+                elems |= changed_elems_by_mapping(new_mapping, new_start_line)
+
+            old_start_line += length
+            new_start_line += length
+            
+    return elems
+
+if __name__ == "__main__":
+    some_new_python_source = """
+def foo(y):
+    return y
+
+class qux(blue):
+    x = 25
+    def f(x):
+        return 26
+
+def main(argc):
+    return foo(argc)
+
+"""
+
+
+if __name__ == "__main__":
+    changed_elems(some_python_source, some_new_python_source)
+
+
+# ### Putting it all Together
+
+if __name__ == "__main__":
+    print('\n### Putting it all Together')
+
+
+
+
 class FineChangeCounter(ChangeCounter):
-    def changed_elems(self, mapping, start, length=0):
-        elems = set()
-        for line in range(start, start + length + 1):
-            if line < len(mapping) and mapping[line]:
-                elems.add(mapping[line])
-
-        return elems
-
-    def elem_size(self, elem, mapping, source):
-        source_lines = [''] + source.split('\n')
-        size = 0
-
-        for line_no in range(len(mapping)):
-            if mapping[line_no] == elem:
-                size += len(source_lines[line_no])
-
-        return size
-
-if __name__ == "__main__":
-    fine_change_counter = debuggingbook_change_counter(FineChangeCounter)
-
-
-if __name__ == "__main__":
-    assert fine_change_counter.changed_elems(some_python_mapping, 4) == {'foo'}
-
-
-if __name__ == "__main__":
-    assert fine_change_counter.changed_elems(some_python_mapping, 4, 1) == {'foo', 'bar'}
-
-
-if __name__ == "__main__":
-    assert fine_change_counter.changed_elems(some_python_mapping, 10, 2) == {'main'}
-
-
-class FineChangeCounter(FineChangeCounter):
     def update_elems(self, node, m):
         old_source = m.source_code_before if m.source_code_before else ""
         new_source = m.source_code if m.source_code else ""
-        patches = diff(old_source, new_source)
-
-        old_mapping = elem_mapping(old_source)
-        new_mapping = elem_mapping(new_source)
-
-        elems = set()
-
-        for patch in patches:
-            old_start_line = patch.start1 + 1
-            new_start_line = patch.start2 + 1
-
-            for (op, data) in patch.diffs:
-                data_length = data.count('\n')
-
-                if op == diff_match_patch.DIFF_INSERT:
-                    elems |= self.changed_elems(old_mapping, old_start_line)
-                    elems |= self.changed_elems(new_mapping, new_start_line,
-                                                 data_length)
-                elif op == diff_match_patch.DIFF_DELETE:
-                    elems |= self.changed_elems(old_mapping, old_start_line, 
-                                                 data_length)
-                    elems |= self.changed_elems(new_mapping, new_start_line)
-
-                old_start_line += data_length
-                new_start_line += data_length
-
-        for elem in elems:
+        
+        for elem in changed_elems(old_source, new_source):
             elem_node = node + (elem,)
 
-            self.update_size(elem_node,
-                             self.elem_size(elem, new_mapping, new_source))
+            self.update_size(elem_node, elem_size(elem, new_source))
             self.update_changes(elem_node, m.msg)
 
 if __name__ == "__main__":
@@ -538,12 +729,55 @@ if __name__ == "__main__":
     fine_change_counter.map()
 
 
+if __name__ == "__main__":
+    elem_nodes = [node for node in fine_change_counter.changes.keys()
+                  if len(node) == 3 and node[1].endswith('.ipynb')]
+    elem_nodes.sort(key=lambda node: fine_change_counter.changes[node], reverse=True)
+    [(node, fine_change_counter.changes[node]) for node in elem_nodes[:1]]
+
+
+if __package__ is None or __package__ == "":
+    from bookutils import quiz
+else:
+    from .bookutils import quiz
+
+
+if __name__ == "__main__":
+    quiz("Which is the _second_ most changed element?",
+        [
+            f"`{elem_nodes[3][2]}` in `{elem_nodes[3][1].split('.ipynb')[0]}`",
+            f"`{elem_nodes[1][2]}` in `{elem_nodes[1][1].split('.ipynb')[0]}`",
+            f"`{elem_nodes[2][2]}` in `{elem_nodes[2][1].split('.ipynb')[0]}`",
+            f"`{elem_nodes[0][2]}` in `{elem_nodes[0][1].split('.ipynb')[0]}`",
+        ], 1975308642 / 987654321)
+
+
+if __name__ == "__main__":
+    [(node, fine_change_counter.changes[node]) for node in elem_nodes[:5]]
+
+
 # ## Synopsis
 
 if __name__ == "__main__":
     print('\n## Synopsis')
 
 
+
+
+if __name__ == "__main__":
+    change_counter.changes[('README.md',)]
+
+
+if __name__ == "__main__":
+    change_counter.messages[('README.md',)]
+
+
+if __name__ == "__main__":
+    change_counter.sizes[('README.md',)]
+
+
+if __name__ == "__main__":
+    fine_change_counter.map()
 
 
 if __package__ is None or __package__ == "":
@@ -556,17 +790,7 @@ if __name__ == "__main__":
     display_class_hierarchy([FineChangeCounter, FixCounter],
                             public_methods=[
                                 ChangeCounter.__init__,
-                                ChangeCounter.map,
-                                ChangeCounter.include,
-                                ChangeCounter.map_hoverinfo,
-                                ChangeCounter.map_colorscale,
-                                ChangeCounter.map_node_sizes,
-                                ChangeCounter.map_node_text,
-                                ChangeCounter.update_elems,
-                                ChangeCounter.update_size,
-                                ChangeCounter.update_changes,
-                                FineChangeCounter.include,
-                                FixCounter.include
+                                ChangeCounter.map  # FIXME: Why is `map()` not highlighted?
                             ],
                             project='debuggingbook')
 
@@ -575,14 +799,6 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print('\n## Lessons Learned')
-
-
-
-
-# ## Next Steps
-
-if __name__ == "__main__":
-    print('\n## Next Steps')
 
 
 
@@ -607,22 +823,6 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print('\n### Exercise 1: _Title_')
-
-
-
-
-if __name__ == "__main__":
-    pass
-
-
-if __name__ == "__main__":
-    2 + 2
-
-
-# ### Exercise 2: _Title_
-
-if __name__ == "__main__":
-    print('\n### Exercise 2: _Title_')
 
 
 

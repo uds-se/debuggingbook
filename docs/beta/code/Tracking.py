@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-01-23 19:57:27+01:00
+# Last change: 2021-01-24 14:52:16+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -92,20 +92,6 @@ if __name__ == "__main__":
 
 
 
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
-
-
-def handle_command(s):
-    scope = s.index(" in ")
-
-if __name__ == "__main__":
-    with ExpectError():
-        handle_command("run")
-
-
 # #### Test Cases (51%)
 
 if __name__ == "__main__":
@@ -150,6 +136,14 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print('\n### Reporting Crashes Automatically')
+
+
+
+
+# ### Effective Issue Reporting
+
+if __name__ == "__main__":
+    print('\n### Effective Issue Reporting')
 
 
 
@@ -344,9 +338,9 @@ else:
     from .bookutils import rich_output
 
 
-HEADLESS = False
+HEADLESS = True
 
-def start_webdriver(browser=BROWSER, headless=HEADLESS, zoom=1.4):
+def start_webdriver(browser=BROWSER, headless=HEADLESS, zoom=4.0):
     if browser == 'firefox':
         options = webdriver.FirefoxOptions()
     if browser == 'chrome':
@@ -422,21 +416,8 @@ def drop_shadow(contents):
         
     return stdout_data
 
-def resize(contents, size):
-    with tempfile.NamedTemporaryFile() as tmp:
-        tmp.write(contents)
-        convert = subprocess.Popen(
-            ['convert', tmp.name, '-resize', size, '-'],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_data, stderr_data = convert.communicate()
-    
-    if stderr_data:
-        print(stderr_data.decode("utf-8"), file=sys.stderr, end="")
-        
-    return stdout_data
-
-def screenshot(driver):
-    return Image(resize(drop_shadow(redmine_gui.get_screenshot_as_png()), "50%"))
+def screenshot(driver, width=500):
+    return Image(drop_shadow(redmine_gui.get_screenshot_as_png()), width=width)
 
 if __name__ == "__main__":
     screenshot(redmine_gui)
@@ -613,6 +594,31 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     redmine_gui.find_element_by_name('commit').click()
+    screenshot(redmine_gui)
+
+
+if __package__ is None or __package__ == "":
+    from bookutils import quiz
+else:
+    from .bookutils import quiz
+
+
+if __name__ == "__main__":
+    quiz("How many issues have been reported over time in Mozilla Bugzilla?",
+        [
+            "More than ten thousand",
+            "More than a hundred thousand",
+            "More than a million",
+            "More than ten million"
+        ], 370370367 // 123456789
+        )
+
+
+if __name__ == "__main__":
+    redmine_gui.get("https://bugzilla.mozilla.org/buglist.cgi?quicksearch=firefox")
+
+
+if __name__ == "__main__":
     screenshot(redmine_gui)
 
 
@@ -893,10 +899,66 @@ if __name__ == "__main__":
 
 
 
+# ### Resolutions
+
+if __name__ == "__main__":
+    print('\n### Resolutions')
+
+
+
+
+# #### FIXED
+
+if __name__ == "__main__":
+    print('\n#### FIXED')
+
+
+
+
+# #### INVALID
+
+if __name__ == "__main__":
+    print('\n#### INVALID')
+
+
+
+
+# #### WONTFIX
+
+if __name__ == "__main__":
+    print('\n#### WONTFIX')
+
+
+
+
+# #### DUPLICATE
+
+if __name__ == "__main__":
+    print('\n#### DUPLICATE')
+
+
+
+
+# #### WORKSFORME
+
+if __name__ == "__main__":
+    print('\n#### WORKSFORME')
+
+
+
+
+# ### An Issue Life Cycle
+
+if __name__ == "__main__":
+    print('\n### An Issue Life Cycle')
+
+
+
+
 if __package__ is None or __package__ == "":
-    from Intro_Debugging import graph
+    from Intro_Debugging import graph  # minor dependency
 else:
-    from .Intro_Debugging import graph
+    from .Intro_Debugging import graph  # minor dependency
 
 
 if __name__ == "__main__":
@@ -941,6 +1003,7 @@ if __name__ == "__main__":
     life_cycle.node('New', label="<<b>NEW</b>>", penwidth='1.0')
 
     life_cycle.edge('Unconfirmed', 'New', label="Confirmed as \"new\"")
+    life_cycle.edge('Unconfirmed', 'Closed', label=r"Resolved\las \"invalid\"\lor \"duplicate\"")
     life_cycle.edge('Assigned', 'New', label="Unassigned")
     life_cycle.edge('Resolved', 'Closed', label=r"Quality Assurance\lconfirms fix")
     life_cycle.edge('Resolved', 'Reopened', label=r"Quality Assurance\lnot satisfied")
@@ -951,34 +1014,13 @@ if __name__ == "__main__":
     life_cycle
 
 
-# ## Cleanup
-
-if __name__ == "__main__":
-    print('\n## Cleanup')
-
-
-
-
-import os
-
 if __name__ == "__main__":
     redmine_process.terminate()
-
-
-if __name__ == "__main__":
     redmine_gui.close()
 
 
 if __name__ == "__main__":
-    os.system("pkill ruby")
-
-
-# ## Synopsis
-
-if __name__ == "__main__":
-    print('\n## Synopsis')
-
-
+    os.system("pkill ruby");
 
 
 # ## Synopsis
@@ -1017,30 +1059,6 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     print('\n## Exercises')
-
-
-
-
-# ### Exercise 1: _Title_
-
-if __name__ == "__main__":
-    print('\n### Exercise 1: _Title_')
-
-
-
-
-if __name__ == "__main__":
-    pass
-
-
-if __name__ == "__main__":
-    2 + 2
-
-
-# ### Exercise 2: _Title_
-
-if __name__ == "__main__":
-    print('\n### Exercise 2: _Title_')
 
 
 
