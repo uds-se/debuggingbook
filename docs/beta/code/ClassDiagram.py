@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-01-25 14:14:02+01:00
+# Last change: 2021-01-25 16:32:21+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -58,6 +58,8 @@ if __name__ == "__main__":
 
 
 
+
+import inspect
 
 def class_hierarchy(cls):
     superclasses = cls.mro()
@@ -208,8 +210,6 @@ if __name__ == "__main__":
 
 
 
-import inspect
-
 def class_methods(cls):
     def _class_methods(cls):
         all_methods = inspect.getmembers(cls, lambda m: inspect.isfunction(m))
@@ -281,23 +281,34 @@ if __name__ == "__main__":
     A_Class.__bases__[0].__name__
 
 
-def docstring(cls):
-    while not cls.__doc__:
-        superclass = None
-        for base in cls.__bases__:
-            if base.__name__ == cls.__name__:
-                superclass = base
-                break
+if __name__ == "__main__":
+    D_Class.foo
 
-        if not superclass:
-            return None
 
-        cls = superclass
+if __name__ == "__main__":
+    D_Class.foo.__doc__
 
-    return cls.__doc__
+
+if __name__ == "__main__":
+    A_Class.foo.__doc__
+
+
+def docstring(obj):
+    return inspect.getdoc(obj)
 
 if __name__ == "__main__":
     docstring(A_Class)
+
+
+if __name__ == "__main__":
+    docstring(D_Class.foo)
+
+
+def unknown():
+    pass
+
+if __name__ == "__main__":
+    docstring(unknown)
 
 
 import html
@@ -318,7 +329,7 @@ if __name__ == "__main__":
 
 
 def escape_doc(docstring):
-    DOC_INDENT = 4
+    DOC_INDENT = 0
     docstring = "&#x0a;".join(
         ' ' * DOC_INDENT + escape(line).strip()
         for line in docstring.split('\n')
@@ -403,7 +414,7 @@ def display_class_hierarchy(classes,
 
     def is_overloaded(method_name, f):
         return (method_name in overloaded_methods or
-                (f.__doc__ is not None and "in subclasses" in f.__doc__))
+                (docstring(f) is not None and "in subclasses" in docstring(f)))
 
     def is_abstract(cls):
         if not abstract_classes:
@@ -419,7 +430,7 @@ def display_class_hierarchy(classes,
                     any(f.__qualname__ == m.__qualname__
                         for m in public_methods))
 
-        return f.__doc__ is not None
+        return docstring(f) is not None
 
     def class_methods_string(cls, url):
         methods = public_class_methods(cls)
@@ -439,15 +450,15 @@ def display_class_hierarchy(classes,
                 if log:
                     print(f"    Drawing {name}()")
 
-                if is_public(name, f) and not f.__doc__:
+                if is_public(name, f) and not docstring(f):
                     warnings.warn(f"{f.__qualname__}() is listed as public,"
                                   f" but has no docstring")
 
                 overloaded = is_overloaded(name, f)
 
                 method_doc = escape(name + str(inspect.signature(f)))
-                if f.__doc__:
-                    method_doc += ":&#x0a;" + escape_doc(f.__doc__)
+                if docstring(f):
+                    method_doc += ":&#x0a;" + escape_doc(docstring(f))
 
                 # Tooltips are only shown if a href is present, too
                 tooltip = f' tooltip="{method_doc}"'

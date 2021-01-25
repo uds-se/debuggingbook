@@ -32,7 +32,7 @@ This book is _work in progress_, with new chapters being added every week. To ge
 
 ## About the Authors
 
-This book is written by _Andreas Zeller_, a long-standing expert in automated debugging, software analysis and software testing.  Andreas is happy to share his expertise and making it accessible to the public.
+This book is written by [Andreas Zeller](https://andreas-zeller.info), a long-standing expert in automated debugging, software analysis and software testing.  Andreas is happy to share his expertise and making it accessible to the public.
 
 ## Frequently Asked Questions
 
