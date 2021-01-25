@@ -223,8 +223,9 @@ def HTML(data=None, url=None, filename=None, png=False, headless=True, zoom=2.0)
 # Usage: quiz('Which of these is not a fruit?', 
 #             ['apple', 'banana', 'pear', 'tomato'], '27 / 9')
 import uuid
-
 import markdown
+import html
+
 def quiztext(text):
     if not isinstance(text, str):
         text = str(text)
@@ -237,11 +238,11 @@ def quiztext(text):
 
 # Widget quizzes. No support for multiple-choice quizzes.
 # Currently unused in favor of jsquiz(), below.
-def nbquiz(question, options, correct_answer, title='Quiz', debug=False):
+def nbquiz(question, options, correct_answer, globals, title='Quiz', debug=False):
     import ipywidgets as widgets
 
     if isinstance(correct_answer, str):
-        correct_answer = int(eval(correct_answer))
+        correct_answer = int(eval(correct_answer, globals))
   
     radio_options = [(quiztext(words), i) for i, words in enumerate(options)]
     alternatives = widgets.RadioButtons(
@@ -274,26 +275,35 @@ def nbquiz(question, options, correct_answer, title='Quiz', debug=False):
     return widgets.VBox([title_out, alternatives, check])
 
 # JavaScript quizzes.
-def jsquiz(question, options, correct_answer, title='Quiz', debug=True):
+def jsquiz(question, options, correct_answer, globals, 
+           title='Quiz', debug=True):
+    hint = ""
+    if isinstance(correct_answer, str):
+        hint = correct_answer
+        correct_answer = eval(correct_answer, globals)
+
     if isinstance(correct_answer, list) or isinstance(correct_answer, set):
         answer_list = list(correct_answer)
         multiple_choice = True
     else:
         answer_list = [correct_answer]
         multiple_choice = False
-        
 
     # Encode answer into binary
     correct_ans = 0
     for elem in answer_list:
         if isinstance(elem, str):
-            elem = eval(elem)
+            elem = eval(elem, globals)
+
         correct_ans = correct_ans | (1 << int(elem))
 
     quiz_id = uuid.uuid1()
+    answers = 'answers_' + str(quiz_id).replace('-', '')
 
     script = '''
     <script>
+    var {answers} = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -305,11 +315,13 @@ def jsquiz(question, options, correct_answer, title='Quiz', debug=True):
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -327,6 +339,13 @@ def jsquiz(question, options, correct_answer, title='Quiz', debug=True):
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+            
+            {answers}++;
+            if ({answers} >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -343,9 +362,12 @@ def jsquiz(question, options, correct_answer, title='Quiz', debug=True):
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
     '''
+    
+    script = script.replace('{answers}', answers)
     
     if multiple_choice:
         input_type = "checkbox"
@@ -359,7 +381,7 @@ def jsquiz(question, options, correct_answer, title='Quiz', debug=True):
         <label id="{quiz_id}-{i + 1}-label" for="{quiz_id}-{i + 1}">{quiztext(option)}</label><br>
     ''' for (i, option) in enumerate(options))
     
-    html = f'''
+    html_fragment = f'''
     {script}
     <div class="quiz">
     <h3 class="quiz_title">{quiztext(title)}</h3>
@@ -371,10 +393,11 @@ def jsquiz(question, options, correct_answer, title='Quiz', debug=True):
     {menu}
     </div>
     </p>
-    <input id="{quiz_id}-submit" type="submit" value="Submit" onclick="check_selection('{quiz_id}', {correct_ans}, {int(multiple_choice)})">
+    <input id="{quiz_id}-submit" type="submit" value="Submit" onclick="check_selection('{quiz_id}', {correct_ans}, {int(multiple_choice)}, '{html.escape(hint)}')">
+    <span class="quiz_hint" id="{quiz_id}-hint"></span>
     </div>
     '''
-    return HTML(html)
+    return HTML(html_fragment)
 
 # HTML quizzes. Not interactive.
 def htmlquiz(question, options, correct_answer, title='Quiz'):
@@ -405,7 +428,7 @@ def textquiz(question, options, correct_answer, title='Quiz'):
     print(text)
 
 # Entry point for all of the above.
-def quiz(question, options, correct_answer, **kwargs):
+def quiz(question, options, correct_answer, globals=None, **kwargs):
     """Display a quiz. 
     `question` is a question string to be asked.
     `options` is a list of strings with possible answers.
@@ -416,14 +439,17 @@ def quiz(question, options, correct_answer, **kwargs):
       these will be displayed as is and evaluated for the correct values.
     `title` is the title to be displayed.
     """
+    
+    if globals is None:
+        globals = {}
 
     if 'RENDER_HTML' in os.environ:
-        return htmlquiz(question, options, correct_answer, **kwargs)
+        return htmlquiz(question, options, correct_answer, globals, **kwargs)
 
     if have_ipython:
-        return jsquiz(question, options, correct_answer, **kwargs)
+        return jsquiz(question, options, correct_answer, globals, **kwargs)
         
-    return textquiz(question, options, correct_answer, **kwargs)
+    return textquiz(question, options, correct_answer, globals, **kwargs)
 
 
 
