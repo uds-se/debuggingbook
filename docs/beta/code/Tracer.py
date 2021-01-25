@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-01-25 17:16:44+01:00
+# Last change: 2021-01-25 23:34:23+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -122,14 +122,16 @@ import math
 if __name__ == "__main__":
     quiz("What happens if the tracing function returns `None`"
          " while tracing function `f()`?"
-         " Lookup `sys.setttrace()` in the Python documentation"
+         " Lookup [`sys.setttrace()` in the Python documentation](https://docs.python.org/3/library/sys.html)"
          " or try it out yourself.",
-         ['Tracing stops for all functions;'
-          ' the tracing function is no longer called',
-          'Tracing stops for `f()`: the tracing function is called when `f()` returns',
-          'Tracing stops for `f()` the rest of the execution: the tracing function'
-          ' is no longer called for calls to `f()`',
-          'Nothing changes'], math.log(7.38905609893065))
+         [
+             'Tracing stops for all functions;'
+             ' the tracing function is no longer called',
+             'Tracing stops for `f()`: the tracing function is called when `f()` returns',
+             'Tracing stops for `f()` the rest of the execution: the tracing function'
+             ' is no longer called for calls to `f()`',
+             'Nothing changes'
+         ], "math.log(7.38905609893065)", globals())
 
 
 # ## A Tracer Class
@@ -374,9 +376,9 @@ if __name__ == "__main__":
     quiz("What happens if the condition contains a syntax error?",
          [
              "The tracer stops, raising an exception",
-             "The tracer continues as if the condition were True",
-             "The tracer continues as if the condition were False",
-         ], 393 % 7)
+             "The tracer continues as if the condition were `True`",
+             "The tracer continues as if the condition were `False`",
+         ], '393 % 7')
 
 
 if __package__ is None or __package__ == "":
@@ -412,8 +414,10 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     quiz("If the program under test contains a variable named `line`, "
          "which `line` does the condition refer to?",
-         ["`line` as in the debugger", "`line` as in the program"],
-         (326 * 27 == 8888) + 1)
+         [
+            "`line` as in the debugger",
+             "`line` as in the program"
+         ], '(326 * 27 == 8888) + 1')
 
 
 # ## Watching Events
@@ -574,11 +578,12 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     quiz("In the above example, "
          "where is the `EventTracer.traceit()` function called?",
-         ["When `some_extreme_function()` returns",
-          "For each line of `some_extreme_function()`",
-          "When `remove_html_markup()` returns",
-          "For each line of `remove_html_markup()`"],
-         [ord(c) - 100 for c in 'efgh'])
+         [
+             "When `some_extreme_function()` returns",
+             "For each line of `some_extreme_function()`",
+             "When `remove_html_markup()` returns",
+             "For each line of `remove_html_markup()`"
+         ], "[ord(c) - 100 for c in 'efgh']")
 
 
 # ## Tracing Binary Executables

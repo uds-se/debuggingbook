@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-01-20 16:41:55+01:00
+# Last change: 2021-01-25 23:38:58+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -173,9 +173,7 @@ if __name__ == "__main__":
             "`1` is a subtype of float. It will pass.",
             "`1` is an integer, and no float. The type check will fail.",
             "The function will fail for some other reason."
-        ],
-         1
-        )
+        ], '37035 // 12345')
 
 
 if __name__ == "__main__":
@@ -1061,10 +1059,11 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    quiz("What is p(100, 1)?", [
-        "False",
-        "True"
-    ], p(100, 1) + 1)
+    quiz("What is p(100, 1)?",
+         [
+            "False",
+            "True"
+        ], 'p(100, 1) + 1', globals())
 
 
 if __name__ == "__main__":
@@ -1424,7 +1423,11 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     quiz("Could `InvariantAnnotator` also determine a precondition "
-         "that characterizes _passing_ runs?", ["Yes", "No"], int(math.exp(1)))
+         "that characterizes _passing_ runs?",
+         [
+             "Yes",
+             "No"
+         ], 'int(math.exp(1))', globals())
 
 
 if __package__ is None or __package__ == "":

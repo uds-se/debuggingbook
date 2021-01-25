@@ -14145,10 +14145,10 @@ ZeroDivisionError: float division by zero (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-10-ffe15314321c&gt;&#34;, line 2, in &lt;module&gt;
     x = square_root(-1.0)
-  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
-  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
+  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
+  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -14344,7 +14344,7 @@ enforce.exceptions.RuntimeTypeError:
 
 </div>
 </div>
-</div></div></section><section>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
@@ -14357,9 +14357,7 @@ enforce.exceptions.RuntimeTypeError:
         <span class="s2">&quot;`1` is a subtype of float. It will pass.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;`1` is an integer, and no float. The type check will fail.&quot;</span><span class="p">,</span>
         <span class="s2">&quot;The function will fail for some other reason.&quot;</span>
-    <span class="p">],</span>
-     <span class="mi">1</span>
-    <span class="p">)</span>
+    <span class="p">],</span> <span class="s1">&#39;37035 // 12345&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14380,6 +14378,8 @@ enforce.exceptions.RuntimeTypeError:
 
     
     <script>
+    var answers_ff2c37225f6011eba588acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -14391,11 +14391,13 @@ enforce.exceptions.RuntimeTypeError:
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -14413,6 +14415,13 @@ enforce.exceptions.RuntimeTypeError:
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+            
+            answers_ff2c37225f6011eba588acde48001122++;
+            if (answers_ff2c37225f6011eba588acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -14429,6 +14438,7 @@ enforce.exceptions.RuntimeTypeError:
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
     
@@ -14440,21 +14450,22 @@ enforce.exceptions.RuntimeTypeError:
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-1" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-1-label" for="6ad48090-5f2c-11eb-a588-acde48001122-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-1" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-1-label" for="ff2c3722-5f60-11eb-a588-acde48001122-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
     
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-2" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-2-label" for="6ad48090-5f2c-11eb-a588-acde48001122-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-2" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-2-label" for="ff2c3722-5f60-11eb-a588-acde48001122-2"><code>1</code> is a subtype of float. It will pass.</label><br>
     
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-3" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-3-label" for="6ad48090-5f2c-11eb-a588-acde48001122-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-3" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-3-label" for="ff2c3722-5f60-11eb-a588-acde48001122-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
     
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-4" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-4-label" for="6ad48090-5f2c-11eb-a588-acde48001122-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-4" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-4-label" for="ff2c3722-5f60-11eb-a588-acde48001122-4">The function will fail for some other reason.</label><br>
     
     </div>
     </p>
-    <input id="6ad48090-5f2c-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('6ad48090-5f2c-11eb-a588-acde48001122', 2, 0)">
+    <input id="ff2c3722-5f60-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ff2c3722-5f60-11eb-a588-acde48001122', 8, 0, '37035 // 12345')">
+    <span class="quiz_hint" id="ff2c3722-5f60-11eb-a588-acde48001122-hint"></span>
     </div>
     
 </div>
@@ -14464,7 +14475,7 @@ enforce.exceptions.RuntimeTypeError:
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -14472,7 +14483,7 @@ enforce.exceptions.RuntimeTypeError:
 
 </div>
 </div>
-</div></div></section><section>
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
@@ -14678,7 +14689,7 @@ enforce.exceptions.RuntimeTypeError:
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpscsuqhes.py&#39;</pre>
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmphz13x3x0.py&#39;</pre>
 </div>
 
 </div>
@@ -16619,10 +16630,11 @@ AssertionError: Postcondition violated (expected)
 <div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What is p(100, 1)?&quot;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s2">&quot;False&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;True&quot;</span>
-<span class="p">],</span> <span class="n">p</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What is p(100, 1)?&quot;</span><span class="p">,</span>
+     <span class="p">[</span>
+        <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;True&quot;</span>
+    <span class="p">],</span> <span class="s1">&#39;p(100, 1) + 1&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -16643,6 +16655,8 @@ AssertionError: Postcondition violated (expected)
 
     
     <script>
+    var answers_0098ee865f6111eb8163acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -16654,11 +16668,13 @@ AssertionError: Postcondition violated (expected)
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -16676,6 +16692,13 @@ AssertionError: Postcondition violated (expected)
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+            
+            answers_0098ee865f6111eb8163acde48001122++;
+            if (answers_0098ee865f6111eb8163acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -16692,6 +16715,7 @@ AssertionError: Postcondition violated (expected)
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
     
@@ -16703,15 +16727,16 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="6c4cfc7a-5f2c-11eb-8163-acde48001122" id="6c4cfc7a-5f2c-11eb-8163-acde48001122-1" onclick="clear_selection('6c4cfc7a-5f2c-11eb-8163-acde48001122')">
-        <label id="6c4cfc7a-5f2c-11eb-8163-acde48001122-1-label" for="6c4cfc7a-5f2c-11eb-8163-acde48001122-1">False</label><br>
+        <input type="radio" name="0098ee86-5f61-11eb-8163-acde48001122" id="0098ee86-5f61-11eb-8163-acde48001122-1" onclick="clear_selection('0098ee86-5f61-11eb-8163-acde48001122')">
+        <label id="0098ee86-5f61-11eb-8163-acde48001122-1-label" for="0098ee86-5f61-11eb-8163-acde48001122-1">False</label><br>
     
-        <input type="radio" name="6c4cfc7a-5f2c-11eb-8163-acde48001122" id="6c4cfc7a-5f2c-11eb-8163-acde48001122-2" onclick="clear_selection('6c4cfc7a-5f2c-11eb-8163-acde48001122')">
-        <label id="6c4cfc7a-5f2c-11eb-8163-acde48001122-2-label" for="6c4cfc7a-5f2c-11eb-8163-acde48001122-2">True</label><br>
+        <input type="radio" name="0098ee86-5f61-11eb-8163-acde48001122" id="0098ee86-5f61-11eb-8163-acde48001122-2" onclick="clear_selection('0098ee86-5f61-11eb-8163-acde48001122')">
+        <label id="0098ee86-5f61-11eb-8163-acde48001122-2-label" for="0098ee86-5f61-11eb-8163-acde48001122-2">True</label><br>
     
     </div>
     </p>
-    <input id="6c4cfc7a-5f2c-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('6c4cfc7a-5f2c-11eb-8163-acde48001122', 4, 0)">
+    <input id="0098ee86-5f61-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0098ee86-5f61-11eb-8163-acde48001122', 4, 0, 'p(100, 1) + 1')">
+    <span class="quiz_hint" id="0098ee86-5f61-11eb-8163-acde48001122-hint"></span>
     </div>
     
 </div>
@@ -18455,7 +18480,11 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Could `InvariantAnnotator` also determine a precondition &quot;</span>
-     <span class="s2">&quot;that characterizes _passing_ runs?&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+     <span class="s2">&quot;that characterizes _passing_ runs?&quot;</span><span class="p">,</span>
+     <span class="p">[</span>
+         <span class="s2">&quot;Yes&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;No&quot;</span>
+     <span class="p">],</span> <span class="s1">&#39;int(math.exp(1))&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -18476,6 +18505,8 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
     
     <script>
+    var answers_04ea629c5f6111eb88a0acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -18487,11 +18518,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -18509,6 +18542,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+            
+            answers_04ea629c5f6111eb88a0acde48001122++;
+            if (answers_04ea629c5f6111eb88a0acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -18525,6 +18565,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
     
@@ -18536,15 +18577,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="7050cf92-5f2c-11eb-88a0-acde48001122" id="7050cf92-5f2c-11eb-88a0-acde48001122-1" onclick="clear_selection('7050cf92-5f2c-11eb-88a0-acde48001122')">
-        <label id="7050cf92-5f2c-11eb-88a0-acde48001122-1-label" for="7050cf92-5f2c-11eb-88a0-acde48001122-1">Yes</label><br>
+        <input type="radio" name="04ea629c-5f61-11eb-88a0-acde48001122" id="04ea629c-5f61-11eb-88a0-acde48001122-1" onclick="clear_selection('04ea629c-5f61-11eb-88a0-acde48001122')">
+        <label id="04ea629c-5f61-11eb-88a0-acde48001122-1-label" for="04ea629c-5f61-11eb-88a0-acde48001122-1">Yes</label><br>
     
-        <input type="radio" name="7050cf92-5f2c-11eb-88a0-acde48001122" id="7050cf92-5f2c-11eb-88a0-acde48001122-2" onclick="clear_selection('7050cf92-5f2c-11eb-88a0-acde48001122')">
-        <label id="7050cf92-5f2c-11eb-88a0-acde48001122-2-label" for="7050cf92-5f2c-11eb-88a0-acde48001122-2">No</label><br>
+        <input type="radio" name="04ea629c-5f61-11eb-88a0-acde48001122" id="04ea629c-5f61-11eb-88a0-acde48001122-2" onclick="clear_selection('04ea629c-5f61-11eb-88a0-acde48001122')">
+        <label id="04ea629c-5f61-11eb-88a0-acde48001122-2-label" for="04ea629c-5f61-11eb-88a0-acde48001122-2">No</label><br>
     
     </div>
     </p>
-    <input id="7050cf92-5f2c-11eb-88a0-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7050cf92-5f2c-11eb-88a0-acde48001122', 4, 0)">
+    <input id="04ea629c-5f61-11eb-88a0-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('04ea629c-5f61-11eb-88a0-acde48001122', 4, 0, 'int(math.exp(1))')">
+    <span class="quiz_hint" id="04ea629c-5f61-11eb-88a0-acde48001122-hint"></span>
     </div>
     
 </div>

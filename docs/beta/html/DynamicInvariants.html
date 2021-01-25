@@ -12336,10 +12336,10 @@ ZeroDivisionError: float division by zero (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-10-ffe15314321c&gt;&#34;, line 2, in &lt;module&gt;
     x = square_root(-1.0)
-  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
-  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 6, in square_root
-    approx = guess
+  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
+  File &#34;&lt;ipython-input-6-683ba30bb699&gt;&#34;, line 7, in square_root
+    guess = (approx + x / approx) / 2
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -12560,6 +12560,8 @@ enforce.exceptions.RuntimeTypeError:
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_ff2c37225f6011eba588acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -12571,11 +12573,13 @@ enforce.exceptions.RuntimeTypeError:
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -12593,6 +12597,13 @@ enforce.exceptions.RuntimeTypeError:
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_ff2c37225f6011eba588acde48001122++;
+            if (answers_ff2c37225f6011eba588acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -12609,6 +12620,7 @@ enforce.exceptions.RuntimeTypeError:
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -12620,21 +12632,22 @@ enforce.exceptions.RuntimeTypeError:
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-1" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-1-label" for="6ad48090-5f2c-11eb-a588-acde48001122-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-1" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-1-label" for="ff2c3722-5f60-11eb-a588-acde48001122-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
 
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-2" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-2-label" for="6ad48090-5f2c-11eb-a588-acde48001122-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-2" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-2-label" for="ff2c3722-5f60-11eb-a588-acde48001122-2"><code>1</code> is a subtype of float. It will pass.</label><br>
 
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-3" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-3-label" for="6ad48090-5f2c-11eb-a588-acde48001122-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-3" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-3-label" for="ff2c3722-5f60-11eb-a588-acde48001122-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
 
-        <input type="radio" name="6ad48090-5f2c-11eb-a588-acde48001122" id="6ad48090-5f2c-11eb-a588-acde48001122-4" onclick="clear_selection('6ad48090-5f2c-11eb-a588-acde48001122')">
-        <label id="6ad48090-5f2c-11eb-a588-acde48001122-4-label" for="6ad48090-5f2c-11eb-a588-acde48001122-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="ff2c3722-5f60-11eb-a588-acde48001122" id="ff2c3722-5f60-11eb-a588-acde48001122-4" onclick="clear_selection('ff2c3722-5f60-11eb-a588-acde48001122')">
+        <label id="ff2c3722-5f60-11eb-a588-acde48001122-4-label" for="ff2c3722-5f60-11eb-a588-acde48001122-4">The function will fail for some other reason.</label><br>
 
     </div>
     </p>
-    <input id="6ad48090-5f2c-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('6ad48090-5f2c-11eb-a588-acde48001122', 2, 0)">
+    <input id="ff2c3722-5f60-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ff2c3722-5f60-11eb-a588-acde48001122', 8, 0, '37035 // 12345')">
+    <span class="quiz_hint" id="ff2c3722-5f60-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -12844,7 +12857,7 @@ enforce.exceptions.RuntimeTypeError:
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpscsuqhes.py&#39;
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmphz13x3x0.py&#39;
 </pre>
 </div>
 
@@ -16647,6 +16660,8 @@ AssertionError: Postcondition violated (expected)
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_0098ee865f6111eb8163acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -16658,11 +16673,13 @@ AssertionError: Postcondition violated (expected)
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -16680,6 +16697,13 @@ AssertionError: Postcondition violated (expected)
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_0098ee865f6111eb8163acde48001122++;
+            if (answers_0098ee865f6111eb8163acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -16696,6 +16720,7 @@ AssertionError: Postcondition violated (expected)
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -16707,15 +16732,16 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="6c4cfc7a-5f2c-11eb-8163-acde48001122" id="6c4cfc7a-5f2c-11eb-8163-acde48001122-1" onclick="clear_selection('6c4cfc7a-5f2c-11eb-8163-acde48001122')">
-        <label id="6c4cfc7a-5f2c-11eb-8163-acde48001122-1-label" for="6c4cfc7a-5f2c-11eb-8163-acde48001122-1">False</label><br>
+        <input type="radio" name="0098ee86-5f61-11eb-8163-acde48001122" id="0098ee86-5f61-11eb-8163-acde48001122-1" onclick="clear_selection('0098ee86-5f61-11eb-8163-acde48001122')">
+        <label id="0098ee86-5f61-11eb-8163-acde48001122-1-label" for="0098ee86-5f61-11eb-8163-acde48001122-1">False</label><br>
 
-        <input type="radio" name="6c4cfc7a-5f2c-11eb-8163-acde48001122" id="6c4cfc7a-5f2c-11eb-8163-acde48001122-2" onclick="clear_selection('6c4cfc7a-5f2c-11eb-8163-acde48001122')">
-        <label id="6c4cfc7a-5f2c-11eb-8163-acde48001122-2-label" for="6c4cfc7a-5f2c-11eb-8163-acde48001122-2">True</label><br>
+        <input type="radio" name="0098ee86-5f61-11eb-8163-acde48001122" id="0098ee86-5f61-11eb-8163-acde48001122-2" onclick="clear_selection('0098ee86-5f61-11eb-8163-acde48001122')">
+        <label id="0098ee86-5f61-11eb-8163-acde48001122-2-label" for="0098ee86-5f61-11eb-8163-acde48001122-2">True</label><br>
 
     </div>
     </p>
-    <input id="6c4cfc7a-5f2c-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('6c4cfc7a-5f2c-11eb-8163-acde48001122', 4, 0)">
+    <input id="0098ee86-5f61-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('0098ee86-5f61-11eb-8163-acde48001122', 4, 0, 'p(100, 1) + 1')">
+    <span class="quiz_hint" id="0098ee86-5f61-11eb-8163-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -18342,6 +18368,8 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_04ea629c5f6111eb88a0acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -18353,11 +18381,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -18375,6 +18405,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_04ea629c5f6111eb88a0acde48001122++;
+            if (answers_04ea629c5f6111eb88a0acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -18391,6 +18428,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -18402,15 +18440,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="7050cf92-5f2c-11eb-88a0-acde48001122" id="7050cf92-5f2c-11eb-88a0-acde48001122-1" onclick="clear_selection('7050cf92-5f2c-11eb-88a0-acde48001122')">
-        <label id="7050cf92-5f2c-11eb-88a0-acde48001122-1-label" for="7050cf92-5f2c-11eb-88a0-acde48001122-1">Yes</label><br>
+        <input type="radio" name="04ea629c-5f61-11eb-88a0-acde48001122" id="04ea629c-5f61-11eb-88a0-acde48001122-1" onclick="clear_selection('04ea629c-5f61-11eb-88a0-acde48001122')">
+        <label id="04ea629c-5f61-11eb-88a0-acde48001122-1-label" for="04ea629c-5f61-11eb-88a0-acde48001122-1">Yes</label><br>
 
-        <input type="radio" name="7050cf92-5f2c-11eb-88a0-acde48001122" id="7050cf92-5f2c-11eb-88a0-acde48001122-2" onclick="clear_selection('7050cf92-5f2c-11eb-88a0-acde48001122')">
-        <label id="7050cf92-5f2c-11eb-88a0-acde48001122-2-label" for="7050cf92-5f2c-11eb-88a0-acde48001122-2">No</label><br>
+        <input type="radio" name="04ea629c-5f61-11eb-88a0-acde48001122" id="04ea629c-5f61-11eb-88a0-acde48001122-2" onclick="clear_selection('04ea629c-5f61-11eb-88a0-acde48001122')">
+        <label id="04ea629c-5f61-11eb-88a0-acde48001122-2-label" for="04ea629c-5f61-11eb-88a0-acde48001122-2">No</label><br>
 
     </div>
     </p>
-    <input id="7050cf92-5f2c-11eb-88a0-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7050cf92-5f2c-11eb-88a0-acde48001122', 4, 0)">
+    <input id="04ea629c-5f61-11eb-88a0-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('04ea629c-5f61-11eb-88a0-acde48001122', 4, 0, 'int(math.exp(1))')">
+    <span class="quiz_hint" id="04ea629c-5f61-11eb-88a0-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -19505,12 +19544,10 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2021-01-20 16:41:55+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2021-01-25 23:38:58+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
-
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Mining Function Specifications" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -19523,7 +19560,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">https://www.debuggingbook.org/beta/html/DynamicInvariants.html</a>.  Retrieved 2021-01-20 16:41:55+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">https://www.debuggingbook.org/beta/html/DynamicInvariants.html</a>.  Retrieved 2021-01-25 23:38:58+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:DynamicInvariants,
@@ -19533,9 +19570,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvaria
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DynamicInvariants.html}},
-    note = {Retrieved 2021-01-20 16:41:55+01:00},
+    note = {Retrieved 2021-01-25 23:38:58+01:00},
     url = {https://www.debuggingbook.org/beta/html/DynamicInvariants.html},
-    urldate = {2021-01-20 16:41:55+01:00}
+    urldate = {2021-01-25 23:38:58+01:00}
 }
 </pre>
 </div>

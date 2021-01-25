@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2021-01-17 15:28:20+01:00
+# Last change: 2021-01-25 23:15:47+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -529,12 +529,14 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     quiz("From the difference between success and failure,"
          " we can already devise some observations about "
-         " what's wrong with the output."
+         " what is wrong with the output."
          " Which of these can we turn into general hypotheses?",
-        ["Double quotes are stripped from the tagged input.",
-         "Tags in double quotes are not stripped.",
-         "The tag '&lt;b&gt;' is always stripped from the input.",
-         "Four-letter words are stripped."], [298 % 33, 1234 % 616])
+        [
+            "Double quotes (`\"`) are stripped from the tagged input.",
+            "Tags in double quotes are not stripped.",
+            "The tag `<>` is always stripped from the input.",
+            "Four-letter words are stripped."
+        ], '[298 % 33, 1234 % 616]')
 
 
 # ### Testing a Hypothesis
@@ -578,10 +580,11 @@ def remove_html_markup_with_tag_assert(s):
 
 if __name__ == "__main__":
     quiz("What happens after inserting the above assertion?",
-        ["The program raises an exception. (i.e., tag is set)",
-         "The output is as before, i.e., foo without quotes."
-         " (which means that tag is not set)"],
-         2)
+        [
+            "The program raises an exception. (i.e., `tag` is set)",
+            "The output is as before, i.e., `foo` without quotes."
+            " (which means that `tag` is not set)"
+        ], 2)
 
 
 if __name__ == "__main__":
@@ -618,8 +621,10 @@ def remove_html_markup_with_quote_assert(s):
 
 if __name__ == "__main__":
     quiz("What happens after inserting the 'assert' tag?",
-    ["The program raises an exception (i.e., the quote condition holds)",
-     "The output is still foo (i.e., the quote condition does not hold)"], 29 % 7)
+        [
+            "The program raises an exception (i.e., the quote condition holds)",
+            "The output is still foo (i.e., the quote condition does not hold)"
+        ], 29 % 7)
 
 
 if __name__ == "__main__":
@@ -633,8 +638,13 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     quiz("How should the condition read?",
-         ["Choice 1", "Choice 2", "Choice 3", "Something else"],
-         399 % 4)
+         [
+             '''`c == "" or c == '' and tag` (Choice 1)''',
+             '''`c == '"' or c == "'" and not tag` (Choice 2)''',
+             '''`(c == '"' or c == "'") and tag` (Choice 3)''',
+             "Something else"
+         ],
+         '399 % 4')
 
 
 # ## Fixing the Bug
@@ -731,11 +741,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     quiz("Which assertion would have caught the problem?",
-        ["assert quote and not tag",
-         "assert quote or not tag",
-         "assert tag or not quote",
-         "assert tag and not quote"],
-        3270 - 3267)
+         [
+            "`assert quote and not tag`",
+            "`assert quote or not tag`",
+            "`assert tag or not quote`",
+            "`assert tag and not quote`"
+         ], '3270 - 3267')
 
 
 if __name__ == "__main__":
@@ -819,7 +830,9 @@ if __name__ == "__main__":
 
 import hashlib
 
-bughash = hashlib.md5(b"debug").hexdigest()
+if __name__ == "__main__":
+    bughash = hashlib.md5(b"debug").hexdigest()
+
 
 if __name__ == "__main__":
     quiz('Where has the name "bug" been used to denote disruptive events?',
@@ -831,9 +844,7 @@ if __name__ == "__main__":
             "In Shakespeare's " '"Henry VI", referring to a walking spectre',
             'In Middle English, where the word "bugge" is the basis for terms '
               'like "bugbear" and "bugaboo"'
-         ],
-        [bughash.index(i) for i in "d42f"]
-        )
+         ], [bughash.index(i) for i in "d42f"])
 
 
 # ## Synopsis

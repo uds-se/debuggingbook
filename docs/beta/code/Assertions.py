@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-01-25 17:16:44+01:00
+# Last change: 2021-01-26 00:12:43+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -140,7 +140,7 @@ else:
 
 
 if __name__ == "__main__":
-    print_content(open('testassert.c').read())
+    print_content(open('testassert.c').read(), '.h')
 
 
 if __name__ == "__main__":
@@ -172,7 +172,7 @@ if __name__ == "__main__":
 
 
 if __name__ == "__main__":
-    print_content(open('assert.h').read())
+    print_content(open('assert.h').read(), '.h')
 
 
 if __name__ == "__main__":
@@ -206,9 +206,7 @@ if __name__ == "__main__":
              "The location of the assertion in the program",
              "The list of callers",
              "All of the above"
-         ],
-         123456789 % 5
-        )
+         ], '123456789 % 5')
 
 
 if __name__ == "__main__":
@@ -257,9 +255,7 @@ if __name__ == "__main__":
          [
              "Yes, since `>=` is only defined between numbers",
              "No, because an empty list or string would evaluate to 0"
-         ],
-         0b10 - 0b01
-        )
+         ], '0b10 - 0b01')
 
 
 if __name__ == "__main__":
@@ -287,9 +283,7 @@ if __name__ == "__main__":
              "We may encounter rounding errors",
              "The value of `x` may have changed during computation",
              "The interpreter / compiler may be buggy"
-         ],
-        0b110011 - 0o61
-        )
+         ], '0b110011 - 0o61')
 
 
 import math
@@ -353,8 +347,10 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     quiz("Is there a value for x that satisfies the precondition, "
         "but fails the postcondition?",
-         [ "Yes", "No" ],
-         int("Y" in "Yes"))
+         [ 
+             "Yes",
+             "No"
+         ], 'int("Y" in "Yes")')
 
 
 # ### Partial Checks
@@ -413,7 +409,7 @@ if __name__ == "__main__":
             '`"foo"`',
             '`>foo<`',
             '`"x > y"`'
-        ], 1 + 1 -(-1) + (1 * -1) + 1 ** (1 - 1) + 1)
+        ], '1 + 1 -(-1) + (1 * -1) + 1 ** (1 - 1) + 1')
 
 
 if __name__ == "__main__":
@@ -445,9 +441,7 @@ if __name__ == "__main__":
             "It returns the minimum value out of `x`, `y`, `z`",
             "It returns the middle value out of `x`, `y`, `z`",
             "It returns the maximum value out of `x`, `y`, `z`",
-        ],
-          int(0.5 ** math.cos(math.pi))
-        )
+        ], 'int(0.5 ** math.cos(math.pi))', globals())
 
 
 # ### Using Assertions to Trivially Locate Defects
@@ -467,9 +461,7 @@ if __name__ == "__main__":
             "Both `f()` and `g()`"
             " because they are incompatible",
             "None of the above"
-         ],
-         math.factorial(int(math.tau / math.pi))
-        )
+         ], 'math.factorial(int(math.tau / math.pi))', globals())
 
 
 # ## Checking Data Structures

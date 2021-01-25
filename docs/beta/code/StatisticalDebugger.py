@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-25 17:16:44+01:00
+# Last change: 2021-01-25 23:42:50+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -266,7 +266,7 @@ if __name__ == "__main__":
              "`tag = False`",
              "`quote = not quote`",
              "`out = out + c`"
-         ], [ord(c) - ord('a') - 1 for c in 'cdf'])
+         ], "[ord(c) - ord('a') - 1 for c in 'cdf']")
 
 
 if __name__ == "__main__":
@@ -517,7 +517,11 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     quiz("How many lines are executed in the failing run only?",
-        ["One", "Two", "Three"], int(chr(50)))
+         [
+             "One",
+             "Two",
+             "Three"
+         ], 'int(chr(50))')
 
 
 # ### Collecting Passing and Failing Runs
@@ -816,9 +820,7 @@ if __name__ == "__main__":
         [
             "Yes, it should be fixed",
             "No, the defect is elsewhere"
-        ],
-         164 * 2 % 326
-        )
+        ], '164 * 2 % 326')
 
 
 if __name__ == "__main__":
@@ -968,9 +970,7 @@ if __name__ == "__main__":
             '<span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span>',
             '<span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span>',
             '<span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span>'
-        ],
-         999 / 333
-        )
+        ], '999 / 333')
 
 
 if __name__ == "__main__":
@@ -1032,9 +1032,7 @@ if __name__ == "__main__":
             '<span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: `elif x < z`</span>',
             '<span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: `return y`</span>',
             '<span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: `return y`</span>',
-        ],
-         len(" middle \n".strip()[:3])
-        )
+        ], r'len(" middle  ".strip()[:3])')
 
 
 def middle_fixed(x, y, z):

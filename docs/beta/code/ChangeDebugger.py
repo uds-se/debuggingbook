@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-01-23 13:43:57+01:00
+# Last change: 2021-01-25 23:00:21+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -770,7 +770,7 @@ if __name__ == "__main__":
              "The condition after `if c == '<'` is expanded",
              "The tag variable gets a different value",
              "None of the above"
-         ], 1 / 1 + 1 ** 1 - 1 % 1 * 1)
+         ], '1 / 1 + 1 ** 1 - 1 % 1 * 1')
 
 
 # ## Delta Debugging on Patches

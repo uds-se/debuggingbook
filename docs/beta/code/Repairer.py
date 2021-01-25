@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-01-25 17:16:44+01:00
+# Last change: 2021-01-25 23:19:20+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -591,9 +591,7 @@ if __name__ == "__main__":
              "Because in Python, bodies for `if`, `while`, etc. cannot be empty",
              "Because a `pass` node makes a target for future mutations",
              "Because it causes the tests to pass"
-         ],
-         [3 ^ n for n in range(3)]
-        )
+         ], '[3 ^ n for n in range(3)]')
 
 
 # #### Helpers
@@ -833,9 +831,7 @@ if __name__ == "__main__":
             "Line 4: `if x > z`",
             "Line 5: `return x`",
             "Line 13: `return z`"
-        ],
-        [eval(chr(100 - x)) for x in [49, 50]]
-        )
+        ], '[eval(chr(100 - x)) for x in [49, 50]]')
 
 
 # ## Simplifying
@@ -1801,7 +1797,7 @@ if __name__ == "__main__":
              "We need more iterations!",
              "There is no statement in the source with a correct condition!",
              "The population is too big!",
-         ], 5242880 >> 20)
+         ], '5242880 >> 20')
 
 
 # ## Mutating Conditions

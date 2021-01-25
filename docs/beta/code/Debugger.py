@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-01-23 13:09:42+01:00
+# Last change: 2021-01-25 23:02:04+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -450,7 +450,7 @@ if __name__ == "__main__":
              "A breakpoint is set in Line 5.",
              "Two breakpoints are set in Lines 2 and 3.",
              "The debugger raises a `ValueError` exception."
-         ], 12345 % 7)
+         ], '12345 % 7')
 
 
 # ## Deleting Breakpoints
@@ -497,7 +497,7 @@ if __name__ == "__main__":
             "It lists all breakpoints",
             "It stops execution"
         ],
-        [n for n in range(2 // 2, 2 * 2) if n % 2 / 2]
+        '[n for n in range(2 // 2, 2 * 2) if n % 2 / 2]'
         )
 
 

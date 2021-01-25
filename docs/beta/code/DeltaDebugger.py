@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-25 17:16:44+01:00
+# Last change: 2021-01-25 23:03:17+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -989,7 +989,7 @@ if __name__ == "__main__":
             "Delta debugging starts a fuzzer to find an exception",
             "Delta debugging raises an exception"
             "Delta debugging runs forever in a loop",
-        ], 0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1)
+        ], '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')
 
 
 if __name__ == "__main__":
@@ -1196,7 +1196,7 @@ if __name__ == "__main__":
              "Only the source code of `remove_html_markup()`",
              "Only a subset of `remove_html_markup()`",
              "No lines at all."
-         ], [x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1])
+         ], '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')
 
 
 if __name__ == "__main__":
@@ -1258,8 +1258,7 @@ if __name__ == "__main__":
             "Blank lines are deleted",
             "Initializations are deleted",
             "The assertion is deleted",
-        ], [(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]
-        )
+        ], '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')
 
 
 # ### Reducing Code Characters

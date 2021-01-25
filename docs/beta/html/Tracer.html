@@ -12122,7 +12122,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="36" y="-50.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">EventTracer</text>
 <polyline fill="none" stroke="#000000" points="21,-41.5 134,-41.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="EventTracer">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f85ad0349e8&gt;, condition=None, events=[]):&#10;Constructor. `events` is a list of expressions to watch.">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd03580c9b0&gt;, condition=None, events=[]):&#10;Constructor. `events` is a list of expressions to watch.">
 <text text-anchor="start" x="29.5" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -12147,7 +12147,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="16.5" y="-162.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ConditionalTracer</text>
 <polyline fill="none" stroke="#000000" points="8.5,-153.5 146.5,-153.5 "/>
 <g id="a_node2_4"><a xlink:href="#" xlink:title="ConditionalTracer">
-<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f85ad0349e8&gt;, condition=None):&#10;Constructor. Trace all events for which `condition` (a Python expr) holds.">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd03580c9b0&gt;, condition=None):&#10;Constructor. Trace all events for which `condition` (a Python expr) holds.">
 <text text-anchor="start" x="26.5" y="-142.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -12190,7 +12190,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="8.5" y="-287.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f85ad0349e8&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
+<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd03580c9b0&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
 <text text-anchor="start" x="8.5" y="-276.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -12565,25 +12565,13 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 </div>
 </div>
 
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/math.html" class="import" target="_blank">math</a></span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
 <div class="output_area">
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_b6921b4c5f6011eba588acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -12595,11 +12583,13 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -12617,6 +12607,13 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_b6921b4c5f6011eba588acde48001122++;
+            if (answers_b6921b4c5f6011eba588acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -12633,32 +12630,34 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
     <div class="quiz">
     <h3 class="quiz_title">Quiz</h3>
     <p>
-    <div class="quiz_question">What happens if the tracing function returns <code>None</code> while tracing function <code>f()</code>? Lookup <code>sys.setttrace()</code> in the Python documentation or try it out yourself.</div>
+    <div class="quiz_question">What happens if the tracing function returns <code>None</code> while tracing function <code>f()</code>? Lookup <a href="https://docs.python.org/3/library/sys.html"><code>sys.setttrace()</code> in the Python documentation</a> or try it out yourself.</div>
     </p>
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="6474975e-5f3a-11eb-a588-acde48001122" id="6474975e-5f3a-11eb-a588-acde48001122-1" onclick="clear_selection('6474975e-5f3a-11eb-a588-acde48001122')">
-        <label id="6474975e-5f3a-11eb-a588-acde48001122-1-label" for="6474975e-5f3a-11eb-a588-acde48001122-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
+        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-1" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
+        <label id="b6921b4c-5f60-11eb-a588-acde48001122-1-label" for="b6921b4c-5f60-11eb-a588-acde48001122-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
 
-        <input type="radio" name="6474975e-5f3a-11eb-a588-acde48001122" id="6474975e-5f3a-11eb-a588-acde48001122-2" onclick="clear_selection('6474975e-5f3a-11eb-a588-acde48001122')">
-        <label id="6474975e-5f3a-11eb-a588-acde48001122-2-label" for="6474975e-5f3a-11eb-a588-acde48001122-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
+        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-2" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
+        <label id="b6921b4c-5f60-11eb-a588-acde48001122-2-label" for="b6921b4c-5f60-11eb-a588-acde48001122-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
 
-        <input type="radio" name="6474975e-5f3a-11eb-a588-acde48001122" id="6474975e-5f3a-11eb-a588-acde48001122-3" onclick="clear_selection('6474975e-5f3a-11eb-a588-acde48001122')">
-        <label id="6474975e-5f3a-11eb-a588-acde48001122-3-label" for="6474975e-5f3a-11eb-a588-acde48001122-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
+        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-3" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
+        <label id="b6921b4c-5f60-11eb-a588-acde48001122-3-label" for="b6921b4c-5f60-11eb-a588-acde48001122-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
 
-        <input type="radio" name="6474975e-5f3a-11eb-a588-acde48001122" id="6474975e-5f3a-11eb-a588-acde48001122-4" onclick="clear_selection('6474975e-5f3a-11eb-a588-acde48001122')">
-        <label id="6474975e-5f3a-11eb-a588-acde48001122-4-label" for="6474975e-5f3a-11eb-a588-acde48001122-4">Nothing changes</label><br>
+        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-4" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
+        <label id="b6921b4c-5f60-11eb-a588-acde48001122-4-label" for="b6921b4c-5f60-11eb-a588-acde48001122-4">Nothing changes</label><br>
 
     </div>
     </p>
-    <input id="6474975e-5f3a-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('6474975e-5f3a-11eb-a588-acde48001122', 4, 0)">
+    <input id="b6921b4c-5f60-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b6921b4c-5f60-11eb-a588-acde48001122', 4, 0, 'math.log(7.38905609893065)')">
+    <span class="quiz_hint" id="b6921b4c-5f60-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -13604,6 +13603,8 @@ remove_html_markup() returns &#39;x&#39;
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_b6e012685f6011eb8163acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -13615,11 +13616,13 @@ remove_html_markup() returns &#39;x&#39;
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -13637,6 +13640,13 @@ remove_html_markup() returns &#39;x&#39;
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_b6e012685f6011eb8163acde48001122++;
+            if (answers_b6e012685f6011eb8163acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -13653,6 +13663,7 @@ remove_html_markup() returns &#39;x&#39;
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -13664,18 +13675,19 @@ remove_html_markup() returns &#39;x&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="64b5b25c-5f3a-11eb-8163-acde48001122" id="64b5b25c-5f3a-11eb-8163-acde48001122-1" onclick="clear_selection('64b5b25c-5f3a-11eb-8163-acde48001122')">
-        <label id="64b5b25c-5f3a-11eb-8163-acde48001122-1-label" for="64b5b25c-5f3a-11eb-8163-acde48001122-1">The tracer stops, raising an exception</label><br>
+        <input type="radio" name="b6e01268-5f60-11eb-8163-acde48001122" id="b6e01268-5f60-11eb-8163-acde48001122-1" onclick="clear_selection('b6e01268-5f60-11eb-8163-acde48001122')">
+        <label id="b6e01268-5f60-11eb-8163-acde48001122-1-label" for="b6e01268-5f60-11eb-8163-acde48001122-1">The tracer stops, raising an exception</label><br>
 
-        <input type="radio" name="64b5b25c-5f3a-11eb-8163-acde48001122" id="64b5b25c-5f3a-11eb-8163-acde48001122-2" onclick="clear_selection('64b5b25c-5f3a-11eb-8163-acde48001122')">
-        <label id="64b5b25c-5f3a-11eb-8163-acde48001122-2-label" for="64b5b25c-5f3a-11eb-8163-acde48001122-2">The tracer continues as if the condition were True</label><br>
+        <input type="radio" name="b6e01268-5f60-11eb-8163-acde48001122" id="b6e01268-5f60-11eb-8163-acde48001122-2" onclick="clear_selection('b6e01268-5f60-11eb-8163-acde48001122')">
+        <label id="b6e01268-5f60-11eb-8163-acde48001122-2-label" for="b6e01268-5f60-11eb-8163-acde48001122-2">The tracer continues as if the condition were <code>True</code></label><br>
 
-        <input type="radio" name="64b5b25c-5f3a-11eb-8163-acde48001122" id="64b5b25c-5f3a-11eb-8163-acde48001122-3" onclick="clear_selection('64b5b25c-5f3a-11eb-8163-acde48001122')">
-        <label id="64b5b25c-5f3a-11eb-8163-acde48001122-3-label" for="64b5b25c-5f3a-11eb-8163-acde48001122-3">The tracer continues as if the condition were False</label><br>
+        <input type="radio" name="b6e01268-5f60-11eb-8163-acde48001122" id="b6e01268-5f60-11eb-8163-acde48001122-3" onclick="clear_selection('b6e01268-5f60-11eb-8163-acde48001122')">
+        <label id="b6e01268-5f60-11eb-8163-acde48001122-3-label" for="b6e01268-5f60-11eb-8163-acde48001122-3">The tracer continues as if the condition were <code>False</code></label><br>
 
     </div>
     </p>
-    <input id="64b5b25c-5f3a-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('64b5b25c-5f3a-11eb-8163-acde48001122', 2, 0)">
+    <input id="b6e01268-5f60-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b6e01268-5f60-11eb-8163-acde48001122', 2, 0, '393 % 7')">
+    <span class="quiz_hint" id="b6e01268-5f60-11eb-8163-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -13837,6 +13849,8 @@ SyntaxError: unexpected EOF while parsing (expected)
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_b6e7969e5f6011eb9732acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -13848,11 +13862,13 @@ SyntaxError: unexpected EOF while parsing (expected)
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -13870,6 +13886,13 @@ SyntaxError: unexpected EOF while parsing (expected)
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_b6e7969e5f6011eb9732acde48001122++;
+            if (answers_b6e7969e5f6011eb9732acde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -13886,6 +13909,7 @@ SyntaxError: unexpected EOF while parsing (expected)
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -13897,15 +13921,16 @@ SyntaxError: unexpected EOF while parsing (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="64bbd20c-5f3a-11eb-9732-acde48001122" id="64bbd20c-5f3a-11eb-9732-acde48001122-1" onclick="clear_selection('64bbd20c-5f3a-11eb-9732-acde48001122')">
-        <label id="64bbd20c-5f3a-11eb-9732-acde48001122-1-label" for="64bbd20c-5f3a-11eb-9732-acde48001122-1"><code>line</code> as in the debugger</label><br>
+        <input type="radio" name="b6e7969e-5f60-11eb-9732-acde48001122" id="b6e7969e-5f60-11eb-9732-acde48001122-1" onclick="clear_selection('b6e7969e-5f60-11eb-9732-acde48001122')">
+        <label id="b6e7969e-5f60-11eb-9732-acde48001122-1-label" for="b6e7969e-5f60-11eb-9732-acde48001122-1"><code>line</code> as in the debugger</label><br>
 
-        <input type="radio" name="64bbd20c-5f3a-11eb-9732-acde48001122" id="64bbd20c-5f3a-11eb-9732-acde48001122-2" onclick="clear_selection('64bbd20c-5f3a-11eb-9732-acde48001122')">
-        <label id="64bbd20c-5f3a-11eb-9732-acde48001122-2-label" for="64bbd20c-5f3a-11eb-9732-acde48001122-2"><code>line</code> as in the program</label><br>
+        <input type="radio" name="b6e7969e-5f60-11eb-9732-acde48001122" id="b6e7969e-5f60-11eb-9732-acde48001122-2" onclick="clear_selection('b6e7969e-5f60-11eb-9732-acde48001122')">
+        <label id="b6e7969e-5f60-11eb-9732-acde48001122-2-label" for="b6e7969e-5f60-11eb-9732-acde48001122-2"><code>line</code> as in the program</label><br>
 
     </div>
     </p>
-    <input id="64bbd20c-5f3a-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('64bbd20c-5f3a-11eb-9732-acde48001122', 2, 0)">
+    <input id="b6e7969e-5f60-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b6e7969e-5f60-11eb-9732-acde48001122', 2, 0, '(326 * 27 == 8888) + 1')">
+    <span class="quiz_hint" id="b6e7969e-5f60-11eb-9732-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -14173,7 +14198,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.002674186000149348
+<pre>0.002662262999365339
 </pre>
 </div>
 
@@ -14210,7 +14235,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.9665987429998495
+<pre>1.0117534609998984
 </pre>
 </div>
 
@@ -14242,7 +14267,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>361.4553149802844
+<pre>380.035128475696
 </pre>
 </div>
 
@@ -14552,7 +14577,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.022237024999412824
+<pre>0.023794336999344523
 </pre>
 </div>
 
@@ -14674,7 +14699,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.03564932500012219
+<pre>0.03586026300035883
 </pre>
 </div>
 
@@ -14697,7 +14722,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1.6031517256046401
+<pre>1.507092338876544
 </pre>
 </div>
 
@@ -14778,6 +14803,8 @@ remove_html_markup() returns &#39;foo&#39;
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_b7b3ad6c5f6011ebb36cacde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -14789,11 +14816,13 @@ remove_html_markup() returns &#39;foo&#39;
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -14811,6 +14840,13 @@ remove_html_markup() returns &#39;foo&#39;
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_b7b3ad6c5f6011ebb36cacde48001122++;
+            if (answers_b7b3ad6c5f6011ebb36cacde48001122 >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -14827,6 +14863,7 @@ remove_html_markup() returns &#39;foo&#39;
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -14838,21 +14875,22 @@ remove_html_markup() returns &#39;foo&#39;
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="657b59ba-5f3a-11eb-b36c-acde48001122" id="657b59ba-5f3a-11eb-b36c-acde48001122-1" onclick="clear_selection('657b59ba-5f3a-11eb-b36c-acde48001122')">
-        <label id="657b59ba-5f3a-11eb-b36c-acde48001122-1-label" for="657b59ba-5f3a-11eb-b36c-acde48001122-1">When <code>some_extreme_function()</code> returns</label><br>
+        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-1" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
+        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-1-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-1">When <code>some_extreme_function()</code> returns</label><br>
 
-        <input type="checkbox" name="657b59ba-5f3a-11eb-b36c-acde48001122" id="657b59ba-5f3a-11eb-b36c-acde48001122-2" onclick="clear_selection('657b59ba-5f3a-11eb-b36c-acde48001122')">
-        <label id="657b59ba-5f3a-11eb-b36c-acde48001122-2-label" for="657b59ba-5f3a-11eb-b36c-acde48001122-2">For each line of <code>some_extreme_function()</code></label><br>
+        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-2" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
+        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-2-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-2">For each line of <code>some_extreme_function()</code></label><br>
 
-        <input type="checkbox" name="657b59ba-5f3a-11eb-b36c-acde48001122" id="657b59ba-5f3a-11eb-b36c-acde48001122-3" onclick="clear_selection('657b59ba-5f3a-11eb-b36c-acde48001122')">
-        <label id="657b59ba-5f3a-11eb-b36c-acde48001122-3-label" for="657b59ba-5f3a-11eb-b36c-acde48001122-3">When <code>remove_html_markup()</code> returns</label><br>
+        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-3" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
+        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-3-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-3">When <code>remove_html_markup()</code> returns</label><br>
 
-        <input type="checkbox" name="657b59ba-5f3a-11eb-b36c-acde48001122" id="657b59ba-5f3a-11eb-b36c-acde48001122-4" onclick="clear_selection('657b59ba-5f3a-11eb-b36c-acde48001122')">
-        <label id="657b59ba-5f3a-11eb-b36c-acde48001122-4-label" for="657b59ba-5f3a-11eb-b36c-acde48001122-4">For each line of <code>remove_html_markup()</code></label><br>
+        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-4" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
+        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-4-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-4">For each line of <code>remove_html_markup()</code></label><br>
 
     </div>
     </p>
-    <input id="657b59ba-5f3a-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('657b59ba-5f3a-11eb-b36c-acde48001122', 30, 1)">
+    <input id="b7b3ad6c-5f60-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122', 30, 1, '[ord(c) - 100 for c in &#x27;efgh&#x27;]')">
+    <span class="quiz_hint" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15913,12 +15951,10 @@ fail() returns None
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Tracer.ipynb" target=_blank)>Last change: 2021-01-25 17:16:44+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Tracer.ipynb" target=_blank)>Last change: 2021-01-25 23:34:23+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
-
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Tracing Executions" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -15931,7 +15967,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Tracer.html">Tracing Executions</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Tracer.html">https://www.debuggingbook.org/beta/html/Tracer.html</a>.  Retrieved 2021-01-25 17:16:44+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Tracer.html">Tracing Executions</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Tracer.html">https://www.debuggingbook.org/beta/html/Tracer.html</a>.  Retrieved 2021-01-25 23:34:23+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Tracer,
@@ -15941,9 +15977,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Tracer.html">T
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Tracer.html}},
-    note = {Retrieved 2021-01-25 17:16:44+01:00},
+    note = {Retrieved 2021-01-25 23:34:23+01:00},
     url = {https://www.debuggingbook.org/beta/html/Tracer.html},
-    urldate = {2021-01-25 17:16:44+01:00}
+    urldate = {2021-01-25 23:34:23+01:00}
 }
 </pre>
 </div>

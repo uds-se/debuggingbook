@@ -14430,6 +14430,8 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_101e58c05f5d11eba588acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -14441,11 +14443,13 @@ step in which a correct state comes in and a faulty state comes out. At this poi
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -14463,6 +14467,13 @@ step in which a correct state comes in and a faulty state comes out. At this poi
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_101e58c05f5d11eba588acde48001122++;
+            if (answers_101e58c05f5d11eba588acde48001122 >= 3 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -14479,32 +14490,34 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
     <div class="quiz">
     <h3 class="quiz_title">Quiz</h3>
     <p>
-    <div class="quiz_question">From the difference between success and failure, we can already devise some observations about  what's wrong with the output. Which of these can we turn into general hypotheses?</div>
+    <div class="quiz_question">From the difference between success and failure, we can already devise some observations about  what is wrong with the output. Which of these can we turn into general hypotheses?</div>
     </p>
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="e23060de-5d86-11eb-a588-f218984d6a0c" id="e23060de-5d86-11eb-a588-f218984d6a0c-1" onclick="clear_selection('e23060de-5d86-11eb-a588-f218984d6a0c')">
-        <label id="e23060de-5d86-11eb-a588-f218984d6a0c-1-label" for="e23060de-5d86-11eb-a588-f218984d6a0c-1">Double quotes are stripped from the tagged input.</label><br>
+        <input type="checkbox" name="101e58c0-5f5d-11eb-a588-acde48001122" id="101e58c0-5f5d-11eb-a588-acde48001122-1" onclick="clear_selection('101e58c0-5f5d-11eb-a588-acde48001122')">
+        <label id="101e58c0-5f5d-11eb-a588-acde48001122-1-label" for="101e58c0-5f5d-11eb-a588-acde48001122-1">Double quotes (<code>"</code>) are stripped from the tagged input.</label><br>
 
-        <input type="checkbox" name="e23060de-5d86-11eb-a588-f218984d6a0c" id="e23060de-5d86-11eb-a588-f218984d6a0c-2" onclick="clear_selection('e23060de-5d86-11eb-a588-f218984d6a0c')">
-        <label id="e23060de-5d86-11eb-a588-f218984d6a0c-2-label" for="e23060de-5d86-11eb-a588-f218984d6a0c-2">Tags in double quotes are not stripped.</label><br>
+        <input type="checkbox" name="101e58c0-5f5d-11eb-a588-acde48001122" id="101e58c0-5f5d-11eb-a588-acde48001122-2" onclick="clear_selection('101e58c0-5f5d-11eb-a588-acde48001122')">
+        <label id="101e58c0-5f5d-11eb-a588-acde48001122-2-label" for="101e58c0-5f5d-11eb-a588-acde48001122-2">Tags in double quotes are not stripped.</label><br>
 
-        <input type="checkbox" name="e23060de-5d86-11eb-a588-f218984d6a0c" id="e23060de-5d86-11eb-a588-f218984d6a0c-3" onclick="clear_selection('e23060de-5d86-11eb-a588-f218984d6a0c')">
-        <label id="e23060de-5d86-11eb-a588-f218984d6a0c-3-label" for="e23060de-5d86-11eb-a588-f218984d6a0c-3">The tag '&lt;b&gt;' is always stripped from the input.</label><br>
+        <input type="checkbox" name="101e58c0-5f5d-11eb-a588-acde48001122" id="101e58c0-5f5d-11eb-a588-acde48001122-3" onclick="clear_selection('101e58c0-5f5d-11eb-a588-acde48001122')">
+        <label id="101e58c0-5f5d-11eb-a588-acde48001122-3-label" for="101e58c0-5f5d-11eb-a588-acde48001122-3">The tag <code>&lt;&gt;</code> is always stripped from the input.</label><br>
 
-        <input type="checkbox" name="e23060de-5d86-11eb-a588-f218984d6a0c" id="e23060de-5d86-11eb-a588-f218984d6a0c-4" onclick="clear_selection('e23060de-5d86-11eb-a588-f218984d6a0c')">
-        <label id="e23060de-5d86-11eb-a588-f218984d6a0c-4-label" for="e23060de-5d86-11eb-a588-f218984d6a0c-4">Four-letter words are stripped.</label><br>
+        <input type="checkbox" name="101e58c0-5f5d-11eb-a588-acde48001122" id="101e58c0-5f5d-11eb-a588-acde48001122-4" onclick="clear_selection('101e58c0-5f5d-11eb-a588-acde48001122')">
+        <label id="101e58c0-5f5d-11eb-a588-acde48001122-4-label" for="101e58c0-5f5d-11eb-a588-acde48001122-4">Four-letter words are stripped.</label><br>
 
     </div>
     </p>
-    <input id="e23060de-5d86-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e23060de-5d86-11eb-a588-f218984d6a0c', 6, 1)">
+    <input id="101e58c0-5f5d-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('101e58c0-5f5d-11eb-a588-acde48001122', 6, 1, '[298 % 33, 1234 % 616]')">
+    <span class="quiz_hint" id="101e58c0-5f5d-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -14763,6 +14776,8 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_10245c5c5f5d11eb8163acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -14774,11 +14789,13 @@ step in which a correct state comes in and a faulty state comes out. At this poi
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -14796,6 +14813,13 @@ step in which a correct state comes in and a faulty state comes out. At this poi
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_10245c5c5f5d11eb8163acde48001122++;
+            if (answers_10245c5c5f5d11eb8163acde48001122 >= 3 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -14812,6 +14836,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -14823,15 +14848,16 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e23682fa-5d86-11eb-8163-f218984d6a0c" id="e23682fa-5d86-11eb-8163-f218984d6a0c-1" onclick="clear_selection('e23682fa-5d86-11eb-8163-f218984d6a0c')">
-        <label id="e23682fa-5d86-11eb-8163-f218984d6a0c-1-label" for="e23682fa-5d86-11eb-8163-f218984d6a0c-1">The program raises an exception. (i.e., tag is set)</label><br>
+        <input type="radio" name="10245c5c-5f5d-11eb-8163-acde48001122" id="10245c5c-5f5d-11eb-8163-acde48001122-1" onclick="clear_selection('10245c5c-5f5d-11eb-8163-acde48001122')">
+        <label id="10245c5c-5f5d-11eb-8163-acde48001122-1-label" for="10245c5c-5f5d-11eb-8163-acde48001122-1">The program raises an exception. (i.e., <code>tag</code> is set)</label><br>
 
-        <input type="radio" name="e23682fa-5d86-11eb-8163-f218984d6a0c" id="e23682fa-5d86-11eb-8163-f218984d6a0c-2" onclick="clear_selection('e23682fa-5d86-11eb-8163-f218984d6a0c')">
-        <label id="e23682fa-5d86-11eb-8163-f218984d6a0c-2-label" for="e23682fa-5d86-11eb-8163-f218984d6a0c-2">The output is as before, i.e., foo without quotes. (which means that tag is not set)</label><br>
+        <input type="radio" name="10245c5c-5f5d-11eb-8163-acde48001122" id="10245c5c-5f5d-11eb-8163-acde48001122-2" onclick="clear_selection('10245c5c-5f5d-11eb-8163-acde48001122')">
+        <label id="10245c5c-5f5d-11eb-8163-acde48001122-2-label" for="10245c5c-5f5d-11eb-8163-acde48001122-2">The output is as before, i.e., <code>foo</code> without quotes. (which means that <code>tag</code> is not set)</label><br>
 
     </div>
     </p>
-    <input id="e23682fa-5d86-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e23682fa-5d86-11eb-8163-f218984d6a0c', 4, 0)">
+    <input id="10245c5c-5f5d-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('10245c5c-5f5d-11eb-8163-acde48001122', 4, 0, '')">
+    <span class="quiz_hint" id="10245c5c-5f5d-11eb-8163-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -14976,6 +15002,8 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_10287b345f5d11eb9732acde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -14987,11 +15015,13 @@ step in which a correct state comes in and a faulty state comes out. At this poi
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -15009,6 +15039,13 @@ step in which a correct state comes in and a faulty state comes out. At this poi
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_10287b345f5d11eb9732acde48001122++;
+            if (answers_10287b345f5d11eb9732acde48001122 >= 3 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -15025,6 +15062,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -15036,15 +15074,16 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e23ac592-5d86-11eb-9732-f218984d6a0c" id="e23ac592-5d86-11eb-9732-f218984d6a0c-1" onclick="clear_selection('e23ac592-5d86-11eb-9732-f218984d6a0c')">
-        <label id="e23ac592-5d86-11eb-9732-f218984d6a0c-1-label" for="e23ac592-5d86-11eb-9732-f218984d6a0c-1">The program raises an exception (i.e., the quote condition holds)</label><br>
+        <input type="radio" name="10287b34-5f5d-11eb-9732-acde48001122" id="10287b34-5f5d-11eb-9732-acde48001122-1" onclick="clear_selection('10287b34-5f5d-11eb-9732-acde48001122')">
+        <label id="10287b34-5f5d-11eb-9732-acde48001122-1-label" for="10287b34-5f5d-11eb-9732-acde48001122-1">The program raises an exception (i.e., the quote condition holds)</label><br>
 
-        <input type="radio" name="e23ac592-5d86-11eb-9732-f218984d6a0c" id="e23ac592-5d86-11eb-9732-f218984d6a0c-2" onclick="clear_selection('e23ac592-5d86-11eb-9732-f218984d6a0c')">
-        <label id="e23ac592-5d86-11eb-9732-f218984d6a0c-2-label" for="e23ac592-5d86-11eb-9732-f218984d6a0c-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
+        <input type="radio" name="10287b34-5f5d-11eb-9732-acde48001122" id="10287b34-5f5d-11eb-9732-acde48001122-2" onclick="clear_selection('10287b34-5f5d-11eb-9732-acde48001122')">
+        <label id="10287b34-5f5d-11eb-9732-acde48001122-2-label" for="10287b34-5f5d-11eb-9732-acde48001122-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
 
     </div>
     </p>
-    <input id="e23ac592-5d86-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e23ac592-5d86-11eb-9732-f218984d6a0c', 2, 0)">
+    <input id="10287b34-5f5d-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('10287b34-5f5d-11eb-9732-acde48001122', 2, 0, '')">
+    <span class="quiz_hint" id="10287b34-5f5d-11eb-9732-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15200,6 +15239,8 @@ AssertionError (expected)
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_102c26b45f5d11ebb36cacde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -15211,11 +15252,13 @@ AssertionError (expected)
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -15233,6 +15276,13 @@ AssertionError (expected)
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_102c26b45f5d11ebb36cacde48001122++;
+            if (answers_102c26b45f5d11ebb36cacde48001122 >= 3 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -15249,6 +15299,7 @@ AssertionError (expected)
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -15260,21 +15311,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e23deb28-5d86-11eb-b36c-f218984d6a0c" id="e23deb28-5d86-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('e23deb28-5d86-11eb-b36c-f218984d6a0c')">
-        <label id="e23deb28-5d86-11eb-b36c-f218984d6a0c-1-label" for="e23deb28-5d86-11eb-b36c-f218984d6a0c-1">Choice 1</label><br>
+        <input type="radio" name="102c26b4-5f5d-11eb-b36c-acde48001122" id="102c26b4-5f5d-11eb-b36c-acde48001122-1" onclick="clear_selection('102c26b4-5f5d-11eb-b36c-acde48001122')">
+        <label id="102c26b4-5f5d-11eb-b36c-acde48001122-1-label" for="102c26b4-5f5d-11eb-b36c-acde48001122-1"><code>c == "" or c == '' and tag</code> (Choice 1)</label><br>
 
-        <input type="radio" name="e23deb28-5d86-11eb-b36c-f218984d6a0c" id="e23deb28-5d86-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('e23deb28-5d86-11eb-b36c-f218984d6a0c')">
-        <label id="e23deb28-5d86-11eb-b36c-f218984d6a0c-2-label" for="e23deb28-5d86-11eb-b36c-f218984d6a0c-2">Choice 2</label><br>
+        <input type="radio" name="102c26b4-5f5d-11eb-b36c-acde48001122" id="102c26b4-5f5d-11eb-b36c-acde48001122-2" onclick="clear_selection('102c26b4-5f5d-11eb-b36c-acde48001122')">
+        <label id="102c26b4-5f5d-11eb-b36c-acde48001122-2-label" for="102c26b4-5f5d-11eb-b36c-acde48001122-2"><code>c == '"' or c == "'" and not tag</code> (Choice 2)</label><br>
 
-        <input type="radio" name="e23deb28-5d86-11eb-b36c-f218984d6a0c" id="e23deb28-5d86-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('e23deb28-5d86-11eb-b36c-f218984d6a0c')">
-        <label id="e23deb28-5d86-11eb-b36c-f218984d6a0c-3-label" for="e23deb28-5d86-11eb-b36c-f218984d6a0c-3">Choice 3</label><br>
+        <input type="radio" name="102c26b4-5f5d-11eb-b36c-acde48001122" id="102c26b4-5f5d-11eb-b36c-acde48001122-3" onclick="clear_selection('102c26b4-5f5d-11eb-b36c-acde48001122')">
+        <label id="102c26b4-5f5d-11eb-b36c-acde48001122-3-label" for="102c26b4-5f5d-11eb-b36c-acde48001122-3"><code>(c == '"' or c == "'") and tag</code> (Choice 3)</label><br>
 
-        <input type="radio" name="e23deb28-5d86-11eb-b36c-f218984d6a0c" id="e23deb28-5d86-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('e23deb28-5d86-11eb-b36c-f218984d6a0c')">
-        <label id="e23deb28-5d86-11eb-b36c-f218984d6a0c-4-label" for="e23deb28-5d86-11eb-b36c-f218984d6a0c-4">Something else</label><br>
+        <input type="radio" name="102c26b4-5f5d-11eb-b36c-acde48001122" id="102c26b4-5f5d-11eb-b36c-acde48001122-4" onclick="clear_selection('102c26b4-5f5d-11eb-b36c-acde48001122')">
+        <label id="102c26b4-5f5d-11eb-b36c-acde48001122-4-label" for="102c26b4-5f5d-11eb-b36c-acde48001122-4">Something else</label><br>
 
     </div>
     </p>
-    <input id="e23deb28-5d86-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e23deb28-5d86-11eb-b36c-f218984d6a0c', 8, 0)">
+    <input id="102c26b4-5f5d-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('102c26b4-5f5d-11eb-b36c-acde48001122', 8, 0, '399 % 4')">
+    <span class="quiz_hint" id="102c26b4-5f5d-11eb-b36c-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15590,6 +15642,8 @@ AssertionError (expected)
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_102f85f05f5d11eb835facde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -15601,11 +15655,13 @@ AssertionError (expected)
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -15623,6 +15679,13 @@ AssertionError (expected)
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_102f85f05f5d11eb835facde48001122++;
+            if (answers_102f85f05f5d11eb835facde48001122 >= 3 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -15639,6 +15702,7 @@ AssertionError (expected)
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -15650,21 +15714,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e24139e8-5d86-11eb-835f-f218984d6a0c" id="e24139e8-5d86-11eb-835f-f218984d6a0c-1" onclick="clear_selection('e24139e8-5d86-11eb-835f-f218984d6a0c')">
-        <label id="e24139e8-5d86-11eb-835f-f218984d6a0c-1-label" for="e24139e8-5d86-11eb-835f-f218984d6a0c-1">assert quote and not tag</label><br>
+        <input type="radio" name="102f85f0-5f5d-11eb-835f-acde48001122" id="102f85f0-5f5d-11eb-835f-acde48001122-1" onclick="clear_selection('102f85f0-5f5d-11eb-835f-acde48001122')">
+        <label id="102f85f0-5f5d-11eb-835f-acde48001122-1-label" for="102f85f0-5f5d-11eb-835f-acde48001122-1"><code>assert quote and not tag</code></label><br>
 
-        <input type="radio" name="e24139e8-5d86-11eb-835f-f218984d6a0c" id="e24139e8-5d86-11eb-835f-f218984d6a0c-2" onclick="clear_selection('e24139e8-5d86-11eb-835f-f218984d6a0c')">
-        <label id="e24139e8-5d86-11eb-835f-f218984d6a0c-2-label" for="e24139e8-5d86-11eb-835f-f218984d6a0c-2">assert quote or not tag</label><br>
+        <input type="radio" name="102f85f0-5f5d-11eb-835f-acde48001122" id="102f85f0-5f5d-11eb-835f-acde48001122-2" onclick="clear_selection('102f85f0-5f5d-11eb-835f-acde48001122')">
+        <label id="102f85f0-5f5d-11eb-835f-acde48001122-2-label" for="102f85f0-5f5d-11eb-835f-acde48001122-2"><code>assert quote or not tag</code></label><br>
 
-        <input type="radio" name="e24139e8-5d86-11eb-835f-f218984d6a0c" id="e24139e8-5d86-11eb-835f-f218984d6a0c-3" onclick="clear_selection('e24139e8-5d86-11eb-835f-f218984d6a0c')">
-        <label id="e24139e8-5d86-11eb-835f-f218984d6a0c-3-label" for="e24139e8-5d86-11eb-835f-f218984d6a0c-3">assert tag or not quote</label><br>
+        <input type="radio" name="102f85f0-5f5d-11eb-835f-acde48001122" id="102f85f0-5f5d-11eb-835f-acde48001122-3" onclick="clear_selection('102f85f0-5f5d-11eb-835f-acde48001122')">
+        <label id="102f85f0-5f5d-11eb-835f-acde48001122-3-label" for="102f85f0-5f5d-11eb-835f-acde48001122-3"><code>assert tag or not quote</code></label><br>
 
-        <input type="radio" name="e24139e8-5d86-11eb-835f-f218984d6a0c" id="e24139e8-5d86-11eb-835f-f218984d6a0c-4" onclick="clear_selection('e24139e8-5d86-11eb-835f-f218984d6a0c')">
-        <label id="e24139e8-5d86-11eb-835f-f218984d6a0c-4-label" for="e24139e8-5d86-11eb-835f-f218984d6a0c-4">assert tag and not quote</label><br>
+        <input type="radio" name="102f85f0-5f5d-11eb-835f-acde48001122" id="102f85f0-5f5d-11eb-835f-acde48001122-4" onclick="clear_selection('102f85f0-5f5d-11eb-835f-acde48001122')">
+        <label id="102f85f0-5f5d-11eb-835f-acde48001122-4-label" for="102f85f0-5f5d-11eb-835f-acde48001122-4"><code>assert tag and not quote</code></label><br>
 
     </div>
     </p>
-    <input id="e24139e8-5d86-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e24139e8-5d86-11eb-835f-f218984d6a0c', 8, 0)">
+    <input id="102f85f0-5f5d-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('102f85f0-5f5d-11eb-835f-acde48001122', 8, 0, '3270 - 3267')">
+    <span class="quiz_hint" id="102f85f0-5f5d-11eb-835f-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16019,6 +16084,8 @@ tag</title>
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
+    var answers_10a407685f5d11eb858dacde48001122 = 0;
+
     function answer(quiz_id) {
         ans = 0;
         for (i = 1;; i++) {
@@ -16030,11 +16097,13 @@ tag</title>
         }
         return ans;
     }
-    function check_selection(quiz_id, correct_answer, multiple_choice) {
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
         given_answer = answer(quiz_id);
         if (given_answer == correct_answer)
         {
             document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
             for (i = 1;; i++) {
                 checkbox = document.getElementById(quiz_id + "-" + i.toString());
                 label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
@@ -16052,6 +16121,13 @@ tag</title>
         else 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            answers_10a407685f5d11eb858dacde48001122++;
+            if (answers_10a407685f5d11eb858dacde48001122 >= 3 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
             if (!multiple_choice) {
                 for (i = 1;; i++) {
                     checkbox = document.getElementById(quiz_id + "-" + i.toString());
@@ -16068,6 +16144,7 @@ tag</title>
     }
     function clear_selection(quiz_id) {
         document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
     }
     </script>
 
@@ -16079,21 +16156,22 @@ tag</title>
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="e2aacc02-5d86-11eb-858d-f218984d6a0c" id="e2aacc02-5d86-11eb-858d-f218984d6a0c-1" onclick="clear_selection('e2aacc02-5d86-11eb-858d-f218984d6a0c')">
-        <label id="e2aacc02-5d86-11eb-858d-f218984d6a0c-1-label" for="e2aacc02-5d86-11eb-858d-f218984d6a0c-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
+        <input type="checkbox" name="10a40768-5f5d-11eb-858d-acde48001122" id="10a40768-5f5d-11eb-858d-acde48001122-1" onclick="clear_selection('10a40768-5f5d-11eb-858d-acde48001122')">
+        <label id="10a40768-5f5d-11eb-858d-acde48001122-1-label" for="10a40768-5f5d-11eb-858d-acde48001122-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
 
-        <input type="checkbox" name="e2aacc02-5d86-11eb-858d-f218984d6a0c" id="e2aacc02-5d86-11eb-858d-f218984d6a0c-2" onclick="clear_selection('e2aacc02-5d86-11eb-858d-f218984d6a0c')">
-        <label id="e2aacc02-5d86-11eb-858d-f218984d6a0c-2-label" for="e2aacc02-5d86-11eb-858d-f218984d6a0c-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
+        <input type="checkbox" name="10a40768-5f5d-11eb-858d-acde48001122" id="10a40768-5f5d-11eb-858d-acde48001122-2" onclick="clear_selection('10a40768-5f5d-11eb-858d-acde48001122')">
+        <label id="10a40768-5f5d-11eb-858d-acde48001122-2-label" for="10a40768-5f5d-11eb-858d-acde48001122-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
 
-        <input type="checkbox" name="e2aacc02-5d86-11eb-858d-f218984d6a0c" id="e2aacc02-5d86-11eb-858d-f218984d6a0c-3" onclick="clear_selection('e2aacc02-5d86-11eb-858d-f218984d6a0c')">
-        <label id="e2aacc02-5d86-11eb-858d-f218984d6a0c-3-label" for="e2aacc02-5d86-11eb-858d-f218984d6a0c-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
+        <input type="checkbox" name="10a40768-5f5d-11eb-858d-acde48001122" id="10a40768-5f5d-11eb-858d-acde48001122-3" onclick="clear_selection('10a40768-5f5d-11eb-858d-acde48001122')">
+        <label id="10a40768-5f5d-11eb-858d-acde48001122-3-label" for="10a40768-5f5d-11eb-858d-acde48001122-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
 
-        <input type="checkbox" name="e2aacc02-5d86-11eb-858d-f218984d6a0c" id="e2aacc02-5d86-11eb-858d-f218984d6a0c-4" onclick="clear_selection('e2aacc02-5d86-11eb-858d-f218984d6a0c')">
-        <label id="e2aacc02-5d86-11eb-858d-f218984d6a0c-4-label" for="e2aacc02-5d86-11eb-858d-f218984d6a0c-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
+        <input type="checkbox" name="10a40768-5f5d-11eb-858d-acde48001122" id="10a40768-5f5d-11eb-858d-acde48001122-4" onclick="clear_selection('10a40768-5f5d-11eb-858d-acde48001122')">
+        <label id="10a40768-5f5d-11eb-858d-acde48001122-4-label" for="10a40768-5f5d-11eb-858d-acde48001122-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
 
     </div>
     </p>
-    <input id="e2aacc02-5d86-11eb-858d-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e2aacc02-5d86-11eb-858d-f218984d6a0c', 30, 1)">
+    <input id="10a40768-5f5d-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('10a40768-5f5d-11eb-858d-acde48001122', 30, 1, '')">
+    <span class="quiz_hint" id="10a40768-5f5d-11eb-858d-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16347,12 +16425,10 @@ tag</title>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2021-01-17 15:28:20+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2021-01-25 23:15:47+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
-
-<iframe src="http://fuzzingbook.cispa.saarland/rVBkxhK1wuOrGfGe1HZL/Introduction to Debugging" style="width:0;height:0;border:0; border:none;"></iframe>
 
 <script>
 function revealCitation() {
@@ -16365,7 +16441,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2021-01-17 15:28:20+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2021-01-25 23:15:47+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Intro_Debugging,
@@ -16375,9 +16451,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2021-01-17 15:28:20+01:00},
+    note = {Retrieved 2021-01-25 23:15:47+01:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2021-01-17 15:28:20+01:00}
+    urldate = {2021-01-25 23:15:47+01:00}
 }
 </pre>
 </div>

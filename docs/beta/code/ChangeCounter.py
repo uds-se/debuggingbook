@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-01-25 16:58:54+01:00
+# Last change: 2021-01-25 22:59:48+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -418,11 +418,11 @@ else:
 if __name__ == "__main__":
     quiz("Which two notebooks have seen the most changes over time?",
         [
+            f"`{all_notebooks[0][1].split('.')[0]}`",
             f"`{all_notebooks[3][1].split('.')[0]}`",
             f"`{all_notebooks[1][1].split('.')[0]}`",
             f"`{all_notebooks[2][1].split('.')[0]}`",
-            f"`{all_notebooks[0][1].split('.')[0]}`",
-        ], [1234 % 3, 3702 / 1234])
+        ], '[1234 % 3, 3702 / 1234]')
 
 
 if __name__ == "__main__":
@@ -756,7 +756,7 @@ if __name__ == "__main__":
             f"`{elem_nodes[1][2]}` in `{elem_nodes[1][1].split('.ipynb')[0]}`",
             f"`{elem_nodes[2][2]}` in `{elem_nodes[2][1].split('.ipynb')[0]}`",
             f"`{elem_nodes[0][2]}` in `{elem_nodes[0][1].split('.ipynb')[0]}`",
-        ], 1975308642 / 987654321)
+        ], '1975308642 // 987654321')
 
 
 if __name__ == "__main__":
