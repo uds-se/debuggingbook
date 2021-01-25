@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-01-25 14:14:50+01:00
+# Last change: 2021-01-25 19:10:32+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
 
 
-class Dependencies(object):
+class Dependencies:
     """A dependency graph"""
 
     def __init__(self, data=None, control=None):
@@ -169,7 +169,7 @@ class Dependencies(Dependencies):
 import inspect
 from types import FunctionType
 
-class StackInspector(object):
+class StackInspector:
     """Provide functions to inspect the stack"""
 
     def caller_frame(self):
@@ -245,7 +245,7 @@ class StackInspector(StackInspector):
                           f" ({type(exc).__name__}: {exc})")
             return self.unknown
 
-    def unknown():
+    def unknown():  # Placeholder for unknown functions
         pass
 
 class Dependencies(Dependencies, StackInspector):
@@ -898,7 +898,7 @@ if __name__ == "__main__":
 
 
 
-class DataTracker(object):
+class DataTracker:
     """Track data accesses during execution"""
 
     def __init__(self, log=False):
@@ -1020,7 +1020,7 @@ if __name__ == "__main__":
     dump_tree(middle_tree)
 
 
-class DataTrackerTester(object):
+class DataTrackerTester:
     def __init__(self, tree, func, log=True):
         """Constructor. Execute the code in `tree` while instrumenting `func`."""
         # We pass the source file of `func` such that we can retrieve it
@@ -1843,7 +1843,7 @@ if __name__ == "__main__":
 import itertools
 
 class DependencyTracker(DependencyTracker):
-    TEST = '<test>'
+    TEST = '<test>'  # Name of pseudo-variables for testing conditions
 
     def set(self, name, value, loads=None):
         """Add a dependency for `name` = `value`"""

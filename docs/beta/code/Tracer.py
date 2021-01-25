@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-01-23 13:10:48+01:00
+# Last change: 2021-01-25 17:16:44+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
 
 
-class Tracer(object):
+class Tracer:
     """A class for tracing a piece of code. Use as `with Tracer(): block()`"""
 
     def __init__(self, file=sys.stdout):

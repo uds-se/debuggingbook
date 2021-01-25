@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-01-25 14:40:46+01:00
+# Last change: 2021-01-25 17:16:44+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -1151,7 +1151,7 @@ if __name__ == "__main__":
 
 
 
-class Repairer():
+class Repairer:
     """A class for automatic repair of Python programs"""
 
     def __init__(self, debugger, targets=None, sources=None, log=False,

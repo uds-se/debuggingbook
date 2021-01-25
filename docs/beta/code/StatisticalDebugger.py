@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-25 14:39:53+01:00
+# Last change: 2021-01-25 17:16:44+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -291,7 +291,7 @@ if __name__ == "__main__":
 
 
 
-class StatisticalDebugger():
+class StatisticalDebugger:
     """A class to collect events for multiple outcomes."""
 
     def __init__(self, collector_class=CoverageCollector, log=False):

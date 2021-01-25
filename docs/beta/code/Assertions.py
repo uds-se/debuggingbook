@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-01-17 18:22:51+01:00
+# Last change: 2021-01-25 17:16:44+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -488,7 +488,7 @@ if __name__ == "__main__":
 
 
 
-class Time(object):
+class Time:
     def __init__(self, hours=0, minutes=0, seconds=0):
         self._hours = hours
         self._minutes = minutes

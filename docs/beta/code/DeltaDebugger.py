@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-23 13:12:57+01:00
+# Last change: 2021-01-25 17:16:44+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -298,7 +298,7 @@ from types import FunctionType
 
 import inspect
 
-class CallCollector(object):
+class CallCollector:
     """Collect an exception-raising function call f().
     Use as `with CallCollector(): f()`"""
 

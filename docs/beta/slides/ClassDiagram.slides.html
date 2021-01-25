@@ -13908,27 +13908,14 @@ a.anchor-link {
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">debuggingbook.ClassDiagram</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
 </pre></div>
 <p>and then make use of the following features.</p>
-<p>The function <code>display_class_hierarchy()</code> function shows the class hierarchy for the given class (or list of classes). The keyword parameter <code>public_methods</code>, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+<p>The function <code>display_class_hierarchy()</code> function shows the class hierarchy for the given class (or list of classes).</p>
+<ul>
+<li>The keyword parameter <code>public_methods</code>, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).</li>
+<li>The keyword parameter <code>abstract_classes</code>, if given, is a list of classes to be displayed as "abstract" (i.e. with a cursive class name).</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">abstract_classes</span><span class="o">=</span><span class="p">[</span><span class="n">A_Class</span><span class="p">])</span>
 </pre></div>
 <p><img src="PICS/ClassDiagram-synopsis-1.svg" alt=""></p>
-
-<pre><code>
-&gt;&gt;&gt; display_class_hierarchy([A_Class, B_Class],
-&gt;&gt;&gt;                         abstract_classes=[A_Class],
-&gt;&gt;&gt;                         public_methods=[
-&gt;&gt;&gt;                             A_Class.quux,
-&gt;&gt;&gt;                         ], log=True)
-
-Drawing class A_Class
-    Drawing quux()
-    Drawing foo()
-    Drawing second()
-Drawing class B_Class
-    Drawing bar()
-    Drawing foo()</code></pre>
-<p><img src="PICS/ClassDiagram-synopsis-2.svg" alt=""></p>
-<p>Enjoy!</p>
 
 </div>
 </div>
@@ -14026,6 +14013,8 @@ Drawing class B_Class
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">B_Class</span><span class="p">(</span><span class="n">A_Class</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A subclass inheriting some methods.&quot;&quot;&quot;</span>
+
+    <span class="n">VAR</span> <span class="o">=</span> <span class="s2">&quot;A variable&quot;</span>
 
     <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fight</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A WW2 foo fighter.&quot;&quot;&quot;</span>
@@ -14442,48 +14431,33 @@ Drawing class B_Class
 </div>
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Getting-methods">Getting methods<a class="anchor-link" href="#Getting-methods">&#182;</a></h2>
+<h3 id="Getting-Docs">Getting Docs<a class="anchor-link" href="#Getting-Docs">&#182;</a></h3>
 </div>
 </div>
-</div></section><section>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="n">all_methods</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
-            <span class="n">all_methods</span> <span class="o">+=</span> <span class="n">_class_methods</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">all_methods</span>
-
-    <span class="n">unique_methods</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">methods_seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fun</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods_seen</span><span class="p">:</span>
-            <span class="n">unique_methods</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">fun</span><span class="p">))</span>
-            <span class="n">methods_seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">unique_methods</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="vm">__doc__</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div></section><section>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__doc__</span>
 </pre></div>
 
     </div>
@@ -14502,11 +14476,7 @@ Drawing class B_Class
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[(&#39;bar&#39;, &lt;function __main__.B_Class.bar(self, qux=None, bartender=42)&gt;),
- (&#39;foo&#39;, &lt;function __main__.D_Class.foo(self)&gt;),
- (&#39;quux&#39;, &lt;function __main__.A_Class.quux(self)&gt;),
- (&#39;qux&#39;, &lt;function __main__.C_Class.qux(self)&gt;),
- (&#39;second&#39;, &lt;function __main__.A_Class.second(self)&gt;)]</pre>
+<pre>&#39;A Class which does A thing right.\n    Comes with a longer docstring.&#39;</pre>
 </div>
 
 </div>
@@ -14514,55 +14484,13 @@ Drawing class B_Class
 </div>
 </div>
 
-</div><div class="fragment">
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We're only interested in</p>
-<ul>
-<li>functions <em>defined</em> in that class</li>
-<li>functions that come with a docstring</li>
-</ul>
-
-</div>
-</div>
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> 
-            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">doc_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> 
-            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">public_class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span>
 </pre></div>
 
     </div>
@@ -14575,13 +14503,13 @@ Drawing class B_Class
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[27]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[(&#39;foo&#39;, &lt;function __main__.D_Class.foo(self)&gt;)]</pre>
+<pre>&#39;A_Class&#39;</pre>
 </div>
 
 </div>
@@ -14592,10 +14520,56 @@ Drawing class B_Class
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">D_Class</span><span class="o">.</span><span class="n">foo</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[26]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;function __main__.D_Class.foo(self)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">D_Class</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="vm">__doc__</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc_class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="vm">__doc__</span>
 </pre></div>
 
     </div>
@@ -14614,7 +14588,7 @@ Drawing class B_Class
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[]</pre>
+<pre>&#39;The Adventures of the glorious Foo&#39;</pre>
 </div>
 
 </div>
@@ -14622,34 +14596,27 @@ Drawing class B_Class
 </div>
 </div>
 
-</div></div></section><section>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">overloaded_class_methods</span><span class="p">(</span><span class="n">classes</span><span class="p">):</span>
-    <span class="n">all_methods</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">class_set</span><span class="p">(</span><span class="n">classes</span><span class="p">):</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">):</span>
-                <span class="n">all_methods</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
-                <span class="n">all_methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_methods</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_methods</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">docstring</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getdoc</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overloaded_class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">docstring</span><span class="p">(</span><span class="n">A_Class</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14668,218 +14635,6 @@ Drawing class B_Class
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;foo&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></div></section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Getting-Docs">Getting Docs<a class="anchor-link" href="#Getting-Docs">&#182;</a></h3>
-</div>
-</div>
-</div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="vm">__doc__</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__doc__</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[32]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;A Class which does A thing right.\n    Comes with a longer docstring.&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__name__</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[33]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;A_Class&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">D_Class</span><span class="o">.</span><span class="n">foo</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[34]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;function __main__.D_Class.foo(self)&gt;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">D_Class</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="vm">__doc__</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A_Class</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="vm">__doc__</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[36]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;The Adventures of the glorious Foo&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">docstring</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getdoc</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">docstring</span><span class="p">(</span><span class="n">A_Class</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[38]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
 <pre>&#39;A Class which does A thing right.\nComes with a longer docstring.&#39;</pre>
 </div>
 
@@ -14891,7 +14646,7 @@ Drawing class B_Class
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">docstring</span><span class="p">(</span><span class="n">D_Class</span><span class="o">.</span><span class="n">foo</span><span class="p">)</span>
@@ -14907,7 +14662,7 @@ Drawing class B_Class
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[39]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -14924,7 +14679,7 @@ Drawing class B_Class
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">unknown</span><span class="p">():</span>
@@ -14938,7 +14693,7 @@ Drawing class B_Class
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">docstring</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span>
@@ -14951,7 +14706,7 @@ Drawing class B_Class
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">escape</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
@@ -14971,7 +14726,7 @@ Drawing class B_Class
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">escape</span><span class="p">(</span><span class="s2">&quot;f(foo=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="p">)</span>
@@ -14987,7 +14742,7 @@ Drawing class B_Class
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[45]:</div>
+    <div class="prompt output_prompt">Out[37]:</div>
 
 
 
@@ -15004,7 +14759,7 @@ Drawing class B_Class
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">escape_doc</span><span class="p">(</span><span class="n">docstring</span><span class="p">):</span>
@@ -15023,7 +14778,7 @@ Drawing class B_Class
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">escape_doc</span><span class="p">(</span><span class="s2">&quot;&#39;Hello</span><span class="se">\n</span><span class="s2">    {You|Me}&#39;&quot;</span><span class="p">))</span>
@@ -15055,19 +14810,468 @@ Drawing class B_Class
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Getting-Methods-and-Vars">Getting Methods and Vars<a class="anchor-link" href="#Getting-Methods-and-Vars">&#182;</a></h2>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[40]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;VAR&#39;, &#39;A variable&#39;),
+ (&#39;__class__&#39;, type),
+ (&#39;__delattr__&#39;, &lt;slot wrapper &#39;__delattr__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__dict__&#39;, mappingproxy({&#39;__module__&#39;: &#39;__main__&#39;, &#39;__doc__&#39;: None})),
+ (&#39;__dir__&#39;, &lt;method &#39;__dir__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__doc__&#39;, None),
+ (&#39;__eq__&#39;, &lt;slot wrapper &#39;__eq__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__format__&#39;, &lt;method &#39;__format__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__ge__&#39;, &lt;slot wrapper &#39;__ge__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__getattribute__&#39;, &lt;slot wrapper &#39;__getattribute__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__gt__&#39;, &lt;slot wrapper &#39;__gt__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__hash__&#39;, &lt;slot wrapper &#39;__hash__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__init__&#39;, &lt;slot wrapper &#39;__init__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__init_subclass__&#39;, &lt;function D_Class.__init_subclass__&gt;),
+ (&#39;__le__&#39;, &lt;slot wrapper &#39;__le__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__lt__&#39;, &lt;slot wrapper &#39;__lt__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__module__&#39;, &#39;__main__&#39;),
+ (&#39;__ne__&#39;, &lt;slot wrapper &#39;__ne__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__new__&#39;, &lt;function object.__new__(*args, **kwargs)&gt;),
+ (&#39;__reduce__&#39;, &lt;method &#39;__reduce__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__reduce_ex__&#39;, &lt;method &#39;__reduce_ex__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__repr__&#39;, &lt;slot wrapper &#39;__repr__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__setattr__&#39;, &lt;slot wrapper &#39;__setattr__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__sizeof__&#39;, &lt;method &#39;__sizeof__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__str__&#39;, &lt;slot wrapper &#39;__str__&#39; of &#39;object&#39; objects&gt;),
+ (&#39;__subclasshook__&#39;, &lt;function D_Class.__subclasshook__&gt;),
+ (&#39;__weakref__&#39;, &lt;attribute &#39;__weakref__&#39; of &#39;A_Class&#39; objects&gt;),
+ (&#39;bar&#39;, &lt;function __main__.B_Class.bar(self, qux=None, bartender=42)&gt;),
+ (&#39;foo&#39;, &lt;function __main__.D_Class.foo(self)&gt;),
+ (&#39;quux&#39;, &lt;function __main__.A_Class.quux(self)&gt;),
+ (&#39;qux&#39;, &lt;function __main__.C_Class.qux(self)&gt;),
+ (&#39;second&#39;, &lt;function __main__.A_Class.second(self)&gt;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">class_items</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_class_items</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">all_items</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
+            <span class="n">all_items</span> <span class="o">+=</span> <span class="n">_class_items</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">all_items</span>
+
+    <span class="n">unique_items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">items_seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_class_items</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">items_seen</span><span class="p">:</span>
+            <span class="n">unique_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
+            <span class="n">items_seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">unique_items</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">class_items</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">defined_in</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">defining_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">search_superclasses</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="k">return</span>
+    
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+                <span class="n">defining_classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+                <span class="n">search_superclasses</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+
+    <span class="n">search_superclasses</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="n">c</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">defining_classes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Already defined in superclass</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">defined_in</span><span class="p">(</span><span class="s1">&#39;VAR&#39;</span><span class="p">,</span> <span class="n">A_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">defined_in</span><span class="p">(</span><span class="s1">&#39;VAR&#39;</span><span class="p">,</span> <span class="n">B_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">defined_in</span><span class="p">(</span><span class="s1">&#39;VAR&#39;</span><span class="p">,</span> <span class="n">C_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="ow">not</span> <span class="n">defined_in</span><span class="p">(</span><span class="s1">&#39;VAR&#39;</span><span class="p">,</span> <span class="n">D_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">class_vars</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_var</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">class_items</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">is_var</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">defined_in</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[49]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;bar&#39;, &lt;function __main__.B_Class.bar(self, qux=None, bartender=42)&gt;),
+ (&#39;foo&#39;, &lt;function __main__.D_Class.foo(self)&gt;),
+ (&#39;quux&#39;, &lt;function __main__.A_Class.quux(self)&gt;),
+ (&#39;qux&#39;, &lt;function __main__.C_Class.qux(self)&gt;),
+ (&#39;second&#39;, &lt;function __main__.A_Class.second(self)&gt;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">class_vars</span><span class="p">(</span><span class="n">B_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[50]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;VAR&#39;, &#39;A variable&#39;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We're only interested in</p>
+<ul>
+<li>functions <em>defined</em> in that class</li>
+<li>functions that come with a docstring</li>
+</ul>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">doc_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> 
+            <span class="k">if</span> <span class="n">docstring</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">public_class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[53]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;foo&#39;, &lt;function __main__.D_Class.foo(self)&gt;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">doc_class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;foo&#39;, &lt;function __main__.D_Class.foo(self)&gt;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">overloaded_class_methods</span><span class="p">(</span><span class="n">classes</span><span class="p">):</span>
+    <span class="n">all_methods</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">class_set</span><span class="p">(</span><span class="n">classes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span> <span class="ow">in</span> <span class="n">class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">):</span>
+                <span class="n">all_methods</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
+                <span class="n">all_methods</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_methods</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_methods</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overloaded_class_methods</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[56]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;foo&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Drawing-Class-Hierarchy-with-Method-Names">Drawing Class Hierarchy with Method Names<a class="anchor-link" href="#Drawing-Class-Hierarchy-with-Method-Names">&#182;</a></h2>
 </div>
 </div>
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">display_class_hierarchy</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> 
                             <span class="n">public_methods</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">abstract_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">include_methods</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">include_class_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                             <span class="n">include_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                             <span class="n">project</span><span class="o">=</span><span class="s1">&#39;fuzzingbook&#39;</span><span class="p">,</span>
                             <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -15075,6 +15279,8 @@ Drawing class B_Class
 <span class="sd">`classes` is a Python class (or a list of classes) to be visualized.</span>
 <span class="sd">`public_methods`, if given, is a list of methods to be shown as &quot;public&quot; (bold).</span>
 <span class="sd">  (Default: all methods with a docstring)</span>
+<span class="sd">`abstract_classes`, if given, is a list of classes to be shown as &quot;abstract&quot; (cursive).</span>
+<span class="sd">  (Default: all classes with an abstract method)</span>
 <span class="sd">`include_methods`: if True, include all methods (default)</span>
 <span class="sd">`include_legend`: if True, include a legend (default)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -15124,13 +15330,19 @@ Drawing class B_Class
         <span class="n">method_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/font&gt;&#39;</span>
         <span class="k">return</span> <span class="n">method_string</span>
 
+    <span class="k">def</span> <span class="nf">var_string</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">var_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;font face=&quot;</span><span class="si">{</span><span class="n">METHOD_FONT</span><span class="si">}</span><span class="s1">&quot; point-size=&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">fontsize</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&gt;&#39;</span>
+        <span class="n">var_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">var_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/font&gt;&#39;</span>
+        <span class="k">return</span> <span class="n">var_string</span>
+
     <span class="k">def</span> <span class="nf">is_overloaded</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">method_name</span> <span class="ow">in</span> <span class="n">overloaded_methods</span> <span class="ow">or</span>
                 <span class="p">(</span><span class="n">docstring</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;in subclasses&quot;</span> <span class="ow">in</span> <span class="n">docstring</span><span class="p">(</span><span class="n">f</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">is_abstract</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">abstract_classes</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isabstract</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="bp">cls</span> <span class="ow">in</span> <span class="n">abstract_classes</span> <span class="ow">or</span>
                 <span class="nb">any</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">abstract_classes</span><span class="p">))</span>
@@ -15143,6 +15355,31 @@ Drawing class B_Class
                         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">public_methods</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">docstring</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">class_vars_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="n">cls_vars</span> <span class="o">=</span> <span class="n">class_vars</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cls_vars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">vars_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; &#39;</span> \
+                      <span class="sa">f</span><span class="s1">&#39;cellspacing=&quot;0&quot; &#39;</span> \
+                      <span class="sa">f</span><span class="s1">&#39;align=&quot;left&quot; tooltip=&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&quot; href=&quot;#&quot;&gt;&#39;</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="ow">in</span> <span class="n">cls_vars</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Drawing </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">var_doc</span> <span class="o">=</span> <span class="n">escape</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">tooltip</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; tooltip=&quot;</span><span class="si">{</span><span class="n">var_doc</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="n">href</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39; href=&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="n">vars_string</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&lt;tr&gt;&lt;td align=&quot;left&quot; border=&quot;0&quot;&#39;</span> \
+                           <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">tooltip</span><span class="si">}{</span><span class="n">href</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+
+            <span class="n">vars_string</span> <span class="o">+=</span> <span class="n">var_string</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">vars_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/td&gt;&lt;/tr&gt;&#39;</span>
+
+        <span class="n">vars_string</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/table&gt;&#39;</span>
+        <span class="k">return</span> <span class="n">vars_string</span>
 
     <span class="k">def</span> <span class="nf">class_methods_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
         <span class="n">methods</span> <span class="o">=</span> <span class="n">public_class_methods</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
@@ -15205,10 +15442,16 @@ Drawing class B_Class
         <span class="k">else</span><span class="p">:</span>
             <span class="n">formatted_class_name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 
-        <span class="k">if</span> <span class="n">include_methods</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">include_methods</span> <span class="ow">or</span> <span class="n">include_class_vars</span><span class="p">:</span>
+            <span class="nb">vars</span> <span class="o">=</span> <span class="n">class_vars_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">methods</span> <span class="o">=</span> <span class="n">class_methods_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&lt;{&lt;b&gt;&lt;font color=&quot;&#39;</span> <span class="o">+</span> <span class="n">CLASS_COLOR</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> \
-                <span class="n">formatted_class_name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/font&gt;&lt;/b&gt;|&#39;</span> <span class="o">+</span> <span class="n">methods</span> <span class="o">+</span> <span class="s1">&#39;}&gt;&#39;</span>
+                <span class="n">formatted_class_name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/font&gt;&lt;/b&gt;&#39;</span>
+            <span class="k">if</span> <span class="n">include_class_vars</span> <span class="ow">and</span> <span class="nb">vars</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">+=</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> <span class="nb">vars</span>
+            <span class="k">if</span> <span class="n">include_methods</span> <span class="ow">and</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">+=</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> <span class="n">methods</span>
+            <span class="n">spec</span> <span class="o">+=</span> <span class="s1">&#39;}&gt;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">spec</span> <span class="o">=</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">formatted_class_name</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span>
 
@@ -15273,10 +15516,10 @@ Drawing class B_Class
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;debuggingbook&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;debuggingbook&#39;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15289,7 +15532,29 @@ Drawing class B_Class
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[51]:</div>
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Drawing class D_Class
+    Drawing foo()
+Drawing class B_Class
+    Drawing VAR
+    Drawing bar()
+    Drawing foo()
+Drawing class A_Class
+    Drawing foo()
+    Drawing quux()
+    Drawing second()
+Drawing class C_Class
+    Drawing qux()
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[60]:</div>
 
 
 
@@ -15300,12 +15565,12 @@ Drawing class B_Class
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="257pt" height="248pt"
- viewBox="0.00 0.00 256.50 248.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 244)">
+<svg width="257pt" height="267pt"
+ viewBox="0.00 0.00 256.50 267.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 263)">
 <title>%3</title>
 <g id="a_graph0"><a xlink:title="D_Class class hierarchy">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-244 252.5,-244 252.5,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-263 252.5,-263 252.5,4 -4,4"/>
 </a>
 </g>
 <!-- D_Class -->
@@ -15329,15 +15594,23 @@ Drawing class B_Class
 <g id="node2" class="node">
 <title>B_Class</title>
 <g id="a_node2"><a xlink:href="#" xlink:title="class B_Class:&#10;A subclass inheriting some methods.">
-<polygon fill="none" stroke="#000000" points="0,-85.5 0,-138.5 69,-138.5 69,-85.5 0,-85.5"/>
-<text text-anchor="start" x="8" y="-124.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">B_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-115.5 69,-115.5 "/>
+<polygon fill="none" stroke="#000000" points="0,-85.5 0,-157.5 69,-157.5 69,-85.5 0,-85.5"/>
+<text text-anchor="start" x="8" y="-143.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">B_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-134.5 69,-134.5 "/>
 <g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
-<g id="a_node2_3"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="VAR = &#39;A variable&#39;">
+<text text-anchor="start" x="25.5" y="-122" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">VAR</text>
+</a>
+</g>
+</a>
+</g>
+<polyline fill="none" stroke="#000000" points="0,-115.5 69,-115.5 "/>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
 <text text-anchor="start" x="19.5" y="-104.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
 </a>
 </g>
-<g id="a_node2_4"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
+<g id="a_node2_6"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
 <text text-anchor="start" x="19.5" y="-93.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
 </a>
 </g>
@@ -15349,19 +15622,19 @@ Drawing class B_Class
 <!-- D_Class&#45;&gt;B_Class -->
 <g id="edge1" class="edge">
 <title>D_Class&#45;&gt;B_Class</title>
-<path fill="none" stroke="#000000" d="M67.0909,-45.6813C62.5998,-54.8201 57.2197,-65.7681 52.1373,-76.1102"/>
-<polygon fill="none" stroke="#000000" points="48.8569,-74.8499 47.5875,-85.3684 55.1393,-77.9373 48.8569,-74.8499"/>
+<path fill="none" stroke="#000000" d="M68.1696,-45.5476C64.196,-54.5115 59.3953,-65.3409 54.6796,-75.9785"/>
+<polygon fill="none" stroke="#000000" points="51.4334,-74.6651 50.5804,-85.2256 57.8328,-77.502 51.4334,-74.6651"/>
 </g>
 <!-- C_Class -->
 <g id="node4" class="node">
 <title>C_Class</title>
 <g id="a_node4"><a xlink:href="#" xlink:title="class C_Class:&#10;A class injecting some method">
-<polygon fill="none" stroke="#000000" points="87,-91 87,-133 156,-133 156,-91 87,-91"/>
-<text text-anchor="start" x="95" y="-118.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">C_Class</text>
-<polyline fill="none" stroke="#000000" points="87,-110 156,-110 "/>
-<g id="a_node4_5"><a xlink:href="#" xlink:title="C_Class">
-<g id="a_node4_6"><a xlink:href="#" xlink:title="qux(self)">
-<text text-anchor="start" x="106.5" y="-97.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
+<polygon fill="none" stroke="#000000" points="87,-100.5 87,-142.5 156,-142.5 156,-100.5 87,-100.5"/>
+<text text-anchor="start" x="95" y="-128.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">C_Class</text>
+<polyline fill="none" stroke="#000000" points="87,-119.5 156,-119.5 "/>
+<g id="a_node4_7"><a xlink:href="#" xlink:title="C_Class">
+<g id="a_node4_8"><a xlink:href="#" xlink:title="qux(self)">
+<text text-anchor="start" x="106.5" y="-107" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
 </a>
 </g>
 </a>
@@ -15372,27 +15645,27 @@ Drawing class B_Class
 <!-- D_Class&#45;&gt;C_Class -->
 <g id="edge3" class="edge">
 <title>D_Class&#45;&gt;C_Class</title>
-<path fill="none" stroke="#000000" d="M88.1512,-45.6813C93.5697,-56.4568 100.253,-69.7475 106.2104,-81.5945"/>
-<polygon fill="none" stroke="#000000" points="103.1749,-83.3488 110.7944,-90.7105 109.4287,-80.204 103.1749,-83.3488"/>
+<path fill="none" stroke="#000000" d="M87.0473,-45.5476C93.1015,-58.8942 101.0316,-76.3764 107.7573,-91.2035"/>
+<polygon fill="none" stroke="#000000" points="104.6529,-92.8325 111.9713,-100.4935 111.0277,-89.9408 104.6529,-92.8325"/>
 </g>
 <!-- A_Class -->
 <g id="node3" class="node">
 <title>A_Class</title>
 <g id="a_node3"><a xlink:href="#" xlink:title="class A_Class:&#10;A Class which does A thing right.&#10;Comes with a longer docstring.">
-<polygon fill="none" stroke="#000000" points=".5,-175.5 .5,-239.5 68.5,-239.5 68.5,-175.5 .5,-175.5"/>
-<text text-anchor="start" x="8.5" y="-225.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">A_Class</text>
-<polyline fill="none" stroke="#000000" points=".5,-216.5 68.5,-216.5 "/>
-<g id="a_node3_7"><a xlink:href="#" xlink:title="A_Class">
-<g id="a_node3_8"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
-<text text-anchor="start" x="10.5" y="-205" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
+<polygon fill="none" stroke="#000000" points=".5,-194.5 .5,-258.5 68.5,-258.5 68.5,-194.5 .5,-194.5"/>
+<text text-anchor="start" x="8.5" y="-244.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">A_Class</text>
+<polyline fill="none" stroke="#000000" points=".5,-235.5 68.5,-235.5 "/>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="A_Class">
+<g id="a_node3_10"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
+<text text-anchor="start" x="10.5" y="-224" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
 </a>
 </g>
-<g id="a_node3_9"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
-<text text-anchor="start" x="10.5" y="-194" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
+<text text-anchor="start" x="10.5" y="-213" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
 </a>
 </g>
-<g id="a_node3_10"><a xlink:href="#" xlink:title="second(self)">
-<text text-anchor="start" x="10.5" y="-182" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="second(self)">
+<text text-anchor="start" x="10.5" y="-201" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
 </a>
 </g>
 </a>
@@ -15403,8 +15676,8 @@ Drawing class B_Class
 <!-- B_Class&#45;&gt;A_Class -->
 <g id="edge2" class="edge">
 <title>B_Class&#45;&gt;A_Class</title>
-<path fill="none" stroke="#000000" d="M34.5,-138.6021C34.5,-146.8626 34.5,-156.1812 34.5,-165.2335"/>
-<polygon fill="none" stroke="#000000" points="31.0001,-165.27 34.5,-175.27 38.0001,-165.27 31.0001,-165.27"/>
+<path fill="none" stroke="#000000" d="M34.5,-157.635C34.5,-166.1626 34.5,-175.3301 34.5,-184.1061"/>
+<polygon fill="none" stroke="#000000" points="31.0001,-184.1666 34.5,-194.1666 38.0001,-184.1667 31.0001,-184.1666"/>
 </g>
 <!-- Legend -->
 <g id="node5" class="node">
@@ -15428,10 +15701,10 @@ Drawing class B_Class
 </div>
 </div>
 
-</div><div class="fragment">
+</div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="s1">&#39;fuzzingbook&#39;</span><span class="p">)</span>
@@ -15447,7 +15720,7 @@ Drawing class B_Class
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[52]:</div>
+    <div class="prompt output_prompt">Out[61]:</div>
 
 
 
@@ -15458,12 +15731,12 @@ Drawing class B_Class
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="252pt" height="248pt"
- viewBox="0.00 0.00 252.00 248.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 244)">
+<svg width="252pt" height="267pt"
+ viewBox="0.00 0.00 252.00 267.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 263)">
 <title>%3</title>
 <g id="a_graph0"><a xlink:title="D_Class class hierarchy">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-244 248,-244 248,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-263 248,-263 248,4 -4,4"/>
 </a>
 </g>
 <!-- D_Class -->
@@ -15487,15 +15760,23 @@ Drawing class B_Class
 <g id="node2" class="node">
 <title>B_Class</title>
 <g id="a_node2"><a xlink:href="#" xlink:title="class B_Class:&#10;A subclass inheriting some methods.">
-<polygon fill="none" stroke="#000000" points="0,-85.5 0,-138.5 66,-138.5 66,-85.5 0,-85.5"/>
-<text text-anchor="start" x="8" y="-124.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-115.5 66,-115.5 "/>
+<polygon fill="none" stroke="#000000" points="0,-85.5 0,-157.5 66,-157.5 66,-85.5 0,-85.5"/>
+<text text-anchor="start" x="8" y="-143.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-134.5 66,-134.5 "/>
 <g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
-<g id="a_node2_3"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="VAR = &#39;A variable&#39;">
+<text text-anchor="start" x="24" y="-122" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">VAR</text>
+</a>
+</g>
+</a>
+</g>
+<polyline fill="none" stroke="#000000" points="0,-115.5 66,-115.5 "/>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
 <text text-anchor="start" x="18" y="-104.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
 </a>
 </g>
-<g id="a_node2_4"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
+<g id="a_node2_6"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
 <text text-anchor="start" x="18" y="-93.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
 </a>
 </g>
@@ -15507,19 +15788,19 @@ Drawing class B_Class
 <!-- D_Class&#45;&gt;B_Class -->
 <g id="edge1" class="edge">
 <title>D_Class&#45;&gt;B_Class</title>
-<path fill="none" stroke="#000000" d="M64.833,-45.6813C60.4464,-54.8201 55.1913,-65.7681 50.2271,-76.1102"/>
-<polygon fill="none" stroke="#000000" points="46.9552,-74.8386 45.7832,-85.3684 53.2659,-77.8678 46.9552,-74.8386"/>
+<path fill="none" stroke="#000000" d="M65.8866,-45.5476C62.0053,-54.5115 57.3163,-65.3409 52.7104,-75.9785"/>
+<polygon fill="none" stroke="#000000" points="49.4681,-74.6582 48.7064,-85.2256 55.8918,-77.4396 49.4681,-74.6582"/>
 </g>
 <!-- C_Class -->
 <g id="node4" class="node">
 <title>C_Class</title>
 <g id="a_node4"><a xlink:href="#" xlink:title="class C_Class:&#10;A class injecting some method">
-<polygon fill="none" stroke="#000000" points="84.5,-91 84.5,-133 149.5,-133 149.5,-91 84.5,-91"/>
-<text text-anchor="start" x="92.5" y="-118.8" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">C_Class</text>
-<polyline fill="none" stroke="#000000" points="84.5,-110 149.5,-110 "/>
-<g id="a_node4_5"><a xlink:href="#" xlink:title="C_Class">
-<g id="a_node4_6"><a xlink:href="#" xlink:title="qux(self)">
-<text text-anchor="start" x="102" y="-97.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
+<polygon fill="none" stroke="#000000" points="84.5,-100.5 84.5,-142.5 149.5,-142.5 149.5,-100.5 84.5,-100.5"/>
+<text text-anchor="start" x="92.5" y="-128.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">C_Class</text>
+<polyline fill="none" stroke="#000000" points="84.5,-119.5 149.5,-119.5 "/>
+<g id="a_node4_7"><a xlink:href="#" xlink:title="C_Class">
+<g id="a_node4_8"><a xlink:href="#" xlink:title="qux(self)">
+<text text-anchor="start" x="102" y="-107" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
 </a>
 </g>
 </a>
@@ -15530,27 +15811,27 @@ Drawing class B_Class
 <!-- D_Class&#45;&gt;C_Class -->
 <g id="edge3" class="edge">
 <title>D_Class&#45;&gt;C_Class</title>
-<path fill="none" stroke="#000000" d="M85.167,-45.6813C90.3392,-56.4568 96.7188,-69.7475 102.4054,-81.5945"/>
-<polygon fill="none" stroke="#000000" points="99.2983,-83.2098 106.781,-90.7105 105.609,-80.1807 99.2983,-83.2098"/>
+<path fill="none" stroke="#000000" d="M84.1134,-45.5476C89.8923,-58.8942 97.4619,-76.3764 103.8819,-91.2035"/>
+<polygon fill="none" stroke="#000000" points="100.7191,-92.7075 107.9044,-100.4935 107.1428,-89.9261 100.7191,-92.7075"/>
 </g>
 <!-- A_Class -->
 <g id="node3" class="node">
 <title>A_Class</title>
 <g id="a_node3"><a xlink:href="#" xlink:title="class A_Class:&#10;A Class which does A thing right.&#10;Comes with a longer docstring.">
-<polygon fill="none" stroke="#000000" points="0,-175.5 0,-239.5 66,-239.5 66,-175.5 0,-175.5"/>
-<text text-anchor="start" x="8" y="-225.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">A_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-216.5 66,-216.5 "/>
-<g id="a_node3_7"><a xlink:href="#" xlink:title="A_Class">
-<g id="a_node3_8"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
-<text text-anchor="start" x="9" y="-205" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
+<polygon fill="none" stroke="#000000" points="0,-194.5 0,-258.5 66,-258.5 66,-194.5 0,-194.5"/>
+<text text-anchor="start" x="8" y="-244.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">A_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-235.5 66,-235.5 "/>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="A_Class">
+<g id="a_node3_10"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
+<text text-anchor="start" x="9" y="-224" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
 </a>
 </g>
-<g id="a_node3_9"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
-<text text-anchor="start" x="9" y="-194" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
+<text text-anchor="start" x="9" y="-213" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
 </a>
 </g>
-<g id="a_node3_10"><a xlink:href="#" xlink:title="second(self)">
-<text text-anchor="start" x="9" y="-182" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="second(self)">
+<text text-anchor="start" x="9" y="-201" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
 </a>
 </g>
 </a>
@@ -15561,8 +15842,8 @@ Drawing class B_Class
 <!-- B_Class&#45;&gt;A_Class -->
 <g id="edge2" class="edge">
 <title>B_Class&#45;&gt;A_Class</title>
-<path fill="none" stroke="#000000" d="M33,-138.6021C33,-146.8626 33,-156.1812 33,-165.2335"/>
-<polygon fill="none" stroke="#000000" points="29.5001,-165.27 33,-175.27 36.5001,-165.27 29.5001,-165.27"/>
+<path fill="none" stroke="#000000" d="M33,-157.635C33,-166.1626 33,-175.3301 33,-184.1061"/>
+<polygon fill="none" stroke="#000000" points="29.5001,-184.1666 33,-194.1666 36.5001,-184.1667 29.5001,-184.1666"/>
 </g>
 <!-- Legend -->
 <g id="node5" class="node">
@@ -15586,183 +15867,18 @@ Drawing class B_Class
 </div>
 </div>
 
-</div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2>
-</div>
-</div>
 </div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The function <code>display_class_hierarchy()</code> function shows the class hierarchy for the given class (or list of classes). The keyword parameter <code>public_methods</code>, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).</p>
+<p>Here is a variant with abstract classes and logging:</p>
 
 </div>
 </div>
-</div></div><div class="fragment">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[53]:</div>
-
-
-
-<div class="output_svg output_subarea output_execute_result">
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.40.1 (20161225.0304)
- -->
-<!-- Title: %3 Pages: 1 -->
-<svg width="252pt" height="248pt"
- viewBox="0.00 0.00 252.00 248.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 244)">
-<title>%3</title>
-<g id="a_graph0"><a xlink:title="D_Class class hierarchy">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-244 248,-244 248,4 -4,4"/>
-</a>
-</g>
-<!-- D_Class -->
-<g id="node1" class="node">
-<title>D_Class</title>
-<g id="a_node1"><a xlink:href="#" xlink:title="class D_Class:&#10;A subclass inheriting from multiple superclasses.&#10;Comes with a fairly long, but meaningless documentation.">
-<polygon fill="none" stroke="#000000" points="42,-3.5 42,-45.5 108,-45.5 108,-3.5 42,-3.5"/>
-<text text-anchor="start" x="50" y="-31.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">D_Class</text>
-<polyline fill="none" stroke="#000000" points="42,-22.5 108,-22.5 "/>
-<g id="a_node1_0"><a xlink:href="#" xlink:title="D_Class">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="foo(self):&#10;A WW2 foo fighter.">
-<text text-anchor="start" x="60" y="-11" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- B_Class -->
-<g id="node2" class="node">
-<title>B_Class</title>
-<g id="a_node2"><a xlink:href="#" xlink:title="class B_Class:&#10;A subclass inheriting some methods.">
-<polygon fill="none" stroke="#000000" points="0,-85.5 0,-138.5 66,-138.5 66,-85.5 0,-85.5"/>
-<text text-anchor="start" x="8" y="-124.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-115.5 66,-115.5 "/>
-<g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
-<g id="a_node2_3"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
-<text text-anchor="start" x="18" y="-104.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
-</a>
-</g>
-<g id="a_node2_4"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
-<text text-anchor="start" x="18" y="-93.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- D_Class&#45;&gt;B_Class -->
-<g id="edge1" class="edge">
-<title>D_Class&#45;&gt;B_Class</title>
-<path fill="none" stroke="#000000" d="M64.833,-45.6813C60.4464,-54.8201 55.1913,-65.7681 50.2271,-76.1102"/>
-<polygon fill="none" stroke="#000000" points="46.9552,-74.8386 45.7832,-85.3684 53.2659,-77.8678 46.9552,-74.8386"/>
-</g>
-<!-- C_Class -->
-<g id="node4" class="node">
-<title>C_Class</title>
-<g id="a_node4"><a xlink:href="#" xlink:title="class C_Class:&#10;A class injecting some method">
-<polygon fill="none" stroke="#000000" points="84.5,-91 84.5,-133 149.5,-133 149.5,-91 84.5,-91"/>
-<text text-anchor="start" x="92.5" y="-118.8" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">C_Class</text>
-<polyline fill="none" stroke="#000000" points="84.5,-110 149.5,-110 "/>
-<g id="a_node4_5"><a xlink:href="#" xlink:title="C_Class">
-<g id="a_node4_6"><a xlink:href="#" xlink:title="qux(self)">
-<text text-anchor="start" x="102" y="-97.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- D_Class&#45;&gt;C_Class -->
-<g id="edge3" class="edge">
-<title>D_Class&#45;&gt;C_Class</title>
-<path fill="none" stroke="#000000" d="M85.167,-45.6813C90.3392,-56.4568 96.7188,-69.7475 102.4054,-81.5945"/>
-<polygon fill="none" stroke="#000000" points="99.2983,-83.2098 106.781,-90.7105 105.609,-80.1807 99.2983,-83.2098"/>
-</g>
-<!-- A_Class -->
-<g id="node3" class="node">
-<title>A_Class</title>
-<g id="a_node3"><a xlink:href="#" xlink:title="class A_Class:&#10;A Class which does A thing right.&#10;Comes with a longer docstring.">
-<polygon fill="none" stroke="#000000" points="0,-175.5 0,-239.5 66,-239.5 66,-175.5 0,-175.5"/>
-<text text-anchor="start" x="8" y="-225.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">A_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-216.5 66,-216.5 "/>
-<g id="a_node3_7"><a xlink:href="#" xlink:title="A_Class">
-<g id="a_node3_8"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
-<text text-anchor="start" x="9" y="-205" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
-</a>
-</g>
-<g id="a_node3_9"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
-<text text-anchor="start" x="9" y="-194" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
-</a>
-</g>
-<g id="a_node3_10"><a xlink:href="#" xlink:title="second(self)">
-<text text-anchor="start" x="9" y="-182" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- B_Class&#45;&gt;A_Class -->
-<g id="edge2" class="edge">
-<title>B_Class&#45;&gt;A_Class</title>
-<path fill="none" stroke="#000000" d="M33,-138.6021C33,-146.8626 33,-156.1812 33,-165.2335"/>
-<polygon fill="none" stroke="#000000" points="29.5001,-165.27 33,-175.27 36.5001,-165.27 29.5001,-165.27"/>
-</g>
-<!-- Legend -->
-<g id="node5" class="node">
-<title>Legend</title>
-<text text-anchor="start" x="126" y="-42" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="10.00" fill="#b03a2e">Legend</text>
-<text text-anchor="start" x="126" y="-32" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="132" y="-32" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00" fill="#000000">public_method()</text>
-<text text-anchor="start" x="126" y="-22" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="132" y="-22" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" fill="#000000">private_method()</text>
-<text text-anchor="start" x="126" y="-12" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="132" y="-12" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00" fill="#000000">overloaded_method()</text>
-<text text-anchor="start" x="126" y="-2.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#000000">Hover over names to see doc</text>
-</g>
-</g>
-</svg>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">A_Class</span><span class="p">,</span> <span class="n">B_Class</span><span class="p">],</span>
@@ -15791,6 +15907,7 @@ Drawing class B_Class
     Drawing foo()
     Drawing second()
 Drawing class B_Class
+    Drawing VAR
     Drawing bar()
     Drawing foo()
 </pre>
@@ -15799,7 +15916,7 @@ Drawing class B_Class
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[54]:</div>
+    <div class="prompt output_prompt">Out[62]:</div>
 
 
 
@@ -15810,32 +15927,32 @@ Drawing class B_Class
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="210pt" height="163pt"
- viewBox="0.00 0.00 210.00 163.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 159)">
+<svg width="210pt" height="182pt"
+ viewBox="0.00 0.00 210.00 182.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 178)">
 <title>%3</title>
 <g id="a_graph0"><a xlink:title="A_Class class hierarchy">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-159 206,-159 206,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-178 206,-178 206,4 -4,4"/>
 </a>
 </g>
 <!-- A_Class -->
 <g id="node1" class="node">
 <title>A_Class</title>
 <g id="a_node1"><a xlink:href="#" xlink:title="class A_Class:&#10;A Class which does A thing right.&#10;Comes with a longer docstring.">
-<polygon fill="none" stroke="#000000" points="0,-90.5 0,-154.5 66,-154.5 66,-90.5 0,-90.5"/>
-<text text-anchor="start" x="8" y="-140.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-style="italic" font-size="14.00" fill="#b03a2e">A_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-131.5 66,-131.5 "/>
+<polygon fill="none" stroke="#000000" points="0,-109.5 0,-173.5 66,-173.5 66,-109.5 0,-109.5"/>
+<text text-anchor="start" x="8" y="-159.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-style="italic" font-size="14.00" fill="#b03a2e">A_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-150.5 66,-150.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="A_Class">
 <g id="a_node1_1"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
-<text text-anchor="start" x="9" y="-120" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
+<text text-anchor="start" x="9" y="-139" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
 </a>
 </g>
 <g id="a_node1_2"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
-<text text-anchor="start" x="9" y="-108" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">foo()</text>
+<text text-anchor="start" x="9" y="-127" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">foo()</text>
 </a>
 </g>
 <g id="a_node1_3"><a xlink:href="#" xlink:title="second(self)">
-<text text-anchor="start" x="9" y="-97" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
+<text text-anchor="start" x="9" y="-116" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
 </a>
 </g>
 </a>
@@ -15847,15 +15964,23 @@ Drawing class B_Class
 <g id="node2" class="node">
 <title>B_Class</title>
 <g id="a_node2"><a xlink:href="#" xlink:title="class B_Class:&#10;A subclass inheriting some methods.">
-<polygon fill="none" stroke="#000000" points="0,-.5 0,-53.5 66,-53.5 66,-.5 0,-.5"/>
-<text text-anchor="start" x="8" y="-39.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
-<polyline fill="none" stroke="#000000" points="0,-30.5 66,-30.5 "/>
+<polygon fill="none" stroke="#000000" points="0,-.5 0,-72.5 66,-72.5 66,-.5 0,-.5"/>
+<text text-anchor="start" x="8" y="-58.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-49.5 66,-49.5 "/>
 <g id="a_node2_4"><a xlink:href="#" xlink:title="B_Class">
-<g id="a_node2_5"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="VAR = &#39;A variable&#39;">
+<text text-anchor="start" x="24" y="-37" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">VAR</text>
+</a>
+</g>
+</a>
+</g>
+<polyline fill="none" stroke="#000000" points="0,-30.5 66,-30.5 "/>
+<g id="a_node2_6"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_7"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
 <text text-anchor="start" x="18" y="-18.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">bar()</text>
 </a>
 </g>
-<g id="a_node2_6"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
+<g id="a_node2_8"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
 <text text-anchor="start" x="18" y="-8.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
 </a>
 </g>
@@ -15867,20 +15992,20 @@ Drawing class B_Class
 <!-- B_Class&#45;&gt;A_Class -->
 <g id="edge1" class="edge">
 <title>B_Class&#45;&gt;A_Class</title>
-<path fill="none" stroke="#000000" d="M33,-53.6021C33,-61.8626 33,-71.1812 33,-80.2335"/>
-<polygon fill="none" stroke="#000000" points="29.5001,-80.27 33,-90.27 36.5001,-80.27 29.5001,-80.27"/>
+<path fill="none" stroke="#000000" d="M33,-72.635C33,-81.1626 33,-90.3301 33,-99.1061"/>
+<polygon fill="none" stroke="#000000" points="29.5001,-99.1666 33,-109.1666 36.5001,-99.1667 29.5001,-99.1666"/>
 </g>
 <!-- Legend -->
 <g id="node3" class="node">
 <title>Legend</title>
-<text text-anchor="start" x="84" y="-44.5" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="10.00" fill="#b03a2e">Legend</text>
-<text text-anchor="start" x="84" y="-34.5" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="90" y="-34.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00" fill="#000000">public_method()</text>
-<text text-anchor="start" x="84" y="-24.5" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="90" y="-24.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" fill="#000000">private_method()</text>
-<text text-anchor="start" x="84" y="-14.5" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="90" y="-14.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00" fill="#000000">overloaded_method()</text>
-<text text-anchor="start" x="84" y="-5.3" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#000000">Hover over names to see doc</text>
+<text text-anchor="start" x="84" y="-54" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="10.00" fill="#b03a2e">Legend</text>
+<text text-anchor="start" x="84" y="-44" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="90" y="-44" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00" fill="#000000">public_method()</text>
+<text text-anchor="start" x="84" y="-34" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="90" y="-34" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" fill="#000000">private_method()</text>
+<text text-anchor="start" x="84" y="-24" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="90" y="-24" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00" fill="#000000">overloaded_method()</text>
+<text text-anchor="start" x="84" y="-14.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#000000">Hover over names to see doc</text>
 </g>
 </g>
 </svg>
@@ -15892,6 +16017,198 @@ Drawing class B_Class
 </div>
 </div>
 
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The function <code>display_class_hierarchy()</code> function shows the class hierarchy for the given class (or list of classes).</p>
+<ul>
+<li>The keyword parameter <code>public_methods</code>, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).</li>
+<li>The keyword parameter <code>abstract_classes</code>, if given, is a list of classes to be displayed as "abstract" (i.e. with a cursive class name).</li>
+</ul>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_class_hierarchy</span><span class="p">(</span><span class="n">D_Class</span><span class="p">,</span> <span class="n">abstract_classes</span><span class="o">=</span><span class="p">[</span><span class="n">A_Class</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[63]:</div>
+
+
+
+<div class="output_svg output_subarea output_execute_result">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="252pt" height="267pt"
+ viewBox="0.00 0.00 252.00 267.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 263)">
+<title>%3</title>
+<g id="a_graph0"><a xlink:title="D_Class class hierarchy">
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-263 248,-263 248,4 -4,4"/>
+</a>
+</g>
+<!-- D_Class -->
+<g id="node1" class="node">
+<title>D_Class</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class D_Class:&#10;A subclass inheriting from multiple superclasses.&#10;Comes with a fairly long, but meaningless documentation.">
+<polygon fill="none" stroke="#000000" points="42,-3.5 42,-45.5 108,-45.5 108,-3.5 42,-3.5"/>
+<text text-anchor="start" x="50" y="-31.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">D_Class</text>
+<polyline fill="none" stroke="#000000" points="42,-22.5 108,-22.5 "/>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="D_Class">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="foo(self):&#10;A WW2 foo fighter.">
+<text text-anchor="start" x="60" y="-11" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- B_Class -->
+<g id="node2" class="node">
+<title>B_Class</title>
+<g id="a_node2"><a xlink:href="#" xlink:title="class B_Class:&#10;A subclass inheriting some methods.">
+<polygon fill="none" stroke="#000000" points="0,-85.5 0,-157.5 66,-157.5 66,-85.5 0,-85.5"/>
+<text text-anchor="start" x="8" y="-143.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">B_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-134.5 66,-134.5 "/>
+<g id="a_node2_2"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="VAR = &#39;A variable&#39;">
+<text text-anchor="start" x="24" y="-122" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">VAR</text>
+</a>
+</g>
+</a>
+</g>
+<polyline fill="none" stroke="#000000" points="0,-115.5 66,-115.5 "/>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="B_Class">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="bar(self, qux=None, bartender=42):&#10;A qux walks into a bar.&#10;`bartender` is an optional attribute.">
+<text text-anchor="start" x="18" y="-104.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">bar()</text>
+</a>
+</g>
+<g id="a_node2_6"><a xlink:href="#" xlink:title="foo(self, fight=False):&#10;A WW2 foo fighter.">
+<text text-anchor="start" x="18" y="-93.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- D_Class&#45;&gt;B_Class -->
+<g id="edge1" class="edge">
+<title>D_Class&#45;&gt;B_Class</title>
+<path fill="none" stroke="#000000" d="M65.8866,-45.5476C62.0053,-54.5115 57.3163,-65.3409 52.7104,-75.9785"/>
+<polygon fill="none" stroke="#000000" points="49.4681,-74.6582 48.7064,-85.2256 55.8918,-77.4396 49.4681,-74.6582"/>
+</g>
+<!-- C_Class -->
+<g id="node4" class="node">
+<title>C_Class</title>
+<g id="a_node4"><a xlink:href="#" xlink:title="class C_Class:&#10;A class injecting some method">
+<polygon fill="none" stroke="#000000" points="84.5,-100.5 84.5,-142.5 149.5,-142.5 149.5,-100.5 84.5,-100.5"/>
+<text text-anchor="start" x="92.5" y="-128.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="14.00" fill="#b03a2e">C_Class</text>
+<polyline fill="none" stroke="#000000" points="84.5,-119.5 149.5,-119.5 "/>
+<g id="a_node4_7"><a xlink:href="#" xlink:title="C_Class">
+<g id="a_node4_8"><a xlink:href="#" xlink:title="qux(self)">
+<text text-anchor="start" x="102" y="-107" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">qux()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- D_Class&#45;&gt;C_Class -->
+<g id="edge3" class="edge">
+<title>D_Class&#45;&gt;C_Class</title>
+<path fill="none" stroke="#000000" d="M84.1134,-45.5476C89.8923,-58.8942 97.4619,-76.3764 103.8819,-91.2035"/>
+<polygon fill="none" stroke="#000000" points="100.7191,-92.7075 107.9044,-100.4935 107.1428,-89.9261 100.7191,-92.7075"/>
+</g>
+<!-- A_Class -->
+<g id="node3" class="node">
+<title>A_Class</title>
+<g id="a_node3"><a xlink:href="#" xlink:title="class A_Class:&#10;A Class which does A thing right.&#10;Comes with a longer docstring.">
+<polygon fill="none" stroke="#000000" points="0,-194.5 0,-258.5 66,-258.5 66,-194.5 0,-194.5"/>
+<text text-anchor="start" x="8" y="-244.3" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-style="italic" font-size="14.00" fill="#b03a2e">A_Class</text>
+<polyline fill="none" stroke="#000000" points="0,-235.5 66,-235.5 "/>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="A_Class">
+<g id="a_node3_10"><a xlink:href="#" xlink:title="foo(self):&#10;The Adventures of the glorious Foo">
+<text text-anchor="start" x="9" y="-224" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">foo()</text>
+</a>
+</g>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="quux(self):&#10;A method that is not used.">
+<text text-anchor="start" x="9" y="-213" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">quux()</text>
+</a>
+</g>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="second(self)">
+<text text-anchor="start" x="9" y="-201" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">second()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- B_Class&#45;&gt;A_Class -->
+<g id="edge2" class="edge">
+<title>B_Class&#45;&gt;A_Class</title>
+<path fill="none" stroke="#000000" d="M33,-157.635C33,-166.1626 33,-175.3301 33,-184.1061"/>
+<polygon fill="none" stroke="#000000" points="29.5001,-184.1666 33,-194.1666 36.5001,-184.1667 29.5001,-184.1666"/>
+</g>
+<!-- Legend -->
+<g id="node5" class="node">
+<title>Legend</title>
+<text text-anchor="start" x="126" y="-42" font-family="Patua One, Helvetica, sans-serif" font-weight="bold" font-size="10.00" fill="#b03a2e">Legend</text>
+<text text-anchor="start" x="126" y="-32" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="132" y="-32" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00" fill="#000000">public_method()</text>
+<text text-anchor="start" x="126" y="-22" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="132" y="-22" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" fill="#000000">private_method()</text>
+<text text-anchor="start" x="126" y="-12" font-family="Patua One, Helvetica, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="132" y="-12" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00" fill="#000000">overloaded_method()</text>
+<text text-anchor="start" x="126" y="-2.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#000000">Hover over names to see doc</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercises">Exercises<a class="anchor-link" href="#Exercises">&#182;</a></h2>
+</div>
+</div>
 </div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
