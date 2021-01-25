@@ -84,7 +84,7 @@
 <text text-anchor="start" x="8.5" y="-18" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">validate()</text>
 </a>
 </g>
-<g id="a_node1_17"><a xlink:href="#" xlink:title="weight(self, test_set):&#10;Return the weight of `test_set`&#10;(`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).&#10;">
+<g id="a_node1_17"><a xlink:href="#" xlink:title="weight(self, test_set):&#10;Return the weight of `test_set`&#10;(`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).">
 <text text-anchor="start" x="8.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">weight()</text>
 </a>
 </g>
@@ -221,7 +221,7 @@
 <text text-anchor="start" x="159.5" y="-274" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">swap()</text>
 </a>
 </g>
-<g id="a_node4_43"><a xlink:href="#" xlink:title="visit(self, node)">
+<g id="a_node4_43"><a xlink:href="#" xlink:title="visit(self, node):&#10;Visit a node.">
 <text text-anchor="start" x="159.5" y="-263" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">visit()</text>
 </a>
 </g>
@@ -239,12 +239,12 @@
 <!-- NodeTransformer -->
 <g id="node5" class="node">
 <title>NodeTransformer</title>
-<g id="a_node5"><a xlink:href="ast.ipynb" xlink:title="class NodeTransformer:&#10;&#10;A :class:`NodeVisitor` subclass that walks the abstract syntax tree and&#10;allows modification of nodes.&#10;&#10;The `NodeTransformer` will walk the AST and use the return value of the&#10;visitor methods to replace or remove the old node. &#160;If the return value of&#10;the visitor method is ``None``, the node will be removed from its location,&#10;otherwise it is replaced with the return value. &#160;The return value may be the&#10;original node in which case no replacement takes place.&#10;&#10;Here is an example transformer that rewrites all occurrences of name lookups&#10;(``foo``) to ``data[&#39;foo&#39;]``::&#10;&#10;class RewriteName(NodeTransformer):&#10;&#10;def visit_Name(self, node):&#10;return copy_location(Subscript(&#10;value=Name(id=&#39;data&#39;, ctx=Load()),&#10;slice=Index(value=Str(s=node.id)),&#10;ctx=node.ctx&#10;), node)&#10;&#10;Keep in mind that if the node you&#39;re operating on has child nodes you must&#10;either transform the child nodes yourself or call the :meth:`generic_visit`&#10;method for the node first.&#10;&#10;For nodes that were part of a collection of statements (that applies to all&#10;statement nodes), the visitor may also return a list of nodes rather than&#10;just a single node.&#10;&#10;Usually you use the transformer like this::&#10;&#10;node = YourTransformer().visit(node)&#10;">
+<g id="a_node5"><a xlink:href="ast.ipynb" xlink:title="class NodeTransformer:&#10;A :class:`NodeVisitor` subclass that walks the abstract syntax tree and&#10;allows modification of nodes.&#10;&#10;The `NodeTransformer` will walk the AST and use the return value of the&#10;visitor methods to replace or remove the old node. &#160;If the return value of&#10;the visitor method is ``None``, the node will be removed from its location,&#10;otherwise it is replaced with the return value. &#160;The return value may be the&#10;original node in which case no replacement takes place.&#10;&#10;Here is an example transformer that rewrites all occurrences of name lookups&#10;(``foo``) to ``data[&#39;foo&#39;]``::&#10;&#10;class RewriteName(NodeTransformer):&#10;&#10;def visit_Name(self, node):&#10;return copy_location(Subscript(&#10;value=Name(id=&#39;data&#39;, ctx=Load()),&#10;slice=Index(value=Str(s=node.id)),&#10;ctx=node.ctx&#10;), node)&#10;&#10;Keep in mind that if the node you&#39;re operating on has child nodes you must&#10;either transform the child nodes yourself or call the :meth:`generic_visit`&#10;method for the node first.&#10;&#10;For nodes that were part of a collection of statements (that applies to all&#10;statement nodes), the visitor may also return a list of nodes rather than&#10;just a single node.&#10;&#10;Usually you use the transformer like this::&#10;&#10;node = YourTransformer().visit(node)">
 <polygon fill="none" stroke="#000000" points="156,-444.5 156,-486.5 289,-486.5 289,-444.5 156,-444.5"/>
 <text text-anchor="start" x="164" y="-472.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-style="italic" font-size="14.00" fill="#6a0dad">NodeTransformer</text>
 <polyline fill="none" stroke="#000000" points="156,-463.5 289,-463.5 "/>
 <g id="a_node5_44"><a xlink:href="#" xlink:title="NodeTransformer">
-<g id="a_node5_45"><a xlink:href="ast.ipynb" xlink:title="generic_visit(self, node)">
+<g id="a_node5_45"><a xlink:href="ast.ipynb" xlink:title="generic_visit(self, node):&#10;Called if no explicit visitor function exists for a node.">
 <text text-anchor="start" x="177.5" y="-452" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">generic_visit()</text>
 </a>
 </g>
@@ -262,7 +262,7 @@
 <!-- NodeVisitor -->
 <g id="node6" class="node">
 <title>NodeVisitor</title>
-<g id="a_node6"><a xlink:href="ast.ipynb" xlink:title="class NodeVisitor:&#10;&#10;A node visitor base class that walks the abstract syntax tree and calls a&#10;visitor function for every node found. &#160;This function may return a value&#10;which is forwarded by the `visit` method.&#10;&#10;This class is meant to be subclassed, with the subclass adding visitor&#10;methods.&#10;&#10;Per default the visitor functions for the nodes are ``&#39;visit_&#39;`` +&#10;class name of the node. &#160;So a `TryFinally` node visit function would&#10;be `visit_TryFinally`. &#160;This behavior can be changed by overriding&#10;the `visit` method. &#160;If no visitor function exists for a node&#10;(return value `None`) the `generic_visit` visitor is used instead.&#10;&#10;Don&#39;t use the `NodeVisitor` if you want to apply changes to nodes during&#10;traversing. &#160;For this a special visitor exists (`NodeTransformer`) that&#10;allows modifications.&#10;">
+<g id="a_node6"><a xlink:href="ast.ipynb" xlink:title="class NodeVisitor:&#10;A node visitor base class that walks the abstract syntax tree and calls a&#10;visitor function for every node found. &#160;This function may return a value&#10;which is forwarded by the `visit` method.&#10;&#10;This class is meant to be subclassed, with the subclass adding visitor&#10;methods.&#10;&#10;Per default the visitor functions for the nodes are ``&#39;visit_&#39;`` +&#10;class name of the node. &#160;So a `TryFinally` node visit function would&#10;be `visit_TryFinally`. &#160;This behavior can be changed by overriding&#10;the `visit` method. &#160;If no visitor function exists for a node&#10;(return value `None`) the `generic_visit` visitor is used instead.&#10;&#10;Don&#39;t use the `NodeVisitor` if you want to apply changes to nodes during&#10;traversing. &#160;For this a special visitor exists (`NodeTransformer`) that&#10;allows modifications.">
 <polygon fill="none" stroke="#000000" points="169,-523.5 169,-576.5 276,-576.5 276,-523.5 169,-523.5"/>
 <text text-anchor="start" x="184" y="-562.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-style="italic" font-size="14.00" fill="#6a0dad">NodeVisitor</text>
 <polyline fill="none" stroke="#000000" points="169,-553.5 276,-553.5 "/>
@@ -306,7 +306,7 @@
 <text text-anchor="start" x="320.5" y="-101" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">can_cross()</text>
 </a>
 </g>
-<g id="a_node7_53"><a xlink:href="#" xlink:title="cross_bodies(self, body_1, body_2):&#10;CrossoverOperator the statement lists `body_1` x `body_2`.&#10;Return new lists.&#10;">
+<g id="a_node7_53"><a xlink:href="#" xlink:title="cross_bodies(self, body_1, body_2):&#10;CrossoverOperator the statement lists `body_1` x `body_2`.&#10;Return new lists.">
 <text text-anchor="start" x="320.5" y="-90" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">cross_bodies()</text>
 </a>
 </g>
@@ -314,7 +314,7 @@
 <text text-anchor="start" x="320.5" y="-79" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">crossover_attr()</text>
 </a>
 </g>
-<g id="a_node7_55"><a xlink:href="#" xlink:title="crossover_branches(self, t1, t2):&#10;Special case:&#10;`t1` = `if P: S1 else: S2` x `t2` = `if P&#39;: S1&#39; else: S2&#39;`&#10;becomes&#10;`t1` = `if P: S2&#39; else: S1&#39;` and `t2` = `if P&#39;: S2 else: S1`&#10;Returns True if successful.&#10;">
+<g id="a_node7_55"><a xlink:href="#" xlink:title="crossover_branches(self, t1, t2):&#10;Special case:&#10;`t1` = `if P: S1 else: S2` x `t2` = `if P&#39;: S1&#39; else: S2&#39;`&#10;becomes&#10;`t1` = `if P: S2&#39; else: S1&#39;` and `t2` = `if P&#39;: S2 else: S1`&#10;Returns True if successful.">
 <text text-anchor="start" x="320.5" y="-68" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">crossover_branches()</text>
 </a>
 </g>
