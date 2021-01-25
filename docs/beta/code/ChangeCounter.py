@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-01-24 22:02:31+01:00
+# Last change: 2021-01-25 14:42:04+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -184,7 +184,7 @@ if __name__ == "__main__":
 
 class ChangeCounter:
     """Count the number of changes for a repository."""
-    
+
     def __init__(self, repo, filter=None, log=False, **kwargs):
         """Constructor. `repo` is a git repository (as URL or directory).
 `filter` is a predicate that takes a modification and returns True 
@@ -195,7 +195,9 @@ class ChangeCounter:
         self.log = log
 
         if filter is None:
-            filter = lambda m: True
+            def filter(m):
+                return True
+
         self.filter = filter
 
         # A node is an tuple (f_1, f_2, f_3, ..., f_n) denoting
@@ -277,7 +279,7 @@ if __name__ == "__main__":
 
 def debuggingbook_change_counter(cls):
     """Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo"""
-    
+
     def filter(m):
         """Do not include the `docs/` directory; it only holds Web pages"""
         return m.new_path and not m.new_path.startswith('docs/')
@@ -336,7 +338,7 @@ class ChangeCounter(ChangeCounter):
         """Return a mapping of nodes to sizes. Can be overloaded in subclasses."""
         # Default: use log scale
         return {node: math.log(self.sizes[node]) if self.sizes[node] else 0
-             for node in self.sizes}
+                for node in self.sizes}
 
         # Alternative: use sqrt size
         return {node: math.sqrt(self.sizes[node]) for node in self.sizes}
@@ -436,6 +438,9 @@ if __name__ == "__main__":
 
 
 class FixCounter(ChangeCounter):
+    """Count the fixes for files in the repository.
+Fixes are all commits whose message starts with the word 'Fix: '"""
+
     def include(self, m):
         """Include all modifications whose commit messages start with 'Fix:'"""
         return super().include(m) and m and m.msg.startswith("Fix:")
@@ -708,10 +713,12 @@ if __name__ == "__main__":
 
 
 class FineChangeCounter(ChangeCounter):
+    """Count the changes for files in the repository and their elements"""
+
     def update_elems(self, node, m):
         old_source = m.source_code_before if m.source_code_before else ""
         new_source = m.source_code if m.source_code else ""
-        
+
         for elem in changed_elems(old_source, new_source):
             elem_node = node + (elem,)
 
@@ -790,7 +797,7 @@ if __name__ == "__main__":
     display_class_hierarchy([FineChangeCounter, FixCounter],
                             public_methods=[
                                 ChangeCounter.__init__,
-                                ChangeCounter.map  # FIXME: Why is `map()` not highlighted?
+                                ChangeCounter.map
                             ],
                             project='debuggingbook')
 

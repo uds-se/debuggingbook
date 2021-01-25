@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-01-23 13:06:19+01:00
+# Last change: 2021-01-25 14:14:50+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -125,6 +125,8 @@ if __name__ == "__main__":
 
 
 class Dependencies(object):
+    """A dependency graph"""
+
     def __init__(self, data=None, control=None):
         """
 Create a dependency graph from `data` and `control`.
@@ -168,6 +170,8 @@ import inspect
 from types import FunctionType
 
 class StackInspector(object):
+    """Provide functions to inspect the stack"""
+
     def caller_frame(self):
         """Return the frame of the caller."""
 
@@ -895,6 +899,8 @@ if __name__ == "__main__":
 
 
 class DataTracker(object):
+    """Track data accesses during execution"""
+
     def __init__(self, log=False):
         """Constructor. If `log` is set, turn on logging."""
         self.log = log
@@ -1696,6 +1702,8 @@ if __name__ == "__main__":
 
 
 class DependencyTracker(DataTracker):
+    """Track dependencies during execution"""
+
     def __init__(self, *args, **kwargs):
         """Constructor. Arguments are passed to DataTracker.__init__()"""
         super().__init__(*args, **kwargs)
@@ -2270,6 +2278,8 @@ if __name__ == "__main__":
 
 
 class Instrumenter(StackInspector):
+    """Instrument functions for dynamic tracking"""
+
     def __init__(self, *items_to_instrument, globals=None, log=False):
         """Create an instrumenter.
         `items_to_instrument` is a list of items to instrument.
@@ -2316,6 +2326,8 @@ if __name__ == "__main__":
 
 
 class Slicer(Instrumenter):
+    """Track dependencies in an execution"""
+
     def __init__(self, *items_to_instrument, 
                  dependency_tracker=None,
                  globals=None, log=False):
@@ -2646,13 +2658,21 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from ClassDiagram import display_class_hierarchy
+    from ClassDiagram import display_class_hierarchy, class_tree
 else:
-    from .ClassDiagram import display_class_hierarchy
+    from .ClassDiagram import display_class_hierarchy, class_tree
 
 
 if __name__ == "__main__":
-    display_class_hierarchy([Slicer, DependencyTracker, Dependencies],
+    assert class_tree(Slicer)[0][0] == Slicer
+
+
+if __name__ == "__main__":
+    display_class_hierarchy([Slicer, DependencyTracker, StackInspector, Dependencies],
+                            abstract_classes=[
+                                StackInspector,
+                                Instrumenter
+                            ],
                             public_methods=[
                                 StackInspector.caller_frame,
                                 StackInspector.caller_function,

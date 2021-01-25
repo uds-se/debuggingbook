@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-01-23 13:42:45+01:00
+# Last change: 2021-01-25 14:40:46+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -929,6 +929,8 @@ def p2():
     z = 3
 
 class CrossoverOperator:
+    """A class for performing statement crossover of Python programs"""
+
     def __init__(self, log=False):
         """Constructor. If `log` is set, turn on logging."""
         self.log = log
@@ -1150,6 +1152,8 @@ if __name__ == "__main__":
 
 
 class Repairer():
+    """A class for automatic repair of Python programs"""
+
     def __init__(self, debugger, targets=None, sources=None, log=False,
                  mutator_class=StatementMutator,
                  crossover_class=CrossoverOperator,
@@ -2041,6 +2045,10 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
+                            abstract_classes=[
+                                NodeVisitor,
+                                NodeTransformer
+                            ],
                             public_methods=[
                                 Repairer.__init__,
                                 Repairer.repair,

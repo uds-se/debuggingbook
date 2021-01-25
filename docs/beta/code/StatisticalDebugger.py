@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-23 13:19:38+01:00
+# Last change: 2021-01-25 14:39:53+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -530,6 +530,7 @@ if __name__ == "__main__":
 
 class DifferenceDebugger(StatisticalDebugger):
     """A class to collect events for passing and failing outcomes."""
+
     PASS = 'PASS'
     FAIL = 'FAIL'
 
@@ -676,6 +677,8 @@ if __name__ == "__main__":
 
 
 class DiscreteSpectrumDebugger(DifferenceDebugger):
+    """Visualize differences between executions using three discrete colors"""
+
     def suspiciousness(self, event):
         """Return a suspiciousness value [0, 1.0]
         for the given event, or `None` if unknown"""
@@ -849,6 +852,8 @@ if __name__ == "__main__":
 
 
 class ContinuousSpectrumDebugger(DiscreteSpectrumDebugger):
+    """Visualize differences between executions using a color spectrum"""
+
     def collectors_with_event(self, event, category):
         """Return all collectors in a category
         that observed the given event."""
@@ -1058,6 +1063,8 @@ if __name__ == "__main__":
 
 
 class RankingDebugger(DifferenceDebugger):
+    """Rank events by their suspiciousness"""
+
     def rank(self):
         """Return a list of events, sorted by suspiciousness, highest first."""
         events = list(self.all_events())
@@ -1076,6 +1083,8 @@ if __name__ == "__main__":
 
 
 class TarantulaDebugger(ContinuousSpectrumDebugger, RankingDebugger):
+    """Spectrum-based Debugger using the Tarantula metric for suspiciousness"""
+
     pass
 
 if __name__ == "__main__":
@@ -1121,6 +1130,8 @@ if __name__ == "__main__":
 import math
 
 class OchiaiDebugger(ContinuousSpectrumDebugger, RankingDebugger):
+    """Spectrum-based Debugger using the Ochiai metric for suspiciousness"""
+
     def suspiciousness(self, event):
         failed = len(self.collectors_with_event(event, self.FAIL))
         not_in_failed = len(self.collectors_without_event(event, self.FAIL))
@@ -1441,6 +1452,11 @@ else:
 
 if __name__ == "__main__":
     display_class_hierarchy([TarantulaDebugger, OchiaiDebugger],
+                            abstract_classes=[
+                                StatisticalDebugger,
+                                DifferenceDebugger,
+                                RankingDebugger
+                            ],
                             public_methods=[
                                 StatisticalDebugger.__init__,
                                 StatisticalDebugger.all_events,
