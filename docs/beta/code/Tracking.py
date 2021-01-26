@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-01-26 17:37:44+01:00
+# Last change: 2021-01-26 19:51:53+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from bookutils import YouTubeVideo
-    # YouTubeVideo("w4u5gCgPlmg")
+    YouTubeVideo("bJzHYzvxHm8")
 
 
 if __name__ == "__main__":
@@ -169,7 +169,7 @@ import subprocess
 import os
 import sys
 
-def with_ruby(cmd, inp='', timeout=10, show_stdout=False):
+def with_ruby(cmd, inp='', timeout=30, show_stdout=False):
     print(f"$ {cmd}")
     shell = subprocess.Popen(['/bin/sh', '-c',
         f'''rvm_redmine=$HOME/.rvm/gems/ruby-2.7.2@redmine; \
