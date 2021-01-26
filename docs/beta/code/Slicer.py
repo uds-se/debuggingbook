@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-01-25 19:10:32+01:00
+# Last change: 2021-01-26 22:37:21+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -781,7 +781,7 @@ if __name__ == "__main__":
             "Line 3: `if x < y:`",
             "Line 5: `elif x < z:`",
             "Line 6: `return z`",
-        ], (1 ** 0 + 1 ** 1) ** (1 ** 2 + 1 ** 3))
+        ], '(1 ** 0 + 1 ** 1) ** (1 ** 2 + 1 ** 3)')
 
 
 # ## Slices
@@ -820,7 +820,7 @@ if __name__ == "__main__":
             "Because `tag` is set to True with the first character",
             "Because `tag` is not read by any variable",
             "Because the input contains no tags",
-        ], (1 << 1 + 1 >> 1))
+        ], '(1 << 1 + 1 >> 1)')
 
 
 if __name__ == "__main__":
@@ -839,8 +839,7 @@ if __name__ == "__main__":
             "Not at all",
             "If `s` contains a quote, the `quote` slice is included, too",
             "If `s` contains no HTML tag, the slice will be empty"
-        ], 
-         [1, 2, 3][1:])
+        ], '[1, 2, 3][1:]')
 
 
 # ## Tracking Techniques
@@ -2531,9 +2530,7 @@ if __name__ == "__main__":
              "We have no special handling of `raise` statements",
              "Assertions are not supposed to act as controlling mechanisms",
              "All of the above",
-         ],
-         (1 * 1 << 1 * 1 << 1 * 1)
-        )
+         ], '(1 * 1 << 1 * 1 << 1 * 1)')
 
 
 # ### Removing HTML Markup
