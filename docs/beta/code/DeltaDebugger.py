@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-25 23:03:17+01:00
+# Last change: 2021-01-30 16:56:17+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -311,6 +311,27 @@ class CallCollector:
         self._function = None
         self._args = {}
         self._exception = None
+        
+    def search_frame(self, name, frame):
+        """Return a pair (`frame`, `item`) 
+        in which the function `name` is defined as `item`."""
+        while frame:
+            item = None
+            if name in frame.f_globals:
+                item = frame.f_globals[name]
+            if name in frame.f_locals:
+                item = frame.f_locals[name]
+            if item and callable(item):
+                return frame, item
+
+            frame = frame.f_back
+
+        return None, None
+
+    def search_func(self, name, frame):
+        """Search in callers for a definition of the function `name`"""
+        frame, func = self.search_frame(name, frame)
+        return func
 
     def traceit(self, frame, event, arg):
         """Tracing function. Collect first call, then turn tracing off."""
@@ -322,20 +343,26 @@ class CallCollector:
             if self._function is not None:
                 # Already set
                 return
-
-            if name in frame.f_globals:
-                # Access exactly this function
-                self._function = frame.f_globals[name]
-            elif name in frame.f_locals:
-                self._function = frame.f_locals[name]
+            
+            func = self.search_func(name, frame)
+            if func:
+                self._function = func
             else:
                 # Create new function from given code
                 self._function = FunctionType(frame.f_code,
                                               globals=frame.f_globals,
                                               name=name)
+                
+#             code = frame.f_code
+#             print(f"code.co_freevars = {code.co_freevars}, "
+#                   f"code.co_cellvars = {code.co_cellvars}, "
+#                   f"code.co_names = {code.co_names}, "
+#                  )
 
             self._args = {}  # Create a local copy of args
             for var in frame.f_locals:
+                if var in frame.f_code.co_freevars:
+                    continue  # Local var, not an argument
                 self._args[var] = frame.f_locals[var]
 
             # Turn tracing off
@@ -420,9 +447,13 @@ if __name__ == "__main__":
 
 
 class CallCollector(CallCollector):
-    def call(self, new_args={}):
+    def call(self, new_args=None):
         """Call collected function. If new_args is given,
         override arguments from its {var: value} entries."""
+        
+        if new_args is None:
+            new_args = {}
+
         args = {}  # Create local copy
         for var in self.args():
             args[var] = self.args()[var]
@@ -781,22 +812,21 @@ if __name__ == "__main__":
 
 
 
-class DeltaDebugger(DeltaDebugger):
-    def reducible(self, arg):
-        # Return True if `arg` supports len() and indexing.
-        try:
-            _ = len(arg)
-        except TypeError:
-            return False
+def is_reducible(value):
+    # Return True if `value` supports len() and indexing.
+    try:
+        _ = len(value)
+    except TypeError:
+        return False
 
-        try:
-            _ = arg[0]
-        except TypeError:
-            return False
-        except IndexError:
-            return False
+    try:
+        _ = value[0]
+    except TypeError:
+        return False
+    except IndexError:
+        return False
 
-        return True
+    return True
 
 class FailureNotReproducedError(ValueError):
     pass
@@ -845,7 +875,7 @@ class DeltaDebugger(DeltaDebugger):
             diff_args[var] = self.args()[var]
             pass_args[var] = self.args()[var]
 
-            if self.reducible(pass_args[var]):
+            if is_reducible(pass_args[var]):
                 pass_args[var] = empty(pass_args[var])
 
         vars_to_be_processed = set(fail_args.keys())
@@ -858,7 +888,7 @@ class DeltaDebugger(DeltaDebugger):
         # We take turns in processing variables until all are processed
         while len(vars_to_be_processed) > 0:
             for var in vars_to_be_processed:
-                if not self.reducible(fail_args[var]):
+                if not is_reducible(fail_args[var]):
                     vars_to_be_processed.remove(var)
                     break
 

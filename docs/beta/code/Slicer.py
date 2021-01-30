@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-01-26 22:37:21+01:00
+# Last change: 2021-01-28 10:07:07+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -2772,10 +2772,10 @@ if __name__ == "__main__":
 
 
 
-# ### Exercise 3: Determine Instrumented Functions Dynamically
+# ### Exercise 3: Dynamic Instrumentation
 
 if __name__ == "__main__":
-    print('\n### Exercise 3: Determine Instrumented Functions Dynamically')
+    print('\n### Exercise 3: Dynamic Instrumentation')
 
 
 
