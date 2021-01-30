@@ -12186,7 +12186,7 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.03455815089333558
+<pre>0.5082855723089826
 </pre>
 </div>
 
@@ -12328,7 +12328,7 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
-    var answers_f5a3757a5f6411eba588acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -12366,8 +12366,14 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
 
-            answers_f5a3757a5f6411eba588acde48001122++;
-            if (answers_f5a3757a5f6411eba588acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -12400,19 +12406,19 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="f5a3757a-5f64-11eb-a588-acde48001122" id="f5a3757a-5f64-11eb-a588-acde48001122-1" onclick="clear_selection('f5a3757a-5f64-11eb-a588-acde48001122')">
-        <label id="f5a3757a-5f64-11eb-a588-acde48001122-1-label" for="f5a3757a-5f64-11eb-a588-acde48001122-1">blue</label><br>
+        <input type="radio" name="535aa50c-6314-11eb-a588-f218984d6a0c" id="535aa50c-6314-11eb-a588-f218984d6a0c-1" onclick="clear_selection('535aa50c-6314-11eb-a588-f218984d6a0c')">
+        <label id="535aa50c-6314-11eb-a588-f218984d6a0c-1-label" for="535aa50c-6314-11eb-a588-f218984d6a0c-1">blue</label><br>
 
-        <input type="radio" name="f5a3757a-5f64-11eb-a588-acde48001122" id="f5a3757a-5f64-11eb-a588-acde48001122-2" onclick="clear_selection('f5a3757a-5f64-11eb-a588-acde48001122')">
-        <label id="f5a3757a-5f64-11eb-a588-acde48001122-2-label" for="f5a3757a-5f64-11eb-a588-acde48001122-2">red</label><br>
+        <input type="radio" name="535aa50c-6314-11eb-a588-f218984d6a0c" id="535aa50c-6314-11eb-a588-f218984d6a0c-2" onclick="clear_selection('535aa50c-6314-11eb-a588-f218984d6a0c')">
+        <label id="535aa50c-6314-11eb-a588-f218984d6a0c-2-label" for="535aa50c-6314-11eb-a588-f218984d6a0c-2">red</label><br>
 
-        <input type="radio" name="f5a3757a-5f64-11eb-a588-acde48001122" id="f5a3757a-5f64-11eb-a588-acde48001122-3" onclick="clear_selection('f5a3757a-5f64-11eb-a588-acde48001122')">
-        <label id="f5a3757a-5f64-11eb-a588-acde48001122-3-label" for="f5a3757a-5f64-11eb-a588-acde48001122-3">black</label><br>
+        <input type="radio" name="535aa50c-6314-11eb-a588-f218984d6a0c" id="535aa50c-6314-11eb-a588-f218984d6a0c-3" onclick="clear_selection('535aa50c-6314-11eb-a588-f218984d6a0c')">
+        <label id="535aa50c-6314-11eb-a588-f218984d6a0c-3-label" for="535aa50c-6314-11eb-a588-f218984d6a0c-3">black</label><br>
 
     </div>
     </p>
-    <input id="f5a3757a-5f64-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('f5a3757a-5f64-11eb-a588-acde48001122', 2, 0, '5 - 4')">
-    <span class="quiz_hint" id="f5a3757a-5f64-11eb-a588-acde48001122-hint"></span>
+    <input id="535aa50c-6314-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('535aa50c-6314-11eb-a588-f218984d6a0c', 2, 0, '5 - 4')">
+    <span class="quiz_hint" id="535aa50c-6314-11eb-a588-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -12444,7 +12450,7 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
 <div class="output_html rendered_html output_subarea output_execute_result">
 
     <script>
-    var answers_f5a6cf245f6411eb8163acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -12482,8 +12488,14 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
 
-            answers_f5a6cf245f6411eb8163acde48001122++;
-            if (answers_f5a6cf245f6411eb8163acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -12516,19 +12528,19 @@ On the Mac, there is also the <a href="https://nwhitehead.github.io/pineapple/">
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="f5a6cf24-5f64-11eb-8163-acde48001122" id="f5a6cf24-5f64-11eb-8163-acde48001122-1" onclick="clear_selection('f5a6cf24-5f64-11eb-8163-acde48001122')">
-        <label id="f5a6cf24-5f64-11eb-8163-acde48001122-1-label" for="f5a6cf24-5f64-11eb-8163-acde48001122-1">Novel</label><br>
+        <input type="checkbox" name="535d8fb0-6314-11eb-8163-f218984d6a0c" id="535d8fb0-6314-11eb-8163-f218984d6a0c-1" onclick="clear_selection('535d8fb0-6314-11eb-8163-f218984d6a0c')">
+        <label id="535d8fb0-6314-11eb-8163-f218984d6a0c-1-label" for="535d8fb0-6314-11eb-8163-f218984d6a0c-1">Novel</label><br>
 
-        <input type="checkbox" name="f5a6cf24-5f64-11eb-8163-acde48001122" id="f5a6cf24-5f64-11eb-8163-acde48001122-2" onclick="clear_selection('f5a6cf24-5f64-11eb-8163-acde48001122')">
-        <label id="f5a6cf24-5f64-11eb-8163-acde48001122-2-label" for="f5a6cf24-5f64-11eb-8163-acde48001122-2">Friendly</label><br>
+        <input type="checkbox" name="535d8fb0-6314-11eb-8163-f218984d6a0c" id="535d8fb0-6314-11eb-8163-f218984d6a0c-2" onclick="clear_selection('535d8fb0-6314-11eb-8163-f218984d6a0c')">
+        <label id="535d8fb0-6314-11eb-8163-f218984d6a0c-2-label" for="535d8fb0-6314-11eb-8163-f218984d6a0c-2">Friendly</label><br>
 
-        <input type="checkbox" name="f5a6cf24-5f64-11eb-8163-acde48001122" id="f5a6cf24-5f64-11eb-8163-acde48001122-3" onclick="clear_selection('f5a6cf24-5f64-11eb-8163-acde48001122')">
-        <label id="f5a6cf24-5f64-11eb-8163-acde48001122-3-label" for="f5a6cf24-5f64-11eb-8163-acde48001122-3">Useful</label><br>
+        <input type="checkbox" name="535d8fb0-6314-11eb-8163-f218984d6a0c" id="535d8fb0-6314-11eb-8163-f218984d6a0c-3" onclick="clear_selection('535d8fb0-6314-11eb-8163-f218984d6a0c')">
+        <label id="535d8fb0-6314-11eb-8163-f218984d6a0c-3-label" for="535d8fb0-6314-11eb-8163-f218984d6a0c-3">Useful</label><br>
 
     </div>
     </p>
-    <input id="f5a6cf24-5f64-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('f5a6cf24-5f64-11eb-8163-acde48001122', 14, 1, '[5 - 4, 1 + 1, 27 / 9]')">
-    <span class="quiz_hint" id="f5a6cf24-5f64-11eb-8163-acde48001122-hint"></span>
+    <input id="535d8fb0-6314-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('535d8fb0-6314-11eb-8163-f218984d6a0c', 14, 1, '[5 - 4, 1 + 1, 27 / 9]')">
+    <span class="quiz_hint" id="535d8fb0-6314-11eb-8163-f218984d6a0c-hint"></span>
     </div>
 
 </div>
