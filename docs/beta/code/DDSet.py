@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DDSet.html
-# Last change: 2021-01-31 20:39:28+01:00
+# Last change: 2021-01-31 20:51:33+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -54,10 +54,10 @@ else:
     from . import DeltaDebugger
 
 
-# # Synopsis
+# ## Synopsis
 
 if __name__ == "__main__":
-    print('\n# Synopsis')
+    print('\n## Synopsis')
 
 
 
@@ -768,6 +768,9 @@ class DDSetDebugger(DDSetDebugger):
         """Generalize arguments seen. For each function argument,
         produce an abstract failure-inducing input that characterizes
         the set of inputs for which the function fails."""
+        if self.generalized_args is not None:
+            return self.generalized_args
+
         self.generalized_args = copy.deepcopy(self.args())
         self.generalized_trees = {}
         self.generalizers = {}

@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-01-26 19:51:53+01:00
+# Last change: 2021-01-31 20:46:10+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -58,6 +58,14 @@ import os
 
 if __name__ == "__main__":
     assert os.getenv('USER') == 'zeller'
+
+
+# ## Synopsis
+
+if __name__ == "__main__":
+    print('\n## Synopsis')
+
+
 
 
 # ## Reporting Issues

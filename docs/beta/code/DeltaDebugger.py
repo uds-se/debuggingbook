@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-30 16:56:17+01:00
+# Last change: 2021-01-31 20:46:05+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security

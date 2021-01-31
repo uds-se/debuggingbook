@@ -15306,7 +15306,7 @@ c = &#39;a&#39;
 
     
     <script>
-    var answers_c198bb065f6011eba588acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15344,8 +15344,14 @@ c = &#39;a&#39;
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_c198bb065f6011eba588acde48001122++;
-            if (answers_c198bb065f6011eba588acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15378,22 +15384,22 @@ c = &#39;a&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="c198bb06-5f60-11eb-a588-acde48001122" id="c198bb06-5f60-11eb-a588-acde48001122-1" onclick="clear_selection('c198bb06-5f60-11eb-a588-acde48001122')">
-        <label id="c198bb06-5f60-11eb-a588-acde48001122-1-label" for="c198bb06-5f60-11eb-a588-acde48001122-1">A breakpoint is set in Line 2.</label><br>
+        <input type="radio" name="e61be39e-63fd-11eb-a588-f218984d6a0c" id="e61be39e-63fd-11eb-a588-f218984d6a0c-1" onclick="clear_selection('e61be39e-63fd-11eb-a588-f218984d6a0c')">
+        <label id="e61be39e-63fd-11eb-a588-f218984d6a0c-1-label" for="e61be39e-63fd-11eb-a588-f218984d6a0c-1">A breakpoint is set in Line 2.</label><br>
     
-        <input type="radio" name="c198bb06-5f60-11eb-a588-acde48001122" id="c198bb06-5f60-11eb-a588-acde48001122-2" onclick="clear_selection('c198bb06-5f60-11eb-a588-acde48001122')">
-        <label id="c198bb06-5f60-11eb-a588-acde48001122-2-label" for="c198bb06-5f60-11eb-a588-acde48001122-2">A breakpoint is set in Line 5.</label><br>
+        <input type="radio" name="e61be39e-63fd-11eb-a588-f218984d6a0c" id="e61be39e-63fd-11eb-a588-f218984d6a0c-2" onclick="clear_selection('e61be39e-63fd-11eb-a588-f218984d6a0c')">
+        <label id="e61be39e-63fd-11eb-a588-f218984d6a0c-2-label" for="e61be39e-63fd-11eb-a588-f218984d6a0c-2">A breakpoint is set in Line 5.</label><br>
     
-        <input type="radio" name="c198bb06-5f60-11eb-a588-acde48001122" id="c198bb06-5f60-11eb-a588-acde48001122-3" onclick="clear_selection('c198bb06-5f60-11eb-a588-acde48001122')">
-        <label id="c198bb06-5f60-11eb-a588-acde48001122-3-label" for="c198bb06-5f60-11eb-a588-acde48001122-3">Two breakpoints are set in Lines 2 and 3.</label><br>
+        <input type="radio" name="e61be39e-63fd-11eb-a588-f218984d6a0c" id="e61be39e-63fd-11eb-a588-f218984d6a0c-3" onclick="clear_selection('e61be39e-63fd-11eb-a588-f218984d6a0c')">
+        <label id="e61be39e-63fd-11eb-a588-f218984d6a0c-3-label" for="e61be39e-63fd-11eb-a588-f218984d6a0c-3">Two breakpoints are set in Lines 2 and 3.</label><br>
     
-        <input type="radio" name="c198bb06-5f60-11eb-a588-acde48001122" id="c198bb06-5f60-11eb-a588-acde48001122-4" onclick="clear_selection('c198bb06-5f60-11eb-a588-acde48001122')">
-        <label id="c198bb06-5f60-11eb-a588-acde48001122-4-label" for="c198bb06-5f60-11eb-a588-acde48001122-4">The debugger raises a <code>ValueError</code> exception.</label><br>
+        <input type="radio" name="e61be39e-63fd-11eb-a588-f218984d6a0c" id="e61be39e-63fd-11eb-a588-f218984d6a0c-4" onclick="clear_selection('e61be39e-63fd-11eb-a588-f218984d6a0c')">
+        <label id="e61be39e-63fd-11eb-a588-f218984d6a0c-4-label" for="e61be39e-63fd-11eb-a588-f218984d6a0c-4">The debugger raises a <code>ValueError</code> exception.</label><br>
     
     </div>
     </p>
-    <input id="c198bb06-5f60-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c198bb06-5f60-11eb-a588-acde48001122', 16, 0, '12345 % 7')">
-    <span class="quiz_hint" id="c198bb06-5f60-11eb-a588-acde48001122-hint"></span>
+    <input id="e61be39e-63fd-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e61be39e-63fd-11eb-a588-f218984d6a0c', 16, 0, '12345 % 7')">
+    <span class="quiz_hint" id="e61be39e-63fd-11eb-a588-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15649,7 +15655,7 @@ c = &#39;c&#39;
 
     
     <script>
-    var answers_c1a1e7da5f6011eb8163acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15687,8 +15693,14 @@ c = &#39;c&#39;
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_c1a1e7da5f6011eb8163acde48001122++;
-            if (answers_c1a1e7da5f6011eb8163acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15721,22 +15733,22 @@ c = &#39;c&#39;
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="c1a1e7da-5f60-11eb-8163-acde48001122" id="c1a1e7da-5f60-11eb-8163-acde48001122-1" onclick="clear_selection('c1a1e7da-5f60-11eb-8163-acde48001122')">
-        <label id="c1a1e7da-5f60-11eb-8163-acde48001122-1-label" for="c1a1e7da-5f60-11eb-8163-acde48001122-1">It deletes all breakpoints</label><br>
+        <input type="checkbox" name="e625bf40-63fd-11eb-8163-f218984d6a0c" id="e625bf40-63fd-11eb-8163-f218984d6a0c-1" onclick="clear_selection('e625bf40-63fd-11eb-8163-f218984d6a0c')">
+        <label id="e625bf40-63fd-11eb-8163-f218984d6a0c-1-label" for="e625bf40-63fd-11eb-8163-f218984d6a0c-1">It deletes all breakpoints</label><br>
     
-        <input type="checkbox" name="c1a1e7da-5f60-11eb-8163-acde48001122" id="c1a1e7da-5f60-11eb-8163-acde48001122-2" onclick="clear_selection('c1a1e7da-5f60-11eb-8163-acde48001122')">
-        <label id="c1a1e7da-5f60-11eb-8163-acde48001122-2-label" for="c1a1e7da-5f60-11eb-8163-acde48001122-2">It deletes the source code</label><br>
+        <input type="checkbox" name="e625bf40-63fd-11eb-8163-f218984d6a0c" id="e625bf40-63fd-11eb-8163-f218984d6a0c-2" onclick="clear_selection('e625bf40-63fd-11eb-8163-f218984d6a0c')">
+        <label id="e625bf40-63fd-11eb-8163-f218984d6a0c-2-label" for="e625bf40-63fd-11eb-8163-f218984d6a0c-2">It deletes the source code</label><br>
     
-        <input type="checkbox" name="c1a1e7da-5f60-11eb-8163-acde48001122" id="c1a1e7da-5f60-11eb-8163-acde48001122-3" onclick="clear_selection('c1a1e7da-5f60-11eb-8163-acde48001122')">
-        <label id="c1a1e7da-5f60-11eb-8163-acde48001122-3-label" for="c1a1e7da-5f60-11eb-8163-acde48001122-3">It lists all breakpoints</label><br>
+        <input type="checkbox" name="e625bf40-63fd-11eb-8163-f218984d6a0c" id="e625bf40-63fd-11eb-8163-f218984d6a0c-3" onclick="clear_selection('e625bf40-63fd-11eb-8163-f218984d6a0c')">
+        <label id="e625bf40-63fd-11eb-8163-f218984d6a0c-3-label" for="e625bf40-63fd-11eb-8163-f218984d6a0c-3">It lists all breakpoints</label><br>
     
-        <input type="checkbox" name="c1a1e7da-5f60-11eb-8163-acde48001122" id="c1a1e7da-5f60-11eb-8163-acde48001122-4" onclick="clear_selection('c1a1e7da-5f60-11eb-8163-acde48001122')">
-        <label id="c1a1e7da-5f60-11eb-8163-acde48001122-4-label" for="c1a1e7da-5f60-11eb-8163-acde48001122-4">It stops execution</label><br>
+        <input type="checkbox" name="e625bf40-63fd-11eb-8163-f218984d6a0c" id="e625bf40-63fd-11eb-8163-f218984d6a0c-4" onclick="clear_selection('e625bf40-63fd-11eb-8163-f218984d6a0c')">
+        <label id="e625bf40-63fd-11eb-8163-f218984d6a0c-4-label" for="e625bf40-63fd-11eb-8163-f218984d6a0c-4">It stops execution</label><br>
     
     </div>
     </p>
-    <input id="c1a1e7da-5f60-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c1a1e7da-5f60-11eb-8163-acde48001122', 10, 1, '[n for n in range(2 // 2, 2 * 2) if n % 2 / 2]')">
-    <span class="quiz_hint" id="c1a1e7da-5f60-11eb-8163-acde48001122-hint"></span>
+    <input id="e625bf40-63fd-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('e625bf40-63fd-11eb-8163-f218984d6a0c', 10, 1, '[n for n in range(2 // 2, 2 * 2) if n % 2 / 2]')">
+    <span class="quiz_hint" id="e625bf40-63fd-11eb-8163-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -16485,7 +16497,7 @@ step       -- Execute up to the next line
 <text text-anchor="start" x="43.5" y="-182.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Debugger</text>
 <polyline fill="none" stroke="#000000" points="15,-173.5 140,-173.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="Debugger">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fce60134a58&gt;):&#10;Create a new interactive debugger.">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fa50e134a58&gt;):&#10;Create a new interactive debugger.">
 <text text-anchor="start" x="23.5" y="-162" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -16566,7 +16578,7 @@ step       -- Execute up to the next line
 <text text-anchor="start" x="8.5" y="-307.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node2_19"><a xlink:href="Tracer.ipynb" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fce60134a58&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
+<g id="a_node2_19"><a xlink:href="Tracer.ipynb" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fa50e134a58&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
 <text text-anchor="start" x="8.5" y="-296.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>

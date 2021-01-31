@@ -14219,7 +14219,7 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 
     
     <script>
-    var answers_b6921b4c5f6011eba588acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -14257,8 +14257,14 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_b6921b4c5f6011eba588acde48001122++;
-            if (answers_b6921b4c5f6011eba588acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -14291,22 +14297,22 @@ return 251 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-1" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
-        <label id="b6921b4c-5f60-11eb-a588-acde48001122-1-label" for="b6921b4c-5f60-11eb-a588-acde48001122-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
+        <input type="radio" name="dbda9ab0-63fd-11eb-a588-f218984d6a0c" id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-1" onclick="clear_selection('dbda9ab0-63fd-11eb-a588-f218984d6a0c')">
+        <label id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-1-label" for="dbda9ab0-63fd-11eb-a588-f218984d6a0c-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
     
-        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-2" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
-        <label id="b6921b4c-5f60-11eb-a588-acde48001122-2-label" for="b6921b4c-5f60-11eb-a588-acde48001122-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
+        <input type="radio" name="dbda9ab0-63fd-11eb-a588-f218984d6a0c" id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-2" onclick="clear_selection('dbda9ab0-63fd-11eb-a588-f218984d6a0c')">
+        <label id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-2-label" for="dbda9ab0-63fd-11eb-a588-f218984d6a0c-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
     
-        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-3" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
-        <label id="b6921b4c-5f60-11eb-a588-acde48001122-3-label" for="b6921b4c-5f60-11eb-a588-acde48001122-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
+        <input type="radio" name="dbda9ab0-63fd-11eb-a588-f218984d6a0c" id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-3" onclick="clear_selection('dbda9ab0-63fd-11eb-a588-f218984d6a0c')">
+        <label id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-3-label" for="dbda9ab0-63fd-11eb-a588-f218984d6a0c-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
     
-        <input type="radio" name="b6921b4c-5f60-11eb-a588-acde48001122" id="b6921b4c-5f60-11eb-a588-acde48001122-4" onclick="clear_selection('b6921b4c-5f60-11eb-a588-acde48001122')">
-        <label id="b6921b4c-5f60-11eb-a588-acde48001122-4-label" for="b6921b4c-5f60-11eb-a588-acde48001122-4">Nothing changes</label><br>
+        <input type="radio" name="dbda9ab0-63fd-11eb-a588-f218984d6a0c" id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-4" onclick="clear_selection('dbda9ab0-63fd-11eb-a588-f218984d6a0c')">
+        <label id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-4-label" for="dbda9ab0-63fd-11eb-a588-f218984d6a0c-4">Nothing changes</label><br>
     
     </div>
     </p>
-    <input id="b6921b4c-5f60-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b6921b4c-5f60-11eb-a588-acde48001122', 4, 0, 'math.log(7.38905609893065)')">
-    <span class="quiz_hint" id="b6921b4c-5f60-11eb-a588-acde48001122-hint"></span>
+    <input id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dbda9ab0-63fd-11eb-a588-f218984d6a0c', 4, 0, 'math.log(7.38905609893065)')">
+    <span class="quiz_hint" id="dbda9ab0-63fd-11eb-a588-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15324,7 +15330,7 @@ remove_html_markup() returns &#39;x&#39;
 
     
     <script>
-    var answers_b6e012685f6011eb8163acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15362,8 +15368,14 @@ remove_html_markup() returns &#39;x&#39;
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_b6e012685f6011eb8163acde48001122++;
-            if (answers_b6e012685f6011eb8163acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15396,19 +15408,19 @@ remove_html_markup() returns &#39;x&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="b6e01268-5f60-11eb-8163-acde48001122" id="b6e01268-5f60-11eb-8163-acde48001122-1" onclick="clear_selection('b6e01268-5f60-11eb-8163-acde48001122')">
-        <label id="b6e01268-5f60-11eb-8163-acde48001122-1-label" for="b6e01268-5f60-11eb-8163-acde48001122-1">The tracer stops, raising an exception</label><br>
+        <input type="radio" name="dc1874de-63fd-11eb-8163-f218984d6a0c" id="dc1874de-63fd-11eb-8163-f218984d6a0c-1" onclick="clear_selection('dc1874de-63fd-11eb-8163-f218984d6a0c')">
+        <label id="dc1874de-63fd-11eb-8163-f218984d6a0c-1-label" for="dc1874de-63fd-11eb-8163-f218984d6a0c-1">The tracer stops, raising an exception</label><br>
     
-        <input type="radio" name="b6e01268-5f60-11eb-8163-acde48001122" id="b6e01268-5f60-11eb-8163-acde48001122-2" onclick="clear_selection('b6e01268-5f60-11eb-8163-acde48001122')">
-        <label id="b6e01268-5f60-11eb-8163-acde48001122-2-label" for="b6e01268-5f60-11eb-8163-acde48001122-2">The tracer continues as if the condition were <code>True</code></label><br>
+        <input type="radio" name="dc1874de-63fd-11eb-8163-f218984d6a0c" id="dc1874de-63fd-11eb-8163-f218984d6a0c-2" onclick="clear_selection('dc1874de-63fd-11eb-8163-f218984d6a0c')">
+        <label id="dc1874de-63fd-11eb-8163-f218984d6a0c-2-label" for="dc1874de-63fd-11eb-8163-f218984d6a0c-2">The tracer continues as if the condition were <code>True</code></label><br>
     
-        <input type="radio" name="b6e01268-5f60-11eb-8163-acde48001122" id="b6e01268-5f60-11eb-8163-acde48001122-3" onclick="clear_selection('b6e01268-5f60-11eb-8163-acde48001122')">
-        <label id="b6e01268-5f60-11eb-8163-acde48001122-3-label" for="b6e01268-5f60-11eb-8163-acde48001122-3">The tracer continues as if the condition were <code>False</code></label><br>
+        <input type="radio" name="dc1874de-63fd-11eb-8163-f218984d6a0c" id="dc1874de-63fd-11eb-8163-f218984d6a0c-3" onclick="clear_selection('dc1874de-63fd-11eb-8163-f218984d6a0c')">
+        <label id="dc1874de-63fd-11eb-8163-f218984d6a0c-3-label" for="dc1874de-63fd-11eb-8163-f218984d6a0c-3">The tracer continues as if the condition were <code>False</code></label><br>
     
     </div>
     </p>
-    <input id="b6e01268-5f60-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b6e01268-5f60-11eb-8163-acde48001122', 2, 0, '393 % 7')">
-    <span class="quiz_hint" id="b6e01268-5f60-11eb-8163-acde48001122-hint"></span>
+    <input id="dc1874de-63fd-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dc1874de-63fd-11eb-8163-f218984d6a0c', 2, 0, '393 % 7')">
+    <span class="quiz_hint" id="dc1874de-63fd-11eb-8163-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15586,7 +15598,7 @@ SyntaxError: unexpected EOF while parsing (expected)
 
     
     <script>
-    var answers_b6e7969e5f6011eb9732acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15624,8 +15636,14 @@ SyntaxError: unexpected EOF while parsing (expected)
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_b6e7969e5f6011eb9732acde48001122++;
-            if (answers_b6e7969e5f6011eb9732acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15658,16 +15676,16 @@ SyntaxError: unexpected EOF while parsing (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="b6e7969e-5f60-11eb-9732-acde48001122" id="b6e7969e-5f60-11eb-9732-acde48001122-1" onclick="clear_selection('b6e7969e-5f60-11eb-9732-acde48001122')">
-        <label id="b6e7969e-5f60-11eb-9732-acde48001122-1-label" for="b6e7969e-5f60-11eb-9732-acde48001122-1"><code>line</code> as in the debugger</label><br>
+        <input type="radio" name="dc1e2b22-63fd-11eb-9732-f218984d6a0c" id="dc1e2b22-63fd-11eb-9732-f218984d6a0c-1" onclick="clear_selection('dc1e2b22-63fd-11eb-9732-f218984d6a0c')">
+        <label id="dc1e2b22-63fd-11eb-9732-f218984d6a0c-1-label" for="dc1e2b22-63fd-11eb-9732-f218984d6a0c-1"><code>line</code> as in the debugger</label><br>
     
-        <input type="radio" name="b6e7969e-5f60-11eb-9732-acde48001122" id="b6e7969e-5f60-11eb-9732-acde48001122-2" onclick="clear_selection('b6e7969e-5f60-11eb-9732-acde48001122')">
-        <label id="b6e7969e-5f60-11eb-9732-acde48001122-2-label" for="b6e7969e-5f60-11eb-9732-acde48001122-2"><code>line</code> as in the program</label><br>
+        <input type="radio" name="dc1e2b22-63fd-11eb-9732-f218984d6a0c" id="dc1e2b22-63fd-11eb-9732-f218984d6a0c-2" onclick="clear_selection('dc1e2b22-63fd-11eb-9732-f218984d6a0c')">
+        <label id="dc1e2b22-63fd-11eb-9732-f218984d6a0c-2-label" for="dc1e2b22-63fd-11eb-9732-f218984d6a0c-2"><code>line</code> as in the program</label><br>
     
     </div>
     </p>
-    <input id="b6e7969e-5f60-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b6e7969e-5f60-11eb-9732-acde48001122', 2, 0, '(326 * 27 == 8888) + 1')">
-    <span class="quiz_hint" id="b6e7969e-5f60-11eb-9732-acde48001122-hint"></span>
+    <input id="dc1e2b22-63fd-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dc1e2b22-63fd-11eb-9732-f218984d6a0c', 2, 0, '(326 * 27 == 8888) + 1')">
+    <span class="quiz_hint" id="dc1e2b22-63fd-11eb-9732-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15926,7 +15944,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.002662262999365339</pre>
+<pre>0.0026070650201290846</pre>
 </div>
 
 </div>
@@ -15972,7 +15990,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1.0117534609998984</pre>
+<pre>0.9392695680144243</pre>
 </div>
 
 </div>
@@ -16013,7 +16031,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>380.035128475696</pre>
+<pre>360.27853573361125</pre>
 </div>
 
 </div>
@@ -16334,7 +16352,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.023794336999344523</pre>
+<pre>0.02162905503064394</pre>
 </div>
 
 </div>
@@ -16467,7 +16485,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.03586026300035883</pre>
+<pre>0.03370690403971821</pre>
 </div>
 
 </div>
@@ -16500,7 +16518,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1.507092338876544</pre>
+<pre>1.5584085385127753</pre>
 </div>
 
 </div>
@@ -16616,7 +16634,7 @@ remove_html_markup() returns &#39;foo&#39;
 
     
     <script>
-    var answers_b7b3ad6c5f6011ebb36cacde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -16654,8 +16672,14 @@ remove_html_markup() returns &#39;foo&#39;
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_b7b3ad6c5f6011ebb36cacde48001122++;
-            if (answers_b7b3ad6c5f6011ebb36cacde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -16688,22 +16712,22 @@ remove_html_markup() returns &#39;foo&#39;
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-1" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
-        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-1-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-1">When <code>some_extreme_function()</code> returns</label><br>
+        <input type="checkbox" name="dcd912c0-63fd-11eb-b36c-f218984d6a0c" id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('dcd912c0-63fd-11eb-b36c-f218984d6a0c')">
+        <label id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-1-label" for="dcd912c0-63fd-11eb-b36c-f218984d6a0c-1">When <code>some_extreme_function()</code> returns</label><br>
     
-        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-2" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
-        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-2-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-2">For each line of <code>some_extreme_function()</code></label><br>
+        <input type="checkbox" name="dcd912c0-63fd-11eb-b36c-f218984d6a0c" id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('dcd912c0-63fd-11eb-b36c-f218984d6a0c')">
+        <label id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-2-label" for="dcd912c0-63fd-11eb-b36c-f218984d6a0c-2">For each line of <code>some_extreme_function()</code></label><br>
     
-        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-3" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
-        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-3-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-3">When <code>remove_html_markup()</code> returns</label><br>
+        <input type="checkbox" name="dcd912c0-63fd-11eb-b36c-f218984d6a0c" id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('dcd912c0-63fd-11eb-b36c-f218984d6a0c')">
+        <label id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-3-label" for="dcd912c0-63fd-11eb-b36c-f218984d6a0c-3">When <code>remove_html_markup()</code> returns</label><br>
     
-        <input type="checkbox" name="b7b3ad6c-5f60-11eb-b36c-acde48001122" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-4" onclick="clear_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122')">
-        <label id="b7b3ad6c-5f60-11eb-b36c-acde48001122-4-label" for="b7b3ad6c-5f60-11eb-b36c-acde48001122-4">For each line of <code>remove_html_markup()</code></label><br>
+        <input type="checkbox" name="dcd912c0-63fd-11eb-b36c-f218984d6a0c" id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('dcd912c0-63fd-11eb-b36c-f218984d6a0c')">
+        <label id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-4-label" for="dcd912c0-63fd-11eb-b36c-f218984d6a0c-4">For each line of <code>remove_html_markup()</code></label><br>
     
     </div>
     </p>
-    <input id="b7b3ad6c-5f60-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b7b3ad6c-5f60-11eb-b36c-acde48001122', 30, 1, '[ord(c) - 100 for c in &#x27;efgh&#x27;]')">
-    <span class="quiz_hint" id="b7b3ad6c-5f60-11eb-b36c-acde48001122-hint"></span>
+    <input id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dcd912c0-63fd-11eb-b36c-f218984d6a0c', 30, 1, '[ord(c) - 100 for c in &#x27;efgh&#x27;]')">
+    <span class="quiz_hint" id="dcd912c0-63fd-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -16920,7 +16944,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <text text-anchor="start" x="36" y="-50.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">EventTracer</text>
 <polyline fill="none" stroke="#000000" points="21,-41.5 134,-41.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="EventTracer">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd03580c9b0&gt;, condition=None, events=[]):&#10;Constructor. `events` is a list of expressions to watch.">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd5ab80c9b0&gt;, condition=None, events=[]):&#10;Constructor. `events` is a list of expressions to watch.">
 <text text-anchor="start" x="29.5" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -16945,7 +16969,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <text text-anchor="start" x="16.5" y="-162.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ConditionalTracer</text>
 <polyline fill="none" stroke="#000000" points="8.5,-153.5 146.5,-153.5 "/>
 <g id="a_node2_4"><a xlink:href="#" xlink:title="ConditionalTracer">
-<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd03580c9b0&gt;, condition=None):&#10;Constructor. Trace all events for which `condition` (a Python expr) holds.">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd5ab80c9b0&gt;, condition=None):&#10;Constructor. Trace all events for which `condition` (a Python expr) holds.">
 <text text-anchor="start" x="26.5" y="-142.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -16988,7 +17012,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <text text-anchor="start" x="8.5" y="-287.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd03580c9b0&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
+<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fd5ab80c9b0&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
 <text text-anchor="start" x="8.5" y="-276.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>

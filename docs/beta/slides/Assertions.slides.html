@@ -14218,7 +14218,8 @@ AssertionError (expected)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Assertion failed: 2 + 2 == 5, function main, file testassert.c, line 6</pre>
+<pre>Assertion failed: (2 + 2 == 5), function main, file testassert.c, line 6.
+</pre>
 </div>
 </div>
 
@@ -14507,7 +14508,7 @@ AssertionError
 
     
     <script>
-    var answers_59c5eec85f6411eba588acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -14545,8 +14546,14 @@ AssertionError
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59c5eec85f6411eba588acde48001122++;
-            if (answers_59c5eec85f6411eba588acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -14579,22 +14586,22 @@ AssertionError
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59c5eec8-5f64-11eb-a588-acde48001122" id="59c5eec8-5f64-11eb-a588-acde48001122-1" onclick="clear_selection('59c5eec8-5f64-11eb-a588-acde48001122')">
-        <label id="59c5eec8-5f64-11eb-a588-acde48001122-1-label" for="59c5eec8-5f64-11eb-a588-acde48001122-1">The failing condition (<code>2 + 2 == 5</code>)</label><br>
+        <input type="radio" name="ef738dd4-63fd-11eb-a588-f218984d6a0c" id="ef738dd4-63fd-11eb-a588-f218984d6a0c-1" onclick="clear_selection('ef738dd4-63fd-11eb-a588-f218984d6a0c')">
+        <label id="ef738dd4-63fd-11eb-a588-f218984d6a0c-1-label" for="ef738dd4-63fd-11eb-a588-f218984d6a0c-1">The failing condition (<code>2 + 2 == 5</code>)</label><br>
     
-        <input type="radio" name="59c5eec8-5f64-11eb-a588-acde48001122" id="59c5eec8-5f64-11eb-a588-acde48001122-2" onclick="clear_selection('59c5eec8-5f64-11eb-a588-acde48001122')">
-        <label id="59c5eec8-5f64-11eb-a588-acde48001122-2-label" for="59c5eec8-5f64-11eb-a588-acde48001122-2">The location of the assertion in the program</label><br>
+        <input type="radio" name="ef738dd4-63fd-11eb-a588-f218984d6a0c" id="ef738dd4-63fd-11eb-a588-f218984d6a0c-2" onclick="clear_selection('ef738dd4-63fd-11eb-a588-f218984d6a0c')">
+        <label id="ef738dd4-63fd-11eb-a588-f218984d6a0c-2-label" for="ef738dd4-63fd-11eb-a588-f218984d6a0c-2">The location of the assertion in the program</label><br>
     
-        <input type="radio" name="59c5eec8-5f64-11eb-a588-acde48001122" id="59c5eec8-5f64-11eb-a588-acde48001122-3" onclick="clear_selection('59c5eec8-5f64-11eb-a588-acde48001122')">
-        <label id="59c5eec8-5f64-11eb-a588-acde48001122-3-label" for="59c5eec8-5f64-11eb-a588-acde48001122-3">The list of callers</label><br>
+        <input type="radio" name="ef738dd4-63fd-11eb-a588-f218984d6a0c" id="ef738dd4-63fd-11eb-a588-f218984d6a0c-3" onclick="clear_selection('ef738dd4-63fd-11eb-a588-f218984d6a0c')">
+        <label id="ef738dd4-63fd-11eb-a588-f218984d6a0c-3-label" for="ef738dd4-63fd-11eb-a588-f218984d6a0c-3">The list of callers</label><br>
     
-        <input type="radio" name="59c5eec8-5f64-11eb-a588-acde48001122" id="59c5eec8-5f64-11eb-a588-acde48001122-4" onclick="clear_selection('59c5eec8-5f64-11eb-a588-acde48001122')">
-        <label id="59c5eec8-5f64-11eb-a588-acde48001122-4-label" for="59c5eec8-5f64-11eb-a588-acde48001122-4">All of the above</label><br>
+        <input type="radio" name="ef738dd4-63fd-11eb-a588-f218984d6a0c" id="ef738dd4-63fd-11eb-a588-f218984d6a0c-4" onclick="clear_selection('ef738dd4-63fd-11eb-a588-f218984d6a0c')">
+        <label id="ef738dd4-63fd-11eb-a588-f218984d6a0c-4-label" for="ef738dd4-63fd-11eb-a588-f218984d6a0c-4">All of the above</label><br>
     
     </div>
     </p>
-    <input id="59c5eec8-5f64-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59c5eec8-5f64-11eb-a588-acde48001122', 16, 0, '123456789 % 5')">
-    <span class="quiz_hint" id="59c5eec8-5f64-11eb-a588-acde48001122-hint"></span>
+    <input id="ef738dd4-63fd-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ef738dd4-63fd-11eb-a588-f218984d6a0c', 16, 0, '123456789 % 5')">
+    <span class="quiz_hint" id="ef738dd4-63fd-11eb-a588-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -14876,7 +14883,7 @@ AssertionError (expected)
 
     
     <script>
-    var answers_59cebcf65f6411eb8163acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -14914,8 +14921,14 @@ AssertionError (expected)
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59cebcf65f6411eb8163acde48001122++;
-            if (answers_59cebcf65f6411eb8163acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -14948,16 +14961,16 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59cebcf6-5f64-11eb-8163-acde48001122" id="59cebcf6-5f64-11eb-8163-acde48001122-1" onclick="clear_selection('59cebcf6-5f64-11eb-8163-acde48001122')">
-        <label id="59cebcf6-5f64-11eb-8163-acde48001122-1-label" for="59cebcf6-5f64-11eb-8163-acde48001122-1">Yes, since <code>&gt;=</code> is only defined between numbers</label><br>
+        <input type="radio" name="ef80d354-63fd-11eb-8163-f218984d6a0c" id="ef80d354-63fd-11eb-8163-f218984d6a0c-1" onclick="clear_selection('ef80d354-63fd-11eb-8163-f218984d6a0c')">
+        <label id="ef80d354-63fd-11eb-8163-f218984d6a0c-1-label" for="ef80d354-63fd-11eb-8163-f218984d6a0c-1">Yes, since <code>&gt;=</code> is only defined between numbers</label><br>
     
-        <input type="radio" name="59cebcf6-5f64-11eb-8163-acde48001122" id="59cebcf6-5f64-11eb-8163-acde48001122-2" onclick="clear_selection('59cebcf6-5f64-11eb-8163-acde48001122')">
-        <label id="59cebcf6-5f64-11eb-8163-acde48001122-2-label" for="59cebcf6-5f64-11eb-8163-acde48001122-2">No, because an empty list or string would evaluate to 0</label><br>
+        <input type="radio" name="ef80d354-63fd-11eb-8163-f218984d6a0c" id="ef80d354-63fd-11eb-8163-f218984d6a0c-2" onclick="clear_selection('ef80d354-63fd-11eb-8163-f218984d6a0c')">
+        <label id="ef80d354-63fd-11eb-8163-f218984d6a0c-2-label" for="ef80d354-63fd-11eb-8163-f218984d6a0c-2">No, because an empty list or string would evaluate to 0</label><br>
     
     </div>
     </p>
-    <input id="59cebcf6-5f64-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59cebcf6-5f64-11eb-8163-acde48001122', 2, 0, '0b10 - 0b01')">
-    <span class="quiz_hint" id="59cebcf6-5f64-11eb-8163-acde48001122-hint"></span>
+    <input id="ef80d354-63fd-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ef80d354-63fd-11eb-8163-f218984d6a0c', 2, 0, '0b10 - 0b01')">
+    <span class="quiz_hint" id="ef80d354-63fd-11eb-8163-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15075,7 +15088,7 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
 
     
     <script>
-    var answers_59d196885f6411eb9732acde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15113,8 +15126,14 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59d196885f6411eb9732acde48001122++;
-            if (answers_59d196885f6411eb9732acde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15147,22 +15166,22 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59d19688-5f64-11eb-9732-acde48001122" id="59d19688-5f64-11eb-9732-acde48001122-1" onclick="clear_selection('59d19688-5f64-11eb-9732-acde48001122')">
-        <label id="59d19688-5f64-11eb-9732-acde48001122-1-label" for="59d19688-5f64-11eb-9732-acde48001122-1">We need to compute <code>y ** 2</code>, not <code>y * y</code></label><br>
+        <input type="radio" name="ef84fd30-63fd-11eb-9732-f218984d6a0c" id="ef84fd30-63fd-11eb-9732-f218984d6a0c-1" onclick="clear_selection('ef84fd30-63fd-11eb-9732-f218984d6a0c')">
+        <label id="ef84fd30-63fd-11eb-9732-f218984d6a0c-1-label" for="ef84fd30-63fd-11eb-9732-f218984d6a0c-1">We need to compute <code>y ** 2</code>, not <code>y * y</code></label><br>
     
-        <input type="radio" name="59d19688-5f64-11eb-9732-acde48001122" id="59d19688-5f64-11eb-9732-acde48001122-2" onclick="clear_selection('59d19688-5f64-11eb-9732-acde48001122')">
-        <label id="59d19688-5f64-11eb-9732-acde48001122-2-label" for="59d19688-5f64-11eb-9732-acde48001122-2">We may encounter rounding errors</label><br>
+        <input type="radio" name="ef84fd30-63fd-11eb-9732-f218984d6a0c" id="ef84fd30-63fd-11eb-9732-f218984d6a0c-2" onclick="clear_selection('ef84fd30-63fd-11eb-9732-f218984d6a0c')">
+        <label id="ef84fd30-63fd-11eb-9732-f218984d6a0c-2-label" for="ef84fd30-63fd-11eb-9732-f218984d6a0c-2">We may encounter rounding errors</label><br>
     
-        <input type="radio" name="59d19688-5f64-11eb-9732-acde48001122" id="59d19688-5f64-11eb-9732-acde48001122-3" onclick="clear_selection('59d19688-5f64-11eb-9732-acde48001122')">
-        <label id="59d19688-5f64-11eb-9732-acde48001122-3-label" for="59d19688-5f64-11eb-9732-acde48001122-3">The value of <code>x</code> may have changed during computation</label><br>
+        <input type="radio" name="ef84fd30-63fd-11eb-9732-f218984d6a0c" id="ef84fd30-63fd-11eb-9732-f218984d6a0c-3" onclick="clear_selection('ef84fd30-63fd-11eb-9732-f218984d6a0c')">
+        <label id="ef84fd30-63fd-11eb-9732-f218984d6a0c-3-label" for="ef84fd30-63fd-11eb-9732-f218984d6a0c-3">The value of <code>x</code> may have changed during computation</label><br>
     
-        <input type="radio" name="59d19688-5f64-11eb-9732-acde48001122" id="59d19688-5f64-11eb-9732-acde48001122-4" onclick="clear_selection('59d19688-5f64-11eb-9732-acde48001122')">
-        <label id="59d19688-5f64-11eb-9732-acde48001122-4-label" for="59d19688-5f64-11eb-9732-acde48001122-4">The interpreter / compiler may be buggy</label><br>
+        <input type="radio" name="ef84fd30-63fd-11eb-9732-f218984d6a0c" id="ef84fd30-63fd-11eb-9732-f218984d6a0c-4" onclick="clear_selection('ef84fd30-63fd-11eb-9732-f218984d6a0c')">
+        <label id="ef84fd30-63fd-11eb-9732-f218984d6a0c-4-label" for="ef84fd30-63fd-11eb-9732-f218984d6a0c-4">The interpreter / compiler may be buggy</label><br>
     
     </div>
     </p>
-    <input id="59d19688-5f64-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59d19688-5f64-11eb-9732-acde48001122', 4, 0, '0b110011 - 0o61')">
-    <span class="quiz_hint" id="59d19688-5f64-11eb-9732-acde48001122-hint"></span>
+    <input id="ef84fd30-63fd-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ef84fd30-63fd-11eb-9732-f218984d6a0c', 4, 0, '0b110011 - 0o61')">
+    <span class="quiz_hint" id="ef84fd30-63fd-11eb-9732-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15543,7 +15562,7 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
 
     
     <script>
-    var answers_59dd90fa5f6411ebb36cacde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15581,8 +15600,14 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59dd90fa5f6411ebb36cacde48001122++;
-            if (answers_59dd90fa5f6411ebb36cacde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15615,16 +15640,16 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59dd90fa-5f64-11eb-b36c-acde48001122" id="59dd90fa-5f64-11eb-b36c-acde48001122-1" onclick="clear_selection('59dd90fa-5f64-11eb-b36c-acde48001122')">
-        <label id="59dd90fa-5f64-11eb-b36c-acde48001122-1-label" for="59dd90fa-5f64-11eb-b36c-acde48001122-1">Yes</label><br>
+        <input type="radio" name="ef95bfb4-63fd-11eb-b36c-f218984d6a0c" id="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('ef95bfb4-63fd-11eb-b36c-f218984d6a0c')">
+        <label id="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-1-label" for="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-1">Yes</label><br>
     
-        <input type="radio" name="59dd90fa-5f64-11eb-b36c-acde48001122" id="59dd90fa-5f64-11eb-b36c-acde48001122-2" onclick="clear_selection('59dd90fa-5f64-11eb-b36c-acde48001122')">
-        <label id="59dd90fa-5f64-11eb-b36c-acde48001122-2-label" for="59dd90fa-5f64-11eb-b36c-acde48001122-2">No</label><br>
+        <input type="radio" name="ef95bfb4-63fd-11eb-b36c-f218984d6a0c" id="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('ef95bfb4-63fd-11eb-b36c-f218984d6a0c')">
+        <label id="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-2-label" for="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-2">No</label><br>
     
     </div>
     </p>
-    <input id="59dd90fa-5f64-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59dd90fa-5f64-11eb-b36c-acde48001122', 2, 0, 'int(&quot;Y&quot; in &quot;Yes&quot;)')">
-    <span class="quiz_hint" id="59dd90fa-5f64-11eb-b36c-acde48001122-hint"></span>
+    <input id="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ef95bfb4-63fd-11eb-b36c-f218984d6a0c', 2, 0, 'int(&quot;Y&quot; in &quot;Yes&quot;)')">
+    <span class="quiz_hint" id="ef95bfb4-63fd-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15813,7 +15838,7 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
 
     
     <script>
-    var answers_59e197c25f6411eb835facde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -15851,8 +15876,14 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59e197c25f6411eb835facde48001122++;
-            if (answers_59e197c25f6411eb835facde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -15885,22 +15916,22 @@ TypeError: &#39;&gt;=&#39; not supported between instances of &#39;str&#39; and 
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59e197c2-5f64-11eb-835f-acde48001122" id="59e197c2-5f64-11eb-835f-acde48001122-1" onclick="clear_selection('59e197c2-5f64-11eb-835f-acde48001122')">
-        <label id="59e197c2-5f64-11eb-835f-acde48001122-1-label" for="59e197c2-5f64-11eb-835f-acde48001122-1"><code>&lt;foo&gt;bar&lt;/foo&gt;</code></label><br>
+        <input type="radio" name="ef9bc2d8-63fd-11eb-835f-f218984d6a0c" id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-1" onclick="clear_selection('ef9bc2d8-63fd-11eb-835f-f218984d6a0c')">
+        <label id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-1-label" for="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-1"><code>&lt;foo&gt;bar&lt;/foo&gt;</code></label><br>
     
-        <input type="radio" name="59e197c2-5f64-11eb-835f-acde48001122" id="59e197c2-5f64-11eb-835f-acde48001122-2" onclick="clear_selection('59e197c2-5f64-11eb-835f-acde48001122')">
-        <label id="59e197c2-5f64-11eb-835f-acde48001122-2-label" for="59e197c2-5f64-11eb-835f-acde48001122-2"><code>"foo"</code></label><br>
+        <input type="radio" name="ef9bc2d8-63fd-11eb-835f-f218984d6a0c" id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-2" onclick="clear_selection('ef9bc2d8-63fd-11eb-835f-f218984d6a0c')">
+        <label id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-2-label" for="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-2"><code>"foo"</code></label><br>
     
-        <input type="radio" name="59e197c2-5f64-11eb-835f-acde48001122" id="59e197c2-5f64-11eb-835f-acde48001122-3" onclick="clear_selection('59e197c2-5f64-11eb-835f-acde48001122')">
-        <label id="59e197c2-5f64-11eb-835f-acde48001122-3-label" for="59e197c2-5f64-11eb-835f-acde48001122-3"><code>&gt;foo&lt;</code></label><br>
+        <input type="radio" name="ef9bc2d8-63fd-11eb-835f-f218984d6a0c" id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-3" onclick="clear_selection('ef9bc2d8-63fd-11eb-835f-f218984d6a0c')">
+        <label id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-3-label" for="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-3"><code>&gt;foo&lt;</code></label><br>
     
-        <input type="radio" name="59e197c2-5f64-11eb-835f-acde48001122" id="59e197c2-5f64-11eb-835f-acde48001122-4" onclick="clear_selection('59e197c2-5f64-11eb-835f-acde48001122')">
-        <label id="59e197c2-5f64-11eb-835f-acde48001122-4-label" for="59e197c2-5f64-11eb-835f-acde48001122-4"><code>"x &gt; y"</code></label><br>
+        <input type="radio" name="ef9bc2d8-63fd-11eb-835f-f218984d6a0c" id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-4" onclick="clear_selection('ef9bc2d8-63fd-11eb-835f-f218984d6a0c')">
+        <label id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-4-label" for="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-4"><code>"x &gt; y"</code></label><br>
     
     </div>
     </p>
-    <input id="59e197c2-5f64-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59e197c2-5f64-11eb-835f-acde48001122', 16, 0, '1 + 1 -(-1) + (1 * -1) + 1 ** (1 - 1) + 1')">
-    <span class="quiz_hint" id="59e197c2-5f64-11eb-835f-acde48001122-hint"></span>
+    <input id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('ef9bc2d8-63fd-11eb-835f-f218984d6a0c', 16, 0, '1 + 1 -(-1) + (1 * -1) + 1 ** (1 - 1) + 1')">
+    <span class="quiz_hint" id="ef9bc2d8-63fd-11eb-835f-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -16053,7 +16084,7 @@ AssertionError (expected)
 
     
     <script>
-    var answers_59e57d425f6411eb858dacde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -16091,8 +16122,14 @@ AssertionError (expected)
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59e57d425f6411eb858dacde48001122++;
-            if (answers_59e57d425f6411eb858dacde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -16125,19 +16162,19 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59e57d42-5f64-11eb-858d-acde48001122" id="59e57d42-5f64-11eb-858d-acde48001122-1" onclick="clear_selection('59e57d42-5f64-11eb-858d-acde48001122')">
-        <label id="59e57d42-5f64-11eb-858d-acde48001122-1-label" for="59e57d42-5f64-11eb-858d-acde48001122-1">It returns the minimum value out of <code>x</code>, <code>y</code>, <code>z</code></label><br>
+        <input type="radio" name="efa1634c-63fd-11eb-858d-f218984d6a0c" id="efa1634c-63fd-11eb-858d-f218984d6a0c-1" onclick="clear_selection('efa1634c-63fd-11eb-858d-f218984d6a0c')">
+        <label id="efa1634c-63fd-11eb-858d-f218984d6a0c-1-label" for="efa1634c-63fd-11eb-858d-f218984d6a0c-1">It returns the minimum value out of <code>x</code>, <code>y</code>, <code>z</code></label><br>
     
-        <input type="radio" name="59e57d42-5f64-11eb-858d-acde48001122" id="59e57d42-5f64-11eb-858d-acde48001122-2" onclick="clear_selection('59e57d42-5f64-11eb-858d-acde48001122')">
-        <label id="59e57d42-5f64-11eb-858d-acde48001122-2-label" for="59e57d42-5f64-11eb-858d-acde48001122-2">It returns the middle value out of <code>x</code>, <code>y</code>, <code>z</code></label><br>
+        <input type="radio" name="efa1634c-63fd-11eb-858d-f218984d6a0c" id="efa1634c-63fd-11eb-858d-f218984d6a0c-2" onclick="clear_selection('efa1634c-63fd-11eb-858d-f218984d6a0c')">
+        <label id="efa1634c-63fd-11eb-858d-f218984d6a0c-2-label" for="efa1634c-63fd-11eb-858d-f218984d6a0c-2">It returns the middle value out of <code>x</code>, <code>y</code>, <code>z</code></label><br>
     
-        <input type="radio" name="59e57d42-5f64-11eb-858d-acde48001122" id="59e57d42-5f64-11eb-858d-acde48001122-3" onclick="clear_selection('59e57d42-5f64-11eb-858d-acde48001122')">
-        <label id="59e57d42-5f64-11eb-858d-acde48001122-3-label" for="59e57d42-5f64-11eb-858d-acde48001122-3">It returns the maximum value out of <code>x</code>, <code>y</code>, <code>z</code></label><br>
+        <input type="radio" name="efa1634c-63fd-11eb-858d-f218984d6a0c" id="efa1634c-63fd-11eb-858d-f218984d6a0c-3" onclick="clear_selection('efa1634c-63fd-11eb-858d-f218984d6a0c')">
+        <label id="efa1634c-63fd-11eb-858d-f218984d6a0c-3-label" for="efa1634c-63fd-11eb-858d-f218984d6a0c-3">It returns the maximum value out of <code>x</code>, <code>y</code>, <code>z</code></label><br>
     
     </div>
     </p>
-    <input id="59e57d42-5f64-11eb-858d-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59e57d42-5f64-11eb-858d-acde48001122', 4, 0, 'int(0.5 ** math.cos(math.pi))')">
-    <span class="quiz_hint" id="59e57d42-5f64-11eb-858d-acde48001122-hint"></span>
+    <input id="efa1634c-63fd-11eb-858d-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('efa1634c-63fd-11eb-858d-f218984d6a0c', 4, 0, 'int(0.5 ** math.cos(math.pi))')">
+    <span class="quiz_hint" id="efa1634c-63fd-11eb-858d-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -16211,7 +16248,7 @@ Indeed, with proper assertions, it is almost trivial to locate the one function 
 
     
     <script>
-    var answers_59e6ca465f6411eba9acacde48001122 = 0;
+    var bad_answers = new Map();
 
     function answer(quiz_id) {
         ans = 0;
@@ -16249,8 +16286,14 @@ Indeed, with proper assertions, it is almost trivial to locate the one function 
         {
             document.getElementById(quiz_id + "-submit").value = "Try again";
             
-            answers_59e6ca465f6411eba9acacde48001122++;
-            if (answers_59e6ca465f6411eba9acacde48001122 >= 2 && hint.length > 0) {
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
                 document.getElementById(quiz_id + "-hint").innerHTML = 
                     "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
             }
@@ -16283,22 +16326,22 @@ Indeed, with proper assertions, it is almost trivial to locate the one function 
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="59e6ca46-5f64-11eb-a9ac-acde48001122" id="59e6ca46-5f64-11eb-a9ac-acde48001122-1" onclick="clear_selection('59e6ca46-5f64-11eb-a9ac-acde48001122')">
-        <label id="59e6ca46-5f64-11eb-a9ac-acde48001122-1-label" for="59e6ca46-5f64-11eb-a9ac-acde48001122-1"><code>g()</code> because it raises an exception</label><br>
+        <input type="radio" name="efa32792-63fd-11eb-a9ac-f218984d6a0c" id="efa32792-63fd-11eb-a9ac-f218984d6a0c-1" onclick="clear_selection('efa32792-63fd-11eb-a9ac-f218984d6a0c')">
+        <label id="efa32792-63fd-11eb-a9ac-f218984d6a0c-1-label" for="efa32792-63fd-11eb-a9ac-f218984d6a0c-1"><code>g()</code> because it raises an exception</label><br>
     
-        <input type="radio" name="59e6ca46-5f64-11eb-a9ac-acde48001122" id="59e6ca46-5f64-11eb-a9ac-acde48001122-2" onclick="clear_selection('59e6ca46-5f64-11eb-a9ac-acde48001122')">
-        <label id="59e6ca46-5f64-11eb-a9ac-acde48001122-2-label" for="59e6ca46-5f64-11eb-a9ac-acde48001122-2"><code>f()</code> because it violates the precondition of <code>g()</code></label><br>
+        <input type="radio" name="efa32792-63fd-11eb-a9ac-f218984d6a0c" id="efa32792-63fd-11eb-a9ac-f218984d6a0c-2" onclick="clear_selection('efa32792-63fd-11eb-a9ac-f218984d6a0c')">
+        <label id="efa32792-63fd-11eb-a9ac-f218984d6a0c-2-label" for="efa32792-63fd-11eb-a9ac-f218984d6a0c-2"><code>f()</code> because it violates the precondition of <code>g()</code></label><br>
     
-        <input type="radio" name="59e6ca46-5f64-11eb-a9ac-acde48001122" id="59e6ca46-5f64-11eb-a9ac-acde48001122-3" onclick="clear_selection('59e6ca46-5f64-11eb-a9ac-acde48001122')">
-        <label id="59e6ca46-5f64-11eb-a9ac-acde48001122-3-label" for="59e6ca46-5f64-11eb-a9ac-acde48001122-3">Both <code>f()</code> and <code>g()</code> because they are incompatible</label><br>
+        <input type="radio" name="efa32792-63fd-11eb-a9ac-f218984d6a0c" id="efa32792-63fd-11eb-a9ac-f218984d6a0c-3" onclick="clear_selection('efa32792-63fd-11eb-a9ac-f218984d6a0c')">
+        <label id="efa32792-63fd-11eb-a9ac-f218984d6a0c-3-label" for="efa32792-63fd-11eb-a9ac-f218984d6a0c-3">Both <code>f()</code> and <code>g()</code> because they are incompatible</label><br>
     
-        <input type="radio" name="59e6ca46-5f64-11eb-a9ac-acde48001122" id="59e6ca46-5f64-11eb-a9ac-acde48001122-4" onclick="clear_selection('59e6ca46-5f64-11eb-a9ac-acde48001122')">
-        <label id="59e6ca46-5f64-11eb-a9ac-acde48001122-4-label" for="59e6ca46-5f64-11eb-a9ac-acde48001122-4">None of the above</label><br>
+        <input type="radio" name="efa32792-63fd-11eb-a9ac-f218984d6a0c" id="efa32792-63fd-11eb-a9ac-f218984d6a0c-4" onclick="clear_selection('efa32792-63fd-11eb-a9ac-f218984d6a0c')">
+        <label id="efa32792-63fd-11eb-a9ac-f218984d6a0c-4-label" for="efa32792-63fd-11eb-a9ac-f218984d6a0c-4">None of the above</label><br>
     
     </div>
     </p>
-    <input id="59e6ca46-5f64-11eb-a9ac-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('59e6ca46-5f64-11eb-a9ac-acde48001122', 4, 0, 'math.factorial(int(math.tau / math.pi))')">
-    <span class="quiz_hint" id="59e6ca46-5f64-11eb-a9ac-acde48001122-hint"></span>
+    <input id="efa32792-63fd-11eb-a9ac-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('efa32792-63fd-11eb-a9ac-f218984d6a0c', 4, 0, 'math.factorial(int(math.tau / math.pi))')">
+    <span class="quiz_hint" id="efa32792-63fd-11eb-a9ac-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -18364,10 +18407,10 @@ IndexError: string index out of range (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-127-5fa513802374&gt;&#34;, line 2, in &lt;module&gt;
     m.allocate(1)
-  File &#34;&lt;ipython-input-100-541dcb6e90e8&gt;&#34;, line 22, in allocate
-    chunk_length = self.memory[chunk + 1]
-  File &#34;&lt;ipython-input-100-541dcb6e90e8&gt;&#34;, line 22, in allocate
-    chunk_length = self.memory[chunk + 1]
+  File &#34;&lt;ipython-input-100-541dcb6e90e8&gt;&#34;, line 24, in allocate
+    if chunk_length &lt; 0 and abs(chunk_length) &gt;= block_size:
+  File &#34;&lt;ipython-input-100-541dcb6e90e8&gt;&#34;, line 24, in allocate
+    if chunk_length &lt; 0 and abs(chunk_length) &gt;= block_size:
   File &#34;ExpectError.ipynb&#34;, line 63, in check_time
     raise TimeoutError
 TimeoutError (expected)
@@ -19265,20 +19308,20 @@ AssertionError: Freeing memory that is already freed (expected)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>=================================================================
-<span class="ansi-red-intense-fg ansi-bold">==85823==ERROR: AddressSanitizer: heap-use-after-free on address 0x614000000268 at pc 0x00010e9c3f27 bp 0x7ffee123f220 sp 0x7ffee123f218
+<span class="ansi-red-intense-fg ansi-bold">==11005==ERROR: AddressSanitizer: heap-use-after-free on address 0x614000000268 at pc 0x00010f645f27 bp 0x7ffee05bd220 sp 0x7ffee05bd218
 </span><span class="ansi-blue-intense-fg ansi-bold">READ of size 4 at 0x614000000268 thread T0</span>
-    #0 0x10e9c3f26 in main+0x86 (testuseafterfree:x86_64+0x100003f26)
+    #0 0x10f645f26 in main+0x86 (testuseafterfree:x86_64+0x100003f26)
     #1 0x7fff2035b620 in start+0x0 (libdyld.dylib:x86_64+0x15620)
 
 <span class="ansi-green-intense-fg ansi-bold">0x614000000268 is located 40 bytes inside of 400-byte region [0x614000000240,0x6140000003d0)
 </span><span class="ansi-magenta-intense-fg ansi-bold">freed by thread T0 here:</span>
-    #0 0x10ea1d2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
-    #1 0x10e9c3ecf in main+0x2f (testuseafterfree:x86_64+0x100003ecf)
+    #0 0x10f69b2c6 in wrap_free+0xa6 (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x492c6)
+    #1 0x10f645ecf in main+0x2f (testuseafterfree:x86_64+0x100003ecf)
     #2 0x7fff2035b620 in start+0x0 (libdyld.dylib:x86_64+0x15620)
 
 <span class="ansi-magenta-intense-fg ansi-bold">previously allocated by thread T0 here:</span>
-    #0 0x10ea1d17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
-    #1 0x10e9c3ebf in main+0x1f (testuseafterfree:x86_64+0x100003ebf)
+    #0 0x10f69b17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x10f645ebf in main+0x1f (testuseafterfree:x86_64+0x100003ebf)
     #2 0x7fff2035b620 in start+0x0 (libdyld.dylib:x86_64+0x15620)
 
 SUMMARY: AddressSanitizer: heap-use-after-free (testuseafterfree:x86_64+0x100003f26) in main+0x86
@@ -19314,7 +19357,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Left alloca redzone:     <span class="ansi-blue-intense-fg ansi-bold">ca</span>
   Right alloca redzone:    <span class="ansi-blue-intense-fg ansi-bold">cb</span>
   Shadow gap:              cc
-==85823==ABORTING
+==11005==ABORTING
 </pre>
 </div>
 </div>
@@ -19367,26 +19410,26 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>=================================================================
-<span class="ansi-red-intense-fg ansi-bold">==85828==ERROR: AddressSanitizer: global-buffer-overflow on address 0x0001035e1f4a at pc 0x0001035e1e82 bp 0x7ffeec621230 sp 0x7ffeec621228
-</span><span class="ansi-blue-intense-fg ansi-bold">READ of size 1 at 0x0001035e1f4a thread T0</span>
-    #0 0x1035e1e81 in main+0x71 (testoverflow:x86_64+0x100003e81)
+<span class="ansi-red-intense-fg ansi-bold">==11013==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000100c75f4a at pc 0x000100c75e82 bp 0x7ffeeef8d230 sp 0x7ffeeef8d228
+</span><span class="ansi-blue-intense-fg ansi-bold">READ of size 1 at 0x000100c75f4a thread T0</span>
+    #0 0x100c75e81 in main+0x71 (testoverflow:x86_64+0x100003e81)
     #1 0x7fff2035b620 in start+0x0 (libdyld.dylib:x86_64+0x15620)
 
-<span class="ansi-green-intense-fg ansi-bold">0x0001035e1f4a is located 6 bytes to the right of global variable &#39;&lt;string literal&gt;&#39; defined in &#39;testoverflow.c:7:12&#39; (0x1035e1f40) of size 4
+<span class="ansi-green-intense-fg ansi-bold">0x000100c75f4a is located 6 bytes to the right of global variable &#39;&lt;string literal&gt;&#39; defined in &#39;testoverflow.c:7:12&#39; (0x100c75f40) of size 4
 </span>  &#39;&lt;string literal&gt;&#39; is ascii string &#39;foo&#39;
 SUMMARY: AddressSanitizer: global-buffer-overflow (testoverflow:x86_64+0x100003e81) in main+0x71
 Shadow bytes around the buggy address:
-  0x1000206bc390: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc3a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc3b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc3c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc3d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-=&gt;0x1000206bc3e0: 00 00 00 00 00 00 00 00 04[<span class="ansi-red-intense-fg ansi-bold">f9</span>]<span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span>
-  0x1000206bc3f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc410: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc420: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x1000206bc430: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018eb90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018eba0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ebb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ebc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ebd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x10002018ebe0: 00 00 00 00 00 00 00 00 04[<span class="ansi-red-intense-fg ansi-bold">f9</span>]<span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span> <span class="ansi-red-intense-fg ansi-bold">f9</span>
+  0x10002018ebf0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ec00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ec10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ec20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x10002018ec30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 Shadow byte legend (one shadow byte represents 8 application bytes):
   Addressable:           00
   Partially addressable: 01 02 03 04 05 06 07 
@@ -19407,7 +19450,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Left alloca redzone:     <span class="ansi-blue-intense-fg ansi-bold">ca</span>
   Right alloca redzone:    <span class="ansi-blue-intense-fg ansi-bold">cb</span>
   Shadow gap:              cc
-==85828==ABORTING
+==11013==ABORTING
 </pre>
 </div>
 </div>
