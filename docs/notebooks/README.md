@@ -5,7 +5,7 @@ Software has bugs, and finding bugs can involve lots of effort.  This book addre
 
 **<span style="background-color: yellow">
     <i class="fa fa-fw fa-wrench"></i>
-This book is work in progress. It will be released to the public in the beginning of 2021.</span>**
+This book is work in progress. It will be released to the public in Spring 2021.</span>**
 
 ## A Textbook for Paper, Screen, and Keyboard
 
@@ -30,7 +30,7 @@ This book is _work in progress_, with new chapters being added every week. To ge
 <a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-dnt="true">News from @Debugging_Book</a> 
 
 
-## About the Authors
+## About the Author
 
 This book is written by [Andreas Zeller](https://andreas-zeller.info), a long-standing expert in automated debugging, software analysis and software testing.  Andreas is happy to share his expertise and making it accessible to the public.
 
@@ -59,7 +59,7 @@ If mybinder.org does not work or match your needs, you have a number of alternat
 
 #### Can I run the code on my Windows machine?
 
-We try to keep the code as general as possible, but occasionally, when we interact with the operating system, we assume a Unix-like environment (because that is what Binder provides).  To run these examples on your own Windows machine, you can install a Linux VM or a [Docker environment](https://github.com/uds-se/fuzzingbook/blob/master/deploy/README.md).
+We try to keep the code as general as possible, but occasionally, when we interact with the operating system, we assume a Unix-like environment (because that is what Binder provides).  To run these examples on your own Windows machine, you can install a Linux VM or a [Docker environment](https://github.com/uds-se/debuggingbook/blob/master/deploy/README.md).
 
 #### Can't you run your own dedicated cloud service?
 
@@ -99,9 +99,9 @@ We have successfully used the material in various courses.
 
 * Initially, we used the slides and code and did _live coding_ in lectures to illustrate how a technique works. 
 
-* Now, the goal of the book is to be completely self-contained; that is, it should work without additional support.  Hence, we now give out completed chapters to students in a _flipped classroom_ setting, with the students working on the notebooks at their leisure.  We would meet in the classroom to discuss experiences with past notebooks and discuss future notebooks.
+* Now, the goal of the book is to be completely self-contained; that is, it should work without additional support.  Hence, we now give out completed chapters to students in a _flipped classroom_ setting, with the students working on the notebooks at their leisure.  We would meet in the classroom (or in Zoom) to discuss experiences with past notebooks and discuss future notebooks.
 
-* We have the students work on exercises from the book or work on larger (fuzzing) projects.  We also have students who use the book as a base for their research; indeed, it is very easy to prototype in Python for Python.
+* We have the students work on exercises from the book or work on larger (automated debugging) projects.  We also have students who use the book as a base for their research; indeed, it is very easy to prototype in Python for Python.
 
 When running a course, [do not rely on mybinder.org](#Troubleshooting) – it will not provide sufficient resources for a larger group of students.  Instead, [install and run your own hub.](#Do-I-have-alternatives-to-the-interactive-notebook?)
 
@@ -130,8 +130,8 @@ You can [tweet to @debugging_book on Twitter](https://twitter.com/debugging_book
 
 We prioritize issues as follows:
 
-1. Bugs in code published on fuzzingbook.org
-2. Bugs in text published on fuzzingbook.org
+1. Bugs in code published on debuggingbook.org
+2. Bugs in text published on debuggingbook.org
 3. Writing missing chapters
 4. Issues in yet unpublished code or text
 5. Issues related to development or construction
