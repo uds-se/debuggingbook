@@ -751,9 +751,7 @@ middle_mutator = StatementMutator()
 MIDDLE_POPULATION = [middle_tree()] + \
     [middle_mutator.mutate(middle_tree()) for i in range(POPULATION_SIZE - 1)]
 
-if __name__ == "__main__":
-    MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
-
+MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
 
 if __name__ == "__main__":
     print(astor.to_source(MIDDLE_POPULATION[0]),
@@ -1981,9 +1979,7 @@ if __name__ == "__main__":
     remove_html_markup("<foo quote='>abc'>\"me\"</foo>")
 
 
-if __name__ == "__main__":
-    REMOVE_HTML_PASSING_TESTCASES.append(("<foo quote='>abc'>\"me\"</foo>", '"me"'))
-
+REMOVE_HTML_PASSING_TESTCASES.append(("<foo quote='>abc'>\"me\"</foo>", '"me"'))
 
 if __name__ == "__main__":
     best_tree, fitness = condition_repairer.repair(iterations=200)
