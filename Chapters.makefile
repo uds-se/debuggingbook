@@ -58,7 +58,7 @@ ABSTRACTING_PART_TODO = \
 	05_Abstracting.ipynb \
 	StatisticalDebugger.ipynb \
 	DynamicInvariants.ipynb \
-	DDSet.ipynb
+	DDSetDebugger.ipynb
 	# Alhazen.ipynb
 	
 # Repairing Failures
