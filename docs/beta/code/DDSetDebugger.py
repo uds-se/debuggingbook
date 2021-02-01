@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2021-01-31 20:51:33+01:00
+# Last change: 2021-02-01 11:44:05+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -258,9 +258,10 @@ from fuzzingbook.GrammarFuzzer import display_tree
 
 def display_tree(tree):
     def graph_attr(dot):
-        dot.attr('node', shape='plain')
-        dot.attr('node', fontname="'Fira Mono', 'Source Code Pro', 'Courier', monospace")
-        
+        dot.attr('node', shape='box', color='white', margin='0.0,0.0')
+        dot.attr('node',
+                 fontname="'Fira Mono', 'Source Code Pro', 'Courier', monospace")
+
     def node_attr(dot, nid, symbol, ann):
         fuzzingbook.GrammarFuzzer.default_node_attr(dot, nid, symbol, ann)
         if symbol.startswith('<'):
@@ -268,7 +269,7 @@ def display_tree(tree):
         else:
             dot.node(repr(nid), fontcolor='#00a060')
         dot.node(repr(nid), scale='2')
-    
+
     return fuzzingbook.GrammarFuzzer.display_tree(tree,
         node_attr=node_attr,
         graph_attr=graph_attr)
@@ -328,7 +329,7 @@ from fuzzingbook.Grammars import is_valid_grammar
 
 class TreeMutator:
     """Grammar-based mutations of derivation trees."""
-    
+
     def __init__(self, grammar, tree, fuzzer=None, log=False):
         """Constructor. 
         `grammar` is the underlying grammar; 
@@ -340,7 +341,7 @@ class TreeMutator:
         self.grammar = grammar
         self.tree = tree
         self.log = log
-        
+
         if fuzzer is None:
             fuzzer = GrammarFuzzer(grammar)
         self.fuzzer = fuzzer
@@ -424,7 +425,7 @@ class TreeMutator(TreeMutator):
 
         if self.log >= 2:
             print(f"Creating new tree for {start_symbol}")
-            
+
         tree = (start_symbol, None)
         return self.fuzzer.expand_tree(tree)
 
@@ -481,7 +482,7 @@ if __name__ == "__main__":
 
 class TreeGeneralizer(TreeMutator):
     """Determine which parts of a derivation tree can be generalized."""
-    
+
     def __init__(self, grammar, tree, test,
                  max_tries_for_generalization=10,
                  **kwargs):
@@ -491,7 +492,7 @@ class TreeGeneralizer(TreeMutator):
           * or not, indicating test success.
         `max_tries_for_generalization` is the number of times
           an instantiation has to fail before it is generalized."""
-        
+
         super().__init__(grammar, tree, **kwargs)
         self.test = test
         self.max_tries_for_generalization = max_tries_for_generalization
@@ -531,12 +532,12 @@ class TreeGeneralizer(TreeGeneralizer):
             if self.test_tree(mutated_tree):
                 # Failure no longer occurs; cannot abstract
                 return False
-            
+
         return True
 
 def bad_input_tree_generalizer(**kwargs):
     return TreeGeneralizer(SIMPLE_HTML_GRAMMAR, bad_input_tree,
-        remove_html_markup, **kwargs)    
+                           remove_html_markup, **kwargs)
 
 if __name__ == "__main__":
     bad_input_tree_generalizer(log=True).can_generalize([0])
@@ -558,12 +559,18 @@ if __name__ == "__main__":
          ], '("No" == "No") + ("No" is "No")')
 
 
+BAD_ATTR_INPUT = '<foo attr="\'">bar</foo>'
+
+if __name__ == "__main__":
+    remove_html_markup(BAD_ATTR_INPUT)
+
+
 if __name__ == "__main__":
     bad_input_tree_generalizer().can_generalize([0, 0, 0])
 
 
 if __name__ == "__main__":
-    bad_input_tree_generalizer(max_tries_for_generalization=100).can_generalize([0, 0, 0])
+    bad_input_tree_generalizer(max_tries_for_generalization=100, log=True).can_generalize([0, 0, 0])
 
 
 # ### Generalizable Paths
@@ -585,7 +592,7 @@ class TreeGeneralizer(TreeGeneralizer):
             path = []
         if tree is None:
             tree = self.tree
-            
+
         node, children = self.get_subtree(path)
 
         if predicate(path, tree):
@@ -599,8 +606,8 @@ class TreeGeneralizer(TreeGeneralizer):
             if child_node in self.grammar:
                 paths += self.find_paths(predicate, path + [i])
 
-        return paths        
-    
+        return paths
+
     def generalizable_paths(self):
         """Return a list of all paths whose subtrees can be generalized."""
         return self.find_paths(self.can_generalize)
@@ -640,7 +647,7 @@ class TreeGeneralizer(TreeGeneralizer):
         tree = self.tree
         for path in self.generalizable_paths():
             tree = self.generalize_path(path, tree)
-            
+
         return tree
 
 if __name__ == "__main__":
@@ -714,17 +721,15 @@ if __name__ == "__main__":
 
 
 if __package__ is None or __package__ == "":
-    from DeltaDebugger import CallCollector, is_reducible
+    from DeltaDebugger import CallCollector
 else:
-    from .DeltaDebugger import CallCollector, is_reducible
+    from .DeltaDebugger import CallCollector
 
-
-import copy
 
 class DDSetDebugger(CallCollector):
     """Debugger implementing the DDSET algorithm
     for abstracting failure-inducing inputs"""
-    
+
     def __init__(self, grammar, 
                  generalizer_class=TreeGeneralizer,
                  parser=None,
@@ -734,10 +739,9 @@ class DDSetDebugger(CallCollector):
         `generalizer_class` is the tree generalizer class to use
           (default: TreeGeneralizer)
         `parser` is the parser to use (default: `EarleyParser(grammar)`).
-
-        All other args are passed to the tree generalizer, notably
-        `fuzzer` is the fuzzer to use (default: `GrammarFuzzer`)
-        `log` enables debugging output if set to True.
+        All other keyword args are passed to the tree generalizer, notably:
+        `fuzzer` - the fuzzer to use (default: `GrammarFuzzer`)
+        `log` - enables debugging output if True.
         """
         super().__init__()
         self.grammar = grammar
@@ -749,7 +753,7 @@ class DDSetDebugger(CallCollector):
             parser = EarleyParser(grammar)
         self.parser = parser
         self.kwargs = kwargs
-        
+
         # These save state for further fuzz() calls
         self.generalized_trees = None
         self.generalized_args = None
@@ -785,7 +789,7 @@ class DDSetDebugger(DDSetDebugger):
                 gen = self.generalizer_class(self.grammar, tree, test, 
                                              **self.kwargs)
                 generalized_tree = gen.generalize()
-                
+
                 self.generalizers[arg] = gen
                 self.generalized_trees[arg] = generalized_tree
                 self.generalized_args[arg] = all_terminals(generalized_tree)
@@ -817,7 +821,7 @@ class DDSetDebugger(DDSetDebugger):
         from the abstract failure-inducing pattern."""
         if self.generalized_trees is None:
             self.generalize()
-            
+
         args = copy.deepcopy(self.generalized_args)
         for arg in args:
             def test(value):
@@ -830,9 +834,9 @@ class DDSetDebugger(DDSetDebugger):
             gen = self.generalizers[arg]
             instantiated_tree = gen.fuzz_tree(tree)
             args[arg] = all_terminals(instantiated_tree)
-            
+
         return args
-    
+
     def fuzz(self):
         """Return a call with arguments randomly instantiated
         from the abstract failure-inducing pattern."""
@@ -1097,27 +1101,14 @@ if __name__ == "__main__":
 
 
 
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger
-else:
-    from .DeltaDebugger import DeltaDebugger
-
-
-import copy
-
-if __name__ == "__main__":
-    from IPython.display import display
-
-
 class TreeHDDReducer(TreeGeneralizer):
     def _reduce(self, path, tree):
         """This is HDD"""
 
         node, children = self.get_subtree(path, tree)
-            
+
         if len(path) >= 1:
             parent, parent_children = self.get_subtree(path[:-1], tree)
- 
             assert parent_children[path[-1]] == (node, children)
 
             def test_children(children):
@@ -1125,17 +1116,17 @@ class TreeHDDReducer(TreeGeneralizer):
                 s = tree_to_string(tree)
                 self.test(s)
 
-            with DeltaDebugger() as dd:
+            with DeltaDebugger.DeltaDebugger() as dd:
                 test_children(children)
-            
+
             # display(display_tree(tree))
 
             children = dd.min_args()['children']
             parent_children[path[-1]] = (node, children)
-        
+
         for i, child in enumerate(children):
             self._reduce(path + [i], tree)
-            
+
         return tree
 
     def reduce(self):
@@ -1218,7 +1209,7 @@ class TreeReducer(TreeReducer):
         tree = self.tree
         for path in self.reducible_paths():
             tree = self.reduce_path(path, tree)
-            
+
         return tree
 
 if __name__ == "__main__":
