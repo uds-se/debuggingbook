@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-02-03 11:24:30+01:00
+# Last change: 2021-02-03 14:10:13+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -193,7 +193,6 @@ class CoverageCollector(Collector):
     def __init__(self):
         super().__init__()
         self._coverage = set()
-        self._generated_functions = set()
 
     def search_frame(self, name, frame):
         """Return a pair (`frame`, `item`) 
@@ -216,20 +215,24 @@ class CoverageCollector(Collector):
         frame, func = self.search_frame(name, frame)
         return func
 
+    # Avoid generating functions more than once
+    _generated_function_cache = {}
+
     def collect(self, frame, event, arg):
         """Save coverage for an observed event."""
         name = frame.f_code.co_name
         function = self.search_func(name, frame)
 
-        if not function:
+        if function is None:
             # Create new function from given code
-            if (name, frame.f_lineno) not in self._generated_functions:
+            cache_key = (name, frame.f_lineno)
+            if cache_key not in self._generated_function_cache:
                 generated_function = FunctionType(frame.f_code,
-                                        globals=frame.f_globals,
-                                        name=name)
-                self._generated_functions[(name, frame.f_lineno)] = generated_function
+                                                  globals=frame.f_globals,
+                                                  name=name)
+                self._generated_function_cache[cache_key] = generated_function
 
-            function = self._generated_functions[(name, frame.f_lineno)]
+            function = self._generated_function_cache[cache_key]
 
         location = (function, frame.f_lineno)
         self._coverage.add(location)
@@ -421,7 +424,7 @@ class StatisticalDebugger(StatisticalDebugger):
             for collector in self.collectors[outcome]:
                 functions |= collector.covered_functions()
         return functions
-    
+
     def coverage(self):
         """Return a set of all (functions, line_numbers) observed"""
         coverage = set()
