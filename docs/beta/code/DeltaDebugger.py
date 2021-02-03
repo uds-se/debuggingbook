@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-01-31 20:46:05+01:00
+# Last change: 2021-02-03 11:16:35+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -311,7 +311,7 @@ class CallCollector:
         self._function = None
         self._args = {}
         self._exception = None
-        
+
     def search_frame(self, name, frame):
         """Return a pair (`frame`, `item`) 
         in which the function `name` is defined as `item`."""
@@ -343,7 +343,7 @@ class CallCollector:
             if self._function is not None:
                 # Already set
                 return
-            
+
             func = self.search_func(name, frame)
             if func:
                 self._function = func
@@ -352,12 +352,6 @@ class CallCollector:
                 self._function = FunctionType(frame.f_code,
                                               globals=frame.f_globals,
                                               name=name)
-                
-#             code = frame.f_code
-#             print(f"code.co_freevars = {code.co_freevars}, "
-#                   f"code.co_cellvars = {code.co_cellvars}, "
-#                   f"code.co_names = {code.co_names}, "
-#                  )
 
             self._args = {}  # Create a local copy of args
             for var in frame.f_locals:

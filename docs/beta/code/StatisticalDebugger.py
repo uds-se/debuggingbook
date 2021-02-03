@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-01-31 20:46:08+01:00
+# Last change: 2021-02-03 11:24:30+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -137,7 +137,7 @@ class Collector(Collector):
                                          for var in self._args])
 
         self.collect(frame, event, arg)
-        
+
     def collect(self, frame, event, arg):
         """Collector function. To be overloaded in subclasses."""
         pass
@@ -193,18 +193,43 @@ class CoverageCollector(Collector):
     def __init__(self):
         super().__init__()
         self._coverage = set()
+        self._generated_functions = set()
+
+    def search_frame(self, name, frame):
+        """Return a pair (`frame`, `item`) 
+        in which the function `name` is defined as `item`."""
+        while frame:
+            item = None
+            if name in frame.f_globals:
+                item = frame.f_globals[name]
+            if name in frame.f_locals:
+                item = frame.f_locals[name]
+            if item and callable(item):
+                return frame, item
+
+            frame = frame.f_back
+
+        return None, None
+
+    def search_func(self, name, frame):
+        """Search in callers for a definition of the function `name`"""
+        frame, func = self.search_frame(name, frame)
+        return func
 
     def collect(self, frame, event, arg):
         """Save coverage for an observed event."""
         name = frame.f_code.co_name
-        if name in frame.f_globals:
-            # Access exactly this function
-            function = frame.f_globals[name]
-        else:
+        function = self.search_func(name, frame)
+
+        if not function:
             # Create new function from given code
-            function = FunctionType(frame.f_code,
-                                    globals=frame.f_globals,
-                                    name=name)
+            if (name, frame.f_lineno) not in self._generated_functions:
+                generated_function = FunctionType(frame.f_code,
+                                        globals=frame.f_globals,
+                                        name=name)
+                self._generated_functions[(name, frame.f_lineno)] = generated_function
+
+            function = self._generated_functions[(name, frame.f_lineno)]
 
         location = (function, frame.f_lineno)
         self._coverage.add(location)
@@ -748,17 +773,17 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
         out = ""
         seen = set()
         for function in functions:
-            if out:
-                out += '\n'
-                if color:
-                    out += '<p/>'
-
             source_lines, starting_line_number = \
                inspect.getsourcelines(function)
 
             if (function.__name__, starting_line_number) in seen:
                 continue
             seen.add((function.__name__, starting_line_number))
+
+            if out:
+                out += '\n'
+                if color:
+                    out += '<p/>'
 
             line_number = starting_line_number
             for line in source_lines:
