@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-02-03 11:16:35+01:00
+# Last change: 2021-02-03 16:02:45+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -298,6 +298,8 @@ from types import FunctionType
 
 import inspect
 
+import traceback
+
 class CallCollector:
     """Collect an exception-raising function call f().
     Use as `with CallCollector(): f()`"""
@@ -378,6 +380,18 @@ class CallCollector:
         """Return the exception produced."""
         return self._exception
 
+    def is_internal_error(self, exc_tp, exc_value, exc_traceback):
+        """Return True if exception was raised from `CallCollector` or a subclass."""
+        if not exc_tp:
+            return False
+
+        for frame, lineno in traceback.walk_tb(exc_traceback):
+            if 'self' in frame.f_locals:
+                if isinstance(frame.f_locals['self'], self.__class__):
+                    return True
+
+        return False
+
     def __enter__(self):
         """Called at begin of `with` block. Turn tracing on."""
         self.init()
@@ -385,11 +399,14 @@ class CallCollector:
         sys.settrace(self.traceit)
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_tp, exc_value, exc_traceback):
         """Called at end of `with` block. Turn tracing off."""
         sys.settrace(self.original_trace_function)
         if self._function is None:
             return False  # Re-raise exception, if any
+
+        if self.is_internal_error(exc_tp, exc_value, exc_traceback):
+            return False  # Re-raise exception
 
         self._exception = exc_value
         self.after_collection()

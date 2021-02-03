@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-02-03 14:10:13+01:00
+# Last change: 2021-02-03 16:05:43+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -519,7 +519,10 @@ class StatisticalDebugger(StatisticalDebugger):
         return Markdown(self.event_table_text(**_args))
 
     def __repr__(self):
-        return self._event_table_text()
+        return self.event_table_text()
+
+    def _repr_markdown_(self):
+        return self.event_table_text(args=True, color=True)
 
 # ### End of Excursion
 
@@ -589,6 +592,8 @@ def test_debugger_html(debugger):
         remove_html_markup('"abc"')
     return debugger
 
+import traceback
+
 class DifferenceDebugger(DifferenceDebugger):
     def __enter__(self):
         """Enter a `with` block. Collect coverage and outcome;
@@ -599,13 +604,20 @@ class DifferenceDebugger(DifferenceDebugger):
         self.collector.__enter__()
         return self
 
-    def __exit__(self, exc_tp, value, traceback):
+    def __exit__(self, exc_tp, exc_value, exc_traceback):
         """Exit the `with` block."""
-        self.collector.__exit__(exc_tp, value, traceback)
+        status = self.collector.__exit__(exc_tp, exc_value, exc_traceback)
+
+        if status is None:
+            pass
+        else:
+            return False  # Internal error; re-raise exception
+
         if exc_tp is None:
             outcome = self.PASS
         else:
             outcome = self.FAIL
+
         self.add_collector(outcome, self.collector)
         return True  # Ignore exception
 
@@ -619,6 +631,10 @@ def test_debugger_html(debugger):
         assert False  # Mark test as failing
 
     return debugger
+
+if __name__ == "__main__":
+    test_debugger_html(DifferenceDebugger())
+
 
 # ### Analyzing Events
 

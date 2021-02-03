@@ -3,7 +3,7 @@
 
 # This material is part of "The Debugging Book".
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-01-31 20:46:00+01:00
+# Last change: 2021-02-03 15:58:01+01:00
 #
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
@@ -142,6 +142,8 @@ if __name__ == "__main__":
 
 
 
+import traceback
+
 class Tracer:
     """A class for tracing a piece of code. Use as `with Tracer(): block()`"""
 
@@ -168,15 +170,35 @@ class Tracer:
             self.traceit(frame, event, arg)
         return self._traceit
 
+    def is_internal_error(self, exc_tp, exc_value, exc_traceback):
+        """Return True if exception was raised from `Tracer` or a subclass."""
+        if not exc_tp:
+            return False
+
+        for frame, lineno in traceback.walk_tb(exc_traceback):
+            if 'self' in frame.f_locals:
+                if isinstance(frame.f_locals['self'], self.__class__):
+                    return True
+
+        return False
+
     def __enter__(self):
         """Called at begin of `with` block. Turn tracing on."""
         self.original_trace_function = sys.gettrace()
         sys.settrace(self._traceit)
         return self
 
-    def __exit__(self, tp, value, traceback):
-        """Called at end of `with` block. Turn tracing off."""
+    def __exit__(self, exc_tp, exc_value, exc_traceback):
+        """Called at end of `with` block. Turn tracing off.
+        Return `None` if ok, not `None` if internal error."""
         sys.settrace(self.original_trace_function)
+
+        # Note: we must return a non-True value here,
+        # such that we re-raise all exceptions
+        if self.is_internal_error(exc_tp, exc_value, exc_traceback):
+            return False  # internal error
+        else:
+            return None  # all ok
 
 if __name__ == "__main__":
     with Tracer():
