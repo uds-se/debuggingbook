@@ -14135,7 +14135,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
@@ -14167,7 +14167,7 @@ a.anchor-link {
         <span class="k">return</span> <span class="n">func</span>
 
     <span class="c1"># Avoid generating functions more than once</span>
-    <span class="n">_generated_function_cache</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_generated_function_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save coverage for an observed event.&quot;&quot;&quot;</span>
@@ -14204,7 +14204,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">):</span>
@@ -14229,7 +14229,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">):</span>
@@ -14257,7 +14257,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CoverageCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
@@ -14275,7 +14275,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[14]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -14310,7 +14310,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">code_with_coverage</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">coverage</span><span class="p">):</span>
@@ -14331,7 +14331,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">code_with_coverage</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">coverage</span><span class="p">())</span>
@@ -14351,22 +14351,22 @@ a.anchor-link {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   1 * <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-   2 *     tag = <span class="ansi-blue-fg">False</span>
-   3 *     quote = <span class="ansi-blue-fg">False</span>
-   4 *     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+<pre>   1 * def remove_html_markup(s):
+   2 *     tag = False
+   3 *     quote = False
+   4 *     out = &#34;&#34;
    5   
-   6 *     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-   7 *         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-   8               tag = <span class="ansi-blue-fg">True</span>
-   9 *         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-  10               tag = <span class="ansi-blue-fg">False</span>
-  11 *         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
-  12               quote = <span class="ansi-magenta-fg">not</span> quote
-  13 *         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+   6 *     for c in s:
+   7 *         if c == &#39;&lt;&#39; and not quote:
+   8               tag = True
+   9 *         elif c == &#39;&gt;&#39; and not quote:
+  10               tag = False
+  11 *         elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12               quote = not quote
+  13 *         elif not tag:
   14 *             out = out + c
   15   
-  16 *     <span class="ansi-blue-fg">return</span> out
+  16 *     return out
 </pre>
 </div>
 </div>
@@ -14393,7 +14393,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s1">&#39;Let the input be `&quot;&lt;b&gt;Don</span><span class="se">\&#39;</span><span class="s1">t do this!&lt;/b&gt;&quot;`. &#39;</span>
@@ -14416,7 +14416,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[20]:</div>
+    <div class="prompt output_prompt">Out[21]:</div>
 
 
 
@@ -14502,22 +14502,22 @@ a.anchor-link {
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="26d8675a-6632-11eb-a588-acde48001122" id="26d8675a-6632-11eb-a588-acde48001122-1" onclick="clear_selection('26d8675a-6632-11eb-a588-acde48001122')">
-        <label id="26d8675a-6632-11eb-a588-acde48001122-1-label" for="26d8675a-6632-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
+        <input type="checkbox" name="49d6155c-69f4-11eb-a588-f218984d6a0c" id="49d6155c-69f4-11eb-a588-f218984d6a0c-1" onclick="clear_selection('49d6155c-69f4-11eb-a588-f218984d6a0c')">
+        <label id="49d6155c-69f4-11eb-a588-f218984d6a0c-1-label" for="49d6155c-69f4-11eb-a588-f218984d6a0c-1"><code>tag = True</code></label><br>
     
-        <input type="checkbox" name="26d8675a-6632-11eb-a588-acde48001122" id="26d8675a-6632-11eb-a588-acde48001122-2" onclick="clear_selection('26d8675a-6632-11eb-a588-acde48001122')">
-        <label id="26d8675a-6632-11eb-a588-acde48001122-2-label" for="26d8675a-6632-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
+        <input type="checkbox" name="49d6155c-69f4-11eb-a588-f218984d6a0c" id="49d6155c-69f4-11eb-a588-f218984d6a0c-2" onclick="clear_selection('49d6155c-69f4-11eb-a588-f218984d6a0c')">
+        <label id="49d6155c-69f4-11eb-a588-f218984d6a0c-2-label" for="49d6155c-69f4-11eb-a588-f218984d6a0c-2"><code>tag = False</code></label><br>
     
-        <input type="checkbox" name="26d8675a-6632-11eb-a588-acde48001122" id="26d8675a-6632-11eb-a588-acde48001122-3" onclick="clear_selection('26d8675a-6632-11eb-a588-acde48001122')">
-        <label id="26d8675a-6632-11eb-a588-acde48001122-3-label" for="26d8675a-6632-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
+        <input type="checkbox" name="49d6155c-69f4-11eb-a588-f218984d6a0c" id="49d6155c-69f4-11eb-a588-f218984d6a0c-3" onclick="clear_selection('49d6155c-69f4-11eb-a588-f218984d6a0c')">
+        <label id="49d6155c-69f4-11eb-a588-f218984d6a0c-3-label" for="49d6155c-69f4-11eb-a588-f218984d6a0c-3"><code>quote = not quote</code></label><br>
     
-        <input type="checkbox" name="26d8675a-6632-11eb-a588-acde48001122" id="26d8675a-6632-11eb-a588-acde48001122-4" onclick="clear_selection('26d8675a-6632-11eb-a588-acde48001122')">
-        <label id="26d8675a-6632-11eb-a588-acde48001122-4-label" for="26d8675a-6632-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
+        <input type="checkbox" name="49d6155c-69f4-11eb-a588-f218984d6a0c" id="49d6155c-69f4-11eb-a588-f218984d6a0c-4" onclick="clear_selection('49d6155c-69f4-11eb-a588-f218984d6a0c')">
+        <label id="49d6155c-69f4-11eb-a588-f218984d6a0c-4-label" for="49d6155c-69f4-11eb-a588-f218984d6a0c-4"><code>out = out + c</code></label><br>
     
     </div>
     </p>
-    <input id="26d8675a-6632-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('26d8675a-6632-11eb-a588-acde48001122', 22, 1, '[ord(c) - ord(&#x27;a&#x27;) - 1 for c in &#x27;cdf&#x27;]')">
-    <span class="quiz_hint" id="26d8675a-6632-11eb-a588-acde48001122-hint"></span>
+    <input id="49d6155c-69f4-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('49d6155c-69f4-11eb-a588-f218984d6a0c', 22, 1, '[ord(c) - ord(&#x27;a&#x27;) - 1 for c in &#x27;cdf&#x27;]')">
+    <span class="quiz_hint" id="49d6155c-69f4-11eb-a588-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -14538,7 +14538,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">CoverageCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
@@ -14585,7 +14585,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">:</span>
@@ -14613,7 +14613,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
@@ -14645,7 +14645,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StatisticalDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
@@ -14677,7 +14677,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">()</span>
@@ -14704,7 +14704,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">all_events</span><span class="p">()</span>
@@ -14720,7 +14720,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
@@ -14758,7 +14758,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">all_events</span><span class="p">(</span><span class="s1">&#39;FAIL&#39;</span><span class="p">)</span>
@@ -14774,7 +14774,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[27]:</div>
+    <div class="prompt output_prompt">Out[28]:</div>
 
 
 
@@ -14810,7 +14810,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span>
@@ -14826,7 +14826,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[28]:</div>
+    <div class="prompt output_prompt">Out[29]:</div>
 
 
 
@@ -14852,7 +14852,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
@@ -14868,7 +14868,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[29]:</div>
+    <div class="prompt output_prompt">Out[30]:</div>
 
 
 
@@ -14885,7 +14885,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="s1">&#39;PASS&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -14901,7 +14901,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -14936,7 +14936,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">StatisticalDebugger</span><span class="p">()</span>
@@ -14955,7 +14955,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -14971,7 +14971,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[35]:</div>
+    <div class="prompt output_prompt">Out[36]:</div>
 
 
 
@@ -15082,7 +15082,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;How many lines are executed in the failing run only?&quot;</span><span class="p">,</span>
@@ -15103,7 +15103,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[36]:</div>
+    <div class="prompt output_prompt">Out[37]:</div>
 
 
 
@@ -15189,19 +15189,19 @@ a.anchor-link {
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="26eaca62-6632-11eb-8163-acde48001122" id="26eaca62-6632-11eb-8163-acde48001122-1" onclick="clear_selection('26eaca62-6632-11eb-8163-acde48001122')">
-        <label id="26eaca62-6632-11eb-8163-acde48001122-1-label" for="26eaca62-6632-11eb-8163-acde48001122-1">One</label><br>
+        <input type="radio" name="49e86006-69f4-11eb-8163-f218984d6a0c" id="49e86006-69f4-11eb-8163-f218984d6a0c-1" onclick="clear_selection('49e86006-69f4-11eb-8163-f218984d6a0c')">
+        <label id="49e86006-69f4-11eb-8163-f218984d6a0c-1-label" for="49e86006-69f4-11eb-8163-f218984d6a0c-1">One</label><br>
     
-        <input type="radio" name="26eaca62-6632-11eb-8163-acde48001122" id="26eaca62-6632-11eb-8163-acde48001122-2" onclick="clear_selection('26eaca62-6632-11eb-8163-acde48001122')">
-        <label id="26eaca62-6632-11eb-8163-acde48001122-2-label" for="26eaca62-6632-11eb-8163-acde48001122-2">Two</label><br>
+        <input type="radio" name="49e86006-69f4-11eb-8163-f218984d6a0c" id="49e86006-69f4-11eb-8163-f218984d6a0c-2" onclick="clear_selection('49e86006-69f4-11eb-8163-f218984d6a0c')">
+        <label id="49e86006-69f4-11eb-8163-f218984d6a0c-2-label" for="49e86006-69f4-11eb-8163-f218984d6a0c-2">Two</label><br>
     
-        <input type="radio" name="26eaca62-6632-11eb-8163-acde48001122" id="26eaca62-6632-11eb-8163-acde48001122-3" onclick="clear_selection('26eaca62-6632-11eb-8163-acde48001122')">
-        <label id="26eaca62-6632-11eb-8163-acde48001122-3-label" for="26eaca62-6632-11eb-8163-acde48001122-3">Three</label><br>
+        <input type="radio" name="49e86006-69f4-11eb-8163-f218984d6a0c" id="49e86006-69f4-11eb-8163-f218984d6a0c-3" onclick="clear_selection('49e86006-69f4-11eb-8163-f218984d6a0c')">
+        <label id="49e86006-69f4-11eb-8163-f218984d6a0c-3-label" for="49e86006-69f4-11eb-8163-f218984d6a0c-3">Three</label><br>
     
     </div>
     </p>
-    <input id="26eaca62-6632-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('26eaca62-6632-11eb-8163-acde48001122', 4, 0, 'int(chr(50))')">
-    <span class="quiz_hint" id="26eaca62-6632-11eb-8163-acde48001122-hint"></span>
+    <input id="49e86006-69f4-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('49e86006-69f4-11eb-8163-f218984d6a0c', 4, 0, 'int(chr(50))')">
+    <span class="quiz_hint" id="49e86006-69f4-11eb-8163-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15230,7 +15230,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">StatisticalDebugger</span><span class="p">):</span>
@@ -15269,7 +15269,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_html</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
@@ -15297,7 +15297,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -15343,7 +15343,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_html</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
@@ -15365,7 +15365,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">())</span>
@@ -15381,7 +15381,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[42]:</div>
+    <div class="prompt output_prompt">Out[43]:</div>
 
 
 
@@ -15500,7 +15500,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">())</span>
@@ -15513,7 +15513,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_1_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -15526,7 +15526,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_2_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">pass_collectors</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -15539,7 +15539,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">in_any_pass</span> <span class="o">=</span> <span class="n">pass_1_events</span> <span class="o">|</span> <span class="n">pass_2_events</span>
@@ -15556,7 +15556,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[46]:</div>
+    <div class="prompt output_prompt">Out[47]:</div>
 
 
 
@@ -15593,7 +15593,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">fail_events</span> <span class="o">=</span> <span class="n">debugger</span><span class="o">.</span><span class="n">fail_collectors</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">events</span><span class="p">()</span>
@@ -15606,7 +15606,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">only_in_fail</span> <span class="o">=</span> <span class="n">fail_events</span> <span class="o">-</span> <span class="n">in_any_pass</span>
@@ -15623,7 +15623,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[48]:</div>
+    <div class="prompt output_prompt">Out[49]:</div>
 
 
 
@@ -15648,7 +15648,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">code_with_coverage</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">only_in_fail</span><span class="p">)</span>
@@ -15668,22 +15668,22 @@ a.anchor-link {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   1   <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-   2       tag = <span class="ansi-blue-fg">False</span>
-   3       quote = <span class="ansi-blue-fg">False</span>
-   4       out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+<pre>   1   def remove_html_markup(s):
+   2       tag = False
+   3       quote = False
+   4       out = &#34;&#34;
    5   
-   6       <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-   7           <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-   8               tag = <span class="ansi-blue-fg">True</span>
-   9           <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
-  10               tag = <span class="ansi-blue-fg">False</span>
-  11           <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
-  12               quote = <span class="ansi-magenta-fg">not</span> quote
-  13           <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+   6       for c in s:
+   7           if c == &#39;&lt;&#39; and not quote:
+   8               tag = True
+   9           elif c == &#39;&gt;&#39; and not quote:
+  10               tag = False
+  11           elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
+  12               quote = not quote
+  13           elif not tag:
   14               out = out + c
   15   
-  16       <span class="ansi-blue-fg">return</span> out
+  16       return out
 </pre>
 </div>
 </div>
@@ -15702,7 +15702,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -15730,7 +15730,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DifferenceDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -15750,7 +15750,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">())</span>
@@ -15763,7 +15763,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">all_events</span><span class="p">()</span>
@@ -15779,7 +15779,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[53]:</div>
+    <div class="prompt output_prompt">Out[54]:</div>
 
 
 
@@ -15817,7 +15817,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">()</span>
@@ -15833,7 +15833,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[54]:</div>
+    <div class="prompt output_prompt">Out[55]:</div>
 
 
 
@@ -15858,7 +15858,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_pass_events</span><span class="p">()</span>
@@ -15874,7 +15874,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[55]:</div>
+    <div class="prompt output_prompt">Out[56]:</div>
 
 
 
@@ -15929,7 +15929,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -16001,7 +16001,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DiscreteSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
@@ -16094,7 +16094,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">())</span>
@@ -16107,7 +16107,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
@@ -16123,7 +16123,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[59]:</div>
+    <div class="prompt output_prompt">Out[60]:</div>
 
 
 
@@ -16177,7 +16177,7 @@ a.anchor-link {
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Does the line `quote = not quote` actually contain the defect?&quot;</span><span class="p">,</span>
@@ -16197,7 +16197,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[60]:</div>
+    <div class="prompt output_prompt">Out[61]:</div>
 
 
 
@@ -16283,16 +16283,16 @@ a.anchor-link {
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="27025fcc-6632-11eb-9732-acde48001122" id="27025fcc-6632-11eb-9732-acde48001122-1" onclick="clear_selection('27025fcc-6632-11eb-9732-acde48001122')">
-        <label id="27025fcc-6632-11eb-9732-acde48001122-1-label" for="27025fcc-6632-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
+        <input type="radio" name="49fedd52-69f4-11eb-9732-f218984d6a0c" id="49fedd52-69f4-11eb-9732-f218984d6a0c-1" onclick="clear_selection('49fedd52-69f4-11eb-9732-f218984d6a0c')">
+        <label id="49fedd52-69f4-11eb-9732-f218984d6a0c-1-label" for="49fedd52-69f4-11eb-9732-f218984d6a0c-1">Yes, it should be fixed</label><br>
     
-        <input type="radio" name="27025fcc-6632-11eb-9732-acde48001122" id="27025fcc-6632-11eb-9732-acde48001122-2" onclick="clear_selection('27025fcc-6632-11eb-9732-acde48001122')">
-        <label id="27025fcc-6632-11eb-9732-acde48001122-2-label" for="27025fcc-6632-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
+        <input type="radio" name="49fedd52-69f4-11eb-9732-f218984d6a0c" id="49fedd52-69f4-11eb-9732-f218984d6a0c-2" onclick="clear_selection('49fedd52-69f4-11eb-9732-f218984d6a0c')">
+        <label id="49fedd52-69f4-11eb-9732-f218984d6a0c-2-label" for="49fedd52-69f4-11eb-9732-f218984d6a0c-2">No, the defect is elsewhere</label><br>
     
     </div>
     </p>
-    <input id="27025fcc-6632-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('27025fcc-6632-11eb-9732-acde48001122', 4, 0, '164 * 2 % 326')">
-    <span class="quiz_hint" id="27025fcc-6632-11eb-9732-acde48001122-hint"></span>
+    <input id="49fedd52-69f4-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('49fedd52-69f4-11eb-9732-f218984d6a0c', 4, 0, '164 * 2 % 326')">
+    <span class="quiz_hint" id="49fedd52-69f4-11eb-9732-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -16327,7 +16327,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span>
@@ -16396,7 +16396,7 @@ a.anchor-link {
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b color=&quot;blue&quot;&gt;text&lt;/b&gt;&#39;</span><span class="p">)</span>
@@ -16412,7 +16412,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[62]:</div>
+    <div class="prompt output_prompt">Out[63]:</div>
 
 
 
@@ -16437,7 +16437,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">())</span>
@@ -16452,7 +16452,7 @@ a.anchor-link {
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">()</span>
@@ -16468,7 +16468,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[64]:</div>
+    <div class="prompt output_prompt">Out[65]:</div>
 
 
 
@@ -16493,7 +16493,7 @@ a.anchor-link {
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
@@ -16509,7 +16509,7 @@ a.anchor-link {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[65]:</div>
+    <div class="prompt output_prompt">Out[66]:</div>
 
 
 
@@ -16594,7 +16594,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">DiscreteSpectrumDebugger</span><span class="p">):</span>
@@ -16654,7 +16654,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
@@ -16683,7 +16683,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">())</span>
@@ -16696,7 +16696,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">():</span>
@@ -16736,7 +16736,7 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_pass_events</span><span class="p">():</span>
@@ -16757,8 +16757,8 @@ $$\textit{color hue}(\textit{line}) = \textit{low color(red)} + \frac{\%\textit{
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 8) 1.0
-(&#39;remove_html_markup&#39;, 10) 1.0
+<pre>(&#39;remove_html_markup&#39;, 10) 1.0
+(&#39;remove_html_markup&#39;, 8) 1.0
 </pre>
 </div>
 </div>
@@ -16800,7 +16800,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
@@ -16823,7 +16823,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">())</span>
@@ -16864,7 +16864,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">):</span>
@@ -16886,7 +16886,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">())</span>
@@ -16907,7 +16907,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">():</span>
@@ -16947,7 +16947,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_pass_events</span><span class="p">():</span>
@@ -16968,8 +16968,8 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 8) hsl(0.0, 100.0%, 80%)
-(&#39;remove_html_markup&#39;, 10) hsl(0.0, 100.0%, 80%)
+<pre>(&#39;remove_html_markup&#39;, 10) hsl(0.0, 100.0%, 80%)
+(&#39;remove_html_markup&#39;, 8) hsl(0.0, 100.0%, 80%)
 </pre>
 </div>
 </div>
@@ -16980,7 +16980,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
@@ -16996,7 +16996,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[77]:</div>
+    <div class="prompt output_prompt">Out[78]:</div>
 
 
 
@@ -17050,7 +17050,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">debugger</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
@@ -17064,7 +17064,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s1">&#39;In which color will the `quote = not quote` &quot;culprit&quot; line &#39;</span>
@@ -17074,7 +17074,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
         <span class="s1">&#39;&lt;span style=&quot;background-color: hsl(60.0, 100.0%, 80%)&quot;&gt;Yellow&lt;/span&gt;&#39;</span><span class="p">,</span>
         <span class="s1">&#39;&lt;span style=&quot;background-color: hsl(30.0, 100.0%, 80%)&quot;&gt;Orange&lt;/span&gt;&#39;</span><span class="p">,</span>
         <span class="s1">&#39;&lt;span style=&quot;background-color: hsl(0.0, 100.0%, 80%)&quot;&gt;Red&lt;/span&gt;&#39;</span>
-    <span class="p">],</span> <span class="s1">&#39;999 / 333&#39;</span><span class="p">)</span>
+    <span class="p">],</span> <span class="s1">&#39;999 // 333&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -17087,7 +17087,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[79]:</div>
+    <div class="prompt output_prompt">Out[80]:</div>
 
 
 
@@ -17173,22 +17173,22 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="2713fe82-6632-11eb-b36c-acde48001122" id="2713fe82-6632-11eb-b36c-acde48001122-1" onclick="clear_selection('2713fe82-6632-11eb-b36c-acde48001122')">
-        <label id="2713fe82-6632-11eb-b36c-acde48001122-1-label" for="2713fe82-6632-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
+        <input type="radio" name="4a10c080-69f4-11eb-b36c-f218984d6a0c" id="4a10c080-69f4-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('4a10c080-69f4-11eb-b36c-f218984d6a0c')">
+        <label id="4a10c080-69f4-11eb-b36c-f218984d6a0c-1-label" for="4a10c080-69f4-11eb-b36c-f218984d6a0c-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
     
-        <input type="radio" name="2713fe82-6632-11eb-b36c-acde48001122" id="2713fe82-6632-11eb-b36c-acde48001122-2" onclick="clear_selection('2713fe82-6632-11eb-b36c-acde48001122')">
-        <label id="2713fe82-6632-11eb-b36c-acde48001122-2-label" for="2713fe82-6632-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
+        <input type="radio" name="4a10c080-69f4-11eb-b36c-f218984d6a0c" id="4a10c080-69f4-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('4a10c080-69f4-11eb-b36c-f218984d6a0c')">
+        <label id="4a10c080-69f4-11eb-b36c-f218984d6a0c-2-label" for="4a10c080-69f4-11eb-b36c-f218984d6a0c-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
     
-        <input type="radio" name="2713fe82-6632-11eb-b36c-acde48001122" id="2713fe82-6632-11eb-b36c-acde48001122-3" onclick="clear_selection('2713fe82-6632-11eb-b36c-acde48001122')">
-        <label id="2713fe82-6632-11eb-b36c-acde48001122-3-label" for="2713fe82-6632-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
+        <input type="radio" name="4a10c080-69f4-11eb-b36c-f218984d6a0c" id="4a10c080-69f4-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('4a10c080-69f4-11eb-b36c-f218984d6a0c')">
+        <label id="4a10c080-69f4-11eb-b36c-f218984d6a0c-3-label" for="4a10c080-69f4-11eb-b36c-f218984d6a0c-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
     
-        <input type="radio" name="2713fe82-6632-11eb-b36c-acde48001122" id="2713fe82-6632-11eb-b36c-acde48001122-4" onclick="clear_selection('2713fe82-6632-11eb-b36c-acde48001122')">
-        <label id="2713fe82-6632-11eb-b36c-acde48001122-4-label" for="2713fe82-6632-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
+        <input type="radio" name="4a10c080-69f4-11eb-b36c-f218984d6a0c" id="4a10c080-69f4-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('4a10c080-69f4-11eb-b36c-f218984d6a0c')">
+        <label id="4a10c080-69f4-11eb-b36c-f218984d6a0c-4-label" for="4a10c080-69f4-11eb-b36c-f218984d6a0c-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
     
     </div>
     </p>
-    <input id="2713fe82-6632-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('2713fe82-6632-11eb-b36c-acde48001122', 8, 0, '999 / 333')">
-    <span class="quiz_hint" id="2713fe82-6632-11eb-b36c-acde48001122-hint"></span>
+    <input id="4a10c080-69f4-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('4a10c080-69f4-11eb-b36c-f218984d6a0c', 8, 0, '999 // 333')">
+    <span class="quiz_hint" id="4a10c080-69f4-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -17209,7 +17209,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
@@ -17225,7 +17225,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[80]:</div>
+    <div class="prompt output_prompt">Out[81]:</div>
 
 
 
@@ -17287,7 +17287,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
@@ -17311,7 +17311,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -17327,7 +17327,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[82]:</div>
+    <div class="prompt output_prompt">Out[83]:</div>
 
 
 
@@ -17352,7 +17352,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -17368,7 +17368,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[83]:</div>
+    <div class="prompt output_prompt">Out[84]:</div>
 
 
 
@@ -17393,7 +17393,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_debugger_middle</span><span class="p">(</span><span class="n">debugger</span><span class="p">):</span>
@@ -17432,7 +17432,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">())</span>
@@ -17445,7 +17445,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -17461,7 +17461,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[86]:</div>
+    <div class="prompt output_prompt">Out[87]:</div>
 
 
 
@@ -17589,7 +17589,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
@@ -17605,7 +17605,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[87]:</div>
+    <div class="prompt output_prompt">Out[88]:</div>
 
 
 
@@ -17645,7 +17645,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;Which of the above lines should be fixed?&quot;</span><span class="p">,</span>
@@ -17667,7 +17667,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[88]:</div>
+    <div class="prompt output_prompt">Out[89]:</div>
 
 
 
@@ -17753,22 +17753,22 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="271ded70-6632-11eb-835f-acde48001122" id="271ded70-6632-11eb-835f-acde48001122-1" onclick="clear_selection('271ded70-6632-11eb-835f-acde48001122')">
-        <label id="271ded70-6632-11eb-835f-acde48001122-1-label" for="271ded70-6632-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
+        <input type="radio" name="4a1a3818-69f4-11eb-835f-f218984d6a0c" id="4a1a3818-69f4-11eb-835f-f218984d6a0c-1" onclick="clear_selection('4a1a3818-69f4-11eb-835f-f218984d6a0c')">
+        <label id="4a1a3818-69f4-11eb-835f-f218984d6a0c-1-label" for="4a1a3818-69f4-11eb-835f-f218984d6a0c-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
     
-        <input type="radio" name="271ded70-6632-11eb-835f-acde48001122" id="271ded70-6632-11eb-835f-acde48001122-2" onclick="clear_selection('271ded70-6632-11eb-835f-acde48001122')">
-        <label id="271ded70-6632-11eb-835f-acde48001122-2-label" for="271ded70-6632-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
+        <input type="radio" name="4a1a3818-69f4-11eb-835f-f218984d6a0c" id="4a1a3818-69f4-11eb-835f-f218984d6a0c-2" onclick="clear_selection('4a1a3818-69f4-11eb-835f-f218984d6a0c')">
+        <label id="4a1a3818-69f4-11eb-835f-f218984d6a0c-2-label" for="4a1a3818-69f4-11eb-835f-f218984d6a0c-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
     
-        <input type="radio" name="271ded70-6632-11eb-835f-acde48001122" id="271ded70-6632-11eb-835f-acde48001122-3" onclick="clear_selection('271ded70-6632-11eb-835f-acde48001122')">
-        <label id="271ded70-6632-11eb-835f-acde48001122-3-label" for="271ded70-6632-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
+        <input type="radio" name="4a1a3818-69f4-11eb-835f-f218984d6a0c" id="4a1a3818-69f4-11eb-835f-f218984d6a0c-3" onclick="clear_selection('4a1a3818-69f4-11eb-835f-f218984d6a0c')">
+        <label id="4a1a3818-69f4-11eb-835f-f218984d6a0c-3-label" for="4a1a3818-69f4-11eb-835f-f218984d6a0c-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
     
-        <input type="radio" name="271ded70-6632-11eb-835f-acde48001122" id="271ded70-6632-11eb-835f-acde48001122-4" onclick="clear_selection('271ded70-6632-11eb-835f-acde48001122')">
-        <label id="271ded70-6632-11eb-835f-acde48001122-4-label" for="271ded70-6632-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
+        <input type="radio" name="4a1a3818-69f4-11eb-835f-f218984d6a0c" id="4a1a3818-69f4-11eb-835f-f218984d6a0c-4" onclick="clear_selection('4a1a3818-69f4-11eb-835f-f218984d6a0c')">
+        <label id="4a1a3818-69f4-11eb-835f-f218984d6a0c-4-label" for="4a1a3818-69f4-11eb-835f-f218984d6a0c-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
     
     </div>
     </p>
-    <input id="271ded70-6632-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('271ded70-6632-11eb-835f-acde48001122', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
-    <span class="quiz_hint" id="271ded70-6632-11eb-835f-acde48001122-hint"></span>
+    <input id="4a1a3818-69f4-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('4a1a3818-69f4-11eb-835f-f218984d6a0c', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
+    <span class="quiz_hint" id="4a1a3818-69f4-11eb-835f-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -17789,7 +17789,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_fixed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
@@ -17813,7 +17813,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_fixed</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -17829,7 +17829,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[90]:</div>
+    <div class="prompt output_prompt">Out[91]:</div>
 
 
 
@@ -17863,7 +17863,7 @@ $$\textit{brightness}(line) = \max(\%\textit{passed}(\textit{line}), \%\textit{f
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">RankingDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -17927,7 +17927,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TarantulaDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">,</span> <span class="n">RankingDebugger</span><span class="p">):</span>
@@ -17951,7 +17951,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_html</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">TarantulaDebugger</span><span class="p">())</span>
@@ -17964,7 +17964,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_html</span>
@@ -17980,7 +17980,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[94]:</div>
+    <div class="prompt output_prompt">Out[95]:</div>
 
 
 
@@ -18034,7 +18034,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_html</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
@@ -18050,26 +18050,26 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[95]:</div>
+    <div class="prompt output_prompt">Out[96]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 14),
- (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 1),
- (&#39;remove_html_markup&#39;, 6),
- (&#39;remove_html_markup&#39;, 16),
- (&#39;remove_html_markup&#39;, 4),
- (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 2),
- (&#39;remove_html_markup&#39;, 11),
- (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 6),
+ (&#39;remove_html_markup&#39;, 1),
+ (&#39;remove_html_markup&#39;, 3),
+ (&#39;remove_html_markup&#39;, 14),
+ (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 10),
- (&#39;remove_html_markup&#39;, 8)]</pre>
+ (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 11),
+ (&#39;remove_html_markup&#39;, 8),
+ (&#39;remove_html_markup&#39;, 10)]</pre>
 </div>
 
 </div>
@@ -18080,7 +18080,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[96]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_html</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">tarantula_html</span><span class="o">.</span><span class="n">rank</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
@@ -18096,7 +18096,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[96]:</div>
+    <div class="prompt output_prompt">Out[97]:</div>
 
 
 
@@ -18129,7 +18129,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_middle</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">TarantulaDebugger</span><span class="p">())</span>
@@ -18142,7 +18142,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_middle</span>
@@ -18158,7 +18158,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[98]:</div>
+    <div class="prompt output_prompt">Out[99]:</div>
 
 
 
@@ -18198,7 +18198,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_middle</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
@@ -18214,7 +18214,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[99]:</div>
+    <div class="prompt output_prompt">Out[100]:</div>
 
 
 
@@ -18225,11 +18225,11 @@ $$
  (&#39;middle&#39;, 3),
  (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 1),
- (&#39;middle&#39;, 8),
- (&#39;middle&#39;, 9),
- (&#39;middle&#39;, 4),
  (&#39;middle&#39;, 12),
- (&#39;middle&#39;, 10)]</pre>
+ (&#39;middle&#39;, 10),
+ (&#39;middle&#39;, 9),
+ (&#39;middle&#39;, 8),
+ (&#39;middle&#39;, 4)]</pre>
 </div>
 
 </div>
@@ -18240,7 +18240,7 @@ $$
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tarantula_middle</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">tarantula_middle</span><span class="o">.</span><span class="n">rank</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
@@ -18256,7 +18256,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[100]:</div>
+    <div class="prompt output_prompt">Out[101]:</div>
 
 
 
@@ -18310,7 +18310,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">OchiaiDebugger</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">,</span> <span class="n">RankingDebugger</span><span class="p">):</span>
@@ -18348,7 +18348,7 @@ $$
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_html</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">OchiaiDebugger</span><span class="p">())</span>
@@ -18361,7 +18361,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_html</span>
@@ -18377,7 +18377,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[104]:</div>
+    <div class="prompt output_prompt">Out[105]:</div>
 
 
 
@@ -18423,7 +18423,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_html</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
@@ -18439,26 +18439,26 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[105]:</div>
+    <div class="prompt output_prompt">Out[106]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 14),
- (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 1),
- (&#39;remove_html_markup&#39;, 6),
- (&#39;remove_html_markup&#39;, 16),
- (&#39;remove_html_markup&#39;, 4),
- (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 2),
- (&#39;remove_html_markup&#39;, 11),
- (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 6),
+ (&#39;remove_html_markup&#39;, 1),
+ (&#39;remove_html_markup&#39;, 3),
+ (&#39;remove_html_markup&#39;, 14),
+ (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 10),
- (&#39;remove_html_markup&#39;, 8)]</pre>
+ (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 11),
+ (&#39;remove_html_markup&#39;, 8),
+ (&#39;remove_html_markup&#39;, 10)]</pre>
 </div>
 
 </div>
@@ -18469,7 +18469,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_html</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">ochiai_html</span><span class="o">.</span><span class="n">rank</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
@@ -18485,7 +18485,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[106]:</div>
+    <div class="prompt output_prompt">Out[107]:</div>
 
 
 
@@ -18510,7 +18510,7 @@ $$
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_middle</span> <span class="o">=</span> <span class="n">test_debugger_middle</span><span class="p">(</span><span class="n">OchiaiDebugger</span><span class="p">())</span>
@@ -18523,7 +18523,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_middle</span>
@@ -18539,7 +18539,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[108]:</div>
+    <div class="prompt output_prompt">Out[109]:</div>
 
 
 
@@ -18579,7 +18579,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_middle</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
@@ -18595,7 +18595,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[109]:</div>
+    <div class="prompt output_prompt">Out[110]:</div>
 
 
 
@@ -18606,11 +18606,11 @@ $$
  (&#39;middle&#39;, 3),
  (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 1),
- (&#39;middle&#39;, 8),
- (&#39;middle&#39;, 9),
- (&#39;middle&#39;, 4),
  (&#39;middle&#39;, 12),
- (&#39;middle&#39;, 10)]</pre>
+ (&#39;middle&#39;, 10),
+ (&#39;middle&#39;, 9),
+ (&#39;middle&#39;, 8),
+ (&#39;middle&#39;, 4)]</pre>
 </div>
 
 </div>
@@ -18621,7 +18621,7 @@ $$
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_middle</span><span class="o">.</span><span class="n">suspiciousness</span><span class="p">(</span><span class="n">ochiai_middle</span><span class="o">.</span><span class="n">rank</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
@@ -18637,7 +18637,7 @@ $$
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[110]:</div>
+    <div class="prompt output_prompt">Out[111]:</div>
 
 
 
@@ -18705,7 +18705,7 @@ $$
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[112]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ValueCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
@@ -18742,7 +18742,7 @@ $$
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="prompt input_prompt">In&nbsp;[113]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ContinuousSpectrumDebugger</span><span class="p">(</span><span class="n">ValueCollector</span><span class="p">))</span>
@@ -18764,24 +18764,24 @@ $$
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>c = &#39;c&#39;
-s = &#39;&#34;abc&#34;&#39;
-s = &#39;abc&#39;
+<pre>tag = False
 c = &#39;&lt;&#39;
-c = &#39;&gt;&#39;
+out = &#39;ab&#39;
 s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
 c = &#39;&#34;&#39;
+c = &#39;a&#39;
 out = &#39;a&#39;
+c = &#39;c&#39;
+quote = False
 c = &#39;b&#39;
+s = &#39;abc&#39;
+quote = True
+s = &#39;&#34;abc&#34;&#39;
+out = &#39;abc&#39;
+tag = True
 c = &#39;/&#39;
 out = &#39;&#39;
-quote = False
-tag = True
-c = &#39;a&#39;
-out = &#39;ab&#39;
-quote = True
-out = &#39;abc&#39;
-tag = False
+c = &#39;&gt;&#39;
 </pre>
 </div>
 </div>
@@ -18800,7 +18800,7 @@ tag = False
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[113]:</div>
+<div class="prompt input_prompt">In&nbsp;[114]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">debugger</span><span class="o">.</span><span class="n">only_fail_events</span><span class="p">():</span>
@@ -18821,9 +18821,9 @@ tag = False
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>quote = True
+<pre>s = &#39;&#34;abc&#34;&#39;
 c = &#39;&#34;&#39;
-s = &#39;&#34;abc&#34;&#39;
+quote = True
 </pre>
 </div>
 </div>
@@ -18850,7 +18850,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="prompt input_prompt">In&nbsp;[115]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -18866,7 +18866,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[114]:</div>
+    <div class="prompt output_prompt">Out[115]:</div>
 
 
 
@@ -19055,7 +19055,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[115]:</div>
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">DifferenceDebugger</span><span class="p">):</span>
@@ -19080,7 +19080,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[116]:</div>
+<div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19097,7 +19097,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[116]:</div>
+    <div class="prompt output_prompt">Out[117]:</div>
 
 
 
@@ -19124,7 +19124,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[117]:</div>
+<div class="prompt input_prompt">In&nbsp;[118]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19144,7 +19144,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[118]:</div>
+<div class="prompt input_prompt">In&nbsp;[119]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19161,7 +19161,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[118]:</div>
+    <div class="prompt output_prompt">Out[119]:</div>
 
 
 
@@ -19221,7 +19221,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="prompt input_prompt">In&nbsp;[120]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19236,7 +19236,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="prompt input_prompt">In&nbsp;[121]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19253,26 +19253,26 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[120]:</div>
+    <div class="prompt output_prompt">Out[121]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#34;(&#39;remove_html_markup&#39;, 14)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 12)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 1)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 10)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 8)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 16)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 4)&#34;,
+<pre>[&#34;(&#39;remove_html_markup&#39;, 2)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 13)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 2)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 11)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 4)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 8)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 10)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 1)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 12)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 14)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 16)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 7)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 9)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 7)&#34;]</pre>
+ &#34;(&#39;remove_html_markup&#39;, 11)&#34;]</pre>
 </div>
 
 </div>
@@ -19291,7 +19291,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
+<div class="prompt input_prompt">In&nbsp;[122]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19313,7 +19313,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="prompt input_prompt">In&nbsp;[123]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19330,13 +19330,13 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[122]:</div>
+    <div class="prompt output_prompt">Out[123]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[1, 1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1]</pre>
+<pre>[1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1]</pre>
 </div>
 
 </div>
@@ -19355,7 +19355,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="prompt input_prompt">In&nbsp;[124]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19374,7 +19374,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[124]:</div>
+<div class="prompt input_prompt">In&nbsp;[125]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19391,14 +19391,14 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[124]:</div>
+    <div class="prompt output_prompt">Out[125]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[[1, 1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1],
- [1, 1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+<pre>[[1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1, 1],
+ [1, 1, 1, 1, 1, 1, 1, -1, 1, 1, 1, 1, 1, 1],
  [1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1]]</pre>
 </div>
 
@@ -19418,7 +19418,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[125]:</div>
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19437,7 +19437,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[126]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19454,7 +19454,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[126]:</div>
+    <div class="prompt output_prompt">Out[127]:</div>
 
 
 
@@ -19479,7 +19479,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19504,7 +19504,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[130]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
@@ -19537,7 +19537,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[131]:</div>
+<div class="prompt input_prompt">In&nbsp;[132]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">test_debugger_html</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">())</span>
@@ -19555,7 +19555,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[131]:</div>
+    <div class="prompt output_prompt">Out[132]:</div>
 
 
 
@@ -19631,7 +19631,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[132]:</div>
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
@@ -19647,7 +19647,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[132]:</div>
+    <div class="prompt output_prompt">Out[133]:</div>
 
 
 
@@ -19691,7 +19691,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[133]:</div>
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">TarantulaDebugger</span><span class="p">()</span>
@@ -19726,7 +19726,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[134]:</div>
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span> <span class="o">=</span> <span class="n">TarantulaDebugger</span><span class="p">()</span>
@@ -19762,7 +19762,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[135]:</div>
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">event_table</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -19778,7 +19778,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[135]:</div>
+    <div class="prompt output_prompt">Out[136]:</div>
 
 
 
@@ -19897,7 +19897,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
@@ -19913,7 +19913,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[136]:</div>
+    <div class="prompt output_prompt">Out[137]:</div>
 
 
 
@@ -19967,7 +19967,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[138]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
@@ -19983,26 +19983,26 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[137]:</div>
+    <div class="prompt output_prompt">Out[138]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 14),
- (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 1),
- (&#39;remove_html_markup&#39;, 6),
- (&#39;remove_html_markup&#39;, 16),
- (&#39;remove_html_markup&#39;, 4),
- (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 2),
- (&#39;remove_html_markup&#39;, 11),
- (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 6),
+ (&#39;remove_html_markup&#39;, 1),
+ (&#39;remove_html_markup&#39;, 3),
+ (&#39;remove_html_markup&#39;, 14),
+ (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 10),
- (&#39;remove_html_markup&#39;, 8)]</pre>
+ (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 11),
+ (&#39;remove_html_markup&#39;, 8),
+ (&#39;remove_html_markup&#39;, 10)]</pre>
 </div>
 
 </div>
@@ -20021,7 +20021,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="prompt input_prompt">In&nbsp;[139]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -20035,7 +20035,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[139]:</div>
+<div class="prompt input_prompt">In&nbsp;[140]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -20080,7 +20080,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[139]:</div>
+    <div class="prompt output_prompt">Out[140]:</div>
 
 
 
@@ -20455,7 +20455,7 @@ s = &#39;&#34;abc&#34;&#39;
 </div></section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[141]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -20492,7 +20492,7 @@ s = &#39;&#34;abc&#34;&#39;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[140]:</div>
+    <div class="prompt output_prompt">Out[141]:</div>
 
 
 
@@ -20635,7 +20635,7 @@ s = &#39;&#34;abc&#34;&#39;
 <text text-anchor="start" x="94.5" y="-427" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_24"><a xlink:href="Tracer.ipynb" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7fb4772359b0&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
+<g id="a_node3_24"><a xlink:href="Tracer.ipynb" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f8031131ac8&gt;):&#10;Create a new tracer. If `file is given, output to `file`.">
 <text text-anchor="start" x="94.5" y="-416" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>

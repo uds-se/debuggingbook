@@ -2,12 +2,16 @@
 
 import io, os, sys, types, re
 import datetime
+from typing import Dict
 
 # from IPython import get_ipython
 # from IPython.core.interactiveshell import InteractiveShell
 
 import nbformat
-from import_notebooks import RE_CODE
+from import_notebooks import RE_CODE  # type: ignore
+
+# If True, create mypy-friendly code
+mypy = False
 
 # Things to ignore in exported Python code
 RE_IGNORE = re.compile(r'^get_ipython().*|^%.*')
@@ -27,7 +31,7 @@ RE_COMMENTS = re.compile(r'^#.*$', re.MULTILINE)
 HEADER = """#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "{title}".
+# This material is part of "{booktitle}".
 # Web site: https://www.{project}.org/html/{module}.html
 # Last change: {timestamp}
 #
@@ -53,6 +57,24 @@ HEADER = """#!/usr/bin/env python3
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+# This file is generated automatically.
+# It can be executed as a script, running all experiments:
+#
+#     $ python {module}.py
+#
+# or imported as a package, providing classes, functions, and constants:
+#
+#     >>> import {project}.{module}
+#
+# For details, source, and documentation, see "{booktitle}" chapter at 
+# https://www.{project}.org/html/{module}.html
+
+
+# Allow to use 'from . import <module>' when run as script (see PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = '{project}'
 
 """
 
@@ -91,10 +113,12 @@ def indent_code(code):
     lines = prefix_code(code, "    ")
     return re.sub(RE_BLANK_LINES, '', lines)
 
-
 def fix_imports(code):
     # For proper packaging, we must import our modules from the local dir
     # Our modules all start with an upper-case letter
+    
+    if mypy:
+        return code
 
     if code.startswith("from IPython"):
         # IPython
@@ -104,21 +128,51 @@ def fix_imports(code):
         # FuzzManager imports
         return code
 
-    code = re.sub(r"^from *([A-Z].*|bookutils.*)$",
-r'''if __package__ is None or __package__ == "":
-    from \1
-else:
-    from .\1
-''', code, flags=re.MULTILINE)
+    code = re.sub(r"^from *([A-Z].*|bookutils.*)$", 
+                  r'from .\1', code, flags=re.MULTILINE)
 
     code = re.sub(r"^import *([A-Z].*|bookutils.*)$",
-r'''if __package__ is None or __package__ == "":
-    import \1
-else:
-    from . import \1
-''', code, flags=re.MULTILINE)
+                  r'from . import \1', code, flags=re.MULTILINE)
 
     return code
+    
+class_renamings: Dict[str, int] = {}
+
+RE_SUBCLASS_SELF = re.compile(r'class ([A-Z].*)\(\1')
+def fix_subclass_self(code):
+    if not mypy:
+        return code
+        
+    match = RE_SUBCLASS_SELF.search(code)
+    if match:
+        class_name = match.group(1)
+        if class_name in class_renamings:
+            old_class_name = f'{class_name}_{class_renamings[class_name]}'
+            class_renamings[class_name] += 1
+        else:
+            old_class_name = class_name
+            class_renamings[class_name] = 1
+            
+        new_class_name = f'{class_name}_{class_renamings[class_name]}'
+            
+        code = code.replace(f'class {class_name}({class_name}',
+                            f'class __NEW_CLASS__(__OLD_CLASS__')
+        code += f'\n\n__CLASS__ = __NEW_CLASS__  # type: ignore'
+
+    for cls_name in class_renamings:
+        new_cls_name = f'{cls_name}_{class_renamings[cls_name]}'
+        code = re.sub(fr"\b{cls_name}\b", new_cls_name,
+                      code, flags=re.MULTILINE)
+
+    if match:
+        code = code.replace('__NEW_CLASS__', new_class_name)
+        code = code.replace('__OLD_CLASS__', old_class_name)
+        code = code.replace('__CLASS__', class_name)
+
+    return code
+    
+def fix_code(code):
+    return fix_subclass_self(code)
 
 def first_line(text):
     index = text.find('\n')
@@ -129,24 +183,32 @@ def first_line(text):
 
 def print_utf8(s):
     sys.stdout.buffer.write(s.encode('utf-8'))
-    
+
 def decode_title(s):
     # We have non-breaking spaces in some titles
     return s.replace('\xa0', ' ')
+    
+def split_title(s):
+    """Split a title into hashes and text"""
+    list = s.split(' ', 1)
+    return list[0], list[1]
 
 def print_if_main(code):
     # Run code only if run as main file
-    print_utf8('\nif __name__ == "__main__":\n')
-    print_utf8(indent_code(code) + "\n\n")
-
+    if mypy:
+        print_utf8(code + '\n\n')
+    else:
+        print_utf8("\nif __name__ == '__main__':\n")
+        print_utf8(indent_code(code) + "\n\n")
+    
 def export_notebook_code(notebook_name, project="fuzzingbook", path=None):
     # notebook_path = import_notebooks.find_notebook(notebook_name, path)
     notebook_path = notebook_name
 
     if project == "debuggingbook":
-        title = "The Debugging Book"
+        booktitle = "The Debugging Book"
     else:
-        title = "The Fuzzing Book"
+        booktitle = "The Fuzzing Book"
 
     # load the notebook
     with io.open(notebook_path, 'r', encoding='utf-8') as f:
@@ -163,7 +225,7 @@ def export_notebook_code(notebook_name, project="fuzzingbook", path=None):
     header = HEADER.format(module=module, 
                            timestamp=timestamp,
                            project=project,
-                           title=title)
+                           booktitle=booktitle)
     print_utf8(header)
     sep = ''
 
@@ -191,6 +253,7 @@ def export_notebook_code(notebook_name, project="fuzzingbook", path=None):
                 # Don't import all of bookutils (requires nbformat & Ipython)
                 print_if_main(SET_FIXED_SEED)
             elif RE_IMPORT_IF_MAIN.match(code):
+                code = fix_imports(code)
                 print_if_main(code)
             elif RE_FROM_BOOKUTILS.match(code):
                 # This would be "from bookutils import HTML"
@@ -201,13 +264,16 @@ def export_notebook_code(notebook_name, project="fuzzingbook", path=None):
                 # Code to ignore - comment out
                 print_utf8("\n" + prefix_code(code, "# ") + "\n")
             elif RE_CODE.match(code) and not bang:
-                # imports and defs
+                # imports, classes, and defs
                 code = fix_imports(code)
+                code = fix_code(code)
                 print_utf8("\n" + code + "\n")
             elif is_all_comments(code):
                 # Only comments
                 print_utf8("\n" + code + "\n")
             else:
+                # Regular code
+                code = fix_code(code)
                 print_if_main(code)
         else:
             # Anything else
@@ -215,15 +281,22 @@ def export_notebook_code(notebook_name, project="fuzzingbook", path=None):
             if contents.startswith('#'):
                 # Header
                 line = first_line(contents)
-                print_utf8("\n" + prefix_code(decode_title(line), "# ") + "\n")
-                print_if_main("print(" + repr(sep + decode_title(line)) + ")\n\n")
+                decoded_title = decode_title(line)
+                hashes, text = split_title(decoded_title)
+                underline = '=' if hashes == '#' else '-'
+                print_utf8("\n")
+                print_utf8(prefix_code(decoded_title, "") + "\n")
+                if len(hashes) <= 2:
+                    print_utf8('#' * len(hashes) + ' ' + 
+                               underline * len(text) + '\n')
+                print_if_main("print(" + repr(sep + decoded_title) + ")\n\n")
                 sep = '\n'
             else:
                 # We don't include contents, as they fall under a different license
                 # print_utf8("\n" + prefix_code(contents, "# ") + "\n")
                 pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     args = sys.argv
     project = 'fuzzingbook'
 
@@ -232,6 +305,12 @@ if __name__ == "__main__":
         args = args[3:]
     else:
         args = args[1:]
-        
+    
+    if len(args) > 1 and args[0] == '--mypy':
+        mypy = True
+        args = args[1:]
+    else:
+        mypy = False
+
     for notebook in args:
         export_notebook_code(notebook, project=project)
