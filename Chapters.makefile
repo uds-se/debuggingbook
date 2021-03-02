@@ -32,7 +32,8 @@ OBSERVING_PART_TODO = \
 	02_Observing.ipynb \
 	Tracer.ipynb \
 	Debugger.ipynb \
-	Assertions.ipynb
+	Assertions.ipynb \
+	PerformanceDebugger.ipynb
 
 # Flows and Dependencies
 DEPENDENCIES_PART =
@@ -47,9 +48,8 @@ EXPERIMENTING_PART_READY =
 EXPERIMENTING_PART_TODO = \
 	04_Reducing.ipynb \
 	DeltaDebugger.ipynb \
-	ChangeDebugger.ipynb
-	# Grammars.ipynb \
-	# GrammarReducer.ipynb
+	ChangeDebugger.ipynb \
+	ThreadDebugger.ipynb
 
 # Abstracting Failures
 ABSTRACTING_PART =
@@ -59,8 +59,8 @@ ABSTRACTING_PART_TODO = \
 	StatisticalDebugger.ipynb \
 	DynamicInvariants.ipynb \
 	DDSetDebugger.ipynb
-	# Alhazen.ipynb
-	
+	# AlhazenDebugger.ipynb
+
 # Repairing Failures
 REPAIRING_PART =
 REPAIRING_PART_READY =
