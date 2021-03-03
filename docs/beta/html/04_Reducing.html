@@ -11797,6 +11797,12 @@ MathJax.Hub.Config({
 
 In this part, we show how to narrow down failures by systematic experimentation.
 
+ Reducing Failure-Inducing Inputs introduces delta debugging, a technique to automatically reduce a failure-inducing input to a minimum.
+
+ Isolating Failure-Inducing Changes shows how to identify changes that cause failures - manually and automatically.
+
+ In Debugging Concurrent Programs, we show how to detect and debug concurrency issues.
+
 " />
 <meta property="og:image" content="https://www.debuggingbook.org/beta/html/PICS/wordcloud.png" />
 
@@ -11882,6 +11888,7 @@ In this part, we show how to narrow down failures by systematic experimentation.
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Assertions.html">Asserting Expectations&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11889,6 +11896,7 @@ In this part, we show how to narrow down failures by systematic experimentation.
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11959,6 +11967,14 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h1 id="Part-IV:-Reducing-Failure-Causes">Part IV: Reducing Failure Causes<a class="anchor-link" href="#Part-IV:-Reducing-Failure-Causes">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-wrench"></i>&nbsp;This chapter is work in progress ("beta").  It is incomplete and may change at any time.</em></p><p>In this part, we show how to narrow down failures by systematic experimentation.</p>
+<ul>
+<li><p><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs</a> introduces <em>delta debugging</em>, a technique to automatically reduce a failure-inducing input to a minimum.</p>
+</li>
+<li><p><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a> shows how to identify changes that cause failures - manually and automatically.</p>
+</li>
+<li><p>In <a href="ThreadDebugger.html">Debugging Concurrent Programs</a>, we show how to detect and debug concurrency issues.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -11970,7 +11986,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/04_Reducing.ipynb" target=_blank)>Last change: 2021-01-20 15:40:56+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/04_Reducing.ipynb" target=_blank)>Last change: 2021-03-02 19:04:03+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -11986,7 +12002,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/04_Reducing.html">Part IV: Reducing Failure Causes</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/04_Reducing.html">https://www.debuggingbook.org/beta/html/04_Reducing.html</a>.  Retrieved 2021-01-20 15:40:56+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/04_Reducing.html">Part IV: Reducing Failure Causes</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/04_Reducing.html">https://www.debuggingbook.org/beta/html/04_Reducing.html</a>.  Retrieved 2021-03-02 19:04:03+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:04_Reducing,
@@ -11996,9 +12012,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/04_Reducing.ht
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/04_Reducing.html}},
-    note = {Retrieved 2021-01-20 15:40:56+01:00},
+    note = {Retrieved 2021-03-02 19:04:03+01:00},
     url = {https://www.debuggingbook.org/beta/html/04_Reducing.html},
-    urldate = {2021-01-20 15:40:56+01:00}
+    urldate = {2021-03-02 19:04:03+01:00}
 }
 </pre>
 </div>

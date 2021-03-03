@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Class Diagrams" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-01-25 19:08:00+01:00
-#
+# Last change: 2021-02-27 16:43:39+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,40 +27,72 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Class Diagrams
 
-# # Class Diagrams
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python ClassDiagram.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.ClassDiagram import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/ClassDiagram.html
+
+The function `display_class_hierarchy()` function shows the class hierarchy for the given class (or list of classes). 
+* The keyword parameter `public_methods`, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).
+* The keyword parameter `abstract_classes`, if given, is a list of classes to be displayed as "abstract" (i.e. with a cursive class name).
+
+>>> display_class_hierarchy(D_Class, abstract_classes=[A_Class])
+
+For more details, source, and documentation, see
+"The Debugging Book - Class Diagrams"
+at https://www.debuggingbook.org/html/ClassDiagram.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Class Diagrams
+# ==============
+
+if __name__ == '__main__':
     print('# Class Diagrams')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Getting a Class Hierarchy
+## -------------------------
 
-# ## Getting a Class Hierarchy
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Getting a Class Hierarchy')
-
 
 
 
 import inspect
 
-def class_hierarchy(cls):
+from typing import Callable, Dict, Type, Set, List, Union, Any, Tuple, Optional
+
+def class_hierarchy(cls: Type) -> List[Type]:
     superclasses = cls.mro()
     hierarchy = []
     last_superclass_name = ""
@@ -77,18 +108,18 @@ class A_Class:
     """A Class which does A thing right.
     Comes with a longer docstring."""
 
-    def foo(self):
+    def foo(self) -> None:
         """The Adventures of the glorious Foo"""
         pass
 
-    def quux(self):
+    def quux(self) -> None:
         """A method that is not used."""
         pass
 
 class A_Class(A_Class):
     # We define another function in a separate cell.
 
-    def second(self):
+    def second(self) -> None:
         pass
 
 class B_Class(A_Class):
@@ -96,11 +127,11 @@ class B_Class(A_Class):
 
     VAR = "A variable"
 
-    def foo(self, fight=False):
+    def foo(self) -> None:
         """A WW2 foo fighter."""
         pass
 
-    def bar(self, qux=None, bartender=42):
+    def bar(self, qux: Any = None, bartender: int = 42) -> None:
         """A qux walks into a bar.
         `bartender` is an optional attribute."""
         pass
@@ -108,36 +139,34 @@ class B_Class(A_Class):
 class C_Class:
     """A class injecting some method"""
 
-    def qux(self):
+    def qux(self) -> None:
         pass
 
 class D_Class(B_Class, C_Class):
     """A subclass inheriting from multiple superclasses.
     Comes with a fairly long, but meaningless documentation."""
 
-    def foo(self):
+    def foo(self) -> None:
         B_Class.foo(self)
 
 class D_Class(D_Class):
     pass  # An incremental addiiton that should not impact D's semantics
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_hierarchy(D_Class)
 
+## Getting a Class Tree
+## --------------------
 
-# ## Getting a Class Tree
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Getting a Class Tree')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     D_Class.__bases__
 
-
-def class_tree(cls, lowest=None):
+def class_tree(cls: Type, lowest: Type = None) -> List[Tuple[Type, List]]:
     ret = []
     for base in cls.__bases__:
         if base.__name__ == cls.__name__:
@@ -151,25 +180,22 @@ def class_tree(cls, lowest=None):
 
     return ret
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_tree(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_tree(D_Class)[0][0]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert class_tree(D_Class)[0][0] == D_Class
 
-
-def class_set(classes):
+def class_set(classes: Union[Type, List[Type]]) -> Set[Type]:
     if not isinstance(classes, list):
         classes = [classes]
 
     ret = set()
 
-    def traverse_tree(tree):
+    def traverse_tree(tree: List[Tuple[Type, List]]) -> None:
         for (cls, subtrees) in tree:
             ret.add(cls)
             for subtree in subtrees:
@@ -180,85 +206,70 @@ def class_set(classes):
 
     return ret
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_set(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert A_Class in class_set(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert B_Class in class_set(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert C_Class in class_set(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert D_Class in class_set(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_set([B_Class, C_Class])
 
+### Getting Docs
 
-# ### Getting Docs
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Getting Docs')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     A_Class.__doc__
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     A_Class.__bases__[0].__doc__
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     A_Class.__bases__[0].__name__
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     D_Class.foo
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     D_Class.foo.__doc__
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     A_Class.foo.__doc__
 
+def docstring(obj: Any) -> str:
+    doc = inspect.getdoc(obj)
+    return doc if doc else ""
 
-def docstring(obj):
-    return inspect.getdoc(obj)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     docstring(A_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     docstring(D_Class.foo)
 
-
-def unknown():
+def unknown() -> None:
     pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     docstring(unknown)
-
 
 import html
 
 import re
 
-def escape(text):
+def escape(text: str) -> str:
     text = html.escape(text)
     assert '<' not in text
     assert '>' not in text
@@ -267,11 +278,10 @@ def escape(text):
     text = text.replace('}', '&#x7d;')
     return text
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     escape("f(foo={})")
 
-
-def escape_doc(docstring):
+def escape_doc(docstring: str) -> str:
     DOC_INDENT = 0
     docstring = "&#x0a;".join(
         ' ' * DOC_INDENT + escape(line).strip()
@@ -279,24 +289,22 @@ def escape_doc(docstring):
     )
     return docstring
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(escape_doc("'Hello\n    {You|Me}'"))
 
+## Getting Methods and Variables
+## -----------------------------
 
-# ## Getting Methods and Vars
-
-if __name__ == "__main__":
-    print('\n## Getting Methods and Vars')
-
-
+if __name__ == '__main__':
+    print('\n## Getting Methods and Variables')
 
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     inspect.getmembers(D_Class)
 
-
-def class_items(cls, pred):
-    def _class_items(cls):
+def class_items(cls: Type, pred: Callable) -> List[Tuple[str, Any]]:
+    def _class_items(cls: Type) -> List:
         all_items = inspect.getmembers(cls, pred)
         for base in cls.__bases__:
             all_items += _class_items(base)
@@ -312,97 +320,88 @@ def class_items(cls, pred):
 
     return unique_items
 
-def class_methods(cls):
+def class_methods(cls: Type) -> List[Tuple[str, Callable]]:
     return class_items(cls, inspect.isfunction)
 
-def defined_in(name, cls):
+def defined_in(name: str, cls: Type) -> bool:
     if not hasattr(cls, name):
         return False
 
     defining_classes = []
 
-    def search_superclasses(name, cls):
+    def search_superclasses(name: str, cls: Type) -> None:
         if not hasattr(cls, name):
             return
-    
+
         for base in cls.__bases__:
             if hasattr(base, name):
                 defining_classes.append(base)
                 search_superclasses(name, base)
 
     search_superclasses(name, cls)
-    
+
     if any(cls.__name__ != c.__name__ for c in defining_classes):
         return False  # Already defined in superclass
 
     return True
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not defined_in('VAR', A_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert defined_in('VAR', B_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not defined_in('VAR', C_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not defined_in('VAR', D_Class)
 
-
-def class_vars(cls):
-    def is_var(item):
+def class_vars(cls: Type) -> List[Any]:
+    def is_var(item: Any) -> bool:
         return not callable(item)
 
     return [item for item in class_items(cls, is_var) 
             if not item[0].startswith('__') and defined_in(item[0], cls)]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_methods(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     class_vars(B_Class)
 
-
-def public_class_methods(cls):
+def public_class_methods(cls: Type) -> List[Tuple[str, Callable]]:
     return [(name, method) for (name, method) in class_methods(cls) 
             if method.__qualname__.startswith(cls.__name__)]
 
-def doc_class_methods(cls):
+def doc_class_methods(cls: Type) -> List[Tuple[str, Callable]]:
     return [(name, method) for (name, method) in public_class_methods(cls) 
             if docstring(method) is not None]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     public_class_methods(D_Class)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     doc_class_methods(D_Class)
 
-
-def overloaded_class_methods(classes):
-    all_methods = {}
+def overloaded_class_methods(classes: Union[Type, List[Type]]) -> Set[str]:
+    all_methods: Dict[str, Set[Callable]] = {}
     for cls in class_set(classes):
         for (name, method) in class_methods(cls):
             if method.__qualname__.startswith(cls.__name__):
                 all_methods.setdefault(name, set())
                 all_methods[name].add(cls)
 
-    return [name for name in all_methods if len(all_methods[name]) >= 2]
+    return set(name for name in all_methods if len(all_methods[name]) >= 2)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     overloaded_class_methods(D_Class)
 
+## Drawing Class Hierarchy with Method Names
+## -----------------------------------------
 
-# ## Drawing Class Hierarchy with Method Names
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Drawing Class Hierarchy with Method Names')
-
 
 
 
@@ -410,14 +409,14 @@ from inspect import signature
 
 import warnings
 
-def display_class_hierarchy(classes, 
-                            public_methods=None,
-                            abstract_classes=None,
-                            include_methods=True,
-                            include_class_vars=True,
-                            include_legend=True,
-                            project='fuzzingbook',
-                            log=False):
+def display_class_hierarchy(classes: Union[Type, List[Type]], 
+                            public_methods: Optional[List] = None,
+                            abstract_classes: Optional[List] = None,
+                            include_methods: bool = True,
+                            include_class_vars: bool =True,
+                            include_legend: bool = True,
+                            project: str = 'fuzzingbook',
+                            log: bool = False) -> Any:
     """Visualize a class hierarchy.
 `classes` is a Python class (or a list of classes) to be visualized.
 `public_methods`, if given, is a list of methods to be shown as "public" (bold).
@@ -452,11 +451,12 @@ def display_class_hierarchy(classes,
     dot.attr('graph', rankdir='BT', tooltip=title)
     dot.attr('edge', arrowhead='empty')
     edges = set()
-    overloaded_methods = set()
+    overloaded_methods: Set[str] = set()
 
     drawn_classes = set()
 
-    def method_string(method_name, public, overloaded, fontsize=10):
+    def method_string(method_name: str, public: bool, overloaded: bool,
+                      fontsize: float = 10.0) -> str:
         method_string = f'<font face="{METHOD_FONT}" point-size="{str(fontsize)}">'
 
         if overloaded:
@@ -473,33 +473,33 @@ def display_class_hierarchy(classes,
         method_string += '</font>'
         return method_string
 
-    def var_string(var_name, fontsize=10):
+    def var_string(var_name: str, fontsize: int = 10) -> str:
         var_string = f'<font face="{METHOD_FONT}" point-size="{str(fontsize)}">'
         var_string += f'{var_name}'
         var_string += '</font>'
         return var_string
 
-    def is_overloaded(method_name, f):
+    def is_overloaded(method_name: str, f: Any) -> bool:
         return (method_name in overloaded_methods or
                 (docstring(f) is not None and "in subclasses" in docstring(f)))
 
-    def is_abstract(cls):
+    def is_abstract(cls: Type) -> bool:
         if not abstract_classes:
             return inspect.isabstract(cls)
 
         return (cls in abstract_classes or
                 any(c.__name__ == cls.__name__ for c in abstract_classes))
 
-    def is_public(method_name, f):
+    def is_public(method_name: str, f: Any) -> bool:
         if public_methods:
             return (method_name in public_methods or
                     f in public_methods or
                     any(f.__qualname__ == m.__qualname__
                         for m in public_methods))
 
-        return docstring(f) is not None
+        return bool(docstring(f))
 
-    def class_vars_string(cls, url):
+    def class_vars_string(cls: Type, url: str) -> str:
         cls_vars = class_vars(cls)
         if len(cls_vars) == 0:
             return ""
@@ -524,7 +524,7 @@ def display_class_hierarchy(classes,
         vars_string += '</table>'
         return vars_string
 
-    def class_methods_string(cls, url):
+    def class_methods_string(cls: Type, url: str) -> str:
         methods = public_class_methods(cls)
         # return "<br/>".join([name + "()" for (name, f) in methods])
         if len(methods) == 0:
@@ -565,7 +565,7 @@ def display_class_hierarchy(classes,
         methods_string += '</table>'
         return methods_string
 
-    def display_class_node(cls):
+    def display_class_node(cls: Type) -> None:
         name = cls.__name__
 
         if name in drawn_classes:
@@ -606,7 +606,7 @@ def display_class_hierarchy(classes,
 
         dot.node(name, spec, tooltip=class_doc, href=url)
 
-    def display_class_trees(trees):
+    def display_class_trees(trees: List[Tuple[Type, List]]) -> None:
         for tree in trees:
             (cls, subtrees) = tree
             display_class_node(cls)
@@ -620,7 +620,7 @@ def display_class_hierarchy(classes,
 
             display_class_trees(subtrees)
 
-    def display_legend():
+    def display_legend() -> None:
         fontsize = 8.0
 
         label = f'<b><font color="{CLASS_COLOR}">Legend</font></b><br align="left"/>' 
@@ -651,38 +651,34 @@ def display_class_hierarchy(classes,
 
     return dot
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy(D_Class, project='debuggingbook', log=True)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy(D_Class, project='fuzzingbook')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy([A_Class, B_Class],
                             abstract_classes=[A_Class],
                             public_methods=[
                                 A_Class.quux,
                             ], log=True)
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy(D_Class, abstract_classes=[A_Class])
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
-
 
 

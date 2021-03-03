@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Part I: Whetting Your Appetite" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/01_Intro.html
-# Last change: 2021-01-10 12:12:19+01:00
-#
+# Last change: 2021-02-27 13:37:47+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,11 +27,37 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Part I: Whetting Your Appetite
 
-# # Part I: Whetting Your Appetite
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python 01_Intro.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.01_Intro import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/01_Intro.html
+
+
+For more details, source, and documentation, see
+"The Debugging Book - Part I: Whetting Your Appetite"
+at https://www.debuggingbook.org/html/01_Intro.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Part I: Whetting Your Appetite
+# ==============================
+
+if __name__ == '__main__':
     print('# Part I: Whetting Your Appetite')
-
 
 

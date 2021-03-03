@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-01-31 20:46:10+01:00
-#
+# Last change: 2021-03-02 12:02:42+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,147 +27,157 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Tracking Bugs
 
-# # Tracking Bugs
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python Tracking.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.Tracking import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/Tracking.html
+
+This chapter provides no functionality that could be used by third-party code.
+
+
+For more details, source, and documentation, see
+"The Debugging Book - Tracking Bugs"
+at https://www.debuggingbook.org/html/Tracking.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Tracking Bugs
+# =============
+
+if __name__ == '__main__':
     print('# Tracking Bugs')
 
 
 
-
-if __name__ == "__main__":
-    from bookutils import YouTubeVideo
+if __name__ == '__main__':
+    from .bookutils import YouTubeVideo
     YouTubeVideo("bJzHYzvxHm8")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
-
-if __package__ is None or __package__ == "":
-    import Intro_Debugging
-else:
-    from . import Intro_Debugging
-
+from . import Intro_Debugging
 
 import os
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert os.getenv('USER') == 'zeller'
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Reporting Issues
+## ----------------
 
-# ## Reporting Issues
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Reporting Issues')
 
 
 
+### What Goes in a Bug Report?
 
-# ### What Goes in a Bug Report?
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### What Goes in a Bug Report?')
 
 
 
+#### Steps to Reproduce (83%)
 
-# #### Steps to Reproduce (83%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Steps to Reproduce (83%)')
 
 
 
+#### Stack Traces (57%)
 
-# #### Stack Traces (57%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Stack Traces (57%)')
 
 
 
+#### Test Cases (51%)
 
-# #### Test Cases (51%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Test Cases (51%)')
 
 
 
+#### Observed Behavior (33%)
 
-# #### Observed Behavior (33%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Observed Behavior (33%)')
 
 
 
+#### Screenshots (26%)
 
-# #### Screenshots (26%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Screenshots (26%)')
 
 
 
+#### Expected Behavior (22%)
 
-# #### Expected Behavior (22%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Expected Behavior (22%)')
 
 
 
+#### Configuration Information (< 12%)
 
-# #### Configuration Information (< 12%)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Configuration Information (< 12%)')
 
 
 
+### Reporting Crashes Automatically
 
-# ### Reporting Crashes Automatically
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Reporting Crashes Automatically')
 
 
 
+### Effective Issue Reporting
 
-# ### Effective Issue Reporting
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Effective Issue Reporting')
 
 
 
+## An Issue Tracker
+## ----------------
 
-# ## An Issue Tracker
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## An Issue Tracker')
 
 
 
+### Excursion: Setting up Redmine
 
-# ### Excursion: Setting up Redmine
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Setting up Redmine')
-
 
 
 
@@ -226,70 +235,56 @@ def with_mysql(cmd, timeout=2, show_stdout=False):
     if show_stdout:
         print(stdout_data, end="")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("bundle config set without development test")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("bundle install")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("pkill sql; sleep 5")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         with_ruby("mysql.server start", show_stdout=True)
     except subprocess.TimeoutExpired:
         pass  # Can actually start without producing output
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_mysql("drop database redmine")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_mysql("drop user 'redmine'@'localhost'")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_mysql("create database redmine character set utf8")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_mysql("create user 'redmine'@'localhost' identified by 'my_password'")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_mysql("grant all privileges on redmine.* to 'redmine'@'localhost'")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("bundle exec rake generate_secret_token")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("RAILS_ENV=production bundle exec rake db:migrate")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("RAILS_ENV=production bundle exec rake redmine:load_default_data", '\n')
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+### Excursion: Starting Redmine
 
-# ### Excursion: Starting Redmine
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Starting Redmine')
-
 
 
 
@@ -310,23 +305,20 @@ def start_redmine(port=3000):
     url = f"http://localhost:{port}"
     return process, url
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_process, redmine_url = start_redmine()
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+### Excursion: Remote Control with Selenium
 
-# ### Excursion: Remote Control with Selenium
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Remote Control with Selenium')
-
 
 
 
@@ -336,15 +328,10 @@ from selenium.webdriver.common.keys import Keys
 
 BROWSER = 'firefox'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with_ruby("pkill Firefox.app firefox-bin")
 
-
-if __package__ is None or __package__ == "":
-    from bookutils import rich_output
-else:
-    from .bookutils import rich_output
-
+from .bookutils import rich_output
 
 HEADLESS = True
 
@@ -375,35 +362,29 @@ def start_webdriver(browser=BROWSER, headless=HEADLESS, zoom=4.0):
 
     return redmine_gui
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui = start_webdriver(browser=BROWSER, headless=HEADLESS)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     from IPython.display import display, Image
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     Image(redmine_gui.get_screenshot_as_png())
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+### Excursion: Screenshots with Drop Shadows
 
-# ### Excursion: Screenshots with Drop Shadows
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Screenshots with Drop Shadows')
-
 
 
 
@@ -427,45 +408,38 @@ def drop_shadow(contents):
 def screenshot(driver, width=500):
     return Image(drop_shadow(redmine_gui.get_screenshot_as_png()), width=width)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     screenshot(redmine_gui)
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+### Excursion: First Registration at Redmine
 
-# ### Excursion: First Registration at Redmine
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: First Registration at Redmine')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/login')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_id("username").send_keys("admin")
     redmine_gui.find_element_by_id("password").send_keys("admin")
     redmine_gui.find_element_by_name("login").click()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     time.sleep(2)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     if redmine_gui.current_url.endswith('my/password'):
         redmine_gui.get(redmine_url + '/my/password')
         redmine_gui.find_element_by_id("password").send_keys("admin")
@@ -474,51 +448,43 @@ if __name__ == "__main__":
         display(screenshot(redmine_gui))
         redmine_gui.find_element_by_name("commit").click()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/logout')
     redmine_gui.find_element_by_name("commit").click()
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/login')
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_id("username").send_keys("admin")
     redmine_gui.find_element_by_id("password").send_keys("admin001")
     redmine_gui.find_element_by_name("login").click()
     screenshot(redmine_gui)
 
+### Excursion: Creating a Project
 
-# ### Excursion: Creating a Project
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Creating a Project')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects')
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects/new')
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects/new')
     redmine_gui.find_element_by_id('project_name').send_keys("The Debugging Book")
     redmine_gui.find_element_by_id('project_description').send_keys("A Book on Automated Debugging")
@@ -527,47 +493,40 @@ if __name__ == "__main__":
     redmine_gui.find_element_by_id('project_homepage').send_keys("https://www.debuggingbook.org/")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_name('commit').click()
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects')
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects/debuggingbook')
     screenshot(redmine_gui)
 
+## Reporting an Issue
+## ------------------
 
-# ## Reporting an Issue
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Reporting an Issue')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/issues/new')
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     issue_title = "Does not render correctly on Nokia Communicator"
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     issue_description = \
     """The Debugging Book does not render correctly on the Nokia Communicator 9000.
 
@@ -581,37 +540,28 @@ How to fix:
 * The graphs seem to come as SVG elements, but the Nokia Communicator does not support SVG rendering. Render them as JPEGs instead.
 """
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/issues/new')
 
     redmine_gui.find_element_by_id('issue_subject').send_keys(issue_title)
     redmine_gui.find_element_by_id('issue_description').send_keys(issue_description)
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_id('issue_assigned_to_id').click()
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_name('commit').click()
     screenshot(redmine_gui)
 
+from .bookutils import quiz
 
-if __package__ is None or __package__ == "":
-    from bookutils import quiz
-else:
-    from .bookutils import quiz
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("How many issues have been reported over time in Mozilla Bugzilla?",
         [
             "More than ten thousand",
@@ -620,20 +570,16 @@ if __name__ == "__main__":
             "More than ten million"
         ], '370370367 // 123456789')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get("https://bugzilla.mozilla.org/buglist.cgi?quicksearch=firefox")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     screenshot(redmine_gui)
 
+### Excursion: Adding Some More Issue Reports
 
-# ### Excursion: Adding Some More Issue Reports
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Adding Some More Issue Reports')
-
 
 
 
@@ -645,7 +591,7 @@ def new_issue(issue_title, issue_description):
     redmine_gui.find_element_by_name('commit').click()
     return screenshot(redmine_gui)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     new_issue("Missing a Chapter on Parallel Debugging",
     """I am missing a chapter on (automatic) debugging of parallel and distributed systems,
 including how to detect and repair data races, log message passing, and more.
@@ -653,8 +599,7 @@ In my experience, almost all programs are parallel today, so you are missing
 an important subject.
 """)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     new_issue("Missing a PDF version",
     """Your 'book' does not provide a printed version. I think that printed books
 
@@ -667,13 +612,11 @@ Please provide a printed version - or, at least, produce a PDF version
 of the debugging book, and make it available for download, such that I can print it myself.
 """)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     new_issue("No PDF version",
     """Can I have a printed version of your book? Please!""")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     new_issue("Does not work with Python 2.7 or earlier",
     """I was deeply disappointed that your hew book requires Python 3.6 or later.
 There are still several Python 2.x users out here (I, for one, cannot stand having to
@@ -697,8 +640,7 @@ As an alternative, rewrite the book in Python 2 and have it automatically transl
 Python 3. This way, you could address all Python lovers, not just Python 3 ones.
 """)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     new_issue("Support for C++",
     """I had lots of fun with your 'debugging book'. Yet, I was somewhat disappointed
 to see that all code examples are in and for Python programs only. Is there a chance
@@ -708,44 +650,38 @@ languages only. A chapter on C++ move semantics, and how to fix them, for instan
 would be highly appreciated.
 """)
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+## Managing Issues
+## ---------------
 
-# ## Managing Issues
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Managing Issues')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/projects/debuggingbook")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects/debuggingbook/issues')
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//tr[@id='issue-2']//a[@title='Actions']").click()
     time.sleep(0.25)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     tracker_item = redmine_gui.find_element_by_xpath(
         "//div[@id='context-menu']//a[text()='Tracker']")
     actions = webdriver.ActionChains(redmine_gui)
@@ -753,10 +689,8 @@ if __name__ == "__main__":
     actions.perform()
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Feature']").click()
-
 
 def mark_tracker(issue, tracker):
     redmine_gui.get(redmine_url + "/issues/")
@@ -774,71 +708,62 @@ def mark_tracker(issue, tracker):
     redmine_gui.find_element_by_xpath(
         f"//div[@id='context-menu']//a[text()='{tracker}']").click()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     mark_tracker(3, "Feature")
     mark_tracker(4, "Feature")
     mark_tracker(6, "Feature")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     screenshot(redmine_gui)
 
+## Assigning Priorities
+## --------------------
 
-# ## Assigning Priorities
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Assigning Priorities')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//tr[@id='issue-1']//a[@title='Actions']").click()
     time.sleep(0.25)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     priority_item = redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Priority']")
     actions = webdriver.ActionChains(redmine_gui)
     actions.move_to_element(priority_item)
     actions.perform()
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Urgent']").click()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     screenshot(redmine_gui)
 
+## Assigning Issues
+## ----------------
 
-# ## Assigning Issues
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Assigning Issues')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//tr[@id='issue-1']//a[@title='Actions']").click()
     time.sleep(0.25)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assignee_item = redmine_gui.find_element_by_xpath(
         "//div[@id='context-menu']//a[text()='Assignee']")
     actions = webdriver.ActionChains(redmine_gui)
@@ -846,133 +771,112 @@ if __name__ == "__main__":
     actions.perform()
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='<< me >>']").click()
     screenshot(redmine_gui)
 
+## Resolving Issues
+## ----------------
 
-# ## Resolving Issues
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Resolving Issues')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/projects/debuggingbook/issues?query_id=1")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/1")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/1/edit")
     redmine_gui.find_element_by_id("issue_status_id").click()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//option[text()='Resolved']").click()
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     issue_notes = redmine_gui.find_element_by_id("issue_notes")
     issue_notes.send_keys("Will only work for Nokia Communicator Rev B and later; "
         "Rev A is still unsupported")
     screenshot(redmine_gui)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_gui.find_element_by_name("commit").click()
     screenshot(redmine_gui)
 
+## The Life Cycle of an Issue
+## --------------------------
 
-# ## The Life Cycle of an Issue
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## The Life Cycle of an Issue')
 
 
 
+### Resolutions
 
-# ### Resolutions
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Resolutions')
 
 
 
+#### FIXED
 
-# #### FIXED
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### FIXED')
 
 
 
+#### INVALID
 
-# #### INVALID
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### INVALID')
 
 
 
+#### WONTFIX
 
-# #### WONTFIX
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### WONTFIX')
 
 
 
+#### DUPLICATE
 
-# #### DUPLICATE
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### DUPLICATE')
 
 
 
+#### WORKSFORME
 
-# #### WORKSFORME
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### WORKSFORME')
 
 
 
+### An Issue Life Cycle
 
-# ### An Issue Life Cycle
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### An Issue Life Cycle')
 
 
 
+from .Intro_Debugging import graph  # minor dependency
 
-if __package__ is None or __package__ == "":
-    from Intro_Debugging import graph  # minor dependency
-else:
-    from .Intro_Debugging import graph  # minor dependency
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     from IPython.display import display
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     life_cycle = graph()
     life_cycle.attr(rankdir='TB')
 
@@ -1001,8 +905,7 @@ if __name__ == "__main__":
 
     life_cycle
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     life_cycle.node('Unconfirmed', label="<<b>UNCONFIRMED</b>>", penwidth='2.0')
     # life_cycle.node('Verified', label="<<b>VERIFIED</b>>")
     life_cycle.node('Closed', label="<<b>CLOSED</b>>", penwidth='2.0')
@@ -1020,52 +923,49 @@ if __name__ == "__main__":
 
     life_cycle
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     redmine_process.terminate()
     redmine_gui.close()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     os.system("pkill ruby");
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
 
 
 
+## Next Steps
+## ----------
 
-# ## Next Steps
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Next Steps')
 
 
 
+## Background
+## ----------
 
-# ## Background
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Background')
 
 
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
-
 
 

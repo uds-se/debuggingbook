@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-01-31 20:46:00+01:00
-#
+# Last change: 2021-03-03 15:52:35+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,82 +27,171 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - How Debuggers Work
 
-# # How Debuggers Work
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python Debugger.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.Debugger import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/Debugger.html
+
+This chapter provides an interactive debugger for Python functions. The debugger is invoked as
+
+with Debugger():
+    function_to_be_observed()
+    ...
+
+While running, you can enter _debugger commands_ at the `(debugger)` prompt. Here's an example session:
+
+['help', 'break 14', 'list', 'continue', 'step', 'print out', 'quit']
+
+>>> with Debugger():
+>>>     ret = remove_html_markup('abc')
+
+Calling remove_html_markup(s = 'abc')
+
+(debugger) help
+
+break      -- Set a breakoint in given line. If no line is given, list all breakpoints
+continue   -- Resume execution
+delete     -- Delete breakoint in line given by `arg`.
+           Without given line, clear all breakpoints
+help       -- Give help on given `command`. If no command is given, give help on all
+list       -- Show current function. If `arg` is given, show its source code.
+print      -- Print an expression. If no expression is given, print all variables
+quit       -- Finish execution
+step       -- Execute up to the next line
+
+(debugger) break 14
+
+Breakpoints: {14}
+
+(debugger) list
+
+   1> def remove_html_markup(s):  # type: ignore
+   2      tag = False
+   3      quote = False
+   4      out = ""
+   5  
+   6      for c in s:
+   7          if c == '' and not quote:
+  10              tag = False
+  11          elif c == '"' or c == "'" and tag:
+  12              quote = not quote
+  13          elif not tag:
+  14#             out = out + c
+  15  
+  16      return out
+
+(debugger) continue
+
+                                         # tag = False, quote = False, out = '', c = 'a'
+14             out = out + c
+
+(debugger) step
+
+                                         # out = 'a'
+6     for c in s:
+
+(debugger) print out
+
+out = 'a'
+
+(debugger) quit
+
+The `Debugger` class can be easily extended in subclasses. A new method `NAME_command(self, arg)` will be invoked whenever a command named `NAME` is entered, with `arg` holding given command arguments (empty string if none).
+
+For more details, source, and documentation, see
+"The Debugging Book - How Debuggers Work"
+at https://www.debuggingbook.org/html/Debugger.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# How Debuggers Work
+# ==================
+
+if __name__ == '__main__':
     print('# How Debuggers Work')
 
 
 
-
-if __name__ == "__main__":
-    from bookutils import YouTubeVideo
+if __name__ == '__main__':
+    from .bookutils import YouTubeVideo
     YouTubeVideo("4aZ0t7CWSjA")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
-
 import sys
 
-if __package__ is None or __package__ == "":
-    import Tracer
-else:
-    from . import Tracer
+from .Tracer import Tracer
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Debuggers
+## ---------
 
-# ## Debuggers
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Debuggers')
 
 
 
+## Debugger Interaction
+## --------------------
 
-# ## Debugger Interaction
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Debugger Interaction')
 
 
 
-
-if __package__ is None or __package__ == "":
-    from Tracer import Tracer
-else:
-    from .Tracer import Tracer
-
+from types import FrameType
+from typing import Any, Optional, Callable, Dict, List, Tuple, Set, TextIO
 
 class Debugger(Tracer):
     """Interactive Debugger"""
 
-    def __init__(self, file=sys.stdout):
+    def __init__(self, *, file: TextIO = sys.stdout) -> None:
         """Create a new interactive debugger."""
-        self.stepping = True
-        self.breakpoints = set()
-        self.interact = True
+        self.stepping: bool = True
+        self.breakpoints: Set[int] = set()
+        self.interact: bool = True
 
-        self.frame = None
-        self.local_vars = None
-        self.event = None
-        self.arg = None
+        self.frame: FrameType
+        self.event: Optional[str] = None
+        self.arg: Any = None
 
-        super().__init__(file)
+        self.local_vars: Dict[str, Any] = {}
+
+        super().__init__(file=file)
 
 class Debugger(Debugger):
-    def traceit(self, frame, event, arg):
+    def stop_here(self) -> bool:
+        ...
+
+    def interaction_loop(self) -> None:
+        ...
+
+    def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
         """Tracing function; called at every line. To be overloaded in subclasses."""
         self.frame = frame
         self.local_vars = frame.f_locals  # Dereference exactly once
@@ -113,43 +201,43 @@ class Debugger(Debugger):
         if self.stop_here():
             self.interaction_loop()
 
-        return self.traceit
-
 class Debugger(Debugger):
-    def stop_here(self):
-        # Return true if we should stop
+    def stop_here(self) -> bool:
+        """Return True if we should stop"""
         return self.stepping or self.frame.f_lineno in self.breakpoints
 
 class Debugger(Debugger):
-    def interaction_loop(self):
-        # Interact with the user
-        self.print_debugger_status(self.frame, self.event, self.arg)
+    def interaction_loop(self) -> None:
+        """Interact with the user"""
+        self.print_debugger_status(self.frame, self.event, self.arg)  # type: ignore
 
         self.interact = True
         while self.interact:
             command = input("(debugger) ")
-            self.execute(command)
+            self.execute(command)  # type: ignore
 
 class Debugger(Debugger):
-    def step_command(self, arg=""):
+    def step_command(self, arg: str = "") -> None:
         """Execute up to the next line"""
+
         self.stepping = True
         self.interact = False
 
 class Debugger(Debugger):
-    def continue_command(self, arg=""):
+    def continue_command(self, arg: str = "") -> None:
         """Resume execution"""
+
         self.stepping = False
         self.interact = False
 
 class Debugger(Debugger):
-    def execute(self, command):
+    def execute(self, command: str) -> None:
         if command.startswith('s'):
             self.step_command()
         elif command.startswith('c'):
             self.continue_command()
 
-def remove_html_markup(s):
+def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -166,58 +254,54 @@ def remove_html_markup(s):
 
     return out
 
-if __package__ is None or __package__ == "":
-    from bookutils import input, next_inputs
-else:
-    from .bookutils import input, next_inputs
+from .bookutils import input, next_inputs
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["step", "step", "continue"])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+### A Command Dispatcher
 
-# ### A Command Dispatcher
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### A Command Dispatcher')
 
 
 
+### Excursion: Implementing execute()
 
-# ### Excursion: Implementing execute()
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Implementing execute()')
 
 
 
-
 class Debugger(Debugger):
-    def commands(self):
-        # Return a list of commands
+    def commands(self) -> List[str]:
+        """Return a list of commands"""
+
         cmds = [method.replace('_command', '')
                 for method in dir(self.__class__)
                 if method.endswith('_command')]
         cmds.sort()
         return cmds
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     d = Debugger()
     d.commands()
 
-
 class Debugger(Debugger):
-    def command_method(self, command):
-        # Convert `command` into the method to be called
+    def help_command(self, command: str) -> None:
+        ...
+
+    def command_method(self, command: str) -> Optional[Callable[[str], None]]:
+        """Convert `command` into the method to be called.
+           If the method is not found, return `None` instead."""
+
         if command.startswith('#'):
             return None  # Comment
 
@@ -230,19 +314,18 @@ class Debugger(Debugger):
         cmd = possible_cmds[0]
         return getattr(self, cmd + '_command')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     d = Debugger()
     d.command_method("step")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     d = Debugger()
     d.command_method("s")
 
-
 class Debugger(Debugger):
-    def execute(self, command):
-        # Execute given command
+    def execute(self, command: str) -> None:
+        """Execute `command`"""
+
         sep = command.find(' ')
         if sep > 0:
             cmd = command[:sep].strip()
@@ -256,8 +339,8 @@ class Debugger(Debugger):
             method(arg)
 
 class Debugger(Debugger):
-    def help_command(self, command=""):
-        """Give help on given command. If no command is given, give help on all"""
+    def help_command(self, command: str = "") -> None:
+        """Give help on given `command`. If no command is given, give help on all"""
 
         if command:
             possible_cmds = [possible_cmd for possible_cmd in self.commands()
@@ -275,54 +358,50 @@ class Debugger(Debugger):
             method = self.command_method(cmd)
             self.log(f"{cmd:10} -- {method.__doc__}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     d = Debugger()
     d.execute("help")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     d = Debugger()
     d.execute("foo")
 
+### End of Excursion
 
-# ### End of Excursion
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+## Printing Values
+## ---------------
 
-# ## Printing Values
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Printing Values')
 
 
 
-
 class Debugger(Debugger):
-    def print_command(self, arg=""):
+    def print_command(self, arg: str = "") -> None:
         """Print an expression. If no expression is given, print all variables"""
+
         vars = self.local_vars
         self.log("\n".join([f"{var} = {repr(vars[var])}" for var in vars]))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["step", "step", "step", "print", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
-
 class Debugger(Debugger):
-    def print_command(self, arg=""):
+    def print_command(self, arg: str = "") -> None:
         """Print an expression. If no expression is given, print all variables"""
+
         vars = self.local_vars
 
         if not arg:
@@ -333,117 +412,97 @@ class Debugger(Debugger):
             except Exception as err:
                 self.log(f"{err.__class__.__name__}: {err}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["p s", "c"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["print (s[0], 2 + 2)", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["help print", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+## Listing Source Code
+## -------------------
 
-# ## Listing Source Code
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Listing Source Code')
-
 
 
 
 import inspect
 
-if __package__ is None or __package__ == "":
-    from bookutils import getsourcelines  # like inspect.getsourcelines(), but in color
-else:
-    from .bookutils import getsourcelines  # like inspect.getsourcelines(), but in color
-
+from .bookutils import getsourcelines  # like inspect.getsourcelines(), but in color
 
 class Debugger(Debugger):
-    def list_command(self, arg=""):
+    def list_command(self, arg: str = "") -> None:
         """Show current function."""
+
         source_lines, line_number = getsourcelines(self.frame.f_code)
 
         for line in source_lines:
             self.log(f'{line_number:4} {line}', end='')
             line_number += 1
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["list", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+## Setting Breakpoints
+## -------------------
 
-# ## Setting Breakpoints
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Setting Breakpoints')
 
 
 
-
 class Debugger(Debugger):
-    def break_command(self, arg=""):
+    def break_command(self, arg: str = "") -> None:
         """Set a breakoint in given line. If no line is given, list all breakpoints"""
+
         if arg:
             self.breakpoints.add(int(arg))
         self.log("Breakpoints:", self.breakpoints)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs([f"break {remove_html_markup_starting_line_number + 13}",
                  "continue", "print", "continue", "continue", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+from .bookutils import quiz
 
-if __package__ is None or __package__ == "":
-    from bookutils import quiz
-else:
-    from .bookutils import quiz
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("What happens if we enter the command `break 2 + 3`?",
          [
              "A breakpoint is set in Line 2.",
@@ -452,18 +511,19 @@ if __name__ == "__main__":
              "The debugger raises a `ValueError` exception."
          ], '12345 % 7')
 
+## Deleting Breakpoints
+## --------------------
 
-# ## Deleting Breakpoints
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Deleting Breakpoints')
 
 
 
-
 class Debugger(Debugger):
-    def delete_command(self, arg=""):
-        """Delete breakoint in given line. Without given line, clear all breakpoints"""
+    def delete_command(self, arg: str = "") -> None:
+        """Delete breakoint in line given by `arg`.
+           Without given line, clear all breakpoints"""
+
         if arg:
             try:
                 self.breakpoints.remove(int(arg))
@@ -473,23 +533,20 @@ class Debugger(Debugger):
             self.breakpoints = set()
         self.log("Breakpoints:", self.breakpoints)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs([f"break {remove_html_markup_starting_line_number + 15}",
                  "continue", "print",
                  f"delete {remove_html_markup_starting_line_number + 15}",
                  "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("What does the command `delete` (without argument) do?",
         [
             "It deletes all breakpoints",
@@ -500,30 +557,31 @@ if __name__ == "__main__":
         '[n for n in range(2 // 2, 2 * 2) if n % 2 / 2]'
         )
 
+## Listings with Benefits
+## ----------------------
 
-# ## Listings with Benefits
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Listings with Benefits')
 
 
 
-
 class Debugger(Debugger):
-    def list_command(self, arg=""):
-        """Show current function. If arg is given, show its source code."""
-        if arg:
-            try:
+    def list_command(self, arg: str = "") -> None:
+        """Show current function. If `arg` is given, show its source code."""
+
+        try:
+            if arg:
                 obj = eval(arg)
                 source_lines, line_number = inspect.getsourcelines(obj)
-            except Exception as err:
-                self.log(f"{err.__class__.__name__}: {err}")
-                return
-            current_line = -1
-        else:
-            source_lines, line_number = \
-                getsourcelines(self.frame.f_code)
-            current_line = self.frame.f_lineno
+                current_line = -1
+            else:
+                source_lines, line_number = \
+                    getsourcelines(self.frame.f_code)
+                current_line = self.frame.f_lineno
+        except Exception as err:
+            self.log(f"{err.__class__.__name__}: {err}")
+            source_lines = []
+            line_number = 0
 
         for line in source_lines:
             spacer = ' '
@@ -534,81 +592,68 @@ class Debugger(Debugger):
             self.log(f'{line_number:4}{spacer} {line}', end='')
             line_number += 1
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs([f"break {remove_html_markup_starting_line_number + 13}",
                  "list", "continue", "delete", "list", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+### Quitting
 
-# ### Quitting
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Quitting')
 
 
 
-
 class Debugger(Debugger):
-    def quit_command(self, arg=""):
+    def quit_command(self, arg: str = "") -> None:
         """Finish execution"""
-        self.breakpoints = []
+
+        self.breakpoints = set()
         self.stepping = False
         self.interact = False
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["help", "quit"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs(["help", f"break {remove_html_markup_starting_line_number + 13}",
                  "list", "continue", "step", "print out", "quit"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         ret = remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+from .ClassDiagram import display_class_hierarchy
 
-if __package__ is None or __package__ == "":
-    from ClassDiagram import display_class_hierarchy
-else:
-    from .ClassDiagram import display_class_hierarchy
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy(Debugger, 
                             public_methods=[
                                 Tracer.__init__,
@@ -619,50 +664,49 @@ if __name__ == "__main__":
                             ],
         project='debuggingbook')
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
 
 
 
+## Next Steps
+## ----------
 
-# ## Next Steps
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Next Steps')
 
 
 
+## Background
+## ----------
 
-# ## Background
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Background')
 
 
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
 
 
 
+### Exercise 1: Changing State
 
-# ### Exercise 1: Changing State
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 1: Changing State')
 
 
 
-
 class Debugger(Debugger):
-    def assign_command(self, arg):
+    def assign_command(self, arg: str) -> None:
         """Use as 'assign VAR=VALUE'. Assign VALUE to local variable VAR."""
+
         sep = arg.find('=')
         if sep > 0:
             var = arg[:sep].strip()
@@ -677,119 +721,104 @@ class Debugger(Debugger):
         except Exception as err:
             self.log(f"{err.__class__.__name__}: {err}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     next_inputs(["assign s = 'xyz'", "print", "step", "print", "step",
                  "assign tag = True", "assign s = 'abc'", "print",
                  "step", "print", "continue"]);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert not next_inputs()
 
+### Exercise 2: More Commands
 
-# ### Exercise 2: More Commands
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 2: More Commands')
 
 
 
+#### Named breakpoints ("break")
 
-# #### Named breakpoints ("break")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Named breakpoints ("break")')
 
 
 
+#### Step over functions ("next")
 
-# #### Step over functions ("next")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Step over functions ("next")')
 
 
 
+#### Print call stack ("where")
 
-# #### Print call stack ("where")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Print call stack ("where")')
 
 
 
+#### Move up and down the call stack ("up" and "down")
 
-# #### Move up and down the call stack ("up" and "down")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Move up and down the call stack ("up" and "down")')
 
 
 
+#### Execute until line ("until")
 
-# #### Execute until line ("until")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Execute until line ("until")')
 
 
 
+#### Execute until return ("finish")
 
-# #### Execute until return ("finish")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Execute until return ("finish")')
 
 
 
+#### Watchpoints ("watch")
 
-# #### Watchpoints ("watch")
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Watchpoints ("watch")')
 
 
 
+### Exercise 3: Time-Travel Debugging
 
-# ### Exercise 3: Time-Travel Debugging
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 3: Time-Travel Debugging')
 
 
 
+#### Part 1: Recording Values
 
-# #### Part 1: Recording Values
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Part 1: Recording Values')
 
 
 
+#### Part 2: Command Line Interface
 
-# #### Part 2: Command Line Interface
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Part 2: Command Line Interface')
 
 
 
+#### Part 3: Graphical User Interface
 
-# #### Part 3: Graphical User Interface
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Part 3: Graphical User Interface')
 
 
 
-
-if __name__ == "__main__":
-    recording = [
+if __name__ == '__main__':
+    recording: List[Tuple[int, Dict[str, Any]]] = [
         (10, {'x': 25}),
         (11, {'x': 25}),
         (12, {'x': 26, 'a': "abc"}),
@@ -804,14 +833,9 @@ if __name__ == "__main__":
         (13, {'x': 36, 'a': "ghi"}),
     ]
 
+from .bookutils import HTML
 
-if __package__ is None or __package__ == "":
-    from bookutils import HTML
-else:
-    from .bookutils import HTML
-
-
-def slider(rec):
+def slider(rec: List[Tuple[int, Dict[str, Any]]]) -> str:
     lines_over_time = [line for (line, var) in rec]
     vars_over_time = []
     for (line, vars) in rec:
@@ -845,6 +869,5 @@ def slider(rec):
     # print(template)
     return HTML(template)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     slider(recording)
-

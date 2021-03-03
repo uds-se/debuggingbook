@@ -11878,6 +11878,7 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Assertions.html">Asserting Expectations&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11885,6 +11886,7 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -12290,18 +12292,18 @@ So, let's implement a parser that first parses the source code into an AST and t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;_ast.FunctionDef object at 0x7f9467f234a8&gt;
-&lt;_ast.arguments object at 0x7f9467f23518&gt;
-&lt;_ast.arg object at 0x7f9467f233c8&gt;
-&lt;_ast.arg object at 0x7f9467f23128&gt;
-&lt;_ast.If object at 0x7f9467f23198&gt;
-&lt;_ast.BoolOp object at 0x7f9467f23320&gt;
-&lt;_ast.Name object at 0x7f9467f23240&gt;
-&lt;_ast.Name object at 0x7f9467f232e8&gt;
-&lt;_ast.Return object at 0x7f9467f23550&gt;
-&lt;_ast.Num object at 0x7f9467f23588&gt;
-&lt;_ast.Return object at 0x7f9467f234e0&gt;
-&lt;_ast.Num object at 0x7f9467f23358&gt;
+<pre>&lt;_ast.FunctionDef object at 0x7fe0fcccd588&gt;
+&lt;_ast.arguments object at 0x7fe0fcccd160&gt;
+&lt;_ast.arg object at 0x7fe0fcccd240&gt;
+&lt;_ast.arg object at 0x7fe0fcccda90&gt;
+&lt;_ast.If object at 0x7fe0fcccd828&gt;
+&lt;_ast.BoolOp object at 0x7fe0fcccd8d0&gt;
+&lt;_ast.Name object at 0x7fe0fcccd780&gt;
+&lt;_ast.Name object at 0x7fe0fcccd6d8&gt;
+&lt;_ast.Return object at 0x7fe0fcccd7b8&gt;
+&lt;_ast.Num object at 0x7fe0fcccd978&gt;
+&lt;_ast.Return object at 0x7fe0fcccd7f0&gt;
+&lt;_ast.Num object at 0x7fe0fcccd898&gt;
 </pre>
 </div>
 
@@ -12383,11 +12385,11 @@ We simulate this behavior by extending our parser to throw an exception whenever
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;_ast.FunctionDef object at 0x7f9467f23320&gt;
-&lt;_ast.arguments object at 0x7f9467f23240&gt;
-&lt;_ast.arg object at 0x7f9467f234e0&gt;
-&lt;_ast.arg object at 0x7f9467f23358&gt;
-&lt;_ast.If object at 0x7f9467f23128&gt;
+<pre>&lt;_ast.FunctionDef object at 0x7fe0fcccd8d0&gt;
+&lt;_ast.arguments object at 0x7fe0fcccd978&gt;
+&lt;_ast.arg object at 0x7fe0fcccd780&gt;
+&lt;_ast.arg object at 0x7fe0fcccd6d8&gt;
+&lt;_ast.If object at 0x7fe0fcccd240&gt;
 </pre>
 </div>
 
@@ -12397,9 +12399,9 @@ We simulate this behavior by extending our parser to throw an exception whenever
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-14-2281579d96da&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-2281579d96da&gt;&#34;, line 2, in &lt;module&gt;
     SimpleParserPlus().parse(source)
-  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 12, in parse
+  File &#34;&lt;ipython-input-1-70f9f47463b8&gt;&#34;, line 12, in parse
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
@@ -12407,19 +12409,19 @@ We simulate this behavior by extending our parser to throw an exception whenever
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 16, in visit_FunctionDef
+  File &#34;&lt;ipython-input-1-70f9f47463b8&gt;&#34;, line 16, in visit_FunctionDef
     self.generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 24, in visit_If
+  File &#34;&lt;ipython-input-1-70f9f47463b8&gt;&#34;, line 24, in visit_If
     self.generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
     self.visit(value)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-13-336a87e01254&gt;&#34;, line 10, in visit_BoolOp
+  File &#34;&lt;ipython-input-1-336a87e01254&gt;&#34;, line 10, in visit_BoolOp
     raise ParserException(&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -12729,10 +12731,10 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;_ast.FunctionDef object at 0x7f9467f09ba8&gt;
-&lt;_ast.arguments object at 0x7f9467f09eb8&gt;
-&lt;_ast.arg object at 0x7f9467f09978&gt;
-&lt;_ast.arg object at 0x7f9467f09a90&gt;
+<pre>&lt;_ast.FunctionDef object at 0x7fe0fccfbcc0&gt;
+&lt;_ast.arguments object at 0x7fe0fccfbc18&gt;
+&lt;_ast.arg object at 0x7fe0fccfbb00&gt;
+&lt;_ast.arg object at 0x7fe0fccfbd30&gt;
 </pre>
 </div>
 
@@ -12784,10 +12786,10 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;_ast.FunctionDef object at 0x7f9467f09ac8&gt;
-&lt;_ast.arguments object at 0x7f9467f09780&gt;
-&lt;_ast.arg object at 0x7f9467f09d68&gt;
-&lt;_ast.arg object at 0x7f9467f09860&gt;
+<pre>&lt;_ast.FunctionDef object at 0x7fe0fcbf5828&gt;
+&lt;_ast.arguments object at 0x7fe0fccfb4e0&gt;
+&lt;_ast.arg object at 0x7fe0fccfba20&gt;
+&lt;_ast.arg object at 0x7fe0fccfb978&gt;
 </pre>
 </div>
 
@@ -12797,9 +12799,9 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-25-48c47316858f&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-48c47316858f&gt;&#34;, line 2, in &lt;module&gt;
     SimpleParserPlus().parse(new_source)
-  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 12, in parse
+  File &#34;&lt;ipython-input-1-70f9f47463b8&gt;&#34;, line 12, in parse
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
@@ -12807,7 +12809,7 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-10-70f9f47463b8&gt;&#34;, line 16, in visit_FunctionDef
+  File &#34;&lt;ipython-input-1-70f9f47463b8&gt;&#34;, line 16, in visit_FunctionDef
     self.generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
     self.visit(item)
@@ -12817,7 +12819,7 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
     self.visit(value)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-13-336a87e01254&gt;&#34;, line 10, in visit_BoolOp
+  File &#34;&lt;ipython-input-1-336a87e01254&gt;&#34;, line 10, in visit_BoolOp
     raise ParserException(&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -12992,11 +12994,11 @@ If you pass all of those tests <strong>without hardcoding the modifications</str
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-29-4c9889da423c&gt;&#34;, line 5, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-4c9889da423c&gt;&#34;, line 5, in &lt;module&gt;
     parser1.parse(input_program)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 8, in parse
     self.parse_tree(tree)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 4, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
@@ -13008,7 +13010,7 @@ If you pass all of those tests <strong>without hardcoding the modifications</str
     self.visit(value)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-28-f3923c2a5b4f&gt;&#34;, line 6, in visit_BoolOp
+  File &#34;&lt;ipython-input-1-f3923c2a5b4f&gt;&#34;, line 6, in visit_BoolOp
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13108,11 +13110,11 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-32-20b0846060a6&gt;&#34;, line 9, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-20b0846060a6&gt;&#34;, line 9, in &lt;module&gt;
     parser2.parse(input_program)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 8, in parse
     self.parse_tree(tree)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 4, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
@@ -13120,7 +13122,7 @@ ParserException: Something went wrong (expected)
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-31-376a81aa884c&gt;&#34;, line 6, in visit_If
+  File &#34;&lt;ipython-input-1-376a81aa884c&gt;&#34;, line 6, in visit_If
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13188,29 +13190,29 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-34-7bf29c4eeeba&gt;&#34;, line 6, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-7bf29c4eeeba&gt;&#34;, line 6, in &lt;module&gt;
     parser3.parse(input_program)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 8, in parse
     self.parse_tree(tree)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 4, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 14, in generic_visit
+  File &#34;&lt;ipython-input-1-48bc15fe6b7b&gt;&#34;, line 14, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 19, in visit_Assign
+  File &#34;&lt;ipython-input-1-48bc15fe6b7b&gt;&#34;, line 19, in visit_Assign
     self.generic_visit(node)
-  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 14, in generic_visit
+  File &#34;&lt;ipython-input-1-48bc15fe6b7b&gt;&#34;, line 14, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
     self.visit(value)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-33-48bc15fe6b7b&gt;&#34;, line 24, in visit_Str
+  File &#34;&lt;ipython-input-1-48bc15fe6b7b&gt;&#34;, line 24, in visit_Str
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13296,29 +13298,29 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-37-26a8dfd040e2&gt;&#34;, line 7, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-26a8dfd040e2&gt;&#34;, line 7, in &lt;module&gt;
     parser4.parse(input_program)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 8, in parse
     self.parse_tree(tree)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 4, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-36-34959f090635&gt;&#34;, line 12, in generic_visit
+  File &#34;&lt;ipython-input-1-34959f090635&gt;&#34;, line 12, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 261, in generic_visit
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-36-34959f090635&gt;&#34;, line 27, in visit_Assign
+  File &#34;&lt;ipython-input-1-34959f090635&gt;&#34;, line 27, in visit_Assign
     self.generic_visit(node)
-  File &#34;&lt;ipython-input-36-34959f090635&gt;&#34;, line 12, in generic_visit
+  File &#34;&lt;ipython-input-1-34959f090635&gt;&#34;, line 12, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 263, in generic_visit
     self.visit(value)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-36-34959f090635&gt;&#34;, line 22, in visit_Name
+  File &#34;&lt;ipython-input-1-34959f090635&gt;&#34;, line 22, in visit_Name
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13369,11 +13371,11 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-39-9260c0f30b93&gt;&#34;, line 6, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-9260c0f30b93&gt;&#34;, line 6, in &lt;module&gt;
     parser5.parse(input_program)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 8, in parse
     self.parse_tree(tree)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 4, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
@@ -13397,7 +13399,7 @@ ParserException: Something went wrong (expected)
     self.visit(item)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-38-8b0d859d976a&gt;&#34;, line 7, in visit_List
+  File &#34;&lt;ipython-input-1-8b0d859d976a&gt;&#34;, line 7, in visit_List
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13668,11 +13670,11 @@ def original():
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-46-460bfcdf8fdd&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-460bfcdf8fdd&gt;&#34;, line 2, in &lt;module&gt;
     test.parser.parse(source)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 8, in parse
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 8, in parse
     self.parse_tree(tree)
-  File &#34;&lt;ipython-input-27-299b605fbaca&gt;&#34;, line 4, in parse_tree
+  File &#34;&lt;ipython-input-1-299b605fbaca&gt;&#34;, line 4, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
@@ -13696,7 +13698,7 @@ def original():
     self.visit(value)
   File &#34;/Users/zeller/anaconda3/lib/python3.6/ast.py&#34;, line 253, in visit
     return visitor(node)
-  File &#34;&lt;ipython-input-28-f3923c2a5b4f&gt;&#34;, line 6, in visit_BoolOp
+  File &#34;&lt;ipython-input-1-f3923c2a5b4f&gt;&#34;, line 6, in visit_BoolOp
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>

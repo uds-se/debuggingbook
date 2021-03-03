@@ -11878,6 +11878,7 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Assertions.html">Asserting Expectations&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11885,6 +11886,7 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -12221,9 +12223,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-10-796785c98bd7&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-796785c98bd7&gt;&#34;, line 2, in &lt;module&gt;
     larger_test(*larger_input)
-  File &#34;&lt;ipython-input-5-e4a4c6e7072d&gt;&#34;, line 3, in larger_test
+  File &#34;&lt;ipython-input-1-e4a4c6e7072d&gt;&#34;, line 3, in larger_test
     assert m == max(x, y), f&#34;expected {max(x, y)}, but got {m}&#34;
 AssertionError: expected 81, but got 14 (expected)
 </pre>
@@ -12389,9 +12391,9 @@ AssertionError: expected 81, but got 14 (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-16-c99f0d4988e0&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-c99f0d4988e0&gt;&#34;, line 2, in &lt;module&gt;
     larger_test(*failing_input)
-  File &#34;&lt;ipython-input-5-e4a4c6e7072d&gt;&#34;, line 3, in larger_test
+  File &#34;&lt;ipython-input-1-e4a4c6e7072d&gt;&#34;, line 3, in larger_test
     assert m == max(x, y), f&#34;expected {max(x, y)}, but got {m}&#34;
 AssertionError: expected 93, but got 62 (expected)
 </pre>
@@ -12548,10 +12550,10 @@ AssertionError: expected 93, but got 62 (expected)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Target code to be repaired:
-def larger(x, y):
-    if x &lt; y:
-        return x
-    return y
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+    <span class="ansi-blue-fg">if</span> x &lt; y:
+        <span class="ansi-blue-fg">return</span> x
+    <span class="ansi-blue-fg">return</span> y
 </pre>
 </div>
 
@@ -12576,17 +12578,17 @@ def larger(x, y):
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Evolving population: iteration   0/100 fitness = 1.0   
 Best code (fitness = 1.0):
-def larger(x, y):
-    if x &lt; y:
-        if x &lt; y:
-            return y
-    return x
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+    <span class="ansi-blue-fg">if</span> x &lt; y:
+        <span class="ansi-blue-fg">if</span> x &lt; y:
+            <span class="ansi-blue-fg">return</span> y
+    <span class="ansi-blue-fg">return</span> x
 
 Reduced code (fitness = 1.0):
-def larger(x, y):
-    if x &lt; y:
-        return y
-    return x
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+    <span class="ansi-blue-fg">if</span> x &lt; y:
+        <span class="ansi-blue-fg">return</span> y
+    <span class="ansi-blue-fg">return</span> x
 </pre>
 </div>
 
@@ -12793,10 +12795,10 @@ The <em>Repairer</em> class is very configurable, so that it is easy to update a
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>def larger(x, y):
-    if not x &lt; y:
-        return x
-    return y
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+    <span class="ansi-blue-fg">if</span> <span class="ansi-magenta-fg">not</span> x &lt; y:
+        <span class="ansi-blue-fg">return</span> x
+    <span class="ansi-blue-fg">return</span> y
 </pre>
 </div>
 
@@ -13051,23 +13053,23 @@ n! = \textit{factorial}(n) = \prod_{k=1}^{n}k, \quad \text{for $k\geq 1$}
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Target code to be repaired:
-def factorial1(n):
-    res = 1
-    for i in range(1, n):
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">factorial1</span>(n):
+    res = <span class="ansi-blue-fg">1</span>
+    <span class="ansi-blue-fg">for</span> i <span class="ansi-magenta-fg">in</span> <span class="ansi-cyan-fg">range</span>(<span class="ansi-blue-fg">1</span>, n):
         res *= i
-    return res
+    <span class="ansi-blue-fg">return</span> res
 
 Evolving population: iteration  99/100 fitness = 0.99   
 Best code (fitness = 0.99):
-def factorial1(n):
-    res = 1
-    pass
-    return res
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">factorial1</span>(n):
+    res = <span class="ansi-blue-fg">1</span>
+    <span class="ansi-blue-fg">pass</span>
+    <span class="ansi-blue-fg">return</span> res
 
 Reduced code (fitness = 0.99):
-def factorial1(n):
-    res = 1
-    return res
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">factorial1</span>(n):
+    res = <span class="ansi-blue-fg">1</span>
+    <span class="ansi-blue-fg">return</span> res
 </pre>
 </div>
 
@@ -13938,7 +13940,7 @@ Your code needs to be sufficiently documented in order to achieve points!</p>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairing_Code.ipynb" target=_blank)>Last change: 2021-02-01 11:02:42+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairing_Code.ipynb" target=_blank)>Last change: 2021-02-27 12:34:37+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -13954,7 +13956,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">Third Project - Automated Repair</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">https://www.debuggingbook.org/beta/html/Repairing_Code.html</a>.  Retrieved 2021-02-01 11:02:42+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">Third Project - Automated Repair</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">https://www.debuggingbook.org/beta/html/Repairing_Code.html</a>.  Retrieved 2021-02-27 12:34:37+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Repairing_Code,
@@ -13964,9 +13966,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairing_Code
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Repairing_Code.html}},
-    note = {Retrieved 2021-02-01 11:02:42+01:00},
+    note = {Retrieved 2021-02-27 12:34:37+01:00},
     url = {https://www.debuggingbook.org/beta/html/Repairing_Code.html},
-    urldate = {2021-02-01 11:02:42+01:00}
+    urldate = {2021-02-27 12:34:37+01:00}
 }
 </pre>
 </div>

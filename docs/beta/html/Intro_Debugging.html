@@ -11878,6 +11878,7 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Assertions.html">Asserting Expectations&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11885,6 +11886,7 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -12069,7 +12071,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-Simple-Function">A Simple Function<a class="anchor-link" href="#A-Simple-Function">&#182;</a></h2><h3 id="Your-Task:-Remove-HTML-Markup">Your Task: Remove HTML Markup<a class="anchor-link" href="#Your-Task:-Remove-HTML-Markup">&#182;</a></h3><p>Let us start with a simple example. You may have heard of how documents on the Web are made out of text and HTML markup. HTML markup consists of <em>tags</em> in angle brackets that surround the text, providing additional information on how the text should be interpreted. For instance, in the HTML text</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-Simple-Function">A Simple Function<a class="anchor-link" href="#A-Simple-Function">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Your-Task:-Remove-HTML-Markup">Your Task: Remove HTML Markup<a class="anchor-link" href="#Your-Task:-Remove-HTML-Markup">&#182;</a></h3><p>Let us start with a simple example. You may have heard of how documents on the Web are made out of text and HTML markup. HTML markup consists of <em>tags</em> in angle brackets that surround the text, providing additional information on how the text should be interpreted. For instance, in the HTML text</p>
 <div class="highlight"><pre><span></span>This is <span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>emphasized<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>.
 </pre></div>
 <p>the word "emphasized" is enclosed in the HTML tags <code>&lt;em&gt;</code> (start) and <code>&lt;/em&gt;</code> (end), meaning that it should be interpreted (and rendered) in an emphasized way – typically in italics. In your environment, the HTML text gets rendered as</p>
@@ -12352,7 +12362,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-7-c7b482ebf524&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-c7b482ebf524&gt;&#34;, line 2, in &lt;module&gt;
     assert remove_html_markup(&#39;&lt;input type=&#34;text&#34; value=&#34;&lt;your name&gt;&#34;&gt;&#39;) == &#34;&#34;
 AssertionError (expected)
 </pre>
@@ -12654,7 +12664,7 @@ tag</title>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -12805,7 +12815,7 @@ tag</title>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-21-ebb80f5cdc78&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-ebb80f5cdc78&gt;&#34;, line 2, in &lt;module&gt;
     assert remove_html_markup(&#39;&lt;b&gt;&#34;foo&#34;&lt;/b&gt;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -12832,7 +12842,7 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-22-1f9c40f6f95d&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-1f9c40f6f95d&gt;&#34;, line 2, in &lt;module&gt;
     assert remove_html_markup(&#39;&#34;&lt;b&gt;foo&lt;/b&gt;&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -13071,7 +13081,7 @@ c = &#39;&gt;&#39; tag = True quote = False
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-28-1d8954a52bcf&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-1d8954a52bcf&gt;&#34;, line 2, in &lt;module&gt;
     assert remove_html_markup_without_quotes(&#39;&lt;b&gt;&#34;foo&#34;&lt;/b&gt;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -14508,22 +14518,22 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="0a715526-6980-11eb-a588-f218984d6a0c" id="0a715526-6980-11eb-a588-f218984d6a0c-1" onclick="clear_selection('0a715526-6980-11eb-a588-f218984d6a0c')">
-        <label id="0a715526-6980-11eb-a588-f218984d6a0c-1-label" for="0a715526-6980-11eb-a588-f218984d6a0c-1">Double quotes (<code>"</code>) are stripped from the tagged input.</label><br>
+        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-1" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
+        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-1-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-1">Double quotes (<code>"</code>) are stripped from the tagged input.</label><br>
 
-        <input type="checkbox" name="0a715526-6980-11eb-a588-f218984d6a0c" id="0a715526-6980-11eb-a588-f218984d6a0c-2" onclick="clear_selection('0a715526-6980-11eb-a588-f218984d6a0c')">
-        <label id="0a715526-6980-11eb-a588-f218984d6a0c-2-label" for="0a715526-6980-11eb-a588-f218984d6a0c-2">Tags in double quotes are not stripped.</label><br>
+        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-2" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
+        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-2-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-2">Tags in double quotes are not stripped.</label><br>
 
-        <input type="checkbox" name="0a715526-6980-11eb-a588-f218984d6a0c" id="0a715526-6980-11eb-a588-f218984d6a0c-3" onclick="clear_selection('0a715526-6980-11eb-a588-f218984d6a0c')">
-        <label id="0a715526-6980-11eb-a588-f218984d6a0c-3-label" for="0a715526-6980-11eb-a588-f218984d6a0c-3">The tag <code>&lt;&gt;</code> is always stripped from the input.</label><br>
+        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-3" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
+        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-3-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-3">The tag <code>&lt;&gt;</code> is always stripped from the input.</label><br>
 
-        <input type="checkbox" name="0a715526-6980-11eb-a588-f218984d6a0c" id="0a715526-6980-11eb-a588-f218984d6a0c-4" onclick="clear_selection('0a715526-6980-11eb-a588-f218984d6a0c')">
-        <label id="0a715526-6980-11eb-a588-f218984d6a0c-4-label" for="0a715526-6980-11eb-a588-f218984d6a0c-4">Four-letter words are stripped.</label><br>
+        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-4" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
+        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-4-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-4">Four-letter words are stripped.</label><br>
 
     </div>
     </p>
-    <input id="0a715526-6980-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('0a715526-6980-11eb-a588-f218984d6a0c', 6, 1, '[298 % 33, 1234 % 616]')">
-    <span class="quiz_hint" id="0a715526-6980-11eb-a588-f218984d6a0c-hint"></span>
+    <input id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c', 6, 1, '[298 % 33, 1234 % 616]')">
+    <span class="quiz_hint" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -14860,16 +14870,16 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="0a76a238-6980-11eb-8163-f218984d6a0c" id="0a76a238-6980-11eb-8163-f218984d6a0c-1" onclick="clear_selection('0a76a238-6980-11eb-8163-f218984d6a0c')">
-        <label id="0a76a238-6980-11eb-8163-f218984d6a0c-1-label" for="0a76a238-6980-11eb-8163-f218984d6a0c-1">The program raises an exception. (i.e., <code>tag</code> is set)</label><br>
+        <input type="radio" name="8ba28506-7b49-11eb-8163-f218984d6a0c" id="8ba28506-7b49-11eb-8163-f218984d6a0c-1" onclick="clear_selection('8ba28506-7b49-11eb-8163-f218984d6a0c')">
+        <label id="8ba28506-7b49-11eb-8163-f218984d6a0c-1-label" for="8ba28506-7b49-11eb-8163-f218984d6a0c-1">The program raises an exception. (i.e., <code>tag</code> is set)</label><br>
 
-        <input type="radio" name="0a76a238-6980-11eb-8163-f218984d6a0c" id="0a76a238-6980-11eb-8163-f218984d6a0c-2" onclick="clear_selection('0a76a238-6980-11eb-8163-f218984d6a0c')">
-        <label id="0a76a238-6980-11eb-8163-f218984d6a0c-2-label" for="0a76a238-6980-11eb-8163-f218984d6a0c-2">The output is as before, i.e., <code>foo</code> without quotes. (which means that <code>tag</code> is not set)</label><br>
+        <input type="radio" name="8ba28506-7b49-11eb-8163-f218984d6a0c" id="8ba28506-7b49-11eb-8163-f218984d6a0c-2" onclick="clear_selection('8ba28506-7b49-11eb-8163-f218984d6a0c')">
+        <label id="8ba28506-7b49-11eb-8163-f218984d6a0c-2-label" for="8ba28506-7b49-11eb-8163-f218984d6a0c-2">The output is as before, i.e., <code>foo</code> without quotes. (which means that <code>tag</code> is not set)</label><br>
 
     </div>
     </p>
-    <input id="0a76a238-6980-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('0a76a238-6980-11eb-8163-f218984d6a0c', 4, 0, '')">
-    <span class="quiz_hint" id="0a76a238-6980-11eb-8163-f218984d6a0c-hint"></span>
+    <input id="8ba28506-7b49-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8ba28506-7b49-11eb-8163-f218984d6a0c', 4, 0, '')">
+    <span class="quiz_hint" id="8ba28506-7b49-11eb-8163-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15092,16 +15102,16 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="0a7a386c-6980-11eb-9732-f218984d6a0c" id="0a7a386c-6980-11eb-9732-f218984d6a0c-1" onclick="clear_selection('0a7a386c-6980-11eb-9732-f218984d6a0c')">
-        <label id="0a7a386c-6980-11eb-9732-f218984d6a0c-1-label" for="0a7a386c-6980-11eb-9732-f218984d6a0c-1">The program raises an exception (i.e., the quote condition holds)</label><br>
+        <input type="radio" name="8ba61d68-7b49-11eb-9732-f218984d6a0c" id="8ba61d68-7b49-11eb-9732-f218984d6a0c-1" onclick="clear_selection('8ba61d68-7b49-11eb-9732-f218984d6a0c')">
+        <label id="8ba61d68-7b49-11eb-9732-f218984d6a0c-1-label" for="8ba61d68-7b49-11eb-9732-f218984d6a0c-1">The program raises an exception (i.e., the quote condition holds)</label><br>
 
-        <input type="radio" name="0a7a386c-6980-11eb-9732-f218984d6a0c" id="0a7a386c-6980-11eb-9732-f218984d6a0c-2" onclick="clear_selection('0a7a386c-6980-11eb-9732-f218984d6a0c')">
-        <label id="0a7a386c-6980-11eb-9732-f218984d6a0c-2-label" for="0a7a386c-6980-11eb-9732-f218984d6a0c-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
+        <input type="radio" name="8ba61d68-7b49-11eb-9732-f218984d6a0c" id="8ba61d68-7b49-11eb-9732-f218984d6a0c-2" onclick="clear_selection('8ba61d68-7b49-11eb-9732-f218984d6a0c')">
+        <label id="8ba61d68-7b49-11eb-9732-f218984d6a0c-2-label" for="8ba61d68-7b49-11eb-9732-f218984d6a0c-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
 
     </div>
     </p>
-    <input id="0a7a386c-6980-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('0a7a386c-6980-11eb-9732-f218984d6a0c', 2, 0, '')">
-    <span class="quiz_hint" id="0a7a386c-6980-11eb-9732-f218984d6a0c-hint"></span>
+    <input id="8ba61d68-7b49-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8ba61d68-7b49-11eb-9732-f218984d6a0c', 2, 0, '')">
+    <span class="quiz_hint" id="8ba61d68-7b49-11eb-9732-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15136,9 +15146,9 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-47-9ce255289291&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-9ce255289291&gt;&#34;, line 2, in &lt;module&gt;
     result = remove_html_markup_with_quote_assert(&#39;&#34;foo&#34;&#39;)
-  File &#34;&lt;ipython-input-44-9c8a53a91780&gt;&#34;, line 12, in remove_html_markup_with_quote_assert
+  File &#34;&lt;ipython-input-1-73f0a51dbbd9&gt;&#34;, line 12, in remove_html_markup_with_quote_assert
     assert False  # &lt;=== Just added
 AssertionError (expected)
 </pre>
@@ -15335,22 +15345,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="0a7d0efa-6980-11eb-b36c-f218984d6a0c" id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('0a7d0efa-6980-11eb-b36c-f218984d6a0c')">
-        <label id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-1-label" for="0a7d0efa-6980-11eb-b36c-f218984d6a0c-1"><code>c == "" or c == '' and tag</code> (Choice 1)</label><br>
+        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
+        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-1-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-1"><code>c == "" or c == '' and tag</code> (Choice 1)</label><br>
 
-        <input type="radio" name="0a7d0efa-6980-11eb-b36c-f218984d6a0c" id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('0a7d0efa-6980-11eb-b36c-f218984d6a0c')">
-        <label id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-2-label" for="0a7d0efa-6980-11eb-b36c-f218984d6a0c-2"><code>c == '"' or c == "'" and not tag</code> (Choice 2)</label><br>
+        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
+        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-2-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-2"><code>c == '"' or c == "'" and not tag</code> (Choice 2)</label><br>
 
-        <input type="radio" name="0a7d0efa-6980-11eb-b36c-f218984d6a0c" id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('0a7d0efa-6980-11eb-b36c-f218984d6a0c')">
-        <label id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-3-label" for="0a7d0efa-6980-11eb-b36c-f218984d6a0c-3"><code>(c == '"' or c == "'") and tag</code> (Choice 3)</label><br>
+        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
+        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-3-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-3"><code>(c == '"' or c == "'") and tag</code> (Choice 3)</label><br>
 
-        <input type="radio" name="0a7d0efa-6980-11eb-b36c-f218984d6a0c" id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('0a7d0efa-6980-11eb-b36c-f218984d6a0c')">
-        <label id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-4-label" for="0a7d0efa-6980-11eb-b36c-f218984d6a0c-4">Something else</label><br>
+        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
+        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-4-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-4">Something else</label><br>
 
     </div>
     </p>
-    <input id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('0a7d0efa-6980-11eb-b36c-f218984d6a0c', 8, 0, '399 % 4')">
-    <span class="quiz_hint" id="0a7d0efa-6980-11eb-b36c-f218984d6a0c-hint"></span>
+    <input id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c', 8, 0, '399 % 4')">
+    <span class="quiz_hint" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15518,7 +15528,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -15744,22 +15754,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="0a800e5e-6980-11eb-835f-f218984d6a0c" id="0a800e5e-6980-11eb-835f-f218984d6a0c-1" onclick="clear_selection('0a800e5e-6980-11eb-835f-f218984d6a0c')">
-        <label id="0a800e5e-6980-11eb-835f-f218984d6a0c-1-label" for="0a800e5e-6980-11eb-835f-f218984d6a0c-1"><code>assert quote and not tag</code></label><br>
+        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-1" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
+        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-1-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-1"><code>assert quote and not tag</code></label><br>
 
-        <input type="radio" name="0a800e5e-6980-11eb-835f-f218984d6a0c" id="0a800e5e-6980-11eb-835f-f218984d6a0c-2" onclick="clear_selection('0a800e5e-6980-11eb-835f-f218984d6a0c')">
-        <label id="0a800e5e-6980-11eb-835f-f218984d6a0c-2-label" for="0a800e5e-6980-11eb-835f-f218984d6a0c-2"><code>assert quote or not tag</code></label><br>
+        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-2" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
+        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-2-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-2"><code>assert quote or not tag</code></label><br>
 
-        <input type="radio" name="0a800e5e-6980-11eb-835f-f218984d6a0c" id="0a800e5e-6980-11eb-835f-f218984d6a0c-3" onclick="clear_selection('0a800e5e-6980-11eb-835f-f218984d6a0c')">
-        <label id="0a800e5e-6980-11eb-835f-f218984d6a0c-3-label" for="0a800e5e-6980-11eb-835f-f218984d6a0c-3"><code>assert tag or not quote</code></label><br>
+        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-3" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
+        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-3-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-3"><code>assert tag or not quote</code></label><br>
 
-        <input type="radio" name="0a800e5e-6980-11eb-835f-f218984d6a0c" id="0a800e5e-6980-11eb-835f-f218984d6a0c-4" onclick="clear_selection('0a800e5e-6980-11eb-835f-f218984d6a0c')">
-        <label id="0a800e5e-6980-11eb-835f-f218984d6a0c-4-label" for="0a800e5e-6980-11eb-835f-f218984d6a0c-4"><code>assert tag and not quote</code></label><br>
+        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-4" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
+        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-4-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-4"><code>assert tag and not quote</code></label><br>
 
     </div>
     </p>
-    <input id="0a800e5e-6980-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('0a800e5e-6980-11eb-835f-f218984d6a0c', 8, 0, '3270 - 3267')">
-    <span class="quiz_hint" id="0a800e5e-6980-11eb-835f-f218984d6a0c-hint"></span>
+    <input id="8bac1428-7b49-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8bac1428-7b49-11eb-835f-f218984d6a0c', 8, 0, '3270 - 3267')">
+    <span class="quiz_hint" id="8bac1428-7b49-11eb-835f-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15933,7 +15943,7 @@ tag</title>
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -16192,22 +16202,22 @@ tag</title>
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="0ae5069c-6980-11eb-858d-f218984d6a0c" id="0ae5069c-6980-11eb-858d-f218984d6a0c-1" onclick="clear_selection('0ae5069c-6980-11eb-858d-f218984d6a0c')">
-        <label id="0ae5069c-6980-11eb-858d-f218984d6a0c-1-label" for="0ae5069c-6980-11eb-858d-f218984d6a0c-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
+        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-1" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
+        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-1-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
 
-        <input type="checkbox" name="0ae5069c-6980-11eb-858d-f218984d6a0c" id="0ae5069c-6980-11eb-858d-f218984d6a0c-2" onclick="clear_selection('0ae5069c-6980-11eb-858d-f218984d6a0c')">
-        <label id="0ae5069c-6980-11eb-858d-f218984d6a0c-2-label" for="0ae5069c-6980-11eb-858d-f218984d6a0c-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
+        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-2" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
+        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-2-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
 
-        <input type="checkbox" name="0ae5069c-6980-11eb-858d-f218984d6a0c" id="0ae5069c-6980-11eb-858d-f218984d6a0c-3" onclick="clear_selection('0ae5069c-6980-11eb-858d-f218984d6a0c')">
-        <label id="0ae5069c-6980-11eb-858d-f218984d6a0c-3-label" for="0ae5069c-6980-11eb-858d-f218984d6a0c-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
+        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-3" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
+        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-3-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
 
-        <input type="checkbox" name="0ae5069c-6980-11eb-858d-f218984d6a0c" id="0ae5069c-6980-11eb-858d-f218984d6a0c-4" onclick="clear_selection('0ae5069c-6980-11eb-858d-f218984d6a0c')">
-        <label id="0ae5069c-6980-11eb-858d-f218984d6a0c-4-label" for="0ae5069c-6980-11eb-858d-f218984d6a0c-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
+        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-4" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
+        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-4-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
 
     </div>
     </p>
-    <input id="0ae5069c-6980-11eb-858d-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('0ae5069c-6980-11eb-858d-f218984d6a0c', 30, 1, '')">
-    <span class="quiz_hint" id="0ae5069c-6980-11eb-858d-f218984d6a0c-hint"></span>
+    <input id="8c144a40-7b49-11eb-858d-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8c144a40-7b49-11eb-858d-f218984d6a0c', 30, 1, '')">
+    <span class="quiz_hint" id="8c144a40-7b49-11eb-858d-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -16461,7 +16471,7 @@ tag</title>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2021-02-07 21:05:28+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2021-03-02 12:01:47+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -16477,7 +16487,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2021-02-07 21:05:28+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2021-03-02 12:01:47+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Intro_Debugging,
@@ -16487,9 +16497,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2021-02-07 21:05:28+01:00},
+    note = {Retrieved 2021-03-02 12:01:47+01:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2021-02-07 21:05:28+01:00}
+    urldate = {2021-03-02 12:01:47+01:00}
 }
 </pre>
 </div>

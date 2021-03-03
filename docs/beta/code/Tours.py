@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Tours through the Book" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tours.html
-# Last change: 2021-01-24 10:17:52+01:00
-#
+# Last change: 2021-03-03 15:51:58+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,35 +27,59 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Tours through the Book
 
-# # Tours through the Book
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python Tours.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.Tours import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/Tours.html
+
+
+For more details, source, and documentation, see
+"The Debugging Book - Tours through the Book"
+at https://www.debuggingbook.org/html/Tours.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Tours through the Book
+# ======================
+
+if __name__ == '__main__':
     print('# Tours through the Book')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     from IPython.display import SVG
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     SVG(filename='PICS/Sitemap.svg')
 
+## The Pragmatic Programmer Tour
+## -----------------------------
 
-# ## The Pragmatic Programmer Tour
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## The Pragmatic Programmer Tour')
 
 
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
-
 
 

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Part V: Abstracting Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/05_Abstracting.html
-# Last change: 2021-01-20 15:39:53+01:00
-#
+# Last change: 2021-02-28 12:23:41+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,11 +27,37 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Part V: Abstracting Failures
 
-# # Part V: Abstracting Failures
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python 05_Abstracting.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.05_Abstracting import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/05_Abstracting.html
+
+
+For more details, source, and documentation, see
+"The Debugging Book - Part V: Abstracting Failures"
+at https://www.debuggingbook.org/html/05_Abstracting.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Part V: Abstracting Failures
+# ============================
+
+if __name__ == '__main__':
     print('# Part V: Abstracting Failures')
-
 
 

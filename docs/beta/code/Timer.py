@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Timer" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timer.html
-# Last change: 2020-10-13 15:12:26+02:00
-#
+# Last change: 2021-02-27 16:54:26+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,101 +27,135 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Timer
 
-# # Timer
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python Timer.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.Timer import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/Timer.html
+
+The `Timer` class allows you to measure elapsed real time.  Its typical usage is in conjunction with a `with` clause:
+
+>>> with Timer() as t:
+>>>     some_long_running_function()
+>>> t.elapsed_time()
+
+0.046276174020022154
+
+
+For more details, source, and documentation, see
+"The Debugging Book - Timer"
+at https://www.debuggingbook.org/html/Timer.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Timer
+# =====
+
+if __name__ == '__main__':
     print('# Timer')
 
 
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Measuring Time
+## --------------
 
-# ## Measuring Time
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Measuring Time')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
-
 import time
 
-def clock():
+def clock() -> float:
     try:
         return time.perf_counter()  # Python 3
     except:
         return time.clock()         # Python 2
 
+from types import FrameType, TracebackType
+from typing import Type, Any
+
 class Timer(object):
-    # Begin of `with` block
-    def __enter__(self):
+    def __enter__(self) -> Any:
+        """Begin of `with` block"""
         self.start_time = clock()
         self.end_time = None
         return self
 
-    # End of `with` block
-    def __exit__(self, exc_type, exc_value, tb):
-        self.end_time = clock()
+    def __exit__(self, exc_type: Type, exc_value: BaseException,
+                 tb: TracebackType) -> None:
+        """End of `with` block"""
+        self.end_time = clock()  # type: ignore
 
-    def elapsed_time(self):
+    def elapsed_time(self) -> float:
         """Return elapsed time in seconds"""
         if self.end_time is None:
             # still running
             return clock() - self.start_time
         else:
-            return self.end_time - self.start_time
+            return self.end_time - self.start_time  # type: ignore
 
-def some_long_running_function():
+def some_long_running_function() -> None:
     i = 1000000
     while i > 0:
         i -= 1
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print("Stopping total time:")
     with Timer() as t:
         some_long_running_function()
     print(t.elapsed_time())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print("Stopping time in between:")
     with Timer() as t:
         for i in range(10):
             print(t.elapsed_time())
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Timer() as t:
         some_long_running_function()
     t.elapsed_time()
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
-
 
 

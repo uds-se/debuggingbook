@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Introduction to Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2021-01-25 23:15:47+01:00
-#
+# Last change: 2021-03-02 12:22:19+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,37 +27,71 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Introduction to Debugging
 
-# # Introduction to Debugging
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python Intro_Debugging.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.Intro_Debugging import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/Intro_Debugging.html
+
+In this chapter, we introduce some basics of how failures come to be as well as a general process for debugging.
+
+
+For more details, source, and documentation, see
+"The Debugging Book - Introduction to Debugging"
+at https://www.debuggingbook.org/html/Intro_Debugging.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Introduction to Debugging
+# =========================
+
+if __name__ == '__main__':
     print('# Introduction to Debugging')
 
 
 
-
-if __name__ == "__main__":
-    from bookutils import YouTubeVideo, quiz
+if __name__ == '__main__':
+    from .bookutils import YouTubeVideo, quiz
     YouTubeVideo("bCHRCehDOq0")
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## A Simple Function
+## -----------------
 
-# ## A Simple Function
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## A Simple Function')
 
 
 
+### Your Task: Remove HTML Markup
 
-def remove_html_markup(s):
+if __name__ == '__main__':
+    print('\n### Your Task: Remove HTML Markup')
+
+
+
+def remove_html_markup(s):  # type: ignore
     tag = False
     out = ""
 
@@ -72,83 +105,70 @@ def remove_html_markup(s):
 
     return out
 
-# ### Understanding Python Programs
+### Understanding Python Programs
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Understanding Python Programs')
 
 
 
+### Running a Function
 
-# ### Running a Function
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Running a Function')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup("Here's some <strong>strong argument</strong>.")
 
+### Interacting with Notebooks
 
-# ### Interacting with Notebooks
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Interacting with Notebooks')
 
 
 
+### Testing a Function
 
-# ### Testing a Function
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Testing a Function')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert remove_html_markup("Here's some <strong>strong argument</strong>.") == \
         "Here's some strong argument."
 
+## Oops! A Bug!
+## ------------
 
-# ## Oops! A Bug!
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Oops! A Bug!')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup('<input type="text" value="<your name>">')
 
+from .ExpectError import ExpectError
 
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert remove_html_markup('<input type="text" value="<your name>">') == ""
 
+## Visualizing Code
+## ----------------
 
-# ## Visualizing Code
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Visualizing Code')
-
 
 
 
 from graphviz import Digraph, nohtml
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from IPython.display import display
-
 
 PASS = "✔"
 FAIL = "✘"
@@ -159,14 +179,14 @@ FAIL_COLOR = 'red4'  # '#8B0000' # darkred
 STEP_COLOR = 'peachpuff'
 FONT_NAME = 'Raleway'
 
-def graph(comment="default"):
+def graph(comment: str ="default") -> Digraph:
     return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
         node_attr={'style': 'filled',
                    'fillcolor': STEP_COLOR,
                    'fontname': FONT_NAME},
         edge_attr={'fontname': FONT_NAME})
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     state_machine = graph()
     state_machine.node('Start', )
     state_machine.edge('Start', '¬ tag')
@@ -175,20 +195,18 @@ if __name__ == "__main__":
     state_machine.edge('tag', '¬ tag', label="'>'")
     state_machine.edge('tag', 'tag', label="¬ '>'")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display(state_machine)
 
+## A First Fix
+## -----------
 
-# ## A First Fix
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## A First Fix')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     state_machine = graph()
     state_machine.node('Start')
     state_machine.edge('Start', '¬ quote\n¬ tag')
@@ -201,12 +219,10 @@ if __name__ == "__main__":
     state_machine.edge('quote\ntag', '¬ quote\ntag', label="'\"'")
     state_machine.edge('¬ quote\ntag', '¬ quote\n¬ tag', label="'>'")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display(state_machine)
 
-
-def remove_html_markup(s):
+def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -223,56 +239,48 @@ def remove_html_markup(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup('<input type="text" value="<your name>">')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert remove_html_markup("Here's some <strong>strong argument</strong>.") == \
         "Here's some strong argument."
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert remove_html_markup('<input type="text" value="<your name>">') == ""
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert remove_html_markup('<b>foo</b>') == 'foo'
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert remove_html_markup('<b>"foo"</b>') == '"foo"'
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert remove_html_markup('"<b>foo</b>"') == '"foo"'
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert remove_html_markup('<"b">foo</"b">') == 'foo'
 
+## The Devil's Guide to Debugging
+## ------------------------------
 
-# ## The Devil's Guide to Debugging
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print("\n## The Devil's Guide to Debugging")
 
 
 
+### Printf Debugging
 
-# ### Printf Debugging
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Printf Debugging')
 
 
 
-
-def remove_html_markup_with_print(s):
+def remove_html_markup_with_print(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -291,19 +299,17 @@ def remove_html_markup_with_print(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup_with_print('<b>"foo"</b>')
 
+### Debugging into Existence
 
-# ### Debugging into Existence
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Debugging into Existence')
 
 
 
-
-def remove_html_markup_without_quotes(s):
+def remove_html_markup_without_quotes(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -320,47 +326,45 @@ def remove_html_markup_without_quotes(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert remove_html_markup_without_quotes('<"b">foo</"b">') == 'foo'
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert remove_html_markup_without_quotes('<b>"foo"</b>') == '"foo"'
 
+### Use the Most Obvious Fix
 
-# ### Use the Most Obvious Fix
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Use the Most Obvious Fix')
 
 
 
-
-def remove_html_markup_fixed(s):
+def remove_html_markup_fixed(s):  # type: ignore
     if s == '<b>"foo"</b>':
         return '"foo"'
     ...
 
-# ### Things to do Instead
+### Things to do Instead
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Things to do Instead')
 
 
 
+## From Defect to Failure
+## ----------------------
 
-# ## From Defect to Failure
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## From Defect to Failure')
 
 
 
+from typing import List, Optional
 
-def execution_diagram(show_steps=True, variables=[],
-                      steps=3, error_step=666,
-                      until=666, fault_path=[]):
+def execution_diagram(show_steps: bool = True, variables: List[str] = [],
+                      steps: int = 3, error_step: int = 666,
+                      until: int = 666, fault_path: List[str] = []) -> Digraph:
     dot = graph()
 
     dot.node('input', shape='none', fillcolor='white', label=f"Input {PASS}",
@@ -369,6 +373,7 @@ def execution_diagram(show_steps=True, variables=[],
 
     for step in range(1, min(steps + 1, until)):
 
+        step_color: Optional[str]
         if step == error_step:
             step_label = f'Step {step} {FAIL}'
             step_color = FAIL_COLOR
@@ -437,44 +442,40 @@ def execution_diagram(show_steps=True, variables=[],
 
     display(dot)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     execution_diagram(show_steps=False, steps=0, error_step=0)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for until in range(1, 6):
         execution_diagram(show_steps=False, until=until, error_step=2)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for until in range(1, 6):
         execution_diagram(show_steps=True, until=until, error_step=2)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for until in range(1, 6):
         execution_diagram(show_steps=True, variables=['v1', 'v2', 'v3'],
                           error_step=2,
                           until=until, fault_path=['s2:v2', 's3:v2'])
 
+## From Failure to Defect
+## ----------------------
 
-# ## From Failure to Defect
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## From Failure to Defect')
 
 
 
+## The Scientific Method
+## ---------------------
 
-# ## The Scientific Method
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## The Scientific Method')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dot = graph()
 
     dot.node('Hypothesis')
@@ -504,20 +505,17 @@ if __name__ == "__main__":
     dot.edge('Observation', 'Hypothesis',
              label="<Hypothesis<BR/>is <I>rejected:</I><BR/>Seek alternative>")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display(dot)
 
+### Finding a Hypothesis
 
-# ### Finding a Hypothesis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Finding a Hypothesis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i, html in enumerate(['<b>foo</b>',
                               '<b>"foo"</b>',
                               '"<b>foo</b>"',
@@ -525,8 +523,7 @@ if __name__ == "__main__":
         result = remove_html_markup(html)
         print("%-2d %-15s %s" % (i + 1, html, result))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("From the difference between success and failure,"
          " we can already devise some observations about "
          " what is wrong with the output."
@@ -538,28 +535,24 @@ if __name__ == "__main__":
             "Four-letter words are stripped."
         ], '[298 % 33, 1234 % 616]')
 
+### Testing a Hypothesis
 
-# ### Testing a Hypothesis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Testing a Hypothesis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup('"foo"')
 
+### Refining a Hypothesis
 
-# ### Refining a Hypothesis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Refining a Hypothesis')
 
 
 
-
-def remove_html_markup_with_tag_assert(s):
+def remove_html_markup_with_tag_assert(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -578,7 +571,7 @@ def remove_html_markup_with_tag_assert(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("What happens after inserting the above assertion?",
         [
             "The program raises an exception. (i.e., `tag` is set)",
@@ -586,22 +579,19 @@ if __name__ == "__main__":
             " (which means that `tag` is not set)"
         ], 2)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         result = remove_html_markup_with_tag_assert('"foo"')
     result
 
+### Refuting a Hypothesis
 
-# ### Refuting a Hypothesis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Refuting a Hypothesis')
 
 
 
-
-def remove_html_markup_with_quote_assert(s):
+def remove_html_markup_with_quote_assert(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -619,24 +609,21 @@ def remove_html_markup_with_quote_assert(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("What happens after inserting the 'assert' tag?",
         [
             "The program raises an exception (i.e., the quote condition holds)",
             "The output is still foo (i.e., the quote condition does not hold)"
         ], 29 % 7)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         result = remove_html_markup_with_quote_assert('"foo"')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup("'foo'")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("How should the condition read?",
          [
              '''`c == "" or c == '' and tag` (Choice 1)''',
@@ -646,32 +633,29 @@ if __name__ == "__main__":
          ],
          '399 % 4')
 
+## Fixing the Bug
+## --------------
 
-# ## Fixing the Bug
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Fixing the Bug')
 
 
 
+### Checking Diagnoses
 
-# ### Checking Diagnoses
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Checking Diagnoses')
 
 
 
+### Fixing the Code
 
-# ### Fixing the Code
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Fixing the Code')
 
 
 
-
-def remove_html_markup(s):
+def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -688,7 +672,7 @@ def remove_html_markup(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert remove_html_markup("Here's some <strong>strong argument</strong>.") == \
         "Here's some strong argument."
     assert remove_html_markup(
@@ -698,48 +682,43 @@ if __name__ == "__main__":
     assert remove_html_markup('"<b>foo</b>"') == '"foo"'
     assert remove_html_markup('<"b">foo</"b">') == 'foo'
 
+### Alternate Paths
 
-# ### Alternate Paths
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Alternate Paths')
 
 
 
+## Homework after the Fix
+## ----------------------
 
-# ## Homework after the Fix
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Homework after the Fix')
 
 
 
+### Check for further Defect Occurrences
 
-# ### Check for further Defect Occurrences
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Check for further Defect Occurrences')
 
 
 
+### Check your Tests
 
-# ### Check your Tests
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Check your Tests')
 
 
 
+### Add Assertions
 
-# ### Add Assertions
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Add Assertions')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Which assertion would have caught the problem?",
          [
             "`assert quote and not tag`",
@@ -748,12 +727,10 @@ if __name__ == "__main__":
             "`assert tag and not quote`"
          ], '3270 - 3267')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display(state_machine)
 
-
-def remove_html_markup(s):
+def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -772,69 +749,64 @@ def remove_html_markup(s):
 
     return out
 
-# ### Commit the Fix
+### Commit the Fix
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Commit the Fix')
 
 
 
+### Close the Bug Report
 
-# ### Close the Bug Report
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Close the Bug Report')
 
 
 
+## Become a Better Debugger
+## ------------------------
 
-# ## Become a Better Debugger
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Become a Better Debugger')
 
 
 
+### Keep a Log
 
-# ### Keep a Log
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Keep a Log')
 
 
 
+### Rubberducking
 
-# ### Rubberducking
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Rubberducking')
 
 
 
+## The Cost of Debugging
+## ---------------------
 
-# ## The Cost of Debugging
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## The Cost of Debugging')
 
 
 
+## History of Debugging
+## --------------------
 
-# ## History of Debugging
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## History of Debugging')
-
 
 
 
 import hashlib
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     bughash = hashlib.md5(b"debug").hexdigest()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz('Where has the name "bug" been used to denote disruptive events?',
          [
             'In the early days of Morse telegraphy, referring to a special key '
@@ -846,138 +818,124 @@ if __name__ == "__main__":
               'like "bugbear" and "bugaboo"'
          ], [bughash.index(i) for i in "d42f"])
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
 
 
 
+## Next Steps
+## ----------
 
-# ## Next Steps
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Next Steps')
 
 
 
+## Background
+## ----------
 
-# ## Background
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Background')
 
 
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
 
 
 
+### Exercise 1: Get Acquainted with Notebooks and Python
 
-# ### Exercise 1: Get Acquainted with Notebooks and Python
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 1: Get Acquainted with Notebooks and Python')
 
 
 
+#### Beginner Level: Run Notebooks in Your Browser
 
-# #### Beginner Level: Run Notebooks in Your Browser
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Beginner Level: Run Notebooks in Your Browser')
 
 
 
+#### Advanced Level: Run Python Code on Your Machine
 
-# #### Advanced Level: Run Python Code on Your Machine
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Advanced Level: Run Python Code on Your Machine')
 
 
 
+#### Pro Level: Run Notebooks on Your Machine
 
-# #### Pro Level: Run Notebooks on Your Machine
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Pro Level: Run Notebooks on Your Machine')
 
 
 
+#### Boss Level: Contribute!
 
-# #### Boss Level: Contribute!
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Boss Level: Contribute!')
 
 
 
+### Exercise 2: More Bugs!
 
-# ### Exercise 2: More Bugs!
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 2: More Bugs!')
 
 
 
+#### Part 1: Find the Problem
 
-# #### Part 1: Find the Problem
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Part 1: Find the Problem')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert(...)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     s = '<b title="<Shakespeare' + "'s play>" + '">foo</b>'
     s
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup(s)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         assert(remove_html_markup(s) == "foo")
 
+#### Part 2: Identify Extent and Cause
 
-# #### Part 2: Identify Extent and Cause
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Part 2: Identify Extent and Cause')
 
 
 
+#### Part 3: Fix the Problem
 
-# #### Part 3: Fix the Problem
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Part 3: Fix the Problem')
 
 
 
-
-def remove_html_markup_with_proper_quotes(s):
+def remove_html_markup_with_proper_quotes(s):  # type: ignore
     tag = False
     quote = ''
     out = ""
@@ -1000,11 +958,10 @@ def remove_html_markup_with_proper_quotes(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert(remove_html_markup_with_proper_quotes(s) == "foo")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert remove_html_markup_with_proper_quotes(
         "Here's some <strong>strong argument</strong>.") == \
         "Here's some strong argument."
@@ -1014,4 +971,3 @@ if __name__ == "__main__":
     assert remove_html_markup_with_proper_quotes('<b>"foo"</b>') == '"foo"'
     assert remove_html_markup_with_proper_quotes('"<b>foo</b>"') == '"foo"'
     assert remove_html_markup_with_proper_quotes('<"b">foo</"b">') == 'foo'
-

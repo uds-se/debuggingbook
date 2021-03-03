@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Generalizing Failure Circumstances" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2021-02-02 18:39:15+01:00
-#
+# Last change: 2021-02-28 18:14:24+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,49 +27,114 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Generalizing Failure Circumstances
 
-# # Generalizing Failure Circumstances
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python DDSetDebugger.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.DDSetDebugger import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/DDSetDebugger.html
+
+This chapter provides a class `DDSetDebugger`, implementing the DDSET algorithm for generalizing failure-inducing inputs. The `DDSetDebugger` is used as follows:
+
+with DDSetDebugger(grammar) as dd:
+    function(args...)
+dd
+
+
+Here, `function(args...)` is a failing function call (= raises an execption) that takes at least one string argument; `grammar` is an [input grammar in fuzzingbook format](https://www.fuzzingbook.org/html/Grammars.html) that matches the format of this argument.
+
+The result is a call of `function()` with an _abstract failure-inducing input_ – a variant of the conrete input in which parts are replaced by placeholders in the form ``, where `` is a nonterminal in the grammar. The failure has been verified to occur for a number of instantiations of ``.
+
+Here is an example of how `DDSetDebugger` works. The concrete failing input `"bar` is generalized to an _abstract failure-inducing input_:
+
+>>> with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
+>>>     remove_html_markup('"bar')
+>>> dd
+
+remove_html_markup(s='"')
+
+The abstract input tells us that the failure occurs for whatever opening and closing HTML tags as long as there is a double quote between them.
+
+A programmatic interface is available as well. `generalize()` returns a mapping of argument names to (generalized) values:
+
+>>> dd.generalize()
+
+{'s': '"'}
+
+Using `fuzz()`, the abstract input can be instantiated to further concrete inputs, all set to produce the failure again:
+
+>>> for i in range(10):
+>>>     print(dd.fuzz())
+
+remove_html_markup(s='"')
+remove_html_markup(s='"Y')
+remove_html_markup(s='"')
+remove_html_markup(s='"')
+remove_html_markup(s='"X')
+remove_html_markup(s='"l ')
+remove_html_markup(s='"')
+remove_html_markup(s='"')
+remove_html_markup(s='"')
+remove_html_markup(s='"')
+
+`DDSetDebugger` can be customized by passing a subclass of `TreeGeneralizer`, which does the gist of the work; for details, see its constructor.
+The full class hierarchy is shown below.
+
+For more details, source, and documentation, see
+"The Debugging Book - Generalizing Failure Circumstances"
+at https://www.debuggingbook.org/html/DDSetDebugger.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Generalizing Failure Circumstances
+# ==================================
+
+if __name__ == '__main__':
     print('# Generalizing Failure Circumstances')
 
 
 
-
-if __name__ == "__main__":
-    from bookutils import YouTubeVideo
+if __name__ == '__main__':
+    from .bookutils import YouTubeVideo
     YouTubeVideo("PV22XtIQU1s")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
+from . import DeltaDebugger
 
-if __package__ is None or __package__ == "":
-    import DeltaDebugger
-else:
-    from . import DeltaDebugger
+## Synopsis
+## --------
 
-
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## A Failing Program
+## -----------------
 
-# ## A Failing Program
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## A Failing Program')
 
 
 
-
-def remove_html_markup(s):
+def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
     out = ""
@@ -90,30 +154,20 @@ def remove_html_markup(s):
 
     return out
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup("Be <em>quiet</em>, he said")
-
 
 BAD_INPUT = '<foo>"bar</foo>'
 
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
+from .ExpectError import ExpectError
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError(AssertionError):
         remove_html_markup(BAD_INPUT)
 
+from .bookutils import quiz
 
-if __package__ is None or __package__ == "":
-    from bookutils import quiz
-else:
-    from .bookutils import quiz
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("If `s = '<foo>\"bar</foo>'` (i.e., `BAD_INPUT`), "
          "what is the value of `out` such that the assertion fails?",
         [
@@ -123,23 +177,33 @@ if __name__ == "__main__":
             '`<foo>"bar</foo>`',
         ], '9999999 // 4999999')
 
+## Grammars
+## --------
 
-# ## Grammars
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Grammars')
-
 
 
 
 import fuzzingbook
 
-DIGIT_GRAMMAR = {
+from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
+from typing import Dict, Union, Set, List, FrozenSet, cast, Generator
+
+Grammar = Dict[str,  # A grammar maps strings...
+               List[
+                   Union[str,  # to list of strings...
+                         Tuple[str, Dict[str, Any]]  # or to pairs of strings and attributes.
+                        ]
+               ]
+              ]
+
+DIGIT_GRAMMAR: Grammar = {
     "<start>":
         ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 }
 
-EXPR_GRAMMAR = {
+EXPR_GRAMMAR: Grammar = {
     "<start>":
         ["<expr>"],
 
@@ -165,17 +229,15 @@ EXPR_GRAMMAR = {
 
 from fuzzingbook.GrammarFuzzer import GrammarFuzzer
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     simple_expr_fuzzer = GrammarFuzzer(EXPR_GRAMMAR)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in range(10):
         fuzz_expr = simple_expr_fuzzer.fuzz()
         print(fuzz_expr)
 
-
-SIMPLE_HTML_GRAMMAR = {
+SIMPLE_HTML_GRAMMAR: Grammar = {
     "<start>":
         ["<html>"],
 
@@ -232,37 +294,36 @@ SIMPLE_HTML_GRAMMAR.update({
          ' <id>="<plain-text>"'],
 })
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     simple_html_fuzzer = GrammarFuzzer(SIMPLE_HTML_GRAMMAR)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in range(10):
         fuzz_html = simple_html_fuzzer.fuzz()
         print(repr(fuzz_html))
 
+## Derivation Trees
+## ----------------
 
-# ## Derivation Trees
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Derivation Trees')
 
 
 
+DerivationTree = Tuple[str, Optional[List[Any]]]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fuzz_html
 
+from graphviz import Digraph
 
-from fuzzingbook.GrammarFuzzer import display_tree
-
-def display_tree(tree):
-    def graph_attr(dot):
+def display_tree(tree: DerivationTree) -> Digraph:
+    def graph_attr(dot: Digraph) -> None:
         dot.attr('node', shape='box', color='white', margin='0.0,0.0')
         dot.attr('node',
                  fontname="'Fira Mono', 'Source Code Pro', 'Courier', monospace")
 
-    def node_attr(dot, nid, symbol, ann):
+    def node_attr(dot: Digraph, nid: str, symbol: str, ann: str) -> None:
         fuzzingbook.GrammarFuzzer.default_node_attr(dot, nid, symbol, ann)
         if symbol.startswith('<'):
             dot.node(repr(nid), fontcolor='#0060a0')
@@ -274,54 +335,47 @@ def display_tree(tree):
         node_attr=node_attr,
         graph_attr=graph_attr)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_tree(simple_html_fuzzer.derivation_tree)
-
 
 import pprint
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pp = pprint.PrettyPrinter(depth=7)
     pp.pprint(simple_html_fuzzer.derivation_tree)
 
+## Parsing
+## -------
 
-# ## Parsing
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Parsing')
 
 
 
+from fuzzingbook.Parser import Parser, EarleyParser  # minor dependency
 
-from fuzzingbook.Parser import EarleyParser  # minor dependency
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     simple_html_parser = EarleyParser(SIMPLE_HTML_GRAMMAR)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_tree = list(simple_html_parser.parse(BAD_INPUT))[0]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_tree(bad_input_tree)
-
 
 from fuzzingbook.GrammarFuzzer import tree_to_string, all_terminals
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     tree_to_string(bad_input_tree)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert tree_to_string(bad_input_tree) == BAD_INPUT
 
+## Mutating the Tree
+## -----------------
 
-# ## Mutating the Tree
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Mutating the Tree')
-
 
 
 
@@ -330,8 +384,10 @@ from fuzzingbook.Grammars import is_valid_grammar
 class TreeMutator:
     """Grammar-based mutations of derivation trees."""
 
-    def __init__(self, grammar, tree, fuzzer=None, log=False):
-        """Constructor. 
+    def __init__(self, grammar: Grammar, tree: DerivationTree,
+                 fuzzer: Optional[GrammarFuzzer] = None, log: Union[bool, int] = False):
+        """
+        Constructor. 
         `grammar` is the underlying grammar; 
         `tree` is the tree to work on.
         `fuzzer` is the grammar fuzzer to use (default: `GrammarFuzzer`)
@@ -344,42 +400,42 @@ class TreeMutator:
 
         if fuzzer is None:
             fuzzer = GrammarFuzzer(grammar)
+        
         self.fuzzer = fuzzer
 
-# ### Referencing Subtrees
+### Referencing Subtrees
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Referencing Subtrees')
 
 
 
+TreePath = List[int]
 
 class TreeMutator(TreeMutator):
-    def get_subtree(self, path, tree=None):
+    def get_subtree(self, path: TreePath, tree: Optional[DerivationTree] = None) -> DerivationTree:
         """Access a subtree based on `path` (a list of children numbers)"""
         if tree is None:
             tree = self.tree
 
-        node, children = tree  # FIXME: should be symbol
+        symbol, children = tree
 
-        if not path:
+        if not path or children is None:
             return tree
 
         return self.get_subtree(path[1:], children[path[0]])
 
-def bad_input_tree_mutator():
+def bad_input_tree_mutator() -> TreeMutator:
     return TreeMutator(SIMPLE_HTML_GRAMMAR, bad_input_tree, log=2)    
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     plain_text_subtree = bad_input_tree_mutator().get_subtree([0, 0, 1, 0])
     pp.pprint(plain_text_subtree)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     tree_to_string(plain_text_subtree)
 
-
-def primes_generator():
+def primes_generator() -> Generator[int, None, None]:
     # Adapted from https://www.python.org/ftp/python/doc/nluug-paper.ps
     primes = [2]
     yield 2
@@ -395,11 +451,10 @@ def primes_generator():
 
         i += 2
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     prime_numbers = primes_generator()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("In `bad_input_tree`, what is "
          " the subtree at the path `[0, 0, 2, 1]` as string?", 
         [
@@ -410,17 +465,15 @@ if __name__ == "__main__":
         ], 'next(prime_numbers)', globals()
         )
 
+### Creating new Subtrees
 
-# ### Creating new Subtrees
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Creating new Subtrees')
 
 
 
-
 class TreeMutator(TreeMutator):
-    def new_tree(self, start_symbol):
+    def new_tree(self, start_symbol: str) -> DerivationTree:
         """Create a new subtree for <start_symbol>."""
 
         if self.log >= 2:
@@ -429,76 +482,73 @@ class TreeMutator(TreeMutator):
         tree = (start_symbol, None)
         return self.fuzzer.expand_tree(tree)
 
-if __name__ == "__main__":
-    plain_text_tree = bad_input_tree_mutator().new_tree('<plain-text>')
+if __name__ == '__main__':
+    plain_text_tree = cast(TreeMutator, bad_input_tree_mutator()).new_tree('<plain-text>')
     display_tree(plain_text_tree)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     tree_to_string(plain_text_tree)
 
+### Mutating the Tree
 
-# ### Mutating the Tree
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Mutating the Tree')
 
 
 
-
 class TreeMutator(TreeMutator):
-    def mutate(self, path, tree=None):
+    def mutate(self, path: TreePath, tree: Optional[DerivationTree] = None) -> DerivationTree:
         """Return a new tree mutated at `path`"""
         if tree is None:
             tree = self.tree
+        assert tree is not None
 
-        node, children = tree
+        symbol, children = tree
 
-        if not path:
-            return self.new_tree(node)
+        if not path or children is None:
+            return self.new_tree(symbol)
 
         head = path[0]
         new_children = (children[:head] +
                         [self.mutate(path[1:], children[head])] +
                         children[head + 1:])
-        return node, new_children
+        return symbol, new_children
 
-if __name__ == "__main__":
-    mutated_tree = bad_input_tree_mutator().mutate([0, 0, 1, 0])
+if __name__ == '__main__':
+    mutated_tree = cast(TreeMutator, bad_input_tree_mutator()).mutate([0, 0, 1, 0])
     display_tree(mutated_tree)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     tree_to_string(mutated_tree)
 
+## Generalizing Trees
+## ------------------
 
-# ## Generalizing Trees
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Generalizing Trees')
-
 
 
 
 class TreeGeneralizer(TreeMutator):
     """Determine which parts of a derivation tree can be generalized."""
 
-    def __init__(self, grammar, tree, test,
-                 max_tries_for_generalization=10,
-                 **kwargs):
-        """Constructor. `grammar` and `tree` are as in `TreeMutator`.
+    def __init__(self, grammar: Grammar, tree: DerivationTree, test: Callable,
+                 max_tries_for_generalization: int = 10, **kwargs: Any) -> None:
+        """
+        Constructor. `grammar` and `tree` are as in `TreeMutator`.
         `test` is a function taking a string that either
           * raises an exception, indicating test failure;
           * or not, indicating test success.
         `max_tries_for_generalization` is the number of times
-          an instantiation has to fail before it is generalized."""
+        an instantiation has to fail before it is generalized.
+        """
 
         super().__init__(grammar, tree, **kwargs)
         self.test = test
         self.max_tries_for_generalization = max_tries_for_generalization
 
 class TreeGeneralizer(TreeGeneralizer):
-    def test_tree(self, tree):
+    def test_tree(self, tree: DerivationTree) -> bool:
         """Return True if testing `tree` passes, else False"""
         s = tree_to_string(tree)
         if self.log:
@@ -516,16 +566,15 @@ class TreeGeneralizer(TreeGeneralizer):
 
         return ret
 
-# ### Testing for Generalization
+### Testing for Generalization
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Testing for Generalization')
 
 
 
-
 class TreeGeneralizer(TreeGeneralizer):
-    def can_generalize(self, path, tree=None):
+    def can_generalize(self, path: TreePath, tree: Optional[DerivationTree] = None) -> bool:
         """Return True if the subtree at `path` can be generalized."""
         for i in range(self.max_tries_for_generalization):
             mutated_tree = self.mutate(path, tree)
@@ -535,99 +584,102 @@ class TreeGeneralizer(TreeGeneralizer):
 
         return True
 
-def bad_input_tree_generalizer(**kwargs):
+def bad_input_tree_generalizer(**kwargs: Any) -> TreeGeneralizer:
     return TreeGeneralizer(SIMPLE_HTML_GRAMMAR, bad_input_tree,
                            remove_html_markup, **kwargs)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_tree_generalizer(log=True).can_generalize([0])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_tree_generalizer(log=True).can_generalize([0, 0, 1, 0])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_tree_generalizer(log=True).can_generalize([0, 0, 2])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Is this also true for `<opening-tag>`?",
          [
              "Yes",
              "No"
          ], '("No" == "No") + ("No" is "No")')
 
-
 BAD_ATTR_INPUT = '<foo attr="\'">bar</foo>'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup(BAD_ATTR_INPUT)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_tree_generalizer().can_generalize([0, 0, 0])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_tree_generalizer(max_tries_for_generalization=100, log=True).can_generalize([0, 0, 0])
 
+### Generalizable Paths
 
-# ### Generalizable Paths
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Generalizable Paths')
 
 
 
-
 class TreeGeneralizer(TreeGeneralizer):
-    def find_paths(self, predicate, path=None, tree=None):
-        """Return a list of all paths for which `predicate` holds.
+    def find_paths(self, 
+                   predicate: Callable[[TreePath, DerivationTree], bool], 
+                   path: Optional[TreePath] = None, 
+                   tree: Optional[DerivationTree] = None) -> List[TreePath]:
+        """
+        Return a list of all paths for which `predicate` holds.
         `predicate` is a function `predicate`(`path`, `tree`), where
-         `path` denotes a subtree in `tree`. If `predicate()` returns
-         True, `path` is included in the returned list."""
+        `path` denotes a subtree in `tree`. If `predicate()` returns
+        True, `path` is included in the returned list.
+        """
 
         if path is None:
             path = []
+        assert path is not None    
+        
         if tree is None:
             tree = self.tree
+        assert tree is not None
 
-        node, children = self.get_subtree(path)
+        symbol, children = self.get_subtree(path)
 
         if predicate(path, tree):
             if self.log:
-                node, children = self.get_subtree(path)
+                symbol, children = self.get_subtree(path)
             return [path]
 
         paths = []
-        for i, child in enumerate(children):
-            child_node, _ = child
-            if child_node in self.grammar:
-                paths += self.find_paths(predicate, path + [i])
+        if children is not None:
+            for i, child in enumerate(children):
+                child_symbol, _ = child
+                if child_symbol in self.grammar:
+                    paths += self.find_paths(predicate, path + [i])
 
         return paths
 
-    def generalizable_paths(self):
+    def generalizable_paths(self) -> List[TreePath]:
         """Return a list of all paths whose subtrees can be generalized."""
         return self.find_paths(self.can_generalize)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_input_generalizable_paths = \
-        bad_input_tree_generalizer().generalizable_paths()
+        cast(TreeGeneralizer, bad_input_tree_generalizer()).generalizable_paths()
     bad_input_generalizable_paths
 
-
 class TreeGeneralizer(TreeGeneralizer):
-    def generalize_path(self, path, tree=None):
+    def generalize_path(self, path: TreePath, 
+                        tree: Optional[DerivationTree] = None) -> DerivationTree:
         """Return a copy of the tree in which the subtree at `path`
         is generalized (= replaced by a nonterminal without children)"""
+
         if tree is None:
             tree = self.tree
+        assert tree is not None
 
         symbol, children = tree
 
-        if not path:
+        if not path or children is None:
             return symbol, None  # Nonterminal without children
 
         head = path[0]
@@ -636,51 +688,49 @@ class TreeGeneralizer(TreeGeneralizer):
                         children[head + 1:])
         return symbol, new_children
 
-if __name__ == "__main__":
-    all_terminals(bad_input_tree_generalizer().generalize_path([0, 0, 0]))
-
+if __name__ == '__main__':
+    all_terminals(cast(TreeGeneralizer, bad_input_tree_generalizer()).generalize_path([0, 0, 0]))
 
 class TreeGeneralizer(TreeGeneralizer):
-    def generalize(self):
+    def generalize(self) -> DerivationTree:
         """Returns a copy of the tree in which all generalizable subtrees
         are generalized (= replaced by nonterminals without children)"""
         tree = self.tree
+        assert tree is not None
+
         for path in self.generalizable_paths():
             tree = self.generalize_path(path, tree)
 
         return tree
 
-if __name__ == "__main__":
-    abstract_failure_inducing_input = bad_input_tree_generalizer().generalize()
+if __name__ == '__main__':
+    abstract_failure_inducing_input = cast(TreeGeneralizer, bad_input_tree_generalizer()).generalize()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_terminals(abstract_failure_inducing_input)
 
+## Fuzzing with Patterns
+## ---------------------
 
-# ## Fuzzing with Patterns
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Fuzzing with Patterns')
-
 
 
 
 import copy
 
 class TreeGeneralizer(TreeGeneralizer):
-    def fuzz_tree(self, tree):
+    def fuzz_tree(self, tree: DerivationTree) -> DerivationTree:
         """Return an instantiated copy of `tree`."""
         tree = copy.deepcopy(tree)
         return self.fuzzer.expand_tree(tree)
 
-if __name__ == "__main__":
-    bitg = bad_input_tree_generalizer()
+if __name__ == '__main__':
+    bitg = cast(TreeGeneralizer, bad_input_tree_generalizer())
     for i in range(10):
         print(all_terminals(bitg.fuzz_tree(abstract_failure_inducing_input)))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     successes = 0
     failures = 0
     trials = 1000
@@ -695,52 +745,45 @@ if __name__ == "__main__":
         else:
             failures += 1
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     successes, failures
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     failures / 1000
 
+## Putting it all Together
+## -----------------------
 
-# ## Putting it all Together
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Putting it all Together')
 
 
 
+### Constructor
 
-# ### Constructor
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Constructor')
 
 
 
-
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import CallCollector
-else:
-    from .DeltaDebugger import CallCollector
-
+from .DeltaDebugger import CallCollector
 
 class DDSetDebugger(CallCollector):
-    """Debugger implementing the DDSET algorithm
-    for abstracting failure-inducing inputs"""
+    """
+    Debugger implementing the DDSET algorithm for abstracting failure-inducing inputs.
+    """
 
-    def __init__(self, grammar, 
-                 generalizer_class=TreeGeneralizer,
-                 parser=None,
-                 **kwargs):
+    def __init__(self, grammar: Grammar, 
+                 generalizer_class: Type = TreeGeneralizer,
+                 parser: Optional[Parser] = None,
+                 **kwargs: Any) -> None:
         """Constructor.
         `grammar` is an input grammar in fuzzingbook format.
         `generalizer_class` is the tree generalizer class to use
-          (default: TreeGeneralizer)
+        (default: `TreeGeneralizer`)
         `parser` is the parser to use (default: `EarleyParser(grammar)`).
         All other keyword args are passed to the tree generalizer, notably:
-        `fuzzer` - the fuzzer to use (default: `GrammarFuzzer`)
+        `fuzzer` - the fuzzer to use (default: `GrammarFuzzer`), and
         `log` - enables debugging output if True.
         """
         super().__init__()
@@ -755,24 +798,25 @@ class DDSetDebugger(CallCollector):
         self.kwargs = kwargs
 
         # These save state for further fuzz() calls
-        self.generalized_trees = None
-        self.generalized_args = None
-        self.generalizers = None
+        self.generalized_args: Dict[str, Any] = {}
+        self.generalized_trees: Dict[str, DerivationTree] = {}
+        self.generalizers: Dict[str, TreeGeneralizer] = {}
 
-# ### Generalizing Arguments
+### Generalizing Arguments
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Generalizing Arguments')
 
 
 
-
 class DDSetDebugger(DDSetDebugger):
-    def generalize(self):
-        """Generalize arguments seen. For each function argument,
+    def generalize(self) -> Dict[str, Any]:
+        """
+        Generalize arguments seen. For each function argument,
         produce an abstract failure-inducing input that characterizes
-        the set of inputs for which the function fails."""
-        if self.generalized_args is not None:
+        the set of inputs for which the function fails.
+        """
+        if self.generalized_args:
             return self.generalized_args
 
         self.generalized_args = copy.deepcopy(self.args())
@@ -780,7 +824,7 @@ class DDSetDebugger(DDSetDebugger):
         self.generalizers = {}
 
         for arg in self.args():
-            def test(value):
+            def test(value: Any) -> Any:
                 return self.call({arg: value})
 
             value = self.args()[arg]
@@ -797,36 +841,33 @@ class DDSetDebugger(DDSetDebugger):
         return self.generalized_args
 
 class DDSetDebugger(DDSetDebugger):
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a string representation of the generalized call."""
         return self.format_call(self.generalize())
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
         remove_html_markup(BAD_INPUT)
     dd
 
+### Fuzzing
 
-# ### Fuzzing
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Fuzzing')
 
 
 
-
 class DDSetDebugger(DDSetDebugger):
-    def fuzz_args(self):
-        """Return arguments randomly instantiated
-        from the abstract failure-inducing pattern."""
-        if self.generalized_trees is None:
+    def fuzz_args(self) -> Dict[str, Any]:
+        """
+        Return arguments randomly instantiated
+        from the abstract failure-inducing pattern.
+        """
+        if not self.generalized_trees:
             self.generalize()
 
         args = copy.deepcopy(self.generalized_args)
         for arg in args:
-            def test(value):
-                return self.call({arg: value})
-
             if arg not in self.generalized_trees:
                 continue
 
@@ -837,61 +878,52 @@ class DDSetDebugger(DDSetDebugger):
 
         return args
 
-    def fuzz(self):
-        """Return a call with arguments randomly instantiated
-        from the abstract failure-inducing pattern."""
+    def fuzz(self) -> str:
+        """
+        Return a call with arguments randomly instantiated
+        from the abstract failure-inducing pattern.
+        """
         return self.format_call(self.fuzz_args())
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
         remove_html_markup(BAD_INPUT)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dd.fuzz()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dd.fuzz()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dd.fuzz()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError(AssertionError):
         eval(dd.fuzz())
 
+## More Examples
+## -------------
 
-# ## More Examples
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## More Examples')
 
 
 
+### Square Root
 
-# ### Square Root
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Square Root')
 
 
 
+from .Assertions import square_root  # minor dependency
 
-if __package__ is None or __package__ == "":
-    from Assertions import square_root  # minor dependency
-else:
-    from .Assertions import square_root  # minor dependency
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError(AssertionError):
         square_root(-1)
 
-
-INT_GRAMMAR = {
+INT_GRAMMAR: Grammar = {
     "<start>":
         ["<int>"],
 
@@ -906,37 +938,30 @@ INT_GRAMMAR = {
     "<digit>": list(string.digits),
 }
 
-def square_root_test(s):
+def square_root_test(s: str) -> None:
     return square_root(int(s))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with DDSetDebugger(INT_GRAMMAR, log=True) as dd_square_root:
         square_root_test("-1")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dd_square_root
 
+### Middle
 
-# ### Middle
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Middle')
 
 
 
+from .StatisticalDebugger import middle  # minor dependency
 
-if __package__ is None or __package__ == "":
-    from StatisticalDebugger import middle  # minor dependency
-else:
-    from .StatisticalDebugger import middle  # minor dependency
-
-
-def middle_test(s):
+def middle_test(s: str) -> None:
     x, y, z = eval(s)
     assert middle(x, y, z) == sorted([x, y, z])[1]
 
-XYZ_GRAMMAR = {
+XYZ_GRAMMAR: Grammar = {
     "<start>":
         ["<int>, <int>, <int>"],
 
@@ -951,50 +976,40 @@ XYZ_GRAMMAR = {
     "<digit>": list(string.digits),
 }
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError(AssertionError):
         middle_test("2, 1, 3")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with DDSetDebugger(XYZ_GRAMMAR, log=True) as dd_middle:
         middle_test("2, 1, 3")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dd_middle
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
         remove_html_markup('<foo>"bar</foo>')
     dd
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     dd.generalize()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in range(10):
         print(dd.fuzz())
 
+from .ClassDiagram import display_class_hierarchy
 
-if __package__ is None or __package__ == "":
-    from ClassDiagram import display_class_hierarchy
-else:
-    from .ClassDiagram import display_class_hierarchy
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy([DDSetDebugger, TreeGeneralizer],
                             public_methods=[
                                 CallCollector.__init__,
@@ -1003,7 +1018,7 @@ if __name__ == "__main__":
                                 CallCollector.function,
                                 CallCollector.args,
                                 CallCollector.exception,
-                                CallCollector.call,
+                                CallCollector.call,  # type: ignore
                                 DDSetDebugger.__init__,
                                 DDSetDebugger.__repr__,
                                 DDSetDebugger.fuzz,
@@ -1011,64 +1026,59 @@ if __name__ == "__main__":
                                 DDSetDebugger.generalize,
                             ], project='debuggingbook')
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
 
 
 
+## Next Steps
+## ----------
 
-# ## Next Steps
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Next Steps')
 
 
 
+## Background
+## ----------
 
-# ## Background
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Background')
 
 
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
 
 
 
+### Exercise 1: Generalization and Specialization
 
-# ### Exercise 1: Generalization and Specialization
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 1: Generalization and Specialization')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_terminals(abstract_failure_inducing_input)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     more_precise_bitg = \
-        bad_input_tree_generalizer(max_tries_for_generalization=100)
+        cast(TreeGeneralizer, bad_input_tree_generalizer(max_tries_for_generalization=100))
 
     more_precise_abstract_failure_inducing_input = \
         more_precise_bitg.generalize()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_terminals(more_precise_abstract_failure_inducing_input)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     successes = 0
     failures = 0
     trials = 1000
@@ -1084,35 +1094,33 @@ if __name__ == "__main__":
         else:
             failures += 1
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     successes, failures
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     failures / 1000
 
+### Exercise 2: Hierarchical Delta Debugging
 
-# ### Exercise 2: Hierarchical Delta Debugging
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 2: Hierarchical Delta Debugging')
 
 
 
-
 class TreeHDDReducer(TreeGeneralizer):
-    def _reduce(self, path, tree):
+    def _reduce(self, path: TreePath, tree: DerivationTree) -> DerivationTree:
         """This is HDD"""
 
-        node, children = self.get_subtree(path, tree)
+        symbol, children = self.get_subtree(path, tree)
+        assert children is not None
 
         if len(path) >= 1:
             parent, parent_children = self.get_subtree(path[:-1], tree)
-            assert parent_children[path[-1]] == (node, children)
+            assert parent_children is not None
+            assert parent_children[path[-1]] == (symbol, children)
 
-            def test_children(children):
-                parent_children[path[-1]] = (node, children)
+            def test_children(children: List) -> None:
+                parent_children[path[-1]] = (symbol, children)  # type: ignore
                 s = tree_to_string(tree)
                 self.test(s)
 
@@ -1122,34 +1130,34 @@ class TreeHDDReducer(TreeGeneralizer):
             # display(display_tree(tree))
 
             children = dd.min_args()['children']
-            parent_children[path[-1]] = (node, children)
+            parent_children[path[-1]] = (symbol, children)
 
+        assert children is not None
         for i, child in enumerate(children):
             self._reduce(path + [i], tree)
 
         return tree
 
-    def reduce(self):
+    def reduce(self) -> DerivationTree:
         return self._reduce([], self.tree)
 
-def bad_input_tree_hdd_reducer():
+def bad_input_tree_hdd_reducer() -> TreeHDDReducer:
     return TreeHDDReducer(SIMPLE_HTML_GRAMMAR, copy.deepcopy(bad_input_tree),
                        remove_html_markup, log=True)    
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_terminals(bad_input_tree_hdd_reducer().reduce())
 
+## Exercise 3: Reducing Trees
+## --------------------------
 
-# ## Exercise 3: Reducing Trees
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercise 3: Reducing Trees')
 
 
 
-
 class TreeReducer(TreeGeneralizer):
-    def new_min_tree(self, start_symbol):
+    def new_min_tree(self, start_symbol: str) -> DerivationTree:
         if self.log >= 2:
             print(f"Creating new minimal tree for {start_symbol}")
 
@@ -1159,36 +1167,35 @@ class TreeReducer(TreeGeneralizer):
         fuzzer.fuzz()
         return fuzzer.derivation_tree
 
-def bad_input_tree_reducer():
+def bad_input_tree_reducer() -> TreeReducer:
     return TreeReducer(SIMPLE_HTML_GRAMMAR, bad_input_tree,
                        remove_html_markup, log=2)    
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     tree_to_string(bad_input_tree_reducer().new_min_tree('<start>'))
 
-
 class TreeReducer(TreeReducer):
-    def reduce_path(self, path, tree=None):
+    def reduce_path(self, path: TreePath, tree: Optional[DerivationTree] = None) -> DerivationTree:
         if tree is None:
             tree = self.tree
+        assert tree is not None
 
-        node, children = tree
+        symbol, children = tree
 
-        if not path:
-            return self.new_min_tree(node)
+        if not path or children is None:
+            return self.new_min_tree(symbol)
 
         head = path[0]
         new_children = (children[:head] +
                         [self.reduce_path(path[1:], children[head])] +
                         children[head + 1:])
-        return node, new_children
+        return symbol, new_children
 
-if __name__ == "__main__":
-    tree_to_string(bad_input_tree_reducer().reduce_path([0, 0, 1, 0]))
-
+if __name__ == '__main__':
+    tree_to_string(cast(TreeReducer, bad_input_tree_reducer()).reduce_path([0, 0, 1, 0]))
 
 class TreeReducer(TreeReducer):
-    def can_reduce(self, path, tree=None):
+    def can_reduce(self, path: TreePath, tree: Optional[DerivationTree] = None) -> bool:
         reduced_tree = self.reduce_path(path, tree)
         if self.test_tree(reduced_tree):
             # Failure no longer occurs; cannot reduce
@@ -1197,21 +1204,19 @@ class TreeReducer(TreeReducer):
         return True
 
 class TreeReducer(TreeReducer):
-    def reducible_paths(self):
+    def reducible_paths(self) -> List[TreePath]:
         return self.find_paths(self.can_reduce)
 
-if __name__ == "__main__":
-    bad_input_tree_reducer().reducible_paths()
-
+if __name__ == '__main__':
+    cast(TreeReducer, bad_input_tree_reducer()).reducible_paths()
 
 class TreeReducer(TreeReducer):
-    def reduce(self):
+    def reduce(self) -> DerivationTree:
         tree = self.tree
         for path in self.reducible_paths():
             tree = self.reduce_path(path, tree)
 
         return tree
 
-if __name__ == "__main__":
-    all_terminals(bad_input_tree_reducer().reduce())
-
+if __name__ == '__main__':
+    all_terminals(cast(TreeReducer, bad_input_tree_reducer()).reduce())

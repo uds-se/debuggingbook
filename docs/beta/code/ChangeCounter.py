@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-01-31 20:46:11+01:00
-#
+# Last change: 2021-02-28 12:39:03+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,53 +27,126 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Where the Bugs are
 
-# # Where the Bugs are
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python ChangeCounter.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.ChangeCounter import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/ChangeCounter.html
+
+This chapter provides two classes `ChangeCounter` and `FineChangeCounter` that allow to mine and visualize the distribution of changes in a given `git` repository.
+
+`ChangeCounter` is initialized as
+
+change_counter = ChangeCounter(repository)
+
+where `repository` is either 
+
+* a _directory_ containing a `git` clone (i.e., it contains a `.git` directory)
+* the URL of a `git` repository.
+
+Additional arguments are being passed to the underlying `RepositoryMining` class from the [PyDriller](https://pydriller.readthedocs.io/) Python package. A `filter` keyword argument, if given, is a predicate that takes a modification (from PyDriller) and returns True if it should be included.
+
+In a change counter, all elements in the repository are represented as _nodes_ – tuples $(f_1, f_2, ..., f_n)$ that denote a _hierarchy_: Each $f_i$ is a directory holding $f_{i+1}$, with $f_n$ being the actual file.
+
+A `change_counter` provides a number of attributes. `changes` is a mapping of nodes to the number of changes in that node:
+
+>>> change_counter.changes[('README.md',)]
+
+9
+
+The `messages` attribute holds all commit messages related to that node:
+
+>>> change_counter.messages[('README.md',)]
+
+['first commit',
+ 'Adjusted to debuggingbook',
+ 'New Twitter handle: @Debugging_Book',
+ 'Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Added link to author homepage',
+ 'Doc update']
+
+The `sizes` attribute holds the (last) size of the respective element:
+
+>>> change_counter.sizes[('README.md',)]
+
+10750
+
+`FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
+
+The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an interactive tree map that allows to explore the elements of a repository. The redder (darker) a rectangle, the more changes it has seen; the larger a rectangle, the larger its size in bytes.
+
+>>> fine_change_counter.map()
+
+
+   
+
+The included classes offer several methods that can be overridden in subclasses to customize what to mine and how to visualize it. See the chapter for details.
+
+Here are all the classes defined in this chapter:
+
+For more details, source, and documentation, see
+"The Debugging Book - Where the Bugs are"
+at https://www.debuggingbook.org/html/ChangeCounter.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Where the Bugs are
+# ==================
+
+if __name__ == '__main__':
     print('# Where the Bugs are')
 
 
 
-
-if __name__ == "__main__":
-    from bookutils import YouTubeVideo
+if __name__ == '__main__':
+    from .bookutils import YouTubeVideo
     YouTubeVideo("Aifq0JOc1Jc")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
+from . import Tracking
 
-if __package__ is None or __package__ == "":
-    import Tracking
-else:
-    from . import Tracking
+## Synopsis
+## --------
 
-
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Mining Change Histories
+## -----------------------
 
-# ## Mining Change Histories
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Mining Change Histories')
 
 
 
+## Mining with PyDriller
+## ---------------------
 
-# ## Mining with PyDriller
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Mining with PyDriller')
-
 
 
 
@@ -87,98 +159,79 @@ def current_repo():
     while True:
         if os.path.exists(os.path.join(path, '.git')):
             return os.path.normpath(path)
-        
+
         # Go one level up
         new_path = os.path.normpath(os.path.join(path, '..'))
         if new_path != path:
             path = new_path
         else:
             return None
-    
-    return None     
 
-if __name__ == "__main__":
+    return None
+
+if __name__ == '__main__':
     current_repo()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_miner = RepositoryMining(current_repo())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_commits = book_miner.traverse_commits()
     book_first_commit = next(book_commits)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     [attr for attr in dir(book_first_commit) if not attr.startswith('_')]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_first_commit.msg
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     [attr for attr in dir(book_first_commit.author) if not attr.startswith('_')]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_first_commit.author.name, book_first_commit.author.email
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_first_commit.modifications
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     [attr for attr in dir(book_first_commit.modifications[0]) if not attr.startswith('_')]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_first_commit.modifications[0].new_path
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(book_first_commit.modifications[0].source_code)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(book_first_commit.modifications[0].source_code_before)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     book_second_commit = next(book_commits)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     [m.new_path for m in book_second_commit.modifications]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     readme_modification = [m for m in book_second_commit.modifications if m.new_path == 'README.md'][0]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(readme_modification.source_code_before)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(readme_modification.source_code[:400])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(readme_modification.diff[:100])
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     readme_modification.diff_parsed['added'][:10]
 
+## Counting Changes
+## ----------------
 
-# ## Counting Changes
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Counting Changes')
-
 
 
 
@@ -231,9 +284,8 @@ class ChangeCounter(ChangeCounter):
 To be overloaded in subclasses."""
         return self.filter(m)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     tuple('debuggingbook/notebooks/ChangeExplorer.ipynb'.split('/'))
-
 
 class ChangeCounter(ChangeCounter):
     def update_stats(self, m):
@@ -273,9 +325,8 @@ To be defined in subclasses."""
 
 DEBUGGINGBOOK_REPO = current_repo()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     DEBUGGINGBOOK_REPO
-
 
 def debuggingbook_change_counter(cls):
     """Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo"""
@@ -286,45 +337,35 @@ def debuggingbook_change_counter(cls):
 
     return cls(DEBUGGINGBOOK_REPO, filter=filter)
 
-if __package__ is None or __package__ == "":
-    from Timer import Timer
-else:
-    from .Timer import Timer
+from .Timer import Timer
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Timer() as t:
         change_counter = debuggingbook_change_counter(ChangeCounter)
 
     t.elapsed_time()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     list(change_counter.changes.keys())[:10]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.changes[('Chapters.makefile',)]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.messages[('Chapters.makefile',)]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for node in change_counter.changes:
         assert len(change_counter.messages[node]) == change_counter.changes[node]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.sizes[('Chapters.makefile',)]
 
+## Visualizing Past Changes
+## ------------------------
 
-# ## Visualizing Past Changes
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Visualizing Past Changes')
-
 
 
 
@@ -389,33 +430,25 @@ class ChangeCounter(ChangeCounter):
 
         return fig
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter = debuggingbook_change_counter(ChangeCounter)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.map()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_nodes = list(change_counter.changes.keys())
     all_nodes.sort(key=lambda node: change_counter.changes[node], reverse=True)
     [(node, change_counter.changes[node]) for node in all_nodes[:4]]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_notebooks = [node for node in change_counter.changes.keys()
                      if len(node) == 2 and node[1].endswith('.ipynb')]
     all_notebooks.sort(key=lambda node: change_counter.changes[node], reverse=True)
 
+from .bookutils import quiz
 
-if __package__ is None or __package__ == "":
-    from bookutils import quiz
-else:
-    from .bookutils import quiz
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Which two notebooks have seen the most changes over time?",
         [
             f"`{all_notebooks[0][1].split('.')[0]}`",
@@ -424,16 +457,14 @@ if __name__ == "__main__":
             f"`{all_notebooks[2][1].split('.')[0]}`",
         ], '[1234 % 3, 3702 / 1234]')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_notebooks[0][1].split('.')[0], all_notebooks[1][1].split('.')[0]
 
+## Counting Past Fixes
+## -------------------
 
-# ## Counting Past Fixes
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Counting Past Fixes')
-
 
 
 
@@ -454,33 +485,30 @@ class FixCounter(FixCounter):
     def map_hoverinfo(self):
         return 'label'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fix_counter = debuggingbook_change_counter(FixCounter)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     fix_counter.map()
 
+## Counting Fine-Grained Changes
+## -----------------------------
 
-# ## Counting Fine-Grained Changes
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Counting Fine-Grained Changes')
 
 
 
+### Mapping Elements to Locations
 
-# ### Mapping Elements to Locations
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Mapping Elements to Locations')
-
 
 
 
 import magic
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     magic.from_buffer('''
 #include <stdio.h>
 
@@ -489,17 +517,14 @@ int main(int argc, char *argv[]) {
 }
 ''')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     magic.from_buffer('''
 def foo():
     print("Hello, world!")
 ''')
 
-
-if __name__ == "__main__":
-    magic.from_buffer(open(os.path.join(current_repo(), 'notebooks', 'ChangeCounter.ipynb')).read())
-
+if __name__ == '__main__':
+    magic.from_buffer(open(os.path.join(current_repo(), 'notebooks', 'Assertions.ipynb')).read())
 
 import re
 
@@ -564,7 +589,7 @@ def elem_mapping(content, log=False):
 
     return mapping
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     some_c_source = """
 #include <stdio.h>
 
@@ -583,12 +608,10 @@ int main(int argc, char *argv[]) {
 """
     some_c_mapping = elem_mapping(some_c_source, log=True)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     some_c_mapping[1], some_c_mapping[8]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     some_python_source = """
 def foo(x):
     return x
@@ -604,12 +627,10 @@ def main(argc):
 """
     some_python_mapping = elem_mapping(some_python_source, log=True)
 
+### Determining Changed Elements
 
-# ### Determining Changed Elements
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Determining Changed Elements')
-
 
 
 
@@ -623,9 +644,8 @@ starting in line `start` and extending over `length` additional lines"""
 
     return elems
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     changed_elems_by_mapping(some_python_mapping, start=2, length=4)
-
 
 def elem_size(elem, source):
     """Within `source`, return the size of `elem`"""
@@ -639,20 +659,14 @@ def elem_size(elem, source):
 
     return size
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     elem_size('foo', some_python_source)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert sum(elem_size(name, some_python_source) 
                for name in ['foo', 'bar', 'main']) == len(some_python_source)
 
-
-if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff  # minor dependency
-else:
-    from .ChangeDebugger import diff  # minor dependency
-
+from .ChangeDebugger import diff  # minor dependency
 
 from diff_match_patch import diff_match_patch
 
@@ -684,7 +698,7 @@ def changed_elems(old_source, new_source):
             
     return elems
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     some_new_python_source = """
 def foo(y):
     return y
@@ -699,16 +713,13 @@ def main(argc):
 
 """
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     changed_elems(some_python_source, some_new_python_source)
 
+### Putting it all Together
 
-# ### Putting it all Together
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Putting it all Together')
-
 
 
 
@@ -725,31 +736,24 @@ class FineChangeCounter(ChangeCounter):
             self.update_size(elem_node, elem_size(elem, new_source))
             self.update_changes(elem_node, m.msg)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with Timer() as t:
         fine_change_counter = debuggingbook_change_counter(FineChangeCounter)
 
     t.elapsed_time()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     fine_change_counter.map()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     elem_nodes = [node for node in fine_change_counter.changes.keys()
                   if len(node) == 3 and node[1].endswith('.ipynb')]
     elem_nodes.sort(key=lambda node: fine_change_counter.changes[node], reverse=True)
     [(node, fine_change_counter.changes[node]) for node in elem_nodes[:1]]
 
+from .bookutils import quiz
 
-if __package__ is None or __package__ == "":
-    from bookutils import quiz
-else:
-    from .bookutils import quiz
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Which is the _second_ most changed element?",
         [
             f"`{elem_nodes[3][2]}` in `{elem_nodes[3][1].split('.ipynb')[0]}`",
@@ -758,42 +762,32 @@ if __name__ == "__main__":
             f"`{elem_nodes[0][2]}` in `{elem_nodes[0][1].split('.ipynb')[0]}`",
         ], '1975308642 // 987654321')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     [(node, fine_change_counter.changes[node]) for node in elem_nodes[:5]]
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.changes[('README.md',)]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.messages[('README.md',)]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     change_counter.sizes[('README.md',)]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     fine_change_counter.map()
 
+from .ClassDiagram import display_class_hierarchy
 
-if __package__ is None or __package__ == "":
-    from ClassDiagram import display_class_hierarchy
-else:
-    from .ClassDiagram import display_class_hierarchy
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy([FineChangeCounter, FixCounter],
                             public_methods=[
                                 ChangeCounter.__init__,
@@ -801,46 +795,42 @@ if __name__ == "__main__":
                             ],
                             project='debuggingbook')
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
 
 
 
+## Background
+## ----------
 
-# ## Background
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Background')
 
 
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
 
 
 
+### Exercise 1: Fine-Grained Fixes
 
-# ### Exercise 1: Fine-Grained Fixes
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 1: Fine-Grained Fixes')
-
 
 
 
 class FineFixCounter(FixCounter, FineChangeCounter):
     pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fine_fix_counter = debuggingbook_change_counter(FineFixCounter)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     fine_fix_counter.map()
-

@@ -11878,6 +11878,7 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Debugger.html">How Debuggers Work&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="Assertions.html">Asserting Expectations&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -11885,6 +11886,7 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 <li><a href="ChangeDebugger.html" class="this_page">Isolating Failure-Inducing Changes&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
+<li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures&nbsp;<i class="fa fa-fw fa-wrench"></i> <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
@@ -12076,7 +12078,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <p>This will produce the failure-inducing change between <code>source_pass</code> and <code>source_fail</code>, using <a href="DeltaDebugger.html">Delta Debugging</a> to determine minimal differences in patches applied.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">version_1</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
@@ -12092,7 +12094,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">version_2</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -12164,39 +12166,39 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="8" y="-116.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ChangeDebugger</text>
 <polyline fill="none" stroke="#000000" points="0,-107.5 136,-107.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="ChangeDebugger">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__enter__(self):&#10;Called at begin of a `with` block. Checks if current source fails.">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__enter__(self) &#45;&gt; Any:&#10;Called at begin of a `with` block. Checks if current source fails.">
 <text text-anchor="start" x="14" y="-96" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__enter__()</text>
 </a>
 </g>
-<g id="a_node1_2"><a xlink:href="#" xlink:title="__init__(self, pass_source, fail_source, **ddargs):&#10;Constructor. Takes a passing source file (`pass_source`)&#10;and a failing source file (`fail_source`).&#10;Additional arguments are passed to `DeltaDebugger` constructor.">
+<g id="a_node1_2"><a xlink:href="#" xlink:title="__init__(self, pass_source:str, fail_source:str, **ddargs:Any) &#45;&gt; None:&#10;Constructor. Takes a passing source file (`pass_source`)&#10;and a failing source file (`fail_source`).&#10;Additional arguments are passed to `DeltaDebugger` constructor.">
 <text text-anchor="start" x="14" y="-85" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node1_3"><a xlink:href="#" xlink:title="__repr__(self):&#10;Return readable list of minimal patches">
+<g id="a_node1_3"><a xlink:href="#" xlink:title="__repr__(self) &#45;&gt; str:&#10;Return readable list of minimal patches">
 <text text-anchor="start" x="14" y="-74" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__repr__()</text>
 </a>
 </g>
-<g id="a_node1_4"><a xlink:href="#" xlink:title="fail_source(self):&#10;Return the failing source file.">
+<g id="a_node1_4"><a xlink:href="#" xlink:title="fail_source(self) &#45;&gt; str:&#10;Return the failing source file.">
 <text text-anchor="start" x="14" y="-63" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">fail_source()</text>
 </a>
 </g>
-<g id="a_node1_5"><a xlink:href="#" xlink:title="min_patches(self):&#10;Compute a minimal set of patches.">
+<g id="a_node1_5"><a xlink:href="#" xlink:title="min_patches(self) &#45;&gt; Tuple[List[diff_match_patch.diff_match_patch.patch_obj], List[diff_match_patch.diff_match_patch.patch_obj], List[diff_match_patch.diff_match_patch.patch_obj]]:&#10;Compute a minimal set of patches.&#10;Returns a triple (`pass_patches`, `fail_patches`, `diff_patches`)&#10;where `diff_patches` is the minimal difference between&#10;the set `pass_patches` (which, when applied, make the test pass) and&#10;the set `fail_patches` (which, when applied, make the test fail).">
 <text text-anchor="start" x="14" y="-52" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">min_patches()</text>
 </a>
 </g>
-<g id="a_node1_6"><a xlink:href="#" xlink:title="pass_source(self):&#10;Return the passing source file.">
+<g id="a_node1_6"><a xlink:href="#" xlink:title="pass_source(self) &#45;&gt; str:&#10;Return the passing source file.">
 <text text-anchor="start" x="14" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">pass_source()</text>
 </a>
 </g>
-<g id="a_node1_7"><a xlink:href="#" xlink:title="patches(self):&#10;Return the diff between passing and failing source files.">
+<g id="a_node1_7"><a xlink:href="#" xlink:title="patches(self) &#45;&gt; List[diff_match_patch.diff_match_patch.patch_obj]:&#10;Return the diff between passing and failing source files.">
 <text text-anchor="start" x="14" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">patches()</text>
 </a>
 </g>
-<g id="a_node1_8"><a xlink:href="#" xlink:title="after_collection(self):&#10;Diagnostics.">
+<g id="a_node1_8"><a xlink:href="#" xlink:title="after_collection(self) &#45;&gt; None:&#10;Diagnostics.">
 <text text-anchor="start" x="14" y="-19" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">after_collection()</text>
 </a>
 </g>
-<g id="a_node1_9"><a xlink:href="#" xlink:title="test_patches(self, patches)">
+<g id="a_node1_9"><a xlink:href="#" xlink:title="test_patches(self, patches:List[diff_match_patch.diff_match_patch.patch_obj]) &#45;&gt; None">
 <text text-anchor="start" x="14" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">test_patches()</text>
 </a>
 </g>
@@ -12213,63 +12215,63 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="23" y="-349.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CallCollector</text>
 <polyline fill="none" stroke="#000000" points="2.5,-340.5 133.5,-340.5 "/>
 <g id="a_node2_10"><a xlink:href="#" xlink:title="CallCollector">
-<g id="a_node2_11"><a xlink:href="DeltaDebugger.html" xlink:title="__enter__(self):&#10;Called at begin of `with` block. Turn tracing on.">
+<g id="a_node2_11"><a xlink:href="DeltaDebugger.html" xlink:title="__enter__(self) &#45;&gt; Any:&#10;Called at begin of `with` block. Turn tracing on.">
 <text text-anchor="start" x="11" y="-329" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__enter__()</text>
 </a>
 </g>
-<g id="a_node2_12"><a xlink:href="DeltaDebugger.html" xlink:title="__exit__(self, exc_tp, exc_value, exc_traceback):&#10;Called at end of `with` block. Turn tracing off.">
+<g id="a_node2_12"><a xlink:href="DeltaDebugger.html" xlink:title="__exit__(self, exc_tp:Type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; Union[bool, NoneType]:&#10;Called at end of `with` block. Turn tracing off.">
 <text text-anchor="start" x="11" y="-318" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node2_13"><a xlink:href="DeltaDebugger.html" xlink:title="__init__(self):&#10;Initialize collector">
+<g id="a_node2_13"><a xlink:href="DeltaDebugger.html" xlink:title="__init__(self) &#45;&gt; None:&#10;Initialize collector">
 <text text-anchor="start" x="11" y="-307" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node2_14"><a xlink:href="DeltaDebugger.html" xlink:title="args(self):&#10;Return the dictionary of collected arguments.">
+<g id="a_node2_14"><a xlink:href="DeltaDebugger.html" xlink:title="args(self) &#45;&gt; Dict[str, Any]:&#10;Return the dictionary of collected arguments.">
 <text text-anchor="start" x="11" y="-296" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">args()</text>
 </a>
 </g>
-<g id="a_node2_15"><a xlink:href="DeltaDebugger.html" xlink:title="call(self, new_args=None):&#10;Call collected function. If new_args is given,&#10;override arguments from its {var: value} entries.">
+<g id="a_node2_15"><a xlink:href="DeltaDebugger.html" xlink:title="call(self, new_args:Union[Dict[str, Any], NoneType]=None) &#45;&gt; Any:&#10;Call collected function. If `new_args` is given,&#10;override arguments from its {var: value} entries.">
 <text text-anchor="start" x="11" y="-285" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">call()</text>
 </a>
 </g>
-<g id="a_node2_16"><a xlink:href="DeltaDebugger.html" xlink:title="exception(self):&#10;Return the exception produced.">
+<g id="a_node2_16"><a xlink:href="DeltaDebugger.html" xlink:title="exception(self) &#45;&gt; Union[BaseException, NoneType]:&#10;Return the exception produced, or `None` if none.">
 <text text-anchor="start" x="11" y="-274" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">exception()</text>
 </a>
 </g>
-<g id="a_node2_17"><a xlink:href="DeltaDebugger.html" xlink:title="function(self):&#10;Return the function called.">
+<g id="a_node2_17"><a xlink:href="DeltaDebugger.html" xlink:title="function(self) &#45;&gt; Callable:&#10;Return the function called.">
 <text text-anchor="start" x="11" y="-263" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">function()</text>
 </a>
 </g>
-<g id="a_node2_18"><a xlink:href="DeltaDebugger.html" xlink:title="after_collection(self):&#10;Called after collection. To be defined in subclasses.">
+<g id="a_node2_18"><a xlink:href="DeltaDebugger.html" xlink:title="after_collection(self) &#45;&gt; None:&#10;Called after collection. To be defined in subclasses.">
 <text text-anchor="start" x="11" y="-252" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">after_collection()</text>
 </a>
 </g>
-<g id="a_node2_19"><a xlink:href="DeltaDebugger.html" xlink:title="format_call(self, args=None):&#10;Return a string representing a call of the function with given args.">
+<g id="a_node2_19"><a xlink:href="DeltaDebugger.html" xlink:title="format_call(self, args:Union[Dict[str, Any], NoneType]=None) &#45;&gt; str:&#10;Return a string representing a call of the function with given args.">
 <text text-anchor="start" x="11" y="-240" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">format_call()</text>
 </a>
 </g>
-<g id="a_node2_20"><a xlink:href="DeltaDebugger.html" xlink:title="format_exception(self, exc=None):&#10;Return a string representing the given exception.">
+<g id="a_node2_20"><a xlink:href="DeltaDebugger.html" xlink:title="format_exception(self, exc:Union[BaseException, NoneType]=None) &#45;&gt; str:&#10;Return a string representing the given exception.">
 <text text-anchor="start" x="11" y="-229" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">format_exception()</text>
 </a>
 </g>
-<g id="a_node2_21"><a xlink:href="DeltaDebugger.html" xlink:title="init(self):&#10;Reset for new collection.">
+<g id="a_node2_21"><a xlink:href="DeltaDebugger.html" xlink:title="init(self) &#45;&gt; None:&#10;Reset for new collection.">
 <text text-anchor="start" x="11" y="-218" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">init()</text>
 </a>
 </g>
-<g id="a_node2_22"><a xlink:href="DeltaDebugger.html" xlink:title="is_internal_error(self, exc_tp, exc_value, exc_traceback):&#10;Return True if exception was raised from `CallCollector` or a subclass.">
+<g id="a_node2_22"><a xlink:href="DeltaDebugger.html" xlink:title="is_internal_error(self, exc_tp:Type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; bool:&#10;Return True if exception was raised from `CallCollector` or a subclass.">
 <text text-anchor="start" x="11" y="-207" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">is_internal_error()</text>
 </a>
 </g>
-<g id="a_node2_23"><a xlink:href="DeltaDebugger.html" xlink:title="search_frame(self, name, frame):&#10;Return a pair (`frame`, `item`)&#10;in which the function `name` is defined as `item`.">
+<g id="a_node2_23"><a xlink:href="DeltaDebugger.html" xlink:title="search_frame(self, name:str, frame:Union[frame, NoneType]) &#45;&gt; Tuple[Union[frame, NoneType], Union[Callable, NoneType]]:&#10;Return a pair (`frame`, `item`)&#10;in which the function `name` is defined as `item`.">
 <text text-anchor="start" x="11" y="-196" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">search_frame()</text>
 </a>
 </g>
-<g id="a_node2_24"><a xlink:href="DeltaDebugger.html" xlink:title="search_func(self, name, frame):&#10;Search in callers for a definition of the function `name`">
+<g id="a_node2_24"><a xlink:href="DeltaDebugger.html" xlink:title="search_func(self, name:str, frame:Union[frame, NoneType]) &#45;&gt; Union[Callable, NoneType]:&#10;Search in callers for a definition of the function `name`">
 <text text-anchor="start" x="11" y="-185" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">search_func()</text>
 </a>
 </g>
-<g id="a_node2_25"><a xlink:href="DeltaDebugger.html" xlink:title="traceit(self, frame, event, arg):&#10;Tracing function. Collect first call, then turn tracing off.">
+<g id="a_node2_25"><a xlink:href="DeltaDebugger.html" xlink:title="traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Tracing function. Collect first call, then turn tracing off.">
 <text text-anchor="start" x="11" y="-174" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">traceit()</text>
 </a>
 </g>
@@ -12303,7 +12305,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <p>To apply patch objects on source code, use the <code>patch()</code> function. It takes a source code and a list of patches to be applied.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">diffs</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
@@ -12374,6 +12376,20 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <p>If you have a version history, an older working version, and a new failing version, your situation is roughly as depicted in this diagram:</p>
 </div>
 </div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
+</pre></div>
+
+</div>
+</div></div>
 </div>
 </div>
 
@@ -12668,7 +12684,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
@@ -12717,7 +12733,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">write_source</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">write_source</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
@@ -12827,7 +12843,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master (root-commit) 44b0d22] First version
+<pre>[master (root-commit) 085ef45] First version
  1 file changed, 13 insertions(+)
  create mode 100644 remove_html_markup.py
 </pre>
@@ -12850,7 +12866,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -12965,7 +12981,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master d08ed3c] Second version
+<pre>[master df3172e] Second version
  1 file changed, 5 insertions(+), 2 deletions(-)
 </pre>
 </div>
@@ -13000,7 +13016,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -13056,7 +13072,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 58c838a] Third version (with debugging output)
+<pre>[master 358b6db] Third version (with debugging output)
  1 file changed, 2 insertions(+)
 </pre>
 </div>
@@ -13069,7 +13085,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -13123,8 +13139,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 7773262] Fourth version (clueless)
- 1 file changed, 3 insertions(+), 5 deletions(-)
+<pre>[master 2fb52e2] Fourth version (clueless)
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 </pre>
 </div>
 
@@ -13136,7 +13152,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -13192,8 +13208,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master e03ef2f] Fifth version (with assert)
- 1 file changed, 5 insertions(+), 3 deletions(-)
+<pre>[master 4d6052f] Fifth version (with assert)
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 </pre>
 </div>
 
@@ -13205,7 +13221,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -13260,7 +13276,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 28ffe26] Sixth version (with another assert)
+<pre>[master 29a7864] Sixth version (with another assert)
  1 file changed, 1 insertion(+), 2 deletions(-)
 </pre>
 </div>
@@ -13273,7 +13289,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -13327,7 +13343,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 7affbc3] Seventh version (fixed)
+<pre>[master e8a929c] Seventh version (fixed)
  1 file changed, 1 insertion(+), 2 deletions(-)
 </pre>
 </div>
@@ -13351,7 +13367,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -13408,7 +13424,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[master 6836ec0] Eighth version (with proper assertion)
+<pre>[master c54485f] Eighth version (with proper assertion)
  1 file changed, 4 insertions(+), 1 deletion(-)
 </pre>
 </div>
@@ -13489,7 +13505,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-48-839bf760c807&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-839bf760c807&gt;&#34;, line 2, in &lt;module&gt;
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -13541,7 +13557,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_output</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_output</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> 
                             <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
                             <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -13580,14 +13596,14 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>6836ec0affcb917270410c2990e8fed3b91cce6b Eighth version (with proper assertion)
-7affbc35a0e9041265bd5fdae352300c23f8f21e Seventh version (fixed)
-28ffe261e87963ec08080a28c9412a4c73585c14 Sixth version (with another assert)
-e03ef2fdfce52280ca7c8fcd3f4706944e529efe Fifth version (with assert)
-777326265ab310ea40bf91f0b82a9f00ac951ec1 Fourth version (clueless)
-58c838ad8b904ac549a29dea824d5b64601fc96c Third version (with debugging output)
-d08ed3c8f8136998a56fe96a3e6a4a016134bc9f Second version
-44b0d22eb258c862e75520161a8e14df8194afef First version
+<pre>c54485f6cb8e42948605175fe3f31c12140f82fd Eighth version (with proper assertion)
+e8a929c9d8e39538f02b5cbb459fca3eab4491ae Seventh version (fixed)
+29a7864df4085e12cd603d44ee34e63d45aa3b28 Sixth version (with another assert)
+4d6052fb0b3f17afeb5b301b5c33cc74f54779e8 Fifth version (with assert)
+2fb52e2365c10d4d50fbfb3a039e1220ca24b4f2 Fourth version (clueless)
+358b6dbcc1a9077d5a9ec72b040c9b7e02db07c1 Third version (with debugging output)
+df3172ee7d47fa85633974f1fe5390575cdd9b21 Second version
+085ef45d1ee14bace0d11309622614e6e82a04d4 First version
 </pre>
 </div>
 
@@ -13621,7 +13637,7 @@ d08ed3c8f8136998a56fe96a3e6a4a016134bc9f Second version
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;44b0d22eb258c862e75520161a8e14df8194afef&#39;
+<pre>&#39;085ef45d1ee14bace0d11309622614e6e82a04d4&#39;
 </pre>
 </div>
 
@@ -13653,7 +13669,7 @@ d08ed3c8f8136998a56fe96a3e6a4a016134bc9f Second version
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>HEAD is now at 44b0d22 First version
+<pre>HEAD is now at 085ef45 First version
 </pre>
 </div>
 
@@ -13766,8 +13782,8 @@ d08ed3c8f8136998a56fe96a3e6a4a016134bc9f Second version
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was 44b0d22 First version
-HEAD is now at 6836ec0 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 085ef45 First version
+HEAD is now at c54485f Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -13947,7 +13963,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[777326265ab310ea40bf91f0b82a9f00ac951ec1] Fourth version (clueless)
+[2fb52e2365c10d4d50fbfb3a039e1220ca24b4f2] Fourth version (clueless)
 </pre>
 </div>
 
@@ -14099,7 +14115,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>def remove_html_markup(s):  # type ignore
+<pre>def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
     out = &#34;&#34;
@@ -14208,7 +14224,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 0 revisions left to test after this (roughly 1 step)
-[58c838ad8b904ac549a29dea824d5b64601fc96c] Third version (with debugging output)
+[358b6dbcc1a9077d5a9ec72b040c9b7e02db07c1] Third version (with debugging output)
 </pre>
 </div>
 
@@ -14460,7 +14476,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[d08ed3c8f8136998a56fe96a3e6a4a016134bc9f] Second version
+[df3172ee7d47fa85633974f1fe5390575cdd9b21] Second version
 </pre>
 </div>
 
@@ -14807,10 +14823,10 @@ c = &#39;&#34;&#39; tag = False quote = True
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>d08ed3c8f8136998a56fe96a3e6a4a016134bc9f is the first bad commit
-<span class="ansi-yellow-fg">commit d08ed3c8f8136998a56fe96a3e6a4a016134bc9f</span>
+<pre>df3172ee7d47fa85633974f1fe5390575cdd9b21 is the first bad commit
+<span class="ansi-yellow-fg">commit df3172ee7d47fa85633974f1fe5390575cdd9b21</span>
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Mon Feb 8 10:58:48 2021 +0100
+Date:   Sun Feb 28 12:41:48 2021 +0100
 
     Second version
 
@@ -14899,8 +14915,8 @@ Date:   Mon Feb 8 10:58:48 2021 +0100
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was d08ed3c Second version
-HEAD is now at 6836ec0 Eighth version (with proper assertion)
+<pre>Previous HEAD position was df3172e Second version
+HEAD is now at c54485f Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -14950,6 +14966,15 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 </div>
 </div>
 </div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>262
+</pre>
+</div>
+
 </div>
 
 <div class="input_code">
@@ -15074,7 +15099,7 @@ else:
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[777326265ab310ea40bf91f0b82a9f00ac951ec1] Fourth version (clueless)
+[2fb52e2365c10d4d50fbfb3a039e1220ca24b4f2] Fourth version (clueless)
 </pre>
 </div>
 
@@ -15108,7 +15133,7 @@ else:
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>running python test.py
 Bisecting: 0 revisions left to test after this (roughly 1 step)
-[58c838ad8b904ac549a29dea824d5b64601fc96c] Third version (with debugging output)
+[358b6dbcc1a9077d5a9ec72b040c9b7e02db07c1] Third version (with debugging output)
 running python test.py
 c = &#39;&#34;&#39; tag = False quote = False
 c = &#39;f&#39; tag = False quote = True
@@ -15116,12 +15141,12 @@ c = &#39;o&#39; tag = False quote = True
 c = &#39;o&#39; tag = False quote = True
 c = &#39;&#34;&#39; tag = False quote = True
 Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[d08ed3c8f8136998a56fe96a3e6a4a016134bc9f] Second version
+[df3172ee7d47fa85633974f1fe5390575cdd9b21] Second version
 running python test.py
-d08ed3c8f8136998a56fe96a3e6a4a016134bc9f is the first bad commit
-commit d08ed3c8f8136998a56fe96a3e6a4a016134bc9f
+df3172ee7d47fa85633974f1fe5390575cdd9b21 is the first bad commit
+commit df3172ee7d47fa85633974f1fe5390575cdd9b21
 Author: Andreas Zeller &lt;zeller@cispa.saarland&gt;
-Date:   Mon Feb 8 10:58:48 2021 +0100
+Date:   Sun Feb 28 12:41:48 2021 +0100
 
     Second version
 
@@ -15211,8 +15236,8 @@ bisect run success
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Previous HEAD position was d08ed3c Second version
-HEAD is now at 6836ec0 Eighth version (with proper assertion)
+<pre>Previous HEAD position was df3172e Second version
+HEAD is now at c54485f Eighth version (with proper assertion)
 </pre>
 </div>
 
@@ -15410,7 +15435,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/google/diff-match-patch" class="import" target="_blank">diff_match_patch</a></span> <span class="k">import</span> <span class="n">diff_match_patch</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/google/diff-match-patch" class="import" target="_blank">diff_match_patch</a></span> <span class="k">import</span> <span class="n">diff_match_patch</span><span class="p">,</span> <span class="n">patch_obj</span>
 </pre></div>
 
 </div>
@@ -15433,7 +15458,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;lines&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Compare s1 and s2 like `diff`; return a list of patches&quot;&quot;&quot;</span>
     <span class="n">dmp</span> <span class="o">=</span> <span class="n">diff_match_patch</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;lines&#39;</span><span class="p">:</span>
@@ -15481,10 +15506,10 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e608f28&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e608eb8&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e608e10&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e5cfe48&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442e2e7f0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442e2eac8&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442e2e940&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442e2e390&gt;]
 </pre>
 </div>
 
@@ -15519,7 +15544,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">patch_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 </pre></div>
 
@@ -15534,7 +15559,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">patch_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">print_content</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -15615,7 +15640,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">patches</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">patches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Apply given patches on given text; return patched text.&quot;&quot;&quot;</span>
     <span class="n">dmp</span> <span class="o">=</span> <span class="n">diff_match_patch</span><span class="p">()</span>
     <span class="n">patched_text</span><span class="p">,</span> <span class="n">success</span> <span class="o">=</span> <span class="n">dmp</span><span class="o">.</span><span class="n">patch_apply</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
@@ -15921,22 +15946,22 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="41ad0c3a-69f4-11eb-a588-f218984d6a0c" id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-1" onclick="clear_selection('41ad0c3a-69f4-11eb-a588-f218984d6a0c')">
-        <label id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-1-label" for="41ad0c3a-69f4-11eb-a588-f218984d6a0c-1">The initialization of quote is deleted</label><br>
+        <input type="radio" name="f5d44a70-79b9-11eb-a588-acde48001122" id="f5d44a70-79b9-11eb-a588-acde48001122-1" onclick="clear_selection('f5d44a70-79b9-11eb-a588-acde48001122')">
+        <label id="f5d44a70-79b9-11eb-a588-acde48001122-1-label" for="f5d44a70-79b9-11eb-a588-acde48001122-1">The initialization of quote is deleted</label><br>
 
-        <input type="radio" name="41ad0c3a-69f4-11eb-a588-f218984d6a0c" id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-2" onclick="clear_selection('41ad0c3a-69f4-11eb-a588-f218984d6a0c')">
-        <label id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-2-label" for="41ad0c3a-69f4-11eb-a588-f218984d6a0c-2">The condition after <code>if c == '&lt;'</code> is expanded</label><br>
+        <input type="radio" name="f5d44a70-79b9-11eb-a588-acde48001122" id="f5d44a70-79b9-11eb-a588-acde48001122-2" onclick="clear_selection('f5d44a70-79b9-11eb-a588-acde48001122')">
+        <label id="f5d44a70-79b9-11eb-a588-acde48001122-2-label" for="f5d44a70-79b9-11eb-a588-acde48001122-2">The condition after <code>if c == '&lt;'</code> is expanded</label><br>
 
-        <input type="radio" name="41ad0c3a-69f4-11eb-a588-f218984d6a0c" id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-3" onclick="clear_selection('41ad0c3a-69f4-11eb-a588-f218984d6a0c')">
-        <label id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-3-label" for="41ad0c3a-69f4-11eb-a588-f218984d6a0c-3">The tag variable gets a different value</label><br>
+        <input type="radio" name="f5d44a70-79b9-11eb-a588-acde48001122" id="f5d44a70-79b9-11eb-a588-acde48001122-3" onclick="clear_selection('f5d44a70-79b9-11eb-a588-acde48001122')">
+        <label id="f5d44a70-79b9-11eb-a588-acde48001122-3-label" for="f5d44a70-79b9-11eb-a588-acde48001122-3">The tag variable gets a different value</label><br>
 
-        <input type="radio" name="41ad0c3a-69f4-11eb-a588-f218984d6a0c" id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-4" onclick="clear_selection('41ad0c3a-69f4-11eb-a588-f218984d6a0c')">
-        <label id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-4-label" for="41ad0c3a-69f4-11eb-a588-f218984d6a0c-4">None of the above</label><br>
+        <input type="radio" name="f5d44a70-79b9-11eb-a588-acde48001122" id="f5d44a70-79b9-11eb-a588-acde48001122-4" onclick="clear_selection('f5d44a70-79b9-11eb-a588-acde48001122')">
+        <label id="f5d44a70-79b9-11eb-a588-acde48001122-4-label" for="f5d44a70-79b9-11eb-a588-acde48001122-4">None of the above</label><br>
 
     </div>
     </p>
-    <input id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('41ad0c3a-69f4-11eb-a588-f218984d6a0c', 4, 0, '1 / 1 + 1 ** 1 - 1 % 1 * 1')">
-    <span class="quiz_hint" id="41ad0c3a-69f4-11eb-a588-f218984d6a0c-hint"></span>
+    <input id="f5d44a70-79b9-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('f5d44a70-79b9-11eb-a588-acde48001122', 4, 0, '1 / 1 + 1 ** 1 - 1 % 1 * 1')">
+    <span class="quiz_hint" id="f5d44a70-79b9-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15973,7 +15998,7 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup_patches</span><span class="p">(</span><span class="n">patches</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup_patches</span><span class="p">(</span><span class="n">patches</span><span class="p">:</span> <span class="n">patch_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">new_version</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">patches</span><span class="p">)</span>
     <span class="n">exec</span><span class="p">(</span><span class="n">new_version</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
     <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
@@ -16035,9 +16060,9 @@ HEAD is now at 6836ec0 Eighth version (with proper assertion)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-113-899e4aa0f13c&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-899e4aa0f13c&gt;&#34;, line 2, in &lt;module&gt;
     test_remove_html_markup_patches(patches)
-  File &#34;&lt;ipython-input-111-41acb770c44c&gt;&#34;, line 4, in test_remove_html_markup_patches
+  File &#34;&lt;ipython-input-1-51c2474cb795&gt;&#34;, line 4, in test_remove_html_markup_patches
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -16405,7 +16430,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">CallCollector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_source</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">,</span> <span class="o">**</span><span class="n">ddargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">ddargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Constructor. Takes a passing source file (`pass_source`)</span>
 <span class="sd">        and a failing source file (`fail_source`).</span>
 <span class="sd">        Additional arguments are passed to `DeltaDebugger` constructor.</span>
@@ -16417,15 +16442,15 @@ AssertionError (expected)
         <span class="bp">self</span><span class="o">.</span><span class="n">_ddargs</span> <span class="o">=</span> <span class="n">ddargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">ddargs</span><span class="p">[</span><span class="s1">&#39;log&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;log&#39;</span> <span class="ow">in</span> <span class="n">ddargs</span> <span class="k">else</span> <span class="kc">False</span>
 
-    <span class="k">def</span> <span class="nf">pass_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">pass_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the passing source file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass_source</span>
 
-    <span class="k">def</span> <span class="nf">fail_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fail_source</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the failing source file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail_source</span>
 
-    <span class="k">def</span> <span class="nf">patches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">patches</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Return the diff between passing and failing source files.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patches</span>
 </pre></div>
@@ -16450,7 +16475,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
 </pre></div>
 
@@ -16502,11 +16527,11 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-127-1cdc3d223902&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-1cdc3d223902&gt;&#34;, line 2, in &lt;module&gt;
     cd.call()
-  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 214, in call
+  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 237, in call
     return self.function()(**args)
-  File &#34;&lt;ipython-input-125-623e88c5083e&gt;&#34;, line 2, in test_remove_html_markup
+  File &#34;&lt;ipython-input-1-6809e80c588d&gt;&#34;, line 2, in test_remove_html_markup
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -16613,10 +16638,10 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e63c898&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e63cbe0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e735048&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e735320&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0a90&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0b70&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0cf8&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0c18&gt;]
 </pre>
 </div>
 
@@ -16639,7 +16664,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">test_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patches</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">new_version</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pass_source</span><span class="p">(),</span> <span class="n">patches</span><span class="p">)</span>
         <span class="n">exec</span><span class="p">(</span><span class="n">new_version</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
@@ -16666,7 +16691,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Called at begin of a `with` block. Checks if current source fails.&quot;&quot;&quot;</span>
         <span class="n">exec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fail_source</span><span class="p">(),</span> <span class="nb">globals</span><span class="p">())</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
@@ -16734,13 +16759,13 @@ AssertionError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;&lt;ipython-input-135-27b59634b5f9&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;&lt;ipython-input-1-27b59634b5f9&gt;&#34;, line 2, in &lt;module&gt;
     cd.test_patches(cd.patches())
-  File &#34;&lt;ipython-input-131-c2b7a799cf41&gt;&#34;, line 5, in test_patches
+  File &#34;&lt;ipython-input-1-cdf9e7513b95&gt;&#34;, line 5, in test_patches
     self.call()
-  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 214, in call
+  File &#34;/Users/zeller/Projects/debuggingbook/notebooks/DeltaDebugger.ipynb&#34;, line 237, in call
     return self.function()(**args)
-  File &#34;&lt;ipython-input-125-623e88c5083e&gt;&#34;, line 2, in test_remove_html_markup
+  File &#34;&lt;ipython-input-1-6809e80c588d&gt;&#34;, line 2, in test_remove_html_markup
     assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
 AssertionError (expected)
 </pre>
@@ -16764,13 +16789,24 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">min_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute a minimal set of patches.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">min_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute a minimal set of patches.</span>
+<span class="sd">        Returns a triple (`pass_patches`, `fail_patches`, `diff_patches`) </span>
+<span class="sd">        where `diff_patches` is the minimal difference between </span>
+<span class="sd">        the set `pass_patches` (which, when applied, make the test pass) and </span>
+<span class="sd">        the set `fail_patches` (which, when applied, make the test fail).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_ddargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">test_patches</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">())</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">()</span>
+        <span class="n">pass_patches</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
+        <span class="n">fail_patches</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
+        <span class="n">diff_patches</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diff_patches</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16794,7 +16830,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return readable list of minimal patches&quot;&quot;&quot;</span>
         <span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diff_patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff_patches</span><span class="p">)</span>
@@ -16855,10 +16891,10 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e6cf9e8&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e6cf320&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e63ca58&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e63cc88&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442e35b00&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0588&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0f60&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0748&gt;]
 </pre>
 </div>
 
@@ -16891,7 +16927,7 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7ff67e63cc88&gt;]
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fa442ed0748&gt;]
 </pre>
 </div>
 
@@ -17136,7 +17172,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">after_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">after_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Diagnostics.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoCallError</span><span class="p">(</span><span class="s2">&quot;No function call observed&quot;</span><span class="p">)</span>
@@ -17276,7 +17312,7 @@ This paper generalized over [<a href="https://www.computer.org/csdl/proceedings-
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ChangeDebugger.ipynb" target=_blank)>Last change: 2021-02-08 00:24:39+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/ChangeDebugger.ipynb" target=_blank)>Last change: 2021-02-28 12:24:28+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -17292,7 +17328,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">Isolating Failure-Inducing Changes</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">https://www.debuggingbook.org/beta/html/ChangeDebugger.html</a>.  Retrieved 2021-02-08 00:24:39+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">Isolating Failure-Inducing Changes</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/ChangeDebugger.html">https://www.debuggingbook.org/beta/html/ChangeDebugger.html</a>.  Retrieved 2021-02-28 12:24:28+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:ChangeDebugger,
@@ -17302,9 +17338,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/ChangeDebugger
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/ChangeDebugger.html}},
-    note = {Retrieved 2021-02-08 00:24:39+01:00},
+    note = {Retrieved 2021-02-28 12:24:28+01:00},
     url = {https://www.debuggingbook.org/beta/html/ChangeDebugger.html},
-    urldate = {2021-02-08 00:24:39+01:00}
+    urldate = {2021-02-28 12:24:28+01:00}
 }
 </pre>
 </div>

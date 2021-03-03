@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# This material is part of "The Debugging Book".
+# "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-01-25 23:19:20+01:00
-#
+# Last change: 2021-02-28 16:45:18+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,106 +27,179 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+r'''
+The Debugging Book - Repairing Code Automatically
 
-# # Repairing Code Automatically
+This file can be _executed_ as a script, running all experiments:
 
-if __name__ == "__main__":
+    $ python Repairer.py
+
+or _imported_ as a package, providing classes, functions, and constants:
+
+    >>> from debuggingbook.Repairer import <identifier>
+    
+but before you do so, _read_ it and _interact_ with it at:
+
+    https://www.debuggingbook.org/html/Repairer.html
+
+This chapter provides tools and techniques for automated repair of program code. The `Repairer()` class takes a `DifferenceDebugger` debugger as input (such as `OchiaiDebugger` from [the chapter on statistical debugging](StatisticalDebugger.ipynb). A typical setup looks like this:
+
+from debuggingbook.StatisticalDebugger import OchiaiDebugger
+
+debugger = OchiaiDebugger()
+for inputs in TESTCASES:
+    with debugger:
+        test_foo(inputs)
+...
+
+repairer = Repairer(debugger)
+
+Here, `test_foo()` is a function that raises an exception if the tested function `foo()` fails. If `foo()` passes, `test_foo()` should not raise an exception.
+
+The `repair()` method of a `Repairer` searches for a repair of the code covered in the debugger (except for methods starting or ending in `test`, such that `foo()`, not `test_foo()` is repaired). `repair()` returns the best fix candidate as a pair `(tree, fitness)` where `tree` is a [Python abstract syntax tree](http://docs.python.org/3/library/ast) (AST) of the fix candidate, and `fitness` is the fitness of the candidate (a value between 0 and 1). A `fitness` of 1.0 means that the candidate passed all tests. A typical usage looks like this:
+
+import astor
+
+tree, fitness = repairer.repair()
+print(astor.to_source(tree), fitness)
+
+
+Here is a complete example for the `middle()` program. This is the original source code of `middle()`:
+
+def middle(x, y, z):  # type: ignore
+    if y < z:
+        if x < y:
+            return y
+        elif x < z:
+            return y
+    else:
+        if x > y:
+            return y
+        elif x > z:
+            return x
+    return z
+We set up a function `middle_test()` that tests it. The `middle_debugger`  collects testcases and outcomes:
+
+>>> middle_debugger = OchiaiDebugger()
+
+>>> for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
+>>>     with middle_debugger:
+>>>         m = middle_test(x, y, z)
+
+The repairer attempts to repair the invoked function (`middle()`). The returned AST `tree` can be output via `astor.to_source()`:
+
+>>> middle_repairer = Repairer(middle_debugger)
+>>> tree, fitness = middle_repairer.repair()
+>>> print(astor.to_source(tree), fitness)
+
+def middle(x, y, z):
+    if y < z:
+        if x < y:
+            return y
+        elif x < z:
+            return x
+    elif x > y:
+        return y
+    elif x > z:
+        return x
+    return z
+ 1.0
+
+Here are the classes defined in this chapter. A `Repairer` repairs a program, using a `StatementMutator` and a `CrossoverOperator` to evolve a population of candidates.
+
+For more details, source, and documentation, see
+"The Debugging Book - Repairing Code Automatically"
+at https://www.debuggingbook.org/html/Repairer.html
+'''
+
+
+# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
+if __name__ == '__main__' and __package__ is None:
+    __package__ = 'debuggingbook'
+
+
+# Repairing Code Automatically
+# ============================
+
+if __name__ == '__main__':
     print('# Repairing Code Automatically')
 
 
 
-
-if __name__ == "__main__":
-    from bookutils import YouTubeVideo
+if __name__ == '__main__':
+    from .bookutils import YouTubeVideo
     YouTubeVideo("UJTf7cW0idI")
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
+## Automatic Code Repairs
+## ----------------------
 
-# ## Automatic Code Repairs
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Automatic Code Repairs')
 
 
 
+### The middle() Function
 
-# ### The middle() Function
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### The middle() Function')
 
 
 
+from .StatisticalDebugger import middle
 
-if __package__ is None or __package__ == "":
-    from StatisticalDebugger import middle
-else:
-    from .StatisticalDebugger import middle
-
-
-if __package__ is None or __package__ == "":
-    from bookutils import print_content
-else:
-    from .bookutils import print_content
-
+from .bookutils import print_content
 
 import inspect
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     _, first_lineno = inspect.getsourcelines(middle)
     middle_source = inspect.getsource(middle)
     print_content(middle_source, '.py', start_line_number=first_lineno)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle(4, 5, 6)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle(2, 1, 3)
 
+### Validated Repairs
 
-# ### Validated Repairs
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Validated Repairs')
-
 
 
 
 def middle_sort_of_fixed(x, y, z):
     return x
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_sort_of_fixed(2, 1, 3)
 
+### Genetic Optimization
 
-# ### Genetic Optimization
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Genetic Optimization')
 
 
 
+## A Test Suite
+## ------------
 
-# ## A Test Suite
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## A Test Suite')
-
 
 
 
@@ -139,28 +211,21 @@ def middle_testcase():
     z = random.randrange(10)
     return x, y, z
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     [middle_testcase() for i in range(5)]
-
 
 def middle_test(x, y, z):
     m = middle(x, y, z)
     assert m == sorted([x, y, z])[1]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_test(4, 5, 6)
 
+from .ExpectError import ExpectError
 
-if __package__ is None or __package__ == "":
-    from ExpectError import ExpectError
-else:
-    from .ExpectError import ExpectError
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         middle_test(2, 1, 3)
-
 
 def middle_passing_testcase():
     while True:
@@ -171,11 +236,10 @@ def middle_passing_testcase():
         except AssertionError:
             pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     (x, y, z) = middle_passing_testcase()
     m = middle(x, y, z)
     print(f"middle({x}, {y}, {z}) = {m}")
-
 
 def middle_failing_testcase():
     while True:
@@ -185,11 +249,10 @@ def middle_failing_testcase():
         except AssertionError:
             return x, y, z
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     (x, y, z) = middle_failing_testcase()
     m = middle(x, y, z)
     print(f"middle({x}, {y}, {z}) = {m}")
-
 
 MIDDLE_TESTS = 100
 
@@ -199,94 +262,76 @@ MIDDLE_PASSING_TESTCASES = [middle_passing_testcase()
 MIDDLE_FAILING_TESTCASES = [middle_failing_testcase()
                             for i in range(MIDDLE_TESTS)]
 
-# ## Locating the Defect
+## Locating the Defect
+## -------------------
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Locating the Defect')
 
 
 
+from .StatisticalDebugger import OchiaiDebugger, DifferenceDebugger
 
-if __package__ is None or __package__ == "":
-    from StatisticalDebugger import OchiaiDebugger, DifferenceDebugger
-else:
-    from .StatisticalDebugger import OchiaiDebugger, DifferenceDebugger
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_debugger = OchiaiDebugger()
 
     for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
         with middle_debugger:
             m = middle_test(x, y, z)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_debugger
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     location = middle_debugger.rank()[0]
     (func_name, lineno) = location
     lines, first_lineno = inspect.getsourcelines(middle)
     print(lineno, end="")
     print_content(lines[lineno - first_lineno], '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_debugger.suspiciousness(location)
 
+## Random Code Mutations
+## ---------------------
 
-# ## Random Code Mutations
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Random Code Mutations')
-
 
 
 
 import string
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     string.ascii_letters
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     len(string.ascii_letters + '_') * \
       len(string.ascii_letters + '_' + string.digits) * \
       len(string.ascii_letters + '_' + string.digits)
-
 
 import ast
 import astor
 import inspect
 
-if __package__ is None or __package__ == "":
-    from bookutils import print_content, show_ast
-else:
-    from .bookutils import print_content, show_ast
-
+from .bookutils import print_content, show_ast
 
 def middle_tree():
     return ast.parse(inspect.getsource(middle))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     show_ast(middle_tree())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(ast.dump(middle_tree()))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     ast.dump(middle_tree().body[0].body[0].body[0].body[0])
 
+### Picking Statements
 
-# ### Picking Statements
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Picking Statements')
-
 
 
 
@@ -353,26 +398,22 @@ def all_statements_and_functions(tree, tp=None):
 def all_statements(tree, tp=None):
     return [stmt for stmt, func_name in all_statements_and_functions(tree, tp)]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_statements(middle_tree(), ast.Return)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     all_statements_and_functions(middle_tree(), ast.If)
-
 
 import random
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     random_node = random.choice(all_statements(middle_tree()))
     astor.to_source(random_node)
 
+### Mutating Statements
 
-# ### Mutating Statements
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Mutating Statements')
-
 
 
 
@@ -413,11 +454,10 @@ class StatementMutator(NodeTransformer):
 
         self.mutations = 0
 
-# #### Choosing Suspicious Statements to Mutate
+#### Choosing Suspicious Statements to Mutate
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Choosing Suspicious Statements to Mutate')
-
 
 
 
@@ -456,11 +496,10 @@ class StatementMutator(StatementMutator):
         else:
             return random.choices(stmts, weights=weights)[0]
 
-# #### Choosing a Mutation Method
+#### Choosing a Mutation Method
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Choosing a Mutation Method')
-
 
 
 
@@ -489,11 +528,10 @@ class StatementMutator(StatementMutator):
 
         return new_node
 
-# #### Swapping Statements
+#### Swapping Statements
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Swapping Statements')
-
 
 
 
@@ -518,11 +556,10 @@ class StatementMutator(StatementMutator):
         # ast.copy_location(new_node, node)
         return new_node
 
-# #### Inserting Statements
+#### Inserting Statements
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Inserting Statements')
-
 
 
 
@@ -550,11 +587,10 @@ class StatementMutator(StatementMutator):
 
         return [node, new_node]
 
-# #### Deleting Statements
+#### Deleting Statements
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Deleting Statements')
-
 
 
 
@@ -578,13 +614,9 @@ class StatementMutator(StatementMutator):
 
         return None  # Just delete
 
-if __package__ is None or __package__ == "":
-    from bookutils import quiz
-else:
-    from .bookutils import quiz
+from .bookutils import quiz
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Why are statements replaced by `pass` rather than deleted?",
          [
              "Because `if P: pass` is valid Python, while `if P:` is not",
@@ -593,12 +625,10 @@ if __name__ == "__main__":
              "Because it causes the tests to pass"
          ], '[3 ^ n for n in range(3)]')
 
+#### Helpers
 
-# #### Helpers
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Helpers')
-
 
 
 
@@ -618,11 +648,10 @@ class StatementMutator(StatementMutator):
             s = s[:self.NODE_MAX_LENGTH] + "..."
         return repr(s)
 
-# #### All Together
+#### All Together
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### All Together')
-
 
 
 
@@ -653,21 +682,19 @@ class StatementMutator(StatementMutator):
         ast.fix_missing_locations(tree)
         return tree
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     mutator = StatementMutator(log=True)
     for i in range(10):
         new_tree = mutator.mutate(middle_tree())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(new_tree), '.py')
 
+## Fitness
+## -------
 
-# ## Fitness
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Fitness')
-
 
 
 
@@ -714,34 +741,26 @@ def middle_fitness(tree):
     globals()['middle'] = original_middle
     return fitness
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_fitness(middle_tree())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_fitness(ast.parse("def middle(x, y, z): return x"))
 
+from .StatisticalDebugger import middle_fixed
 
-if __package__ is None or __package__ == "":
-    from StatisticalDebugger import middle_fixed
-else:
-    from .StatisticalDebugger import middle_fixed
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_fixed_source = \
         inspect.getsource(middle_fixed).replace('middle_fixed', 'middle').strip()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_fitness(ast.parse(middle_fixed_source))
 
+## Population
+## ----------
 
-# ## Population
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Population')
-
 
 
 
@@ -753,21 +772,19 @@ MIDDLE_POPULATION = [middle_tree()] + \
 
 MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(astor.to_source(MIDDLE_POPULATION[0]),
           middle_fitness(MIDDLE_POPULATION[0]))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print(astor.to_source(MIDDLE_POPULATION[-1]),
           middle_fitness(MIDDLE_POPULATION[-1]))
 
+## Evolution
+## ---------
 
-# ## Evolution
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Evolution')
-
 
 
 
@@ -788,16 +805,14 @@ def evolve_middle():
     MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
     MIDDLE_POPULATION = MIDDLE_POPULATION[:n]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     evolve_middle()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     tree = MIDDLE_POPULATION[0]
     print(astor.to_source(tree), middle_fitness(tree))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in range(50):
         evolve_middle()
         best_middle_tree = MIDDLE_POPULATION[0]
@@ -806,12 +821,10 @@ if __name__ == "__main__":
         if fitness >= 1.0:
             break
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(best_middle_tree), '.py', start_line_number=1)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     original_middle = middle
     code = compile(best_middle_tree, '<string>', 'exec')
     exec(code, globals())
@@ -821,8 +834,7 @@ if __name__ == "__main__":
 
     middle = original_middle
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Some of the lines in our fix candidate are redundant. Which are these?",
         [
             "Line 3: `if x < y`",
@@ -831,93 +843,75 @@ if __name__ == "__main__":
             "Line 13: `return z`"
         ], '[eval(chr(100 - x)) for x in [49, 50]]')
 
+## Simplifying
+## -----------
 
-# ## Simplifying
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Simplifying')
 
 
 
+from .DeltaDebugger import DeltaDebugger
 
-if __package__ is None or __package__ == "":
-    from DeltaDebugger import DeltaDebugger
-else:
-    from .DeltaDebugger import DeltaDebugger
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_lines = astor.to_source(best_middle_tree).strip().split('\n')
-
 
 def test_middle_lines(lines):
     source = "\n".join(lines)
     tree = ast.parse(source)
     assert middle_fitness(tree) < 1.0  # "Fail" only while fitness is 1.0
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     with DeltaDebugger() as dd:
         test_middle_lines(middle_lines)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     reduced_lines = dd.min_args()['lines']
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     reduced_source = "\n".join(reduced_lines)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     repaired_source = astor.to_source(ast.parse(reduced_source))  # normalize
     print_content(repaired_source, '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     original_source = astor.to_source(ast.parse(middle_source))  # normalize
 
+from .ChangeDebugger import diff, print_patch  # minor dependency
 
-if __package__ is None or __package__ == "":
-    from ChangeDebugger import diff, print_patch  # minor dependency
-else:
-    from .ChangeDebugger import diff, print_patch  # minor dependency
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for patch in diff(original_source, repaired_source):
         print_patch(patch)
 
+## Crossover
+## ---------
 
-# ## Crossover
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Crossover')
 
 
 
+### Excursion: Implementing Crossover
 
-# ### Excursion: Implementing Crossover
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Implementing Crossover')
 
 
 
+#### Crossing Statement Lists
 
-# #### Crossing Statement Lists
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Crossing Statement Lists')
 
 
 
-
-def p1():
+def p1():  # type: ignore
     a = 1
     b = 2
     c = 3
 
-def p2():
+def p2():  # type: ignore
     x = 1
     y = 2
     z = 3
@@ -942,35 +936,29 @@ class CrossoverOperator:
         return (body_1[:crossover_point_1] + body_2[crossover_point_2:],
                 body_2[:crossover_point_2] + body_1[crossover_point_1:])
 
-if __name__ == "__main__":
-    tree_p1 = ast.parse(inspect.getsource(p1))
-    tree_p2 = ast.parse(inspect.getsource(p2))
+if __name__ == '__main__':
+    tree_p1: ast.Module = ast.parse(inspect.getsource(p1))
+    tree_p2: ast.Module = ast.parse(inspect.getsource(p2))
 
-
-if __name__ == "__main__":
-    body_p1 = tree_p1.body[0].body
-    body_p2 = tree_p2.body[0].body
+if __name__ == '__main__':
+    body_p1 = tree_p1.body[0].body  # type: ignore
+    body_p2 = tree_p2.body[0].body  # type: ignore
     body_p1
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     crosser = CrossoverOperator()
-    tree_p1.body[0].body, tree_p2.body[0].body = crosser.cross_bodies(body_p1, body_p2)
+    tree_p1.body[0].body, tree_p2.body[0].body = crosser.cross_bodies(body_p1, body_p2)  # type: ignore
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(tree_p1), '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(tree_p2), '.py')
 
+#### Applying Crossover on Programs
 
-# #### Applying Crossover on Programs
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Applying Crossover on Programs')
-
 
 
 
@@ -1071,29 +1059,27 @@ class CrossoverOperator(CrossoverOperator):
 class CrossoverError(ValueError):
     pass
 
-# ### End of Excursion
+### End of Excursion
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+### Crossover in Action
 
-# ### Crossover in Action
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Crossover in Action')
 
 
 
-
-def p1():
+def p1():  # type: ignore
     if True:
         print(1)
         print(2)
         print(3)
 
-def p2():
+def p2():  # type: ignore
     if True:
         print(a)
         print(b)
@@ -1101,47 +1087,40 @@ def p2():
         print(c)
         print(d)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     crossover = CrossoverOperator()
     tree_p1 = ast.parse(inspect.getsource(p1))
     tree_p2 = ast.parse(inspect.getsource(p2))
     crossover.crossover(tree_p1, tree_p2);
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(tree_p1), '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(tree_p2), '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_t1, middle_t2 = crossover.crossover(middle_tree(),
                                               ast.parse(inspect.getsource(p2)))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(middle_t1), '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(middle_t2), '.py')
 
+## A Repairer Class
+## ----------------
 
-# ## A Repairer Class
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## A Repairer Class')
 
 
 
+### Excursion: Implementing Repairer
 
-# ### Excursion: Implementing Repairer
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Implementing Repairer')
-
 
 
 
@@ -1201,19 +1180,14 @@ class Repairer:
             globals = self.caller_globals()
         self.globals = globals
 
-# #### Helper Functions
+#### Helper Functions
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Helper Functions')
 
 
 
-
-if __package__ is None or __package__ == "":
-    from Slicer import StackInspector  # minor dependency
-else:
-    from .Slicer import StackInspector  # minor dependency
-
+from .Slicer import StackInspector  # minor dependency
 
 class Repairer(Repairer, StackInspector):
     pass
@@ -1266,11 +1240,10 @@ class Repairer(Repairer):
 
         return tree
 
-# #### Running Tests
+#### Running Tests
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Running Tests')
-
 
 
 
@@ -1313,12 +1286,11 @@ class Repairer(Repairer):
 class FailureNotReproducedError(ValueError):
     pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     repairer = Repairer(middle_debugger)
     assert repairer.run_test_set(middle_debugger.PASS) == \
         len(MIDDLE_PASSING_TESTCASES)
     assert repairer.run_test_set(middle_debugger.FAIL) == 0
-
 
 class Repairer(Repairer):
     def weight(self, test_set):
@@ -1346,16 +1318,14 @@ class Repairer(Repairer):
         fitness = self.run_tests(validate=True)
         assert fitness == self.weight(self.debugger.PASS)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     repairer = Repairer(middle_debugger)
     repairer.validate()
 
+#### (Re)defining Functions
 
-# #### (Re)defining Functions
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### (Re)defining Functions')
-
 
 
 
@@ -1439,34 +1409,28 @@ class DefinitionVisitor(NodeVisitor):
     def visit_Class(self, node):
         self.add_definition(node)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     repairer = Repairer(middle_debugger, log=4)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     good_fitness = repairer.fitness(middle_tree())
     good_fitness
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert good_fitness >= 0.99, "fitness() failed"
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     bad_middle_tree = ast.parse("def middle(x, y, z): return x")
     bad_fitness = repairer.fitness(bad_middle_tree)
     bad_fitness
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     assert bad_fitness < 0.5, "fitness() failed"
 
+#### Repairing
 
-# #### Repairing
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Repairing')
-
 
 
 
@@ -1524,11 +1488,10 @@ class Repairer(Repairer):
 
         return best_tree, fitness
 
-# #### Evolving
+#### Evolving
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Evolving')
-
 
 
 
@@ -1566,11 +1529,10 @@ class Repairer(Repairer):
         tree_size = len([node for node in ast.walk(tree)])
         return (self.fitness(tree), -tree_size)
 
-# #### Simplifying
+#### Simplifying
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n#### Simplifying')
-
 
 
 
@@ -1611,43 +1573,37 @@ class Repairer(Repairer):
             # traceback.print_exc()  # Uncomment to see internal errors
             raise
 
-# ### End of Excursion
+### End of Excursion
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
+### Repairer in Action
 
-# ### Repairer in Action
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Repairer in Action')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     repairer = Repairer(middle_debugger, log=True)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     best_tree, fitness = repairer.repair()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(best_tree), '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     fitness
 
+## Removing HTML Markup
+## --------------------
 
-# ## Removing HTML Markup
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Removing HTML Markup')
-
 
 
 
@@ -1676,27 +1632,24 @@ def remove_html_markup_test(html, plain):
     assert outcome == plain, \
         f"Got {repr(outcome)}, expected {repr(plain)}"
 
-# ### Excursion: Creating HTML Test Cases
+### Excursion: Creating HTML Test Cases
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Excursion: Creating HTML Test Cases')
-
 
 
 
 def random_string(length=5, start=ord(' '), end=ord('~')):
     return "".join(chr(random.randrange(start, end + 1)) for i in range(length))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     random_string()
-
 
 def random_id(length=2):
     return random_string(start=ord('a'), end=ord('z'))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     random_id()
-
 
 def random_plain():
     return random_string().replace('<', '').replace('>', '')
@@ -1720,9 +1673,8 @@ def random_html(depth=0):
     return f'{prefix}<{tag} {attr}={value}>{html}</{tag}>{postfix}', \
         prefix + plain + postfix
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     random_html()
-
 
 def remove_html_testcase(expected=True):
     while True:
@@ -1736,57 +1688,47 @@ REMOVE_HTML_PASSING_TESTCASES = \
 REMOVE_HTML_FAILING_TESTCASES = \
     [remove_html_testcase(False) for i in range(100)]
 
-# ### End of Excursion
+### End of Excursion
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### End of Excursion')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     REMOVE_HTML_PASSING_TESTCASES[0]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     html, plain = REMOVE_HTML_PASSING_TESTCASES[0]
     remove_html_markup_test(html, plain)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     REMOVE_HTML_FAILING_TESTCASES[0]
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         html, plain = REMOVE_HTML_FAILING_TESTCASES[0]
         remove_html_markup_test(html, plain)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     html_debugger = OchiaiDebugger()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for html, plain in (REMOVE_HTML_PASSING_TESTCASES + 
                         REMOVE_HTML_FAILING_TESTCASES):
         with html_debugger:
             remove_html_markup_test(html, plain)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     html_debugger
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     html_repairer = Repairer(html_debugger, log=True)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     best_tree, fitness = html_repairer.repair()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Why couldn't `Repairer()` repair `remove_html_markup()`?",
          [
              "The population is too small!",
@@ -1797,20 +1739,18 @@ if __name__ == "__main__":
              "The population is too big!",
          ], '5242880 >> 20')
 
+## Mutating Conditions
+## -------------------
 
-# ## Mutating Conditions
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Mutating Conditions')
 
 
 
+### Collecting Conditions
 
-# ### Collecting Conditions
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Collecting Conditions')
-
 
 
 
@@ -1861,16 +1801,14 @@ class ConditionVisitor(NodeVisitor):
             self.add_conditions(node, 'test')
         return super().generic_visit(node)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     [astor.to_source(cond).strip()
         for cond in all_conditions(remove_html_markup_tree())]
 
+### Mutating Conditions
 
-# ### Mutating Conditions
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Mutating Conditions')
-
 
 
 
@@ -1921,52 +1859,43 @@ class ConditionMutator(ConditionMutator):
 
         return node
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     mutator = ConditionMutator(source=all_statements(remove_html_markup_tree()),
                                log=True)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in range(10):
         new_tree = mutator.mutate(remove_html_markup_tree())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     condition_repairer = Repairer(html_debugger,
                                   mutator_class=ConditionMutator,
                                   log=2)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     best_tree, fitness = condition_repairer.repair(iterations=200)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     repaired_source = astor.to_source(best_tree)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(repaired_source, '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     original_source = astor.to_source(remove_html_markup_tree())
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for patch in diff(original_source, repaired_source):
         print_patch(patch)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Is this actually the best solution?",
         [
             "Yes, sure, of course. Why?",
             "Err - what happened to single quotes?"
         ], 1 << 1)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     quiz("Why aren't single quotes handled in the solution?",
         [
             "Because they're not important. I mean, who uses 'em anyway?",
@@ -1974,68 +1903,55 @@ if __name__ == "__main__":
                 "Let me look up how they are constructed..."
         ], 1 << 1)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     remove_html_markup("<foo quote='>abc'>\"me\"</foo>")
-
 
 REMOVE_HTML_PASSING_TESTCASES.append(("<foo quote='>abc'>\"me\"</foo>", '"me"'))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     best_tree, fitness = condition_repairer.repair(iterations=200)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(astor.to_source(best_tree), '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     fitness
 
+## Limitations
+## -----------
 
-# ## Limitations
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Limitations')
 
 
 
+## Synopsis
+## --------
 
-# ## Synopsis
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Synopsis')
 
 
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print_content(middle_source, '.py')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_debugger = OchiaiDebugger()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
         with middle_debugger:
             m = middle_test(x, y, z)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     middle_repairer = Repairer(middle_debugger)
     tree, fitness = middle_repairer.repair()
     print(astor.to_source(tree), fitness)
 
+from .ClassDiagram import display_class_hierarchy
 
-if __package__ is None or __package__ == "":
-    from ClassDiagram import display_class_hierarchy
-else:
-    from .ClassDiagram import display_class_hierarchy
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
                             abstract_classes=[
                                 NodeVisitor,
@@ -2052,65 +1968,56 @@ if __name__ == "__main__":
                             ],
                             project='debuggingbook')
 
+## Lessons Learned
+## ---------------
 
-# ## Lessons Learned
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Lessons Learned')
 
 
 
+## Background
+## ----------
 
-# ## Background
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Background')
 
 
 
+## Exercises
+## ---------
 
-# ## Exercises
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n## Exercises')
 
 
 
+### Exercise 1: Automated Repair Parameters
 
-# ### Exercise 1: Automated Repair Parameters
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 1: Automated Repair Parameters')
 
 
 
+### Exercise 2: Elitism
 
-# ### Exercise 2: Elitism
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 2: Elitism')
 
 
 
+### Exercise 3: Evolving Values
 
-# ### Exercise 3: Evolving Values
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 3: Evolving Values')
 
 
 
+from .Assertions import square_root  # minor dependency
 
-if __package__ is None or __package__ == "":
-    from Assertions import square_root  # minor dependency
-else:
-    from .Assertions import square_root  # minor dependency
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     with ExpectError():
         square_root_of_zero = square_root(0)
-
 
 import math
 
@@ -2126,22 +2033,19 @@ def square_root_fixed(x):
     assert math.isclose(approx * approx, x)
     return approx
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     square_root_fixed(0)
 
+### Exercise 4: Evolving Variable Names
 
-# ### Exercise 4: Evolving Variable Names
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 4: Evolving Variable Names')
 
 
 
+### Exercise 5: Parallel Repair
 
-# ### Exercise 5: Parallel Repair
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('\n### Exercise 5: Parallel Repair')
-
 
 
