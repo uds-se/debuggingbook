@@ -11869,7 +11869,37 @@ MathJax.Hub.Config({
            
 <li><a href="https://www.debuggingbook.org/"><span class="part_number"><i class="fa fa-fw fa-home"></i></span> About this book</a></li>
 <li><a href="https://www.debuggingbook.org/html/00_Table_of_Contents.html"><i class="fa fa-fw fa-sitemap"></i></span> Sitemap</a></li>
-<li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
+<li class="has-sub"><a href="01_Intro.html" class="chapters"><span class="part_number">I</span> Whetting Your Appetite <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Tours through the Book</a></li>
+<li><a href="#" class="not_public">Introduction to Debugging</a></li>
+</ul><li class="has-sub"><a href="02_Observing.html" class="chapters"><span class="part_number">II</span> Observing Executions <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Tracing Executions</a></li>
+<li><a href="#" class="not_public">How Debuggers Work</a></li>
+<li><a href="#" class="not_public">Asserting Expectations</a></li>
+<li><a href="#" class="not_public">Debugging Performance Issues</a></li>
+</ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Tracking Failure Origins</a></li>
+</ul><li class="has-sub"><a href="04_Reducing.html" class="chapters"><span class="part_number">IV</span> Reducing Failure Causes <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Reducing Failure-Inducing Inputs</a></li>
+<li><a href="#" class="not_public">Isolating Failure-Inducing Changes</a></li>
+<li><a href="#" class="not_public">Debugging Concurrent Programs</a></li>
+</ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Statistical Debugging</a></li>
+<li><a href="#" class="not_public">Mining Function Specifications</a></li>
+<li><a href="#" class="not_public">Generalizing Failure Circumstances</a></li>
+</ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Repairing Code Automatically</a></li>
+</ul><li class="has-sub"><a href="07_In_the_Large.html" class="chapters"><span class="part_number">VII</span> Debugging in the Large <i class="fa fa-fw fa-caret-right"></i></a>
+<ul>
+<li><a href="#" class="not_public">Tracking Bugs</a></li>
+<li><a href="#" class="not_public">Where the Bugs are</a></li>
+</ul><li class="has-sub"><a href="99_Appendices.html" class="chapters">Appendices <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
 <li><a href="Timer.html" class="this_page">Timer</a></li>
@@ -11966,7 +11996,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">some_long_running_function</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
 
-<span class="mf">0.04361397599859629</span>
+<span class="mf">0.046276174020022154</span>
 </pre></div>
 </div>
 </div>
@@ -12018,7 +12048,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">clock</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">clock</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>  <span class="c1"># Python 3</span>
     <span class="k">except</span><span class="p">:</span>
@@ -12036,18 +12066,34 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/types.html" class="import" target="_blank">types</a></span> <span class="k">import</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">TracebackType</span>
+<span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="k">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Timer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="c1"># Begin of `with` block</span>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Begin of `with` block&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">clock</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="c1"># End of `with` block</span>
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span>
+                 <span class="n">tb</span><span class="p">:</span> <span class="n">TracebackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;End of `with` block&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">clock</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">elapsed_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">elapsed_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return elapsed time in seconds&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># still running</span>
@@ -12076,7 +12122,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">some_long_running_function</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">some_long_running_function</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">1000000</span>
     <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
@@ -12108,7 +12154,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Stopping total time:
-0.04279170600057114
+0.04606053396128118
 </pre>
 </div>
 
@@ -12135,16 +12181,16 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Stopping time in between:
-2.3669999791309237e-06
-2.5097004254348576e-05
-3.31839983118698e-05
-4.028200055472553e-05
-4.712500231107697e-05
-5.393400351749733e-05
-7.338800060097128e-05
-8.242200419772416e-05
-9.114899876294658e-05
-0.00010083600500365719
+2.5259796530008316e-06
+0.00018134398851543665
+0.0002002469846047461
+0.0002142610028386116
+0.00022530497517436743
+0.00023976899683475494
+0.00024973799008876085
+0.00026643997989594936
+0.00028342800214886665
+0.0002947170287370682
 </pre>
 </div>
 
@@ -12176,7 +12222,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Timer.ipynb" target=_blank)>Last change: 2020-10-13 15:12:26+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Timer.ipynb" target=_blank)>Last change: 2021-02-27 16:52:15+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -12192,19 +12238,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Timer.html">Timer</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/Timer.html">https://www.debuggingbook.org/html/Timer.html</a>.  Retrieved 2020-10-13 15:12:26+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Timer.html">Timer</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/Timer.html">https://www.debuggingbook.org/html/Timer.html</a>.  Retrieved 2021-02-27 16:52:15+01:00.
 </p>
 <pre>
-@incollection{debuggingbook2020:Timer,
+@incollection{debuggingbook2021:Timer,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
     title = {Timer},
-    year = {2020},
+    year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/html/Timer.html}},
-    note = {Retrieved 2020-10-13 15:12:26+02:00},
+    note = {Retrieved 2021-02-27 16:52:15+01:00},
     url = {https://www.debuggingbook.org/html/Timer.html},
-    urldate = {2020-10-13 15:12:26+02:00}
+    urldate = {2021-02-27 16:52:15+01:00}
 }
 </pre>
 </div>
