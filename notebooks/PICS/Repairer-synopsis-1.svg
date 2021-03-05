@@ -20,71 +20,71 @@
 <text text-anchor="start" x="54.5" y="-204.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Repairer</text>
 <polyline fill="none" stroke="#000000" points="15,-195.5 152,-195.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="Repairer">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, debugger:StatisticalDebugger.DifferenceDebugger, *, targets:Union[List[Any], NoneType]=None, sources:Union[List[Any], NoneType]=None, log:int=False, mutator_class:Type=&lt;class &#39;__main__.StatementMutator&#39;&gt;, crossover_class:Type=&lt;class &#39;__main__.CrossoverOperator&#39;&gt;, reducer_class:Type=&lt;class &#39;DeltaDebugger.DeltaDebugger&#39;&gt;, globals:Union[Dict[str, Any], NoneType]=None):&#10;Constructor.&#10;`debugger`: a `DifferenceDebugger` to take tests and coverage from.&#10;`targets`: a list of functions/modules to be repaired.&#10;(default: the covered functions in `debugger`, except tests)&#10;`sources`: a list of functions/modules to take repairs from.&#10;(default: same as `targets`)&#10;`globals`: if given, a `globals()` dict for executing targets&#10;(default: `globals()` of caller)">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, debugger:StatisticalDebugger.RankingDebugger, *, targets:Union[List[Any], NoneType]=None, sources:Union[List[Any], NoneType]=None, log:int=False, mutator_class:Type=&lt;class &#39;__main__.StatementMutator&#39;&gt;, crossover_class:Type=&lt;class &#39;__main__.CrossoverOperator&#39;&gt;, reducer_class:Type=&lt;class &#39;DeltaDebugger.DeltaDebugger&#39;&gt;, globals:Union[Dict[str, Any], NoneType]=None):&#10;Constructor.&#10;`debugger`: a `RankingDebugger` to take tests and coverage from.&#10;`targets`: a list of functions/modules to be repaired.&#10;(default: the covered functions in `debugger`, except tests)&#10;`sources`: a list of functions/modules to take repairs from.&#10;(default: same as `targets`)&#10;`globals`: if given, a `globals()` dict for executing targets&#10;(default: `globals()` of caller)">
 <text text-anchor="start" x="23.5" y="-184" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node1_2"><a xlink:href="#" xlink:title="repair(self, population_size=40, iterations=100):&#10;Repair the function we collected test runs from.&#10;Use a population size of `population_size` and&#10;at most `iterations` iterations.&#10;Returns the AST of the repaired function.">
+<g id="a_node1_2"><a xlink:href="#" xlink:title="repair(self, population_size:int=40, iterations:int=100) &#45;&gt; Tuple[_ast.AST, float]:&#10;Repair the function we collected test runs from.&#10;Use a population size of `population_size` and&#10;at most `iterations` iterations.&#10;Returns a pair (`ast`, `fitness`) where&#10;`ast` is the AST of the repaired function, and&#10;`fitness` is its fitness (between 0 and 1.0)">
 <text text-anchor="start" x="23.5" y="-173" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">repair()</text>
 </a>
 </g>
-<g id="a_node1_3"><a xlink:href="#" xlink:title="default_functions(self):&#10;Return the set of functions to be repaired.&#10;Functions whose names start or end in `test` are excluded.">
+<g id="a_node1_3"><a xlink:href="#" xlink:title="default_functions(self) &#45;&gt; List[Callable]:&#10;Return the set of functions to be repaired.&#10;Functions whose names start or end in `test` are excluded.">
 <text text-anchor="start" x="23.5" y="-161" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">default_functions()</text>
 </a>
 </g>
-<g id="a_node1_4"><a xlink:href="#" xlink:title="evolve(self, population):&#10;Evolve the candidate population by mutating and crossover.">
+<g id="a_node1_4"><a xlink:href="#" xlink:title="evolve(self, population:List[_ast.AST]) &#45;&gt; List[_ast.AST]:&#10;Evolve the candidate population by mutating and crossover.">
 <text text-anchor="start" x="23.5" y="-150" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">evolve()</text>
 </a>
 </g>
-<g id="a_node1_5"><a xlink:href="#" xlink:title="fitness(self, tree):&#10;Test `tree`, returning its fitness">
+<g id="a_node1_5"><a xlink:href="#" xlink:title="fitness(self, tree:_ast.AST) &#45;&gt; float:&#10;Test `tree`, returning its fitness">
 <text text-anchor="start" x="23.5" y="-139" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">fitness()</text>
 </a>
 </g>
-<g id="a_node1_6"><a xlink:href="#" xlink:title="fitness_key(self, tree):&#10;Key to be used for sorting the population">
+<g id="a_node1_6"><a xlink:href="#" xlink:title="fitness_key(self, tree:_ast.AST) &#45;&gt; Tuple[float, int]:&#10;Key to be used for sorting the population">
 <text text-anchor="start" x="23.5" y="-128" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">fitness_key()</text>
 </a>
 </g>
-<g id="a_node1_7"><a xlink:href="#" xlink:title="getsource(self, item):&#10;Get the source for `item`. Can also be a string.">
+<g id="a_node1_7"><a xlink:href="#" xlink:title="getsource(self, item:Union[str, Any]) &#45;&gt; str:&#10;Get the source for `item`. Can also be a string.">
 <text text-anchor="start" x="23.5" y="-117" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">getsource()</text>
 </a>
 </g>
-<g id="a_node1_8"><a xlink:href="#" xlink:title="initial_population(self, size):&#10;Return an initial population of size `size`">
+<g id="a_node1_8"><a xlink:href="#" xlink:title="initial_population(self, size:int) &#45;&gt; List[_ast.AST]:&#10;Return an initial population of size `size`">
 <text text-anchor="start" x="23.5" y="-106" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">initial_population()</text>
 </a>
 </g>
-<g id="a_node1_9"><a xlink:href="#" xlink:title="log_tree(self, description, tree):&#10;Print out `tree` as source code prefixed by `description`.">
+<g id="a_node1_9"><a xlink:href="#" xlink:title="log_tree(self, description:str, tree:Any) &#45;&gt; None:&#10;Print out `tree` as source code prefixed by `description`.">
 <text text-anchor="start" x="23.5" y="-95" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">log_tree()</text>
 </a>
 </g>
-<g id="a_node1_10"><a xlink:href="#" xlink:title="parse(self, items):&#10;Read in a set of items into a single tree">
+<g id="a_node1_10"><a xlink:href="#" xlink:title="parse(self, items:List[Any]) &#45;&gt; _ast.AST:&#10;Read in a list of items into a single tree">
 <text text-anchor="start" x="23.5" y="-84" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">parse()</text>
 </a>
 </g>
-<g id="a_node1_11"><a xlink:href="#" xlink:title="reduce(self, tree):&#10;Simplify `tree` using delta debugging.">
+<g id="a_node1_11"><a xlink:href="#" xlink:title="reduce(self, tree:_ast.AST) &#45;&gt; _ast.AST:&#10;Simplify `tree` using delta debugging.">
 <text text-anchor="start" x="23.5" y="-73" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">reduce()</text>
 </a>
 </g>
-<g id="a_node1_12"><a xlink:href="#" xlink:title="run_test_set(self, test_set, validate=False):&#10;Run given `test_set`&#10;(`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).&#10;If `validate` is set, check expectations.&#10;Return number of passed tests.">
+<g id="a_node1_12"><a xlink:href="#" xlink:title="run_test_set(self, test_set:str, validate:bool=False) &#45;&gt; int:&#10;Run given `test_set`&#10;(`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).&#10;If `validate` is set, check expectations.&#10;Return number of passed tests.">
 <text text-anchor="start" x="23.5" y="-62" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">run_test_set()</text>
 </a>
 </g>
-<g id="a_node1_13"><a xlink:href="#" xlink:title="run_tests(self, validate=False):&#10;Run passing and failing tests, returning weighted fitness.">
+<g id="a_node1_13"><a xlink:href="#" xlink:title="run_tests(self, validate:bool=False) &#45;&gt; float:&#10;Run passing and failing tests, returning weighted fitness.">
 <text text-anchor="start" x="23.5" y="-51" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">run_tests()</text>
 </a>
 </g>
-<g id="a_node1_14"><a xlink:href="#" xlink:title="test_reduce(self, source_lines, original_fitness):&#10;Test function for delta debugging.">
+<g id="a_node1_14"><a xlink:href="#" xlink:title="test_reduce(self, source_lines:List[str], original_fitness:float) &#45;&gt; None:&#10;Test function for delta debugging.">
 <text text-anchor="start" x="23.5" y="-40" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">test_reduce()</text>
 </a>
 </g>
-<g id="a_node1_15"><a xlink:href="#" xlink:title="toplevel_defs(self, tree):&#10;Return a list of defined functions and classes in `tree`">
+<g id="a_node1_15"><a xlink:href="#" xlink:title="toplevel_defs(self, tree:_ast.AST) &#45;&gt; List[str]:&#10;Return a list of names of defined functions and classes in `tree`">
 <text text-anchor="start" x="23.5" y="-29" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">toplevel_defs()</text>
 </a>
 </g>
-<g id="a_node1_16"><a xlink:href="#" xlink:title="validate(self)">
+<g id="a_node1_16"><a xlink:href="#" xlink:title="validate(self) &#45;&gt; None">
 <text text-anchor="start" x="23.5" y="-18" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">validate()</text>
 </a>
 </g>
-<g id="a_node1_17"><a xlink:href="#" xlink:title="weight(self, test_set):&#10;Return the weight of `test_set`&#10;(`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).">
+<g id="a_node1_17"><a xlink:href="#" xlink:title="weight(self, test_set:str) &#45;&gt; float:&#10;Return the weight of `test_set`&#10;(`DifferenceDebugger.PASS` or `DifferenceDebugger.FAIL`).">
 <text text-anchor="start" x="23.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">weight()</text>
 </a>
 </g>
@@ -101,7 +101,7 @@
 <text text-anchor="start" x="32.5" y="-401.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
 <polyline fill="none" stroke="#000000" points="0,-392.5 167,-392.5 "/>
 <g id="a_node2_18"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node2_19"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {(&#39;test_reduce&#39;, 2): &lt;function test_reduce at 0x7fb19bffb1e0&gt;}">
+<g id="a_node2_19"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {(&#39;test_reduce&#39;, 2): &lt;function test_reduce at 0x7fc16fefc620&gt;}">
 <text text-anchor="start" x="8.5" y="-380" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_generated_function_cache</text>
 </a>
 </g>
@@ -164,19 +164,19 @@
 <text text-anchor="start" x="197" y="-132.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ConditionMutator</text>
 <polyline fill="none" stroke="#000000" points="189,-124 324,-124 "/>
 <g id="a_node3_30"><a xlink:href="#" xlink:title="ConditionMutator">
-<g id="a_node3_31"><a xlink:href="#" xlink:title="__init__(self, *args, **kwargs):&#10;Constructor. Arguments are as with `StatementMutator` constructor.">
+<g id="a_node3_31"><a xlink:href="#" xlink:title="__init__(self, *args:Any, **kwargs:Any) &#45;&gt; None:&#10;Constructor. Arguments are as with `StatementMutator` constructor.">
 <text text-anchor="start" x="202.5" y="-113" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node3_32"><a xlink:href="#" xlink:title="choose_bool_op(self)">
+<g id="a_node3_32"><a xlink:href="#" xlink:title="choose_bool_op(self) &#45;&gt; str">
 <text text-anchor="start" x="202.5" y="-101" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">choose_bool_op()</text>
 </a>
 </g>
-<g id="a_node3_33"><a xlink:href="#" xlink:title="choose_condition(self):&#10;Return a random condition from source.">
+<g id="a_node3_33"><a xlink:href="#" xlink:title="choose_condition(self) &#45;&gt; _ast.AST:&#10;Return a random condition from source.">
 <text text-anchor="start" x="202.5" y="-90" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">choose_condition()</text>
 </a>
 </g>
-<g id="a_node3_34"><a xlink:href="#" xlink:title="swap(self, node):&#10;Replace `node` condition by a condition from `source`">
+<g id="a_node3_34"><a xlink:href="#" xlink:title="swap(self, node:_ast.AST) &#45;&gt; _ast.AST:&#10;Replace `node` condition by a condition from `source`">
 <text text-anchor="start" x="202.5" y="-80" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">swap()</text>
 </a>
 </g>
@@ -314,7 +314,7 @@
 <text text-anchor="start" x="350.5" y="-153.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CrossoverOperator</text>
 <polyline fill="none" stroke="#000000" points="342.5,-144.5 486.5,-144.5 "/>
 <g id="a_node7_54"><a xlink:href="#" xlink:title="CrossoverOperator">
-<g id="a_node7_55"><a xlink:href="#" xlink:title="SKIP_LIST = {&lt;class &#39;_ast.ClassDef&#39;&gt;, &lt;class &#39;_ast.Module&#39;&gt;}">
+<g id="a_node7_55"><a xlink:href="#" xlink:title="SKIP_LIST = {&lt;class &#39;_ast.Module&#39;&gt;, &lt;class &#39;_ast.ClassDef&#39;&gt;}">
 <text text-anchor="start" x="387.5" y="-132" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">SKIP_LIST</text>
 </a>
 </g>
