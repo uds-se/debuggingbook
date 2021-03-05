@@ -81,7 +81,8 @@ APPENDICES = \
 	99_Appendices.ipynb \
 	ExpectError.ipynb \
 	Timer.ipynb \
-	ClassDiagram.ipynb
+	ClassDiagram.ipynb \
+	StackInspector.ipynb
 
 # Additional notebooks for special pages (not to be included in distributions)
 FRONTMATTER = \
