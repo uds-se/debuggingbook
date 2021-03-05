@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-03-05 19:52:03+01:00
+# Last change: 2021-03-05 23:00:44+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -307,10 +307,10 @@ class Tracer(Tracer):
     def changed_vars(self, new_vars: Dict[str, Any]) -> Dict[str, Any]:
         """Track changed variables, based on `new_vars` observed."""
         changed = {}
-        for var_name in new_vars:
+        for var_name, var_value in new_vars.items():
             if (var_name not in self.last_vars or
-                    self.last_vars[var_name] != new_vars[var_name]):
-                changed[var_name] = new_vars[var_name]
+                    self.last_vars[var_name] != var_value):
+                changed[var_name] = var_value
         self.last_vars = new_vars.copy()
         return changed
 
