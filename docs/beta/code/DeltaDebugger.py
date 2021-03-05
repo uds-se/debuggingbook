@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-03-03 15:43:27+01:00
+# Last change: 2021-03-05 19:53:16+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -355,9 +355,12 @@ from types import FunctionType, FrameType, TracebackType
 
 import inspect
 
-import traceback
+from .StackInspector import StackInspector
 
-class CallCollector:
+class NoCallError(ValueError):
+    pass
+
+class CallCollector(StackInspector):
     """
     Collect an exception-raising function call f().
     Use as `with CallCollector(): f()`
@@ -372,30 +375,7 @@ class CallCollector:
         self._function: Optional[Callable] = None
         self._args: Dict[str, Any] = {}
         self._exception: Optional[BaseException] = None
-
-    def search_frame(self, name: str, frame: Optional[FrameType]) -> \
-            Tuple[Optional[FrameType], Optional[Callable]]:
-        """
-        Return a pair (`frame`, `item`) 
-        in which the function `name` is defined as `item`.
-        """
-        while frame:
-            item = None
-            if name in frame.f_globals:
-                item = frame.f_globals[name]
-            if name in frame.f_locals:
-                item = frame.f_locals[name]
-            if item and callable(item):
-                return frame, item
-
-            frame = frame.f_back
-
-        return None, None
-
-    def search_func(self, name: str, frame: Optional[FrameType]) -> Optional[Callable]:
-        """Search in callers for a definition of the function `name`"""
-        frame, func = self.search_frame(name, frame)
-        return func
+        self.original_trace_function: Optional[Callable] = None
 
     def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
         """Tracing function. Collect first call, then turn tracing off."""
@@ -413,9 +393,7 @@ class CallCollector:
                 self._function = func
             else:
                 # Create new function from given code
-                self._function = FunctionType(frame.f_code,
-                                              globals=frame.f_globals,
-                                              name=name)
+                self._function = self.create_function(frame)
 
             self._args = {}  # Create a local copy of args
             for var in frame.f_locals:
@@ -437,26 +415,23 @@ class CallCollector:
     def function(self) -> Callable:
         """Return the function called."""
         if self._function is None:
-            raise ValueError("No function call collected")
+            raise NoCallError("No function call collected")
         return self._function
 
     def exception(self) -> Optional[BaseException]:
         """Return the exception produced, or `None` if none."""
         return self._exception
 
-    def is_internal_error(self, exc_tp: Type, exc_value: BaseException,
-                          exc_traceback: TracebackType) -> bool:
-        """Return True if exception was raised from `CallCollector` or a subclass."""
-        if not exc_tp:
-            return False
+    def format_call(self, args: Optional[Dict[str, Any]] = None) -> str:
+        ...
 
-        for frame, lineno in traceback.walk_tb(exc_traceback):
-            if 'self' in frame.f_locals:
-                if isinstance(frame.f_locals['self'], self.__class__):
-                    return True
+    def format_exception(self, exc: Optional[BaseException] = None) -> str:
+        ...
 
-        return False
+    def call(self, new_args: Optional[Dict[str, Any]] = None) -> Any:
+        ...
 
+class CallCollector(CallCollector):
     def __enter__(self) -> Any:
         """Called at begin of `with` block. Turn tracing on."""
         self.init()
@@ -468,8 +443,12 @@ class CallCollector:
                  exc_traceback: TracebackType) -> Optional[bool]:
         """Called at end of `with` block. Turn tracing off."""
         sys.settrace(self.original_trace_function)
-        if self._function is None:
-            return False  # Re-raise exception, if any
+
+        if not self._function:
+            if exc_tp:
+                return False  # re-raise exception
+            else:
+                raise NoCallError("No call collected")
 
         if self.is_internal_error(exc_tp, exc_value, exc_traceback):
             return False  # Re-raise exception
@@ -477,15 +456,6 @@ class CallCollector:
         self._exception = exc_value
         self.after_collection()
         return True  # Ignore exception
-    
-    def format_call(self, args: Optional[Dict[str, Any]] = None) -> str:
-        ...
-        
-    def format_exception(self, exc: Optional[BaseException] = None) -> str:
-        ...
-        
-    def call(self, new_args: Optional[Dict[str, Any]] = None) -> Any:
-        ...
 
 if __name__ == '__main__':
     with CallCollector() as call_collector:
@@ -896,9 +866,6 @@ class FailureNotReproducedError(ValueError):
     pass
 
 class NotFailingError(ValueError):
-    pass
-
-class NoCallError(ValueError):
     pass
 
 class DeltaDebugger(DeltaDebugger):

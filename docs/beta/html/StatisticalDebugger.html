@@ -11904,6 +11904,7 @@ MathJax.Hub.Config({
 <li><a href="ExpectError.html">Error Handling</a></li>
 <li><a href="Timer.html">Timer</a></li>
 <li><a href="ClassDiagram.html">Class Diagrams</a></li>
+<li><a href="StackInspector.html">Inspecting Call Stacks</a></li>
 </ul>
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
@@ -11918,7 +11919,8 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Classes-and-Methods">Classes and Methods</a>
 </ul></li><li class="has-sub"><a href="#Introduction">&nbsp;&bull;&nbsp;&nbsp; Introduction</a>
 </li><li class="has-sub"><a href="#Collecting-Events">&nbsp;&bull;&nbsp;&nbsp; Collecting Events</a>
-</li><li class="has-sub"><a href="#Collecting-Coverage">&nbsp;&bull;&nbsp;&nbsp; Collecting Coverage</a>
+<ul><li class="has-sub"><a href="#Error-Prevention">Error Prevention</a>
+</ul></li><li class="has-sub"><a href="#Collecting-Coverage">&nbsp;&bull;&nbsp;&nbsp; Collecting Coverage</a>
 </li><li class="has-sub"><a href="#Computing-Differences">&nbsp;&bull;&nbsp;&nbsp; Computing Differences</a>
 <ul><li class="has-sub"><a href="#A-Base-Class-for-Statistical-Debugging">A Base Class for Statistical Debugging</a>
 </li><li class="has-sub"><a href="#Excursion:-Printing-an-Event-Table">Excursion: Printing an Event Table</a>
@@ -11931,7 +11933,8 @@ MathJax.Hub.Config({
 <ul><li class="has-sub"><a href="#The-Tarantula-Metric">The Tarantula Metric</a>
 </li><li class="has-sub"><a href="#The-Ochiai-Metric">The Ochiai Metric</a>
 </li><li class="has-sub"><a href="#How-Useful-is-Ranking?">How Useful is Ranking?</a>
-</ul></li><li class="has-sub"><a href="#Other-Events-besides-Coverage">&nbsp;&bull;&nbsp;&nbsp; Other Events besides Coverage</a>
+</ul></li><li class="has-sub"><a href="#Using-Large-Test-Suites">&nbsp;&bull;&nbsp;&nbsp; Using Large Test Suites</a>
+</li><li class="has-sub"><a href="#Other-Events-besides-Coverage">&nbsp;&bull;&nbsp;&nbsp; Other Events besides Coverage</a>
 </li><li class="has-sub"><a href="#Training-Classifiers">&nbsp;&bull;&nbsp;&nbsp; Training Classifiers</a>
 <ul><li class="has-sub"><a href="#Collecting-Events-from-Calls">Collecting Events from Calls</a>
 </li><li class="has-sub"><a href="#Collecting-Events-from-Tests">Collecting Events from Tests</a>
@@ -12288,17 +12291,17 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
 
 <span class="p">[(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
 </pre></div>
@@ -12669,56 +12672,40 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
  -->
 <!-- Title: %3 Pages: 1 -->
-<svg width="448pt" height="503pt"
- viewBox="0.00 0.00 447.50 503.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 499)">
+<svg width="424pt" height="681pt"
+ viewBox="0.00 0.00 424.00 681.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 677)">
 <title>%3</title>
 <g id="a_graph0"><a xlink:title="CoverageCollector class hierarchy">
-<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-499 443.5,-499 443.5,4 -4,4"/>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-677 420,-677 420,4 -4,4"/>
 </a>
 </g>
 <!-- CoverageCollector -->
 <g id="node1" class="node">
 <title>CoverageCollector</title>
 <g id="a_node1"><a xlink:href="#" xlink:title="class CoverageCollector:&#10;A class to record covered locations during execution.">
-<polygon fill="none" stroke="#000000" points="0,-.5 0,-127.5 167,-127.5 167,-.5 0,-.5"/>
-<text text-anchor="start" x="19.5" y="-113.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CoverageCollector</text>
-<polyline fill="none" stroke="#000000" points="0,-104.5 167,-104.5 "/>
+<polygon fill="none" stroke="#000000" points="136,-.5 136,-86.5 280,-86.5 280,-.5 136,-.5"/>
+<text text-anchor="start" x="144" y="-72.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CoverageCollector</text>
+<polyline fill="none" stroke="#000000" points="136,-63.5 280,-63.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="CoverageCollector">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="_generated_function_cache = {}">
-<text text-anchor="start" x="8.5" y="-92" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_generated_function_cache</text>
+<g id="a_node1_1"><a xlink:href="#" xlink:title="coverage(self) &#45;&gt; Set[Tuple[Callable, int]]:&#10;Return a set (function, lineno) with all locations covered.">
+<text text-anchor="start" x="151" y="-52" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">coverage()</text>
 </a>
 </g>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="covered_functions(self) &#45;&gt; Set[Callable]:&#10;Return a set with all functions covered.">
+<text text-anchor="start" x="151" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">covered_functions()</text>
 </a>
 </g>
-<polyline fill="none" stroke="#000000" points="0,-85.5 167,-85.5 "/>
-<g id="a_node1_2"><a xlink:href="#" xlink:title="CoverageCollector">
-<g id="a_node1_3"><a xlink:href="#" xlink:title="coverage(self) &#45;&gt; Set[Tuple[Callable, int]]:&#10;Return a set (function, lineno) with all locations covered.">
-<text text-anchor="start" x="26.5" y="-74" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">coverage()</text>
+<g id="a_node1_3"><a xlink:href="#" xlink:title="events(self) &#45;&gt; Set[Tuple[str, int]]:&#10;Return the set of locations covered.&#10;Each location comes as a pair (`function_name`, `lineno`).">
+<text text-anchor="start" x="151" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">events()</text>
 </a>
 </g>
-<g id="a_node1_4"><a xlink:href="#" xlink:title="covered_functions(self) &#45;&gt; Set[Callable]:&#10;Return a set with all functions covered.">
-<text text-anchor="start" x="26.5" y="-63" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">covered_functions()</text>
+<g id="a_node1_4"><a xlink:href="#" xlink:title="__init__(self) &#45;&gt; None:&#10;Constructor.">
+<text text-anchor="start" x="151" y="-19" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node1_5"><a xlink:href="#" xlink:title="events(self) &#45;&gt; Set[Tuple[str, int]]:&#10;Return the set of locations covered.&#10;Each location comes as a pair (`function_name`, `lineno`).">
-<text text-anchor="start" x="26.5" y="-52" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">events()</text>
-</a>
-</g>
-<g id="a_node1_6"><a xlink:href="#" xlink:title="__init__(self) &#45;&gt; None:&#10;Constructor.">
-<text text-anchor="start" x="26.5" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
-</a>
-</g>
-<g id="a_node1_7"><a xlink:href="#" xlink:title="collect(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Save coverage for an observed event.">
-<text text-anchor="start" x="26.5" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">collect()</text>
-</a>
-</g>
-<g id="a_node1_8"><a xlink:href="#" xlink:title="search_frame(self, name:str, frame:Union[frame, NoneType]) &#45;&gt; Tuple[Union[frame, NoneType], Union[Callable, NoneType]]:&#10;Return a pair (`frame`, `item`)&#10;in which the function `name` is defined as `item`.">
-<text text-anchor="start" x="26.5" y="-18" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">search_frame()</text>
-</a>
-</g>
-<g id="a_node1_9"><a xlink:href="#" xlink:title="search_func(self, name:str, frame:frame) &#45;&gt; Union[Callable, NoneType]:&#10;Search in callers for a definition of the function `name`">
-<text text-anchor="start" x="26.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">search_func()</text>
+<g id="a_node1_5"><a xlink:href="#" xlink:title="collect(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Save coverage for an observed event.">
+<text text-anchor="start" x="151" y="-8" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">collect()</text>
 </a>
 </g>
 </a>
@@ -12730,56 +12717,64 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <g id="node2" class="node">
 <title>Collector</title>
 <g id="a_node2"><a xlink:href="#" xlink:title="class Collector:&#10;A class to record events during execution.">
-<polygon fill="none" stroke="#000000" points="98,-164.5 98,-327.5 229,-327.5 229,-164.5 98,-164.5"/>
-<text text-anchor="start" x="132" y="-313.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Collector</text>
-<polyline fill="none" stroke="#000000" points="98,-304.5 229,-304.5 "/>
-<g id="a_node2_10"><a xlink:href="#" xlink:title="Collector">
-<g id="a_node2_11"><a xlink:href="#" xlink:title="__init__(self) &#45;&gt; None:&#10;Constructor.">
-<text text-anchor="start" x="106.5" y="-293.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
+<polygon fill="none" stroke="#000000" points="24.5,-123.5 24.5,-308.5 179.5,-308.5 179.5,-123.5 24.5,-123.5"/>
+<text text-anchor="start" x="70.5" y="-294.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Collector</text>
+<polyline fill="none" stroke="#000000" points="24.5,-285.5 179.5,-285.5 "/>
+<g id="a_node2_6"><a xlink:href="#" xlink:title="Collector">
+<g id="a_node2_7"><a xlink:href="#" xlink:title="__init__(self) &#45;&gt; None:&#10;Constructor.">
+<text text-anchor="start" x="33" y="-274.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node2_12"><a xlink:href="#" xlink:title="__repr__(self) &#45;&gt; str:&#10;Return a string representation of the collector">
-<text text-anchor="start" x="106.5" y="-282.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__repr__()</text>
+<g id="a_node2_8"><a xlink:href="#" xlink:title="__repr__(self) &#45;&gt; str:&#10;Return a string representation of the collector">
+<text text-anchor="start" x="33" y="-263.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__repr__()</text>
 </a>
 </g>
-<g id="a_node2_13"><a xlink:href="#" xlink:title="args(self) &#45;&gt; Dict[str, Any]:&#10;Return a dict of argument names and values from the first call">
-<text text-anchor="start" x="106.5" y="-271.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">args()</text>
+<g id="a_node2_9"><a xlink:href="#" xlink:title="args(self) &#45;&gt; Dict[str, Any]:&#10;Return a dict of argument names and values from the first call">
+<text text-anchor="start" x="33" y="-252.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">args()</text>
 </a>
 </g>
-<g id="a_node2_14"><a xlink:href="#" xlink:title="argstring(self) &#45;&gt; str:&#10;Return the list of arguments from the first call, as a printable string">
-<text text-anchor="start" x="106.5" y="-260.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">argstring()</text>
+<g id="a_node2_10"><a xlink:href="#" xlink:title="argstring(self) &#45;&gt; str:&#10;Return the list of arguments from the first call, as a printable string">
+<text text-anchor="start" x="33" y="-241.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">argstring()</text>
 </a>
 </g>
-<g id="a_node2_15"><a xlink:href="#" xlink:title="collect(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Collector function. To be overloaded in subclasses.">
-<text text-anchor="start" x="106.5" y="-249.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">collect()</text>
+<g id="a_node2_11"><a xlink:href="#" xlink:title="collect(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Collector function. To be overloaded in subclasses.">
+<text text-anchor="start" x="33" y="-230.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">collect()</text>
 </a>
 </g>
-<g id="a_node2_16"><a xlink:href="#" xlink:title="exception(self) &#45;&gt; Union[Type, NoneType]:&#10;Return the exception class from the first call,&#10;or None if no exception was raised.">
-<text text-anchor="start" x="106.5" y="-238.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">exception()</text>
+<g id="a_node2_12"><a xlink:href="#" xlink:title="exception(self) &#45;&gt; Union[Type, NoneType]:&#10;Return the exception class from the first call,&#10;or None if no exception was raised.">
+<text text-anchor="start" x="33" y="-219.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">exception()</text>
 </a>
 </g>
-<g id="a_node2_17"><a xlink:href="#" xlink:title="function(self) &#45;&gt; Callable:&#10;Return the function from the first call, as a function object">
-<text text-anchor="start" x="106.5" y="-227.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">function()</text>
+<g id="a_node2_13"><a xlink:href="#" xlink:title="function(self) &#45;&gt; Callable:&#10;Return the function from the first call, as a function object">
+<text text-anchor="start" x="33" y="-208.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">function()</text>
 </a>
 </g>
-<g id="a_node2_18"><a xlink:href="#" xlink:title="id(self) &#45;&gt; str:&#10;Return an identifier for the collector,&#10;created from the first call">
-<text text-anchor="start" x="106.5" y="-216.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">id()</text>
+<g id="a_node2_14"><a xlink:href="#" xlink:title="id(self) &#45;&gt; str:&#10;Return an identifier for the collector,&#10;created from the first call">
+<text text-anchor="start" x="33" y="-197.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">id()</text>
 </a>
 </g>
-<g id="a_node2_19"><a xlink:href="#" xlink:title="coverage(self) &#45;&gt; Set[Tuple[Callable, int]]:&#10;Return a set (function, lineno) with locations covered.&#10;To be overloaded in subclasses.">
-<text text-anchor="start" x="106.5" y="-205.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">coverage()</text>
+<g id="a_node2_15"><a xlink:href="#" xlink:title="__exit__(self, exc_tp:Type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; Union[bool, NoneType]:&#10;Exit the `with` block.">
+<text text-anchor="start" x="33" y="-186.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node2_20"><a xlink:href="#" xlink:title="covered_functions(self) &#45;&gt; Set[Callable]:&#10;Set of covered functions. To be overloaded in subclasses.">
-<text text-anchor="start" x="106.5" y="-194.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">covered_functions()</text>
+<g id="a_node2_16"><a xlink:href="#" xlink:title="add_classes_to_ignore(self, classes_to_ignore:List[Type]) &#45;&gt; None:&#10;Define additional classes to ignore during collection&#10;(typically `Debugger` classes using these collectors).">
+<text text-anchor="start" x="33" y="-174.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">add_classes_to_ignore()</text>
 </a>
 </g>
-<g id="a_node2_21"><a xlink:href="#" xlink:title="events(self) &#45;&gt; Set:&#10;Return a collection of events. To be overridden in subclasses.">
-<text text-anchor="start" x="106.5" y="-183.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">events()</text>
+<g id="a_node2_17"><a xlink:href="#" xlink:title="coverage(self) &#45;&gt; Set[Tuple[Callable, int]]:&#10;Return a set (function, lineno) with locations covered.&#10;To be overloaded in subclasses.">
+<text text-anchor="start" x="33" y="-164.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">coverage()</text>
 </a>
 </g>
-<g id="a_node2_22"><a xlink:href="#" xlink:title="traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Tracing function. Saves the first function and calls collect().">
-<text text-anchor="start" x="106.5" y="-172.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">traceit()</text>
+<g id="a_node2_18"><a xlink:href="#" xlink:title="covered_functions(self) &#45;&gt; Set[Callable]:&#10;Set of covered functions. To be overloaded in subclasses.">
+<text text-anchor="start" x="33" y="-153.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">covered_functions()</text>
+</a>
+</g>
+<g id="a_node2_19"><a xlink:href="#" xlink:title="events(self) &#45;&gt; Set:&#10;Return a collection of events. To be overridden in subclasses.">
+<text text-anchor="start" x="33" y="-142.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">events()</text>
+</a>
+</g>
+<g id="a_node2_20"><a xlink:href="#" xlink:title="traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Tracing function. Saves the first function and calls collect().">
+<text text-anchor="start" x="33" y="-131.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">traceit()</text>
 </a>
 </g>
 </a>
@@ -12790,51 +12785,118 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <!-- CoverageCollector&#45;&gt;Collector -->
 <g id="edge1" class="edge">
 <title>CoverageCollector&#45;&gt;Collector</title>
-<path fill="none" stroke="#000000" d="M111.4801,-127.6548C115.4002,-136.5729 119.49,-145.8772 123.5787,-155.1791"/>
-<polygon fill="none" stroke="#000000" points="120.4326,-156.7196 127.6608,-164.4658 126.8408,-153.9027 120.4326,-156.7196"/>
+<path fill="none" stroke="#000000" d="M181.5252,-86.5841C176.1658,-95.3057 170.3188,-104.8207 164.307,-114.6042"/>
+<polygon fill="none" stroke="#000000" points="161.243,-112.9053 158.9895,-123.2577 167.207,-116.5701 161.243,-112.9053"/>
+</g>
+<!-- StackInspector -->
+<g id="node4" class="node">
+<title>StackInspector</title>
+<g id="a_node4"><a xlink:href="StackInspector.html" xlink:title="class StackInspector:&#10;Provide functions to inspect the stack">
+<polygon fill="none" stroke="#000000" points="71.5,-501.5 71.5,-672.5 238.5,-672.5 238.5,-501.5 71.5,-501.5"/>
+<text text-anchor="start" x="104" y="-658.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
+<polyline fill="none" stroke="#000000" points="71.5,-649.5 238.5,-649.5 "/>
+<g id="a_node4_21"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node4_22"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;remove_html_markup&#39;, 1): &lt;function remove_html_markup at 0x7f87e01f0bf8&gt;, (&#39;middle&#39;, 1): &lt;function middle at 0x7f87e1c4c6a8&gt;}">
+<text text-anchor="start" x="80" y="-637" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_generated_function_cache</text>
+</a>
+</g>
+</a>
+</g>
+<polyline fill="none" stroke="#000000" points="71.5,-630.5 238.5,-630.5 "/>
+<g id="a_node4_23"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node4_24"><a xlink:href="StackInspector.html" xlink:title="caller_frame(self) &#45;&gt; frame:&#10;Return the frame of the caller.">
+<text text-anchor="start" x="98" y="-618" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">caller_frame()</text>
+</a>
+</g>
+<g id="a_node4_25"><a xlink:href="StackInspector.html" xlink:title="caller_function(self) &#45;&gt; Callable:&#10;Return the calling function">
+<text text-anchor="start" x="98" y="-607" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">caller_function()</text>
+</a>
+</g>
+<g id="a_node4_26"><a xlink:href="StackInspector.html" xlink:title="caller_globals(self) &#45;&gt; Dict[str, Any]:&#10;Return the globals() environment of the caller.">
+<text text-anchor="start" x="98" y="-596" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">caller_globals()</text>
+</a>
+</g>
+<g id="a_node4_27"><a xlink:href="StackInspector.html" xlink:title="caller_locals(self) &#45;&gt; Dict[str, Any]:&#10;Return the locals() environment of the caller.">
+<text text-anchor="start" x="98" y="-585" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">caller_locals()</text>
+</a>
+</g>
+<g id="a_node4_28"><a xlink:href="StackInspector.html" xlink:title="caller_location(self) &#45;&gt; Tuple[Callable, int]:&#10;Return the location (func, lineno) of the caller.">
+<text text-anchor="start" x="98" y="-574" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">caller_location()</text>
+</a>
+</g>
+<g id="a_node4_29"><a xlink:href="StackInspector.html" xlink:title="create_function(self, frame:frame) &#45;&gt; Callable:&#10;Create function for given frame">
+<text text-anchor="start" x="98" y="-563" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">create_function()</text>
+</a>
+</g>
+<g id="a_node4_30"><a xlink:href="StackInspector.html" xlink:title="is_internal_error(self, exc_tp:Type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; bool:&#10;Return True if exception was raised from `StackInspector` or a subclass.">
+<text text-anchor="start" x="98" y="-552" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">is_internal_error()</text>
+</a>
+</g>
+<g id="a_node4_31"><a xlink:href="StackInspector.html" xlink:title="our_frame(self, frame:frame) &#45;&gt; bool:&#10;Return true if `frame` is in the current (inspecting) class.">
+<text text-anchor="start" x="98" y="-541" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">our_frame()</text>
+</a>
+</g>
+<g id="a_node4_32"><a xlink:href="StackInspector.html" xlink:title="search_frame(self, name:str, frame:Union[frame, NoneType]=None) &#45;&gt; Tuple[Union[frame, NoneType], Union[Callable, NoneType]]:&#10;Return a pair (`frame`, `item`)&#10;in which the function `name` is defined as `item`.">
+<text text-anchor="start" x="98" y="-530" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">search_frame()</text>
+</a>
+</g>
+<g id="a_node4_33"><a xlink:href="StackInspector.html" xlink:title="search_func(self, name:str, frame:Union[frame, NoneType]=None) &#45;&gt; Union[Callable, NoneType]:&#10;Search in callers for a definition of the function `name`">
+<text text-anchor="start" x="98" y="-519" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">search_func()</text>
+</a>
+</g>
+<g id="a_node4_34"><a xlink:href="StackInspector.html" xlink:title="unknown(self) &#45;&gt; None">
+<text text-anchor="start" x="98" y="-508" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">unknown()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- CoverageCollector&#45;&gt;StackInspector -->
+<g id="edge4" class="edge">
+<title>CoverageCollector&#45;&gt;StackInspector</title>
+<path fill="none" stroke="#000000" d="M209.2589,-86.6046C210.7882,-163.2621 210.8697,-328.1077 189,-465 187.6265,-473.5976 185.8644,-482.4543 183.8668,-491.2844"/>
+<polygon fill="none" stroke="#000000" points="180.4109,-490.6906 181.5196,-501.2273 187.2236,-492.2989 180.4109,-490.6906"/>
 </g>
 <!-- Tracer -->
 <g id="node3" class="node">
 <title>Tracer</title>
 <g id="a_node3"><a xlink:href="Tracer.html" xlink:title="class Tracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" stroke="#000000" points="86,-364.5 86,-494.5 241,-494.5 241,-364.5 86,-364.5"/>
-<text text-anchor="start" x="141.5" y="-480.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Tracer</text>
-<polyline fill="none" stroke="#000000" points="86,-471.5 241,-471.5 "/>
-<g id="a_node3_23"><a xlink:href="#" xlink:title="Tracer">
-<g id="a_node3_24"><a xlink:href="Tracer.html" xlink:title="__enter__(self) &#45;&gt; Any:&#10;Called at begin of `with` block. Turn tracing on.">
-<text text-anchor="start" x="94.5" y="-460" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__enter__()</text>
+<polygon fill="none" stroke="#000000" points="24.5,-345.5 24.5,-464.5 179.5,-464.5 179.5,-345.5 24.5,-345.5"/>
+<text text-anchor="start" x="80" y="-450.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Tracer</text>
+<polyline fill="none" stroke="#000000" points="24.5,-441.5 179.5,-441.5 "/>
+<g id="a_node3_35"><a xlink:href="#" xlink:title="Tracer">
+<g id="a_node3_36"><a xlink:href="Tracer.html" xlink:title="__enter__(self) &#45;&gt; Any:&#10;Called at begin of `with` block. Turn tracing on.">
+<text text-anchor="start" x="33" y="-430.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__enter__()</text>
 </a>
 </g>
-<g id="a_node3_25"><a xlink:href="Tracer.html" xlink:title="__exit__(self, exc_tp:Type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; Union[bool, NoneType]:&#10;Called at end of `with` block. Turn tracing off.&#10;Return `None` if ok, not `None` if internal error.">
-<text text-anchor="start" x="94.5" y="-449" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
+<g id="a_node3_37"><a xlink:href="Tracer.html" xlink:title="__exit__(self, exc_tp:Type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; Union[bool, NoneType]:&#10;Called at end of `with` block. Turn tracing off.&#10;Return `None` if ok, not `None` if internal error.">
+<text text-anchor="start" x="33" y="-419.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_26"><a xlink:href="Tracer.html" xlink:title="__init__(self, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7f854a93bba8&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
-<text text-anchor="start" x="94.5" y="-438" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
+<g id="a_node3_38"><a xlink:href="Tracer.html" xlink:title="__init__(self, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7f87e0127eb8&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<text text-anchor="start" x="33" y="-408.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node3_27"><a xlink:href="Tracer.html" xlink:title="changed_vars(self, new_vars:Dict[str, Any]) &#45;&gt; Dict[str, Any]:&#10;Track changed variables, based on `new_vars` observed.">
-<text text-anchor="start" x="94.5" y="-427" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">changed_vars()</text>
+<g id="a_node3_39"><a xlink:href="Tracer.html" xlink:title="changed_vars(self, new_vars:Dict[str, Any]) &#45;&gt; Dict[str, Any]:&#10;Track changed variables, based on `new_vars` observed.">
+<text text-anchor="start" x="33" y="-397.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">changed_vars()</text>
 </a>
 </g>
-<g id="a_node3_28"><a xlink:href="Tracer.html" xlink:title="_traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; Union[Callable, NoneType]:&#10;Internal tracing function.">
-<text text-anchor="start" x="94.5" y="-415" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_traceit()</text>
+<g id="a_node3_40"><a xlink:href="Tracer.html" xlink:title="_traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; Union[Callable, NoneType]:&#10;Internal tracing function.">
+<text text-anchor="start" x="33" y="-385.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_traceit()</text>
 </a>
 </g>
-<g id="a_node3_29"><a xlink:href="Tracer.html" xlink:title="is_internal_error(self, exc_tp:type, exc_value:BaseException, exc_traceback:traceback) &#45;&gt; bool:&#10;Return True if exception was raised from `Tracer` or a subclass.">
-<text text-anchor="start" x="94.5" y="-404" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">is_internal_error()</text>
+<g id="a_node3_41"><a xlink:href="Tracer.html" xlink:title="log(self, *objects:Any, sep:str=&#39; &#39;, end:str=&#39;\n&#39;, flush:bool=True) &#45;&gt; None:&#10;Like `print()`, but always sending to `file` given at initialization,&#10;and flushing by default.">
+<text text-anchor="start" x="33" y="-374.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">log()</text>
 </a>
 </g>
-<g id="a_node3_30"><a xlink:href="Tracer.html" xlink:title="log(self, *objects:Any, sep:str=&#39; &#39;, end:str=&#39;\n&#39;, flush:bool=False) &#45;&gt; None:&#10;Like print(), but always sending to file given at initialization,&#10;and always flushing">
-<text text-anchor="start" x="94.5" y="-393" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">log()</text>
+<g id="a_node3_42"><a xlink:href="Tracer.html" xlink:title="print_debugger_status(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Show current source line and changed vars">
+<text text-anchor="start" x="33" y="-363.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">print_debugger_status()</text>
 </a>
 </g>
-<g id="a_node3_31"><a xlink:href="Tracer.html" xlink:title="print_debugger_status(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Show current source line and changed vars">
-<text text-anchor="start" x="94.5" y="-382" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">print_debugger_status()</text>
-</a>
-</g>
-<g id="a_node3_32"><a xlink:href="Tracer.html" xlink:title="traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Tracing function; called at every line. To be overloaded in subclasses.">
-<text text-anchor="start" x="94.5" y="-372" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">traceit()</text>
+<g id="a_node3_43"><a xlink:href="Tracer.html" xlink:title="traceit(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Tracing function; called at every line. To be overloaded in subclasses.">
+<text text-anchor="start" x="33" y="-353.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">traceit()</text>
 </a>
 </g>
 </a>
@@ -12845,27 +12907,33 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <!-- Collector&#45;&gt;Tracer -->
 <g id="edge2" class="edge">
 <title>Collector&#45;&gt;Tracer</title>
-<path fill="none" stroke="#000000" d="M163.5,-327.5544C163.5,-336.4294 163.5,-345.4332 163.5,-354.2282"/>
-<polygon fill="none" stroke="#000000" points="160.0001,-354.4365 163.5,-364.4365 167.0001,-354.4365 160.0001,-354.4365"/>
+<path fill="none" stroke="#000000" d="M102,-308.5621C102,-317.5702 102,-326.6017 102,-335.3292"/>
+<polygon fill="none" stroke="#000000" points="98.5001,-335.415 102,-345.4151 105.5001,-335.4151 98.5001,-335.415"/>
+</g>
+<!-- Tracer&#45;&gt;StackInspector -->
+<g id="edge3" class="edge">
+<title>Tracer&#45;&gt;StackInspector</title>
+<path fill="none" stroke="#000000" d="M119.3542,-464.5936C121.8594,-473.1966 124.489,-482.2264 127.1368,-491.3187"/>
+<polygon fill="none" stroke="#000000" points="123.8555,-492.5695 130.012,-501.1921 130.5764,-490.6123 123.8555,-492.5695"/>
 </g>
 <!-- ValueCollector -->
-<g id="node4" class="node">
+<g id="node5" class="node">
 <title>ValueCollector</title>
-<g id="a_node4"><a xlink:href="#" xlink:title="class ValueCollector:&#10;&quot;A class to collect local variables and their values.">
-<polygon fill="none" stroke="#000000" points="185.5,-32 185.5,-96 303.5,-96 303.5,-32 185.5,-32"/>
-<text text-anchor="start" x="193.5" y="-81.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ValueCollector</text>
-<polyline fill="none" stroke="#000000" points="185.5,-73 303.5,-73 "/>
-<g id="a_node4_33"><a xlink:href="#" xlink:title="ValueCollector">
-<g id="a_node4_34"><a xlink:href="#" xlink:title="__init__(self) &#45;&gt; None:&#10;Constructor.">
-<text text-anchor="start" x="214.5" y="-61.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
+<g id="a_node5"><a xlink:href="#" xlink:title="class ValueCollector:&#10;&quot;A class to collect local variables and their values.">
+<polygon fill="none" stroke="#000000" points="0,-11.5 0,-75.5 118,-75.5 118,-11.5 0,-11.5"/>
+<text text-anchor="start" x="8" y="-61.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ValueCollector</text>
+<polyline fill="none" stroke="#000000" points="0,-52.5 118,-52.5 "/>
+<g id="a_node5_44"><a xlink:href="#" xlink:title="ValueCollector">
+<g id="a_node5_45"><a xlink:href="#" xlink:title="__init__(self) &#45;&gt; None:&#10;Constructor.">
+<text text-anchor="start" x="29" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
-<g id="a_node4_35"><a xlink:href="#" xlink:title="events(self) &#45;&gt; Set[str]:&#10;A set of (variable, value) pairs observed">
-<text text-anchor="start" x="214.5" y="-50.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">events()</text>
+<g id="a_node5_46"><a xlink:href="#" xlink:title="events(self) &#45;&gt; Set[str]:&#10;A set of (variable, value) pairs observed">
+<text text-anchor="start" x="29" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">events()</text>
 </a>
 </g>
-<g id="a_node4_36"><a xlink:href="#" xlink:title="collect(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Collector function. To be overloaded in subclasses.">
-<text text-anchor="start" x="214.5" y="-39.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">collect()</text>
+<g id="a_node5_47"><a xlink:href="#" xlink:title="collect(self, frame:frame, event:str, arg:Any) &#45;&gt; None:&#10;Collector function. To be overloaded in subclasses.">
+<text text-anchor="start" x="29" y="-19" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00" fill="#000000">collect()</text>
 </a>
 </g>
 </a>
@@ -12874,22 +12942,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </g>
 </g>
 <!-- ValueCollector&#45;&gt;Collector -->
-<g id="edge3" class="edge">
+<g id="edge5" class="edge">
 <title>ValueCollector&#45;&gt;Collector</title>
-<path fill="none" stroke="#000000" d="M230.2053,-96.119C222.8467,-112.6532 213.4654,-133.7322 204.0784,-154.8238"/>
-<polygon fill="none" stroke="#000000" points="200.7858,-153.6143 199.9173,-164.1735 207.181,-156.4605 200.7858,-153.6143"/>
+<path fill="none" stroke="#000000" d="M66.9872,-75.5417C69.7429,-86.5965 72.9967,-99.6494 76.3924,-113.2719"/>
+<polygon fill="none" stroke="#000000" points="73.0702,-114.415 78.8851,-123.2715 79.8623,-112.7218 73.0702,-114.415"/>
 </g>
 <!-- Legend -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Legend</title>
-<text text-anchor="start" x="321.5" y="-81.5" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="10.00" fill="#6a0dad">Legend</text>
-<text text-anchor="start" x="321.5" y="-71.5" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="328.5" y="-71.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00" fill="#000000">public_method()</text>
-<text text-anchor="start" x="321.5" y="-61.5" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="328.5" y="-61.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" fill="#000000">private_method()</text>
-<text text-anchor="start" x="321.5" y="-51.5" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" fill="#000000">• </text>
-<text text-anchor="start" x="328.5" y="-51.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00" fill="#000000">overloaded_method()</text>
-<text text-anchor="start" x="321.5" y="-42.3" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#000000">Hover over names to see doc</text>
+<text text-anchor="start" x="298" y="-61" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="10.00" fill="#6a0dad">Legend</text>
+<text text-anchor="start" x="298" y="-51" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="305" y="-51" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00" fill="#000000">public_method()</text>
+<text text-anchor="start" x="298" y="-41" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="305" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" fill="#000000">private_method()</text>
+<text text-anchor="start" x="298" y="-31" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" fill="#000000">• </text>
+<text text-anchor="start" x="305" y="-31" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00" fill="#000000">overloaded_method()</text>
+<text text-anchor="start" x="298" y="-21.8" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#000000">Hover over names to see doc</text>
 </g>
 </g>
 </svg>
@@ -13094,14 +13162,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_argstring</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_exception</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_to_ignore</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Tracing function. Saves the first function and calls collect().&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;self&#39;</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">:</span>
+            <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_to_ignore</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">],</span> <span class="bp">cls</span><span class="p">):</span>
+                    <span class="c1"># Do not collect our own methods</span>
+                    <span class="k">return</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">event</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
             <span class="c1"># Save function</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="n">FunctionType</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">,</span>
-                                          <span class="nb">globals</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">,</span>
-                                          <span class="n">name</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_function</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_argstring</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2">={repr(self._args[var])}&quot;</span> 
                                          <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">])</span>
@@ -13162,6 +13235,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Here's how the collector works:</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13185,6 +13267,78 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </pre>
 </div>
 
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Error-Prevention">Error Prevention<a class="anchor-link" href="#Error-Prevention">&#182;</a></h3></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>While collecting, we'd like to avoid collecting events in the collection infrastructure. The <code>classes_to_ignore</code> attribute takes care of this.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_classes_to_ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classes_to_ignore</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define additional classes to ignore during collection</span>
+<span class="sd">        (typically `Debugger` classes using these collectors).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_to_ignore</span> <span class="o">+=</span> <span class="n">classes_to_ignore</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>If we exit a block without having collected anything, that's likely an error.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Collector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_tp</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span>
+                 <span class="n">exc_traceback</span><span class="p">:</span> <span class="n">TracebackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Exit the `with` block.&quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">(</span><span class="n">exc_tp</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exc_tp</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># re-raise exception</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No call collected&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ret</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
 </div>
 
 <div class="input_markdown">
@@ -13216,39 +13370,27 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="StackInspector.html" class="import" target="_blank">StackInspector</a></span> <span class="k">import</span> <span class="n">StackInspector</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CoverageCollector</span><span class="p">(</span><span class="n">Collector</span><span class="p">,</span> <span class="n">StackInspector</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A class to record covered locations during execution.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Constructor.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_coverage</span><span class="p">:</span> <span class="n">Coverage</span>  <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">search_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">])</span> <span class="o">-&gt;</span> \
-        <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a pair (`frame`, `item`) </span>
-<span class="sd">        in which the function `name` is defined as `item`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">while</span> <span class="n">frame</span><span class="p">:</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">frame</span><span class="p">,</span> <span class="n">item</span>
-
-            <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span>
-
-        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">search_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Search in callers for a definition of the function `name`&quot;&quot;&quot;</span>
-        <span class="n">frame</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_frame</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">func</span>
-
-    <span class="c1"># Avoid generating functions more than once</span>
-    <span class="n">_generated_function_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coverage</span><span class="p">:</span> <span class="n">Coverage</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Save coverage for an observed event.&quot;&quot;&quot;</span>
@@ -13256,27 +13398,10 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_func</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Create new function from given code</span>
-            <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generated_function_cache</span><span class="p">:</span>
-                <span class="n">generated_function</span> <span class="o">=</span> <span class="n">FunctionType</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">,</span>
-                                                  <span class="nb">globals</span><span class="o">=</span><span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">,</span>
-                                                  <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_generated_function_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">generated_function</span>
-
-            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generated_function_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span>
+            <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_function</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 
         <span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_coverage</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">events</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">covered_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Callable</span><span class="p">]:</span>
-        <span class="o">...</span>
-
-    <span class="k">def</span> <span class="nf">coverage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Coverage</span><span class="p">:</span>
-        <span class="o">...</span>
 </pre></div>
 
 </div>
@@ -13599,22 +13724,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="dbec847a-7c2e-11eb-a588-f218984d6a0c" id="dbec847a-7c2e-11eb-a588-f218984d6a0c-1" onclick="clear_selection('dbec847a-7c2e-11eb-a588-f218984d6a0c')">
-        <label id="dbec847a-7c2e-11eb-a588-f218984d6a0c-1-label" for="dbec847a-7c2e-11eb-a588-f218984d6a0c-1"><code>tag = True</code></label><br>
+        <input type="checkbox" name="27dc55d4-7de4-11eb-a588-f218984d6a0c" id="27dc55d4-7de4-11eb-a588-f218984d6a0c-1" onclick="clear_selection('27dc55d4-7de4-11eb-a588-f218984d6a0c')">
+        <label id="27dc55d4-7de4-11eb-a588-f218984d6a0c-1-label" for="27dc55d4-7de4-11eb-a588-f218984d6a0c-1"><code>tag = True</code></label><br>
 
-        <input type="checkbox" name="dbec847a-7c2e-11eb-a588-f218984d6a0c" id="dbec847a-7c2e-11eb-a588-f218984d6a0c-2" onclick="clear_selection('dbec847a-7c2e-11eb-a588-f218984d6a0c')">
-        <label id="dbec847a-7c2e-11eb-a588-f218984d6a0c-2-label" for="dbec847a-7c2e-11eb-a588-f218984d6a0c-2"><code>tag = False</code></label><br>
+        <input type="checkbox" name="27dc55d4-7de4-11eb-a588-f218984d6a0c" id="27dc55d4-7de4-11eb-a588-f218984d6a0c-2" onclick="clear_selection('27dc55d4-7de4-11eb-a588-f218984d6a0c')">
+        <label id="27dc55d4-7de4-11eb-a588-f218984d6a0c-2-label" for="27dc55d4-7de4-11eb-a588-f218984d6a0c-2"><code>tag = False</code></label><br>
 
-        <input type="checkbox" name="dbec847a-7c2e-11eb-a588-f218984d6a0c" id="dbec847a-7c2e-11eb-a588-f218984d6a0c-3" onclick="clear_selection('dbec847a-7c2e-11eb-a588-f218984d6a0c')">
-        <label id="dbec847a-7c2e-11eb-a588-f218984d6a0c-3-label" for="dbec847a-7c2e-11eb-a588-f218984d6a0c-3"><code>quote = not quote</code></label><br>
+        <input type="checkbox" name="27dc55d4-7de4-11eb-a588-f218984d6a0c" id="27dc55d4-7de4-11eb-a588-f218984d6a0c-3" onclick="clear_selection('27dc55d4-7de4-11eb-a588-f218984d6a0c')">
+        <label id="27dc55d4-7de4-11eb-a588-f218984d6a0c-3-label" for="27dc55d4-7de4-11eb-a588-f218984d6a0c-3"><code>quote = not quote</code></label><br>
 
-        <input type="checkbox" name="dbec847a-7c2e-11eb-a588-f218984d6a0c" id="dbec847a-7c2e-11eb-a588-f218984d6a0c-4" onclick="clear_selection('dbec847a-7c2e-11eb-a588-f218984d6a0c')">
-        <label id="dbec847a-7c2e-11eb-a588-f218984d6a0c-4-label" for="dbec847a-7c2e-11eb-a588-f218984d6a0c-4"><code>out = out + c</code></label><br>
+        <input type="checkbox" name="27dc55d4-7de4-11eb-a588-f218984d6a0c" id="27dc55d4-7de4-11eb-a588-f218984d6a0c-4" onclick="clear_selection('27dc55d4-7de4-11eb-a588-f218984d6a0c')">
+        <label id="27dc55d4-7de4-11eb-a588-f218984d6a0c-4-label" for="27dc55d4-7de4-11eb-a588-f218984d6a0c-4"><code>out = out + c</code></label><br>
 
     </div>
     </p>
-    <input id="dbec847a-7c2e-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dbec847a-7c2e-11eb-a588-f218984d6a0c', 22, 1, '[ord(c) - ord(&#x27;a&#x27;) - 1 for c in &#x27;cdf&#x27;]')">
-    <span class="quiz_hint" id="dbec847a-7c2e-11eb-a588-f218984d6a0c-hint"></span>
+    <input id="27dc55d4-7de4-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('27dc55d4-7de4-11eb-a588-f218984d6a0c', 22, 1, '[ord(c) - ord(\&#x27;a\&#x27;) - 1 for c in \&#x27;cdf\&#x27;]')">
+    <span class="quiz_hint" id="27dc55d4-7de4-11eb-a588-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -13722,6 +13847,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="sd">&quot;&quot;&quot;Return a collector for the given outcome. </span>
 <span class="sd">        Additional args are passed to the collector.&quot;&quot;&quot;</span>
         <span class="n">collector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">collector</span><span class="o">.</span><span class="n">add_classes_to_ignore</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_collector</span><span class="p">(</span><span class="n">outcome</span><span class="p">,</span> <span class="n">collector</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">add_collector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outcome</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">collector</span><span class="p">:</span> <span class="n">Collector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collector</span><span class="p">:</span>
@@ -14396,19 +14522,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="dc14b846-7c2e-11eb-8163-f218984d6a0c" id="dc14b846-7c2e-11eb-8163-f218984d6a0c-1" onclick="clear_selection('dc14b846-7c2e-11eb-8163-f218984d6a0c')">
-        <label id="dc14b846-7c2e-11eb-8163-f218984d6a0c-1-label" for="dc14b846-7c2e-11eb-8163-f218984d6a0c-1">One</label><br>
+        <input type="radio" name="27eeb474-7de4-11eb-8163-f218984d6a0c" id="27eeb474-7de4-11eb-8163-f218984d6a0c-1" onclick="clear_selection('27eeb474-7de4-11eb-8163-f218984d6a0c')">
+        <label id="27eeb474-7de4-11eb-8163-f218984d6a0c-1-label" for="27eeb474-7de4-11eb-8163-f218984d6a0c-1">One</label><br>
 
-        <input type="radio" name="dc14b846-7c2e-11eb-8163-f218984d6a0c" id="dc14b846-7c2e-11eb-8163-f218984d6a0c-2" onclick="clear_selection('dc14b846-7c2e-11eb-8163-f218984d6a0c')">
-        <label id="dc14b846-7c2e-11eb-8163-f218984d6a0c-2-label" for="dc14b846-7c2e-11eb-8163-f218984d6a0c-2">Two</label><br>
+        <input type="radio" name="27eeb474-7de4-11eb-8163-f218984d6a0c" id="27eeb474-7de4-11eb-8163-f218984d6a0c-2" onclick="clear_selection('27eeb474-7de4-11eb-8163-f218984d6a0c')">
+        <label id="27eeb474-7de4-11eb-8163-f218984d6a0c-2-label" for="27eeb474-7de4-11eb-8163-f218984d6a0c-2">Two</label><br>
 
-        <input type="radio" name="dc14b846-7c2e-11eb-8163-f218984d6a0c" id="dc14b846-7c2e-11eb-8163-f218984d6a0c-3" onclick="clear_selection('dc14b846-7c2e-11eb-8163-f218984d6a0c')">
-        <label id="dc14b846-7c2e-11eb-8163-f218984d6a0c-3-label" for="dc14b846-7c2e-11eb-8163-f218984d6a0c-3">Three</label><br>
+        <input type="radio" name="27eeb474-7de4-11eb-8163-f218984d6a0c" id="27eeb474-7de4-11eb-8163-f218984d6a0c-3" onclick="clear_selection('27eeb474-7de4-11eb-8163-f218984d6a0c')">
+        <label id="27eeb474-7de4-11eb-8163-f218984d6a0c-3-label" for="27eeb474-7de4-11eb-8163-f218984d6a0c-3">Three</label><br>
 
     </div>
     </p>
-    <input id="dc14b846-7c2e-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dc14b846-7c2e-11eb-8163-f218984d6a0c', 4, 0, 'int(chr(50))')">
-    <span class="quiz_hint" id="dc14b846-7c2e-11eb-8163-f218984d6a0c-hint"></span>
+    <input id="27eeb474-7de4-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('27eeb474-7de4-11eb-8163-f218984d6a0c', 4, 0, 'int(chr(50))')">
+    <span class="quiz_hint" id="27eeb474-7de4-11eb-8163-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -14561,6 +14687,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="sd">        and PASS if it does not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector_class</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="n">add_classes_to_ignore</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -14580,7 +14707,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
             <span class="n">outcome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FAIL</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_collector</span><span class="p">(</span><span class="n">outcome</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">collector</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Ignore exception</span>
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Ignore exception, if any</span>
 </pre></div>
 
 </div>
@@ -15419,16 +15546,16 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="dc8d53b4-7c2e-11eb-9732-f218984d6a0c" id="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-1" onclick="clear_selection('dc8d53b4-7c2e-11eb-9732-f218984d6a0c')">
-        <label id="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-1-label" for="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-1">Yes, it should be fixed</label><br>
+        <input type="radio" name="2806272e-7de4-11eb-9732-f218984d6a0c" id="2806272e-7de4-11eb-9732-f218984d6a0c-1" onclick="clear_selection('2806272e-7de4-11eb-9732-f218984d6a0c')">
+        <label id="2806272e-7de4-11eb-9732-f218984d6a0c-1-label" for="2806272e-7de4-11eb-9732-f218984d6a0c-1">Yes, it should be fixed</label><br>
 
-        <input type="radio" name="dc8d53b4-7c2e-11eb-9732-f218984d6a0c" id="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-2" onclick="clear_selection('dc8d53b4-7c2e-11eb-9732-f218984d6a0c')">
-        <label id="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-2-label" for="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-2">No, the defect is elsewhere</label><br>
+        <input type="radio" name="2806272e-7de4-11eb-9732-f218984d6a0c" id="2806272e-7de4-11eb-9732-f218984d6a0c-2" onclick="clear_selection('2806272e-7de4-11eb-9732-f218984d6a0c')">
+        <label id="2806272e-7de4-11eb-9732-f218984d6a0c-2-label" for="2806272e-7de4-11eb-9732-f218984d6a0c-2">No, the defect is elsewhere</label><br>
 
     </div>
     </p>
-    <input id="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dc8d53b4-7c2e-11eb-9732-f218984d6a0c', 4, 0, '164 * 2 % 326')">
-    <span class="quiz_hint" id="dc8d53b4-7c2e-11eb-9732-f218984d6a0c-hint"></span>
+    <input id="2806272e-7de4-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2806272e-7de4-11eb-9732-f218984d6a0c', 4, 0, '164 * 2 % 326')">
+    <span class="quiz_hint" id="2806272e-7de4-11eb-9732-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15861,8 +15988,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 8) 1.0
-(&#39;remove_html_markup&#39;, 10) 1.0
+<pre>(&#39;remove_html_markup&#39;, 10) 1.0
+(&#39;remove_html_markup&#39;, 8) 1.0
 </pre>
 </div>
 
@@ -16060,8 +16187,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 8) hsl(120.0, 50.0%, 80%)
-(&#39;remove_html_markup&#39;, 10) hsl(120.0, 50.0%, 80%)
+<pre>(&#39;remove_html_markup&#39;, 10) hsl(120.0, 50.0%, 80%)
+(&#39;remove_html_markup&#39;, 8) hsl(120.0, 50.0%, 80%)
 </pre>
 </div>
 
@@ -16227,22 +16354,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="dcd229c6-7c2e-11eb-b36c-f218984d6a0c" id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('dcd229c6-7c2e-11eb-b36c-f218984d6a0c')">
-        <label id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-1-label" for="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
+        <input type="radio" name="28171306-7de4-11eb-b36c-f218984d6a0c" id="28171306-7de4-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('28171306-7de4-11eb-b36c-f218984d6a0c')">
+        <label id="28171306-7de4-11eb-b36c-f218984d6a0c-1-label" for="28171306-7de4-11eb-b36c-f218984d6a0c-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
 
-        <input type="radio" name="dcd229c6-7c2e-11eb-b36c-f218984d6a0c" id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('dcd229c6-7c2e-11eb-b36c-f218984d6a0c')">
-        <label id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-2-label" for="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
+        <input type="radio" name="28171306-7de4-11eb-b36c-f218984d6a0c" id="28171306-7de4-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('28171306-7de4-11eb-b36c-f218984d6a0c')">
+        <label id="28171306-7de4-11eb-b36c-f218984d6a0c-2-label" for="28171306-7de4-11eb-b36c-f218984d6a0c-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
 
-        <input type="radio" name="dcd229c6-7c2e-11eb-b36c-f218984d6a0c" id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('dcd229c6-7c2e-11eb-b36c-f218984d6a0c')">
-        <label id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-3-label" for="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
+        <input type="radio" name="28171306-7de4-11eb-b36c-f218984d6a0c" id="28171306-7de4-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('28171306-7de4-11eb-b36c-f218984d6a0c')">
+        <label id="28171306-7de4-11eb-b36c-f218984d6a0c-3-label" for="28171306-7de4-11eb-b36c-f218984d6a0c-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
 
-        <input type="radio" name="dcd229c6-7c2e-11eb-b36c-f218984d6a0c" id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('dcd229c6-7c2e-11eb-b36c-f218984d6a0c')">
-        <label id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-4-label" for="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
+        <input type="radio" name="28171306-7de4-11eb-b36c-f218984d6a0c" id="28171306-7de4-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('28171306-7de4-11eb-b36c-f218984d6a0c')">
+        <label id="28171306-7de4-11eb-b36c-f218984d6a0c-4-label" for="28171306-7de4-11eb-b36c-f218984d6a0c-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
 
     </div>
     </p>
-    <input id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dcd229c6-7c2e-11eb-b36c-f218984d6a0c', 8, 0, '999 // 333')">
-    <span class="quiz_hint" id="dcd229c6-7c2e-11eb-b36c-f218984d6a0c-hint"></span>
+    <input id="28171306-7de4-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('28171306-7de4-11eb-b36c-f218984d6a0c', 8, 0, '999 // 333')">
+    <span class="quiz_hint" id="28171306-7de4-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -16753,22 +16880,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="dcef3234-7c2e-11eb-835f-f218984d6a0c" id="dcef3234-7c2e-11eb-835f-f218984d6a0c-1" onclick="clear_selection('dcef3234-7c2e-11eb-835f-f218984d6a0c')">
-        <label id="dcef3234-7c2e-11eb-835f-f218984d6a0c-1-label" for="dcef3234-7c2e-11eb-835f-f218984d6a0c-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
+        <input type="radio" name="28205bc6-7de4-11eb-835f-f218984d6a0c" id="28205bc6-7de4-11eb-835f-f218984d6a0c-1" onclick="clear_selection('28205bc6-7de4-11eb-835f-f218984d6a0c')">
+        <label id="28205bc6-7de4-11eb-835f-f218984d6a0c-1-label" for="28205bc6-7de4-11eb-835f-f218984d6a0c-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
 
-        <input type="radio" name="dcef3234-7c2e-11eb-835f-f218984d6a0c" id="dcef3234-7c2e-11eb-835f-f218984d6a0c-2" onclick="clear_selection('dcef3234-7c2e-11eb-835f-f218984d6a0c')">
-        <label id="dcef3234-7c2e-11eb-835f-f218984d6a0c-2-label" for="dcef3234-7c2e-11eb-835f-f218984d6a0c-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
+        <input type="radio" name="28205bc6-7de4-11eb-835f-f218984d6a0c" id="28205bc6-7de4-11eb-835f-f218984d6a0c-2" onclick="clear_selection('28205bc6-7de4-11eb-835f-f218984d6a0c')">
+        <label id="28205bc6-7de4-11eb-835f-f218984d6a0c-2-label" for="28205bc6-7de4-11eb-835f-f218984d6a0c-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
 
-        <input type="radio" name="dcef3234-7c2e-11eb-835f-f218984d6a0c" id="dcef3234-7c2e-11eb-835f-f218984d6a0c-3" onclick="clear_selection('dcef3234-7c2e-11eb-835f-f218984d6a0c')">
-        <label id="dcef3234-7c2e-11eb-835f-f218984d6a0c-3-label" for="dcef3234-7c2e-11eb-835f-f218984d6a0c-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
+        <input type="radio" name="28205bc6-7de4-11eb-835f-f218984d6a0c" id="28205bc6-7de4-11eb-835f-f218984d6a0c-3" onclick="clear_selection('28205bc6-7de4-11eb-835f-f218984d6a0c')">
+        <label id="28205bc6-7de4-11eb-835f-f218984d6a0c-3-label" for="28205bc6-7de4-11eb-835f-f218984d6a0c-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
 
-        <input type="radio" name="dcef3234-7c2e-11eb-835f-f218984d6a0c" id="dcef3234-7c2e-11eb-835f-f218984d6a0c-4" onclick="clear_selection('dcef3234-7c2e-11eb-835f-f218984d6a0c')">
-        <label id="dcef3234-7c2e-11eb-835f-f218984d6a0c-4-label" for="dcef3234-7c2e-11eb-835f-f218984d6a0c-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
+        <input type="radio" name="28205bc6-7de4-11eb-835f-f218984d6a0c" id="28205bc6-7de4-11eb-835f-f218984d6a0c-4" onclick="clear_selection('28205bc6-7de4-11eb-835f-f218984d6a0c')">
+        <label id="28205bc6-7de4-11eb-835f-f218984d6a0c-4-label" for="28205bc6-7de4-11eb-835f-f218984d6a0c-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
 
     </div>
     </p>
-    <input id="dcef3234-7c2e-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('dcef3234-7c2e-11eb-835f-f218984d6a0c', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
-    <span class="quiz_hint" id="dcef3234-7c2e-11eb-835f-f218984d6a0c-hint"></span>
+    <input id="28205bc6-7de4-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('28205bc6-7de4-11eb-835f-f218984d6a0c', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
+    <span class="quiz_hint" id="28205bc6-7de4-11eb-835f-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -17046,17 +17173,17 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 13),
- (&#39;remove_html_markup&#39;, 2),
- (&#39;remove_html_markup&#39;, 4),
  (&#39;remove_html_markup&#39;, 6),
  (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 3),
  (&#39;remove_html_markup&#39;, 14),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 9),
  (&#39;remove_html_markup&#39;, 11),
+ (&#39;remove_html_markup&#39;, 2),
+ (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 8),
  (&#39;remove_html_markup&#39;, 10)]
 </pre>
@@ -17186,12 +17313,12 @@ $$</p>
 <pre>[(&#39;middle&#39;, 6),
  (&#39;middle&#39;, 5),
  (&#39;middle&#39;, 3),
- (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 1),
+ (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 12),
- (&#39;middle&#39;, 10),
- (&#39;middle&#39;, 8),
  (&#39;middle&#39;, 9),
+ (&#39;middle&#39;, 8),
+ (&#39;middle&#39;, 10),
  (&#39;middle&#39;, 4)]
 </pre>
 </div>
@@ -17401,17 +17528,17 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 13),
- (&#39;remove_html_markup&#39;, 2),
- (&#39;remove_html_markup&#39;, 4),
  (&#39;remove_html_markup&#39;, 6),
  (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 3),
  (&#39;remove_html_markup&#39;, 14),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 9),
  (&#39;remove_html_markup&#39;, 11),
+ (&#39;remove_html_markup&#39;, 2),
+ (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 16),
  (&#39;remove_html_markup&#39;, 8),
  (&#39;remove_html_markup&#39;, 10)]
 </pre>
@@ -17532,12 +17659,12 @@ $$</p>
 <pre>[(&#39;middle&#39;, 6),
  (&#39;middle&#39;, 5),
  (&#39;middle&#39;, 3),
- (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 1),
+ (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 12),
- (&#39;middle&#39;, 10),
- (&#39;middle&#39;, 8),
  (&#39;middle&#39;, 9),
+ (&#39;middle&#39;, 8),
+ (&#39;middle&#39;, 10),
  (&#39;middle&#39;, 4)]
 </pre>
 </div>
@@ -17601,6 +17728,418 @@ $$</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>Having said that, ranking has its merits – notably as it comes to informing <em>automated</em> debugging techniques. In the <a href="Repairer.html">chapter on program repair</a>, we will see how ranked lists of potentially faulty statements tell automated repair techniques where to try to repair the program first. And once such a repair is successful, we have a very strong indication on where and how the program could be fixed!</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Using-Large-Test-Suites">Using Large Test Suites<a class="anchor-link" href="#Using-Large-Test-Suites">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>In fault localization, the larger and the more thorough the test suite, the higher the precision. Let us try out what happens if we extend the <code>middle()</code> test suite with additional test cases.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The function <code>middle_testcase()</code> returns a random input for <code>middle()</code>:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/random.html" class="import" target="_blank">random</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="n">middle_testcase</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(1, 9, 9), (0, 9, 2), (9, 0, 4), (7, 2, 1), (6, 1, 5)]
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The function <code>middle_test()</code> simply checks if <code>middle()</code> operates correctly – by placing <code>x</code>, <code>y</code>, and <code>z</code> in a list, sorting it, and checking the middle argument. If <code>middle()</code> fails, <code>middle_test()</code> raises an exception.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">middle_test</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="k">import</span> <span class="n">ExpectError</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">middle_test</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-1-ae2957225406&gt;&#34;, line 2, in &lt;module&gt;
+    middle_test(2, 1, 3)
+  File &#34;&lt;ipython-input-1-e1407680b9f2&gt;&#34;, line 3, in middle_test
+    assert m == sorted([x, y, z])[1]
+AssertionError (expected)
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The function <code>middle_passing_testcase()</code> searches and returns a triple <code>x</code>, <code>y</code>, <code>z</code> that causes <code>middle_test()</code> to pass.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">middle_testcase</span><span class="p">()</span>
+            <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+            <span class="k">pass</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="n">middle_passing_testcase</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;middle(</span><span class="si">{x}</span><span class="s2">, </span><span class="si">{y}</span><span class="s2">, </span><span class="si">{z}</span><span class="s2">) = </span><span class="si">{m}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>middle(2, 6, 7) = 6
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The function <code>middle_failing_testcase()</code> does the same; but its triple <code>x</code>, <code>y</code>, <code>z</code> causes <code>middle_test()</code> to fail.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">middle_testcase</span><span class="p">()</span>
+            <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="n">middle_failing_testcase</span><span class="p">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;middle(</span><span class="si">{x}</span><span class="s2">, </span><span class="si">{y}</span><span class="s2">, </span><span class="si">{z}</span><span class="s2">) = </span><span class="si">{m}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>middle(5, 4, 6) = 4
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>With these, we can define two sets of test cases, each with 100 inputs.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MIDDLE_TESTS</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MIDDLE_PASSING_TESTCASES</span> <span class="o">=</span> <span class="p">[</span><span class="n">middle_passing_testcase</span><span class="p">()</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MIDDLE_TESTS</span><span class="p">)]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MIDDLE_FAILING_TESTCASES</span> <span class="o">=</span> <span class="p">[</span><span class="n">middle_failing_testcase</span><span class="p">()</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MIDDLE_TESTS</span><span class="p">)]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Let us run the <code>OchiaiDebugger</code> with these two test sets</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_middle</span> <span class="o">=</span> <span class="n">OchiaiDebugger</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">MIDDLE_PASSING_TESTCASES</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">ochiai_middle</span><span class="o">.</span><span class="n">collect_pass</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">MIDDLE_FAILING_TESTCASES</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">ochiai_middle</span><span class="o">.</span><span class="n">collect_fail</span><span class="p">():</span>
+        <span class="n">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ochiai_middle</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 1:  70%">   1 def middle(x, y, z):  # type: ignore</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 2:  70%">   2     if y &lt; z:</pre>
+<pre style="background-color:hsl(18.2173284384035, 100.0%, 80%)"
+                    title="Line 3:  84%">   3         if x &lt; y:</pre>
+<pre style="background-color:hsl(120.0, 12.0%, 80%)"
+                    title="Line 4:   0%">   4             return y</pre>
+<pre style="background-color:hsl(13.517218870066348, 100.0%, 80%)"
+                    title="Line 5:  88%">   5         elif x &lt; z:</pre>
+<pre style="background-color:hsl(2.3303189170895866, 100.0%, 80%)"
+                    title="Line 6:  98%">   6             return y</pre>
+<pre title="Line 7: not executed">   7     else:
+</pre>
+<pre style="background-color:hsl(120.0, 61.0%, 80%)"
+                    title="Line 8:   0%">   8         if x &gt; y:</pre>
+<pre style="background-color:hsl(120.0, 24.0%, 80%)"
+                    title="Line 9:   0%">   9             return y</pre>
+<pre style="background-color:hsl(120.0, 37.0%, 80%)"
+                    title="Line 10:   0%">  10         elif x &gt; z:</pre>
+<pre style="background-color:hsl(120.0, 14.000000000000002%, 80%)"
+                    title="Line 11:   0%">  11             return x</pre>
+<pre style="background-color:hsl(120.0, 46.0%, 80%)"
+                    title="Line 12:   0%">  12     return z</pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>We see that the "culprit" line is still the most likely to be fixed, but the two conditions leading to the error (<code>x &lt; y</code> and <code>x &lt; z</code>) are also listed as potentially faulty. That is because the error might also be fixed be changing these conditions – although this would result in a more complex fix.</p>
 </div>
 </div>
 </div>
@@ -17682,24 +18221,24 @@ $$</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>c = &#39;&lt;&#39;
+<pre>out = &#39;&#39;
+c = &#39;&gt;&#39;
 quote = False
-s = &#39;abc&#39;
-s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
-s = &#39;&#34;abc&#34;&#39;
-tag = True
 out = &#39;a&#39;
+quote = True
+s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
+c = &#39;b&#39;
+s = &#39;abc&#39;
+out = &#39;ab&#39;
+c = &#39;&#34;&#39;
+c = &#39;&lt;&#39;
+tag = True
 out = &#39;abc&#39;
 c = &#39;/&#39;
-c = &#39;b&#39;
-c = &#39;&#34;&#39;
-out = &#39;&#39;
-tag = False
+s = &#39;&#34;abc&#34;&#39;
 c = &#39;c&#39;
-quote = True
+tag = False
 c = &#39;a&#39;
-out = &#39;ab&#39;
-c = &#39;&gt;&#39;
 </pre>
 </div>
 
@@ -17732,9 +18271,9 @@ c = &#39;&gt;&#39;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>quote = True
-s = &#39;&#34;abc&#34;&#39;
+<pre>s = &#39;&#34;abc&#34;&#39;
 c = &#39;&#34;&#39;
+quote = True
 </pre>
 </div>
 
@@ -18144,20 +18683,20 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#34;(&#39;remove_html_markup&#39;, 13)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 2)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 4)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
+<pre>[&#34;(&#39;remove_html_markup&#39;, 6)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 8)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 1)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 10)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 1)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 12)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 14)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 7)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 16)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 9)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 11)&#34;]
+ &#34;(&#39;remove_html_markup&#39;, 11)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 2)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 13)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 4)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 16)&#34;]
 </pre>
 </div>
 
@@ -18213,7 +18752,7 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+<pre>[1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 </pre>
 </div>
 
@@ -18266,9 +18805,9 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[[1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]
+<pre>[[1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+ [1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+ [1.0, -1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]
 </pre>
 </div>
 
@@ -18400,14 +18939,14 @@ c = &#39;&#34;&#39;
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ClassifyingDebugger</span><span class="p">(</span><span class="n">ClassifyingDebugger</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">show_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier</span><span class="p">:</span> <span class="n">DecisionTreeClassifier</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">dot_data</span> <span class="o">=</span> <span class="n">export_graphviz</span><span class="p">(</span><span class="n">classifier</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                         <span class="n">filled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">feature_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_names</span><span class="p">(),</span>
-                         <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;PASS&quot;</span><span class="p">],</span>
-                         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
-                         <span class="n">node_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">impurity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">proportion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">special_characters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                   <span class="n">filled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">feature_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_names</span><span class="p">(),</span>
+                                   <span class="n">class_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;PASS&quot;</span><span class="p">],</span>
+                                   <span class="n">label</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                   <span class="n">node_ids</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">impurity</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">proportion</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">special_characters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">graphviz</span><span class="o">.</span><span class="n">Source</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
 </pre></div>
@@ -18528,7 +19067,7 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([1.])
+<pre>array([-1.])
 </pre>
 </div>
 
@@ -18621,7 +19160,7 @@ c = &#39;&#34;&#39;
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2021-02-28 16:40:05+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2021-03-05 19:26:07+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -18637,7 +19176,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2021-02-28 16:40:05+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2021-03-05 19:26:07+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:StatisticalDebugger,
@@ -18647,9 +19186,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDeb
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
-    note = {Retrieved 2021-02-28 16:40:05+01:00},
+    note = {Retrieved 2021-03-05 19:26:07+01:00},
     url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
-    urldate = {2021-02-28 16:40:05+01:00}
+    urldate = {2021-03-05 19:26:07+01:00}
 }
 </pre>
 </div>

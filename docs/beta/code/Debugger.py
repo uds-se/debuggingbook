@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-03-03 15:52:35+01:00
+# Last change: 2021-03-05 19:52:21+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -185,12 +185,6 @@ class Debugger(Tracer):
         super().__init__(file=file)
 
 class Debugger(Debugger):
-    def stop_here(self) -> bool:
-        ...
-
-    def interaction_loop(self) -> None:
-        ...
-
     def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
         """Tracing function; called at every line. To be overloaded in subclasses."""
         self.frame = frame

@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-03-03 15:44:36+01:00
+# Last change: 2021-03-05 19:27:31+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -313,6 +313,25 @@ from types import FrameType, TracebackType
 
 Arguments = List[Tuple[str, Any]]
 
+def get_arguments(frame: FrameType) -> Arguments:
+    """Return call arguments in the given frame"""
+    # When called, all arguments are local variables
+    arguments = [(var, frame.f_locals[var]) for var in frame.f_locals]
+    arguments.reverse()  # Want same order as call
+    return arguments
+
+def simple_call_string(function_name: str, argument_list: Arguments,
+                       return_value : Any = None) -> str:
+    """Return function_name(arg[0], arg[1], ...) as a string"""
+    call = function_name + "(" + \
+        ", ".join([var + "=" + repr(value)
+                   for (var, value) in argument_list]) + ")"
+
+    if return_value is not None:
+        call += " = " + repr(return_value)
+
+    return call
+
 class CallTracer(Tracer):
     def __init__(self, log: bool = False, **kwargs: Any)-> None:
         super().__init__(**kwargs)
@@ -330,12 +349,6 @@ class CallTracer(CallTracer):
             self.trace_call(frame, event, arg)
         elif event == "return":
             self.trace_return(frame, event, arg)
-            
-    def trace_call(self, frame: FrameType, event: str, arg: Any) -> None:
-        ...
-        
-    def trace_return(self, frame: FrameType, event: str, arg: Any) -> None:
-        ...
 
 class CallTracer(CallTracer):
     def trace_call(self, frame: FrameType, event: str, arg: Any) -> None:
@@ -347,13 +360,6 @@ class CallTracer(CallTracer):
 
         if self._log:
             print(simple_call_string(function_name, arguments))
-
-def get_arguments(frame: FrameType) -> Arguments:
-    """Return call arguments in the given frame"""
-    # When called, all arguments are local variables
-    arguments = [(var, frame.f_locals[var]) for var in frame.f_locals]
-    arguments.reverse()  # Want same order as call
-    return arguments
 
 class CallTracer(CallTracer):
     def trace_return(self, frame: FrameType, event: str, arg: Any) -> None:
@@ -370,22 +376,6 @@ class CallTracer(CallTracer):
             print(simple_call_string(function_name, called_arguments), "returns", return_value)
 
         self.add_call(function_name, called_arguments, return_value)
-        
-    def add_call(self, function_name: str, arguments: Arguments,
-                 return_value: Any = None) -> None:
-        ...
-
-def simple_call_string(function_name: str, argument_list: Arguments,
-                       return_value : Any = None) -> str:
-    """Return function_name(arg[0], arg[1], ...) as a string"""
-    call = function_name + "(" + \
-        ", ".join([var + "=" + repr(value)
-                   for (var, value) in argument_list]) + ")"
-
-    if return_value is not None:
-        call += " = " + repr(return_value)
-
-    return call
 
 class CallTracer(CallTracer):
     def add_call(self, function_name: str, arguments: Arguments,
@@ -567,9 +557,6 @@ class TypeTransformer(TypeTransformer):
             ast.FunctionDef(node.name, new_arguments,
                             node.body, node.decorator_list,
                             node.returns), node)
-    
-    def annotate_arg(self, arg: ast.arg) -> ast.arg:
-        ...
 
 class TypeTransformer(TypeTransformer):
     def annotate_arg(self, arg: ast.arg) -> ast.arg:
@@ -1346,7 +1333,7 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     print_content(annotator.functions_with_invariants(), '.py')
 
-from .Repairer import MIDDLE_FAILING_TESTCASES  # minor dependency
+from .StatisticalDebugger import MIDDLE_FAILING_TESTCASES  # minor dependency
 
 if __name__ == '__main__':
     with InvariantAnnotator() as annotator:
@@ -1364,7 +1351,7 @@ if __name__ == '__main__':
              "No"
          ], 'int(math.exp(1))', globals())
 
-from .Repairer import MIDDLE_PASSING_TESTCASES  # minor dependency
+from .StatisticalDebugger import MIDDLE_PASSING_TESTCASES  # minor dependency
 
 if __name__ == '__main__':
     with InvariantAnnotator() as annotator:

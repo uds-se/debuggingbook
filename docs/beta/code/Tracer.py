@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-03-03 15:52:16+01:00
+# Last change: 2021-03-05 19:52:03+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -112,6 +112,7 @@ if __name__ == '__main__':
 
 
 from types import FrameType, TracebackType
+
 from typing import Any, Optional, Callable, Dict, List, Type, TextIO
 
 def traceit(frame: FrameType, event: str, arg: Any) -> Optional[Callable]:
@@ -171,7 +172,9 @@ if __name__ == '__main__':
 
 import traceback
 
-class Tracer:
+from .StackInspector import StackInspector
+
+class Tracer(StackInspector):
     """A class for tracing a piece of code. Use as `with Tracer(): block()`"""
 
     def __init__(self, *, file: TextIO = sys.stdout) -> None:
@@ -179,10 +182,14 @@ class Tracer:
         self.original_trace_function: Optional[Callable] = None
         self.file = file
 
-    def log(self, *objects: Any, sep: str = ' ', end: str = '\n', flush: bool = False) -> None:
-        """Like print(), but always sending to file given at initialization,
-           and always flushing"""
-        print(*objects, sep=sep, end=end, file=self.file, flush=True)
+    def log(self, *objects: Any, 
+            sep: str = ' ', end: str = '\n', 
+            flush: bool = True) -> None:
+        """
+        Like `print()`, but always sending to `file` given at initialization,
+        and flushing by default.
+        """
+        print(*objects, sep=sep, end=end, file=self.file, flush=flush)
 
     def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
         """Tracing function. To be overridden in subclasses."""
@@ -190,26 +197,12 @@ class Tracer:
 
     def _traceit(self, frame: FrameType, event: str, arg: Any) -> Optional[Callable]:
         """Internal tracing function."""
-        if frame.f_code.co_name == '__exit__':
-            # Do not trace our own __exit__() method
+        if self.our_frame(frame):
+            # Do not trace our own methods
             pass
         else:
             self.traceit(frame, event, arg)
         return self._traceit
-
-    def is_internal_error(self, exc_tp: type, 
-                          exc_value: BaseException, 
-                          exc_traceback: TracebackType) -> bool:
-        """Return True if exception was raised from `Tracer` or a subclass."""
-        if not exc_tp:
-            return False
-
-        for frame, lineno in traceback.walk_tb(exc_traceback):
-            if 'self' in frame.f_locals:
-                if isinstance(frame.f_locals['self'], self.__class__):
-                    return True
-
-        return False
 
     def __enter__(self) -> Any:
         """Called at begin of `with` block. Turn tracing on."""
@@ -219,8 +212,10 @@ class Tracer:
 
     def __exit__(self, exc_tp: Type, exc_value: BaseException, 
                  exc_traceback: TracebackType) -> Optional[bool]:
-        """Called at end of `with` block. Turn tracing off.
-        Return `None` if ok, not `None` if internal error."""
+        """
+        Called at end of `with` block. Turn tracing off.
+        Return `None` if ok, not `None` if internal error.
+        """
         sys.settrace(self.original_trace_function)
 
         # Note: we must return a non-True value here,

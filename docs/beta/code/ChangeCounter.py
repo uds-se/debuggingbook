@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-02-28 12:39:03+01:00
+# Last change: 2021-03-05 17:51:09+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -151,10 +151,14 @@ if __name__ == '__main__':
 
 
 from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
+from pydriller.domain.commit import Commit
 
 import os
 
-def current_repo():
+from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
+from typing import Dict, Union, Set, List, FrozenSet, cast
+
+def current_repo() -> Optional[str]:
     path = os.getcwd()
     while True:
         if os.path.exists(os.path.join(path, '.git')):
@@ -235,35 +239,55 @@ if __name__ == '__main__':
 
 
 
+if __name__ == '__main__':
+    tuple('debuggingbook/notebooks/ChangeExplorer.ipynb'.split('/'))
+
+Node = Tuple
+
 class ChangeCounter:
     """Count the number of changes for a repository."""
 
-    def __init__(self, repo, filter=None, log=False, **kwargs):
-        """Constructor. `repo` is a git repository (as URL or directory).
-`filter` is a predicate that takes a modification and returns True 
-  if it should be considered (default: consider all).
-`log` turns on logging if set.
-`kwargs` are passed to the `RepositoryMining()` constructor."""
+    def __init__(self, repo: str, *, 
+                 filter: Optional[Callable[[Commit], bool]] = None, 
+                 log: bool = False, 
+                 **kwargs: Any) -> None:
+        """
+        Constructor.
+        `repo` is a git repository (as URL or directory).
+        `filter` is a predicate that takes a modification and returns True 
+        if it should be considered (default: consider all).
+        `log` turns on logging if set.
+        `kwargs` are passed to the `RepositoryMining()` constructor.
+        """
         self.repo = repo
         self.log = log
 
         if filter is None:
-            def filter(m):
+            def filter(m: Commit) -> bool:
                 return True
+        assert filter is not None
 
         self.filter = filter
 
         # A node is an tuple (f_1, f_2, f_3, ..., f_n) denoting
-        # a folder f_1 holding a folder f_2 ... holding a file f_n
-        self.changes = {}    # Mapping node -> #of changes
-        self.messages = {}   # Mapping node -> list of commit messages
-        self.sizes = {}      # Mapping node -> last size seen
-        self.hashes = set()  # All hashes already considered
+        # a folder f_1 holding a folder f_2 ... holding a file f_n.
+
+        # Mapping node -> #of changes
+        self.changes: Dict[Node, int] = {}
+
+         # Mapping node -> list of commit messages
+        self.messages: Dict[Node, List[str]] = {}
+
+        # Mapping node -> last size seen
+        self.sizes: Dict[Node, int] = {}
+
+        # All hashes already considered
+        self.hashes: Set[str] = set()
 
         self.mine(**kwargs)
 
 class ChangeCounter(ChangeCounter):
-    def mine(self, **kwargs):
+    def mine(self, **kwargs: Any) -> None:
         """Gather data from repository. To be extended in subclasses."""
         miner = RepositoryMining(self.repo, **kwargs)
 
@@ -278,17 +302,16 @@ class ChangeCounter(ChangeCounter):
                     self.update_stats(m)
 
 class ChangeCounter(ChangeCounter):
-    def include(self, m):
-        """Return True if the modification `m` should be included
-(default: the `filter` predicate given to the constructor).
-To be overloaded in subclasses."""
+    def include(self, m: Commit) -> bool:
+        """
+        Return True if the modification `m` should be included
+        (default: the `filter` predicate given to the constructor).
+        To be overloaded in subclasses.
+        """
         return self.filter(m)
 
-if __name__ == '__main__':
-    tuple('debuggingbook/notebooks/ChangeExplorer.ipynb'.split('/'))
-
 class ChangeCounter(ChangeCounter):
-    def update_stats(self, m):
+    def update_stats(self, m: Commit) -> None:
         """Update counters with modification `m`. Can be extended in subclasses."""
         if not m.new_path:
             return
@@ -303,14 +326,16 @@ class ChangeCounter(ChangeCounter):
         self.update_elems(node, m)
 
 class ChangeCounter(ChangeCounter):
-    def update_size(self, node, size):
+    def update_size(self, node: Tuple, size: int) -> None:
         """Update counters for `node` with `size`. Can be extended in subclasses."""
         self.sizes[node] = size
 
 class ChangeCounter(ChangeCounter):
-    def update_changes(self, node, commit_msg):
-        """Update stats for `node` changed with `commit_msg`.
-Can be extended in subclasses."""
+    def update_changes(self, node: Tuple, commit_msg: str) -> None:
+        """
+        Update stats for `node` changed with `commit_msg`.
+        Can be extended in subclasses.
+        """
         self.changes.setdefault(node, 0)
         self.changes[node] += 1
 
@@ -318,9 +343,11 @@ Can be extended in subclasses."""
         self.messages[node].append(commit_msg)
 
 class ChangeCounter(ChangeCounter):
-    def update_elems(self, node, m):
-        """Update counters for subelements of `node` with modification `m`.
-To be defined in subclasses."""
+    def update_elems(self, node: Tuple, m: Commit) -> None:
+        """
+        Update counters for subelements of `node` with modification `m`.
+        To be defined in subclasses.
+        """
         pass
 
 DEBUGGINGBOOK_REPO = current_repo()
@@ -328,10 +355,10 @@ DEBUGGINGBOOK_REPO = current_repo()
 if __name__ == '__main__':
     DEBUGGINGBOOK_REPO
 
-def debuggingbook_change_counter(cls):
+def debuggingbook_change_counter(cls: Type) -> Any:
     """Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo"""
 
-    def filter(m):
+    def filter(m: Commit) -> bool:
         """Do not include the `docs/` directory; it only holds Web pages"""
         return m.new_path and not m.new_path.startswith('docs/')
 
@@ -375,7 +402,7 @@ import plotly.graph_objects as go
 import math
 
 class ChangeCounter(ChangeCounter):
-    def map_node_sizes(self):
+    def map_node_sizes(self) -> Dict[Node, Union[int, float]]:
         """Return a mapping of nodes to sizes. Can be overloaded in subclasses."""
         # Default: use log scale
         return {node: math.log(self.sizes[node]) if self.sizes[node] else 0
@@ -388,32 +415,38 @@ class ChangeCounter(ChangeCounter):
         return self.sizes
 
 class ChangeCounter(ChangeCounter):
-    def map_node_color(self, node):
+    def map_node_color(self, node: Node) -> Optional[int]:
         """Return a color of the node, as a number. Can be overloaded in subclasses."""
         if node and node in self.changes:
             return self.changes[node]
         return None
 
 class ChangeCounter(ChangeCounter):
-    def map_node_text(self, node):
-        """Return the text to be shown for the node (default: #changes). 
-Can be overloaded in subclasses."""
+    def map_node_text(self, node: Node) -> Optional[str]:
+        """
+        Return the text to be shown for the node (default: #changes).
+        Can be overloaded in subclasses.
+        """
         if node and node in self.changes:
-            return self.changes[node]
+            return str(self.changes[node])
         return None
 
 class ChangeCounter(ChangeCounter):
-    def map_hoverinfo(self):
-        """Return the text to be shown when hovering over a node.
-To be overloaded in subclasses."""
+    def map_hoverinfo(self) -> str:
+        """
+        Return the text to be shown when hovering over a node.
+        To be overloaded in subclasses.
+        """
         return 'label+text'
 
-    def map_colorscale(self):
-        """Return the colorscale for the map. To be overloaded in subclasses."""
+    def map_colorscale(self) -> str:
+        """
+        Return the colorscale for the map. To be overloaded in subclasses.
+        """
         return 'YlOrRd'
 
 class ChangeCounter(ChangeCounter):
-    def map(self):
+    def map(self) -> go.Figure:
         """Produce an interactive tree map of the repository."""
         treemap = ep.Treemap(
                      self.map_node_sizes(),
@@ -469,20 +502,22 @@ if __name__ == '__main__':
 
 
 class FixCounter(ChangeCounter):
-    """Count the fixes for files in the repository.
-Fixes are all commits whose message starts with the word 'Fix: '"""
+    """
+    Count the fixes for files in the repository.
+    Fixes are all commits whose message starts with the word 'Fix: '
+    """
 
-    def include(self, m):
+    def include(self, m: Commit) -> bool:
         """Include all modifications whose commit messages start with 'Fix:'"""
         return super().include(m) and m and m.msg.startswith("Fix:")
 
 class FixCounter(FixCounter):
-    def map_node_text(self, node):
+    def map_node_text(self, node: Node) -> str:
         if node and node in self.messages:
             return "<br>".join(self.messages[node])
         return ""
 
-    def map_hoverinfo(self):
+    def map_hoverinfo(self) -> str:
         return 'label'
 
 if __name__ == '__main__':
@@ -524,11 +559,15 @@ def foo():
 ''')
 
 if __name__ == '__main__':
-    magic.from_buffer(open(os.path.join(current_repo(), 'notebooks', 'Assertions.ipynb')).read())
+    magic.from_buffer(open(os.path.join(current_repo(),   # type: ignore
+                                        'notebooks',
+                                        'Assertions.ipynb')).read())
 
 import re
 
-DELIMITERS = [
+from typing import Pattern
+
+DELIMITERS: List[Tuple[Pattern, Pattern, Pattern]] = [
     (
         # Python
         re.compile(r'^python.*'),
@@ -553,9 +592,11 @@ DELIMITERS = [
     )
 ]
 
-def rxdelim(content):
-    """Return suitable begin and end delimiters for the content `content`.
-If no matching delimiters are found, return `None, None`."""
+def rxdelim(content: str) -> Tuple[Optional[Pattern], Optional[Pattern]]:
+    """
+    Return suitable begin and end delimiters for the content `content`.
+    If no matching delimiters are found, return `None, None`.
+    """
     tp = magic.from_buffer(content).lower()
     for rxtp, rxbegin, rxend in DELIMITERS:
         if rxtp.match(tp):
@@ -563,13 +604,17 @@ If no matching delimiters are found, return `None, None`."""
 
     return None, None
 
-def elem_mapping(content, log=False):
+Mapping = List[Optional[str]]
+
+def elem_mapping(content: str, log: bool = False) -> Mapping:
     """Return a list of the elements in `content`, indexed by line number."""
     rxbegin, rxend = rxdelim(content)
     if rxbegin is None:
         return []
+    if rxend is None:
+        return []
 
-    mapping = [None]
+    mapping: List[Optional[str]] = [None]
     current_elem = None
     lineno = 0
 
@@ -634,20 +679,24 @@ if __name__ == '__main__':
 
 
 
-def changed_elems_by_mapping(mapping, start, length=0):
-    """Within `mapping`, return the set of elements affected by a change
-starting in line `start` and extending over `length` additional lines"""
+def changed_elems_by_mapping(mapping: Mapping, start: int, length: int = 0) -> Set[str]:
+    """
+    Within `mapping`, return the set of elements affected by a change
+    starting in line `start` and extending over `length` additional lines.
+    """
     elems = set()
     for line in range(start, start + length + 1):
         if line < len(mapping) and mapping[line]:
-            elems.add(mapping[line])
+            elem = mapping[line]
+            assert elem is not None
+            elems.add(elem)
 
     return elems
 
 if __name__ == '__main__':
     changed_elems_by_mapping(some_python_mapping, start=2, length=4)
 
-def elem_size(elem, source):
+def elem_size(elem: str, source: str) -> int:
     """Within `source`, return the size of `elem`"""
     source_lines = [''] + source.split('\n')
     size = 0
@@ -670,7 +719,7 @@ from .ChangeDebugger import diff  # minor dependency
 
 from diff_match_patch import diff_match_patch
 
-def changed_elems(old_source, new_source):
+def changed_elems(old_source: str, new_source: str) -> Set[str]:
     """Determine the elements affected by the change from `old_source` to `new_source`"""
     patches = diff(old_source, new_source)
 
@@ -695,7 +744,7 @@ def changed_elems(old_source, new_source):
 
             old_start_line += length
             new_start_line += length
-            
+
     return elems
 
 if __name__ == '__main__':
@@ -726,7 +775,7 @@ if __name__ == '__main__':
 class FineChangeCounter(ChangeCounter):
     """Count the changes for files in the repository and their elements"""
 
-    def update_elems(self, node, m):
+    def update_elems(self, node: Node, m: Commit) -> None:
         old_source = m.source_code_before if m.source_code_before else ""
         new_source = m.source_code if m.source_code else ""
 

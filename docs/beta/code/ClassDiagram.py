@@ -163,8 +163,7 @@ if __name__ == '__main__':
 
 
 
-if __name__ == '__main__':
-    D_Class.__bases__
+D_Class.__bases__
 
 def class_tree(cls: Type, lowest: Type = None) -> List[Tuple[Type, List]]:
     ret = []
@@ -231,23 +230,17 @@ if __name__ == '__main__':
 
 
 
-if __name__ == '__main__':
-    A_Class.__doc__
+A_Class.__doc__
 
-if __name__ == '__main__':
-    A_Class.__bases__[0].__doc__
+A_Class.__bases__[0].__doc__
 
-if __name__ == '__main__':
-    A_Class.__bases__[0].__name__
+A_Class.__bases__[0].__name__
 
-if __name__ == '__main__':
-    D_Class.foo
+D_Class.foo
 
-if __name__ == '__main__':
-    D_Class.foo.__doc__
+D_Class.foo.__doc__
 
-if __name__ == '__main__':
-    A_Class.foo.__doc__
+A_Class.foo.__doc__
 
 def docstring(obj: Any) -> str:
     doc = inspect.getdoc(obj)

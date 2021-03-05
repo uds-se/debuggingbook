@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-02-28 12:42:02+01:00
+# Last change: 2021-03-05 19:53:44+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -161,8 +161,7 @@ Conversely, the `diff()` function computes patches between two texts. It returns
 
 -        if c == '':  # end of markup
 
-+        elif c == '>' and not quote:
-@@ -215,24 +215,97 @@
++        elif c == '>' and not quote:@@ -215,24 +215,97 @@
  tag = False
 
 +        elif c == '"' or c == "'" and tag:

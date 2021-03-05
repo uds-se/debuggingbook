@@ -3,7 +3,7 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-03-03 15:42:51+01:00
+# Last change: 2021-03-05 19:52:39+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -631,21 +631,18 @@ if __name__ == '__main__':
         t = Time("After midnight")  # type: ignore
 
 class Time(Time):
-    def advance(self, seconds_offset: int) -> None:
-        # Some complex computation
-        ...
-
-class Time(Time):
     def seconds_since_midnight(self) -> int:
         return self.hours() * 3600 + self.minutes() * 60 + self.seconds()
 
     def advance(self, seconds_offset: int) -> None:
         old_seconds = self.seconds_since_midnight()
+
         ...  # Advance the clock
+
         assert (self.seconds_since_midnight() ==
                 (old_seconds + seconds_offset) % (24 * 60 * 60))
 
-class Time(Time):
+class BetterTime(Time):
     def advance(self, seconds_offset: int) -> None:
         assert self.repOK()
         old_seconds = self.seconds_since_midnight()
@@ -675,23 +672,17 @@ class RedBlackNode:
     pass
 
 class RedBlackTree(RedBlackTree):
-    def rootHasNoParent(self) -> bool:
-        return False
-
-    def rootIsBlack(self) -> bool:
-        return False
-
     def redNodesHaveOnlyBlackChildren(self) -> bool:
-        return False
+        return True
 
     def equalNumberOfBlackNodesOnSubtrees(self) -> bool:
-        return False
+        return True
 
     def treeIsAcyclic(self) -> bool:
-        return False
+        return True
 
     def parentsAreConsistent(self) -> bool:
-        return False
+        return True
 
     def __init__(self) -> None:
         self._root = RedBlackNode()

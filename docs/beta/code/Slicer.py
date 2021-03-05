@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-03 14:20:09+01:00
+# Last change: 2021-03-05 19:26:02+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -78,7 +78,7 @@ An alternate representation is `slicer.code()`, annotating the instrumented sour
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
 *    3     while x <= z <= 64:  # <= z (4), z (2), x (1)
-*    4         z *= 2  # <= z (4), z (2);  (3)
+*    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
 
 Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
@@ -145,6 +145,12 @@ if __name__ == '__main__':
 
 
 
+from typing import Set, List, Tuple, Any, Callable, Dict, Optional, Union, Type
+from typing import Generator, Generator
+
+import inspect
+import warnings
+
 ## Dependencies
 ## ------------
 
@@ -197,14 +203,13 @@ if __name__ == '__main__':
 
 
 
-from typing import Set, List, Tuple, Any, Callable, Dict, Optional, Union, Type
-from typing import Generator, Generator
-
 Location = Tuple[Callable, int]
 Node = Tuple[str, Location]
 Dependency = Dict[Node, Set[Node]]
 
-class Dependencies:
+from .StackInspector import StackInspector
+
+class Dependencies(StackInspector):
     """A dependency graph"""
 
     def __init__(self, 
@@ -236,9 +241,6 @@ class Dependencies:
 
         self.validate()
 
-    def validate(self) -> None:
-        ...
-
 class Dependencies(Dependencies):
     def validate(self) -> None:
         """Check dependency structure."""
@@ -251,95 +253,6 @@ class Dependencies(Dependencies):
             func, lineno = location
             assert callable(func)
             assert isinstance(lineno, int)
-
-import inspect
-from types import FunctionType, FrameType
-from typing import cast
-
-class StackInspector:
-    """Provide functions to inspect the stack"""
-
-    def caller_frame(self) -> FrameType:
-        """Return the frame of the caller."""
-
-        # Walk up the call tree until we leave the current class
-        frame = cast(FrameType, inspect.currentframe())
-
-        while ('self' in frame.f_locals and
-               isinstance(frame.f_locals['self'], self.__class__)):
-            frame = cast(FrameType, frame.f_back)
-
-        return frame
-
-    def caller_globals(self) -> Dict[str, Any]:
-        """Return the globals() environment of the caller."""
-        return self.caller_frame().f_globals
-
-    def caller_locals(self) -> Dict[str, Any]:
-        """Return the locals() environment of the caller."""
-        return self.caller_frame().f_locals
-
-class StackInspector(StackInspector):
-    def caller_location(self) -> Location:
-        """Return the location (func, lineno) of the caller."""
-        return self.caller_function(), self.caller_frame().f_lineno
-
-    def search_frame(self, name: str) -> Tuple[Optional[FrameType], Optional[Callable]]:
-        """Return a pair (`frame`, `item`) 
-        in which the function named `name` is defined as `item`."""
-        frame = self.caller_frame()
-        while frame:
-            item = None
-            if name in frame.f_globals:
-                item = frame.f_globals[name]
-            if name in frame.f_locals:
-                item = frame.f_locals[name]
-            if item and callable(item):
-                return frame, item
-
-            frame = cast(FrameType, frame.f_back)
-
-        return None, None
-
-    def search_func(self, name: str) -> Optional[Callable]:
-        """Search in callers for a definition of the function `name`"""
-        frame, func = self.search_frame(name)
-        return func
-
-    def caller_function(self) -> Callable:
-        """Return the calling function"""
-        frame = self.caller_frame()
-        name = frame.f_code.co_name
-        func = self.search_func(name)
-        if func:
-            return func
-
-        if not name.startswith('<'):
-            warnings.warn(f"Couldn't find {name} in caller")
-
-        try:
-            # Create new function from given code
-            return FunctionType(frame.f_code,
-                                globals=frame.f_globals,
-                                name=name)
-        except TypeError:
-            # Unsuitable code for creating a function
-            # Last resort: Return some function
-            return self.unknown
-
-        except Exception as exc:
-            # Any other exception
-            warnings.warn(f"Couldn't create function for {name} "
-                          f" ({type(exc).__name__}: {exc})")
-            return self.unknown
-
-    def unknown(self) -> None:  # Placeholder for unknown functions
-        pass
-
-class Dependencies(Dependencies, StackInspector):
-    pass
-
-import warnings
 
 class Dependencies(Dependencies):
     def _source(self, node: Node) -> str:
@@ -422,12 +335,6 @@ class Dependencies(Dependencies):
         self.add_hierarchy(g)
         return g
 
-    def draw_dependencies(self, g: Digraph) -> None:
-        ...
-
-    def add_hierarchy(self, g: Digraph) -> Digraph:
-        ...
-
     def _repr_svg_(self) -> Any:
         """If the object is output in Jupyter, render dependencies as a SVG graph"""
         return self.graph()._repr_svg_()
@@ -463,15 +370,6 @@ class Dependencies(Dependencies):
                 for source in self.control[var]:
                     g.edge(self.id(source), self.id(var),
                            style='dashed', color='grey')
-
-    def id(self, var: Node) -> str:
-        ...
-
-    def label(self, var: Node) -> str:
-        ...
-
-    def tooltip(self, var: Node) -> str:
-        ...
 
 class Dependencies(Dependencies):
     def id(self, var: Node) -> str:
@@ -526,13 +424,13 @@ class Dependencies(Dependencies):
 
         return g
 
-    def all_functions(self) -> Dict[Callable, List[Tuple[int, Node]]]:
-        ...
-
 class Dependencies(Dependencies):
     def all_functions(self) -> Dict[Callable, List[Tuple[int, Node]]]:
-        """Return mapping {`function`: [(`lineno`, `var`), (`lineno`, `var`), ...], ...}
-for all functions in the dependencies."""
+        """
+        Return mapping 
+        {`function`: [(`lineno`, `var`), (`lineno`, `var`), ...], ...}
+        for all functions in the dependencies.
+        """
         functions: Dict[Callable, List[Tuple[int, Node]]] = {}
         for var in self.all_vars():
             (name, location) = var
@@ -785,6 +683,8 @@ class Dependencies(Dependencies):
 if __name__ == '__main__':
     print(repr(middle_deps()))
 
+from typing import cast
+
 class Dependencies(Dependencies):
     def code(self, *items: Callable, mode: str = 'cd') -> None:
         """
@@ -972,15 +872,12 @@ if __name__ == '__main__':
 
 
 
-class DataTracker:
+class DataTracker(StackInspector):
     """Track data accesses during execution"""
 
     def __init__(self, log: bool = False) -> None:
         """Constructor. If `log` is set, turn on logging."""
         self.log = log
-
-class DataTracker(DataTracker, StackInspector):
-    pass
 
 class DataTracker(DataTracker):
     def set(self, name: str, value: Any, loads: Optional[Set[str]] = None) -> Any:
@@ -1352,12 +1249,6 @@ class TrackControlTransformer(NodeTransformer):
         node.body = self.make_with(node.body)
         node.orelse = self.make_with(node.orelse)
         return node
-
-    def make_with(self, block: List[ast.stmt]) -> List[ast.stmt]:
-        ...
-
-    def make_test(self, test: ast.expr) -> ast.expr:
-        ...
 
 class TrackControlTransformer(TrackControlTransformer):
     def make_with(self, block: List[ast.stmt]) -> List[ast.stmt]:
@@ -1990,6 +1881,8 @@ if __name__ == '__main__':
 
 
 
+import copy
+
 class DependencyTracker(DependencyTracker):
     def call(self, func: Callable) -> Callable:
         """Track a call of function `func`"""
@@ -2012,12 +1905,6 @@ class DependencyTracker(DependencyTracker):
         self.args = {}
 
         return func
-    
-    def call_generator(self, func: Callable) -> Callable:
-        ...
-        
-    def in_generator(self) -> bool:
-        ...
 
 class DependencyTracker(DependencyTracker):
     def ret(self, value: Any) -> Any:
@@ -2047,11 +1934,6 @@ class DependencyTracker(DependencyTracker):
                   f"restored read variables {self.last_read}")
 
         return value
-    
-    def ret_generator(self, generator: Any) -> Any:
-        ...
-
-import copy
 
 class DependencyTracker(DependencyTracker):
     def in_generator(self) -> bool:

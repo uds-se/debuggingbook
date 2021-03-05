@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-03-03 15:44:00+01:00
+# Last change: 2021-03-05 19:54:13+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -134,17 +134,17 @@ The method `rank()` returns a ranked list of events, starting with the most susp
 >>> debugger.rank()
 
 [('remove_html_markup', 12),
- ('remove_html_markup', 13),
- ('remove_html_markup', 2),
- ('remove_html_markup', 4),
  ('remove_html_markup', 6),
  ('remove_html_markup', 1),
  ('remove_html_markup', 3),
  ('remove_html_markup', 14),
  ('remove_html_markup', 7),
- ('remove_html_markup', 16),
  ('remove_html_markup', 9),
  ('remove_html_markup', 11),
+ ('remove_html_markup', 2),
+ ('remove_html_markup', 13),
+ ('remove_html_markup', 4),
+ ('remove_html_markup', 16),
  ('remove_html_markup', 8),
  ('remove_html_markup', 10)]
 
@@ -259,14 +259,19 @@ class Collector(Collector):
         self._args: Optional[Dict[str, Any]] = None
         self._argstring: Optional[str] = None
         self._exception: Optional[Type] = None
+        self.classes_to_ignore = [self.__class__]
 
     def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
         """Tracing function. Saves the first function and calls collect()."""
+        if 'self' in frame.f_locals:
+            for cls in self.classes_to_ignore:
+                if isinstance(frame.f_locals['self'], cls):
+                    # Do not collect our own methods
+                    return
+
         if self._function is None and event == 'call':
             # Save function
-            self._function = FunctionType(frame.f_code,
-                                          globals=frame.f_globals,
-                                          name=frame.f_code.co_name)
+            self._function = self.create_function(frame)
             self._args = frame.f_locals.copy()
             self._argstring = ", ".join([f"{var}={repr(self._args[var])}" 
                                          for var in self._args])
@@ -309,11 +314,11 @@ class Collector(Collector):
         """Return a string representation of the collector"""
         # We use the ID as default representation when printed
         return self.id()
-    
+
     def covered_functions(self) -> Set[Callable]:
         """Set of covered functions. To be overloaded in subclasses."""
         return set()
-    
+
     def coverage(self) -> Coverage:
         """
         Return a set (function, lineno) with locations covered.
@@ -326,6 +331,35 @@ if __name__ == '__main__':
         remove_html_markup('abc')
     c.function(), c.id()
 
+### Error Prevention
+
+if __name__ == '__main__':
+    print('\n### Error Prevention')
+
+
+
+class Collector(Collector):
+    def add_classes_to_ignore(self, classes_to_ignore: List[Type]) -> None:
+        """
+        Define additional classes to ignore during collection
+        (typically `Debugger` classes using these collectors).
+        """
+        self.classes_to_ignore += classes_to_ignore
+
+class Collector(Collector):
+    def __exit__(self, exc_tp: Type, exc_value: BaseException,
+                 exc_traceback: TracebackType) -> Optional[bool]:
+        """Exit the `with` block."""
+        ret = super().__exit__(exc_tp, exc_value, exc_traceback)
+
+        if not self._function:
+            if exc_tp:
+                return False  # re-raise exception
+            else:
+                raise ValueError("No call collected")
+
+        return ret
+
 ## Collecting Coverage
 ## -------------------
 
@@ -336,39 +370,15 @@ if __name__ == '__main__':
 
 from types import FunctionType, FrameType
 
-class CoverageCollector(Collector):
+from .StackInspector import StackInspector
+
+class CoverageCollector(Collector, StackInspector):
     """A class to record covered locations during execution."""
 
     def __init__(self) -> None:
+        """Constructor."""
         super().__init__()
-        self._coverage: Coverage  = set()
-
-    def search_frame(self, name: str, frame: Optional[FrameType]) -> \
-        Tuple[Optional[FrameType], Optional[Callable]]:
-        """
-        Return a pair (`frame`, `item`) 
-        in which the function `name` is defined as `item`.
-        """
-        while frame:
-            item = None
-            if name in frame.f_globals:
-                item = frame.f_globals[name]
-            if name in frame.f_locals:
-                item = frame.f_locals[name]
-            if item and callable(item):
-                return frame, item
-
-            frame = frame.f_back
-
-        return None, None
-
-    def search_func(self, name: str, frame: FrameType) -> Optional[Callable]:
-        """Search in callers for a definition of the function `name`"""
-        frame, func = self.search_frame(name, frame)
-        return func
-
-    # Avoid generating functions more than once
-    _generated_function_cache: Dict[Tuple[str, int], Callable] = {}
+        self._coverage: Coverage = set()
 
     def collect(self, frame: FrameType, event: str, arg: Any) -> None:
         """Save coverage for an observed event."""
@@ -376,27 +386,10 @@ class CoverageCollector(Collector):
         function = self.search_func(name, frame)
 
         if function is None:
-            # Create new function from given code
-            cache_key = (name, frame.f_lineno)
-            if cache_key not in self._generated_function_cache:
-                generated_function = FunctionType(frame.f_code,
-                                                  globals=frame.f_globals,
-                                                  name=name)
-                self._generated_function_cache[cache_key] = generated_function
-
-            function = self._generated_function_cache[cache_key]
+            function = self.create_function(frame)
 
         location = (function, frame.f_lineno)
         self._coverage.add(location)
-        
-    def events(self) -> Set[Tuple[str, int]]:
-        ...
-        
-    def covered_functions(self) -> Set[Callable]:
-        ...
-        
-    def coverage(self) -> Coverage:
-        ...
 
 class CoverageCollector(CoverageCollector):
     def events(self) -> Set[Tuple[str, int]]:
@@ -483,6 +476,7 @@ class StatisticalDebugger(StatisticalDebugger):
         """Return a collector for the given outcome. 
         Additional args are passed to the collector."""
         collector = self.collector_class(*args, **kwargs)
+        collector.add_classes_to_ignore([self.__class__])
         return self.add_collector(outcome, collector)
 
     def add_collector(self, outcome: str, collector: Collector) -> Collector:
@@ -729,7 +723,7 @@ class DifferenceDebugger(StatisticalDebugger):
 
     def fail_collectors(self) -> List[Collector]:
         return self.collectors[self.FAIL]
-    
+
     def all_fail_events(self) -> Set[Any]:
         """Return all events observed in failing runs."""
         return self.all_events(self.FAIL)
@@ -737,7 +731,7 @@ class DifferenceDebugger(StatisticalDebugger):
     def all_pass_events(self) -> Set[Any]:
         """Return all events observed in passing runs."""
         return self.all_events(self.PASS)
-    
+
     def only_fail_events(self) -> Set[Any]:
         """Return all events observed only in failing runs."""
         return self.all_fail_events() - self.all_pass_events()
@@ -766,6 +760,7 @@ class DifferenceDebugger(DifferenceDebugger):
         and PASS if it does not.
         """
         self.collector = self.collector_class()
+        self.collector.add_classes_to_ignore([self.__class__])
         self.collector.__enter__()
         return self
 
@@ -785,7 +780,7 @@ class DifferenceDebugger(DifferenceDebugger):
             outcome = self.FAIL
 
         self.add_collector(outcome, self.collector)
-        return True  # Ignore exception
+        return True  # Ignore exception, if any
 
 T2 = TypeVar('T2', bound='DifferenceDebugger')
 
@@ -1332,6 +1327,87 @@ if __name__ == '__main__':
 
 
 
+## Using Large Test Suites
+## -----------------------
+
+if __name__ == '__main__':
+    print('\n## Using Large Test Suites')
+
+
+
+import random
+
+def middle_testcase() -> Tuple[int, int, int]:
+    x = random.randrange(10)
+    y = random.randrange(10)
+    z = random.randrange(10)
+    return x, y, z
+
+if __name__ == '__main__':
+    [middle_testcase() for i in range(5)]
+
+def middle_test(x: int, y: int, z: int) -> None:
+    m = middle(x, y, z)
+    assert m == sorted([x, y, z])[1]
+
+if __name__ == '__main__':
+    middle_test(4, 5, 6)
+
+from .ExpectError import ExpectError
+
+if __name__ == '__main__':
+    with ExpectError():
+        middle_test(2, 1, 3)
+
+def middle_passing_testcase() -> Tuple[int, int, int]:
+    while True:
+        try:
+            x, y, z = middle_testcase()
+            middle_test(x, y, z)
+            return x, y, z
+        except AssertionError:
+            pass
+
+if __name__ == '__main__':
+    (x, y, z) = middle_passing_testcase()
+    m = middle(x, y, z)
+    print(f"middle({x}, {y}, {z}) = {m}")
+
+def middle_failing_testcase() -> Tuple[int, int, int]:
+    while True:
+        try:
+            x, y, z = middle_testcase()
+            middle_test(x, y, z)
+        except AssertionError:
+            return x, y, z
+
+if __name__ == '__main__':
+    (x, y, z) = middle_failing_testcase()
+    m = middle(x, y, z)
+    print(f"middle({x}, {y}, {z}) = {m}")
+
+MIDDLE_TESTS = 100
+
+MIDDLE_PASSING_TESTCASES = [middle_passing_testcase()
+                            for i in range(MIDDLE_TESTS)]
+
+MIDDLE_FAILING_TESTCASES = [middle_failing_testcase()
+                            for i in range(MIDDLE_TESTS)]
+
+if __name__ == '__main__':
+    ochiai_middle = OchiaiDebugger()
+
+    for x, y, z in MIDDLE_PASSING_TESTCASES:
+        with ochiai_middle.collect_pass():
+            middle(x, y, z)
+
+    for x, y, z in MIDDLE_FAILING_TESTCASES:
+        with ochiai_middle.collect_fail():
+            middle(x, y, z)
+
+if __name__ == '__main__':
+    ochiai_middle
+
 ## Other Events besides Coverage
 ## -----------------------------
 
@@ -1469,14 +1545,14 @@ import graphviz
 class ClassifyingDebugger(ClassifyingDebugger):
     def show_classifier(self, classifier: DecisionTreeClassifier) -> Any:
         dot_data = export_graphviz(classifier, out_file=None, 
-                         filled=False, rounded=True,
-                         feature_names=self.feature_names(),
-                         class_names=["FAIL", "PASS"],
-                         label='none',
-                         node_ids=False,
-                         impurity=False,
-                         proportion=True,
-                         special_characters=True)
+                                   filled=False, rounded=True,
+                                   feature_names=self.feature_names(),
+                                   class_names=["FAIL", "PASS"],
+                                   label='none',
+                                   node_ids=False,
+                                   impurity=False,
+                                   proportion=True,
+                                   special_characters=True)
 
         return graphviz.Source(dot_data)
 

@@ -11904,6 +11904,7 @@ MathJax.Hub.Config({
 <li><a href="ExpectError.html">Error Handling</a></li>
 <li><a href="Timer.html">Timer</a></li>
 <li><a href="ClassDiagram.html">Class Diagrams</a></li>
+<li><a href="StackInspector.html">Inspecting Call Stacks</a></li>
 </ul>
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
@@ -12018,6 +12019,21 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="k">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">FrozenSet</span><span class="p">,</span> <span class="n">cast</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -12033,7 +12049,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">x</span>
     <span class="k">return</span> <span class="n">y</span>
@@ -12092,7 +12108,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
@@ -12109,7 +12125,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">larger</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">f</span><span class="s2">&quot;expected {max(x, y)}, but got </span><span class="si">{m}</span><span class="s2">&quot;</span>
 </pre></div>
@@ -12225,7 +12241,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-1-796785c98bd7&gt;&#34;, line 2, in &lt;module&gt;
     larger_test(*larger_input)
-  File &#34;&lt;ipython-input-1-e4a4c6e7072d&gt;&#34;, line 3, in larger_test
+  File &#34;&lt;ipython-input-1-5b18693d7001&gt;&#34;, line 3, in larger_test
     assert m == max(x, y), f&#34;expected {max(x, y)}, but got {m}&#34;
 AssertionError: expected 81, but got 14 (expected)
 </pre>
@@ -12257,11 +12273,11 @@ AssertionError: expected 81, but got 14 (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_passing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">larger_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -12278,11 +12294,11 @@ AssertionError: expected 81, but got 14 (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_failing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">larger_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">larger_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
 </pre></div>
@@ -12393,7 +12409,7 @@ AssertionError: expected 81, but got 14 (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-1-c99f0d4988e0&gt;&#34;, line 2, in &lt;module&gt;
     larger_test(*failing_input)
-  File &#34;&lt;ipython-input-1-e4a4c6e7072d&gt;&#34;, line 3, in larger_test
+  File &#34;&lt;ipython-input-1-5b18693d7001&gt;&#34;, line 3, in larger_test
     assert m == max(x, y), f&#34;expected {max(x, y)}, but got {m}&#34;
 AssertionError: expected 93, but got 62 (expected)
 </pre>
@@ -12499,7 +12515,7 @@ AssertionError: expected 93, but got 62 (expected)
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">LARGER_PASSING_TESTCASES</span> <span class="o">+</span> <span class="n">LARGER_FAILING_TESTCASES</span><span class="p">:</span>
     <span class="k">with</span> <span class="n">larger_debugger</span><span class="p">:</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">larger_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12550,7 +12566,7 @@ AssertionError: expected 93, but got 62 (expected)
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Target code to be repaired:
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x: Any, y: Any) -&gt;Any:
     <span class="ansi-blue-fg">if</span> x &lt; y:
         <span class="ansi-blue-fg">return</span> x
     <span class="ansi-blue-fg">return</span> y
@@ -12578,14 +12594,14 @@ AssertionError: expected 93, but got 62 (expected)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Evolving population: iteration   0/100 fitness = 1.0   
 Best code (fitness = 1.0):
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x: Any, y: Any) -&gt;Any:
     <span class="ansi-blue-fg">if</span> x &lt; y:
         <span class="ansi-blue-fg">if</span> x &lt; y:
             <span class="ansi-blue-fg">return</span> y
     <span class="ansi-blue-fg">return</span> x
 
 Reduced code (fitness = 1.0):
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x: Any, y: Any) -&gt;Any:
     <span class="ansi-blue-fg">if</span> x &lt; y:
         <span class="ansi-blue-fg">return</span> y
     <span class="ansi-blue-fg">return</span> x
@@ -12657,7 +12673,10 @@ The <em>Repairer</em> class is very configurable, so that it is easy to update a
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">debug_and_repair</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">testcases</span><span class="p">,</span> <span class="n">test_function</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">debug_and_repair</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                     <span class="n">testcases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span>
+                     <span class="n">test_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                     <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Debugs a function with the given testcases and the test_function</span>
 <span class="sd">    and tries to repair it afterwards.</span>
@@ -12718,8 +12737,10 @@ The <em>Repairer</em> class is very configurable, so that it is easy to update a
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simple_debug_and_repair</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">testcases</span><span class="p">,</span> <span class="n">function_test</span><span class="p">,</span> 
-                            <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simple_debug_and_repair</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                            <span class="n">testcases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span>
+                            <span class="n">test_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> 
+                            <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Debugs a function with the given testcases and the test_function</span>
 <span class="sd">    and tries to repair it afterwards.</span>
@@ -12745,7 +12766,7 @@ The <em>Repairer</em> class is very configurable, so that it is easy to update a
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">testcases</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">debugger</span><span class="p">:</span>
-            <span class="n">function_test</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span>  <span class="c1"># Ensure that you use *i here.</span>
+            <span class="n">test_function</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="p">)</span>  <span class="c1"># Ensure that you use *i here.</span>
 
     <span class="n">repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">debugger</span><span class="p">,</span>
                         <span class="n">mutator_class</span><span class="o">=</span><span class="n">ConditionMutator</span><span class="p">,</span>
@@ -12795,7 +12816,7 @@ The <em>Repairer</em> class is very configurable, so that it is easy to update a
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x, y):
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">larger</span>(x: Any, y: Any) -&gt;Any:
     <span class="ansi-blue-fg">if</span> <span class="ansi-magenta-fg">not</span> x &lt; y:
         <span class="ansi-blue-fg">return</span> x
     <span class="ansi-blue-fg">return</span> y
@@ -12927,7 +12948,7 @@ n! = \textit{factorial}(n) = \prod_{k=1}^{n}k, \quad \text{for $k\geq 1$}
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">n</span>
 </pre></div>
@@ -12943,7 +12964,7 @@ n! = \textit{factorial}(n) = \prod_{k=1}^{n}k, \quad \text{for $k\geq 1$}
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial1_test</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial1_test</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">factorial1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 </pre></div>
@@ -12959,11 +12980,11 @@ n! = \textit{factorial}(n) = \prod_{k=1}^{n}k, \quad \text{for $k\geq 1$}
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_passing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">factorial_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">factorial1_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">factorial1_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -12980,11 +13001,11 @@ n! = \textit{factorial}(n) = \prod_{k=1}^{n}k, \quad \text{for $k\geq 1$}
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_failing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">factorial_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">factorial1_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">factorial1_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
 </pre></div>
@@ -13100,7 +13121,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial2</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial2</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">i</span> <span class="o">*=</span> <span class="n">i</span>
@@ -13150,7 +13171,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial2_test</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial2_test</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">factorial2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 </pre></div>
@@ -13166,11 +13187,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_passing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">factorial_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">factorial2_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">factorial2_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -13187,11 +13208,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_failing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">factorial_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">factorial2_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">factorial2_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
 </pre></div>
@@ -13246,7 +13267,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial3</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial3</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">+=</span> <span class="n">i</span>
@@ -13287,7 +13308,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial3_test</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial3_test</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">factorial3</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 </pre></div>
@@ -13303,11 +13324,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_passing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">factorial_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">factorial3_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">factorial3_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -13324,11 +13345,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_failing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">factorial_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">factorial_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">factorial3_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">factorial3_test</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,)</span>
 </pre></div>
@@ -13440,7 +13461,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -13458,7 +13479,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
@@ -13474,11 +13495,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_passing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">middle_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+            <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -13495,11 +13516,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_failing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">middle_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">middle_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+            <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
 </pre></div>
@@ -13616,7 +13637,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span>
@@ -13633,7 +13654,7 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_test</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">m</span> <span class="o">==</span> <span class="nb">pow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 </pre></div>
@@ -13649,11 +13670,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_passing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_passing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">power_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">power_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">power_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -13670,11 +13691,11 @@ Reduced code (fitness = 0.99):
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_failing_testcase</span><span class="p">():</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_failing_testcase</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">power_testcase</span><span class="p">()</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">power_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">power_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span>
 </pre></div>
@@ -13752,14 +13773,17 @@ Reduced code (fitness = 0.99):
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">testcases</span><span class="p">,</span> 
-                 <span class="n">test_function</span><span class="p">,</span> <span class="n">assert_function</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                 <span class="n">testcases</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> 
+                 <span class="n">test_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                 <span class="n">assert_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">testcases</span> <span class="o">=</span> <span class="n">testcases</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">test_function</span> <span class="o">=</span> <span class="n">test_function</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assert_function</span> <span class="o">=</span> <span class="n">assert_function</span>
 
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repair_function</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repair_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">repaired</span> <span class="o">=</span> <span class="n">repair_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span>
                                    <span class="bp">self</span><span class="o">.</span><span class="n">testcases</span><span class="p">,</span>
                                    <span class="bp">self</span><span class="o">.</span><span class="n">test_function</span><span class="p">)</span>
@@ -13830,13 +13854,12 @@ Reduced code (fitness = 0.99):
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tester</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">tests</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">tests</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tests</span> <span class="o">=</span> <span class="n">tests</span>
         <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># We use this seed for our evaluation; don&#39;t change it.</span>
 
-    <span class="k">def</span> <span class="nf">run_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tests</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">test</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
@@ -13940,7 +13963,7 @@ Your code needs to be sufficiently documented in order to achieve points!</p>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairing_Code.ipynb" target=_blank)>Last change: 2021-02-27 12:34:37+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairing_Code.ipynb" target=_blank)>Last change: 2021-03-05 18:27:47+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -13956,7 +13979,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">Third Project - Automated Repair</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">https://www.debuggingbook.org/beta/html/Repairing_Code.html</a>.  Retrieved 2021-02-27 12:34:37+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">Third Project - Automated Repair</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairing_Code.html">https://www.debuggingbook.org/beta/html/Repairing_Code.html</a>.  Retrieved 2021-03-05 18:27:47+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Repairing_Code,
@@ -13966,9 +13989,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairing_Code
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Repairing_Code.html}},
-    note = {Retrieved 2021-02-27 12:34:37+01:00},
+    note = {Retrieved 2021-03-05 18:27:47+01:00},
     url = {https://www.debuggingbook.org/beta/html/Repairing_Code.html},
-    urldate = {2021-02-27 12:34:37+01:00}
+    urldate = {2021-03-05 18:27:47+01:00}
 }
 </pre>
 </div>

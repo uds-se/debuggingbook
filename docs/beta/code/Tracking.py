@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-03-02 12:02:42+01:00
+# Last change: 2021-03-05 19:02:42+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -186,7 +186,7 @@ import subprocess
 import os
 import sys
 
-def with_ruby(cmd, inp='', timeout=30, show_stdout=False):
+def with_ruby(cmd: str, inp: str = '', timeout: int = 30, show_stdout: bool = False) -> None:
     print(f"$ {cmd}")
     shell = subprocess.Popen(['/bin/sh', '-c',
         f'''rvm_redmine=$HOME/.rvm/gems/ruby-2.7.2@redmine; \
@@ -212,7 +212,7 @@ cd $HOME/lib/redmine && {cmd}'''],
     if show_stdout:
         print(stdout_data, end="")
 
-def with_mysql(cmd, timeout=2, show_stdout=False):
+def with_mysql(cmd: str, timeout: int = 2, show_stdout: bool = False) -> None:
     print(f"sql>{cmd}")
     sql = subprocess.Popen(["mysql", "-u", "root",
                            "--default-character-set=utf8mb4"],
@@ -223,7 +223,7 @@ def with_mysql(cmd, timeout=2, show_stdout=False):
     try:
         stdout_data, stderr_data = sql.communicate(cmd + ';', 
                                                    timeout=timeout)
-    except suprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired:
         sql.kill()
 #         stdout_data, stderr_data = sql.communicate(inp)
 #         if show_stdout:
@@ -293,11 +293,13 @@ import time
 
 from multiprocessing import Process
 
-def run_redmine(port):
+from typing import Tuple, Any
+
+def run_redmine(port: int) -> None:
     with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1',
              timeout=3600)
 
-def start_redmine(port=3000):
+def start_redmine(port: int = 3000) -> Tuple[Process, str]:
     process = Process(target=run_redmine, args=(port,))
     process.start()
     time.sleep(5)
@@ -335,7 +337,9 @@ from .bookutils import rich_output
 
 HEADLESS = True
 
-def start_webdriver(browser=BROWSER, headless=HEADLESS, zoom=4.0):
+from selenium.webdriver.remote.webdriver import WebDriver
+
+def start_webdriver(browser: str = BROWSER, headless: bool = HEADLESS, zoom: float = 4.0) -> WebDriver:
     if browser == 'firefox':
         options = webdriver.FirefoxOptions()
     if browser == 'chrome':
@@ -390,7 +394,7 @@ if __name__ == '__main__':
 
 import tempfile
 
-def drop_shadow(contents):
+def drop_shadow(contents: bytes) -> bytes:
     with tempfile.NamedTemporaryFile() as tmp:
         tmp.write(contents)
         convert = subprocess.Popen(
@@ -399,13 +403,13 @@ def drop_shadow(contents):
             '+swap', '-background', 'none', '-layers', 'merge', '+repage', '-'],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout_data, stderr_data = convert.communicate()
-    
+
     if stderr_data:
         print(stderr_data.decode("utf-8"), file=sys.stderr, end="")
-        
+
     return stdout_data
 
-def screenshot(driver, width=500):
+def screenshot(driver: WebDriver, width: int = 500) -> bytes:
     return Image(drop_shadow(redmine_gui.get_screenshot_as_png()), width=width)
 
 if __name__ == '__main__':
@@ -583,7 +587,7 @@ if __name__ == '__main__':
 
 
 
-def new_issue(issue_title, issue_description):
+def new_issue(issue_title: str, issue_description: str) -> bytes:
     redmine_gui.get(redmine_url + '/issues/new')
 
     redmine_gui.find_element_by_id('issue_subject').send_keys(issue_title)
@@ -692,19 +696,19 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Feature']").click()
 
-def mark_tracker(issue, tracker):
+def mark_tracker(issue: int, tracker: str) -> None:
     redmine_gui.get(redmine_url + "/issues/")
     redmine_gui.find_element_by_xpath(
         f"//tr[@id='issue-{str(issue)}']//a[@title='Actions']").click()
     time.sleep(0.25)
-    
+
     tracker_item = redmine_gui.find_element_by_xpath(
         "//div[@id='context-menu']//a[text()='Tracker']")
     actions = webdriver.ActionChains(redmine_gui)
     actions.move_to_element(tracker_item)
     actions.perform()
     time.sleep(0.25)
-    
+
     redmine_gui.find_element_by_xpath(
         f"//div[@id='context-menu']//a[text()='{tracker}']").click()
 

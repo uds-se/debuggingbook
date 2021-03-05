@@ -3,7 +3,7 @@
 
 # "Introduction to Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2021-03-02 12:22:19+01:00
+# Last change: 2021-03-05 18:57:00+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -190,7 +190,7 @@ if __name__ == '__main__':
     state_machine = graph()
     state_machine.node('Start', )
     state_machine.edge('Start', '¬ tag')
-    state_machine.edge('¬ tag', '¬ tag', label=" ¬ '<'\nadd character")
+    state_machine.edge('¬ tag', '¬ tag', label=" ¬ '<'\\nadd character")
     state_machine.edge('¬ tag', 'tag', label="'<'")
     state_machine.edge('tag', '¬ tag', label="'>'")
     state_machine.edge('tag', 'tag', label="¬ '>'")
@@ -209,15 +209,15 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     state_machine = graph()
     state_machine.node('Start')
-    state_machine.edge('Start', '¬ quote\n¬ tag')
-    state_machine.edge('¬ quote\n¬ tag', '¬ quote\n¬ tag',
-                       label="¬ '<'\nadd character")
-    state_machine.edge('¬ quote\n¬ tag', '¬ quote\ntag', label="'<'")
-    state_machine.edge('¬ quote\ntag', 'quote\ntag', label="'\"'")
-    state_machine.edge('¬ quote\ntag', '¬ quote\ntag', label="¬ '\"' ∧ ¬ '>'")
-    state_machine.edge('quote\ntag', 'quote\ntag', label="¬ '\"'")
-    state_machine.edge('quote\ntag', '¬ quote\ntag', label="'\"'")
-    state_machine.edge('¬ quote\ntag', '¬ quote\n¬ tag', label="'>'")
+    state_machine.edge('Start', '¬ quote\\n¬ tag')
+    state_machine.edge('¬ quote\\n¬ tag', '¬ quote\\n¬ tag',
+                       label="¬ '<'\\nadd character")
+    state_machine.edge('¬ quote\\n¬ tag', '¬ quote\\ntag', label="'<'")
+    state_machine.edge('¬ quote\\ntag', 'quote\\ntag', label="'\"'")
+    state_machine.edge('¬ quote\\ntag', '¬ quote\\ntag', label="¬ '\"' ∧ ¬ '>'")
+    state_machine.edge('quote\\ntag', 'quote\\ntag', label="¬ '\"'")
+    state_machine.edge('quote\\ntag', '¬ quote\\ntag', label="'\"'")
+    state_machine.edge('¬ quote\\ntag', '¬ quote\\n¬ tag', label="'>'")
 
 if __name__ == '__main__':
     display(state_machine)
@@ -793,11 +793,11 @@ if __name__ == '__main__':
 
 
 
-## History of Debugging
-## --------------------
+## Debugging Aftermath
+## -------------------
 
 if __name__ == '__main__':
-    print('\n## History of Debugging')
+    print('\n## Debugging Aftermath')
 
 
 

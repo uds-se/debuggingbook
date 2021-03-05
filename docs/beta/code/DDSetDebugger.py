@@ -3,7 +3,7 @@
 
 # "Generalizing Failure Circumstances" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2021-02-28 18:14:24+01:00
+# Last change: 2021-03-05 19:54:51+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -74,16 +74,16 @@ Using `fuzz()`, the abstract input can be instantiated to further concrete input
 >>> for i in range(10):
 >>>     print(dd.fuzz())
 
+remove_html_markup(s='"1')
+remove_html_markup(s='"c*C')
 remove_html_markup(s='"')
-remove_html_markup(s='"Y')
-remove_html_markup(s='"')
-remove_html_markup(s='"')
-remove_html_markup(s='"X')
-remove_html_markup(s='"l ')
+remove_html_markup(s='")')
 remove_html_markup(s='"')
 remove_html_markup(s='"')
+remove_html_markup(s='"\t7')
 remove_html_markup(s='"')
-remove_html_markup(s='"')
+remove_html_markup(s='"2')
+remove_html_markup(s='"\r~\t\r')
 
 `DDSetDebugger` can be customized by passing a subclass of `TreeGeneralizer`, which does the gist of the work; for details, see its constructor.
 The full class hierarchy is shown below.

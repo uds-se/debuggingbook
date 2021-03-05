@@ -11904,6 +11904,7 @@ MathJax.Hub.Config({
 <li><a href="ExpectError.html">Error Handling</a></li>
 <li><a href="Timer.html">Timer</a></li>
 <li><a href="ClassDiagram.html">Class Diagrams</a></li>
+<li><a href="StackInspector.html">Inspecting Call Stacks</a></li>
 </ul>
            <li><a href="https://www.debuggingbook.org/beta/html/00_Index.html">Index (beta)</a></i></li>
         </ol>
@@ -11946,6 +11947,7 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Keep-a-Log">Keep a Log</a>
 </li><li class="has-sub"><a href="#Rubberducking">Rubberducking</a>
 </ul></li><li class="has-sub"><a href="#The-Cost-of-Debugging">&nbsp;&bull;&nbsp;&nbsp; The Cost of Debugging</a>
+</li><li class="has-sub"><a href="#Debugging-Aftermath">&nbsp;&bull;&nbsp;&nbsp; Debugging Aftermath</a>
 </li><li class="has-sub"><a href="#History-of-Debugging">&nbsp;&bull;&nbsp;&nbsp; History of Debugging</a>
 </li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
@@ -12094,7 +12096,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>However, within all the HTML markup, it may become difficult to actually access the <em>text</em> that lies within. We'd like to implement a simple function that removes <em>HTML markup</em> and converts it into text. If our input is</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>However, with all the HTML markup, it may become difficult to actually access the <em>text</em> that lies within. We'd like to implement a simple function that removes <em>HTML markup</em> and converts it into text. If our input is</p>
 <div class="highlight"><pre><span></span>Here&#39;s some <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>strong argument<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>.
 </pre></div>
 <p>the output should be</p>
@@ -12154,7 +12156,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h3 id="Understanding-Python-Programs">Understanding Python Programs<a class="anchor-link" href="#Understanding-Python-Programs">&#182;</a></h3><p>If you're new to Python, you might first have to understand what the above code does.  We very much recommend the <a href="https://docs.python.org/3/tutorial/">Python tutorial</a> to get an idea on how Python works.  The most important things for you to understand the above code are these three:</p>
 <ol>
-<li>Python structures programs through <em>indentation</em>, so the function and <code>for</code> bodies are defined by being indented;</li>
+<li>Python structures programs through <em>indentation</em>, so the function and <code>for</code> bodies are defined by being indented.</li>
 <li>Python is <em>dynamically typed</em>, meaning that the type of variables like <code>c</code>, <code>tag</code>, or <code>out</code> is determined at run-time.</li>
 <li>Most of Python's syntactic features are inspired by other common languages, such as control structures (<code>while</code>, <code>if</code>, <code>for</code>), assignments (<code>=</code>), or comparisons (<code>==</code>, <code>!=</code>, <code>&lt;</code>).</li>
 </ol>
@@ -12282,6 +12284,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="text_cell_render border-box-sizing rendered_html"><p>As nice and simple as <code>remove_html_markup()</code> is, it is buggy. Some HTML markup is not properly stripped away. Consider this HTML tag, which would render as an input field in a form:</p>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;your name&gt;&quot;</span><span class="p">&gt;</span>
 </pre></div>
+<p>\todo{One could also show as before the resulting HTML here. -- Björn}</p>
+<blockquote><input type="text" value="<your name>">
+</blockquote>
 <p>If we feed this string into <code>remove_html_markup()</code>, we would expect an empty string as the result. Instead, this is what we get:</p>
 </div>
 </div>
@@ -12474,7 +12479,10 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-First-Fix">A First Fix<a class="anchor-link" href="#A-First-Fix">&#182;</a></h2><p>Let us now look at the above state machine, and process through our input:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="A-First-Fix">A First Fix<a class="anchor-link" href="#A-First-Fix">&#182;</a></h2><p>\todo{Maybe make clear, that the proposed solutions are often not final or completely correct but exist to make the process clear. -- Björn}
+We will now iteratively try to find a correct solution to our bug. On the way we will come up with different solutions
+that bring us closer and closer to the perfect code.
+Let us now look at the above state machine, and process through our input:</p>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;your name&gt;&quot;</span><span class="p">&gt;</span>
 </pre></div>
 </div>
@@ -12520,115 +12528,79 @@ AssertionError (expected)
 <ellipse fill="#ffdab9" stroke="#000000" cx="30.5473" cy="-26.8701" rx="30.5947" ry="18"/>
 <text text-anchor="middle" x="30.5473" y="-23.1701" font-family="Raleway" font-size="14.00" fill="#000000">Start</text>
 </g>
-<!-- ¬ quote
-¬ tag -->
+<!-- ¬ quote\n¬ tag -->
 <g id="node2" class="node">
-<title>¬ quote
-¬ tag</title>
+<title>¬ quote\n¬ tag</title>
 <ellipse fill="#ffdab9" stroke="#000000" cx="144.7636" cy="-26.8701" rx="46.8387" ry="26.7407"/>
 <text text-anchor="middle" x="144.7636" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
 <text text-anchor="middle" x="144.7636" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ tag</text>
 </g>
-<!-- Start&#45;&gt;¬ quote
-¬ tag -->
+<!-- Start&#45;&gt;¬ quote\n¬ tag -->
 <g id="edge1" class="edge">
-<title>Start&#45;&gt;¬ quote
-¬ tag</title>
+<title>Start&#45;&gt;¬ quote\n¬ tag</title>
 <path fill="none" stroke="#000000" d="M61.1552,-26.8701C69.3169,-26.8701 78.4066,-26.8701 87.5014,-26.8701"/>
 <polygon fill="#000000" stroke="#000000" points="87.7228,-30.3702 97.7228,-26.8701 87.7228,-23.3702 87.7228,-30.3702"/>
 </g>
-<!-- ¬ quote
-¬ tag&#45;&gt;¬ quote
-¬ tag -->
+<!-- ¬ quote\n¬ tag&#45;&gt;¬ quote\n¬ tag -->
 <g id="edge2" class="edge">
-<title>¬ quote
-¬ tag&#45;&gt;¬ quote
-¬ tag</title>
+<title>¬ quote\n¬ tag&#45;&gt;¬ quote\n¬ tag</title>
 <path fill="none" stroke="#000000" d="M132.8105,-53.1406C132.2793,-63.2978 136.2636,-71.7401 144.7636,-71.7401 150.2089,-71.7401 153.801,-68.2754 155.5399,-63.1146"/>
 <polygon fill="#000000" stroke="#000000" points="159.0208,-63.4818 156.7168,-53.1406 152.069,-62.6615 159.0208,-63.4818"/>
 <text text-anchor="middle" x="144.7636" y="-90.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&lt;&#39;</text>
 <text text-anchor="middle" x="144.7636" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">add character</text>
 </g>
-<!-- ¬ quote
-tag -->
+<!-- ¬ quote\ntag -->
 <g id="node3" class="node">
-<title>¬ quote
-tag</title>
+<title>¬ quote\ntag</title>
 <ellipse fill="#ffdab9" stroke="#000000" cx="287.1017" cy="-26.8701" rx="46.8387" ry="26.7407"/>
 <text text-anchor="middle" x="287.1017" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
 <text text-anchor="middle" x="287.1017" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
 </g>
-<!-- ¬ quote
-¬ tag&#45;&gt;¬ quote
-tag -->
+<!-- ¬ quote\n¬ tag&#45;&gt;¬ quote\ntag -->
 <g id="edge3" class="edge">
-<title>¬ quote
-¬ tag&#45;&gt;¬ quote
-tag</title>
+<title>¬ quote\n¬ tag&#45;&gt;¬ quote\ntag</title>
 <path fill="none" stroke="#000000" d="M191.7649,-26.8701C204.0329,-26.8701 217.388,-26.8701 230.1127,-26.8701"/>
 <polygon fill="#000000" stroke="#000000" points="230.1498,-30.3702 240.1498,-26.8701 230.1497,-23.3702 230.1498,-30.3702"/>
 <text text-anchor="middle" x="215.9327" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&lt;&#39;</text>
 </g>
-<!-- ¬ quote
-tag&#45;&gt;¬ quote
-¬ tag -->
+<!-- ¬ quote\ntag&#45;&gt;¬ quote\n¬ tag -->
 <g id="edge8" class="edge">
-<title>¬ quote
-tag&#45;&gt;¬ quote
-¬ tag</title>
+<title>¬ quote\ntag&#45;&gt;¬ quote\n¬ tag</title>
 <path fill="none" stroke="#000000" d="M246.7874,-13.1073C238.8065,-10.93 230.4246,-9.0198 222.4327,-7.8701 212.8466,-6.491 202.7171,-7.2747 193.0521,-9.1447"/>
 <polygon fill="#000000" stroke="#000000" points="192.136,-5.7643 183.1907,-11.4417 193.7241,-12.5819 192.136,-5.7643"/>
 <text text-anchor="middle" x="215.9327" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&gt;&#39;</text>
 </g>
-<!-- ¬ quote
-tag&#45;&gt;¬ quote
-tag -->
+<!-- ¬ quote\ntag&#45;&gt;¬ quote\ntag -->
 <g id="edge5" class="edge">
-<title>¬ quote
-tag&#45;&gt;¬ quote
-tag</title>
+<title>¬ quote\ntag&#45;&gt;¬ quote\ntag</title>
 <path fill="none" stroke="#000000" d="M274.4015,-53.1406C273.8371,-63.2978 278.0705,-71.7401 287.1017,-71.7401 292.8874,-71.7401 296.704,-68.2754 298.5515,-63.1146"/>
 <polygon fill="#000000" stroke="#000000" points="302.0308,-63.4983 299.8019,-53.1406 295.0851,-62.6275 302.0308,-63.4983"/>
 <text text-anchor="middle" x="287.1017" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39; ∧ ¬ &#39;&gt;&#39;</text>
 </g>
-<!-- quote
-tag -->
+<!-- quote\ntag -->
 <g id="node4" class="node">
-<title>quote
-tag</title>
+<title>quote\ntag</title>
 <ellipse fill="#ffdab9" stroke="#000000" cx="418.6616" cy="-26.8701" rx="38.7821" ry="26.7407"/>
 <text text-anchor="middle" x="418.6616" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">quote</text>
 <text text-anchor="middle" x="418.6616" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
 </g>
-<!-- ¬ quote
-tag&#45;&gt;quote
-tag -->
+<!-- ¬ quote\ntag&#45;&gt;quote\ntag -->
 <g id="edge4" class="edge">
-<title>¬ quote
-tag&#45;&gt;quote
-tag</title>
+<title>¬ quote\ntag&#45;&gt;quote\ntag</title>
 <path fill="none" stroke="#000000" d="M333.8553,-26.8701C345.3941,-26.8701 357.7875,-26.8701 369.4395,-26.8701"/>
 <polygon fill="#000000" stroke="#000000" points="369.4482,-30.3702 379.4482,-26.8701 369.4482,-23.3702 369.4482,-30.3702"/>
 <text text-anchor="middle" x="356.7708" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
 </g>
-<!-- quote
-tag&#45;&gt;¬ quote
-tag -->
+<!-- quote\ntag&#45;&gt;¬ quote\ntag -->
 <g id="edge7" class="edge">
-<title>quote
-tag&#45;&gt;¬ quote
-tag</title>
+<title>quote\ntag&#45;&gt;¬ quote\ntag</title>
 <path fill="none" stroke="#000000" d="M384.8162,-13.5899C377.339,-11.2158 369.3766,-9.1066 361.7708,-7.8701 352.9453,-6.4353 343.6379,-7.0451 334.7019,-8.7297"/>
 <polygon fill="#000000" stroke="#000000" points="333.7592,-5.3556 324.8162,-11.0366 335.35,-12.1724 333.7592,-5.3556"/>
 <text text-anchor="middle" x="356.7708" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
 </g>
-<!-- quote
-tag&#45;&gt;quote
-tag -->
+<!-- quote\ntag&#45;&gt;quote\ntag -->
 <g id="edge6" class="edge">
-<title>quote
-tag&#45;&gt;quote
-tag</title>
+<title>quote\ntag&#45;&gt;quote\ntag</title>
 <path fill="none" stroke="#000000" d="M407.4803,-52.6914C406.8486,-63.0476 410.5757,-71.7401 418.6616,-71.7401 423.8417,-71.7401 427.2329,-68.1727 428.8352,-62.8859"/>
 <polygon fill="#000000" stroke="#000000" points="432.3422,-62.9872 429.843,-52.6914 425.3761,-62.2985 432.3422,-62.9872"/>
 <text text-anchor="middle" x="418.6616" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39;</text>
@@ -12886,7 +12858,7 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Printf-Debugging">Printf Debugging<a class="anchor-link" href="#Printf-Debugging">&#182;</a></h3><p>When I was a student,  never got any formal training in debugging, so I had to figure this out for myself. What I learned was how to use <em>debugging output</em>; in Python, this would be the <code>print()</code> function. For instance, I would go and scatter <code>print()</code> calls everywhere:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Printf-Debugging">Printf Debugging<a class="anchor-link" href="#Printf-Debugging">&#182;</a></h3><p>When I was a student, I never got any formal training in debugging, so I had to figure this out for myself. What I learned was how to use <em>debugging output</em>; in Python, this would be the <code>print()</code> function. For instance, I would go and scatter <code>print()</code> calls everywhere:</p>
 </div>
 </div>
 </div>
@@ -12978,7 +12950,7 @@ c = &#39;&gt;&#39; tag = True quote = False
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Yes, one sees what is going on – but this is horribly inefficient!  Think of a 1,000-character input – you'd have to go through 2,000 lines of logs.  It may help you, but it's a total time waster.  Plus, you have to enter these statements, remove them again... it's a maintenance nightmare.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Yes, one sees what is going on – but this is horribly inefficient!  Think of a 1,000-character input – you'd have to go through 1,000 lines of logs.  It may help you, but it's a total time waster.  Plus, you have to enter these statements, remove them again... it's a maintenance nightmare.</p>
 </div>
 </div>
 </div>
@@ -13101,7 +13073,8 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Oh, and of course, I would never back up earlier versions such that I would be able to keep track of what has changed and when.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Oh, and of course, I would never back up earlier versions such that I would be able to keep track of what has changed and when.
+Especially keep in mind that our tests will never cover all corner cases. Randomly patching code will just lead to harder to find bugs.</p>
 </div>
 </div>
 </div>
@@ -13170,7 +13143,9 @@ AssertionError (expected)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><h2 id="From-Defect-to-Failure">From Defect to Failure<a class="anchor-link" href="#From-Defect-to-Failure">&#182;</a></h2><p>To understand how to systematically debug a program, we first have to understand how failures come to be. The typical debugging situation looks like this. We have a program (execution), taking some input and producing some output. The output is in <em>error</em> (✘), meaning an unwanted and unintended deviation from what is correct, right, or true.
-The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't search for the bug in our program, but in whatever produced its input.)</p>
+The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't search for the bug in our program, but in whatever produced its input.)
+\todo{Maybe clarify what a  correct input means here -- one could also pass an incorrect (e.g. malicious) input to the program.
+The software should handle such inputs by correctly terminating.}</p>
 </div>
 </div>
 </div>
@@ -14108,6 +14083,8 @@ The input, in contrast, is assumed to be correct (✔). (Otherwise, we wouldn't 
 <li>This <em>fault</em> in the state then <em>propagates</em> through further execution steps...</li>
 <li>... until it becomes visible as a <em>failure</em>.</li>
 </ul>
+<p>Even worse: in most cases the fault often expresses itself first in the control flow rather than the variable contents.
+Such a deviation from a normal execution is in general even harder to find.</p>
 </div>
 </div>
 </div>
@@ -14155,7 +14132,7 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <li><p>Third, executions typically do not come in a handful of steps, as in the diagrams above; instead, they can easily encompass <em>thousands to millions of steps.</em> This means that you will have to examine not just one state, but several, making the problem much worse.</p>
 </li>
 </ul>
-<p>To make your search efficient, you thus have to <em>focus</em> your search – starting with most likely causes and gradually progressing to the less probable causes. This is what we call a <em>debugging strategy</em>.</p>
+<p>To make your search efficient, you thus have to <em>focus</em> your search – starting with most likely causes and gradually progressing to the less probable causes. This is what we call a <em>debugging strategy</em>. Intermediate assertions of the program state also come in handy, as they make the cause-effect chain smaller.</p>
 </div>
 </div>
 </div>
@@ -14518,22 +14495,22 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-1" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
-        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-1-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-1">Double quotes (<code>"</code>) are stripped from the tagged input.</label><br>
+        <input type="checkbox" name="2e34c8ec-7ddc-11eb-a588-f218984d6a0c" id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-1" onclick="clear_selection('2e34c8ec-7ddc-11eb-a588-f218984d6a0c')">
+        <label id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-1-label" for="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-1">Double quotes (<code>"</code>) are stripped from the tagged input.</label><br>
 
-        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-2" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
-        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-2-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-2">Tags in double quotes are not stripped.</label><br>
+        <input type="checkbox" name="2e34c8ec-7ddc-11eb-a588-f218984d6a0c" id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-2" onclick="clear_selection('2e34c8ec-7ddc-11eb-a588-f218984d6a0c')">
+        <label id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-2-label" for="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-2">Tags in double quotes are not stripped.</label><br>
 
-        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-3" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
-        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-3-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-3">The tag <code>&lt;&gt;</code> is always stripped from the input.</label><br>
+        <input type="checkbox" name="2e34c8ec-7ddc-11eb-a588-f218984d6a0c" id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-3" onclick="clear_selection('2e34c8ec-7ddc-11eb-a588-f218984d6a0c')">
+        <label id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-3-label" for="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-3">The tag <code>&lt;&gt;</code> is always stripped from the input.</label><br>
 
-        <input type="checkbox" name="8b9cc0a6-7b49-11eb-a588-f218984d6a0c" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-4" onclick="clear_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c')">
-        <label id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-4-label" for="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-4">Four-letter words are stripped.</label><br>
+        <input type="checkbox" name="2e34c8ec-7ddc-11eb-a588-f218984d6a0c" id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-4" onclick="clear_selection('2e34c8ec-7ddc-11eb-a588-f218984d6a0c')">
+        <label id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-4-label" for="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-4">Four-letter words are stripped.</label><br>
 
     </div>
     </p>
-    <input id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8b9cc0a6-7b49-11eb-a588-f218984d6a0c', 6, 1, '[298 % 33, 1234 % 616]')">
-    <span class="quiz_hint" id="8b9cc0a6-7b49-11eb-a588-f218984d6a0c-hint"></span>
+    <input id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2e34c8ec-7ddc-11eb-a588-f218984d6a0c', 6, 1, '[298 % 33, 1234 % 616]')">
+    <span class="quiz_hint" id="2e34c8ec-7ddc-11eb-a588-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -14718,7 +14695,9 @@ step in which a correct state comes in and a faulty state comes out. At this poi
 <li>if it holds: proceed as usual</li>
 <li>if <code>cond</code> does not hold: throw an exception</li>
 </ul>
-<p>An <code>assert</code> statement <em>encodes our assumptions</em> and as such, should never fail. If it does, well, then something is wrong.</p>
+<p>An <code>assert</code> statement <em>encodes our assumptions</em> and as such, should never fail. If it does, well, then something is wrong.
+Furthermore, <code>assert</code> statements break the cause-effect chain into smaller pieces. The observable failure occurs earlier in
+the program execution and thus closer to the initial fault.</p>
 </div>
 </div>
 </div>
@@ -14870,16 +14849,16 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="8ba28506-7b49-11eb-8163-f218984d6a0c" id="8ba28506-7b49-11eb-8163-f218984d6a0c-1" onclick="clear_selection('8ba28506-7b49-11eb-8163-f218984d6a0c')">
-        <label id="8ba28506-7b49-11eb-8163-f218984d6a0c-1-label" for="8ba28506-7b49-11eb-8163-f218984d6a0c-1">The program raises an exception. (i.e., <code>tag</code> is set)</label><br>
+        <input type="radio" name="2e3a0488-7ddc-11eb-8163-f218984d6a0c" id="2e3a0488-7ddc-11eb-8163-f218984d6a0c-1" onclick="clear_selection('2e3a0488-7ddc-11eb-8163-f218984d6a0c')">
+        <label id="2e3a0488-7ddc-11eb-8163-f218984d6a0c-1-label" for="2e3a0488-7ddc-11eb-8163-f218984d6a0c-1">The program raises an exception. (i.e., <code>tag</code> is set)</label><br>
 
-        <input type="radio" name="8ba28506-7b49-11eb-8163-f218984d6a0c" id="8ba28506-7b49-11eb-8163-f218984d6a0c-2" onclick="clear_selection('8ba28506-7b49-11eb-8163-f218984d6a0c')">
-        <label id="8ba28506-7b49-11eb-8163-f218984d6a0c-2-label" for="8ba28506-7b49-11eb-8163-f218984d6a0c-2">The output is as before, i.e., <code>foo</code> without quotes. (which means that <code>tag</code> is not set)</label><br>
+        <input type="radio" name="2e3a0488-7ddc-11eb-8163-f218984d6a0c" id="2e3a0488-7ddc-11eb-8163-f218984d6a0c-2" onclick="clear_selection('2e3a0488-7ddc-11eb-8163-f218984d6a0c')">
+        <label id="2e3a0488-7ddc-11eb-8163-f218984d6a0c-2-label" for="2e3a0488-7ddc-11eb-8163-f218984d6a0c-2">The output is as before, i.e., <code>foo</code> without quotes. (which means that <code>tag</code> is not set)</label><br>
 
     </div>
     </p>
-    <input id="8ba28506-7b49-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8ba28506-7b49-11eb-8163-f218984d6a0c', 4, 0, '')">
-    <span class="quiz_hint" id="8ba28506-7b49-11eb-8163-f218984d6a0c-hint"></span>
+    <input id="2e3a0488-7ddc-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2e3a0488-7ddc-11eb-8163-f218984d6a0c', 4, 0, '')">
+    <span class="quiz_hint" id="2e3a0488-7ddc-11eb-8163-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15102,16 +15081,16 @@ step in which a correct state comes in and a faulty state comes out. At this poi
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="8ba61d68-7b49-11eb-9732-f218984d6a0c" id="8ba61d68-7b49-11eb-9732-f218984d6a0c-1" onclick="clear_selection('8ba61d68-7b49-11eb-9732-f218984d6a0c')">
-        <label id="8ba61d68-7b49-11eb-9732-f218984d6a0c-1-label" for="8ba61d68-7b49-11eb-9732-f218984d6a0c-1">The program raises an exception (i.e., the quote condition holds)</label><br>
+        <input type="radio" name="2e3d6380-7ddc-11eb-9732-f218984d6a0c" id="2e3d6380-7ddc-11eb-9732-f218984d6a0c-1" onclick="clear_selection('2e3d6380-7ddc-11eb-9732-f218984d6a0c')">
+        <label id="2e3d6380-7ddc-11eb-9732-f218984d6a0c-1-label" for="2e3d6380-7ddc-11eb-9732-f218984d6a0c-1">The program raises an exception (i.e., the quote condition holds)</label><br>
 
-        <input type="radio" name="8ba61d68-7b49-11eb-9732-f218984d6a0c" id="8ba61d68-7b49-11eb-9732-f218984d6a0c-2" onclick="clear_selection('8ba61d68-7b49-11eb-9732-f218984d6a0c')">
-        <label id="8ba61d68-7b49-11eb-9732-f218984d6a0c-2-label" for="8ba61d68-7b49-11eb-9732-f218984d6a0c-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
+        <input type="radio" name="2e3d6380-7ddc-11eb-9732-f218984d6a0c" id="2e3d6380-7ddc-11eb-9732-f218984d6a0c-2" onclick="clear_selection('2e3d6380-7ddc-11eb-9732-f218984d6a0c')">
+        <label id="2e3d6380-7ddc-11eb-9732-f218984d6a0c-2-label" for="2e3d6380-7ddc-11eb-9732-f218984d6a0c-2">The output is still foo (i.e., the quote condition does not hold)</label><br>
 
     </div>
     </p>
-    <input id="8ba61d68-7b49-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8ba61d68-7b49-11eb-9732-f218984d6a0c', 2, 0, '')">
-    <span class="quiz_hint" id="8ba61d68-7b49-11eb-9732-f218984d6a0c-hint"></span>
+    <input id="2e3d6380-7ddc-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2e3d6380-7ddc-11eb-9732-f218984d6a0c', 2, 0, '')">
+    <span class="quiz_hint" id="2e3d6380-7ddc-11eb-9732-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15345,22 +15324,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
-        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-1-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-1"><code>c == "" or c == '' and tag</code> (Choice 1)</label><br>
+        <input type="radio" name="2e4001d0-7ddc-11eb-b36c-f218984d6a0c" id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('2e4001d0-7ddc-11eb-b36c-f218984d6a0c')">
+        <label id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-1-label" for="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-1"><code>c == "" or c == '' and tag</code> (Choice 1)</label><br>
 
-        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
-        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-2-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-2"><code>c == '"' or c == "'" and not tag</code> (Choice 2)</label><br>
+        <input type="radio" name="2e4001d0-7ddc-11eb-b36c-f218984d6a0c" id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('2e4001d0-7ddc-11eb-b36c-f218984d6a0c')">
+        <label id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-2-label" for="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-2"><code>c == '"' or c == "'" and not tag</code> (Choice 2)</label><br>
 
-        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
-        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-3-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-3"><code>(c == '"' or c == "'") and tag</code> (Choice 3)</label><br>
+        <input type="radio" name="2e4001d0-7ddc-11eb-b36c-f218984d6a0c" id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('2e4001d0-7ddc-11eb-b36c-f218984d6a0c')">
+        <label id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-3-label" for="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-3"><code>(c == '"' or c == "'") and tag</code> (Choice 3)</label><br>
 
-        <input type="radio" name="8ba8e84a-7b49-11eb-b36c-f218984d6a0c" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c')">
-        <label id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-4-label" for="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-4">Something else</label><br>
+        <input type="radio" name="2e4001d0-7ddc-11eb-b36c-f218984d6a0c" id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('2e4001d0-7ddc-11eb-b36c-f218984d6a0c')">
+        <label id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-4-label" for="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-4">Something else</label><br>
 
     </div>
     </p>
-    <input id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8ba8e84a-7b49-11eb-b36c-f218984d6a0c', 8, 0, '399 % 4')">
-    <span class="quiz_hint" id="8ba8e84a-7b49-11eb-b36c-f218984d6a0c-hint"></span>
+    <input id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2e4001d0-7ddc-11eb-b36c-f218984d6a0c', 8, 0, '399 % 4')">
+    <span class="quiz_hint" id="2e4001d0-7ddc-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15638,7 +15617,9 @@ AssertionError (expected)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>First, we may want to check that the underlying mistake was not made elsewhere, too.</p>
-<p>For an error as with <code>remove_html_markup()</code>, it may be wise to check other parts of the code (possibly written by the same programmer) whether Boolean formulas show proper precendence. Consider setting up a static program checker or style checker to catch similar mistakes.</p>
+<p>For an error as with <code>remove_html_markup()</code>, it may be wise to check other parts of the code (possibly written by the same programmer) whether Boolean formulas show proper precendence. Consider setting up a static program checker or style checker to catch similar mistakes.
+Usually if you code in an IDE specifically designed for language you are coding in, you will get hints on so called <em>code smells</em>,
+parts of your code that are typically erroneous because of bad style or other typical mistakes.</p>
 </div>
 </div>
 </div>
@@ -15754,22 +15735,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-1" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
-        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-1-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-1"><code>assert quote and not tag</code></label><br>
+        <input type="radio" name="2e4315be-7ddc-11eb-835f-f218984d6a0c" id="2e4315be-7ddc-11eb-835f-f218984d6a0c-1" onclick="clear_selection('2e4315be-7ddc-11eb-835f-f218984d6a0c')">
+        <label id="2e4315be-7ddc-11eb-835f-f218984d6a0c-1-label" for="2e4315be-7ddc-11eb-835f-f218984d6a0c-1"><code>assert quote and not tag</code></label><br>
 
-        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-2" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
-        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-2-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-2"><code>assert quote or not tag</code></label><br>
+        <input type="radio" name="2e4315be-7ddc-11eb-835f-f218984d6a0c" id="2e4315be-7ddc-11eb-835f-f218984d6a0c-2" onclick="clear_selection('2e4315be-7ddc-11eb-835f-f218984d6a0c')">
+        <label id="2e4315be-7ddc-11eb-835f-f218984d6a0c-2-label" for="2e4315be-7ddc-11eb-835f-f218984d6a0c-2"><code>assert quote or not tag</code></label><br>
 
-        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-3" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
-        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-3-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-3"><code>assert tag or not quote</code></label><br>
+        <input type="radio" name="2e4315be-7ddc-11eb-835f-f218984d6a0c" id="2e4315be-7ddc-11eb-835f-f218984d6a0c-3" onclick="clear_selection('2e4315be-7ddc-11eb-835f-f218984d6a0c')">
+        <label id="2e4315be-7ddc-11eb-835f-f218984d6a0c-3-label" for="2e4315be-7ddc-11eb-835f-f218984d6a0c-3"><code>assert tag or not quote</code></label><br>
 
-        <input type="radio" name="8bac1428-7b49-11eb-835f-f218984d6a0c" id="8bac1428-7b49-11eb-835f-f218984d6a0c-4" onclick="clear_selection('8bac1428-7b49-11eb-835f-f218984d6a0c')">
-        <label id="8bac1428-7b49-11eb-835f-f218984d6a0c-4-label" for="8bac1428-7b49-11eb-835f-f218984d6a0c-4"><code>assert tag and not quote</code></label><br>
+        <input type="radio" name="2e4315be-7ddc-11eb-835f-f218984d6a0c" id="2e4315be-7ddc-11eb-835f-f218984d6a0c-4" onclick="clear_selection('2e4315be-7ddc-11eb-835f-f218984d6a0c')">
+        <label id="2e4315be-7ddc-11eb-835f-f218984d6a0c-4-label" for="2e4315be-7ddc-11eb-835f-f218984d6a0c-4"><code>assert tag and not quote</code></label><br>
 
     </div>
     </p>
-    <input id="8bac1428-7b49-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8bac1428-7b49-11eb-835f-f218984d6a0c', 8, 0, '3270 - 3267')">
-    <span class="quiz_hint" id="8bac1428-7b49-11eb-835f-f218984d6a0c-hint"></span>
+    <input id="2e4315be-7ddc-11eb-835f-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2e4315be-7ddc-11eb-835f-f218984d6a0c', 8, 0, '3270 - 3267')">
+    <span class="quiz_hint" id="2e4315be-7ddc-11eb-835f-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -15808,115 +15789,79 @@ AssertionError (expected)
 <ellipse fill="#ffdab9" stroke="#000000" cx="30.5473" cy="-26.8701" rx="30.5947" ry="18"/>
 <text text-anchor="middle" x="30.5473" y="-23.1701" font-family="Raleway" font-size="14.00" fill="#000000">Start</text>
 </g>
-<!-- ¬ quote
-¬ tag -->
+<!-- ¬ quote\n¬ tag -->
 <g id="node2" class="node">
-<title>¬ quote
-¬ tag</title>
+<title>¬ quote\n¬ tag</title>
 <ellipse fill="#ffdab9" stroke="#000000" cx="144.7636" cy="-26.8701" rx="46.8387" ry="26.7407"/>
 <text text-anchor="middle" x="144.7636" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
 <text text-anchor="middle" x="144.7636" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ tag</text>
 </g>
-<!-- Start&#45;&gt;¬ quote
-¬ tag -->
+<!-- Start&#45;&gt;¬ quote\n¬ tag -->
 <g id="edge1" class="edge">
-<title>Start&#45;&gt;¬ quote
-¬ tag</title>
+<title>Start&#45;&gt;¬ quote\n¬ tag</title>
 <path fill="none" stroke="#000000" d="M61.1552,-26.8701C69.3169,-26.8701 78.4066,-26.8701 87.5014,-26.8701"/>
 <polygon fill="#000000" stroke="#000000" points="87.7228,-30.3702 97.7228,-26.8701 87.7228,-23.3702 87.7228,-30.3702"/>
 </g>
-<!-- ¬ quote
-¬ tag&#45;&gt;¬ quote
-¬ tag -->
+<!-- ¬ quote\n¬ tag&#45;&gt;¬ quote\n¬ tag -->
 <g id="edge2" class="edge">
-<title>¬ quote
-¬ tag&#45;&gt;¬ quote
-¬ tag</title>
+<title>¬ quote\n¬ tag&#45;&gt;¬ quote\n¬ tag</title>
 <path fill="none" stroke="#000000" d="M132.8105,-53.1406C132.2793,-63.2978 136.2636,-71.7401 144.7636,-71.7401 150.2089,-71.7401 153.801,-68.2754 155.5399,-63.1146"/>
 <polygon fill="#000000" stroke="#000000" points="159.0208,-63.4818 156.7168,-53.1406 152.069,-62.6615 159.0208,-63.4818"/>
 <text text-anchor="middle" x="144.7636" y="-90.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&lt;&#39;</text>
 <text text-anchor="middle" x="144.7636" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">add character</text>
 </g>
-<!-- ¬ quote
-tag -->
+<!-- ¬ quote\ntag -->
 <g id="node3" class="node">
-<title>¬ quote
-tag</title>
+<title>¬ quote\ntag</title>
 <ellipse fill="#ffdab9" stroke="#000000" cx="287.1017" cy="-26.8701" rx="46.8387" ry="26.7407"/>
 <text text-anchor="middle" x="287.1017" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">¬ quote</text>
 <text text-anchor="middle" x="287.1017" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
 </g>
-<!-- ¬ quote
-¬ tag&#45;&gt;¬ quote
-tag -->
+<!-- ¬ quote\n¬ tag&#45;&gt;¬ quote\ntag -->
 <g id="edge3" class="edge">
-<title>¬ quote
-¬ tag&#45;&gt;¬ quote
-tag</title>
+<title>¬ quote\n¬ tag&#45;&gt;¬ quote\ntag</title>
 <path fill="none" stroke="#000000" d="M191.7649,-26.8701C204.0329,-26.8701 217.388,-26.8701 230.1127,-26.8701"/>
 <polygon fill="#000000" stroke="#000000" points="230.1498,-30.3702 240.1498,-26.8701 230.1497,-23.3702 230.1498,-30.3702"/>
 <text text-anchor="middle" x="215.9327" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&lt;&#39;</text>
 </g>
-<!-- ¬ quote
-tag&#45;&gt;¬ quote
-¬ tag -->
+<!-- ¬ quote\ntag&#45;&gt;¬ quote\n¬ tag -->
 <g id="edge8" class="edge">
-<title>¬ quote
-tag&#45;&gt;¬ quote
-¬ tag</title>
+<title>¬ quote\ntag&#45;&gt;¬ quote\n¬ tag</title>
 <path fill="none" stroke="#000000" d="M246.7874,-13.1073C238.8065,-10.93 230.4246,-9.0198 222.4327,-7.8701 212.8466,-6.491 202.7171,-7.2747 193.0521,-9.1447"/>
 <polygon fill="#000000" stroke="#000000" points="192.136,-5.7643 183.1907,-11.4417 193.7241,-12.5819 192.136,-5.7643"/>
 <text text-anchor="middle" x="215.9327" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&gt;&#39;</text>
 </g>
-<!-- ¬ quote
-tag&#45;&gt;¬ quote
-tag -->
+<!-- ¬ quote\ntag&#45;&gt;¬ quote\ntag -->
 <g id="edge5" class="edge">
-<title>¬ quote
-tag&#45;&gt;¬ quote
-tag</title>
+<title>¬ quote\ntag&#45;&gt;¬ quote\ntag</title>
 <path fill="none" stroke="#000000" d="M274.4015,-53.1406C273.8371,-63.2978 278.0705,-71.7401 287.1017,-71.7401 292.8874,-71.7401 296.704,-68.2754 298.5515,-63.1146"/>
 <polygon fill="#000000" stroke="#000000" points="302.0308,-63.4983 299.8019,-53.1406 295.0851,-62.6275 302.0308,-63.4983"/>
 <text text-anchor="middle" x="287.1017" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39; ∧ ¬ &#39;&gt;&#39;</text>
 </g>
-<!-- quote
-tag -->
+<!-- quote\ntag -->
 <g id="node4" class="node">
-<title>quote
-tag</title>
+<title>quote\ntag</title>
 <ellipse fill="#ffdab9" stroke="#000000" cx="418.6616" cy="-26.8701" rx="38.7821" ry="26.7407"/>
 <text text-anchor="middle" x="418.6616" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">quote</text>
 <text text-anchor="middle" x="418.6616" y="-15.6701" font-family="Raleway" font-size="14.00" fill="#000000">tag</text>
 </g>
-<!-- ¬ quote
-tag&#45;&gt;quote
-tag -->
+<!-- ¬ quote\ntag&#45;&gt;quote\ntag -->
 <g id="edge4" class="edge">
-<title>¬ quote
-tag&#45;&gt;quote
-tag</title>
+<title>¬ quote\ntag&#45;&gt;quote\ntag</title>
 <path fill="none" stroke="#000000" d="M333.8553,-26.8701C345.3941,-26.8701 357.7875,-26.8701 369.4395,-26.8701"/>
 <polygon fill="#000000" stroke="#000000" points="369.4482,-30.3702 379.4482,-26.8701 369.4482,-23.3702 369.4482,-30.3702"/>
 <text text-anchor="middle" x="356.7708" y="-30.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
 </g>
-<!-- quote
-tag&#45;&gt;¬ quote
-tag -->
+<!-- quote\ntag&#45;&gt;¬ quote\ntag -->
 <g id="edge7" class="edge">
-<title>quote
-tag&#45;&gt;¬ quote
-tag</title>
+<title>quote\ntag&#45;&gt;¬ quote\ntag</title>
 <path fill="none" stroke="#000000" d="M384.8162,-13.5899C377.339,-11.2158 369.3766,-9.1066 361.7708,-7.8701 352.9453,-6.4353 343.6379,-7.0451 334.7019,-8.7297"/>
 <polygon fill="#000000" stroke="#000000" points="333.7592,-5.3556 324.8162,-11.0366 335.35,-12.1724 333.7592,-5.3556"/>
 <text text-anchor="middle" x="356.7708" y="-11.6701" font-family="Raleway" font-size="14.00" fill="#000000">&#39;&quot;&#39;</text>
 </g>
-<!-- quote
-tag&#45;&gt;quote
-tag -->
+<!-- quote\ntag&#45;&gt;quote\ntag -->
 <g id="edge6" class="edge">
-<title>quote
-tag&#45;&gt;quote
-tag</title>
+<title>quote\ntag&#45;&gt;quote\ntag</title>
 <path fill="none" stroke="#000000" d="M407.4803,-52.6914C406.8486,-63.0476 410.5757,-71.7401 418.6616,-71.7401 423.8417,-71.7401 427.2329,-68.1727 428.8352,-62.8859"/>
 <polygon fill="#000000" stroke="#000000" points="432.3422,-62.9872 429.843,-52.6914 425.3761,-62.2985 432.3422,-62.9872"/>
 <text text-anchor="middle" x="418.6616" y="-75.5401" font-family="Raleway" font-size="14.00" fill="#000000">¬ &#39;&quot;&#39;</text>
@@ -15999,7 +15944,7 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Become-a-Better-Debugger">Become a Better Debugger<a class="anchor-link" href="#Become-a-Better-Debugger">&#182;</a></h2><p>We have now systematically fixed a bug. In this book, we will explore a number of techniques to make debugging easier – coming up with automated diagnoses, explanations, even automatic repairs, including for our example above. But there are also number of things <em>you</em> can do to become a better debugger.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Become-a-Better-Debugger">Become a Better Debugger<a class="anchor-link" href="#Become-a-Better-Debugger">&#182;</a></h2><p>We have now systematically fixed a bug. In this book, we will explore a number of techniques to make debugging easier – coming up with automated diagnoses, explanations, even automatic repairs, including for our example above. But there are also a number of things <em>you</em> can do to become a better debugger.</p>
 <h3 id="Follow-the-Process">Follow the Process<a class="anchor-link" href="#Follow-the-Process">&#182;</a></h3><p>If you're an experienced programmer, you may have spotted the problem in <code>remove_html_markup()</code> immediately, and start fixing the code right away. But this is dangerous and risky.</p>
 <p>Why is this so?  Well, because you should first</p>
 <ul>
@@ -16033,7 +15978,7 @@ tag</title>
 </tr>
 </tbody>
 </table>
-<p>Every time you come up with a new hypothesis, you can immediately check it against your earlier observations, which will help you eliminating unlikely ones from the start. This is a bit like in the classic "Mastermind" board game, in which you have to guess some secret combination of pins, and in which you opponent gives you hints on whether and how your guesses are correct. At any time, you can see your previous guesses (experiments) and the results (observations) you got; any new guess (hypothesis) as to be consistent with the previous observations and experiments.</p>
+<p>Every time you come up with a new hypothesis, you can immediately check it against your earlier observations, which will help you eliminating unlikely ones from the start. This is a bit like in the classic "Mastermind" board game, in which you have to guess some secret combination of pins, and in which you opponent gives you hints on whether and how your guesses are correct. At any time, you can see your previous guesses (experiments) and the results (observations) you got; any new guess (hypothesis) has to be consistent with the previous observations and experiments.</p>
 </div>
 </div>
 </div>
@@ -16052,7 +15997,7 @@ tag</title>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>Keeping such a log also allows you to interrupt your debugging session at any time. You can be home in time, sleep over the problem, and resume the next morning with a refreshed mind. You can even hand over the log to someone else, stating your findings so far.</p>
-<p>The alternative to having a log is to <em>keep all in memory</em>. This only works for short amounts of time, as puts a higher and higher cognitive load on your memory as you debug along. After some time, you will forget earlier observations, which leads to mistakes. Worst of all, any interruption will break your concentration and make you forget things, so you can't stop debugging until you're done.</p>
+<p>The alternative to having a log is to <em>keep all in memory</em>. This only works for short amounts of time, as it puts a higher and higher cognitive load on your memory as you debug along. After some time, you will forget earlier observations, which leads to mistakes. Worst of all, any interruption will break your concentration and make you forget things, so you can't stop debugging until you're done.</p>
 <p>Sure, if you are a real master, you can stay glued to the screen all night. But I'd rather be home in time, thank you.</p>
 </div>
 </div>
@@ -16094,7 +16039,13 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="History-of-Debugging">History of Debugging<a class="anchor-link" href="#History-of-Debugging">&#182;</a></h2><p>Engineers and programmers have long used the term "bug" for faults in their systems – as if it were something that crept into an otherwise flawless program to cause the effects that none could explain. And from a psychological standpoint, it is far easier to blame some "bug" rather than taking responsibility ourselves. In the end, though, we have to face the fact: We made the bugs, and they are ours to fix.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Debugging-Aftermath">Debugging Aftermath<a class="anchor-link" href="#Debugging-Aftermath">&#182;</a></h2><p>The fix of a bug may lead to a code construct, a more complex condition or another solution which may look strange on first sight.
+Often the initial code was easier to understand but did not catch all cases. After fixing a bug it may be beneficial to
+write down why the code now looks like this and what caused the more complex construct. A comment right at the fixed location
+will help future programmers to not be confused or even re-introduce the bug while refactoring for better readability.
+And of course, helpful comments at complex code locations should even exist before something went wrong with the code -- but
+thats a chapter in another book.</p>
+<h2 id="History-of-Debugging">History of Debugging<a class="anchor-link" href="#History-of-Debugging">&#182;</a></h2><p>Engineers and programmers have long used the term "bug" for faults in their systems – as if it were something that crept into an otherwise flawless program to cause the effects that none could explain. And from a psychological standpoint, it is far easier to blame some "bug" rather than taking responsibility ourselves. In the end, though, we have to face the fact: We made the bugs, and they are ours to fix.</p>
 <p>Having said that, there has been one recorded instance where a real bug has crept into a system. That was on September 9, 1947, when a moth got stuck in the relay of a Harvard Mark II machine.  This event was logged, and the log book is now on display at the Smithsonian Natural Museum of American History, as "First actual case of bug being found."</p>
 </div>
 </div>
@@ -16202,22 +16153,22 @@ tag</title>
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-1" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
-        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-1-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
+        <input type="checkbox" name="2ea51162-7ddc-11eb-858d-f218984d6a0c" id="2ea51162-7ddc-11eb-858d-f218984d6a0c-1" onclick="clear_selection('2ea51162-7ddc-11eb-858d-f218984d6a0c')">
+        <label id="2ea51162-7ddc-11eb-858d-f218984d6a0c-1-label" for="2ea51162-7ddc-11eb-858d-f218984d6a0c-1">In the early days of Morse telegraphy, referring to a special key that would send a string of dots</label><br>
 
-        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-2" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
-        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-2-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
+        <input type="checkbox" name="2ea51162-7ddc-11eb-858d-f218984d6a0c" id="2ea51162-7ddc-11eb-858d-f218984d6a0c-2" onclick="clear_selection('2ea51162-7ddc-11eb-858d-f218984d6a0c')">
+        <label id="2ea51162-7ddc-11eb-858d-f218984d6a0c-2-label" for="2ea51162-7ddc-11eb-858d-f218984d6a0c-2">Among radio technicians to describe a device that converts electromagnetic field variations into acoustic signals</label><br>
 
-        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-3" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
-        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-3-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
+        <input type="checkbox" name="2ea51162-7ddc-11eb-858d-f218984d6a0c" id="2ea51162-7ddc-11eb-858d-f218984d6a0c-3" onclick="clear_selection('2ea51162-7ddc-11eb-858d-f218984d6a0c')">
+        <label id="2ea51162-7ddc-11eb-858d-f218984d6a0c-3-label" for="2ea51162-7ddc-11eb-858d-f218984d6a0c-3">In Shakespeare's "Henry VI", referring to a walking spectre</label><br>
 
-        <input type="checkbox" name="8c144a40-7b49-11eb-858d-f218984d6a0c" id="8c144a40-7b49-11eb-858d-f218984d6a0c-4" onclick="clear_selection('8c144a40-7b49-11eb-858d-f218984d6a0c')">
-        <label id="8c144a40-7b49-11eb-858d-f218984d6a0c-4-label" for="8c144a40-7b49-11eb-858d-f218984d6a0c-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
+        <input type="checkbox" name="2ea51162-7ddc-11eb-858d-f218984d6a0c" id="2ea51162-7ddc-11eb-858d-f218984d6a0c-4" onclick="clear_selection('2ea51162-7ddc-11eb-858d-f218984d6a0c')">
+        <label id="2ea51162-7ddc-11eb-858d-f218984d6a0c-4-label" for="2ea51162-7ddc-11eb-858d-f218984d6a0c-4">In Middle English, where the word "bugge" is the basis for terms like "bugbear" and "bugaboo"</label><br>
 
     </div>
     </p>
-    <input id="8c144a40-7b49-11eb-858d-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('8c144a40-7b49-11eb-858d-f218984d6a0c', 30, 1, '')">
-    <span class="quiz_hint" id="8c144a40-7b49-11eb-858d-f218984d6a0c-hint"></span>
+    <input id="2ea51162-7ddc-11eb-858d-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('2ea51162-7ddc-11eb-858d-f218984d6a0c', 30, 1, '')">
+    <span class="quiz_hint" id="2ea51162-7ddc-11eb-858d-f218984d6a0c-hint"></span>
     </div>
 
 </div>
@@ -16227,7 +16178,7 @@ tag</title>
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>(Source: [Unresolved citation: jargon.], [Unresolved citation: wikipedia:debugging.])</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>(Source: [Unresolved citation: jargon.], [Unresolved citation: wikipedia:debugging.]) \todo{Seems to be still unresolved. -- Björn}</p>
 </div>
 </div>
 </div>
@@ -16471,7 +16422,7 @@ tag</title>
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2021-03-02 12:01:47+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Intro_Debugging.ipynb" target=_blank)>Last change: 2021-03-05 18:42:09+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -16487,7 +16438,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2021-03-02 12:01:47+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">Introduction to Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Intro_Debugging.html">https://www.debuggingbook.org/beta/html/Intro_Debugging.html</a>.  Retrieved 2021-03-05 18:42:09+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Intro_Debugging,
@@ -16497,9 +16448,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Intro_Debuggin
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Intro_Debugging.html}},
-    note = {Retrieved 2021-03-02 12:01:47+01:00},
+    note = {Retrieved 2021-03-05 18:42:09+01:00},
     url = {https://www.debuggingbook.org/beta/html/Intro_Debugging.html},
-    urldate = {2021-03-02 12:01:47+01:00}
+    urldate = {2021-03-05 18:42:09+01:00}
 }
 </pre>
 </div>
