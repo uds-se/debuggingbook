@@ -21,3 +21,4 @@ from . import ChangeCounter
 from . import ExpectError
 from . import Timer
 from . import ClassDiagram
+from . import StackInspector
