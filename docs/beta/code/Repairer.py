@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-03-05 19:30:00+01:00
+# Last change: 2021-03-06 00:41:53+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -94,10 +94,11 @@ The repairer attempts to repair the invoked function (`middle()`). The returned 
 
 def middle(x, y, z):
     if y < z:
-        if x < y:
-            return y
-        elif x < z:
-            return x
+        if x < z:
+            if x < y:
+                return y
+            else:
+                return x
     elif x > y:
         return y
     elif x > z:
@@ -1684,10 +1685,11 @@ def remove_html_testcase(expected: bool = True) -> Tuple[str, str]:
         if outcome == expected:
             return html, plain
 
+REMOVE_HTML_TESTS = 100
 REMOVE_HTML_PASSING_TESTCASES = \
-    [remove_html_testcase(True) for i in range(100)]
+    [remove_html_testcase(True) for i in range(REMOVE_HTML_TESTS)]
 REMOVE_HTML_FAILING_TESTCASES = \
-    [remove_html_testcase(False) for i in range(100)]
+    [remove_html_testcase(False) for i in range(REMOVE_HTML_TESTS)]
 
 ### End of Excursion
 
@@ -1727,7 +1729,7 @@ if __name__ == '__main__':
     html_repairer = Repairer(html_debugger, log=True)
 
 if __name__ == '__main__':
-    best_tree, fitness = html_repairer.repair()
+    best_tree, fitness = html_repairer.repair(iterations=20)
 
 if __name__ == '__main__':
     quiz("Why couldn't `Repairer()` repair `remove_html_markup()`?",
@@ -1913,9 +1915,8 @@ if __name__ == '__main__':
         ], 1 << 1)
 
 if __name__ == '__main__':
-    remove_html_markup("<foo quote='>abc'>\"me\"</foo>")
-
-REMOVE_HTML_PASSING_TESTCASES.append(("<foo quote='>abc'>\"me\"</foo>", '"me"'))
+    with html_debugger:
+        remove_html_markup_test("<foo quote='>abc'>me</foo>", "me")
 
 if __name__ == '__main__':
     best_tree, fitness = condition_repairer.repair(iterations=200)
