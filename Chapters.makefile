@@ -13,68 +13,72 @@ TWITTER = @Debugging_Book
 SHARED = ../fuzzingbook/
 
 # Chapter(s) to be marked as "new" in menu
-NEW_CHAPTERS = 
+NEW_CHAPTERS =  \
+	01_Intro.ipynb \
+	Tours.ipynb \
+	Intro_Debugging.ipynb \
+	02_Observing.ipynb \
+	Tracer.ipynb
 
 # Chapters to include in the book, in this order
 
 # Introduction
 INTRO_PART = 
-INTRO_PART_READY =
-INTRO_PART_TODO = \
+INTRO_PART_READY = \
 	01_Intro.ipynb \
 	Tours.ipynb \
 	Intro_Debugging.ipynb
+INTRO_PART_TODO =
 
 # Observing Executions
 OBSERVING_PART = 
-OBSERVING_PART_READY = 
-OBSERVING_PART_TODO = \
+OBSERVING_PART_READY = \
 	02_Observing.ipynb \
 	Tracer.ipynb \
 	Debugger.ipynb \
-	Assertions.ipynb \
+	Assertions.ipynb
+OBSERVING_PART_TODO = \
 	PerformanceDebugger.ipynb
 
 # Flows and Dependencies
 DEPENDENCIES_PART =
-DEPENDENCIES_PART_READY =
-DEPENDENCIES_PART_TODO = \
+DEPENDENCIES_PART_READY = \
 	03_Dependencies.ipynb \
 	Slicer.ipynb
+DEPENDENCIES_PART_TODO = 
 
 # Simplifying Failures
 EXPERIMENTING_PART = 
-EXPERIMENTING_PART_READY =
-EXPERIMENTING_PART_TODO = \
+EXPERIMENTING_PART_READY = \
 	04_Reducing.ipynb \
 	DeltaDebugger.ipynb \
-	ChangeDebugger.ipynb \
+	ChangeDebugger.ipynb
+EXPERIMENTING_PART_TODO = \
 	ThreadDebugger.ipynb
 
 # Abstracting Failures
 ABSTRACTING_PART =
-ABSTRACTING_PART_READY =
-ABSTRACTING_PART_TODO = \
+ABSTRACTING_PART_READY = \
 	05_Abstracting.ipynb \
 	StatisticalDebugger.ipynb \
 	DynamicInvariants.ipynb \
 	DDSetDebugger.ipynb
-	# AlhazenDebugger.ipynb
+ABSTRACTING_PART_TODO = 
 
 # Repairing Failures
 REPAIRING_PART =
-REPAIRING_PART_READY =
-REPAIRING_PART_TODO = \
+REPAIRING_PART_READY = \
 	06_Repairing.ipynb \
 	Repairer.ipynb
+REPAIRING_PART_TODO =
 
 # Debugging in the Large
 IN_THE_LARGE_PART = 
-IN_THE_LARGE_PART_READY =
-IN_THE_LARGE_PART_TODO = \
+IN_THE_LARGE_PART_READY = \
 	07_In_the_Large.ipynb \
 	Tracking.ipynb \
 	ChangeCounter.ipynb
+IN_THE_LARGE_PART_TODO = 
 
 # Appendices for the book
 APPENDICES = \
