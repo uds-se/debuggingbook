@@ -2,10 +2,11 @@
 
 __Welcome to "The Debugging Book"!__ 
 Software has bugs, and finding bugs can involve lots of effort.  This book addresses this problem by _automating_ software debugging, specifically by _locating errors and their causes automatically_.  Recent years have seen the development of novel techniques that lead to dramatic improvements in automated software debugging.  They now are mature enough to be assembled in a book – even with executable code. 
-
+<!--
 **<span style="background-color: yellow">
     <i class="fa fa-fw fa-wrench"></i>
 This book is work in progress. It will be released to the public in Spring 2021.</span>**
+-->
 
 ## A Textbook for Paper, Screen, and Keyboard
 
