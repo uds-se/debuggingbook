@@ -18,9 +18,14 @@ NEW_CHAPTERS =  \
 	Tours.ipynb \
 	Intro_Debugging.ipynb \
 	02_Observing.ipynb \
-	Tracer.ipynb
+	Tracer.ipynb \
+	Debugger.ipynb
 
-# Chapters to include in the book, in this order
+# Chapters to include in the book, in this order.
+# * Chapters in `..._PART` get published.
+# * Chapters in `..._PART_READY` only get published as beta, with a disclaimer.
+# * Chapters in `..._PART_TODO` only get published as beta, with a disclaimer.
+#      and a "todo" (wrench) marker in the menu.
 
 # Introduction
 INTRO_PART = 
@@ -152,8 +157,6 @@ TODO_CHAPTERS = \
 	$(ABSTRACTING_PART_TODO) \
 	$(REPAIRING_PART_TODO) \
 	$(IN_THE_LARGE_PART_TODO)
-
-
 
 ## Specific settings
 # No timeouts; debuggingbook/Tracing can take up to 15 minutes to render
