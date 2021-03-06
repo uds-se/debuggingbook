@@ -3,7 +3,7 @@
 
 # "Inspecting Call Stacks" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StackInspector.html
-# Last change: 2021-03-05 19:29:54+01:00
+# Last change: 2021-03-06 15:18:36+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,28 +42,37 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/StackInspector.html
 
-`StackInspector` is typically used as superclass, providing its functionality to subclasses:
+`StackInspector` is typically used as superclass, providing its functionality to subclasses. 
+
+Here is an example of how to use `caller_function()`. The `test()` function invokes an internal method `caller()` of `StackInspectorDemo`, which in turn invokes `callee()`:
+
+| Function | Class | |
+| --- | --- | --- |
+| `callee()` | `StackInspectorDemo` | |
+| `caller()` | `StackInspectorDemo` | invokes $\uparrow$ |
+| `test()` | (main) | invokes $\uparrow$ |
+| -/- | (main) | invokes $\uparrow$ |
+
+Using `caller_function()`, `callee()` determines the first caller outside of a `StackInspector` class and prints it out – i.e., ``.
 
 >>> class StackInspectorDemo(StackInspector):
->>>     def callee(self) -> Tuple[Location, Dict[str, Any]]:
->>>         return self.caller_location(), self.caller_locals()
+>>>     def callee(self) -> None:
+>>>         func = self.caller_function()
+>>>         assert func.__name__ == 'test'
+>>>         print(func)
 >>> 
->>>     def caller(self) -> Tuple[Location, Dict[str, Any]]:
->>>         return self.callee()
+>>>     def caller(self) -> None:
+>>>         self.callee()
 
-The function `test()` should return a pair consisting of the location of the caller (`test()`) and a dictionary of local variables in this caller.
-
->>> def test() -> Tuple[Location, Dict[str, Any]]:
+>>> def test() -> None:
 >>>     demo = StackInspectorDemo()
->>>     return demo.caller()
+>>>     demo.caller()
 
 >>> test()
 
-(( Tuple[Tuple[Callable, int], Dict[str, Any]]>,
-  3),
- {'demo': })
 
-Here are all methods defined in this appendix:
+
+Here are all methods defined in this chapter:
 
 For more details, source, and documentation, see
 "The Debugging Book - Inspecting Call Stacks"
@@ -89,6 +98,14 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print('\n## Synopsis')
+
+
+
+## Inspecting Call Stacks
+## ----------------------
+
+if __name__ == '__main__':
+    print('\n## Inspecting Call Stacks')
 
 
 
@@ -122,6 +139,7 @@ class StackInspector:
         """Return true if `frame` is in the current (inspecting) class."""
         return isinstance(frame.f_locals.get('self'), self.__class__)
 
+class StackInspector(StackInspector):
     def caller_globals(self) -> Dict[str, Any]:
         """Return the globals() environment of the caller."""
         return self.caller_frame().f_globals
@@ -137,6 +155,7 @@ class StackInspector(StackInspector):
         """Return the location (func, lineno) of the caller."""
         return self.caller_function(), self.caller_frame().f_lineno
 
+class StackInspector(StackInspector):
     def search_frame(self, name: str, frame: Optional[FrameType] = None) -> \
         Tuple[Optional[FrameType], Optional[Callable]]:
         """
@@ -165,6 +184,7 @@ class StackInspector(StackInspector):
         frame, func = self.search_frame(name, frame)
         return func
 
+class StackInspector(StackInspector):
     # Avoid generating functions more than once
     _generated_function_cache: Dict[Tuple[str, int], Callable] = {}
 
@@ -195,6 +215,7 @@ class StackInspector(StackInspector):
         self._generated_function_cache[cache_key] = generated_function
         return generated_function
 
+class StackInspector(StackInspector):
     def caller_function(self) -> Callable:
         """Return the calling function"""
         frame = self.caller_frame()
@@ -236,15 +257,17 @@ if __name__ == '__main__':
 
 
 class StackInspectorDemo(StackInspector):
-    def callee(self) -> Tuple[Location, Dict[str, Any]]:
-        return self.caller_location(), self.caller_locals()
+    def callee(self) -> None:
+        func = self.caller_function()
+        assert func.__name__ == 'test'
+        print(func)
 
-    def caller(self) -> Tuple[Location, Dict[str, Any]]:
-        return self.callee()
+    def caller(self) -> None:
+        self.callee()
 
-def test() -> Tuple[Location, Dict[str, Any]]:
+def test() -> None:
     demo = StackInspectorDemo()
-    return demo.caller()
+    demo.caller()
 
 if __name__ == '__main__':
     test()
@@ -264,6 +287,8 @@ if __name__ == '__main__':
                                 StackInspector.caller_location,
                                 StackInspector.search_frame,
                                 StackInspector.search_func,
+                                StackInspector.is_internal_error,
+                                StackInspector.our_frame,
                             ],
                             project='debuggingbook')
 

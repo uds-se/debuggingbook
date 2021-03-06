@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-03-06 00:36:57+01:00
+# Last change: 2021-03-06 16:33:12+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -146,13 +146,23 @@ def remove_html_markup_traced(s):  # type: ignore
 if __name__ == '__main__':
     remove_html_markup_traced('xyz')
 
+def traceit(frame: FrameType, event: str, arg: Any) -> Optional[Callable]:  # type: ignore
+    if 'c' in frame.f_locals:
+        value_of_c = frame.f_locals['c']
+        print(f"{frame.f_lineno:} c = {repr(value_of_c)}")
+    else:
+        print(f"{frame.f_lineno:} c is undefined")
+
+    return traceit
+
+if __name__ == '__main__':
+    remove_html_markup_traced('xyz')
+
 import math
 
 if __name__ == '__main__':
-    quiz("What happens if the tracing function returns `None`"
-         " while tracing function `f()`?"
-         " Lookup [`sys.setttrace()` in the Python documentation](https://docs.python.org/3/library/sys.html)"
-         " or try it out yourself.",
+    quiz("What happens if the tracing function returns `None` while tracing function `f()`?"
+         " (You can also try this out yourself.)",
          [
              'Tracing stops for all functions;'
              ' the tracing function is no longer called',
@@ -170,8 +180,6 @@ if __name__ == '__main__':
 
 
 
-import traceback
-
 from .StackInspector import StackInspector
 
 class Tracer(StackInspector):
@@ -181,15 +189,6 @@ class Tracer(StackInspector):
         """Trace a block of code, sending logs to `file` (default: stdout)"""
         self.original_trace_function: Optional[Callable] = None
         self.file = file
-
-    def log(self, *objects: Any, 
-            sep: str = ' ', end: str = '\n', 
-            flush: bool = True) -> None:
-        """
-        Like `print()`, but always sending to `file` given at initialization,
-        and flushing by default.
-        """
-        print(*objects, sep=sep, end=end, file=self.file, flush=flush)
 
     def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
         """Tracing function. To be overridden in subclasses."""
@@ -204,10 +203,22 @@ class Tracer(StackInspector):
             self.traceit(frame, event, arg)
         return self._traceit
 
+    def log(self, *objects: Any, 
+            sep: str = ' ', end: str = '\n', 
+            flush: bool = True) -> None:
+        """
+        Like `print()`, but always sending to `file` given at initialization,
+        and flushing by default.
+        """
+        print(*objects, sep=sep, end=end, file=self.file, flush=flush)
+
     def __enter__(self) -> Any:
         """Called at begin of `with` block. Turn tracing on."""
         self.original_trace_function = sys.gettrace()
         sys.settrace(self._traceit)
+
+        # This extra line also enables tracing for the current block
+        # inspect.currentframe().f_back.f_trace = self._traceit
         return self
 
     def __exit__(self, exc_tp: Type, exc_value: BaseException, 
@@ -454,7 +465,7 @@ if __name__ == '__main__':
          "which `line` does the condition refer to?",
          [
             "`line` as in the debugger",
-             "`line` as in the program"
+            "`line` as in the program"
          ], '(326 * 27 == 8888) + 1')
 
 ## Watching Events

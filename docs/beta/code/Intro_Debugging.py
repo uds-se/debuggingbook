@@ -3,7 +3,7 @@
 
 # "Introduction to Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2021-03-06 00:36:43+01:00
+# Last change: 2021-03-06 12:32:21+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -455,9 +455,9 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     for until in range(1, 6):
-        execution_diagram(show_steps=True, variables=['v1', 'v2', 'v3'],
+        execution_diagram(show_steps=True, variables=['var1', 'var2', 'var3'],
                           error_step=2,
-                          until=until, fault_path=['s2:v2', 's3:v2'])
+                          until=until, fault_path=['s2:var2', 's3:var2'])
 
 ## From Failure to Defect
 ## ----------------------

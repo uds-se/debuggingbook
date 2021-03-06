@@ -15255,6 +15255,17 @@ div.jp-OutputPrompt {
 </div>
 </div>
 
+</div></div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Here is what we get when we run <code>remove_html_markup_traced()</code>:</p>
+<ul>
+<li>We first get a <code>call</code> event (showing the call of <code>remove_html_markup()</code>)</li>
+<li>We then get various <code>line</code> events (for each line of <code>remove_html_markup()</code>)</li>
+<li>In the end, we get a <code>return</code> event (showing the return from <code>remove_html_markup()</code>)</li>
+</ul>
+
+</div>
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -15334,13 +15345,140 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>In this very raw format, we can see how the execution progresses through the function. The variable <code>c</code> takes one character of the input string at a time; the <code>out</code> variable accumulates them. The argument <code>s</code> and the <code>tag</code> and <code>quote</code> flags stay unchanged throughout the execution.</p>
+<p>During the execution, we also see all local <em>variables</em>. As <code>remove_html_markup()</code> is called at the very beginning, the parameter <code>s</code> holds the argument <code>"xyz"</code>. As more local variables are being assigned, these show up in our dictionary of local variables.</p>
 
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We see how the variable <code>c</code> takes one character of the input string at a time; the <code>out</code> variable accumulates them.  and the <code>tag</code> and <code>quote</code> flags stay unchanged throughout the execution.</p>
+
+</div>
+</div></div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>An interesting aspect is that we can actually <em>access</em> all these local variables as regular Python objects. We can, for instance, separately access the value of <code>c</code> by looking up <code>frame.f_locals['c']</code>:</p>
+
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]:</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="s1">&#39;c&#39;</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">:</span>
+        <span class="n">value_of_c</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="si">:}</span><span class="s2"> c = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">value_of_c</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="si">:}</span><span class="s2"> c is undefined&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">traceit</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This allows us to specifically monitor individual variables:</p>
+
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup_traced</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>238 c is undefined
+239 c is undefined
+240 c is undefined
+241 c is undefined
+243 c is undefined
+244 c = &#39;x&#39;
+246 c = &#39;x&#39;
+248 c = &#39;x&#39;
+250 c = &#39;x&#39;
+252 c = &#39;x&#39;
+253 c = &#39;x&#39;
+243 c = &#39;x&#39;
+244 c = &#39;y&#39;
+246 c = &#39;y&#39;
+248 c = &#39;y&#39;
+250 c = &#39;y&#39;
+252 c = &#39;y&#39;
+253 c = &#39;y&#39;
+243 c = &#39;y&#39;
+244 c = &#39;z&#39;
+246 c = &#39;z&#39;
+248 c = &#39;z&#39;
+250 c = &#39;z&#39;
+252 c = &#39;z&#39;
+253 c = &#39;z&#39;
+243 c = &#39;z&#39;
+255 c = &#39;z&#39;
+255 c = &#39;z&#39;
+</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&#39;xyz&#39;</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This tracing capability is tremendously powerful – actually, it is one of the reasons this book uses Python all over the place. In most other languages, inspecting the program state during execution is much more complex than the handful of lines we have needed so far.</p>
+
+</div>
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>To learn more about <code>sys.settrace()</code>, spend a moment to look up <a href="https://docs.python.org/3/library/sys.html">its documentation in the Python reference</a>.</p>
+
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -15355,13 +15493,11 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What happens if the tracing function returns `None`&quot;</span>
-     <span class="s2">&quot; while tracing function `f()`?&quot;</span>
-     <span class="s2">&quot; Lookup [`sys.setttrace()` in the Python documentation](https://docs.python.org/3/library/sys.html)&quot;</span>
-     <span class="s2">&quot; or try it out yourself.&quot;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What happens if the tracing function returns `None` while tracing function `f()`?&quot;</span>
+     <span class="s2">&quot; (You can also try this out yourself.)&quot;</span><span class="p">,</span>
      <span class="p">[</span>
          <span class="s1">&#39;Tracing stops for all functions;&#39;</span>
          <span class="s1">&#39; the tracing function is no longer called&#39;</span><span class="p">,</span>
@@ -15385,7 +15521,7 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 
 
 
@@ -15466,27 +15602,27 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
     <div class="quiz">
     <h3 class="quiz_title">Quiz</h3>
     <p>
-    <div class="quiz_question">What happens if the tracing function returns <code>None</code> while tracing function <code>f()</code>? Lookup <a href="https://docs.python.org/3/library/sys.html"><code>sys.setttrace()</code> in the Python documentation</a> or try it out yourself.</div>
+    <div class="quiz_question">What happens if the tracing function returns <code>None</code> while tracing function <code>f()</code>? (You can also try this out yourself.)</div>
     </p>
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="a7c6fffa-7e0b-11eb-a588-f218984d6a0c" id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-1" onclick="clear_selection('a7c6fffa-7e0b-11eb-a588-f218984d6a0c')">
-        <label id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-1-label" for="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
+        <input type="radio" name="3f4f0150-7e91-11eb-a588-f218984d6a0c" id="3f4f0150-7e91-11eb-a588-f218984d6a0c-1" onclick="clear_selection('3f4f0150-7e91-11eb-a588-f218984d6a0c')">
+        <label id="3f4f0150-7e91-11eb-a588-f218984d6a0c-1-label" for="3f4f0150-7e91-11eb-a588-f218984d6a0c-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
     
-        <input type="radio" name="a7c6fffa-7e0b-11eb-a588-f218984d6a0c" id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-2" onclick="clear_selection('a7c6fffa-7e0b-11eb-a588-f218984d6a0c')">
-        <label id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-2-label" for="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
+        <input type="radio" name="3f4f0150-7e91-11eb-a588-f218984d6a0c" id="3f4f0150-7e91-11eb-a588-f218984d6a0c-2" onclick="clear_selection('3f4f0150-7e91-11eb-a588-f218984d6a0c')">
+        <label id="3f4f0150-7e91-11eb-a588-f218984d6a0c-2-label" for="3f4f0150-7e91-11eb-a588-f218984d6a0c-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
     
-        <input type="radio" name="a7c6fffa-7e0b-11eb-a588-f218984d6a0c" id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-3" onclick="clear_selection('a7c6fffa-7e0b-11eb-a588-f218984d6a0c')">
-        <label id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-3-label" for="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
+        <input type="radio" name="3f4f0150-7e91-11eb-a588-f218984d6a0c" id="3f4f0150-7e91-11eb-a588-f218984d6a0c-3" onclick="clear_selection('3f4f0150-7e91-11eb-a588-f218984d6a0c')">
+        <label id="3f4f0150-7e91-11eb-a588-f218984d6a0c-3-label" for="3f4f0150-7e91-11eb-a588-f218984d6a0c-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
     
-        <input type="radio" name="a7c6fffa-7e0b-11eb-a588-f218984d6a0c" id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-4" onclick="clear_selection('a7c6fffa-7e0b-11eb-a588-f218984d6a0c')">
-        <label id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-4-label" for="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-4">Nothing changes</label><br>
+        <input type="radio" name="3f4f0150-7e91-11eb-a588-f218984d6a0c" id="3f4f0150-7e91-11eb-a588-f218984d6a0c-4" onclick="clear_selection('3f4f0150-7e91-11eb-a588-f218984d6a0c')">
+        <label id="3f4f0150-7e91-11eb-a588-f218984d6a0c-4-label" for="3f4f0150-7e91-11eb-a588-f218984d6a0c-4">Nothing changes</label><br>
     
     </div>
     </p>
-    <input id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('a7c6fffa-7e0b-11eb-a588-f218984d6a0c', 4, 0, 'int(math.log(7.38905609893065))')">
-    <span class="quiz_hint" id="a7c6fffa-7e0b-11eb-a588-f218984d6a0c-hint"></span>
+    <input id="3f4f0150-7e91-11eb-a588-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('3f4f0150-7e91-11eb-a588-f218984d6a0c', 4, 0, 'int(math.log(7.38905609893065))')">
+    <span class="quiz_hint" id="3f4f0150-7e91-11eb-a588-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -15497,7 +15633,13 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 
 </div>
 
-</div></section></section><section><section>
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Indeed, as listed in the documentation: if <code>sys.settrace()</code> returns <code>None</code>, then tracing stops for the current scope; tracing will resume when the current function returns. This can be helpful for momentarily disable (expensive) tracing.</p>
+
+</div>
+</div></div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="A-Tracer-Class">A Tracer Class<a class="anchor-link" href="#A-Tracer-Class">&#182;</a></h2>
@@ -15508,10 +15650,16 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 <p>Let us refine our tracing function a bit. First, it would be nice if one could actually <em>customize</em> tracing just as needed. To this end, we introduce a <code>Tracer</code> class that does all the formatting for us, and which can be <em>subclassed</em> to allow for different output formats.</p>
 
 </div>
+</div></div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The <code>traceit()</code> method in <code>Tracer</code> is the same as above, and again is set up via <code>sys.settrace()</code>. It uses a <code>log()</code> method after the Python <code>print()</code> function.</p>
+
+</div>
 </div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The <code>traceit()</code> method is the same as above, and again is set up via <code>sys.settrace()</code>. Its typical usage, however, is as follows:</p>
+<p>The typical usage of <code>Tracer</code>, however, is as follows:</p>
 <div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Tracer</span><span class="p">():</span>
     <span class="c1"># Code to be traced</span>
     <span class="o">...</span>
@@ -15522,10 +15670,16 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 <p>When the <code>with</code> statement is encountered, the <code>__enter__()</code> method is called, which starts tracing. When the <code>with</code> block ends, the <code>__exit__()</code> method is called, and tracing is turned off. We take special care that the internal <code>__exit__()</code> method is not part of the trace, and that any other tracing function that was active before is being restored.</p>
 
 </div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We build <code>Tracer</code> on top of a class named <code>StackInspector</code>, whose <code>our_frame()</code> and <code>is_internal_error()</code> methods us with providing better diagnostics in case of error.</p>
+
+</div>
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tracer</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
@@ -15535,15 +15689,6 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
         <span class="sd">&quot;&quot;&quot;Trace a block of code, sending logs to `file` (default: stdout)&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">file</span>
-
-    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">objects</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> 
-            <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> 
-            <span class="n">flush</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Like `print()`, but always sending to `file` given at initialization,</span>
-<span class="sd">        and flushing by default.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="n">flush</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Tracing function. To be overridden in subclasses.&quot;&quot;&quot;</span>
@@ -15558,10 +15703,22 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
             <span class="bp">self</span><span class="o">.</span><span class="n">traceit</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traceit</span>
 
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">objects</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> 
+            <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> 
+            <span class="n">flush</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Like `print()`, but always sending to `file` given at initialization,</span>
+<span class="sd">        and flushing by default.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="n">flush</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Called at begin of `with` block. Turn tracing on.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">original_trace_function</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">gettrace</span><span class="p">()</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">settrace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_traceit</span><span class="p">)</span>
+
+        <span class="c1"># This extra line also enables tracing for the current block</span>
+        <span class="c1"># inspect.currentframe().f_back.f_trace = self._traceit</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_tp</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> 
@@ -15594,7 +15751,7 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Tracer</span><span class="p">():</span>
@@ -15686,7 +15843,7 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;abc&#39;, &#39;tag&#39;: False,
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
@@ -15711,7 +15868,7 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;abc&#39;, &#39;tag&#39;: False,
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Tracer</span><span class="p">():</span>
@@ -15778,7 +15935,7 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;abc&#39;, &#39;tag&#39;: False,
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
@@ -15808,7 +15965,7 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;abc&#39;, &#39;tag&#39;: False,
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Tracer</span><span class="p">():</span>
@@ -15877,7 +16034,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
@@ -15915,7 +16072,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tracer</span> <span class="o">=</span> <span class="n">Tracer</span><span class="p">()</span>
@@ -15929,53 +16086,10 @@ remove_html_markup() returns &#39;abc&#39;
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tracer</span><span class="o">.</span><span class="n">changed_vars</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>{&#39;a&#39;: 10}</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div></div><div class="fragment">
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>If another variable <code>b</code> is added, and only <code>b</code> is changed, then only <code>b</code> is marked as changed:</p>
-
-</div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tracer</span><span class="o">.</span><span class="n">changed_vars</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">})</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tracer</span><span class="o">.</span><span class="n">changed_vars</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
 </pre></div>
 
      </div>
@@ -15997,7 +16111,7 @@ remove_html_markup() returns &#39;abc&#39;
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>{&#39;b&#39;: 25}</pre>
+<pre>{&#39;a&#39;: 10}</pre>
 </div>
 
 </div>
@@ -16009,7 +16123,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div></div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>If both variables keep their values, nothing changes:</p>
+<p>If another variable <code>b</code> is added, and only <code>b</code> is changed, then only <code>b</code> is marked as changed:</p>
 
 </div>
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -16040,6 +16154,49 @@ remove_html_markup() returns &#39;abc&#39;
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>{&#39;b&#39;: 25}</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div></div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>If both variables keep their values, nothing changes:</p>
+
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tracer</span><span class="o">.</span><span class="n">changed_vars</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">})</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
 <pre>{}</pre>
 </div>
 
@@ -16058,7 +16215,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">changes</span> <span class="o">=</span> <span class="n">tracer</span><span class="o">.</span><span class="n">changed_vars</span><span class="p">({</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">})</span>
@@ -16078,7 +16235,7 @@ remove_html_markup() returns &#39;abc&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
 
 
 
@@ -16102,7 +16259,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">changes</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">changes</span><span class="p">])</span>
@@ -16121,7 +16278,7 @@ remove_html_markup() returns &#39;abc&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
 
 
 
@@ -16145,7 +16302,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Tracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
@@ -16198,7 +16355,7 @@ remove_html_markup() returns &#39;abc&#39;
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Tracer</span><span class="p">():</span>
@@ -16332,7 +16489,7 @@ remove_html_markup() returns &#39;x&#39;
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[38]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionalTracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
@@ -16355,14 +16512,13 @@ remove_html_markup() returns &#39;x&#39;
 </div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Its <code>traceit()</code> function <em>evaluates</em> <code>condition</code> and reports the current line only if it holds. To this end, it uses the Python <code>eval()</code> function which evaluates the condition in the context of the local variables of the program under test. If the condition gets set, we print out three dots to indicate the elapsed time.
-\todo{Couldn't one use lambda expressions or even full fledged functions here, might be more clean than eval, though possibly harder to understand for beginners? -- Björn}</p>
+<p>Its <code>traceit()</code> function <em>evaluates</em> <code>condition</code> and reports the current line only if it holds. To this end, it uses the Python <code>eval()</code> function which evaluates the condition in the context of the local variables of the program under test. If the condition gets set, we print out three dots to indicate the elapsed time.</p>
 
 </div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionalTracer</span><span class="p">(</span><span class="n">ConditionalTracer</span><span class="p">):</span>
@@ -16379,16 +16535,16 @@ remove_html_markup() returns &#39;x&#39;
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The <code>do_report()</code> function returns True if the status is to be reported:</p>
 
 </div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionalTracer</span><span class="p">(</span><span class="n">ConditionalTracer</span><span class="p">):</span>
@@ -16401,16 +16557,16 @@ remove_html_markup() returns &#39;x&#39;
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>We put everything together in our <code>traceit()</code> function:</p>
 
 </div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionalTracer</span><span class="p">(</span><span class="n">ConditionalTracer</span><span class="p">):</span>
@@ -16430,16 +16586,16 @@ remove_html_markup() returns &#39;x&#39;
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Here's an example. We see that <code>quote</code> is set only while the three characters <code>b</code>, <code>a</code>, and <code>r</code> are processed (as should be).</p>
 
 </div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ConditionalTracer</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;quote&#39;</span><span class="p">):</span>
@@ -16504,7 +16660,7 @@ remove_html_markup() returns &#39;x&#39;
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[43]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What happens if the condition contains a syntax error?&quot;</span><span class="p">,</span>
@@ -16528,7 +16684,7 @@ remove_html_markup() returns &#39;x&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[42]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[43]:</div>
 
 
 
@@ -16614,19 +16770,19 @@ remove_html_markup() returns &#39;x&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="a80a7854-7e0b-11eb-8163-f218984d6a0c" id="a80a7854-7e0b-11eb-8163-f218984d6a0c-1" onclick="clear_selection('a80a7854-7e0b-11eb-8163-f218984d6a0c')">
-        <label id="a80a7854-7e0b-11eb-8163-f218984d6a0c-1-label" for="a80a7854-7e0b-11eb-8163-f218984d6a0c-1">The tracer stops, raising an exception</label><br>
+        <input type="radio" name="3f9b0a46-7e91-11eb-8163-f218984d6a0c" id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-1" onclick="clear_selection('3f9b0a46-7e91-11eb-8163-f218984d6a0c')">
+        <label id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-1-label" for="3f9b0a46-7e91-11eb-8163-f218984d6a0c-1">The tracer stops, raising an exception</label><br>
     
-        <input type="radio" name="a80a7854-7e0b-11eb-8163-f218984d6a0c" id="a80a7854-7e0b-11eb-8163-f218984d6a0c-2" onclick="clear_selection('a80a7854-7e0b-11eb-8163-f218984d6a0c')">
-        <label id="a80a7854-7e0b-11eb-8163-f218984d6a0c-2-label" for="a80a7854-7e0b-11eb-8163-f218984d6a0c-2">The tracer continues as if the condition were <code>True</code></label><br>
+        <input type="radio" name="3f9b0a46-7e91-11eb-8163-f218984d6a0c" id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-2" onclick="clear_selection('3f9b0a46-7e91-11eb-8163-f218984d6a0c')">
+        <label id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-2-label" for="3f9b0a46-7e91-11eb-8163-f218984d6a0c-2">The tracer continues as if the condition were <code>True</code></label><br>
     
-        <input type="radio" name="a80a7854-7e0b-11eb-8163-f218984d6a0c" id="a80a7854-7e0b-11eb-8163-f218984d6a0c-3" onclick="clear_selection('a80a7854-7e0b-11eb-8163-f218984d6a0c')">
-        <label id="a80a7854-7e0b-11eb-8163-f218984d6a0c-3-label" for="a80a7854-7e0b-11eb-8163-f218984d6a0c-3">The tracer continues as if the condition were <code>False</code></label><br>
+        <input type="radio" name="3f9b0a46-7e91-11eb-8163-f218984d6a0c" id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-3" onclick="clear_selection('3f9b0a46-7e91-11eb-8163-f218984d6a0c')">
+        <label id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-3-label" for="3f9b0a46-7e91-11eb-8163-f218984d6a0c-3">The tracer continues as if the condition were <code>False</code></label><br>
     
     </div>
     </p>
-    <input id="a80a7854-7e0b-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('a80a7854-7e0b-11eb-8163-f218984d6a0c', 2, 0, '393 % 7')">
-    <span class="quiz_hint" id="a80a7854-7e0b-11eb-8163-f218984d6a0c-hint"></span>
+    <input id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('3f9b0a46-7e91-11eb-8163-f218984d6a0c', 2, 0, '393 % 7')">
+    <span class="quiz_hint" id="3f9b0a46-7e91-11eb-8163-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -16646,7 +16802,7 @@ remove_html_markup() returns &#39;x&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">SyntaxError</span><span class="p">):</span>
@@ -16676,7 +16832,7 @@ remove_html_markup() returns &#39;x&#39;
     remove_html_markup(&#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&lt;/b&gt;&#39;)
   File &#34;Intro_Debugging.ipynb&#34;, line 238, in remove_html_markup
     def remove_html_markup(s):  # type: ignore
-  File &#34;&lt;ipython-input-1-b91557ad9fb8&gt;&#34;, line 28, in _traceit
+  File &#34;&lt;ipython-input-1-1d9768457e65&gt;&#34;, line 19, in _traceit
     self.traceit(frame, event, arg)
   File &#34;&lt;ipython-input-1-6578edd2b359&gt;&#34;, line 3, in traceit
     report = self.do_report(frame, event, arg)
@@ -16705,7 +16861,7 @@ SyntaxError: unexpected EOF while parsing (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[46]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
@@ -16727,7 +16883,7 @@ SyntaxError: unexpected EOF while parsing (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[46]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConditionalTracer</span><span class="p">(</span><span class="n">ConditionalTracer</span><span class="p">):</span>
@@ -16752,7 +16908,7 @@ SyntaxError: unexpected EOF while parsing (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ConditionalTracer</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s2">&quot;function == &#39;remove_html_markup&#39; and line &gt;= 237&quot;</span><span class="p">):</span>
@@ -16848,14 +17004,14 @@ remove_html_markup() returns &#39;xyz&#39;
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[48]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[49]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;If the program under test contains a variable named `line`, &quot;</span>
      <span class="s2">&quot;which `line` does the condition refer to?&quot;</span><span class="p">,</span>
      <span class="p">[</span>
         <span class="s2">&quot;`line` as in the debugger&quot;</span><span class="p">,</span>
-         <span class="s2">&quot;`line` as in the program&quot;</span>
+        <span class="s2">&quot;`line` as in the program&quot;</span>
      <span class="p">],</span> <span class="s1">&#39;(326 * 27 == 8888) + 1&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -16872,7 +17028,7 @@ remove_html_markup() returns &#39;xyz&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[48]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[49]:</div>
 
 
 
@@ -16958,16 +17114,16 @@ remove_html_markup() returns &#39;xyz&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="a8165f70-7e0b-11eb-9732-f218984d6a0c" id="a8165f70-7e0b-11eb-9732-f218984d6a0c-1" onclick="clear_selection('a8165f70-7e0b-11eb-9732-f218984d6a0c')">
-        <label id="a8165f70-7e0b-11eb-9732-f218984d6a0c-1-label" for="a8165f70-7e0b-11eb-9732-f218984d6a0c-1"><code>line</code> as in the debugger</label><br>
+        <input type="radio" name="3fa7ca7e-7e91-11eb-9732-f218984d6a0c" id="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-1" onclick="clear_selection('3fa7ca7e-7e91-11eb-9732-f218984d6a0c')">
+        <label id="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-1-label" for="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-1"><code>line</code> as in the debugger</label><br>
     
-        <input type="radio" name="a8165f70-7e0b-11eb-9732-f218984d6a0c" id="a8165f70-7e0b-11eb-9732-f218984d6a0c-2" onclick="clear_selection('a8165f70-7e0b-11eb-9732-f218984d6a0c')">
-        <label id="a8165f70-7e0b-11eb-9732-f218984d6a0c-2-label" for="a8165f70-7e0b-11eb-9732-f218984d6a0c-2"><code>line</code> as in the program</label><br>
+        <input type="radio" name="3fa7ca7e-7e91-11eb-9732-f218984d6a0c" id="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-2" onclick="clear_selection('3fa7ca7e-7e91-11eb-9732-f218984d6a0c')">
+        <label id="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-2-label" for="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-2"><code>line</code> as in the program</label><br>
     
     </div>
     </p>
-    <input id="a8165f70-7e0b-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('a8165f70-7e0b-11eb-9732-f218984d6a0c', 2, 0, '(326 * 27 == 8888) + 1')">
-    <span class="quiz_hint" id="a8165f70-7e0b-11eb-9732-f218984d6a0c-hint"></span>
+    <input id="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('3fa7ca7e-7e91-11eb-9732-f218984d6a0c', 2, 0, '(326 * 27 == 8888) + 1')">
+    <span class="quiz_hint" id="3fa7ca7e-7e91-11eb-9732-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -17008,7 +17164,7 @@ remove_html_markup() returns &#39;xyz&#39;
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[49]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[50]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EventTracer</span><span class="p">(</span><span class="n">ConditionalTracer</span><span class="p">):</span>
@@ -17036,7 +17192,7 @@ remove_html_markup() returns &#39;xyz&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[50]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[51]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EventTracer</span><span class="p">(</span><span class="n">EventTracer</span><span class="p">):</span>
@@ -17068,7 +17224,7 @@ remove_html_markup() returns &#39;xyz&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[51]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EventTracer</span><span class="p">(</span><span class="n">EventTracer</span><span class="p">):</span>
@@ -17092,7 +17248,7 @@ remove_html_markup() returns &#39;xyz&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[53]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">EventTracer</span><span class="p">(</span><span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;quote&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">]):</span>
@@ -17170,7 +17326,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">runs</span> <span class="o">=</span> <span class="mi">1000</span>
@@ -17190,7 +17346,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[56]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
@@ -17213,13 +17369,13 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[55]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[56]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.0035594109940575436</pre>
+<pre>0.0027458580007078126</pre>
 </div>
 
 </div>
@@ -17237,7 +17393,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[56]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
@@ -17261,13 +17417,13 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[56]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>1.4411210610051057</pre>
+<pre>1.0554532550013391</pre>
 </div>
 
 </div>
@@ -17285,7 +17441,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">traced_execution_time</span> <span class="o">/</span> <span class="n">untraced_execution_time</span>
@@ -17304,13 +17460,13 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>404.87627402709757</pre>
+<pre>384.3801299008434</pre>
 </div>
 
 </div>
@@ -17352,7 +17508,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TRACER_CODE</span> <span class="o">=</span> \
@@ -17373,7 +17529,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">TRACER</span> <span class="o">=</span> <span class="n">Tracer</span><span class="p">()</span>
@@ -17393,7 +17549,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[61]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">insert_tracer</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
@@ -17440,7 +17596,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[61]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">remove_html_markup_starting_line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">)</span>
@@ -17456,7 +17612,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[63]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup_traced</span> <span class="o">=</span> <span class="n">insert_tracer</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">)</span>
@@ -17513,7 +17669,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[63]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[64]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
@@ -17605,7 +17761,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[64]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[65]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">static_tracer_execution_time</span>
@@ -17624,13 +17780,13 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[64]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[65]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.04580104199703783</pre>
+<pre>0.02380153999547474</pre>
 </div>
 
 </div>
@@ -17648,7 +17804,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[65]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[66]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">line7</span> <span class="o">=</span> <span class="p">(</span><span class="n">remove_html_markup_starting_line_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">7</span>
@@ -17762,13 +17918,13 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[65]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[66]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.07397052300075302</pre>
+<pre>0.03702719799184706</pre>
 </div>
 
 </div>
@@ -17780,7 +17936,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[66]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[67]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dynamic_tracer_execution_time</span> <span class="o">/</span> <span class="n">static_tracer_execution_time</span>
@@ -17799,13 +17955,13 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[66]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[67]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>1.6150401775910916</pre>
+<pre>1.5556639611927146</pre>
 </div>
 
 </div>
@@ -17823,7 +17979,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[67]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[68]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">some_extreme_function</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -17845,7 +18001,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[68]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[69]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">EventTracer</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;function==&#39;remove_html_markup&#39; and line == </span><span class="si">{</span><span class="n">line18</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
@@ -17890,7 +18046,7 @@ remove_html_markup() returns &#39;foo&#39;
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[69]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[70]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;In the above example, &quot;</span>
@@ -17916,7 +18072,7 @@ remove_html_markup() returns &#39;foo&#39;
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[69]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[70]:</div>
 
 
 
@@ -18002,22 +18158,22 @@ remove_html_markup() returns &#39;foo&#39;
     <p>
     <div class="quiz_options" title="Check all that apply.">
     
-        <input type="checkbox" name="a92ca252-7e0b-11eb-b36c-f218984d6a0c" id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('a92ca252-7e0b-11eb-b36c-f218984d6a0c')">
-        <label id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-1-label" for="a92ca252-7e0b-11eb-b36c-f218984d6a0c-1">When <code>some_extreme_function()</code> returns</label><br>
+        <input type="checkbox" name="4070f41c-7e91-11eb-b36c-f218984d6a0c" id="4070f41c-7e91-11eb-b36c-f218984d6a0c-1" onclick="clear_selection('4070f41c-7e91-11eb-b36c-f218984d6a0c')">
+        <label id="4070f41c-7e91-11eb-b36c-f218984d6a0c-1-label" for="4070f41c-7e91-11eb-b36c-f218984d6a0c-1">When <code>some_extreme_function()</code> returns</label><br>
     
-        <input type="checkbox" name="a92ca252-7e0b-11eb-b36c-f218984d6a0c" id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('a92ca252-7e0b-11eb-b36c-f218984d6a0c')">
-        <label id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-2-label" for="a92ca252-7e0b-11eb-b36c-f218984d6a0c-2">For each line of <code>some_extreme_function()</code></label><br>
+        <input type="checkbox" name="4070f41c-7e91-11eb-b36c-f218984d6a0c" id="4070f41c-7e91-11eb-b36c-f218984d6a0c-2" onclick="clear_selection('4070f41c-7e91-11eb-b36c-f218984d6a0c')">
+        <label id="4070f41c-7e91-11eb-b36c-f218984d6a0c-2-label" for="4070f41c-7e91-11eb-b36c-f218984d6a0c-2">For each line of <code>some_extreme_function()</code></label><br>
     
-        <input type="checkbox" name="a92ca252-7e0b-11eb-b36c-f218984d6a0c" id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('a92ca252-7e0b-11eb-b36c-f218984d6a0c')">
-        <label id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-3-label" for="a92ca252-7e0b-11eb-b36c-f218984d6a0c-3">When <code>remove_html_markup()</code> returns</label><br>
+        <input type="checkbox" name="4070f41c-7e91-11eb-b36c-f218984d6a0c" id="4070f41c-7e91-11eb-b36c-f218984d6a0c-3" onclick="clear_selection('4070f41c-7e91-11eb-b36c-f218984d6a0c')">
+        <label id="4070f41c-7e91-11eb-b36c-f218984d6a0c-3-label" for="4070f41c-7e91-11eb-b36c-f218984d6a0c-3">When <code>remove_html_markup()</code> returns</label><br>
     
-        <input type="checkbox" name="a92ca252-7e0b-11eb-b36c-f218984d6a0c" id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('a92ca252-7e0b-11eb-b36c-f218984d6a0c')">
-        <label id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-4-label" for="a92ca252-7e0b-11eb-b36c-f218984d6a0c-4">For each line of <code>remove_html_markup()</code></label><br>
+        <input type="checkbox" name="4070f41c-7e91-11eb-b36c-f218984d6a0c" id="4070f41c-7e91-11eb-b36c-f218984d6a0c-4" onclick="clear_selection('4070f41c-7e91-11eb-b36c-f218984d6a0c')">
+        <label id="4070f41c-7e91-11eb-b36c-f218984d6a0c-4-label" for="4070f41c-7e91-11eb-b36c-f218984d6a0c-4">For each line of <code>remove_html_markup()</code></label><br>
     
     </div>
     </p>
-    <input id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('a92ca252-7e0b-11eb-b36c-f218984d6a0c', 30, 1, '[ord(c) - 100 for c in \&#x27;efgh\&#x27;]')">
-    <span class="quiz_hint" id="a92ca252-7e0b-11eb-b36c-f218984d6a0c-hint"></span>
+    <input id="4070f41c-7e91-11eb-b36c-f218984d6a0c-submit" type="submit" value="Submit" onclick="check_selection('4070f41c-7e91-11eb-b36c-f218984d6a0c', 30, 1, '[ord(c) - 100 for c in \&#x27;efgh\&#x27;]')">
+    <span class="quiz_hint" id="4070f41c-7e91-11eb-b36c-f218984d6a0c-hint"></span>
     </div>
     
 </div>
@@ -18028,7 +18184,13 @@ remove_html_markup() returns &#39;foo&#39;
 
 </div>
 
-</div></section><section>
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Indeed: Stepping line by line through some function can be pretty expensive, as every call, line, and return of <code>some_extreme_function()</code> and <code>remove_html_markup()</code> is tracked.</p>
+
+</div>
+</div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>On the other hand, the static tracker is limited to conditions that refer to a <em>specific location in the code.</em> If we want to check whether some variable changes, for instance, we have to perform a (nontrivial) static analysis of the code to determine possible locations for a change. If a variable is changed indirectly through references or pointers (a common risk in system-level languages like C), there is no alternative to actually watching its value after each instruction.</p>
@@ -18056,7 +18218,7 @@ remove_html_markup() returns &#39;foo&#39;
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[70]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">EventTracer</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;line == 223 or len(out) &gt;= 6&#39;</span><span class="p">):</span>
@@ -18103,7 +18265,7 @@ remove_html_markup() returns &#39;foobar&#39;
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">EventTracer</span><span class="p">(</span><span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;c == &#39;/&#39;&quot;</span><span class="p">]):</span>
@@ -18155,7 +18317,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[73]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -18170,7 +18332,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[73]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[74]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -18200,7 +18362,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[73]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[74]:</div>
 
 
 
@@ -18227,7 +18389,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <text text-anchor="start" x="42" y="-50.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">EventTracer</text>
 <polyline fill="none" stroke="#000000" points="27,-41.5 140,-41.5 "/>
 <g id="a_node1_0"><a xlink:href="#" xlink:title="EventTracer">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, *, condition:Union[str, NoneType]=None, events:List[str]=[], file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7ffb3e7f7eb8&gt;) &#45;&gt; None:&#10;Constructor. `events` is a list of expressions to watch.">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, *, condition:Union[str, NoneType]=None, events:List[str]=[], file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7f8513927f98&gt;) &#45;&gt; None:&#10;Constructor. `events` is a list of expressions to watch.">
 <text text-anchor="start" x="35.5" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -18252,7 +18414,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <text text-anchor="start" x="22.5" y="-162.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">ConditionalTracer</text>
 <polyline fill="none" stroke="#000000" points="14.5,-153.5 152.5,-153.5 "/>
 <g id="a_node2_4"><a xlink:href="#" xlink:title="ConditionalTracer">
-<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, *, condition:Union[str, NoneType]=None, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7ffb3e7f7eb8&gt;) &#45;&gt; None:&#10;Constructor. Trace all events for which `condition` (a Python expr) holds.">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, *, condition:Union[str, NoneType]=None, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7f8513927f98&gt;) &#45;&gt; None:&#10;Constructor. Trace all events for which `condition` (a Python expr) holds.">
 <text text-anchor="start" x="32.5" y="-142.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -18295,7 +18457,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 <text text-anchor="start" x="14.5" y="-287.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7ffb3e7f7eb8&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7f8513927f98&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
 <text text-anchor="start" x="14.5" y="-276.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -18481,7 +18643,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[74]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[75]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fail</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -18496,7 +18658,7 @@ Calling remove_html_markup(s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[75]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[76]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Tracer</span><span class="p">():</span>
@@ -18567,7 +18729,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[78]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[79]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>  <span class="c1"># type: ignore</span>
@@ -18583,7 +18745,7 @@ fail() returns None
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[79]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[80]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
@@ -18620,7 +18782,7 @@ fail() returns None
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[82]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[83]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
@@ -18634,7 +18796,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[83]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[84]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
@@ -18864,7 +19026,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[86]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[87]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">subtree_to_be_injected</span><span class="p">:</span> <span class="n">AST</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;print(&#39;entering function&#39;)&quot;</span><span class="p">)</span>
@@ -18878,7 +19040,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[87]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[88]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">subtree_to_be_injected</span><span class="p">)</span>
@@ -18990,7 +19152,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[88]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[89]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">subtree_to_be_injected</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Module</span><span class="p">,</span> <span class="n">subtree_to_be_injected</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -19010,7 +19172,7 @@ fail() returns None
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[89]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[90]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InjectPass</span><span class="p">(</span><span class="n">NodeTransformer</span><span class="p">):</span>
@@ -19032,7 +19194,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[90]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[91]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_tree</span> <span class="o">=</span> <span class="n">fix_missing_locations</span><span class="p">(</span><span class="n">InjectPass</span><span class="p">()</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>
@@ -19052,7 +19214,7 @@ fail() returns None
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[91]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[92]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">new_tree</span><span class="p">)</span>
@@ -19334,7 +19496,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[92]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[93]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_source</span> <span class="o">=</span> <span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">new_tree</span><span class="p">)</span>
@@ -19378,7 +19540,7 @@ fail() returns None
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[93]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="n">new_source</span><span class="p">)</span>
@@ -19398,7 +19560,7 @@ fail() returns None
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[95]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">foo</span><span class="p">()</span>
@@ -19429,7 +19591,7 @@ fail() returns None
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[94]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[95]:</div>
 
 
 

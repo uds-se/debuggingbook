@@ -3,7 +3,7 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-03-05 23:01:08+01:00
+# Last change: 2021-03-06 16:40:22+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -1315,7 +1315,10 @@ if __name__ == '__main__':
 
 
 import os
-os.system('rm -fr assert.h testassert* testoverflow* testuseafterfree*');
+
+if __name__ == '__main__':
+    os.system('rm -fr assert.h testassert* testoverflow* testuseafterfree*')
+    pass
 
 ## Next Steps
 ## ----------
@@ -1340,3 +1343,120 @@ if __name__ == '__main__':
     print('\n## Exercises')
 
 
+
+### Exercise 1 – Storage Assertions
+
+if __name__ == '__main__':
+    print('\n### Exercise 1 – Storage Assertions')
+
+
+
+import shelve
+
+if __name__ == '__main__':
+    d = shelve.open('mydb')
+
+if __name__ == '__main__':
+    d['123'] = 123
+
+if __name__ == '__main__':
+    d['123']
+
+if __name__ == '__main__':
+    d.close()
+
+if __name__ == '__main__':
+    d = shelve.open('mydb')
+
+if __name__ == '__main__':
+    d['123']
+
+if __name__ == '__main__':
+    d.close()
+
+from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
+from typing import Dict, Union, Set, List, FrozenSet, cast
+from types import TracebackType
+
+class Storage:
+    def __init__(self, dbname: str) -> None:
+        self.dbname = dbname
+
+    def __enter__(self) -> Any:
+        self.db = shelve.open(self.dbname)
+        return self
+
+    def __exit__(self, exc_tp: Type, exc_value: BaseException, 
+                 exc_traceback: TracebackType) -> Optional[bool]:
+        self.db.close()
+        return None
+
+    def __getitem__(self, key: str) -> Any:
+        return self.db[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.db[key] = value
+
+if __name__ == '__main__':
+    with Storage('mydb') as storage:
+        print(storage['123'])
+
+#### Task 1 – Local Consistency
+
+if __name__ == '__main__':
+    print('\n#### Task 1 – Local Consistency')
+
+
+
+class Storage(Storage):
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.db[key] = value
+        assert self.db[key] == value
+
+#### Task 2 – Global Consistency
+
+if __name__ == '__main__':
+    print('\n#### Task 2 – Global Consistency')
+
+
+
+class ShadowStorage:
+    def __init__(self, dbname: str) -> None:
+        self.dbname = dbname
+
+    def __enter__(self) -> Any:
+        self.db = shelve.open(self.dbname)
+        self.memdb = {}
+        for key in self.db.keys():
+            self.memdb[key] = self.db[key]
+        assert self.repOK()
+        return self
+
+    def __exit__(self, exc_tp: Type, exc_value: BaseException, 
+                 exc_traceback: TracebackType) -> Optional[bool]:
+        self.db.close()
+        return None
+
+    def __getitem__(self, key: str) -> Any:
+        assert self.repOK()
+        return self.db[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        assert self.repOK()
+        self.memdb[key] = self.db[key] = value
+        assert self.repOK()
+
+    def repOK(self) -> bool:
+        assert self.db.keys() == self.memdb.keys(), f"{self.dbname}: Differing keys"
+        for key in self.memdb.keys():
+            assert self.db[key] == self.memdb[key], \
+                f"{self.dbname}: Differing values for {repr(key)}"
+        return True
+
+if __name__ == '__main__':
+    with ShadowStorage('mydb') as storage:
+        storage['456'] = 456
+        print(storage['123'])
+
+if __name__ == '__main__':
+    os.remove('mydb.db');

@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-03-05 23:01:33+01:00
+# Last change: 2021-03-06 16:47:59+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -1184,7 +1184,13 @@ if __name__ == '__main__':
 
 def compile_and_run(lines: List[str]) -> None:
     # To execute 'Assertions' in place, we need to define __name__ and __package__
-    exec("".join(lines), {'__name__': '<string>', '__package__': 'debuggingbook', 'Any': Any}, {})
+    exec("".join(lines), {'__name__': '<string>',
+                          '__package__': 'debuggingbook',
+                          'Any': Any,
+                         'Type': Type,
+                         'TracebackType': TracebackType,
+                         'Optional': Optional},
+         {})
 
 if __name__ == '__main__':
     compile_and_run(assertions_source_lines)
@@ -1597,6 +1603,15 @@ from .ClassDiagram import display_class_hierarchy
 if __name__ == '__main__':
     display_class_hierarchy([DeltaDebugger],
                             public_methods=[
+                                StackInspector.caller_frame,
+                                StackInspector.caller_function,
+                                StackInspector.caller_globals,
+                                StackInspector.caller_locals,
+                                StackInspector.caller_location,
+                                StackInspector.search_frame,
+                                StackInspector.search_func,
+                                StackInspector.is_internal_error,
+                                StackInspector.our_frame,
                                 CallCollector.__init__,
                                 CallCollector.__enter__,
                                 CallCollector.__exit__,
