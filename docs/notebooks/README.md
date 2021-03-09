@@ -26,14 +26,17 @@ This work is designed as a _textbook_ for a course in software debugging; as _su
 
 ## News
 
-This book is _work in progress_, with new chapters being added every week. To get notified on updates, attend one of our courses or <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.
+This book is _work in progress_, with new chapters being released every week. To get notified on updates, <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-show-count="false">follow us on Twitter</a>.
 
 <a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-dnt="true">News from @Debugging_Book</a> 
 
+<a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @Debugging_Book</a>
 
 ## About the Author
 
 This book is written by [Andreas Zeller](https://andreas-zeller.info), a long-standing expert in automated debugging, software analysis and software testing.  Andreas is happy to share his expertise and making it accessible to the public.
+
+<p><a href="https://twitter.com/AndreasZeller?ref_src=twsrc%5Etfw" class="twitter-follow-button">Follow @AndreasZeller</a></p>
 
 ## Frequently Asked Questions
 
@@ -57,6 +60,8 @@ If mybinder.org does not work or match your needs, you have a number of alternat
 
 1. **Download the Python code** (using the menu at the top) and edit and run it in your favorite environment.  This is easy to do and does not require lots of resources.
 2. **Download the Jupyter Notebooks** (using the menu at the top) and open them in Jupyter.  Here's [how to install jupyter notebook on your machine](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
+
+Some of our chapters require additional Python packages to be installed. The [`binder` project folder](https://github.com/uds-se/debuggingbook/tree/master/binder) holds an up-to-date full set of required packages.
 
 #### Can I run the code on my Windows machine?
 
