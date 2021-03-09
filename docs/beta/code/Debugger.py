@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-03-06 16:33:32+01:00
+# Last change: 2021-03-09 13:00:17+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -380,7 +380,7 @@ class Debugger(Debugger):
         """Print an expression. If no expression is given, print all variables"""
 
         vars = self.local_vars
-        self.log("\n".join([f"{var} = {repr(vars[var])}" for var in vars]))
+        self.log("\n".join([f"{var} = {repr(value)}" for var, value in vars.items()]))
 
 if __name__ == '__main__':
     next_inputs(["step", "step", "step", "print", "continue"]);
@@ -399,7 +399,7 @@ class Debugger(Debugger):
         vars = self.local_vars
 
         if not arg:
-            self.log("\n".join([f"{var} = {repr(vars[var])}" for var in vars]))
+            self.log("\n".join([f"{var} = {repr(value)}" for var, value in vars.items()]))
         else:
             try:
                 self.log(f"{arg} = {repr(eval(arg, globals(), vars))}")
@@ -833,8 +833,8 @@ def slider(rec: List[Tuple[int, Dict[str, Any]]]) -> str:
     lines_over_time = [line for (line, var) in rec]
     vars_over_time = []
     for (line, vars) in rec:
-        vars_over_time.append(", ".join(f"{var} = {repr(vars[var])}"
-                                        for var in vars))
+        vars_over_time.append(", ".join(f"{var} = {repr(value)}"
+                                        for var, value in vars.items()))
 
     # print(lines_over_time)
     # print(vars_over_time)
