@@ -28,19 +28,19 @@ NEW_CHAPTERS =  \
 #      and a "todo" (wrench) marker in the menu.
 
 # Introduction
-INTRO_PART = 
-INTRO_PART_READY = \
+INTRO_PART = \
 	01_Intro.ipynb \
 	Tours.ipynb \
 	Intro_Debugging.ipynb
+INTRO_PART_READY = 
 INTRO_PART_TODO =
 
 # Observing Executions
-OBSERVING_PART = 
-OBSERVING_PART_READY = \
+OBSERVING_PART = \
 	02_Observing.ipynb \
 	Tracer.ipynb \
-	Debugger.ipynb \
+	Debugger.ipynb
+OBSERVING_PART_READY = \
 	Assertions.ipynb
 OBSERVING_PART_TODO = \
 	PerformanceDebugger.ipynb
