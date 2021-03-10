@@ -8,6 +8,27 @@ Software has bugs, and finding bugs can involve lots of effort.  This book addre
 This book is work in progress. It will be released to the public in Spring 2021.</span>**
 -->
 
+
+```python
+from bookutils import YouTubeVideo
+YouTubeVideo("-nOxI6Ev_I4")
+```
+
+
+
+
+
+<iframe
+    width="640"
+    height="360"
+    src="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4"
+    frameborder="0"
+    allowfullscreen
+></iframe>
+
+
+
+
 ## A Textbook for Paper, Screen, and Keyboard
 
 You can use this book in four ways:
