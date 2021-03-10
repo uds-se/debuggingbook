@@ -82,7 +82,7 @@ If mybinder.org does not work or match your needs, you have a number of alternat
 1. **Download the Python code** (using the menu at the top) and edit and run it in your favorite environment.  This is easy to do and does not require lots of resources.
 2. **Download the Jupyter Notebooks** (using the menu at the top) and open them in Jupyter.  Here's [how to install jupyter notebook on your machine](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
 
-Some of our chapters require additional Python packages to be installed. The [`binder` project folder](https://github.com/uds-se/debuggingbook/tree/master/binder) holds an up-to-date full set of required packages.
+For details, see our article on [Using Debuggingbook Code in your own Programs](https://www.debuggingbook.org/html/Importing.html). Enjoy!
 
 #### Can I run the code on my Windows machine?
 
@@ -98,13 +98,19 @@ Technically, yes; but this would cost money and effort, which we'd rather spend 
 
 Yes!  See the [installation instructions](https://www.debuggingbook.org/html/Importing.html) for details.
 
-#### Which content has come up?
+#### Do your techniques apply to Python programs only? How about C code?
 
-See the [release notes](https://www.debuggingbook.org/html/ReleaseNotes.html) for details.
+We use Python to implement our tools and techniques because we can get things done *quickly.* Building an [interactive debugger](https://www.debuggingbook.org/html/Debugger.html) in Python is less than 100 lines of code and took us 2-3 days; doing the same for C is tens of thousands of lines and a year-long project. Instrumenting code, say for [dynamic slicing](https://www.debuggingbook.org/html/Slicer.html), gets us savings of similar magnitude. Also, Python code allows us (and you) to focus on the main concepts, rather than implementation details that are out of place in a textbook.
+
+Having said this, many of the techniques in this book can also be applied to C and other code. This is notably true for _black-box_ techniques such as [reducing inputs](https://www.debuggingbook.org/html/DeltaDebugger.html) or [changes](https://www.debuggingbook.org/html/ChangeDebugger.html) or [generalizers](https://www.debuggingbook.org/html/DDSetDebugger.html); these are all language-agnostic. Tools related to the debugging process such as [bug tracking](https://www.debuggingbook.org/html/Tracking.html) or [mining repositories](https://www.debuggingbook.org/html/ChangeCounter.html) are language-agnostic as well. Finally, in all chapters, we provide pointers to implementations in and for other languages, for instance for [assertions](https://www.debuggingbook.org/html/Assertions.html) or [program repair](https://www.debuggingbook.org/html/Repairer.html).
+
+#### What are the latest changes?
+
+For changes to individual chapters, see the "Last change" link at the end of a chapter. For the `debuggingbook` Python package, see the [release notes](https://www.debuggingbook.org/html/ReleaseNotes.html) for details.
 
 #### How do I cite your work?
 
-Thanks for referring to our work!  Once the book is complete, you will be able to cite it in the traditional way.  In the meantime, just click on the "cite" button at the bottom of the Web page for each chapter to get a citation entry.
+Thanks for referring to our work!  Just click on the "cite" button at the bottom of the Web page for each chapter to get a citation entry.
 
 #### Can you cite my paper?  And possibly write a chapter about it?
 
@@ -145,7 +151,7 @@ Download the Jupyter Notebooks (using the menu at the top) and adapt the noteboo
 
 #### Do you provide PDFs of your material?
 
-At this point, we do not provide support for PDF versions.  We will be producing PDF and print versions after the book is complete.
+Technically, we can produce PDF and print versions from notebooks, but it is low on our priority list as we find the interactive formats to be so much superior. Let us know if you'd like PDF versions.
 
 ### Other Issues
 
