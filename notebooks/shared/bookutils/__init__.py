@@ -26,7 +26,7 @@ if "CI" in os.environ:
     have_ipython = False
 
 if have_ipython:
-    from .import_notebooks import NotebookFinder
+    from .import_notebooks import NotebookFinder  # type: ignore
     sys.meta_path.append(NotebookFinder())
     
 # Set fixed seed
