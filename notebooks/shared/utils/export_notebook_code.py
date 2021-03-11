@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 
-# Allow to use 'from . import <module>' when run as script (cf. PEP 366)
-if __name__ == '__main__' and __package__ is None:
-    __package__ = 'bookutils'
-
-from .re_code import RE_CODE
+from bookutils.re_code import RE_CODE
 
 import io, os, sys, types, re
 import datetime
