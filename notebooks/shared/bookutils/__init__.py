@@ -23,6 +23,7 @@ except:
 if have_ipython:
     from . import import_notebooks  # type: ignore
     
+    
 # Set fixed seed
 from . import set_fixed_seed
 set_fixed_seed.set_fixed_seed()
@@ -271,7 +272,7 @@ def jsquiz(question: str,
            correct_answer: Union[str, int, List[int], Set[int]], 
            globals: Dict[str, Any], 
            title: str = "Quiz", 
-           debug: bool = True) -> IPython.core.display.HTML:
+           debug: bool = True) -> Any:  # should be IPython.core.display
 
     hint = ""
     if isinstance(correct_answer, str):
@@ -406,7 +407,7 @@ def htmlquiz(question: str,
              options: List[str], 
              correct_answer: Any, 
              globals: Optional[Dict[str, Any]] = None,
-             title: str = 'Quiz') -> IPython.core.display.HTML:
+             title: str = 'Quiz') -> Any:  # should be IPython.core.display.HTML
     
     menu = "".join(f'''
     <li> {quiztext(option)} </li>
