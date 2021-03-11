@@ -45,3 +45,7 @@ jobs:
 
       - name: Tests
         run: make check-code
+        
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
