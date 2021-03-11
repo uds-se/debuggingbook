@@ -93,7 +93,7 @@ SET_FIXED_SEED = r"""# We use the same fixed seed as the notebook to ensure cons
 import random
 random.seed(2001)"""
 
-RE_PIC = r'(\n)+![[].*(\n)+'
+RE_PIC = r'(\n)+!\[.*(\n)+'
 
 def fix_synopsis(s: str) -> str:
     s = s.replace('```python\n', '')
