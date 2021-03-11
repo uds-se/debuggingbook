@@ -29,6 +29,9 @@ UTILITY_FILES = \
 # Where the notebooks are
 NOTEBOOKS = notebooks
 
+# Where the shared files are
+SHARED = notebooks/shared/
+
 # Derived versions including HTML, SVG, and text output cells (for Web)
 FULL_NOTEBOOKS = full_notebooks
 
@@ -1128,9 +1131,23 @@ binder/postBuild: binder/postBuild.template $(HTML_TARGET)custom.css
 binder: .FORCE
 	open $(BINDER_URL)
 
+# Sync the 'shared' folder from debuggingbook (leader) to fuzzingbook (follower)
+SHARED_LEADER = debuggingbook
+SHARED_FOLLOWER = fuzzingbook
+.PHONY: shared
+shared:
+	if [ -d ../$(SHARED_FOLLOWER) ]; then \
+		chmod -R +w ../$(SHARED_FOLLOWER)/$(SHARED); \
+		$(RM) -r ../$(SHARED_FOLLOWER)/$(SHARED); \
+		cp -pr ../$(SHARED_LEADER)/$(SHARED) ../$(SHARED_FOLLOWER)/$(SHARED); \
+		chmod -R -w ../$(SHARED_FOLLOWER)/$(SHARED); \
+		cd ../$(SHARED_FOLLOWER); \
+		git commit -m "Update from $(SHARED_LEADER)" notebooks/shared; \
+	fi
+
 # After a git push, we want binder to update; "make push" does this
 .PHONY: push
-push: .FORCE
+push: .FORCE shared
 	git push
 	open $(BINDER_URL)
 	open $(PROJECT_URL)
