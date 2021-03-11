@@ -19,8 +19,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    env:
-      PATH: $HOME/.local/bin:$PATH
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -29,7 +27,11 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Install
-        run: install -r requirements.txt
-        
-      - name: Check Types
-        run: make check-types
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          install -r requirements.txt
+
+      - name: Static Type Checking
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          make check-types
