@@ -2,6 +2,7 @@
 
 from typing import Any, Dict, List, Set, Optional, Union, Tuple, Type
 import sys
+import os
 
 # Define the contents of this file as a package
 __all__ = [
@@ -18,6 +19,10 @@ try:
     import IPython
     have_ipython = True
 except:
+    have_ipython = False
+    
+if "CI" in os.environ:
+    # Do not load notebooks during CI
     have_ipython = False
 
 if have_ipython:
