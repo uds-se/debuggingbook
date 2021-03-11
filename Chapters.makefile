@@ -10,7 +10,7 @@ AUTHORS = Andreas Zeller
 TWITTER = @Debugging_Book
 
 # Where the shared files are
-SHARED = ../fuzzingbook/
+SHARED = notebooks/shared/
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS =  \

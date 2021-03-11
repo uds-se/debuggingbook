@@ -1,1 +1,1 @@
-../fuzzingbook/Makefile
+notebooks/shared/Makefile
