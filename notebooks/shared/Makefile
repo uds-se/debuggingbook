@@ -1137,7 +1137,7 @@ SHARED_FOLLOWER = fuzzingbook
 .PHONY: shared
 shared:
 	@if [ -d ../$(SHARED_FOLLOWER) ]; then \
-		echo Pushing $(SHARED) from $(SHARED_LEADER) to $(SHARED_FOLLOWER); \
+		echo "Pushing $(SHARED) from $(SHARED_LEADER) to $(SHARED_FOLLOWER)"; \
 		chmod -R +w ../$(SHARED_FOLLOWER)/$(SHARED); \
 		$(RM) -r ../$(SHARED_FOLLOWER)/$(SHARED); \
 		cp -pr ../$(SHARED_LEADER)/$(SHARED) ../$(SHARED_FOLLOWER)/$(SHARED); \
