@@ -265,7 +265,7 @@ endif
 # For Python, we use our own script that takes care of distinguishing 
 # main (script) code from definitions to be imported
 EXPORT_NOTEBOOK_CODE = $(SHARED)$(UTILS)/export_notebook_code.py 
-CONVERT_TO_PYTHON = $(PYTHON) $(EXPORT_NOTEBOOK_CODE)
+CONVERT_TO_PYTHON = $(PYTHON) -m notebooks.bookutils.export_notebook_code
 
 # This would be the Jupyter alternative
 # CONVERT_TO_PYTHON = $(NBCONVERT) $(NBCONVERT_OPTIONS) --to python --output-dir=$(CODE_TARGET)

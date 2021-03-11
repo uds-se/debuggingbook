@@ -7,10 +7,11 @@ from typing import Any, Dict, List, Set, Optional, Union, Tuple, Type
 __all__ = [
     "PrettyTable", "YouTubeVideo",
     "print_file", "print_content", "HTML",
-    "show_ast", "input", "next_inputs"
+    "show_ast", "input", "next_inputs",
     "unicode_escape", "terminal_escape", 
     "inheritance_conflicts", "extract_class_definition",
-    "quiz", "import_notebooks", "set_fixed_seed"
+    "quiz", "import_notebooks", "export_notebooks", 
+    "re_code", "set_fixed_seed"
 ]
 
 # Setup loader such that workbooks can be imported directly
