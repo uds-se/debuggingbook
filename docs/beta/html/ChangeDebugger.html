@@ -11614,8 +11614,13 @@ ul.typeahead-list > li > a {
 /*# sourceMappingURL=style.min.css.map */
     </style>
 <style type="text/css">
-    .highlight .hll { background-color: #ffffcc }
-.highlight  { background: #f8f8f8; }
+    pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
 .highlight .err { border: 1px solid #FF0000 } /* Error */
 .highlight .k { color: #008000; font-weight: bold } /* Keyword */
@@ -11995,7 +12000,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">YouTubeVideo</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="kn">import</span> <span class="n">YouTubeVideo</span>
 <span class="n">YouTubeVideo</span><span class="p">(</span><span class="s2">&quot;hX9ViNEXGL8&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -12053,7 +12058,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="k">import</span> <span class="n">quiz</span><span class="p">,</span> <span class="n">print_file</span><span class="p">,</span> <span class="n">print_content</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="kn">import</span> <span class="n">quiz</span><span class="p">,</span> <span class="n">print_file</span><span class="p">,</span> <span class="n">print_content</span>
 </pre></div>
 
 </div>
@@ -12077,34 +12082,34 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="n">cd</span>
 </pre></div>
 <p>This will produce the failure-inducing change between <code>source_pass</code> and <code>source_fail</code>, using <a href="DeltaDebugger.html">Delta Debugging</a> to determine minimal differences in patches applied.</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">version_1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">version_1</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
 
     <span class="k">return</span> <span class="n">out</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">version_2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">version_2</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
@@ -12116,8 +12121,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">test_remove_html_markup</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">cd</span>
 
-<span class="err">@@</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
- <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span> <span class="o">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
@@ -12136,8 +12141,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-<span class="err">@@</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
- <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span> <span class="o">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
@@ -12363,17 +12368,17 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </p>
 <h3 id="Supporting-Functions">Supporting Functions<a class="anchor-link" href="#Supporting-Functions">&#182;</a></h3><p><code>ChangeDebugger</code> relies on lower level <code>patch()</code> and <code>diff()</code> functions.</p>
 <p>To apply patch objects on source code, use the <code>patch()</code> function. It takes a source code and a list of patches to be applied.</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">diffs</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">diffs</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
@@ -12385,23 +12390,23 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">):</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-<span class="err">@@</span> <span class="o">-</span><span class="mi">48</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">48</span><span class="p">,</span><span class="mi">42</span> <span class="err">@@</span>
- <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="o">@@</span> <span class="o">-</span><span class="mi">48</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">48</span><span class="p">,</span><span class="mi">42</span> <span class="o">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="o">+</span>    <span class="n">quote</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="o">+</span>    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
 
-     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="err">@@</span> <span class="o">-</span><span class="mi">104</span><span class="p">,</span><span class="mi">50</span> <span class="o">+</span><span class="mi">104</span><span class="p">,</span><span class="mi">43</span> <span class="err">@@</span>
+     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">@@</span> <span class="o">-</span><span class="mi">104</span><span class="p">,</span><span class="mi">50</span> <span class="o">+</span><span class="mi">104</span><span class="p">,</span><span class="mi">43</span> <span class="o">@@</span>
   <span class="n">s</span><span class="p">:</span>
 
 <span class="o">-</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span>    <span class="c1"># start of markup</span>
 
-<span class="o">+</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span><span class="err">@@</span> <span class="o">-</span><span class="mi">162</span><span class="p">,</span><span class="mi">48</span> <span class="o">+</span><span class="mi">162</span><span class="p">,</span><span class="mi">45</span> <span class="err">@@</span>
+<span class="o">+</span>        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span><span class="o">@@</span> <span class="o">-</span><span class="mi">162</span><span class="p">,</span><span class="mi">48</span> <span class="o">+</span><span class="mi">162</span><span class="p">,</span><span class="mi">45</span> <span class="o">@@</span>
  <span class="n">rue</span>
 
 <span class="o">-</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>  <span class="c1"># end of markup</span>
 
-<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span><span class="err">@@</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span> <span class="err">@@</span>
- <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span><span class="o">@@</span> <span class="o">-</span><span class="mi">215</span><span class="p">,</span><span class="mi">24</span> <span class="o">+</span><span class="mi">215</span><span class="p">,</span><span class="mi">97</span> <span class="o">@@</span>
+ <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="o">+</span>        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
@@ -12443,7 +12448,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TextIO</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
 </pre></div>
 
 </div>
@@ -13564,7 +13569,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="k">import</span> <span class="n">ExpectError</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="kn">import</span> <span class="n">ExpectError</span>
 </pre></div>
 
 </div>
@@ -15357,7 +15362,7 @@ HEAD is now at 920bca3 Eighth version (with proper assertion)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_1</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
-                            <span class="n">f</span><span class="s1">&#39;</span><span class="si">{versions[0]}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
+                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -15407,7 +15412,7 @@ HEAD is now at 920bca3 Eighth version (with proper assertion)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_2</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
-                            <span class="n">f</span><span class="s1">&#39;</span><span class="si">{versions[1]}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
+                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -15520,7 +15525,7 @@ HEAD is now at 920bca3 Eighth version (with proper assertion)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/google/diff-match-patch" class="import" target="_blank">diff_match_patch</a></span> <span class="k">import</span> <span class="n">diff_match_patch</span><span class="p">,</span> <span class="n">patch_obj</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/google/diff-match-patch" class="import" target="_blank">diff_match_patch</a></span> <span class="kn">import</span> <span class="n">diff_match_patch</span><span class="p">,</span> <span class="n">patch_obj</span>
 </pre></div>
 
 </div>
@@ -16168,7 +16173,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="k">import</span> <span class="n">DeltaDebugger</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="kn">import</span> <span class="n">DeltaDebugger</span>
 </pre></div>
 
 </div>
@@ -16498,7 +16503,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="k">import</span> <span class="n">CallCollector</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="kn">import</span> <span class="n">CallCollector</span>
 </pre></div>
 
 </div>
@@ -16513,7 +16518,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">CallCollector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">ddargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fail_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">ddargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Constructor. Takes a passing source file (`pass_source`)</span>
 <span class="sd">        and a failing source file (`fail_source`).</span>
 <span class="sd">        Additional arguments are passed to `DeltaDebugger` constructor.</span>
@@ -16774,7 +16779,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Called at begin of a `with` block. Checks if current source fails.&quot;&quot;&quot;</span>
         <span class="n">exec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fail_source</span><span class="p">(),</span> <span class="nb">globals</span><span class="p">())</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
@@ -16913,7 +16918,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return readable list of minimal patches&quot;&quot;&quot;</span>
         <span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diff_patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff_patches</span><span class="p">)</span>
@@ -17117,7 +17122,7 @@ AssertionError (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_8</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
-                            <span class="n">f</span><span class="s1">&#39;</span><span class="si">{versions[7]}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
+                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -17225,7 +17230,7 @@ AssertionError (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="k">import</span> <span class="n">NoCallError</span><span class="p">,</span> <span class="n">NotFailingError</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">DeltaDebugger</a></span> <span class="kn">import</span> <span class="n">NoCallError</span><span class="p">,</span> <span class="n">NotFailingError</span>
 </pre></div>
 
 </div>
@@ -17260,22 +17265,22 @@ AssertionError (expected)
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoCallError</span><span class="p">(</span><span class="s2">&quot;No function call observed&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NotFailingError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{self.format_call()} did not raise an exception&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFailingError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2"> did not raise an exception&quot;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">test_patches</span><span class="p">([])</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NotPassingError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{self.format_call()} raised an exception in its passing version&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotPassingError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2"> raised an exception in its passing version&quot;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">test_patches</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">())</span>
-            <span class="k">raise</span> <span class="n">NotFailingError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{self.format_call()} did not raise an exception in failing version&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFailingError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2"> did not raise an exception in failing version&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Observed {self.format_call()}&quot;</span> <span class="o">+</span>
-                  <span class="n">f</span><span class="s2">&quot; raising {self.format_exception(self.exception())}&quot;</span><span class="p">)</span>  
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Observed </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span>
+                  <span class="sa">f</span><span class="s2">&quot; raising </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  
 </pre></div>
 
 </div>
@@ -17333,11 +17338,11 @@ AssertionError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>The concept of "bisecting" as traversing a version history to identify failure-inducing changes was first described by Brian Ness and Viet Ngo from Cray Research as "Source change isolation" [<a href="https://www.computer.org/csdl/proceedings-article/compsac/1997/81050616/12OmNANBZnS">Ness <em>et al</em>, 1997.</a>]. The abstract of their paper summarizes the goals and benefits:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><p>The concept of "bisecting" as traversing a version history to identify failure-inducing changes was first described by Brian Ness and Viet Ngo from Cray Research as "Source change isolation" [<a href="https://www.computer.org/csdl/proceedings-article/compsac/1997/81050616/12OmNANBZnS">Ness <em>et al</em>, 1997</a>]. The abstract of their paper summarizes the goals and benefits:</p>
 <blockquote><p>Effective regression containment is an important factor in the design of development and testing processes for large software projects, especially when many developers are doing concurrent work on a common set of sources. Source change isolation provides an inexpensive, mechanical alternative to analytical methods for identifying the cause of software regressions. It also provides the advantage of enabling regressions to be eliminated by reversing the effect of source changes that introduced errant behavior, without the need to write new code, and without halting other development work on the same software. Deliverability is also improved.</p>
 </blockquote>
-<p>Delta Debugging on changes (and also Delta Debugging) was introduced in "Yesterday, my program worked. Today, it does not. Why?" [<a href="https://doi.org/10.1145/318774.318946">Zeller <em>et al</em>, 1999.</a>], a paper which would win an ACM SIGSOFT Impact Paper Award ten years later.
-This paper generalized over [<a href="https://www.computer.org/csdl/proceedings-article/compsac/1997/81050616/12OmNANBZnS">Ness <em>et al</em>, 1997.</a>] by identifying failure-inducing differences in arbitrary sets of changes. [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002.</a>] generalized the algorithm to work on inputs and other collections (including changes); the <a href="DeltaDebugger">chapter on delta debugging</a>, which we use in this chapter, uses the [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002.</a>] formulation of the <code>dd</code> algorithm.</p>
+<p>Delta Debugging on changes (and also Delta Debugging) was introduced in "Yesterday, my program worked. Today, it does not. Why?" [<a href="https://doi.org/10.1145/318774.318946">Zeller <em>et al</em>, 1999</a>], a paper which would win an ACM SIGSOFT Impact Paper Award ten years later.
+This paper generalized over [<a href="https://www.computer.org/csdl/proceedings-article/compsac/1997/81050616/12OmNANBZnS">Ness <em>et al</em>, 1997</a>] by identifying failure-inducing differences in arbitrary sets of changes. [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002</a>] generalized the algorithm to work on inputs and other collections (including changes); the <a href="DeltaDebugger">chapter on delta debugging</a>, which we use in this chapter, uses the [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002</a>] formulation of the <code>dd</code> algorithm.</p>
 </div>
 </div>
 </div>
