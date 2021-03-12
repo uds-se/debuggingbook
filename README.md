@@ -2,17 +2,21 @@
 
 <!-- Badges to be shown on project page -->
 
-<a href="https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml">
-<img src = "https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg">
-</a>
+[![Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](href="https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
+&nbsp;
+[![Static Type Checking](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)](href="https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml)
+&nbsp;
+[![Imports](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)](href="https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml)
+&nbsp;
+[![Website www.debuggingbook.org](https://img.shields.io/website-up-down-green-red/https/www.debuggingbook.org.svg)](https://www.debuggingbook.org/)
 
-<a href="https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml">
-<img src = "https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg">
-</a>
+[![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue.svg)](https://www.python.org/)
+&nbsp;
+[![Made with Jupyter](https://img.shields.io/badge/Made%20with-Jupyter-orange.svg)](https://www.jupyter.org/)
+&nbsp;
+[![License: MIT (Code), CC BY-NC-SA (Book)](https://img.shields.io/badge/License-MIT_(Code),_CC_BY--NC--SA_4.0_(Book)-blue.svg)](https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md)
 
-<a href="https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml">
-<img src = "https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg">
-</a>
+
 # About this Book
 
 __Welcome to "The Debugging Book"!__ 
