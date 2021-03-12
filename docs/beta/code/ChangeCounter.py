@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-03-12 15:18:41+01:00
+# Last change: 2021-03-12 16:46:47+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -384,8 +384,16 @@ def debuggingbook_change_counter(cls: Type) -> Any:
     """
 
     def filter(m: Modification) -> bool:
-        """Do not include the `docs/` directory; it only holds Web pages"""
-        return m.new_path and not m.new_path.startswith('docs/')
+        """
+        Do not include
+        * the `docs/` directory; it only holds Web pages
+        * the `synopsis` pictures; these are all generated
+        * the `notebooks/shared/ipypublish` directory
+        """
+        return (m.new_path and
+                not m.new_path.startswith('docs/') and
+                not m.new_path.startswith('notebooks/shared/ipypublish/') and
+                not '-synopsis-' in m.new_path)
 
     return cls(DEBUGGINGBOOK_REPO, filter=filter)
 
