@@ -3,7 +3,7 @@
 
 # "Class Diagrams" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-03-11 16:49:06+01:00
+# Last change: 2021-03-11 17:26:08+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,9 +42,11 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/ClassDiagram.html
 
-The `display_class_hierarchy()` function shows the class hierarchy for the given class.  Methods with docstrings (intended to be used by the public) are shown in bold.
+The function `display_class_hierarchy()` function shows the class hierarchy for the given class (or list of classes). 
+* The keyword parameter `public_methods`, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).
+* The keyword parameter `abstract_classes`, if given, is a list of classes to be displayed as "abstract" (i.e. with a cursive class name).
 
->>> display_class_hierarchy(GrammarFuzzer)
+>>> display_class_hierarchy(D_Class, abstract_classes=[A_Class])
 
 For more details, source, and documentation, see
 "The Debugging Book - Class Diagrams"

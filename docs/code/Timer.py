@@ -3,7 +3,7 @@
 
 # "Timer" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timer.html
-# Last change: 2021-03-11 22:33:58+01:00
+# Last change: 2021-03-11 22:54:28+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,19 +42,13 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Timer.html
 
-Synopsis
-
-
-
-
-
 The `Timer` class allows you to measure elapsed real time.  Its typical usage is in conjunction with a `with` clause:
 
-with Timer() as t:
-    some_long_running_function()
-t.elapsed_time()
+>>> with Timer() as t:
+>>>     some_long_running_function()
+>>> t.elapsed_time()
 
-=> 0.042843673028983176
+0.04500656999880448
 
 
 For more details, source, and documentation, see
