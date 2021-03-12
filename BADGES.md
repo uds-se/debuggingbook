@@ -2,11 +2,11 @@
 
 <!-- Badges to be shown on project page -->
 
-[![Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](href="https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
+[![Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
 &nbsp;
-[![Static Type Checking](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)](href="https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml)
+[![Static Type Checking](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml)
 &nbsp;
-[![Imports](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)](href="https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml)
+[![Imports](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml)
 &nbsp;
 [![Website www.debuggingbook.org](https://img.shields.io/website-up-down-green-red/https/www.debuggingbook.org.svg)](https://www.debuggingbook.org/)
 
