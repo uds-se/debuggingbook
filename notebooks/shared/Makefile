@@ -1164,7 +1164,7 @@ shared:
 		cp -pr ../$(SHARED_LEADER)/$(SHARED) ../$(SHARED_FOLLOWER)/$(SHARED); \
 		chmod -R -w ../$(SHARED_FOLLOWER)/$(SHARED); \
 		cd ../$(SHARED_FOLLOWER); \
-		-git commit -m "Update from $(SHARED_LEADER)" notebooks/shared; \
+		git commit -m "Update from $(SHARED_LEADER)" notebooks/shared; \
 	fi; \
 	exit 0
 
