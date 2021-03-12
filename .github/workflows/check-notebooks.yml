@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: HTML
+name: Notebook Tests
 
 # Controls when the action will run. 
 on:
@@ -44,7 +44,10 @@ jobs:
       - name: Check Python Version
         run: python --version
 
-      - name: HTML
+      - name: Run Notebooks
+        run: make -k full
+
+      - name: Create HTML
         run: make -k html
 
       - name: Start tmate debugging session in case of failure

@@ -2,7 +2,9 @@
 
 <!-- Badges to be shown on project page -->
 
-[![Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
+[![Code Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
+&nbsp;
+[![Notebook Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-notebooks.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-notebooks.yml)
 &nbsp;
 [![Static Type Checking](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml)
 &nbsp;
