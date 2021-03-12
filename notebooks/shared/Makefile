@@ -609,7 +609,7 @@ else
 	# such that we don't have to execute the notebooks
 	CODE_SOURCE=$(NOTEBOOKS)
 endif
-		
+
 $(CODE_TARGET)%.py: $(CODE_SOURCE)/%.ipynb $(EXPORT_NOTEBOOK_CODE)
 	@test -d $(CODE_TARGET) || $(MKDIR) $(CODE_TARGET)
 	$(CONVERT_TO_PYTHON) --project $(PROJECT) $< > $@~ && mv $@~ $@
