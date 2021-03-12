@@ -599,14 +599,24 @@ $(CODE_TARGET)__init__.py: $(CODE_TARGET)__init__.py.in $(CHAPTERS_MAKEFILE)
 	(for module in $(IMPORTS); do echo from . import $$module; done) | grep -v '^.*[0-9][0-9]_.*' >> $@
 	chmod +x $@
 
-# For code, we comment out fuzzingbook/debuggingbook imports, 
-# ensuring we import a .py and not the .ipynb file
-$(CODE_TARGET)%.py: $(NOTEBOOKS)/%.ipynb $(EXPORT_NOTEBOOK_CODE)
+# For code, we use our own exporter
+ifeq($(origin CI),undefined)
+	# Normal mode: Create code from full notebooks,
+	# such that we get the full outputs in the synopsis
+	CODE_SOURCE=$(FULL_NOTEBOOKS)
+else
+	# CI mode: Create code from local notebooks,
+	# such that we don't have to execute the notebooks
+	CODE_SOURCE=$(NOTEBOOKS)
+endif
+		
+$(CODE_TARGET)%.py: $(CODE_SOURCE)/%.ipynb $(EXPORT_NOTEBOOK_CODE)
 	@test -d $(CODE_TARGET) || $(MKDIR) $(CODE_TARGET)
 	$(CONVERT_TO_PYTHON) --project $(PROJECT) $< > $@~ && mv $@~ $@
 	# $(AUTOPEP8) $(AUTOPEP8_OPTIONS) $@
 	-chmod +x $@
 
+# mypy stuff always comes directly from notebooks
 $(MYPY_TARGET)%.py: $(NOTEBOOKS)/%.ipynb $(EXPORT_NOTEBOOK_CODE)
 	@test -d $(MYPY_TARGET) || $(MKDIR) $(MYPY_TARGET)
 	$(CONVERT_TO_PYTHON) --project $(PROJECT) --mypy $< > $@~ && mv $@~ $@
