@@ -18,9 +18,9 @@ YouTubeVideo("-nOxI6Ev_I4")
 
 
 
-        <a href="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4" target="_blank">
-        ![YouTube video](PICS/youtube.png)
-        </a>
+<a href="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4" target="_blank">
+<img src="https://www.debuggingbook.org/html/PICS/youtube.png" width=640>
+</a>
         
 
 
