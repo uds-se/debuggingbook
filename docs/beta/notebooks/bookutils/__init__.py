@@ -1,16 +1,17 @@
 # Bookutils
 
 from typing import Any, Dict, List, Set, Optional, Union, Tuple, Type
-
+import sys
+import os
 
 # Define the contents of this file as a package
 __all__ = [
     "PrettyTable", "YouTubeVideo",
     "print_file", "print_content", "HTML",
-    "show_ast", "input", "next_inputs"
+    "show_ast", "input", "next_inputs",
     "unicode_escape", "terminal_escape", 
     "inheritance_conflicts", "extract_class_definition",
-    "quiz", "import_notebooks", "set_fixed_seed"
+    "quiz", "import_notebooks", "re_code", "set_fixed_seed"
 ]
 
 # Setup loader such that workbooks can be imported directly
@@ -19,13 +20,18 @@ try:
     have_ipython = True
 except:
     have_ipython = False
+    
+if "CI" in os.environ:
+    # Do not load notebooks during CI
+    have_ipython = False
 
 if have_ipython:
-    from . import import_notebooks  # type: ignore
+    from .import_notebooks import NotebookFinder  # type: ignore
+    sys.meta_path.append(NotebookFinder())
     
 # Set fixed seed
-from . import set_fixed_seed
-set_fixed_seed.set_fixed_seed()
+from .set_fixed_seed import set_fixed_seed
+set_fixed_seed()
 
 
 # Check for rich output
@@ -40,9 +46,18 @@ def rich_output() -> bool:
 
 # Wrapper for YouTubeVideo
 def YouTubeVideo(id: str, width: int = 640, height: int = 360) -> Any:
-    """Replacement for IPython.YoutubeVideo, 
-    with different width/height and no cookies for YouTube"""
-    if have_ipython:
+    """
+    Replacement for IPython.YoutubeVideo, 
+    with different width/height and no cookies for YouTube
+    """
+    if 'RENDER_HTML' in os.environ:
+        import IPython.core.display
+        return IPython.core.display.Markdown(f'''
+        <a href="https://www.youtube-nocookie.com/embed/{id}" target="_blank">
+        ![YouTube video](PICS/youtube.png)
+        </a>
+        ''')
+    elif have_ipython:
         from IPython.display import IFrame
         src = f"https://www.youtube-nocookie.com/embed/{id}"
         return IFrame(src, width, height)
@@ -271,7 +286,7 @@ def jsquiz(question: str,
            correct_answer: Union[str, int, List[int], Set[int]], 
            globals: Dict[str, Any], 
            title: str = "Quiz", 
-           debug: bool = True) -> IPython.core.display.HTML:
+           debug: bool = True) -> Any:  # should be IPython.core.display
 
     hint = ""
     if isinstance(correct_answer, str):
@@ -406,7 +421,7 @@ def htmlquiz(question: str,
              options: List[str], 
              correct_answer: Any, 
              globals: Optional[Dict[str, Any]] = None,
-             title: str = 'Quiz') -> IPython.core.display.HTML:
+             title: str = 'Quiz') -> Any:  # should be IPython.core.display.HTML
     
     menu = "".join(f'''
     <li> {quiztext(option)} </li>

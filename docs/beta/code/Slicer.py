@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-09 17:54:43+01:00
+# Last change: 2021-03-12 02:39:52+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -77,8 +77,8 @@ An alternate representation is `slicer.code()`, annotating the instrumented sour
 
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= x (1), z (2), z (4)
-*    4         z *= 2  # <= z (2), z (4);  (3)
+*    3     while x <= z <= 64:  # <= z (4), x (1), z (2)
+*    4         z *= 2  # <= z (4), z (2);  (3)
 *    5     return z  # <= z (4)
 
 Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.

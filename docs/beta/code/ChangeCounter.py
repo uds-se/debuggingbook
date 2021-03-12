@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-03-09 18:23:35+01:00
+# Last change: 2021-03-12 01:12:48+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -61,13 +61,14 @@ A `change_counter` provides a number of attributes. `changes` is a mapping of no
 
 >>> change_counter.changes[('README.md',)]
 
-11
+14
 
 The `messages` attribute holds all commit messages related to that node:
 
 >>> change_counter.messages[('README.md',)]
 
 ['first commit',
+ 'Initial import',
  'Adjusted to debuggingbook',
  'New Twitter handle: @Debugging_Book',
  'Doc update',
@@ -77,13 +78,15 @@ The `messages` attribute holds all commit messages related to that node:
  'Added link to author homepage',
  'Doc update',
  'Doc update',
+ 'Doc update',
+ 'Doc update',
  'Doc update']
 
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes[('README.md',)]
 
-11221
+13025
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
 
@@ -154,8 +157,16 @@ if __name__ == '__main__':
 
 from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
 from pydriller.domain.commit import Commit
+from pydriller.domain.commit import Modification
 
 import os
+import sys
+
+if __name__ == '__main__':
+    if 'CI' in os.environ:
+        # Can't run this in our continuous environment,
+        # since it fetches only the very last version
+        sys.exit(0)
 
 from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
 from typing import Dict, Union, Set, List, FrozenSet, cast
@@ -246,6 +257,8 @@ if __name__ == '__main__':
 
 Node = Tuple
 
+from collections import defaultdict
+
 class ChangeCounter:
     """Count the number of changes for a repository."""
 
@@ -265,7 +278,7 @@ class ChangeCounter:
         self.log = log
 
         if filter is None:
-            def filter(m: Commit) -> bool:
+            def filter(m: Modification) -> bool:
                 return True
         assert filter is not None
 
@@ -275,16 +288,13 @@ class ChangeCounter:
         # a folder f_1 holding a folder f_2 ... holding a file f_n.
 
         # Mapping node -> #of changes
-        self.changes: Dict[Node, int] = {}
+        self.changes: Dict[Node, int] = defaultdict(int)
 
          # Mapping node -> list of commit messages
-        self.messages: Dict[Node, List[str]] = {}
+        self.messages: Dict[Node, List[str]] = defaultdict(list)
 
         # Mapping node -> last size seen
-        self.sizes: Dict[Node, int] = {}
-
-        # All hashes already considered
-        self.hashes: Set[str] = set()
+        self.sizes: Dict[Node, Union[int, float]] = {}
 
         self.mine(**kwargs)
 
@@ -295,7 +305,6 @@ class ChangeCounter(ChangeCounter):
 
         for commit in miner.traverse_commits():
             for m in commit.modifications:
-                m.hash = commit.hash
                 m.committer = commit.committer
                 m.committer_date = commit.committer_date
                 m.msg = commit.msg
@@ -304,7 +313,7 @@ class ChangeCounter(ChangeCounter):
                     self.update_stats(m)
 
 class ChangeCounter(ChangeCounter):
-    def include(self, m: Commit) -> bool:
+    def include(self, m: Modification) -> bool:
         """
         Return True if the modification `m` should be included
         (default: the `filter` predicate given to the constructor).
@@ -313,17 +322,15 @@ class ChangeCounter(ChangeCounter):
         return self.filter(m)
 
 class ChangeCounter(ChangeCounter):
-    def update_stats(self, m: Commit) -> None:
+    def update_stats(self, m: Modification) -> None:
         """Update counters with modification `m`. Can be extended in subclasses."""
         if not m.new_path:
             return
 
         node = tuple(m.new_path.split('/'))
 
-        if m.hash not in self.hashes:
-            self.hashes.add(m.hash)
-            self.update_size(node, len(m.source_code) if m.source_code else 0)
-            self.update_changes(node, m.msg)
+        self.update_size(node, len(m.source_code) if m.source_code else 0)
+        self.update_changes(node, m.msg)
 
         self.update_elems(node, m)
 
@@ -338,14 +345,12 @@ class ChangeCounter(ChangeCounter):
         Update stats for `node` changed with `commit_msg`.
         Can be extended in subclasses.
         """
-        self.changes.setdefault(node, 0)
         self.changes[node] += 1
 
-        self.messages.setdefault(node, [])
         self.messages[node].append(commit_msg)
 
 class ChangeCounter(ChangeCounter):
-    def update_elems(self, node: Tuple, m: Commit) -> None:
+    def update_elems(self, node: Tuple, m: Modification) -> None:
         """
         Update counters for subelements of `node` with modification `m`.
         To be defined in subclasses.
@@ -360,7 +365,7 @@ if __name__ == '__main__':
 def debuggingbook_change_counter(cls: Type) -> Any:
     """Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo"""
 
-    def filter(m: Commit) -> bool:
+    def filter(m: Modification) -> bool:
         """Do not include the `docs/` directory; it only holds Web pages"""
         return m.new_path and not m.new_path.startswith('docs/')
 
@@ -404,24 +409,35 @@ import plotly.graph_objects as go
 import math
 
 class ChangeCounter(ChangeCounter):
-    def map_node_sizes(self) -> Dict[Node, Union[int, float]]:
-        """Return a mapping of nodes to sizes. Can be overloaded in subclasses."""
-        # Default: use log scale
-        return {node: math.log(self.sizes[node]) if self.sizes[node] else 0
-                for node in self.sizes}
+    def map_node_sizes(self, scale: str = 'log') -> \
+        Dict[Node, Union[int, float]]:
+        """
+        Return a mapping of nodes to sizes.
+        Can be overloaded in subclasses.
+        """
 
-        # Alternative: use sqrt size
-        return {node: math.sqrt(self.sizes[node]) for node in self.sizes}
+        if scale == 'log':
+            # Default: use log scale
+            return {node: math.log(size+1) 
+                    for node, size in self.sizes.items()}
 
-        # Alternative: use absolute size
-        return self.sizes
+        elif scale == 'sqrt':
+            # Alternative: use sqrt size
+            return {node: math.sqrt(size)
+                    for node, size in self.sizes.items()}
+
+        elif scale == 'abs':
+            # Alternative: use absolute size
+            return self.sizes
+
+        else:
+            raise ValueError(f"Unknown scale: {scale}; "
+                             f"available scaling modes are [log, sqrt, abs]")
 
 class ChangeCounter(ChangeCounter):
     def map_node_color(self, node: Node) -> Optional[int]:
         """Return a color of the node, as a number. Can be overloaded in subclasses."""
-        if node and node in self.changes:
-            return self.changes[node]
-        return None
+        return self.changes.get(node)
 
 class ChangeCounter(ChangeCounter):
     def map_node_text(self, node: Node) -> Optional[str]:
@@ -429,9 +445,8 @@ class ChangeCounter(ChangeCounter):
         Return the text to be shown for the node (default: #changes).
         Can be overloaded in subclasses.
         """
-        if node and node in self.changes:
-            return str(self.changes[node])
-        return None
+        change = self.changes.get(node)
+        return str(change) if change is not None else None
 
 class ChangeCounter(ChangeCounter):
     def map_hoverinfo(self) -> str:
@@ -472,9 +487,7 @@ if __name__ == '__main__':
     change_counter.map()
 
 if __name__ == '__main__':
-    all_nodes = list(change_counter.changes.keys())
-    all_nodes.sort(key=lambda node: change_counter.changes[node], reverse=True)
-    [(node, change_counter.changes[node]) for node in all_nodes[:4]]
+    sorted(change_counter.changes.items(), key=lambda kv: kv[1], reverse=True)[:4]
 
 if __name__ == '__main__':
     all_notebooks = [node for node in change_counter.changes.keys()
@@ -509,15 +522,13 @@ class FixCounter(ChangeCounter):
     Fixes are all commits whose message starts with the word 'Fix: '
     """
 
-    def include(self, m: Commit) -> bool:
+    def include(self, m: Modification) -> bool:
         """Include all modifications whose commit messages start with 'Fix:'"""
         return super().include(m) and m and m.msg.startswith("Fix:")
 
 class FixCounter(FixCounter):
     def map_node_text(self, node: Node) -> str:
-        if node and node in self.messages:
-            return "<br>".join(self.messages[node])
-        return ""
+        return "<br>".join(self.messages.get(node, []))
 
     def map_hoverinfo(self) -> str:
         return 'label'
@@ -777,7 +788,7 @@ if __name__ == '__main__':
 class FineChangeCounter(ChangeCounter):
     """Count the changes for files in the repository and their elements"""
 
-    def update_elems(self, node: Node, m: Commit) -> None:
+    def update_elems(self, node: Node, m: Modification) -> None:
         old_source = m.source_code_before if m.source_code_before else ""
         new_source = m.source_code if m.source_code else ""
 

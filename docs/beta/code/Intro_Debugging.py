@@ -3,7 +3,7 @@
 
 # "Introduction to Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2021-03-06 12:32:21+01:00
+# Last change: 2021-03-11 16:59:17+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -327,7 +327,7 @@ def remove_html_markup_without_quotes(s):  # type: ignore
     return out
 
 if __name__ == '__main__':
-    assert remove_html_markup_without_quotes('<"b">foo</"b">') == 'foo'
+    assert remove_html_markup_without_quotes('<b id="bar">foo</b>') == 'foo'
 
 if __name__ == '__main__':
     with ExpectError():
@@ -519,7 +519,7 @@ if __name__ == '__main__':
     for i, html in enumerate(['<b>foo</b>',
                               '<b>"foo"</b>',
                               '"<b>foo</b>"',
-                              '<"b">foo</"b">']):
+                              '<b id="bar">foo</b>']):
         result = remove_html_markup(html)
         print("%-2d %-15s %s" % (i + 1, html, result))
 
@@ -680,7 +680,7 @@ if __name__ == '__main__':
     assert remove_html_markup('<b>foo</b>') == 'foo'
     assert remove_html_markup('<b>"foo"</b>') == '"foo"'
     assert remove_html_markup('"<b>foo</b>"') == '"foo"'
-    assert remove_html_markup('<"b">foo</"b">') == 'foo'
+    assert remove_html_markup('<b id="bar">foo</b>') == 'foo'
 
 ### Alternate Paths
 
@@ -970,4 +970,4 @@ if __name__ == '__main__':
     assert remove_html_markup_with_proper_quotes('<b>foo</b>') == 'foo'
     assert remove_html_markup_with_proper_quotes('<b>"foo"</b>') == '"foo"'
     assert remove_html_markup_with_proper_quotes('"<b>foo</b>"') == '"foo"'
-    assert remove_html_markup_with_proper_quotes('<"b">foo</"b">') == 'foo'
+    assert remove_html_markup_with_proper_quotes('<b id="bar">foo</b>') == 'foo'

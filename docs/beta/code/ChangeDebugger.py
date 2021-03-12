@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-03-07 12:27:15+01:00
+# Last change: 2021-03-12 00:48:54+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -309,6 +309,14 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     import os
     os.system(f'git init')
+
+if __name__ == '__main__':
+    import os
+    os.system(f'git config user.name "Demo User"')
+
+if __name__ == '__main__':
+    import os
+    os.system(f'git config user.email "demo-user@example.com"')
 
 if __name__ == '__main__':
     import os

@@ -3,7 +3,7 @@
 
 # "Part VII: Debugging in the Large" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/07_In_the_Large.html
-# Last change: 2021-02-28 12:24:46+01:00
+# Last change: 2021-03-11 17:05:37+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

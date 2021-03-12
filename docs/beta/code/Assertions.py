@@ -3,7 +3,7 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-03-06 16:40:22+01:00
+# Last change: 2021-03-11 23:57:57+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -1315,10 +1315,28 @@ if __name__ == '__main__':
 
 
 import os
+import shutil
 
 if __name__ == '__main__':
-    os.system('rm -fr assert.h testassert* testoverflow* testuseafterfree*')
-    pass
+    for path in [
+                    'assert.h',
+                    'testassert',
+                    'testassert.c',
+                    'testassert.dSYM',
+                    'testoverflow',
+                    'testoverflow.c',
+                    'testoverflow.dSYM',
+                    'testuseafterfree',
+                    'testuseafterfree.c',
+                    'testuseafterfree.dSYM',
+                ]:
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        else:
+            try:
+                os.remove(path)
+            except FileNotFoundError:
+                pass
 
 ## Next Steps
 ## ----------
@@ -1459,4 +1477,13 @@ if __name__ == '__main__':
         print(storage['123'])
 
 if __name__ == '__main__':
-    os.remove('mydb.db');
+    try:
+        os.remove('mydb.db')  # on macOS
+    except FileNotFoundError:
+        pass
+
+if __name__ == '__main__':
+    try:
+        os.remove('mydb')  # on Linux
+    except FileNotFoundError:
+        pass

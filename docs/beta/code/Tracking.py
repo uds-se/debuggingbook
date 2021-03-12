@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-03-06 12:41:30+01:00
+# Last change: 2021-03-12 00:54:35+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -76,6 +76,13 @@ if __name__ == '__main__':
 from . import Intro_Debugging
 
 import os
+import sys
+
+if __name__ == '__main__':
+    if 'CI' in os.environ:
+        # Can't run this in our continuous environment,
+        # since it can't run a headless Web browser
+        sys.exit(0)
 
 if __name__ == '__main__':
     assert os.getenv('USER') == 'zeller'
