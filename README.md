@@ -50,11 +50,11 @@ You can use this book in four ways:
 
 * You can __read chapters in your browser__.  Check out the list of chapters in the menu above, or start right away with the [introduction to debugging](https://www.debuggingbook.org/html/Intro_Debugging.html) or [how debuggers work](https://www.debuggingbook.org/html/Debugger.html).  All code is available for download.
 
-* You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Simply select "Resources $\rightarrow$ Edit as Notebook" at the top of each chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/Debugger.ipynb" target=_blank>Try interacting with the introduction to interactive debuggers.</a>
+* You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Simply select "Resources → Edit as Notebook" at the top of each chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/Debugger.ipynb" target=_blank>Try interacting with the introduction to interactive debuggers.</a>
 
-* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources $\rightarrow$ Download Code" for one chapter or "Resources $\rightarrow$ All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Once the book is out of beta, you can also [install the Python package](https://www.debuggingbook.org/html/Importing.html).
+* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources → Download Code" for one chapter or "Resources → All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Once the book is out of beta, you can also [install the Python package](https://www.debuggingbook.org/html/Importing.html).
 
-* You can __present chapters as slides__.  This allows for presenting the material in lectures.  Just select "Resources $\rightarrow$ View slides" at the top of each chapter. <a href="https://www.debuggingbook.org/slides/Debugger.slides.html" target=_blank>Try viewing the slides for how debuggers work.</a>
+* You can __present chapters as slides__.  This allows for presenting the material in lectures.  Just select "Resources → View slides" at the top of each chapter. <a href="https://www.debuggingbook.org/slides/Debugger.slides.html" target=_blank>Try viewing the slides for how debuggers work.</a>
 
 ## Who this Book is for
 
