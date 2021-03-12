@@ -19,13 +19,11 @@ YouTubeVideo("-nOxI6Ev_I4")
 
 
         <a href="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4" target="_blank">
-        ![](PICS/youtube.png)
+        ![YouTube video](PICS/youtube.png)
         </a>
         
 
 
-
-<a href="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4" target="_blank"><img src="PICS/youtube.png"></a>
 
 ## A Textbook for Paper, Screen, and Keyboard
 
