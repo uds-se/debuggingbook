@@ -68,14 +68,6 @@ This book is _work in progress_, with new chapters being released every week. To
 
 <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @Debugging_Book</a>
 
-## Code Status
-
-The code in the book is continuously checked and tested. Should any of these badges appear in red ("failing"), then we are likely already on our way to fix the issue.
-
-![](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)
-![](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)
-![](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)
-
 ## About the Author
 
 This book is written by [Andreas Zeller](https://andreas-zeller.info), a long-standing expert in automated debugging, software analysis and software testing.  Andreas is happy to share his expertise and making it accessible to the public.
