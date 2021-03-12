@@ -146,7 +146,7 @@ JUPYTER ?= jupyter
 
 # The nbpublish tool (preferred; https://github.com/chrisjsewell/ipypublish)
 # (see nbpublish -h for details)
-NBPUBLISH ?= nbpublish
+NBPUBLISH ?= $(SHARED)/ipypublish/bin/nbpublish
 NBPUBLISH_OPTIONS ?= -log warning
 
 # The bookbook tool (okay for chapters and books; but no citations yet)
@@ -1164,7 +1164,7 @@ shared:
 		cp -pr ../$(SHARED_LEADER)/$(SHARED) ../$(SHARED_FOLLOWER)/$(SHARED); \
 		chmod -R -w ../$(SHARED_FOLLOWER)/$(SHARED); \
 		cd ../$(SHARED_FOLLOWER); \
-		git commit -m "Update from $(SHARED_LEADER)" notebooks/shared; \
+		-git commit -m "Update from $(SHARED_LEADER)" notebooks/shared; \
 	fi; \
 	exit 0
 

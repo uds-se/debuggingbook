@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <title>View PDF</title>
+
+    <script type="text/javascript">
+ 	   var filepath = "Example.pdf";
+       var timer = null;
+
+       function refresh(){
+          var d = document.getElementById("pdf"); // gets pdf-div
+          d.innerHTML = '<iframe style="position: absolute; height: 100%; border: none" id="ipdf" src='+window.filepath+'  width="100%"></iframe>';
+       }
+
+       function autoRefresh(){
+          timer = setTimeout("autoRefresh()", 20000);
+          refresh();
+       }
+
+       function manualRefresh(){
+          clearTimeout(timer);
+          refresh();
+       }
+	   function check_pdf() {
+	     var newfile = document.f.userFile.value;
+	     ext = newfile.substring(newfile.length-3,newfile.length);
+	     ext = ext.toLowerCase();
+	     if(ext != 'pdf') {
+	       alert('You selected a .'+ext+
+	             ' file; please select a .pdf file instead!'+filepath);
+	       return false; }
+	     else
+			 alert(newfile);
+		     window.filepath = newfile;
+			 alert(filepath);
+			 refresh();
+	       return true; }
+
+
+    </script>
+
+</head>
+<body>
+<!-- <form name=f onsubmit="return check_pdf();"
+    action='' method='POST' enctype='multipart/form-data'>
+    <input type='submit' name='upload_btn' value='upload'>
+    <input type='file' name='userFile' accept="application/pdf">
+</form> -->
+<button onclick="manualRefresh()">manual refresh</button>
+<button onclick="autoRefresh()">auto refresh</button>
+<div id="pdf"></div>
+</body>
+<script type="text/javascript">refresh();</script>
+</html>
