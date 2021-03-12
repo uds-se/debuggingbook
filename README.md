@@ -18,16 +18,14 @@ YouTubeVideo("-nOxI6Ev_I4")
 
 
 
-<iframe
-    width="640"
-    height="360"
-    src="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4"
-    frameborder="0"
-    allowfullscreen
-></iframe>
+        <a href="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4" target="_blank">
+        ![](PICS/youtube.png)
+        </a>
+        
 
 
 
+<a href="https://www.youtube-nocookie.com/embed/-nOxI6Ev_I4" target="_blank"><img src="PICS/youtube.png"></a>
 
 ## A Textbook for Paper, Screen, and Keyboard
 
@@ -52,6 +50,14 @@ This book is _work in progress_, with new chapters being released every week. To
 <a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-dnt="true">News from @Debugging_Book</a> 
 
 <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @Debugging_Book</a>
+
+## Code Status
+
+The code in the book is continuously checked and tested. Should any of these badges appear in red ("failing"), then we are likely already on our way to fix the issue.
+
+![](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)
+![](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)
+![](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)
 
 ## About the Author
 
