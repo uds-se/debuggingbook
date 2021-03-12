@@ -1,6 +1,7 @@
 # Bookutils
 
 from typing import Any, Dict, List, Set, Optional, Union, Tuple, Type
+
 import sys
 import os
 
@@ -9,7 +10,7 @@ __all__ = [
     "PrettyTable", "YouTubeVideo",
     "print_file", "print_content", "HTML",
     "show_ast", "input", "next_inputs",
-    "unicode_escape", "terminal_escape", 
+    "unicode_escape", "terminal_escape", "project"
     "inheritance_conflicts", "extract_class_definition",
     "quiz", "import_notebooks", "re_code", "set_fixed_seed"
 ]
@@ -21,14 +22,13 @@ try:
 except:
     have_ipython = False
     
-if "CI" in os.environ:
-    # Do not load notebooks during CI
-    have_ipython = False
+# if "CI" in os.environ:
+#     # Do not load notebooks during CI
+#     have_ipython = False
 
 if have_ipython:
     from .import_notebooks import NotebookFinder  # type: ignore
-    sys.meta_path.append(NotebookFinder())
-    
+
 # Set fixed seed
 from .set_fixed_seed import set_fixed_seed
 set_fixed_seed()
@@ -43,6 +43,15 @@ def rich_output() -> bool:
         rich = False
 
     return rich
+    
+# Project identifier
+def project() -> Optional[str]:
+    wd = os.getcwd()
+    for name in [ 'fuzzingbook', 'debuggingbook' ]:
+        if name in wd:
+            return name
+
+    return None
 
 # Wrapper for YouTubeVideo
 def YouTubeVideo(id: str, width: int = 640, height: int = 360) -> Any:
@@ -51,17 +60,24 @@ def YouTubeVideo(id: str, width: int = 640, height: int = 360) -> Any:
     with different width/height and no cookies for YouTube
     """
     if 'RENDER_HTML' in os.environ:
+        # For README.md (GitHub) and PDFs:
+        # Just include a (static) picture, with a link to the actual video
         import IPython.core.display
+        proj = project()
         return IPython.core.display.Markdown(f'''
 <a href="https://www.youtube-nocookie.com/embed/{id}" target="_blank">
-<img src="https://www.debuggingbook.org/html/PICS/youtube.png" width={width}>
+<img src="https://www.{proj}.org/html/PICS/youtube.png" width={width}>
 </a>
         ''')
+
     elif have_ipython:
+        # For Jupyter: integrate a YouTube iframe
         from IPython.display import IFrame
         src = f"https://www.youtube-nocookie.com/embed/{id}"
         return IFrame(src, width, height)
+
     else:
+        # For code: just pass
         pass
 
 

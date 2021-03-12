@@ -1,3 +1,24 @@
+<!-- Debuggingbook README -->
+
+<!-- Badges to be shown on project page -->
+
+[![Code Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
+&nbsp;
+[![Notebook Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-notebooks.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-notebooks.yml)
+&nbsp;
+[![Static Type Checking](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml)
+&nbsp;
+[![Imports](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml)
+&nbsp;
+[![Website www.debuggingbook.org](https://img.shields.io/website-up-down-green-red/https/www.debuggingbook.org.svg)](https://www.debuggingbook.org/)
+
+[![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue.svg)](https://www.python.org/)
+&nbsp;
+[![Made with Jupyter](https://img.shields.io/badge/Made%20with-Jupyter-orange.svg)](https://www.jupyter.org/)
+&nbsp;
+[![License: MIT (Code), CC BY-NC-SA (Book)](https://img.shields.io/badge/License-MIT_(Code),_CC_BY--NC--SA_4.0_(Book)-blue.svg)](https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md)
+
+
 # About this Book
 
 __Welcome to "The Debugging Book"!__ 
@@ -31,11 +52,11 @@ You can use this book in four ways:
 
 * You can __read chapters in your browser__.  Check out the list of chapters in the menu above, or start right away with the [introduction to debugging](https://www.debuggingbook.org/html/Intro_Debugging.html) or [how debuggers work](https://www.debuggingbook.org/html/Debugger.html).  All code is available for download.
 
-* You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Simply select "Resources $\rightarrow$ Edit as Notebook" at the top of each chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/Debugger.ipynb" target=_blank>Try interacting with the introduction to interactive debuggers.</a>
+* You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Simply select "Resources → Edit as Notebook" at the top of each chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/Debugger.ipynb" target=_blank>Try interacting with the introduction to interactive debuggers.</a>
 
-* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources $\rightarrow$ Download Code" for one chapter or "Resources $\rightarrow$ All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Once the book is out of beta, you can also [install the Python package](https://www.debuggingbook.org/html/Importing.html).
+* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources → Download Code" for one chapter or "Resources → All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Once the book is out of beta, you can also [install the Python package](https://www.debuggingbook.org/html/Importing.html).
 
-* You can __present chapters as slides__.  This allows for presenting the material in lectures.  Just select "Resources $\rightarrow$ View slides" at the top of each chapter. <a href="https://www.debuggingbook.org/slides/Debugger.slides.html" target=_blank>Try viewing the slides for how debuggers work.</a>
+* You can __present chapters as slides__.  This allows for presenting the material in lectures.  Just select "Resources → View slides" at the top of each chapter. <a href="https://www.debuggingbook.org/slides/Debugger.slides.html" target=_blank>Try viewing the slides for how debuggers work.</a>
 
 ## Who this Book is for
 
@@ -48,14 +69,6 @@ This book is _work in progress_, with new chapters being released every week. To
 <a class="twitter-timeline" data-width="500" data-chrome="noheader nofooter noborders transparent" data-link-color="#A93226" data-align="center" href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" data-dnt="true">News from @Debugging_Book</a> 
 
 <a href="https://twitter.com/Debugging_Book?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @Debugging_Book</a>
-
-## Code Status
-
-The code in the book is continuously checked and tested. Should any of these badges appear in red ("failing"), then we are likely already on our way to fix the issue.
-
-![](https://github.com/uds-se/debuggingbook/actions/workflows/check-types.yml/badge.svg)
-![](https://github.com/uds-se/debuggingbook/actions/workflows/check-imports.yml/badge.svg)
-![](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)
 
 ## About the Author
 

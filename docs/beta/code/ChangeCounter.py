@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-03-12 01:12:48+01:00
+# Last change: 2021-03-12 15:18:41+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -61,7 +61,7 @@ A `change_counter` provides a number of attributes. `changes` is a mapping of no
 
 >>> change_counter.changes[('README.md',)]
 
-14
+23
 
 The `messages` attribute holds all commit messages related to that node:
 
@@ -80,13 +80,22 @@ The `messages` attribute holds all commit messages related to that node:
  'Doc update',
  'Doc update',
  'Doc update',
- 'Doc update']
+ 'Doc update',
+ 'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
+ 'Doc update',
+ 'Doc update',
+ 'New: show badges at top of GitHub project page',
+ 'More badges',
+ 'Fix: bad links in CI badges',
+ 'New: prefer Unicode arrows over LaTeX ones',
+ 'Updated README.md',
+ 'Update']
 
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes[('README.md',)]
 
-13025
+14392
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
 
@@ -164,7 +173,7 @@ import sys
 
 if __name__ == '__main__':
     if 'CI' in os.environ:
-        # Can't run this in our continuous environment,
+        # Can't run this in our continuous integration environment,
         # since it fetches only the very last version
         sys.exit(0)
 
@@ -290,7 +299,7 @@ class ChangeCounter:
         # Mapping node -> #of changes
         self.changes: Dict[Node, int] = defaultdict(int)
 
-         # Mapping node -> list of commit messages
+        # Mapping node -> list of commit messages
         self.messages: Dict[Node, List[str]] = defaultdict(list)
 
         # Mapping node -> last size seen
@@ -323,7 +332,10 @@ class ChangeCounter(ChangeCounter):
 
 class ChangeCounter(ChangeCounter):
     def update_stats(self, m: Modification) -> None:
-        """Update counters with modification `m`. Can be extended in subclasses."""
+        """
+        Update counters with modification `m`.
+        Can be extended in subclasses.
+        """
         if not m.new_path:
             return
 
@@ -336,7 +348,10 @@ class ChangeCounter(ChangeCounter):
 
 class ChangeCounter(ChangeCounter):
     def update_size(self, node: Tuple, size: int) -> None:
-        """Update counters for `node` with `size`. Can be extended in subclasses."""
+        """
+        Update counters for `node` with `size`.
+        Can be extended in subclasses.
+        """
         self.sizes[node] = size
 
 class ChangeCounter(ChangeCounter):
@@ -363,7 +378,10 @@ if __name__ == '__main__':
     DEBUGGINGBOOK_REPO
 
 def debuggingbook_change_counter(cls: Type) -> Any:
-    """Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo"""
+    """
+    Instantiate a ChangeCounter (sub)class `cls` 
+    with the debuggingbook repo.
+    """
 
     def filter(m: Modification) -> bool:
         """Do not include the `docs/` directory; it only holds Web pages"""
@@ -436,7 +454,10 @@ class ChangeCounter(ChangeCounter):
 
 class ChangeCounter(ChangeCounter):
     def map_node_color(self, node: Node) -> Optional[int]:
-        """Return a color of the node, as a number. Can be overloaded in subclasses."""
+        """
+        Return a color of the node, as a number.
+        Can be overloaded in subclasses.
+        """
         return self.changes.get(node)
 
 class ChangeCounter(ChangeCounter):
