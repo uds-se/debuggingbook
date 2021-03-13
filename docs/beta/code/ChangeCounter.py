@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-03-12 16:46:47+01:00
+# Last change: 2021-03-13 10:35:06+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -61,23 +61,13 @@ A `change_counter` provides a number of attributes. `changes` is a mapping of no
 
 >>> change_counter.changes[('README.md',)]
 
-23
+13
 
 The `messages` attribute holds all commit messages related to that node:
 
 >>> change_counter.messages[('README.md',)]
 
-['first commit',
- 'Initial import',
- 'Adjusted to debuggingbook',
- 'New Twitter handle: @Debugging_Book',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Added link to author homepage',
- 'Doc update',
- 'Doc update',
+['Doc update',
  'Doc update',
  'Doc update',
  'Doc update',
@@ -171,12 +161,6 @@ from pydriller.domain.commit import Modification
 import os
 import sys
 
-if __name__ == '__main__':
-    if 'CI' in os.environ:
-        # Can't run this in our continuous integration environment,
-        # since it fetches only the very last version
-        sys.exit(0)
-
 from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
 from typing import Dict, Union, Set, List, FrozenSet, cast
 
@@ -200,6 +184,15 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     book_miner = RepositoryMining(current_repo())
+
+DEBUGGINGBOOK_REMOTE_REPO = 'https://github.com/uds-se/debuggingbook.git'
+# book_miner = RepositoryMining(DEBUGGINGBOOK_REMOTE_REPO)
+
+if __name__ == '__main__':
+    if 'CI' in os.environ:
+        # In continuous integration, .git is shallow;
+        # so we access the book repo via its URL
+        book_miner = RepositoryMining(DEBUGGINGBOOK_REMOTE_REPO)
 
 if __name__ == '__main__':
     book_commits = book_miner.traverse_commits()
@@ -262,7 +255,7 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    tuple('debuggingbook/notebooks/ChangeExplorer.ipynb'.split('/'))
+    tuple('debuggingbook/notebooks/ChangeCounter.ipynb'.split('/'))
 
 Node = Tuple
 
@@ -377,25 +370,34 @@ DEBUGGINGBOOK_REPO = current_repo()
 if __name__ == '__main__':
     DEBUGGINGBOOK_REPO
 
-def debuggingbook_change_counter(cls: Type) -> Any:
+if __name__ == '__main__':
+    if 'CI' in os.environ:
+        # As above: We have to access the repo remotely
+        DEBUGGINGBOOK_REPO = DEBUGGINGBOOK_REMOTE_REPO
+
+from datetime import datetime
+
+def debuggingbook_change_counter(cls: Type, 
+                                 start_date: datetime = datetime(2021, 3, 1)) \
+                                 -> Any:
     """
-    Instantiate a ChangeCounter (sub)class `cls` 
-    with the debuggingbook repo.
+    Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo.
+    Only mines changes after `start_date` (default: March 1, 2021)
     """
 
     def filter(m: Modification) -> bool:
         """
         Do not include
-        * the `docs/` directory; it only holds Web pages
+        * the `docs/` directory; it only holds generated Web pages
         * the `synopsis` pictures; these are all generated
-        * the `notebooks/shared/ipypublish` directory
+        * the `notebooks/shared/` package; this is infrastructure
         """
         return (m.new_path and
                 not m.new_path.startswith('docs/') and
-                not m.new_path.startswith('notebooks/shared/ipypublish/') and
+                not m.new_path.startswith('notebooks/shared/') and
                 not '-synopsis-' in m.new_path)
 
-    return cls(DEBUGGINGBOOK_REPO, filter=filter)
+    return cls(DEBUGGINGBOOK_REPO, filter=filter, since=start_date)
 
 from .Timer import Timer
 
@@ -919,9 +921,3 @@ if __name__ == '__main__':
 
 class FineFixCounter(FixCounter, FineChangeCounter):
     pass
-
-if __name__ == '__main__':
-    fine_fix_counter = debuggingbook_change_counter(FineFixCounter)
-
-if __name__ == '__main__':
-    fine_fix_counter.map()
