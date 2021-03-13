@@ -642,6 +642,7 @@ endif
 
 
 # mypy stuff always comes directly from notebooks
+mypy: $(MYPYS)
 $(MYPY_TARGET)%.py: $(NOTEBOOKS)/%.ipynb $(EXPORT_NOTEBOOK_CODE)
 	@test -d $(MYPY_TARGET) || $(MKDIR) $(MYPY_TARGET)
 	$(CONVERT_TO_PYTHON) --project $(PROJECT) --mypy $< > $@~ && mv $@~ $@
