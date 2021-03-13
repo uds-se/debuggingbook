@@ -400,7 +400,8 @@ EXPORT_NOTEBOOK_CODE = $(SHARED)utils/export_notebook_code.py
 ifeq ($(origin CI),environment)
 COMMIT_SYNOPSIS =
 else
-COMMIT_SYNOPSIS = -git commit -m "Update synopsis" $(NOTEBOOKS)/PICS/*synopsis*
+# COMMIT_SYNOPSIS = -git commit -m "Update synopsis" $(NOTEBOOKS)/PICS/*synopsis*
+COMMIT_SYNOPSIS =
 endif
 
 # These notebooks can't be run under CI, so we simply copy them instead
