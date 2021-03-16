@@ -36,9 +36,9 @@ INTRO_PART_TODO =
 OBSERVING_PART = \
 	02_Observing.ipynb \
 	Tracer.ipynb \
-	Debugger.ipynb
-OBSERVING_PART_READY = \
+	Debugger.ipynb \
 	Assertions.ipynb
+OBSERVING_PART_READY = 
 OBSERVING_PART_TODO = \
 	PerformanceDebugger.ipynb
 
