@@ -9,20 +9,15 @@ BOOKTITLE = The Debugging Book
 AUTHORS = Andreas Zeller
 TWITTER = @Debugging_Book
 
-# Chapter(s) to be marked as "new" in menu
-NEW_CHAPTERS =  \
-	01_Intro.ipynb \
-	Tours.ipynb \
-	Intro_Debugging.ipynb \
-	02_Observing.ipynb \
-	Tracer.ipynb \
-	Debugger.ipynb
-
 # Chapters to include in the book, in this order.
 # * Chapters in `..._PART` get published.
 # * Chapters in `..._PART_READY` only get published as beta, with a disclaimer.
 # * Chapters in `..._PART_TODO` only get published as beta, with a disclaimer.
 #      and a "todo" (wrench) marker in the menu.
+
+# Chapter(s) to be marked as "new" in menu
+NEW_CHAPTERS =  \
+	Assertions.ipynb
 
 # Introduction
 INTRO_PART = \
