@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-12 14:40:41+01:00
+# Last change: 2021-03-18 17:02:01+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -49,13 +49,19 @@ This chapter provides a `Slicer` class to automatically determine and visualize 
 
 Such dependencies are crucial for debugging, as they allow to determine the origins of individual values (and notably incorrect values).
 
-To determine dynamic dependencies in a function `func` and its callees `func1`, `func2`, etc., use
+To determine dynamic dependencies in a function `func`, use
 
-with Slicer(func, func1, func2) as slicer:
+with Slicer() as slicer:
     
 
 
 and then `slicer.graph()` or `slicer.code()` to examine dependencies.
+
+You can also explicitly specify the functions to be instrumented, as in 
+
+with Slicer(func, func_1, func_2) as slicer:
+    
+
 
 Here is an example. The `demo()` function computes some number from `x`:
 
@@ -65,21 +71,15 @@ Here is an example. The `demo()` function computes some number from `x`:
 >>>         z *= 2
 >>>     return z
 
-By using `with Slicer(demo)`, we first instrument `demo()` and then execute it:
+By using `with Slicer()`, we first instrument `demo()` and then execute it:
 
->>> with Slicer(demo) as slicer:
+>>> with Slicer() as slicer:
 >>>     demo(10)
 
 After execution is complete, you can output `slicer` to visualize the dependencies as graph. Data dependencies are shown as black solid edges; control dependencies are shown as grey dashed edges. We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
-
-*    1 def demo(x: int) -> int:
-*    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (4), z (2), x (1)
-*    4         z *= 2  # <= z (4), z (2);  (3)
-*    5     return z  # <= z (4)
 
 Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
 
@@ -311,8 +311,10 @@ class Dependencies(Dependencies):
     NODE_COLOR = 'peachpuff'
     FONT_NAME = 'Fira Mono, Courier, monospace'
 
-    def make_graph(self, name: str = "dependencies", comment: str = "Dependencies") -> Digraph:
-        return Digraph(name=name, comment=comment, 
+    def make_graph(self, 
+                   name: str = "dependencies", 
+                   comment: str = "Dependencies") -> Digraph:
+        return Digraph(name=name, comment=comment,
             graph_attr={
             },
             node_attr={
@@ -326,12 +328,16 @@ class Dependencies(Dependencies):
             })
 
 class Dependencies(Dependencies):
-    def graph(self) -> Digraph:
-        """Draw dependencies."""
+    def graph(self, *, mode : str = 'flow') -> Digraph:
+        """
+        Draw dependencies. `mode` is either
+        * `'flow'`, meaning that arrows indicate information flow (from A to B); or
+        * `'depend'`, meaning that arrows indicate dependencies (B depends on A)
+        """
         self.validate()
 
         g = self.make_graph()
-        self.draw_dependencies(g)
+        self.draw_dependencies(g, mode)
         self.add_hierarchy(g)
         return g
 
@@ -356,7 +362,16 @@ class Dependencies(Dependencies):
         return all_vars
 
 class Dependencies(Dependencies):
-    def draw_dependencies(self, g: Digraph) -> None:
+    def draw_edge(self, g: Digraph, mode: str,
+                  node_from: str, node_to: str, **kwargs: Any) -> None:
+        if mode == 'flow':
+            g.edge(node_from, node_to, **kwargs)
+        elif mode == 'depend':
+            g.edge(node_from, node_to, dir="back", **kwargs)
+        else:
+            raise ValueError("`mode` must be 'flow' or 'depend'")
+        
+    def draw_dependencies(self, g: Digraph, mode: str) -> None:
         for var in self.all_vars():
             g.node(self.id(var),
                    label=self.label(var),
@@ -364,11 +379,11 @@ class Dependencies(Dependencies):
 
             if var in self.data:
                 for source in self.data[var]:
-                    g.edge(self.id(source), self.id(var))
+                    self.draw_edge(g, mode, self.id(source), self.id(var))
 
             if var in self.control:
                 for source in self.control[var]:
-                    g.edge(self.id(source), self.id(var),
+                    self.draw_edge(g, mode, self.id(source), self.id(var),
                            style='dashed', color='grey')
 
 class Dependencies(Dependencies):
@@ -449,6 +464,9 @@ def middle_deps() -> Dependencies:
 
 if __name__ == '__main__':
     middle_deps()
+
+if __name__ == '__main__':
+    middle_deps().graph(mode='depend')
 
 #### Slices
 
@@ -931,14 +949,20 @@ if __name__ == '__main__':
 
 from ast import NodeTransformer, NodeVisitor, Name, AST
 
+import typing
+
 DATA_TRACKER = '_data'
+
+def is_internal(id: str) -> bool:
+    """Return True if `id` is a built-in function or type"""
+    return id in dir(__builtins__) or id in dir(typing)
 
 class TrackGetTransformer(NodeTransformer):
     def visit_Name(self, node: Name) -> AST:
         self.generic_visit(node)
 
-        if node.id in dir(__builtins__):
-            # Do not change built-in names
+        if is_internal(node.id):
+            # Do not change built-in names and types
             return node
 
         if node.id == DATA_TRACKER:
@@ -954,7 +978,7 @@ class TrackGetTransformer(NodeTransformer):
         return new_node
 
 from ast import Module, Load, Store, \
-    Attribute, With, withitem, keyword, Call, Expr, Assign, AugAssign
+    Attribute, With, withitem, keyword, Call, Expr, Assign, AugAssign, AnnAssign
 
 def make_get_data(id: str, method: str = 'get') -> Call:
     return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()), 
@@ -1149,11 +1173,31 @@ class DataTracker(DataTracker):
         self.set(name, self.get(name, value))
         return value
 
-def assign_test(x):  # type: ignore
+class TrackSetTransformer(TrackSetTransformer):
+    def visit_AnnAssign(self, node: AnnAssign) -> AnnAssign:
+        if node.value is None:
+            return node  # just <var>: <type> without value
+
+        value = astor.to_source(node.value)
+        if value.startswith(DATA_TRACKER + '.set'):
+            return node  # Do not apply twice
+
+        loads = load_names(node.target)
+        for store_name in store_names(node.target):
+            node.value = make_set_data(store_name, node.value, 
+                                       loads=loads)
+            loads = set()
+
+        return node
+
+def assign_test(x: int) -> Tuple[int, str]:  # type: ignore
+    fourty_two: int = 42
     fourty_two = forty_two = 42
-    a, b, c = 1, 2, 3
-    c[d[x]].attr = 47
-    foo *= bar + 1
+    a, b = 1, 2
+    c = d = [a, b]
+    c[d[a]].attr = 47  # type: ignore
+    a *= b + 1
+    return forty_two, "Forty-Two"
 
 if __name__ == '__main__':
     assign_tree = ast.parse(inspect.getsource(assign_test))
@@ -1392,7 +1436,7 @@ class TrackCallTransformer(NodeTransformer):
         func_as_text = astor.to_source(node)
         if func_as_text.startswith(DATA_TRACKER + '.'):
             return node  # Own function
-
+        
         new_args = []
         for n, arg in enumerate(node.args):
             new_args.append(self.make_call(arg, 'arg', pos=n + 1))
@@ -1462,13 +1506,17 @@ class DataTracker(DataTracker):
         return value
 
 class DataTracker(DataTracker):
+    def instrument_call(self, func: Callable) -> Callable:
+        """Instrument a call to `func`. To be implemented in subclasses."""
+        return func
+
     def call(self, func: Callable) -> Callable:
         """Track a call to `func`."""
         if self.log:
             caller_func, lineno = self.caller_location()
             print(f"{caller_func.__name__}:{lineno}: calling {func}")
 
-        return func
+        return self.instrument_call(func)
 
 if __name__ == '__main__':
     dump_tree(call_tree)
@@ -1886,7 +1934,7 @@ import copy
 class DependencyTracker(DependencyTracker):
     def call(self, func: Callable) -> Callable:
         """Track a call of function `func`"""
-        super().call(func)
+        func = super().call(func)
 
         if inspect.isgeneratorfunction(func):
             return self.call_generator(func)
@@ -1909,7 +1957,7 @@ class DependencyTracker(DependencyTracker):
 class DependencyTracker(DependencyTracker):
     def ret(self, value: Any) -> Any:
         """Track a function return"""
-        super().ret(value)
+        value = super().ret(value)
 
         if self.in_generator():
             return self.ret_generator(value)
@@ -2179,8 +2227,8 @@ if __name__ == '__main__':
 class Instrumenter(StackInspector):
     """Instrument functions for dynamic tracking"""
 
-    def __init__(self, *items_to_instrument: Callable, 
-                 globals: Optional[Dict[str, Any]] = None, 
+    def __init__(self, *items_to_instrument: Callable,
+                 globals: Optional[Dict[str, Any]] = None,
                  log: Union[bool, int] = False) -> None:
         """
         Create an instrumenter.
@@ -2189,7 +2237,8 @@ class Instrumenter(StackInspector):
         """
 
         self.log = log
-        self.items_to_instrument = items_to_instrument
+        self.items_to_instrument: List[Callable] = list(items_to_instrument)
+        self.instrumented_items: Set[Any] = set()
 
         if globals is None:
             globals = self.caller_globals()
@@ -2197,14 +2246,24 @@ class Instrumenter(StackInspector):
 
     def __enter__(self) -> Any:
         """Instrument sources"""
-        for item in self.items_to_instrument:
-            self.instrument(item)
-        return self
+        items = self.items_to_instrument
+        if not items:
+            items = self.default_items_to_instrument()
 
-    def instrument(self, item: Any) -> None:
+        for item in items:
+            self.instrument(item)
+        
+        return self
+    
+    def default_items_to_instrument(self) -> List[Callable]:
+        return []
+
+    def instrument(self, item: Any) -> Any:
         """Instrument `item`. To be overloaded in subclasses."""
         if self.log:
             print("Instrumenting", item)
+        self.instrumented_items.add(item)
+        return item
 
 class Instrumenter(Instrumenter):
     def __exit__(self, exc_type: Type, exc_value: BaseException,
@@ -2214,8 +2273,9 @@ class Instrumenter(Instrumenter):
         return None
 
     def restore(self) -> None:
-        for item in self.items_to_instrument:
+        for item in self.instrumented_items:
             self.globals[item.__name__] = item
+        self.instrumented_items = set()
 
 if __name__ == '__main__':
     with Instrumenter(middle, log=True) as ins:
@@ -2233,7 +2293,8 @@ class Slicer(Instrumenter):
 
     def __init__(self, *items_to_instrument: Any,
                  dependency_tracker: Optional[DependencyTracker] = None,
-                 globals: Optional[Dict[str, Any]] = None, log: Union[bool, int] = False):
+                 globals: Optional[Dict[str, Any]] = None,
+                 log: Union[bool, int] = False):
         """Create a slicer.
         `items_to_instrument` are Python functions or modules with source code.
         `dependency_tracker` is the tracker to be used (default: DependencyTracker).
@@ -2241,14 +2302,15 @@ class Slicer(Instrumenter):
         `log`=True or `log` > 0 turns on logging
         """
         super().__init__(*items_to_instrument, globals=globals, log=log)
-        if len(items_to_instrument) == 0:
-            raise ValueError("Need one or more items to instrument")
 
         if dependency_tracker is None:
             dependency_tracker = DependencyTracker(log=(log > 1))
         self.dependency_tracker = dependency_tracker
 
         self.saved_dependencies = None
+        
+    def default_items_to_instrument(self) -> List[Callable]:
+        raise ValueError("Need one or more items to instrument")
 
 class Slicer(Slicer):
     def parse(self, item: Any) -> AST:
@@ -2315,12 +2377,18 @@ class Slicer(Slicer):
         self.globals[DATA_TRACKER] = self.dependency_tracker
 
 class Slicer(Slicer):
-    def instrument(self, item: Any) -> None:
+    def instrument(self, item: Any) -> Any:
         """Instrument `item`, transforming its source code, and re-defining it."""
-        super().instrument(item)
+        if is_internal(item.__name__):
+            return item  # Do not instrument `print()` and the like
+
+        item = super().instrument(item)
         tree = self.parse(item)
         tree = self.transform(tree)
         self.execute(tree, item)
+        
+        new_item = self.globals[item.__name__]
+        return new_item
 
 class Slicer(Slicer):
     def restore(self) -> None:
@@ -2328,6 +2396,7 @@ class Slicer(Slicer):
         if DATA_TRACKER in self.globals:
             self.saved_dependencies = self.globals[DATA_TRACKER]
             del self.globals[DATA_TRACKER]
+
         super().restore()
 
 class Slicer(Slicer):
@@ -2474,6 +2543,99 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     math_slicer.code()
 
+## Dynamic Instrumentation
+## -----------------------
+
+if __name__ == '__main__':
+    print('\n## Dynamic Instrumentation')
+
+
+
+### Excursion: Implementing Dynamic Instrumentation
+
+if __name__ == '__main__':
+    print('\n### Excursion: Implementing Dynamic Instrumentation')
+
+
+
+class WithVisitor(NodeVisitor):
+    def __init__(self) -> None:
+        self.withs: List[ast.With] = []
+    
+    def visit_With(self, node: ast.With) -> AST:
+        self.withs.append(node)
+        return self.generic_visit(node)
+
+class Slicer(Slicer):
+    def our_with_block(self) -> ast.With:
+        """Return the currently active `with` block."""
+        frame = self.caller_frame()
+        source_lines, starting_lineno = inspect.getsourcelines(frame)
+        source_ast = ast.parse(''.join(source_lines))
+        wv = WithVisitor()
+        wv.visit(source_ast)
+        for with_ast in wv.withs:
+            if with_ast.lineno == frame.f_lineno:
+                return with_ast
+
+        raise ValueError("Cannot find with block")
+
+class CallCollector(NodeVisitor):
+    def __init__(self) -> None:
+        self.calls: Set[str] = set()
+    
+    def visit_Call(self, node: ast.Call) -> AST:
+        caller_id = astor.to_source(node.func).strip()
+        self.calls.add(caller_id)
+        return self.generic_visit(node)
+
+class Slicer(Slicer):
+    def calls_in_our_with_block(self) -> Set[str]:
+        """Return a set of function names called in the `with` block."""
+        block_ast = self.our_with_block()
+        cc = CallCollector()
+        for stmt in block_ast.body:
+            cc.visit(stmt)
+        return cc.calls
+
+class Slicer(Slicer):
+    def funcs_in_our_with_block(self) -> List[Callable]:
+        funcs = []
+        for id in self.calls_in_our_with_block():
+            func = self.search_func(id)
+            if func:
+                funcs.append(func)
+
+        return funcs
+
+class Slicer(Slicer):
+    def default_items_to_instrument(self) -> List[Callable]:
+        # In _data.call(), return instrumented function
+        self.dependency_tracker.instrument_call = self.instrument  # type: ignore
+        
+        # Start instrumenting the functions in our `with` block
+        return self.funcs_in_our_with_block()
+
+### End of Excursion
+
+if __name__ == '__main__':
+    print('\n### End of Excursion')
+
+
+
+def fun_1(x: int) -> int:
+    return x
+
+def fun_2(x: int) -> int:
+    return fun_1(x)
+
+if __name__ == '__main__':
+    with Slicer(log=True) as slicer:
+        fun_2(10)
+
+if __name__ == '__main__':
+    slicer
+
 ## More Applications
 ## -----------------
 
@@ -2505,7 +2667,7 @@ def demo(x: int) -> int:
     return z
 
 if __name__ == '__main__':
-    with Slicer(demo) as slicer:
+    with Slicer() as slicer:
         demo(10)
 
 if __name__ == '__main__':
@@ -2631,12 +2793,5 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print('\n### Exercise 2: Code with Forward Dependencies')
-
-
-
-### Exercise 3: Dynamic Instrumentation
-
-if __name__ == '__main__':
-    print('\n### Exercise 3: Dynamic Instrumentation')
 
 
