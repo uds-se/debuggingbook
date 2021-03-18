@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-18 17:02:01+01:00
+# Last change: 2021-03-18 18:46:26+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -102,10 +102,6 @@ The method `all_vars()` returns all variables in the dependency graph. Each vari
 
 >>> slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()  # type: ignore
 Here are the classes defined in this chapter. A `Slicer` instruments a program, using a `DependencyTracker` at run time to collect `Dependencies`.
-\todo{Use slices to enforce (lack of) specific information flows}
-
-\todo{Use slices in statistical debugging}
-
 
 For more details, source, and documentation, see
 "The Debugging Book - Tracking Failure Origins"
