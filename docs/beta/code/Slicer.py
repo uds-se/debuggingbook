@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-18 18:46:26+01:00
+# Last change: 2021-03-18 19:02:48+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -80,6 +80,12 @@ After execution is complete, you can output `slicer` to visualize the dependenci
 
 >>> slicer
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
+
+*    1 def demo(x: int) -> int:
+*    2     z = x  # <= x (1)
+*    3     while x <= z <= 64:  # <= x (1), z (2), z (4)
+*    4         z *= 2  # <= z (2), z (4);  (3)
+*    5     return z  # <= z (4)
 
 Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
 
@@ -327,8 +333,8 @@ class Dependencies(Dependencies):
     def graph(self, *, mode : str = 'flow') -> Digraph:
         """
         Draw dependencies. `mode` is either
-        * `'flow'`, meaning that arrows indicate information flow (from A to B); or
-        * `'depend'`, meaning that arrows indicate dependencies (B depends on A)
+        * `'flow'`: arrows indicate information flow (from A to B); or
+        * `'depend'`: arrows indicate dependencies (B depends on A)
         """
         self.validate()
 
@@ -366,7 +372,7 @@ class Dependencies(Dependencies):
             g.edge(node_from, node_to, dir="back", **kwargs)
         else:
             raise ValueError("`mode` must be 'flow' or 'depend'")
-        
+
     def draw_dependencies(self, g: Digraph, mode: str) -> None:
         for var in self.all_vars():
             g.node(self.id(var),
@@ -2248,9 +2254,9 @@ class Instrumenter(StackInspector):
 
         for item in items:
             self.instrument(item)
-        
+
         return self
-    
+
     def default_items_to_instrument(self) -> List[Callable]:
         return []
 
@@ -2271,7 +2277,6 @@ class Instrumenter(Instrumenter):
     def restore(self) -> None:
         for item in self.instrumented_items:
             self.globals[item.__name__] = item
-        self.instrumented_items = set()
 
 if __name__ == '__main__':
     with Instrumenter(middle, log=True) as ins:
@@ -2304,7 +2309,7 @@ class Slicer(Instrumenter):
         self.dependency_tracker = dependency_tracker
 
         self.saved_dependencies = None
-        
+
     def default_items_to_instrument(self) -> List[Callable]:
         raise ValueError("Need one or more items to instrument")
 
@@ -2382,7 +2387,7 @@ class Slicer(Slicer):
         tree = self.parse(item)
         tree = self.transform(tree)
         self.execute(tree, item)
-        
+
         new_item = self.globals[item.__name__]
         return new_item
 
@@ -2405,7 +2410,7 @@ class Slicer(Slicer):
     def code(self, *args: Any, **kwargs: Any) -> None:
         """Show code of instrumented items, annotated with dependencies."""
         first = True
-        for item in self.items_to_instrument:
+        for item in self.instrumented_items:
             if not first:
                 print()
             self.dependencies().code(item, *args, **kwargs)  # type: ignore
@@ -2608,7 +2613,7 @@ class Slicer(Slicer):
     def default_items_to_instrument(self) -> List[Callable]:
         # In _data.call(), return instrumented function
         self.dependency_tracker.instrument_call = self.instrument  # type: ignore
-        
+
         # Start instrumenting the functions in our `with` block
         return self.funcs_in_our_with_block()
 
