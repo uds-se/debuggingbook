@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-18 19:02:48+01:00
+# Last change: 2021-03-20 18:08:41+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,12 +42,12 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Slicer.html
 
-This chapter provides a `Slicer` class to automatically determine and visualize dynamic dependencies. When we say that a variable $x$ depends on a variable $y$ (written $x \leftarrow y$), we distinguish two kinds of dependencies:
+This chapter provides a `Slicer` class to automatically determine and visualize dynamic flows and dependencies. When we say that a variable $x$ _depends_ on a variable $y$ (and that $y$ _flows_ into $x$), we distinguish two kinds of dependencies:
 
-* **data dependencies**: $x$ obtains its value from a computation involving the value of $y$.
-* **control dependencies**: $x$ obtains its value because of a computation involving the value of $y$.
+* **Data dependency**: $x$ is assigned a value computed from $y$.
+* **Control dependency**: A statement involving $x$ is executed _only_ because a _condition_ involving $y$ was evaluated, influencing the execution path.
 
-Such dependencies are crucial for debugging, as they allow to determine the origins of individual values (and notably incorrect values).
+Such dependencies are crucial for debugging, as they allow to determine the origins of individual values (and notably incorrect values). 
 
 To determine dynamic dependencies in a function `func`, use
 
@@ -76,14 +76,15 @@ By using `with Slicer()`, we first instrument `demo()` and then execute it:
 >>> with Slicer() as slicer:
 >>>     demo(10)
 
-After execution is complete, you can output `slicer` to visualize the dependencies as graph. Data dependencies are shown as black solid edges; control dependencies are shown as grey dashed edges. We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
+After execution is complete, you can output `slicer` to visualize the dependencies and flows as graph. Data dependencies are shown as black solid edges; control dependencies are shown as grey dashed edges. The arrows indicate influence: If $y$ depends on $x$ (and thus $x$ flows into $y$), then we have an arrow $x \rightarrow y$.
+We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
 
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= x (1), z (2), z (4)
+*    3     while x <= z <= 64:  # <= z (2), z (4), x (1)
 *    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
 
@@ -99,7 +100,7 @@ The method `all_vars()` returns all variables in the dependency graph. Each vari
  ('z', ( int>, 2)),
  ('z', ( int>, 4))}
 
-`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable. To retrieve where `z` in Line 2 came from, use:
+`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable (again given as a pair (_name_, _location_). To retrieve where `z` in Line 2 came from, use:
 
 >>> _, start_demo = inspect.getsourcelines(demo)
 >>> start_demo
@@ -957,7 +958,8 @@ DATA_TRACKER = '_data'
 
 def is_internal(id: str) -> bool:
     """Return True if `id` is a built-in function or type"""
-    return id in dir(__builtins__) or id in dir(typing)
+    return (id in dir(__builtins__) or 
+            id in dir(typing))
 
 class TrackGetTransformer(NodeTransformer):
     def visit_Name(self, node: Name) -> AST:
@@ -980,7 +982,8 @@ class TrackGetTransformer(NodeTransformer):
         return new_node
 
 from ast import Module, Load, Store, \
-    Attribute, With, withitem, keyword, Call, Expr, Assign, AugAssign, AnnAssign
+    Attribute, With, withitem, keyword, Call, Expr, \
+    Assign, AugAssign, AnnAssign, Assert
 
 def make_get_data(id: str, method: str = 'get') -> Call:
     return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()), 
@@ -1044,10 +1047,10 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     middle(2, 1, 3)
 
-### Excursion: Tracking Assignments
+### Excursion: Tracking Assignments and Assertions
 
 if __name__ == '__main__':
-    print('\n### Excursion: Tracking Assignments')
+    print('\n### Excursion: Tracking Assignments and Assertions')
 
 
 
@@ -1170,8 +1173,10 @@ class TrackSetTransformer(TrackSetTransformer):
 
 class DataTracker(DataTracker):
     def augment(self, name: str, value: Any) -> Any:
-        """Track augmenting `name` with `value`.
-        To be overloaded in subclasses."""
+        """
+        Track augmenting `name` with `value`.
+        To be overloaded in subclasses.
+        """
         self.set(name, self.get(name, value))
         return value
 
@@ -1192,6 +1197,16 @@ class TrackSetTransformer(TrackSetTransformer):
 
         return node
 
+class TrackSetTransformer(TrackSetTransformer):
+    def visit_Assert(self, node: Assert) -> Assert:
+        value = astor.to_source(node.test)
+        if value.startswith(DATA_TRACKER + '.set'):
+            return node  # Do not apply twice
+
+        loads = load_names(node.test)
+        node.test = make_set_data("<assertion>", node.test, loads=loads)
+        return node
+
 def assign_test(x: int) -> Tuple[int, str]:  # type: ignore
     fourty_two: int = 42
     fourty_two = forty_two = 42
@@ -1199,6 +1214,7 @@ def assign_test(x: int) -> Tuple[int, str]:  # type: ignore
     c = d = [a, b]
     c[d[a]].attr = 47  # type: ignore
     a *= b + 1
+    assert a > 0
     return forty_two, "Forty-Two"
 
 if __name__ == '__main__':
@@ -1849,6 +1865,9 @@ class DependencyTracker(DependencyTracker):
         # Reset read info for next line
         self.last_read = [name]
 
+        # Next line is a new location
+        self._ignore_location_change = False
+
         return ret
 
     def dependencies(self) -> Dependencies:
@@ -1971,8 +1990,14 @@ class DependencyTracker(DependencyTracker):
                 ret_name = var
 
         self.last_read = self.data.pop()
-        if ret_name is not None:
+        if ret_name:
             self.last_read.append(ret_name)
+
+        if self.args:
+            # We return from an uninstrumented function:
+            # Make return value depend on all args
+            for key, deps in self.args.items():
+                self.last_read += deps
 
         self.ignore_location_change()
 
@@ -2102,6 +2127,8 @@ class DependencyTracker(DependencyTracker):
 
         if last:
             self.clear_read()
+            self.args = {}  # Mark `args` as processed
+
         return ret
 
 def call_test() -> int:
@@ -2383,6 +2410,9 @@ class Slicer(Slicer):
         if is_internal(item.__name__):
             return item  # Do not instrument `print()` and the like
 
+        if inspect.isbuiltin(item):
+            return item  # No source code
+
         item = super().instrument(item)
         tree = self.parse(item)
         tree = self.transform(tree)
@@ -2483,8 +2513,8 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     quiz("Why don't `assert` statements induce control dependencies?",
          [
-             "We have no special handling of `assert` statements",
              "We have no special handling of `raise` statements",
+             "We have no special handling of exceptions",
              "Assertions are not supposed to act as controlling mechanisms",
              "All of the above",
          ], '(1 * 1 << 1 * 1 << 1 * 1)')
@@ -2584,7 +2614,7 @@ class Slicer(Slicer):
 class CallCollector(NodeVisitor):
     def __init__(self) -> None:
         self.calls: Set[str] = set()
-    
+
     def visit_Call(self, node: ast.Call) -> AST:
         caller_id = astor.to_source(node.func).strip()
         self.calls.add(caller_id)
@@ -2645,11 +2675,100 @@ if __name__ == '__main__':
 
 
 
-## Things that do not Work
-## -----------------------
+### Verifying Information Flows
 
 if __name__ == '__main__':
-    print('\n## Things that do not Work')
+    print('\n### Verifying Information Flows')
+
+
+
+import hashlib
+
+from .bookutils import input, next_inputs
+
+SECRET_HASH_DIGEST = '59f2da35bcc39525b87932b4cc1f3d68'
+
+def password_checker() -> bool:
+    """Request a password. Return True if correct."""
+    secret_password = input("Enter secret password: ")
+    password_digest = hashlib.md5(secret_password.encode('utf-8')).hexdigest()
+
+    if password_digest == SECRET_HASH_DIGEST:
+        return True
+    else:
+        return False
+
+if __name__ == '__main__':
+    next_inputs(['secret123'])
+
+if __name__ == '__main__':
+    with Slicer() as slicer:
+        valid_pwd = password_checker()
+
+if __name__ == '__main__':
+    slicer
+
+if __name__ == '__main__':
+    secret_answers = [
+        'automated',
+        'debugging',
+        'is',
+        'fun'
+    ]
+
+    quiz("What is the secret password, actually?", 
+         [f"`{repr(s)}`" for s in secret_answers],
+         min([i + 1 for i, ans in enumerate(secret_answers) 
+              if hashlib.md5(ans.encode('utf-8')).hexdigest() == 
+                  SECRET_HASH_DIGEST])
+        )
+
+### Assessing Test Quality
+
+if __name__ == '__main__':
+    print('\n### Assessing Test Quality')
+
+
+
+if __name__ == '__main__':
+    _, start_square_root = inspect.getsourcelines(square_root)
+
+if __name__ == '__main__':
+    print_content(inspect.getsource(square_root), '.py',
+                  start_line_number=start_square_root)
+
+def square_root_unchecked(x):  # type: ignore
+    assert True  # <-- new "precondition"
+
+    approx = None
+    guess = x / 2
+    while approx != guess:
+        approx = guess
+        guess = (approx + x / approx) / 2
+
+    assert True  # <-- new "postcondition"
+    return approx
+
+if __name__ == '__main__':
+    postcondition_lineno = start_square_root + 9
+    postcondition_lineno
+
+if __name__ == '__main__':
+    with Slicer() as slicer:
+        y = square_root(4)
+
+    slicer.dependencies().backward_slice((square_root, postcondition_lineno))
+
+if __name__ == '__main__':
+    with Slicer() as slicer:
+        y = square_root_unchecked(4)
+
+    slicer.dependencies().backward_slice((square_root, postcondition_lineno))
+
+### Use in Statistical Debugging
+
+if __name__ == '__main__':
+    print('\n### Use in Statistical Debugging')
 
 
 
@@ -2693,7 +2812,8 @@ if __name__ == '__main__':
     assert class_tree(Slicer)[0][0] == Slicer
 
 if __name__ == '__main__':
-    display_class_hierarchy([Slicer, DependencyTracker, StackInspector, Dependencies],
+    display_class_hierarchy([Slicer, DependencyTracker, 
+                             StackInspector, Dependencies],
                             abstract_classes=[
                                 StackInspector,
                                 Instrumenter
@@ -2750,6 +2870,14 @@ if __name__ == '__main__':
                                 Dependencies.all_vars,
                             ],
                             project='debuggingbook')
+
+## Things that do not Work
+## -----------------------
+
+if __name__ == '__main__':
+    print('\n## Things that do not Work')
+
+
 
 ## Lessons Learned
 ## ---------------

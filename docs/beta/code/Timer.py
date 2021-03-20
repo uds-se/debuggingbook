@@ -3,7 +3,7 @@
 
 # "Timer" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timer.html
-# Last change: 2021-03-11 22:54:28+01:00
+# Last change: 2021-03-20 17:55:55+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -48,7 +48,7 @@ The `Timer` class allows you to measure elapsed real time.  Its typical usage is
 >>>     some_long_running_function()
 >>> t.elapsed_time()
 
-0.04500656999880448
+0.04458271700059413
 
 
 For more details, source, and documentation, see
