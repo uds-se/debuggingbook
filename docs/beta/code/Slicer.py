@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-20 18:08:41+01:00
+# Last change: 2021-03-23 10:29:47+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -84,7 +84,7 @@ An alternate representation is `slicer.code()`, annotating the instrumented sour
 
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (2), z (4), x (1)
+*    3     while x <= z <= 64:  # <= z (2), x (1), z (4)
 *    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
 
@@ -943,10 +943,10 @@ if __name__ == '__main__':
     middle_tree = ast.parse(inspect.getsource(middle))
     show_ast(middle_tree)
 
-### Tracking Variable Access
+### Tracking Variable Accesses
 
 if __name__ == '__main__':
-    print('\n### Tracking Variable Access')
+    print('\n### Tracking Variable Accesses')
 
 
 
@@ -1454,7 +1454,7 @@ class TrackCallTransformer(NodeTransformer):
         func_as_text = astor.to_source(node)
         if func_as_text.startswith(DATA_TRACKER + '.'):
             return node  # Own function
-        
+
         new_args = []
         for n, arg in enumerate(node.args):
             new_args.append(self.make_call(arg, 'arg', pos=n + 1))
@@ -2911,16 +2911,62 @@ if __name__ == '__main__':
 
 
 
-### Exercise 1: Forward Slicing
+### Exercise 1: Control Slices
 
 if __name__ == '__main__':
-    print('\n### Exercise 1: Forward Slicing')
+    print('\n### Exercise 1: Control Slices')
 
 
 
-### Exercise 2: Code with Forward Dependencies
+### Exercise 2: Incremental Exploration
 
 if __name__ == '__main__':
-    print('\n### Exercise 2: Code with Forward Dependencies')
+    print('\n### Exercise 2: Incremental Exploration')
+
+
+
+### Exercise 3: Forward Slicing
+
+if __name__ == '__main__':
+    print('\n### Exercise 3: Forward Slicing')
+
+
+
+### Exercise 4: Code with Forward Dependencies
+
+if __name__ == '__main__':
+    print('\n### Exercise 4: Code with Forward Dependencies')
+
+
+
+### Exercise 5: Flow Assertions
+
+if __name__ == '__main__':
+    print('\n### Exercise 5: Flow Assertions')
+
+
+
+def assert_flow(target: Any, source: List[Any]) -> bool:
+    """
+    Raise an `AssertionError` if the dependencies of `target`
+    are not equal to `source`.
+    """
+    ...
+    return True
+
+def demo4() -> int:
+    x = 25
+    y = 26
+    assert_flow(y, [x])  # ensures that `y` depends on `x` only
+    return y
+
+if __name__ == '__main__':
+    with Slicer() as slicer:
+        demo4()
+
+### Exercise 6: Checked Coverage
+
+if __name__ == '__main__':
+    print('\n### Exercise 6: Checked Coverage')
 
 
