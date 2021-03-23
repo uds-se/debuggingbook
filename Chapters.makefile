@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS =  \
-	Assertions.ipynb
+	Slicer.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -38,10 +38,10 @@ OBSERVING_PART_TODO = \
 	PerformanceDebugger.ipynb
 
 # Flows and Dependencies
-DEPENDENCIES_PART =
-DEPENDENCIES_PART_READY = \
+DEPENDENCIES_PART = \
 	03_Dependencies.ipynb \
 	Slicer.ipynb
+DEPENDENCIES_PART_READY =
 DEPENDENCIES_PART_TODO = 
 
 # Simplifying Failures
