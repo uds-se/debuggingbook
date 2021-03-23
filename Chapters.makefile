@@ -102,11 +102,12 @@ EXTRAS = \
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
 	$(INTRO_PART) \
-	$(IN_THE_LARGE_PART) \
 	$(OBSERVING_PART) \
+	$(DEPENDENCIES_PART) \
 	$(EXPERIMENTING_PART) \
 	$(ABSTRACTING_PART) \
-	$(REPAIRING_PART)
+	$(REPAIRING_PART) \
+	$(IN_THE_LARGE_PART)
 
 # These chapters will show up in the "beta" version
 CHAPTERS = \
