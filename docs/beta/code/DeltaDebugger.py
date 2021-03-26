@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-03-20 17:46:25+01:00
+# Last change: 2021-03-26 11:46:58+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -553,7 +553,7 @@ if __name__ == '__main__':
 
 
 class CallReducer(CallCollector):
-    def __init__(self, log: Union[bool, int] = False) -> None:
+    def __init__(self, *, log: Union[bool, int] = False) -> None:
         """Initialize. If `log` is True, enable logging."""
         super().__init__()
         self.log = log
@@ -731,18 +731,21 @@ if __name__ == '__main__':
     split({1, 2, 3, 4, 5, 6, 7}, 3)
 
 class DeltaDebugger(CachingCallReducer):
-    def dd(self, var_to_be_reduced: str, fail_args: Dict[str, Any], mode: str = '-') -> \
-                Tuple[Sequence, Sequence, Sequence]:
+    def dd(self, var_to_be_reduced: str, fail_args: Dict[str, Any], 
+           *, mode: str = '-') -> Tuple[Sequence, Sequence, Sequence]:
         """General Delta Debugging.
-        fail_args - a dict of (failure-inducing) function arguments;
-        fail_args[var_to_be_reduced] - the input to apply dd on.
-        mode tells how the algorithm should operate:
-            '-': minimize input (ddmin),
-            '+': maximizing input (ddmax),
-            '+-': minimizing pass/fail difference (dd)
-        Returns a triple (pass, fail, diff) 
-        with maximized passing input, minimized failing input,
-        and their difference (elems in fail, but not in pass).
+        `var_to_be_reduced` - the name of the variable to reduce.
+        `fail_args` - a dict of (failure-inducing) function arguments, 
+            with `fail_args[var_to_be_reduced]` - the input to apply dd on.
+        `mode`- how the algorithm should operate:
+            '-' (default): minimize input (`ddmin`),
+            '+': maximizing input (`ddmax`),
+            '+-': minimizing pass/fail difference (`dd`)
+        Returns a triple (`pass`, `fail`, `diff`) with
+        * maximized passing input (`pass`), 
+        * minimized failing input (`fail`), and
+        * their difference `diff`
+          (elems that are in `fail`, but not in `pass`).
         """
         def test(c: Set) -> str:
             # Set up args
@@ -828,7 +831,16 @@ if __name__ == '__main__':
         mystery(failing_input)
 
 if __name__ == '__main__':
-    dd.dd('inp', {'inp': failing_input})
+    mystery_pass, mystery_fail, mystery_diff = dd.dd('inp', {'inp': failing_input})
+
+if __name__ == '__main__':
+    mystery_pass
+
+if __name__ == '__main__':
+    mystery_fail
+
+if __name__ == '__main__':
+    mystery_diff
 
 if __name__ == '__main__':
     with DeltaDebugger(log=2) as dd:
@@ -974,7 +986,8 @@ class DeltaDebugger(DeltaDebugger):
         if self._function is None:
             raise NoCallError("No function call observed")
         if self.exception() is None:
-            raise NotFailingError(f"{self.format_call()} did not raise an exception")
+            raise NotFailingError(
+                f"{self.format_call()} did not raise an exception")
 
         if self.log:
             print(f"Observed {self.format_call()}" +
@@ -1086,15 +1099,20 @@ def string_error(s1: str, s2: str) -> None:
 if __name__ == '__main__':
     with DeltaDebugger(log=True) as dd:
         string_error("foo", "foobar")
-    dd.min_args()
 
-if __name__ == '__main__':
     string_error_args = dd.min_args()
     string_error_args
 
 if __name__ == '__main__':
     with ExpectError(AssertionError):
         string_error(string_error_args['s1'], string_error_args['s2'])
+
+### Invoking an Interactive Debugger
+
+if __name__ == '__main__':
+    print('\n### Invoking an Interactive Debugger')
+
+
 
 from .Debugger import Debugger  # minor dependency
 
@@ -1242,7 +1260,7 @@ if __name__ == '__main__':
 def compile_and_test_html_markup(lines: List[str]) -> None:
     compile_and_run(lines +
         [
-            '''''',
+            '',
             '''if remove_html_markup('<foo>bar</foo>') != 'bar':\n''',
             '''    raise RuntimeError("Missing functionality")\n''',
             '''assert remove_html_markup('"foo"') == '"foo"', "My Test"\n'''
@@ -1258,14 +1276,14 @@ if __name__ == '__main__':
     reduced_assertions_source_lines = dd.min_args()['lines']
 
 if __name__ == '__main__':
-    print_content("".join(reduced_assertions_source_lines), ".py")
+    print_content(''.join(reduced_assertions_source_lines), '.py')
 
 if __name__ == '__main__':
     len(reduced_assertions_source_lines) / len(assertions_source_lines)
 
 if __name__ == '__main__':
     remove_html_markup_source_lines, _ = inspect.getsourcelines(Assertions.remove_html_markup)
-    print_content("".join(remove_html_markup_source_lines), ".py")
+    print_content(''.join(remove_html_markup_source_lines), '.py')
 
 if __name__ == '__main__':
     quiz("In the reduced version, what has changed?",

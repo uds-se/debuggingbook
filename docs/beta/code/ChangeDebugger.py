@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-03-20 18:09:01+01:00
+# Last change: 2021-03-26 11:47:18+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

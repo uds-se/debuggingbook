@@ -11924,6 +11924,7 @@ MathJax.Hub.Config({
 </ul></li><li class="has-sub"><a href="#Usage-Examples">&nbsp;&bull;&nbsp;&nbsp; Usage Examples</a>
 <ul><li class="has-sub"><a href="#Reducing-remove_html_markup()">Reducing remove_html_markup()</a>
 </li><li class="has-sub"><a href="#Reducing-Multiple-Arguments">Reducing Multiple Arguments</a>
+</li><li class="has-sub"><a href="#Invoking-an-Interactive-Debugger">Invoking an Interactive Debugger</a>
 </li><li class="has-sub"><a href="#Reducing-other-Collections">Reducing other Collections</a>
 </ul></li><li class="has-sub"><a href="#Debugging-Inputs">&nbsp;&bull;&nbsp;&nbsp; Debugging Inputs</a>
 </li><li class="has-sub"><a href="#Failure-Inducing-Differences">&nbsp;&bull;&nbsp;&nbsp; Failure-Inducing Differences</a>
@@ -12048,7 +12049,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="text_cell_render border-box-sizing rendered_html"><div class="synopsis"><h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2><!-- Automatically generated. Do not edit. -->
 
 <p>To <a href="Importing.html">use the code provided in this chapter</a>, write</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="DeltaDebugger.html" class="import" target="_blank">debuggingbook.DeltaDebugger</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">debuggingbook.DeltaDebugger</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
 </pre></div>
 <p>and then make use of the following features.</p>
 <p>A <em>reducer</em> takes a failure-inducing input and reduces it to the minimum that still reproduces the failure.  This chapter provides a <code>DeltaDebugger</code> class that implements such a reducer.</p>
@@ -12133,7 +12134,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="14.5" y="-85.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">__repr__()</text>
 </a>
 </g>
-<g id="a_node1_2"><a xlink:href="#" xlink:title="dd(self, var_to_be_reduced:str, fail_args:Dict[str, Any], mode:str=&#39;&#45;&#39;) &#45;&gt; Tuple[Sequence, Sequence, Sequence]:&#10;General Delta Debugging.&#10;fail_args &#45; a dict of (failure&#45;inducing) function arguments;&#10;fail_args[var_to_be_reduced] &#45; the input to apply dd on.&#10;mode tells how the algorithm should operate:&#10;&#39;&#45;&#39;: minimize input (ddmin),&#10;&#39;+&#39;: maximizing input (ddmax),&#10;&#39;+&#45;&#39;: minimizing pass/fail difference (dd)&#10;Returns a triple (pass, fail, diff)&#10;with maximized passing input, minimized failing input,&#10;and their difference (elems in fail, but not in pass).">
+<g id="a_node1_2"><a xlink:href="#" xlink:title="dd(self, var_to_be_reduced:str, fail_args:Dict[str, Any], *, mode:str=&#39;&#45;&#39;) &#45;&gt; Tuple[Sequence, Sequence, Sequence]:&#10;General Delta Debugging.&#10;`var_to_be_reduced` &#45; the name of the variable to reduce.&#10;`fail_args` &#45; a dict of (failure&#45;inducing) function arguments,&#10;with `fail_args[var_to_be_reduced]` &#45; the input to apply dd on.&#10;`mode`&#45; how the algorithm should operate:&#10;&#39;&#45;&#39; (default): minimize input (`ddmin`),&#10;&#39;+&#39;: maximizing input (`ddmax`),&#10;&#39;+&#45;&#39;: minimizing pass/fail difference (`dd`)&#10;Returns a triple (`pass`, `fail`, `diff`) with&#10;* maximized passing input (`pass`),&#10;* minimized failing input (`fail`), and&#10;* their difference `diff`&#10;(elems that are in `fail`, but not in `pass`).">
 <text text-anchor="start" x="14.5" y="-74.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00" fill="#000000">dd()</text>
 </a>
 </g>
@@ -12201,7 +12202,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="41.5" y="-318.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CallReducer</text>
 <polyline fill="none" stroke="#000000" points="33.5,-309.5 133.5,-309.5 "/>
 <g id="a_node3_12"><a xlink:href="#" xlink:title="CallReducer">
-<g id="a_node3_13"><a xlink:href="#" xlink:title="__init__(self, log:int=False) &#45;&gt; None:&#10;Initialize. If `log` is True, enable logging.">
+<g id="a_node3_13"><a xlink:href="#" xlink:title="__init__(self, *, log:int=False) &#45;&gt; None:&#10;Initialize. If `log` is True, enable logging.">
 <text text-anchor="start" x="47.5" y="-298" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -12430,7 +12431,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="Tracer.html" class="import" target="_blank">Tracer</a></span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">Tracer</span>
 </pre></div>
 
 </div>
@@ -12683,7 +12684,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ExpectError.html" class="import" target="_blank">ExpectError</a></span> <span class="kn">import</span> <span class="n">ExpectError</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ExpectError</span> <span class="kn">import</span> <span class="n">ExpectError</span>
 </pre></div>
 
 </div>
@@ -13159,7 +13160,7 @@ ValueError: Invalid input (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>ddmin()</code> implementation uses almost the same Python code as Zeller in [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002</a>]; the only difference is that it has been adapted to work on Python 3.  The variable <code>n</code> (initially 2) indicates the granularity – in each step, chunks of size $\frac{1}{n}$ are cut away.  If none of the test fails (<code>some_complement_is_failing</code> is False), then <code>n</code> is doubled – until it reaches the length of the input.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>ddmin()</code> implementation uses the exact same Python code as Zeller in [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002</a>]; the only difference is that it has been adapted to work on Python 3.  The variable <code>n</code> (initially 2) indicates the granularity – in each step, chunks of size $\frac{1}{n}$ are cut away.  If none of the test fails (<code>some_complement_is_failing</code> is False), then <code>n</code> is doubled – until it reaches the length of the input.</p>
 </div>
 </div>
 </div>
@@ -13455,7 +13456,7 @@ mystery(&#39;(&#39;): PASS
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="StackInspector.html" class="import" target="_blank">StackInspector</a></span> <span class="kn">import</span> <span class="n">StackInspector</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">StackInspector</span> <span class="kn">import</span> <span class="n">StackInspector</span>
 </pre></div>
 
 </div>
@@ -14057,7 +14058,7 @@ Its <code>run()</code> method tests the function and returns PASS, FAIL, or UNRE
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallReducer</span><span class="p">(</span><span class="n">CallCollector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialize. If `log` is True, enable logging.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
@@ -14282,7 +14283,7 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h4 id="General-Delta-Debugging">General Delta Debugging<a class="anchor-link" href="#General-Delta-Debugging">&#182;</a></h4><p>The <code>DeltaDebugger</code> class finally implements Delta Debugging on arguments. Our implementation uses the <em>general</em> <code>dd()</code> delta debugging algorithm from [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002</a>]. In contrast to <code>ddmin()</code>, it returns a <em>pair</em> of a maximized passing input and a minimized failing input. The algorithm can be customized, however, to leave the passing input fixed and <em>only</em> to minimize the failing input (as with <code>ddmin()</code>), or vice versa.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h4 id="General-Delta-Debugging">General Delta Debugging<a class="anchor-link" href="#General-Delta-Debugging">&#182;</a></h4><p>The <code>DeltaDebugger</code> class finally implements Delta Debugging on arguments. Our implementation uses the <em>general</em> <code>dd</code> delta debugging algorithm from [<a href="https://doi.org/10.1109/32.988498">Zeller <em>et al</em>, 2002</a>]. In contrast to <code>ddmin</code>, it returns a <em>pair</em> of a maximized passing input and a minimized failing input. The algorithm can be customized, however, to leave the passing input fixed and <em>only</em> to minimize the failing input (as with <code>ddmin</code>), or vice versa.</p>
 </div>
 </div>
 </div>
@@ -14291,7 +14292,7 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Internally, <code>dd()</code> does not directly work on a list of elements; instead, it works on sets of <em>indices</em> into such a list. The function <code>to_set()</code> converts a collection into such a set.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Internally, <code>dd</code> does not directly work on a list of elements; instead, it works on sets of <em>indices</em> into such a list. The function <code>to_set()</code> converts a collection into such a set.</p>
 </div>
 </div>
 </div>
@@ -14634,18 +14635,21 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">DeltaDebugger</span><span class="p">(</span><span class="n">CachingCallReducer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">dd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_to_be_reduced</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fail_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> \
-                <span class="n">Tuple</span><span class="p">[</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">dd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_to_be_reduced</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fail_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> 
+           <span class="o">*</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;General Delta Debugging.</span>
-<span class="sd">        fail_args - a dict of (failure-inducing) function arguments;</span>
-<span class="sd">        fail_args[var_to_be_reduced] - the input to apply dd on.</span>
-<span class="sd">        mode tells how the algorithm should operate:</span>
-<span class="sd">            &#39;-&#39;: minimize input (ddmin),</span>
-<span class="sd">            &#39;+&#39;: maximizing input (ddmax),</span>
-<span class="sd">            &#39;+-&#39;: minimizing pass/fail difference (dd)</span>
-<span class="sd">        Returns a triple (pass, fail, diff) </span>
-<span class="sd">        with maximized passing input, minimized failing input,</span>
-<span class="sd">        and their difference (elems in fail, but not in pass).</span>
+<span class="sd">        `var_to_be_reduced` - the name of the variable to reduce.</span>
+<span class="sd">        `fail_args` - a dict of (failure-inducing) function arguments, </span>
+<span class="sd">            with `fail_args[var_to_be_reduced]` - the input to apply dd on.</span>
+<span class="sd">        `mode`- how the algorithm should operate:</span>
+<span class="sd">            &#39;-&#39; (default): minimize input (`ddmin`),</span>
+<span class="sd">            &#39;+&#39;: maximizing input (`ddmax`),</span>
+<span class="sd">            &#39;+-&#39;: minimizing pass/fail difference (`dd`)</span>
+<span class="sd">        Returns a triple (`pass`, `fail`, `diff`) with</span>
+<span class="sd">        * maximized passing input (`pass`), </span>
+<span class="sd">        * minimized failing input (`fail`), and</span>
+<span class="sd">        * their difference `diff`</span>
+<span class="sd">          (elems that are in `fail`, but not in `pass`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="n">Set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
             <span class="c1"># Set up args</span>
@@ -14759,7 +14763,7 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Its output is a pair of maximized passing input (if wanted) and minimized failing input. Here's the minimized failing input for <code>mystery()</code>, just as with <code>ddmin()</code>:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Its output is a triple of maximized passing input (if wanted), minimized failing input, and difference. Here is this triple for <code>mystery()</code>, just as with <code>ddmin()</code>:</p>
 </div>
 </div>
 </div>
@@ -14771,7 +14775,30 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">dd</span><span class="p">(</span><span class="s1">&#39;inp&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="n">failing_input</span><span class="p">})</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mystery_pass</span><span class="p">,</span> <span class="n">mystery_fail</span><span class="p">,</span> <span class="n">mystery_diff</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">dd</span><span class="p">(</span><span class="s1">&#39;inp&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="n">failing_input</span><span class="p">})</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>The first element (<code>mystery_pass</code>) is the maximal passing input:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mystery_pass</span>
 </pre></div>
 
 </div>
@@ -14782,7 +14809,7 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(&#39;&#39;, &#39;()&#39;, &#39;()&#39;)
+<pre>&#39;&#39;
 </pre>
 </div>
 
@@ -14791,7 +14818,71 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>(We will introduce more comfortable APIs later.)</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>The second element (<code>mystery_fail</code>) is the minimal failing input:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mystery_fail</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;()&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>And the third element (<code>mystery_diff</code>) is the difference between the two:</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mystery_diff</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;()&#39;
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Note that we will introduce more comfortable APIs later.</p>
 </div>
 </div>
 </div>
@@ -14800,7 +14891,7 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>We can follow the operation of <code>dd()</code> by increasing the logging level.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>We can follow the operation of <code>dd()</code> by increasing the logging level. We see how with every test, the difference between the passing and the failing input gets smaller and smaller.</p>
 </div>
 </div>
 </div>
@@ -15128,7 +15219,8 @@ Test #22 mystery(inp=&#39;(&#39;): PASS
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoCallError</span><span class="p">(</span><span class="s2">&quot;No function call observed&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NotFailingError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2"> did not raise an exception&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NotFailingError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2"> did not raise an exception&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Observed </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_call</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span>
@@ -15486,19 +15578,19 @@ Minimized failing call to mystery(inp=&#39;()&#39;)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="c4725836-899b-11eb-ad64-acde48001122" id="c4725836-899b-11eb-ad64-acde48001122-1" onclick="clear_selection('c4725836-899b-11eb-ad64-acde48001122')">
-        <label id="c4725836-899b-11eb-ad64-acde48001122-1-label" for="c4725836-899b-11eb-ad64-acde48001122-1">Delta debugging searches for the minimal input that produces the same result</label><br>
+        <input type="radio" name="8b612b58-8e20-11eb-ad64-acde48001122" id="8b612b58-8e20-11eb-ad64-acde48001122-1" onclick="clear_selection('8b612b58-8e20-11eb-ad64-acde48001122')">
+        <label id="8b612b58-8e20-11eb-ad64-acde48001122-1-label" for="8b612b58-8e20-11eb-ad64-acde48001122-1">Delta debugging searches for the minimal input that produces the same result</label><br>
 
-        <input type="radio" name="c4725836-899b-11eb-ad64-acde48001122" id="c4725836-899b-11eb-ad64-acde48001122-2" onclick="clear_selection('c4725836-899b-11eb-ad64-acde48001122')">
-        <label id="c4725836-899b-11eb-ad64-acde48001122-2-label" for="c4725836-899b-11eb-ad64-acde48001122-2">Delta debugging starts a fuzzer to find an exception</label><br>
+        <input type="radio" name="8b612b58-8e20-11eb-ad64-acde48001122" id="8b612b58-8e20-11eb-ad64-acde48001122-2" onclick="clear_selection('8b612b58-8e20-11eb-ad64-acde48001122')">
+        <label id="8b612b58-8e20-11eb-ad64-acde48001122-2-label" for="8b612b58-8e20-11eb-ad64-acde48001122-2">Delta debugging starts a fuzzer to find an exception</label><br>
 
-        <input type="radio" name="c4725836-899b-11eb-ad64-acde48001122" id="c4725836-899b-11eb-ad64-acde48001122-3" onclick="clear_selection('c4725836-899b-11eb-ad64-acde48001122')">
-        <label id="c4725836-899b-11eb-ad64-acde48001122-3-label" for="c4725836-899b-11eb-ad64-acde48001122-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
+        <input type="radio" name="8b612b58-8e20-11eb-ad64-acde48001122" id="8b612b58-8e20-11eb-ad64-acde48001122-3" onclick="clear_selection('8b612b58-8e20-11eb-ad64-acde48001122')">
+        <label id="8b612b58-8e20-11eb-ad64-acde48001122-3-label" for="8b612b58-8e20-11eb-ad64-acde48001122-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
 
     </div>
     </p>
-    <input id="c4725836-899b-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c4725836-899b-11eb-ad64-acde48001122', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')">
-    <span class="quiz_hint" id="c4725836-899b-11eb-ad64-acde48001122-hint"></span>
+    <input id="8b612b58-8e20-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('8b612b58-8e20-11eb-ad64-acde48001122', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')">
+    <span class="quiz_hint" id="8b612b58-8e20-11eb-ad64-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15538,8 +15630,8 @@ Minimized failing call to mystery(inp=&#39;()&#39;)
     mystery(&#34;An input that does not fail&#34;)
   File &#34;&lt;ipython-input-1-85c3974b9c66&gt;&#34;, line 24, in __exit__
     self.after_collection()
-  File &#34;&lt;ipython-input-1-889aedbbba24&gt;&#34;, line 7, in after_collection
-    raise NotFailingError(f&#34;{self.format_call()} did not raise an exception&#34;)
+  File &#34;&lt;ipython-input-1-91e94e1bf173&gt;&#34;, line 8, in after_collection
+    f&#34;{self.format_call()} did not raise an exception&#34;)
 NotFailingError: mystery(inp=&#39;An input that does not fail&#39;) did not raise an exception (expected)
 </pre>
 </div>
@@ -15579,7 +15671,7 @@ NotFailingError: mystery(inp=&#39;An input that does not fail&#39;) did not rais
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Assertions.html" class="import" target="_blank">Assertions</a></span> <span class="kn">import</span> <span class="n">remove_html_markup</span>  <span class="c1"># minor dependency</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Assertions</span> <span class="kn">import</span> <span class="n">remove_html_markup</span>  <span class="c1"># minor dependency</span>
 </pre></div>
 
 </div>
@@ -15657,6 +15749,15 @@ Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Running <code>DeltaDebugger</code> on <code>string_error</code> shows how first <code>s1</code> is reduced, then <code>s2</code>, then <code>s1</code> again.</p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -15665,7 +15766,9 @@ Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
     <span class="n">string_error</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;foobar&quot;</span><span class="p">)</span>
-<span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
+
+<span class="n">string_error_args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
+<span class="n">string_error_args</span>
 </pre></div>
 
 </div>
@@ -15678,19 +15781,14 @@ Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;) raising AssertionError: no substrings
 Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Processing s2...
-Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
-Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
-Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
-Minimized s2 to &#39;foo&#39;
 Processing s1...
-Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
-Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #2 string_error(s2=&#39;foobar&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;foobar&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s1 to &#39;f&#39;
 Processing s2...
-Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
-Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #4 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #5 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #6 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s2 to &#39;f&#39;
 Processing s1...
 Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
@@ -15715,46 +15813,6 @@ Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
 </div>
 </div>
 </div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">string_error_args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
-<span class="n">string_error_args</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Processing s2...
-Minimized s2 to &#39;foo&#39;
-Processing s1...
-Minimized s1 to &#39;f&#39;
-Processing s2...
-Minimized s2 to &#39;f&#39;
-Processing s1...
-Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
-</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-<div class="output_text output_subarea output_execute_result">
-<pre>{&#39;s2&#39;: &#39;f&#39;, &#39;s1&#39;: &#39;f&#39;}
-</pre>
-</div>
-
 </div>
 
 <div class="input_code">
@@ -15789,11 +15847,28 @@ AssertionError: no substrings (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Invoking-an-Interactive-Debugger">Invoking an Interactive Debugger<a class="anchor-link" href="#Invoking-an-Interactive-Debugger">&#182;</a></h3><p>The results from delta debugging can be immediately used to invoke an nvoke an <a href="Debugger">interactive debugger</a> on the minimized input. To this end, we need to turn the dictionary returned by <code>min_args()</code> into a arguments of the (failing) function call.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html"><p>Python provides a simple way to turn dictionaries into function calls. The construct</p>
 <div class="highlight"><pre><span></span><span class="n">fun</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 </pre></div>
-<p>invokes the function <code>fun</code>, with all parameters assigned from the respective values in the dictionary.
-You can use this shortcut to invoke an <a href="Debugger">interactive debugger</a> on the minimized input:</p>
+<p>invokes the function <code>fun</code>, with all parameters assigned from the respective values in the dictionary.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>With this, we can immediately invoke a <code>Debugger</code> on the failing run with minimized arguments:</p>
 </div>
 </div>
 </div>
@@ -15805,21 +15880,7 @@ You can use this shortcut to invoke an <a href="Debugger">interactive debugger</
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Debugger.html" class="import" target="_blank">Debugger</a></span> <span class="kn">import</span> <span class="n">Debugger</span>  <span class="c1"># minor dependency</span>
-</pre></div>
-
-</div>
-</div></div>
-</div>
-</div>
-
-<div class="input_code">
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-<div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/fuzzingbook/tree/master/notebooks/bookutils" class="import" target="_blank">bookutils</a></span> <span class="kn">import</span> <span class="n">next_inputs</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Debugger</span> <span class="kn">import</span> <span class="n">Debugger</span>  <span class="c1"># minor dependency</span>
 </pre></div>
 
 </div>
@@ -16156,7 +16217,7 @@ Minimized failing call to mystery(inp=&#39;(z*+s/Q,7)2@0_&#39;)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="Assertions.html" class="import" target="_blank">Assertions</a></span>  <span class="c1"># minor dependency</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">Assertions</span>  <span class="c1"># minor dependency</span>
 </pre></div>
 
 </div>
@@ -16295,7 +16356,7 @@ Minimized failing call to mystery(inp=&#39;(z*+s/Q,7)2@0_&#39;)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Assertions.html" class="import" target="_blank">Assertions</a></span> <span class="kn">import</span> <span class="n">remove_html_markup</span>  <span class="c1"># minor dependency</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Assertions</span> <span class="kn">import</span> <span class="n">remove_html_markup</span>  <span class="c1"># minor dependency</span>
 </pre></div>
 
 </div>
@@ -16473,22 +16534,22 @@ AssertionError: My Test (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="c4a88598-899b-11eb-bbf6-acde48001122" id="c4a88598-899b-11eb-bbf6-acde48001122-1" onclick="clear_selection('c4a88598-899b-11eb-bbf6-acde48001122')">
-        <label id="c4a88598-899b-11eb-bbf6-acde48001122-1-label" for="c4a88598-899b-11eb-bbf6-acde48001122-1">All of the source code in the assertions chapter.</label><br>
+        <input type="radio" name="8ba4b358-8e20-11eb-bbf6-acde48001122" id="8ba4b358-8e20-11eb-bbf6-acde48001122-1" onclick="clear_selection('8ba4b358-8e20-11eb-bbf6-acde48001122')">
+        <label id="8ba4b358-8e20-11eb-bbf6-acde48001122-1-label" for="8ba4b358-8e20-11eb-bbf6-acde48001122-1">All of the source code in the assertions chapter.</label><br>
 
-        <input type="radio" name="c4a88598-899b-11eb-bbf6-acde48001122" id="c4a88598-899b-11eb-bbf6-acde48001122-2" onclick="clear_selection('c4a88598-899b-11eb-bbf6-acde48001122')">
-        <label id="c4a88598-899b-11eb-bbf6-acde48001122-2-label" for="c4a88598-899b-11eb-bbf6-acde48001122-2">Only the source code of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="8ba4b358-8e20-11eb-bbf6-acde48001122" id="8ba4b358-8e20-11eb-bbf6-acde48001122-2" onclick="clear_selection('8ba4b358-8e20-11eb-bbf6-acde48001122')">
+        <label id="8ba4b358-8e20-11eb-bbf6-acde48001122-2-label" for="8ba4b358-8e20-11eb-bbf6-acde48001122-2">Only the source code of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="c4a88598-899b-11eb-bbf6-acde48001122" id="c4a88598-899b-11eb-bbf6-acde48001122-3" onclick="clear_selection('c4a88598-899b-11eb-bbf6-acde48001122')">
-        <label id="c4a88598-899b-11eb-bbf6-acde48001122-3-label" for="c4a88598-899b-11eb-bbf6-acde48001122-3">Only a subset of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="8ba4b358-8e20-11eb-bbf6-acde48001122" id="8ba4b358-8e20-11eb-bbf6-acde48001122-3" onclick="clear_selection('8ba4b358-8e20-11eb-bbf6-acde48001122')">
+        <label id="8ba4b358-8e20-11eb-bbf6-acde48001122-3-label" for="8ba4b358-8e20-11eb-bbf6-acde48001122-3">Only a subset of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="c4a88598-899b-11eb-bbf6-acde48001122" id="c4a88598-899b-11eb-bbf6-acde48001122-4" onclick="clear_selection('c4a88598-899b-11eb-bbf6-acde48001122')">
-        <label id="c4a88598-899b-11eb-bbf6-acde48001122-4-label" for="c4a88598-899b-11eb-bbf6-acde48001122-4">No lines at all.</label><br>
+        <input type="radio" name="8ba4b358-8e20-11eb-bbf6-acde48001122" id="8ba4b358-8e20-11eb-bbf6-acde48001122-4" onclick="clear_selection('8ba4b358-8e20-11eb-bbf6-acde48001122')">
+        <label id="8ba4b358-8e20-11eb-bbf6-acde48001122-4-label" for="8ba4b358-8e20-11eb-bbf6-acde48001122-4">No lines at all.</label><br>
 
     </div>
     </p>
-    <input id="c4a88598-899b-11eb-bbf6-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c4a88598-899b-11eb-bbf6-acde48001122', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')">
-    <span class="quiz_hint" id="c4a88598-899b-11eb-bbf6-acde48001122-hint"></span>
+    <input id="8ba4b358-8e20-11eb-bbf6-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('8ba4b358-8e20-11eb-bbf6-acde48001122', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')">
+    <span class="quiz_hint" id="8ba4b358-8e20-11eb-bbf6-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16522,7 +16583,7 @@ AssertionError: My Test (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>We get exactly <em>four</em> lines of code:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>We get exactly <em>two</em> lines of code:</p>
 </div>
 </div>
 </div>
@@ -16676,7 +16737,7 @@ AssertionError: My Test (expected)
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_and_test_html_markup</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">compile_and_run</span><span class="p">(</span><span class="n">lines</span> <span class="o">+</span>
         <span class="p">[</span>
-            <span class="sd">&#39;&#39;&#39;&#39;&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;&#39;</span><span class="p">,</span>
             <span class="sd">&#39;&#39;&#39;if remove_html_markup(&#39;&lt;foo&gt;bar&lt;/foo&gt;&#39;) != &#39;bar&#39;:\n&#39;&#39;&#39;</span><span class="p">,</span>
             <span class="sd">&#39;&#39;&#39;    raise RuntimeError(&quot;Missing functionality&quot;)\n&#39;&#39;&#39;</span><span class="p">,</span>
             <span class="sd">&#39;&#39;&#39;assert remove_html_markup(&#39;&quot;foo&quot;&#39;) == &#39;&quot;foo&quot;&#39;, &quot;My Test&quot;\n&#39;&#39;&#39;</span>
@@ -16718,7 +16779,7 @@ AssertionError: My Test (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-1-917a65ea7884&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_html_markup(reduced_lines)
-  File &#34;&lt;ipython-input-1-c181621245d4&gt;&#34;, line 7, in compile_and_test_html_markup
+  File &#34;&lt;ipython-input-1-7bc7dc1451d4&gt;&#34;, line 7, in compile_and_test_html_markup
     &#39;&#39;&#39;assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;
   File &#34;&lt;ipython-input-1-bce9f67e0746&gt;&#34;, line 9, in compile_and_run
     {})
@@ -16778,7 +16839,7 @@ RuntimeError: Missing functionality (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reduced_assertions_source_lines</span><span class="p">),</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reduced_assertions_source_lines</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16856,7 +16917,7 @@ RuntimeError: Missing functionality (expected)
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup_source_lines</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">Assertions</span><span class="o">.</span><span class="n">remove_html_markup</span><span class="p">)</span>
-<span class="n">print_content</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">remove_html_markup_source_lines</span><span class="p">),</span> <span class="s2">&quot;.py&quot;</span><span class="p">)</span>
+<span class="n">print_content</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">remove_html_markup_source_lines</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -16974,22 +17035,22 @@ RuntimeError: Missing functionality (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="c4f646be-899b-11eb-abf8-acde48001122" id="c4f646be-899b-11eb-abf8-acde48001122-1" onclick="clear_selection('c4f646be-899b-11eb-abf8-acde48001122')">
-        <label id="c4f646be-899b-11eb-abf8-acde48001122-1-label" for="c4f646be-899b-11eb-abf8-acde48001122-1">Comments are deleted</label><br>
+        <input type="checkbox" name="8bfa6cf8-8e20-11eb-abf8-acde48001122" id="8bfa6cf8-8e20-11eb-abf8-acde48001122-1" onclick="clear_selection('8bfa6cf8-8e20-11eb-abf8-acde48001122')">
+        <label id="8bfa6cf8-8e20-11eb-abf8-acde48001122-1-label" for="8bfa6cf8-8e20-11eb-abf8-acde48001122-1">Comments are deleted</label><br>
 
-        <input type="checkbox" name="c4f646be-899b-11eb-abf8-acde48001122" id="c4f646be-899b-11eb-abf8-acde48001122-2" onclick="clear_selection('c4f646be-899b-11eb-abf8-acde48001122')">
-        <label id="c4f646be-899b-11eb-abf8-acde48001122-2-label" for="c4f646be-899b-11eb-abf8-acde48001122-2">Blank lines are deleted</label><br>
+        <input type="checkbox" name="8bfa6cf8-8e20-11eb-abf8-acde48001122" id="8bfa6cf8-8e20-11eb-abf8-acde48001122-2" onclick="clear_selection('8bfa6cf8-8e20-11eb-abf8-acde48001122')">
+        <label id="8bfa6cf8-8e20-11eb-abf8-acde48001122-2-label" for="8bfa6cf8-8e20-11eb-abf8-acde48001122-2">Blank lines are deleted</label><br>
 
-        <input type="checkbox" name="c4f646be-899b-11eb-abf8-acde48001122" id="c4f646be-899b-11eb-abf8-acde48001122-3" onclick="clear_selection('c4f646be-899b-11eb-abf8-acde48001122')">
-        <label id="c4f646be-899b-11eb-abf8-acde48001122-3-label" for="c4f646be-899b-11eb-abf8-acde48001122-3">Initializations are deleted</label><br>
+        <input type="checkbox" name="8bfa6cf8-8e20-11eb-abf8-acde48001122" id="8bfa6cf8-8e20-11eb-abf8-acde48001122-3" onclick="clear_selection('8bfa6cf8-8e20-11eb-abf8-acde48001122')">
+        <label id="8bfa6cf8-8e20-11eb-abf8-acde48001122-3-label" for="8bfa6cf8-8e20-11eb-abf8-acde48001122-3">Initializations are deleted</label><br>
 
-        <input type="checkbox" name="c4f646be-899b-11eb-abf8-acde48001122" id="c4f646be-899b-11eb-abf8-acde48001122-4" onclick="clear_selection('c4f646be-899b-11eb-abf8-acde48001122')">
-        <label id="c4f646be-899b-11eb-abf8-acde48001122-4-label" for="c4f646be-899b-11eb-abf8-acde48001122-4">The assertion is deleted</label><br>
+        <input type="checkbox" name="8bfa6cf8-8e20-11eb-abf8-acde48001122" id="8bfa6cf8-8e20-11eb-abf8-acde48001122-4" onclick="clear_selection('8bfa6cf8-8e20-11eb-abf8-acde48001122')">
+        <label id="8bfa6cf8-8e20-11eb-abf8-acde48001122-4-label" for="8bfa6cf8-8e20-11eb-abf8-acde48001122-4">The assertion is deleted</label><br>
 
     </div>
     </p>
-    <input id="c4f646be-899b-11eb-abf8-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c4f646be-899b-11eb-abf8-acde48001122', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')">
-    <span class="quiz_hint" id="c4f646be-899b-11eb-abf8-acde48001122-hint"></span>
+    <input id="8bfa6cf8-8e20-11eb-abf8-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('8bfa6cf8-8e20-11eb-abf8-acde48001122', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')">
+    <span class="quiz_hint" id="8bfa6cf8-8e20-11eb-abf8-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17049,7 +17110,7 @@ RuntimeError: Missing functionality (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>compile_and_ttest_html_markup()</code> works (and fails) as before: It still joins the given strings into one and executes them. (Remember that in Python, "characters" are simply strings of length one.)</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Our <code>compile_and_test_html_markup()</code> works (and fails) as before: It still joins the given strings into one and executes them. (Remember that in Python, "characters" are simply strings of length one.)</p>
 </div>
 </div>
 </div>
@@ -17076,7 +17137,7 @@ RuntimeError: Missing functionality (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-1-9f9e3b457bcf&gt;&#34;, line 2, in &lt;module&gt;
     compile_and_test_html_markup(reduced_assertions_source_characters)
-  File &#34;&lt;ipython-input-1-c181621245d4&gt;&#34;, line 7, in compile_and_test_html_markup
+  File &#34;&lt;ipython-input-1-7bc7dc1451d4&gt;&#34;, line 7, in compile_and_test_html_markup
     &#39;&#39;&#39;assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;, &#34;My Test&#34;\n&#39;&#39;&#39;
   File &#34;&lt;ipython-input-1-bce9f67e0746&gt;&#34;, line 9, in compile_and_run
     {})
@@ -17102,7 +17163,7 @@ AssertionError: My Test (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Timer.html" class="import" target="_blank">Timer</a></span> <span class="kn">import</span> <span class="n">Timer</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Timer</span> <span class="kn">import</span> <span class="n">Timer</span>
 </pre></div>
 
 </div>
@@ -17173,7 +17234,7 @@ AssertionError: My Test (expected)
 <div class="text_cell_render border-box-sizing rendered_html"><p>There's a number of observations we can make about this code.</p>
 <ul>
 <li>All superfluous blanks and even newlines have been removed.</li>
-<li>As a curiosity, the initialization of <code>tag</code> and <code>quote</code> to <code>False</code> is now merged into a single (semantics-preserving) statement.</li>
+<li>As a curiosity, the initialization of <code>quote</code> and <code>out</code> to <code>""</code> is now merged into a single (semantics-preserving) statement.</li>
 <li>The semantics and effect of <code>&lt;</code> and <code>&gt;</code> characters is preserved, as mandated by our <code>RuntimeError</code> check.</li>
 <li>Double quotes still have the effect of not being included in the returned value: the remaining <code>quote</code> has no effect.</li>
 </ul>
@@ -17241,7 +17302,7 @@ AssertionError: My Test (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>5.502217454999482
+<pre>5.566079061012715
 </pre>
 </div>
 
@@ -17282,7 +17343,7 @@ AssertionError: My Test (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>On top, an AST also offers additional possibilities for reducing. Notably, instead of just <em>deleting</em> code fragments, we can also <em>replace</em> them with simpler fragments. For instance, we can replace arithmetic expressions with constants, or conditional statements <code>if cond: body</code> with the associated body <code>body</code>.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>In the <a href="Slicing.html">chapter on slicing</a>, we already have seen several examples on how to work with ASTs. In our context, an AST also offers additional possibilities for reducing. Notably, instead of just <em>deleting</em> code fragments, we can also <em>replace</em> them with simpler fragments. For instance, we can replace arithmetic expressions with constants, or conditional statements <code>if cond: body</code> with the associated body <code>body</code>.</p>
 </div>
 </div>
 </div>
@@ -19132,36 +19193,36 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Module at 0x7fabdad59da0&gt;,
- &lt;_ast.FunctionDef at 0x7fabdad59518&gt;,
- &lt;_ast.arguments at 0x7fabdad59668&gt;,
- &lt;_ast.arg at 0x7fabdad594e0&gt;,
- &lt;_ast.Assign at 0x7fabdad59ef0&gt;,
- &lt;_ast.Name at 0x7fabdad59f98&gt;,
- &lt;_ast.Store at 0x7fabd786f470&gt;,
- &lt;_ast.NameConstant at 0x7fabdad59f60&gt;,
- &lt;_ast.Assign at 0x7fabdad59f28&gt;,
- &lt;_ast.Name at 0x7fabdad59400&gt;,
- &lt;_ast.Store at 0x7fabd786f470&gt;,
- &lt;_ast.NameConstant at 0x7fabdad59dd8&gt;,
- &lt;_ast.Assign at 0x7fabdad59eb8&gt;,
- &lt;_ast.Name at 0x7fabdad59e10&gt;,
- &lt;_ast.Store at 0x7fabd786f470&gt;,
- &lt;_ast.Str at 0x7fabdad59d68&gt;,
- &lt;_ast.For at 0x7fabdad59e80&gt;,
- &lt;_ast.Name at 0x7fabdad59160&gt;,
- &lt;_ast.Store at 0x7fabd786f470&gt;,
- &lt;_ast.Name at 0x7fabdad59128&gt;,
- &lt;_ast.Load at 0x7fabd786f358&gt;,
- &lt;_ast.If at 0x7fabdad59208&gt;,
- &lt;_ast.BoolOp at 0x7fabdad591d0&gt;,
- &lt;_ast.And at 0x7fabd786ff60&gt;,
- &lt;_ast.Compare at 0x7fabdad59198&gt;,
- &lt;_ast.Name at 0x7fabdad59470&gt;,
- &lt;_ast.Load at 0x7fabd786f358&gt;,
- &lt;_ast.Eq at 0x7fabd78776d8&gt;,
- &lt;_ast.Str at 0x7fabdad592e8&gt;,
- &lt;_ast.UnaryOp at 0x7fabdad59240&gt;]
+<pre>[&lt;_ast.Module at 0x7fd22b531940&gt;,
+ &lt;_ast.FunctionDef at 0x7fd22b531710&gt;,
+ &lt;_ast.arguments at 0x7fd22b535dd8&gt;,
+ &lt;_ast.arg at 0x7fd22b5352b0&gt;,
+ &lt;_ast.Assign at 0x7fd22b535390&gt;,
+ &lt;_ast.Name at 0x7fd22b535908&gt;,
+ &lt;_ast.Store at 0x7fd22914e5c0&gt;,
+ &lt;_ast.NameConstant at 0x7fd22b5355f8&gt;,
+ &lt;_ast.Assign at 0x7fd22b535a58&gt;,
+ &lt;_ast.Name at 0x7fd22b5357b8&gt;,
+ &lt;_ast.Store at 0x7fd22914e5c0&gt;,
+ &lt;_ast.NameConstant at 0x7fd22b5351d0&gt;,
+ &lt;_ast.Assign at 0x7fd22b535978&gt;,
+ &lt;_ast.Name at 0x7fd22b535b38&gt;,
+ &lt;_ast.Store at 0x7fd22914e5c0&gt;,
+ &lt;_ast.Str at 0x7fd22b535f28&gt;,
+ &lt;_ast.For at 0x7fd22b535d68&gt;,
+ &lt;_ast.Name at 0x7fd22b535588&gt;,
+ &lt;_ast.Store at 0x7fd22914e5c0&gt;,
+ &lt;_ast.Name at 0x7fd22b527160&gt;,
+ &lt;_ast.Load at 0x7fd22914e4a8&gt;,
+ &lt;_ast.If at 0x7fd22b527080&gt;,
+ &lt;_ast.BoolOp at 0x7fd22b527470&gt;,
+ &lt;_ast.And at 0x7fd2291520f0&gt;,
+ &lt;_ast.Compare at 0x7fd22b5272e8&gt;,
+ &lt;_ast.Name at 0x7fd22b527400&gt;,
+ &lt;_ast.Load at 0x7fd22914e4a8&gt;,
+ &lt;_ast.Eq at 0x7fd229156828&gt;,
+ &lt;_ast.Str at 0x7fd22b527e48&gt;,
+ &lt;_ast.UnaryOp at 0x7fd22b5277f0&gt;]
 </pre>
 </div>
 
@@ -19324,7 +19385,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_ast.Assign at 0x7fabdad59ef0&gt;
+<pre>&lt;_ast.Assign at 0x7fd22b535390&gt;
 </pre>
 </div>
 
@@ -22736,7 +22797,7 @@ AssertionError: My Test (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-03-11 23:50:50+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-03-26 11:45:55+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -22752,7 +22813,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">https://www.debuggingbook.org/beta/html/DeltaDebugger.html</a>.  Retrieved 2021-03-11 23:50:50+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">https://www.debuggingbook.org/beta/html/DeltaDebugger.html</a>.  Retrieved 2021-03-26 11:45:55+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:DeltaDebugger,
@@ -22762,9 +22823,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DeltaDebugger.
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DeltaDebugger.html}},
-    note = {Retrieved 2021-03-11 23:50:50+01:00},
+    note = {Retrieved 2021-03-26 11:45:55+01:00},
     url = {https://www.debuggingbook.org/beta/html/DeltaDebugger.html},
-    urldate = {2021-03-11 23:50:50+01:00}
+    urldate = {2021-03-26 11:45:55+01:00}
 }
 </pre>
 </div>
