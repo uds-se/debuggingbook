@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS =  \
-	Slicer.ipynb
+	DeltaDebugger.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -45,10 +45,10 @@ DEPENDENCIES_PART_READY =
 DEPENDENCIES_PART_TODO = 
 
 # Simplifying Failures
-EXPERIMENTING_PART = 
-EXPERIMENTING_PART_READY = \
+EXPERIMENTING_PART = \
 	04_Reducing.ipynb \
-	DeltaDebugger.ipynb \
+	DeltaDebugger.ipynb
+EXPERIMENTING_PART_READY = \
 	ChangeDebugger.ipynb
 EXPERIMENTING_PART_TODO = \
 	ThreadDebugger.ipynb
