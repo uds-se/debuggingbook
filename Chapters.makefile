@@ -16,8 +16,8 @@ TWITTER = @Debugging_Book
 #      and a "todo" (wrench) marker in the menu.
 
 # Chapter(s) to be marked as "new" in menu
-NEW_CHAPTERS =  \
-	DeltaDebugger.ipynb
+NEW_CHAPTERS = \
+	ChangeDebugger.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -47,9 +47,9 @@ DEPENDENCIES_PART_TODO =
 # Simplifying Failures
 EXPERIMENTING_PART = \
 	04_Reducing.ipynb \
-	DeltaDebugger.ipynb
-EXPERIMENTING_PART_READY = \
+	DeltaDebugger.ipynb \
 	ChangeDebugger.ipynb
+EXPERIMENTING_PART_READY = 
 EXPERIMENTING_PART_TODO = \
 	ThreadDebugger.ipynb
 
