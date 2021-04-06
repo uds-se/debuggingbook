@@ -11997,12 +11997,12 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="Timer.html" class="import" target="_blank">debuggingbook.Timer</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
 </pre></div>
 <p>and then make use of the following features.</p>
-<p>The <code>Timer</code> class allows you to measure elapsed real time.  Its typical usage is in conjunction with a <code>with</code> clause:</p>
+<p>The <code>Timer</code> class allows you to measure elapsed real time (in fractional seconds).  Its typical usage is in conjunction with a <code>with</code> clause:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">some_long_running_function</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
 
-<span class="mf">0.04458271700059413</span>
+<span class="mf">0.04691382197779603</span>
 </pre></div>
 </div>
 </div>
@@ -12055,6 +12055,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">clock</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the number of fractional seconds elapsed since some point of reference.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
 </pre></div>
 
@@ -12070,7 +12073,6 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="inner_cell">
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/types.html" class="import" target="_blank">types</a></span> <span class="kn">import</span> <span class="n">TracebackType</span>
-<span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/typing.html" class="import" target="_blank">typing</a></span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span>
 </pre></div>
 
 </div>
@@ -12157,7 +12159,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Stopping total time:
-0.04766896700130019
+0.04944028001045808
 </pre>
 </div>
 
@@ -12172,6 +12174,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stopping time in between:&quot;</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">Timer</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">some_long_running_function</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">())</span>
 </pre></div>
 
@@ -12184,16 +12187,16 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Stopping time in between:
-2.28400131163653e-06
-2.540199966460932e-05
-3.6674000511993654e-05
-4.718300078820903e-05
-5.7358000049134716e-05
-6.780900002922863e-05
-7.784100125718396e-05
-8.807400081423111e-05
-0.00016320400027325377
-0.00017289999959757552
+0.046592597995186225
+0.09751258199685253
+0.14572335800039582
+0.18938200501725078
+0.23832534899702296
+0.2855694309982937
+0.33113672299077734
+0.37630691699450836
+0.42416772100841627
+0.4746525259979535
 </pre>
 </div>
 
@@ -12225,7 +12228,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Timer.ipynb" target=_blank)>Last change: 2021-03-20 17:45:55+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Timer.ipynb" target=_blank)>Last change: 2021-04-06 12:59:44+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -12241,7 +12244,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Timer.html">Timer</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/Timer.html">https://www.debuggingbook.org/html/Timer.html</a>.  Retrieved 2021-03-20 17:45:55+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Timer.html">Timer</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/Timer.html">https://www.debuggingbook.org/html/Timer.html</a>.  Retrieved 2021-04-06 12:59:44+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Timer,
@@ -12251,9 +12254,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Timer.html">Timer</
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/html/Timer.html}},
-    note = {Retrieved 2021-03-20 17:45:55+01:00},
+    note = {Retrieved 2021-04-06 12:59:44+02:00},
     url = {https://www.debuggingbook.org/html/Timer.html},
-    urldate = {2021-03-20 17:45:55+01:00}
+    urldate = {2021-04-06 12:59:44+02:00}
 }
 </pre>
 </div>
