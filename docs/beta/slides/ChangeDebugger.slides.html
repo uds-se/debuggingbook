@@ -15631,7 +15631,7 @@ div.jp-OutputPrompt {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[master (root-commit) 53b81c0] First version
+<pre>[master (root-commit) 04a60fd] First version
  1 file changed, 13 insertions(+)
  create mode 100644 remove_html_markup.py
 </pre>
@@ -15785,7 +15785,7 @@ div.jp-OutputPrompt {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[master 3f0ef73] Second version
+<pre>[master 89a2a20] Second version
  1 file changed, 5 insertions(+), 2 deletions(-)
 </pre>
 </div>
@@ -15879,7 +15879,7 @@ div.jp-OutputPrompt {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[master 0af41c6] Eighth version (with proper assertion)
+<pre>[master 8d708b2] Eighth version (with proper assertion)
  1 file changed, 4 insertions(+), 1 deletion(-)
 </pre>
 </div>
@@ -15992,13 +15992,100 @@ AssertionError (expected)
 <h2 id="Accessing-Versions">Accessing Versions<a class="anchor-link" href="#Accessing-Versions">&#182;</a></h2><p>To find out the failure-inducing change, we first need to be able to access older versions. The command</p>
 <div class="highlight"><pre><span></span>git log
 </pre></div>
-<p>gives us a listing of all commits. Using the <code>subprocess</code> module, we can run <code>git log</code> and access its output.</p>
+<p>gives us a listing of all commits:</p>
 
 </div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[53]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git log
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre><span class="ansi-yellow-fg">commit 8d708b2108c49b77a477e67b4023678358943187</span><span class="ansi-yellow-fg"> (</span><span class="ansi-cyan-intense-fg ansi-bold">HEAD -&gt; </span><span class="ansi-green-intense-fg ansi-bold">master</span><span class="ansi-yellow-fg">)</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:07 2021 +0200
+
+    Eighth version (with proper assertion)
+
+<span class="ansi-yellow-fg">commit 2610586d62909df8608917d49e1387cd9d4889ad</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:07 2021 +0200
+
+    Seventh version (fixed)
+
+<span class="ansi-yellow-fg">commit c3c580caab234463d0699a1c8a22ffd7f1028a62</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:07 2021 +0200
+
+    Sixth version (with another assert)
+
+<span class="ansi-yellow-fg">commit 81f4eebb6730bf610d691fbf4fbbb564013f6074</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:06 2021 +0200
+
+    Fifth version (with assert)
+
+<span class="ansi-yellow-fg">commit 0c1d445e8d56adf42d60ba0dd6c2fe84df6dd954</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:06 2021 +0200
+
+    Fourth version (clueless)
+
+<span class="ansi-yellow-fg">commit 7dea54a35b8285e96d9ed1e5c83e28295466057f</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:06 2021 +0200
+
+    Third version (with debugging output)
+
+<span class="ansi-yellow-fg">commit 89a2a2087e8e9856649c791a6ecd38d07814349d</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:06 2021 +0200
+
+    Second version
+
+<span class="ansi-yellow-fg">commit 04a60fd0904380cb44d25edc2031f0b3348a1d79</span>
+Author: Demo User &lt;demo-user@example.com&gt;
+Date:   Tue Apr 6 10:59:06 2021 +0200
+
+    First version
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Using the <code>subprocess</code> module, we can run <code>git log</code> and access its output.</p>
+
+</div>
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_output</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -16013,7 +16100,7 @@ AssertionError (expected)
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The output of <code>git log</code> contains the ID of the version (the so-called <em>commit hash</em>) as well as the message provided during the commit.</p>
@@ -16022,7 +16109,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">log</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;--pretty=oneline&#39;</span><span class="p">])</span>
@@ -16046,14 +16133,14 @@ AssertionError (expected)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>0af41c65984c94cfe4ed8163b2b3de7b2438caf0 Eighth version (with proper assertion)
-e32dba7bf02bc3bb32ab24fdfe9c1964c06541f7 Seventh version (fixed)
-8753b5a9eb475f43763891594e1f36f966691e68 Sixth version (with another assert)
-94811f96f2e2e5c507971c4594f9416c69df1197 Fifth version (with assert)
-d114db4a1eed6cf4c9d39db4edb11aad005381a5 Fourth version (clueless)
-a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
-3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2 Second version
-53b81c04d456ea2e9d907b32464957a828754158 First version
+<pre>8d708b2108c49b77a477e67b4023678358943187 Eighth version (with proper assertion)
+2610586d62909df8608917d49e1387cd9d4889ad Seventh version (fixed)
+c3c580caab234463d0699a1c8a22ffd7f1028a62 Sixth version (with another assert)
+81f4eebb6730bf610d691fbf4fbbb564013f6074 Fifth version (with assert)
+0c1d445e8d56adf42d60ba0dd6c2fe84df6dd954 Fourth version (clueless)
+7dea54a35b8285e96d9ed1e5c83e28295466057f Third version (with debugging output)
+89a2a2087e8e9856649c791a6ecd38d07814349d Second version
+04a60fd0904380cb44d25edc2031f0b3348a1d79 First version
 
 </pre>
 </div>
@@ -16072,7 +16159,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[56]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">versions</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">log</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="p">]</span>
@@ -16093,13 +16180,13 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[55]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[56]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;53b81c04d456ea2e9d907b32464957a828754158&#39;</pre>
+<pre>&#39;04a60fd0904380cb44d25edc2031f0b3348a1d79&#39;</pre>
 </div>
 
 </div>
@@ -16117,7 +16204,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[56]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git checkout <span class="o">{</span>versions<span class="o">[</span><span class="m">0</span><span class="o">]}</span>
@@ -16140,7 +16227,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>HEAD is now at 53b81c0 First version
+<pre>HEAD is now at 04a60fd First version
 </pre>
 </div>
 </div>
@@ -16152,7 +16239,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span>
@@ -16204,7 +16291,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -16218,7 +16305,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
@@ -16237,7 +16324,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[59]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[60]:</div>
 
 
 
@@ -16261,7 +16348,7 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[61]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git checkout <span class="o">{</span>versions<span class="o">[</span><span class="m">7</span><span class="o">]}</span>
@@ -16284,8 +16371,8 @@ a2a34e5f43c6074ca46246e193d5b7a110574966 Third version (with debugging output)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Previous HEAD position was 53b81c0 First version
-HEAD is now at 0af41c6 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 04a60fd First version
+HEAD is now at 8d708b2 Eighth version (with proper assertion)
 </pre>
 </div>
 </div>
@@ -16297,7 +16384,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[61]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span>
@@ -16355,7 +16442,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[62]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[63]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -16369,7 +16456,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[63]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[64]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
@@ -16388,7 +16475,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[63]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[64]:</div>
 
 
 
@@ -16429,7 +16516,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[64]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[65]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect start
@@ -16449,7 +16536,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[65]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[66]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect good <span class="o">{</span>versions<span class="o">[</span><span class="m">0</span><span class="o">]}</span>
@@ -16463,7 +16550,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[66]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[67]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect bad <span class="o">{</span>versions<span class="o">[</span><span class="m">7</span><span class="o">]}</span>
@@ -16487,7 +16574,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[d114db4a1eed6cf4c9d39db4edb11aad005381a5] Fourth version (clueless)
+[0c1d445e8d56adf42d60ba0dd6c2fe84df6dd954] Fourth version (clueless)
 </pre>
 </div>
 </div>
@@ -16505,7 +16592,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[67]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[68]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -16651,7 +16738,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[68]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[69]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span>
@@ -16718,7 +16805,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[69]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[70]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -16732,7 +16819,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[70]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
@@ -16751,7 +16838,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[70]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[71]:</div>
 
 
 
@@ -16775,7 +16862,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect bad
@@ -16799,7 +16886,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Bisecting: 0 revisions left to test after this (roughly 1 step)
-[a2a34e5f43c6074ca46246e193d5b7a110574966] Third version (with debugging output)
+[7dea54a35b8285e96d9ed1e5c83e28295466057f] Third version (with debugging output)
 </pre>
 </div>
 </div>
@@ -16817,7 +16904,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[73]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -16963,7 +17050,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[73]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[74]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span>
@@ -17014,7 +17101,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[74]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[75]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -17028,7 +17115,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[75]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[76]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
@@ -17063,7 +17150,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[75]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[76]:</div>
 
 
 
@@ -17087,7 +17174,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[76]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[77]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect bad
@@ -17111,7 +17198,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2] Second version
+[89a2a2087e8e9856649c791a6ecd38d07814349d] Second version
 </pre>
 </div>
 </div>
@@ -17123,7 +17210,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[77]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[78]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -17269,7 +17356,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[78]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[79]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span>
@@ -17318,7 +17405,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[79]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[80]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;remove_html_markup.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -17332,7 +17419,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[80]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[81]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span>
@@ -17351,7 +17438,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[80]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[81]:</div>
 
 
 
@@ -17375,7 +17462,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[81]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[82]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -17521,7 +17608,7 @@ c = &#39;&#34;&#39; tag = False quote = True
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[82]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[83]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect bad
@@ -17544,10 +17631,10 @@ c = &#39;&#34;&#39; tag = False quote = True
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2 is the first bad commit
-<span class="ansi-yellow-fg">commit 3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2</span>
+<pre>89a2a2087e8e9856649c791a6ecd38d07814349d is the first bad commit
+<span class="ansi-yellow-fg">commit 89a2a2087e8e9856649c791a6ecd38d07814349d</span>
 Author: Demo User &lt;demo-user@example.com&gt;
-Date:   Fri Mar 26 11:47:04 2021 +0100
+Date:   Tue Apr 6 10:59:06 2021 +0200
 
     Second version
 
@@ -17570,7 +17657,7 @@ Date:   Fri Mar 26 11:47:04 2021 +0100
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[83]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[84]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git diff HEAD^
@@ -17632,7 +17719,7 @@ Date:   Fri Mar 26 11:47:04 2021 +0100
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[84]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[85]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect reset
@@ -17655,8 +17742,8 @@ Date:   Fri Mar 26 11:47:04 2021 +0100
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Previous HEAD position was 3f0ef73 Second version
-HEAD is now at 0af41c6 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 89a2a20 Second version
+HEAD is now at 8d708b2 Eighth version (with proper assertion)
 </pre>
 </div>
 </div>
@@ -17702,7 +17789,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[85]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[86]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -17735,7 +17822,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[85]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[86]:</div>
 
 
 
@@ -17753,7 +17840,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[86]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[87]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_file</span><span class="p">(</span><span class="s1">&#39;test.py&#39;</span><span class="p">)</span>
@@ -17804,7 +17891,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[87]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[88]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ./test.py<span class="p">;</span> <span class="nb">echo</span> <span class="nv">$?</span>
@@ -17845,7 +17932,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[88]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[89]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect start
@@ -17859,7 +17946,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[89]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[90]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect good <span class="o">{</span>versions<span class="o">[</span><span class="m">0</span><span class="o">]}</span>
@@ -17873,7 +17960,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[90]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[91]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect bad <span class="o">{</span>versions<span class="o">[</span><span class="m">7</span><span class="o">]}</span>
@@ -17897,7 +17984,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[d114db4a1eed6cf4c9d39db4edb11aad005381a5] Fourth version (clueless)
+[0c1d445e8d56adf42d60ba0dd6c2fe84df6dd954] Fourth version (clueless)
 </pre>
 </div>
 </div>
@@ -17915,7 +18002,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[91]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[92]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect run python test.py
@@ -17940,7 +18027,7 @@ result = remove_html_markup(<span class="ansi-yellow-fg">&#39;</span><span class
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>running python test.py
 Bisecting: 0 revisions left to test after this (roughly 1 step)
-[a2a34e5f43c6074ca46246e193d5b7a110574966] Third version (with debugging output)
+[7dea54a35b8285e96d9ed1e5c83e28295466057f] Third version (with debugging output)
 running python test.py
 c = &#39;&#34;&#39; tag = False quote = False
 c = &#39;f&#39; tag = False quote = True
@@ -17948,12 +18035,12 @@ c = &#39;o&#39; tag = False quote = True
 c = &#39;o&#39; tag = False quote = True
 c = &#39;&#34;&#39; tag = False quote = True
 Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2] Second version
+[89a2a2087e8e9856649c791a6ecd38d07814349d] Second version
 running python test.py
-3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2 is the first bad commit
-commit 3f0ef7352f1e411bc2ff1ded3257b5b9663c88b2
+89a2a2087e8e9856649c791a6ecd38d07814349d is the first bad commit
+commit 89a2a2087e8e9856649c791a6ecd38d07814349d
 Author: Demo User &lt;demo-user@example.com&gt;
-Date:   Fri Mar 26 11:47:04 2021 +0100
+Date:   Tue Apr 6 10:59:06 2021 +0200
 
     Second version
 
@@ -17977,7 +18064,7 @@ bisect run success
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[92]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[93]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git diff HEAD^
@@ -18039,7 +18126,7 @@ bisect run success
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[93]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git bisect reset
@@ -18062,8 +18149,8 @@ bisect run success
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Previous HEAD position was 3f0ef73 Second version
-HEAD is now at 0af41c6 Eighth version (with proper assertion)
+<pre>Previous HEAD position was 89a2a20 Second version
+HEAD is now at 8d708b2 Eighth version (with proper assertion)
 </pre>
 </div>
 </div>
@@ -18091,11 +18178,11 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[95]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_1</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
-                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_1</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
 </pre></div>
 
      </div>
@@ -18106,7 +18193,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[95]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[96]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -18152,11 +18239,11 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[96]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[97]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_2</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
-                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_2</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span>
+                        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">versions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">:remove_html_markup.py&#39;</span><span class="p">])</span>
 </pre></div>
 
      </div>
@@ -18167,7 +18254,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[97]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[98]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">version_2</span><span class="p">,</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -18222,7 +18309,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[98]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[99]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git diff <span class="o">{</span>versions<span class="o">[</span><span class="m">0</span><span class="o">]}</span> <span class="o">{</span>versions<span class="o">[</span><span class="m">1</span><span class="o">]}</span>
@@ -18290,7 +18377,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[100]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[101]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;lines&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">]:</span>
@@ -18323,7 +18410,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[101]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[102]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">patches</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span>
@@ -18343,16 +18430,16 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[101]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[102]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f87baffd0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f87baf8d0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f87bbd710&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f87bbd6d8&gt;]</pre>
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23bda20&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23bd1d0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23bd0b8&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23bd048&gt;]</pre>
 </div>
 
 </div>
@@ -18370,7 +18457,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[103]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[104]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">patch_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -18385,11 +18472,12 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[104]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[105]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">patch_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">print_content</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -18400,7 +18488,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[105]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[106]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">patches</span><span class="p">:</span>
@@ -18429,23 +18517,27 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 
 +    quote = <span class="ansi-blue-fg">False</span>
 
-     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>@@ -<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">50</span> +<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">43</span> @@
+     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+@@ -<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">50</span> +<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">43</span> @@
   s:
 
 -        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
 
-+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:@@ -<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">48</span> +<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">45</span> @@
++        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+@@ -<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">48</span> +<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">45</span> @@
  rue
 
 -        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
 
-+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:@@ -<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">97</span> @@
++        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+@@ -<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">97</span> @@
  tag = <span class="ansi-blue-fg">False</span>
 
 +        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
 
-         <span class="ansi-blue-fg">elif</span></pre>
+         <span class="ansi-blue-fg">elif</span>
+</pre>
 </div>
 </div>
 
@@ -18469,7 +18561,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[106]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[107]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">patch</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">patches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">patch_obj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -18488,13 +18580,13 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Here's how to use <code>patch()</code>. First, if we apply <em>all</em> patches between version 1 and version 2 on version 1, we get version 2:</p>
+<p>Here's how to use <code>patch()</code>. First, if we apply <em>all</em> patches between version 1 and version 2 on version 1, we get version 2:</p>
 
 </div>
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[107]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[108]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">patches</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -18543,7 +18635,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[108]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[109]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">patches</span><span class="p">)</span> <span class="o">==</span> <span class="n">version_2</span>
@@ -18563,7 +18655,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[109]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[110]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="p">[])</span> <span class="o">==</span> <span class="n">version_1</span>
@@ -18583,7 +18675,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[110]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[111]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
@@ -18629,10 +18721,10 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[111]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[112]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="p">[</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="p">[</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18652,20 +18744,20 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-red-fg">def</span> <span class="ansi-red-fg">remove_html_markup</span><span class="ansi-yellow-fg">(</span><span class="ansi-red-fg">s</span><span class="ansi-yellow-fg">)</span>:  # <span class="ansi-red-fg">type</span>: <span class="ansi-red-fg">ignore</span>
-    <span class="ansi-red-fg">tag</span> = <span class="ansi-red-fg">False</span>
-    <span class="ansi-red-fg">quote</span> = <span class="ansi-red-fg">False</span>
-    <span class="ansi-red-fg">out</span> = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+    tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
-    <span class="ansi-blue-fg">for</span> <span class="ansi-red-fg">c</span> <span class="ansi-red-fg">in</span> <span class="ansi-red-fg">s</span>:
-        <span class="ansi-blue-fg">if</span> <span class="ansi-red-fg">c</span> == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    # <span class="ansi-red-fg">start</span> <span class="ansi-red-fg">of</span> <span class="ansi-red-fg">markup</span>
-            <span class="ansi-red-fg">tag</span> = <span class="ansi-red-fg">True</span>
-        <span class="ansi-red-fg">elif</span> <span class="ansi-red-fg">c</span> == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  # <span class="ansi-blue-fg">end</span> <span class="ansi-red-fg">of</span> <span class="ansi-red-fg">markup</span>
-            <span class="ansi-red-fg">tag</span> = <span class="ansi-red-fg">False</span>
-        <span class="ansi-red-fg">elif</span> <span class="ansi-red-fg">not</span> <span class="ansi-red-fg">tag</span>:
-            <span class="ansi-red-fg">out</span> = <span class="ansi-red-fg">out</span> + <span class="ansi-red-fg">c</span>
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
 
-    <span class="ansi-blue-fg">return</span> <span class="ansi-red-fg">out</span></pre>
+    <span class="ansi-blue-fg">return</span> out</pre>
 </div>
 </div>
 
@@ -18682,10 +18774,10 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[112]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[113]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="p">[</span><span class="n">patches</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="p">[</span><span class="n">patches</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18705,19 +18797,19 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-red-fg">def</span> <span class="ansi-red-fg">remove_html_markup</span><span class="ansi-yellow-fg">(</span><span class="ansi-red-fg">s</span><span class="ansi-yellow-fg">)</span>:  # <span class="ansi-red-fg">type</span>: <span class="ansi-red-fg">ignore</span>
-    <span class="ansi-red-fg">tag</span> = <span class="ansi-red-fg">False</span>
-    <span class="ansi-red-fg">out</span> = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+    tag = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
-    <span class="ansi-blue-fg">for</span> <span class="ansi-red-fg">c</span> <span class="ansi-red-fg">in</span> <span class="ansi-red-fg">s</span>:
-        <span class="ansi-blue-fg">if</span> <span class="ansi-red-fg">c</span> == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-red-fg">and</span> <span class="ansi-red-fg">not</span> <span class="ansi-red-fg">quote</span>:
-            <span class="ansi-red-fg">tag</span> = <span class="ansi-red-fg">True</span>
-        <span class="ansi-red-fg">elif</span> <span class="ansi-red-fg">c</span> == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  # <span class="ansi-blue-fg">end</span> <span class="ansi-red-fg">of</span> <span class="ansi-red-fg">markup</span>
-            <span class="ansi-red-fg">tag</span> = <span class="ansi-red-fg">False</span>
-        <span class="ansi-red-fg">elif</span> <span class="ansi-red-fg">not</span> <span class="ansi-red-fg">tag</span>:
-            <span class="ansi-red-fg">out</span> = <span class="ansi-red-fg">out</span> + <span class="ansi-red-fg">c</span>
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
 
-    <span class="ansi-blue-fg">return</span> <span class="ansi-red-fg">out</span></pre>
+    <span class="ansi-blue-fg">return</span> out</pre>
 </div>
 </div>
 
@@ -18728,7 +18820,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[113]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[114]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">quiz</span><span class="p">(</span><span class="s2">&quot;What has changed in version 1 after applying the second patch?&quot;</span><span class="p">,</span>
@@ -18753,7 +18845,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[113]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[114]:</div>
 
 
 
@@ -18839,22 +18931,22 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="9ffd4d68-8e20-11eb-a588-acde48001122" id="9ffd4d68-8e20-11eb-a588-acde48001122-1" onclick="clear_selection('9ffd4d68-8e20-11eb-a588-acde48001122')">
-        <label id="9ffd4d68-8e20-11eb-a588-acde48001122-1-label" for="9ffd4d68-8e20-11eb-a588-acde48001122-1">The initialization of quote is deleted</label><br>
+        <input type="radio" name="5d248a98-96b6-11eb-a588-acde48001122" id="5d248a98-96b6-11eb-a588-acde48001122-1" onclick="clear_selection('5d248a98-96b6-11eb-a588-acde48001122')">
+        <label id="5d248a98-96b6-11eb-a588-acde48001122-1-label" for="5d248a98-96b6-11eb-a588-acde48001122-1">The initialization of quote is deleted</label><br>
     
-        <input type="radio" name="9ffd4d68-8e20-11eb-a588-acde48001122" id="9ffd4d68-8e20-11eb-a588-acde48001122-2" onclick="clear_selection('9ffd4d68-8e20-11eb-a588-acde48001122')">
-        <label id="9ffd4d68-8e20-11eb-a588-acde48001122-2-label" for="9ffd4d68-8e20-11eb-a588-acde48001122-2">The condition after <code>if c == '&lt;'</code> is expanded</label><br>
+        <input type="radio" name="5d248a98-96b6-11eb-a588-acde48001122" id="5d248a98-96b6-11eb-a588-acde48001122-2" onclick="clear_selection('5d248a98-96b6-11eb-a588-acde48001122')">
+        <label id="5d248a98-96b6-11eb-a588-acde48001122-2-label" for="5d248a98-96b6-11eb-a588-acde48001122-2">The condition after <code>if c == '&lt;'</code> is expanded</label><br>
     
-        <input type="radio" name="9ffd4d68-8e20-11eb-a588-acde48001122" id="9ffd4d68-8e20-11eb-a588-acde48001122-3" onclick="clear_selection('9ffd4d68-8e20-11eb-a588-acde48001122')">
-        <label id="9ffd4d68-8e20-11eb-a588-acde48001122-3-label" for="9ffd4d68-8e20-11eb-a588-acde48001122-3">The tag variable gets a different value</label><br>
+        <input type="radio" name="5d248a98-96b6-11eb-a588-acde48001122" id="5d248a98-96b6-11eb-a588-acde48001122-3" onclick="clear_selection('5d248a98-96b6-11eb-a588-acde48001122')">
+        <label id="5d248a98-96b6-11eb-a588-acde48001122-3-label" for="5d248a98-96b6-11eb-a588-acde48001122-3">The tag variable gets a different value</label><br>
     
-        <input type="radio" name="9ffd4d68-8e20-11eb-a588-acde48001122" id="9ffd4d68-8e20-11eb-a588-acde48001122-4" onclick="clear_selection('9ffd4d68-8e20-11eb-a588-acde48001122')">
-        <label id="9ffd4d68-8e20-11eb-a588-acde48001122-4-label" for="9ffd4d68-8e20-11eb-a588-acde48001122-4">None of the above</label><br>
+        <input type="radio" name="5d248a98-96b6-11eb-a588-acde48001122" id="5d248a98-96b6-11eb-a588-acde48001122-4" onclick="clear_selection('5d248a98-96b6-11eb-a588-acde48001122')">
+        <label id="5d248a98-96b6-11eb-a588-acde48001122-4-label" for="5d248a98-96b6-11eb-a588-acde48001122-4">None of the above</label><br>
     
     </div>
     </p>
-    <input id="9ffd4d68-8e20-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('9ffd4d68-8e20-11eb-a588-acde48001122', 4, 0, '1 / 1 + 1 ** 1 - 1 % 1 * 1')">
-    <span class="quiz_hint" id="9ffd4d68-8e20-11eb-a588-acde48001122-hint"></span>
+    <input id="5d248a98-96b6-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('5d248a98-96b6-11eb-a588-acde48001122', 4, 0, '1 / 1 + 1 ** 1 - 1 % 1 * 1')">
+    <span class="quiz_hint" id="5d248a98-96b6-11eb-a588-acde48001122-hint"></span>
     </div>
     
 </div>
@@ -18886,7 +18978,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[114]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup_patches</span><span class="p">(</span><span class="n">patches</span><span class="p">:</span> <span class="n">patch_obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -18909,7 +19001,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[116]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_remove_html_markup_patches</span><span class="p">([])</span>
@@ -18929,7 +19021,7 @@ HEAD is now at 0af41c6 Eighth version (with proper assertion)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[116]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[117]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
@@ -18976,7 +19068,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[118]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[119]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
@@ -18997,7 +19089,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[119]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[120]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">reduced_patches</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()[</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
@@ -19011,7 +19103,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[120]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[121]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">reduced_patches</span><span class="p">:</span>
@@ -19040,13 +19132,15 @@ AssertionError (expected)
 
 +    quote = <span class="ansi-blue-fg">False</span>
 
-     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>@@ -<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">97</span> @@
+     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+@@ -<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">97</span> @@
  tag = <span class="ansi-blue-fg">False</span>
 
 +        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
 
-         <span class="ansi-blue-fg">elif</span></pre>
+         <span class="ansi-blue-fg">elif</span>
+</pre>
 </div>
 </div>
 
@@ -19063,7 +19157,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[121]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[122]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">reduced_patches</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -19135,7 +19229,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[122]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[123]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> \
@@ -19156,7 +19250,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[123]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[124]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">pass_patches</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -19209,7 +19303,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[124]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[125]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -19264,7 +19358,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[125]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[126]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
@@ -19294,7 +19388,8 @@ AssertionError (expected)
 +        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
 
-         <span class="ansi-blue-fg">elif</span></pre>
+         <span class="ansi-blue-fg">elif</span>
+</pre>
 </div>
 </div>
 
@@ -19317,7 +19412,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[127]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[128]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">CallCollector</span><span class="p">):</span>
@@ -19360,7 +19455,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[128]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[129]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_remove_html_markup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -19375,7 +19470,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[129]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[130]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
@@ -19396,7 +19491,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[130]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[131]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
@@ -19445,7 +19540,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[131]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[132]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">pass_source</span><span class="p">(),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -19491,7 +19586,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[132]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[133]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">fail_source</span><span class="p">(),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
@@ -19540,7 +19635,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[133]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[134]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
@@ -19559,16 +19654,16 @@ AssertionError (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[133]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[134]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f8855d240&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f8855d0b8&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f8855d160&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f8855d208&gt;]</pre>
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23c7828&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23c7978&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23c7240&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23c76a0&gt;]</pre>
 </div>
 
 </div>
@@ -19587,7 +19682,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[134]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[135]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
@@ -19611,7 +19706,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[135]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[136]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
@@ -19635,7 +19730,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[136]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[137]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
@@ -19650,7 +19745,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[137]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[138]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">test_patches</span><span class="p">([])</span>
@@ -19664,7 +19759,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[138]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[139]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
@@ -19715,7 +19810,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[139]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
@@ -19730,12 +19825,12 @@ AssertionError (expected)
         <span class="n">patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_ddargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">test_patches</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span>
-        
+
         <span class="n">args</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">()</span>
         <span class="n">pass_patches</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
         <span class="n">fail_patches</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
         <span class="n">diff_patches</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">&#39;patches&#39;</span><span class="p">]</span>
-        
+
         <span class="k">return</span> <span class="p">(</span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diff_patches</span><span class="p">)</span>
 </pre></div>
 
@@ -19753,7 +19848,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
@@ -19777,7 +19872,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
@@ -19798,57 +19893,10 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[142]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f88561668&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f88561a58&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f885611d0&gt;,
- &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f885614a8&gt;]</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div><div class="fragment">
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We invoke <code>min_patches</code> to obtain a minimal set of patches:</p>
-
-</div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[143]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
-<span class="n">diffs</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -19870,7 +19918,54 @@ AssertionError (expected)
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7f8f885614a8&gt;]</pre>
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23bd128&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23bdcc0&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23e72e8&gt;,
+ &lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23e70f0&gt;]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We invoke <code>min_patches</code> to obtain a minimal set of patches:</p>
+
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[144]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
+<span class="n">diffs</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[144]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[&lt;diff_match_patch.diff_match_patch.patch_obj at 0x7fb6b23e70f0&gt;]</pre>
 </div>
 
 </div>
@@ -19888,7 +19983,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[144]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[145]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">patch_string</span><span class="p">(</span><span class="n">diffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
@@ -19935,7 +20030,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[145]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[146]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span>
@@ -19954,7 +20049,7 @@ AssertionError (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[145]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[146]:</div>
 
 
 
@@ -19990,7 +20085,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[146]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[147]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">version_8</span> <span class="o">=</span> <span class="n">get_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> 
@@ -20005,7 +20100,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[147]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[148]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_8</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
@@ -20026,7 +20121,7 @@ AssertionError (expected)
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[148]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[149]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">patches</span><span class="p">())</span>
@@ -20045,7 +20140,7 @@ AssertionError (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[148]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[149]:</div>
 
 
 
@@ -20069,7 +20164,7 @@ AssertionError (expected)
 </div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[149]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[150]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cd</span>
@@ -20088,7 +20183,7 @@ AssertionError (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[149]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[150]:</div>
 
 
 
@@ -20118,7 +20213,7 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[151]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[152]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NotPassingError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
@@ -20133,7 +20228,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[152]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[153]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ChangeDebugger</span><span class="p">(</span><span class="n">ChangeDebugger</span><span class="p">):</span>
@@ -20168,7 +20263,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[153]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[154]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="n">NotPassingError</span><span class="p">):</span>
@@ -20201,69 +20296,43 @@ AssertionError (expected)
 </div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="High-Level-Interface">High-Level Interface<a class="anchor-link" href="#High-Level-Interface">&#182;</a></h3><p>Given two source files <code>source_pass</code> and <code>source_fail</code>, where <code>failing_function()</code> raises an exception in <code>source_pass</code>, but not in <code>source_fail</code>, you can use <code>ChangeDebugger</code> as follows:</p>
+<h3 id="High-Level-Interface">High-Level Interface<a class="anchor-link" href="#High-Level-Interface">&#182;</a></h3><p>You are given two Python source codes <code>source_pass</code> and <code>source_fail</code>, and a function <code>test()</code> that works using the definitions in <code>source_pass</code>, but raises an exception using the definitions in <code>source_fail</code>. Then, you can use <code>ChangeDebugger</code> as follows:</p>
 <div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">source_pass</span><span class="p">,</span> <span class="n">source_fail</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
-    <span class="n">failing_function</span><span class="p">()</span>
+    <span class="n">test</span><span class="p">()</span>
 <span class="n">cd</span>
 </pre></div>
 <p>This will produce the failure-inducing change between <code>source_pass</code> and <code>source_fail</code>, using <a href="DeltaDebugger.slides.html">Delta Debugging</a> to determine minimal differences in patches applied.</p>
 
 </div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[154]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">version_1</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>def remove_html_markup(s):  # type: ignore
-    tag = False
-    out = &#34;&#34;
-
-    for c in s:
-        if c == &#39;&lt;&#39;:    # start of markup
-            tag = True
-        elif c == &#39;&gt;&#39;:  # end of markup
-            tag = False
-        elif not tag:
-            out = out + c
-
-    return out
-
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[155]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">version_2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="n">source_pass</span> <span class="o">=</span> <span class="n">version_1</span>
+<span class="n">source_fail</span> <span class="o">=</span> <span class="n">version_2</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Here is an example. The function <code>test()</code> passes (raises no exception) if <code>remove_html_markup()</code> is defined as follows:</p>
+
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[156]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">source_pass</span><span class="p">,</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20283,24 +20352,105 @@ AssertionError (expected)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>def remove_html_markup(s):  # type: ignore
-    tag = False
-    quote = False
-    out = &#34;&#34;
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+    tag = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
-    for c in s:
-        if c == &#39;&lt;&#39; and not quote:
-            tag = True
-        elif c == &#39;&gt;&#39; and not quote:
-            tag = False
-        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
-            quote = not quote
-        elif not tag:
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
 
-    return out
+    <span class="ansi-blue-fg">return</span> out</pre>
+</div>
+</div>
 
-</pre>
+</div>
+
+</div>
+
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[157]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&quot;foo&quot;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;&quot;foo&quot;&#39;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[158]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="n">source_pass</span><span class="p">)</span>
+<span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>If <code>remove_html_markup()</code> is changed as follows, though, then
+<code>test()</code> raises an exception and fails:</p>
+
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[159]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">source_fail</span><span class="p">,</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+    tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
+
+    <span class="ansi-blue-fg">return</span> out</pre>
 </div>
 </div>
 
@@ -20311,11 +20461,59 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[156]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[160]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
-    <span class="n">test_remove_html_markup</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span><span class="p">(</span><span class="n">source_fail</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">AssertionError</span><span class="p">):</span>
+    <span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>Traceback (most recent call last):
+  File &#34;&lt;ipython-input-1-234ae8e4c288&gt;&#34;, line 3, in &lt;module&gt;
+    test()
+  File &#34;&lt;ipython-input-1-3586595aba89&gt;&#34;, line 2, in test
+    assert remove_html_markup(&#39;&#34;foo&#34;&#39;) == &#39;&#34;foo&#34;&#39;
+AssertionError (expected)
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We can use <code>ChangeDebugger</code> to automatically identify the failure-inducing difference:</p>
+
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[161]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ChangeDebugger</span><span class="p">(</span><span class="n">source_pass</span><span class="p">,</span> <span class="n">source_fail</span><span class="p">)</span> <span class="k">as</span> <span class="n">cd</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
 <span class="n">cd</span>
 </pre></div>
 
@@ -20332,7 +20530,7 @@ AssertionError (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[156]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[161]:</div>
 
 
 
@@ -20353,12 +20551,18 @@ AssertionError (expected)
 
 </div>
 
-</div></section><section>
+</div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Programmatic-Interface">Programmatic Interface<a class="anchor-link" href="#Programmatic-Interface">&#182;</a></h3><p>A programmatic interface is also available. The method <code>min_patches()</code> returns a triple (<code>pass_patches</code>, <code>fail_patches</code>, <code>diffs</code>) where</p>
+<p>The lines prefixed with <code>+</code> from are the ones in <code>source_fail</code> that cause the failure when added. (They also are the ones that should be fixed.)</p>
+
+</div>
+</div></div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Programmatic-Interface">Programmatic Interface<a class="anchor-link" href="#Programmatic-Interface">&#182;</a></h3><p>For more details or more automation, use the programmatic interface. The method <code>min_patches()</code> returns a triple (<code>pass_patches</code>, <code>fail_patches</code>, <code>diffs</code>) where</p>
 <ul>
-<li>applying <code>pass_patches</code> causes the call to pass</li>
+<li>applying <code>pass_patches</code> still make the call pass</li>
 <li>applying <code>fail_patches</code> causes the call to fail</li>
 <li><code>diffs</code> is the (minimal) difference between the two.</li>
 </ul>
@@ -20368,7 +20572,7 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[157]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[162]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pass_patches</span><span class="p">,</span> <span class="n">fail_patches</span><span class="p">,</span> <span class="n">diffs</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">min_patches</span><span class="p">()</span>
@@ -20379,10 +20583,69 @@ AssertionError (expected)
 </div>
 </div>
 
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>One can apply all patches in <code>pass_patches</code> and still not cause the test to fail:</p>
+
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[163]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pass_patches</span><span class="p">:</span>
+    <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>@@ -<span class="ansi-blue-fg">48</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">48</span>,<span class="ansi-blue-fg">42</span> @@
+ tag = <span class="ansi-blue-fg">False</span>
+
++    quote = <span class="ansi-blue-fg">False</span>
+
+     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+@@ -<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">50</span> +<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">43</span> @@
+  s:
+
+-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
+
++        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>However, as soon as we also apply the patches in <code>diffs</code>, we get the failure. (This is also what is shown when we output a <code>ChangeDebugger</code>.)</p>
+
+</div>
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[158]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[164]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
@@ -20412,7 +20675,8 @@ AssertionError (expected)
 +        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
 
-         <span class="ansi-blue-fg">elif</span></pre>
+         <span class="ansi-blue-fg">elif</span>
+</pre>
 </div>
 </div>
 
@@ -20426,10 +20690,10 @@ AssertionError (expected)
 <p>The full set of methods in <code>ChangeDebugger</code> is shown below.</p>
 
 </div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[159]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[165]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
@@ -20441,15 +20705,15 @@ AssertionError (expected)
 </div>
 </div>
 
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[160]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[166]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">ChangeDebugger</span><span class="p">],</span> 
-                        <span class="n">public_methods</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">ChangeDebugger</span><span class="p">],</span>
+                        <span class="n">public_methods</span><span class="o">=</span><span class="p">[</span>
                             <span class="n">CallCollector</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span>
                             <span class="n">CallCollector</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">,</span>
                             <span class="n">CallCollector</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">,</span>
@@ -20481,7 +20745,7 @@ AssertionError (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[160]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[166]:</div>
 
 
 
@@ -20624,7 +20888,7 @@ AssertionError (expected)
 <text text-anchor="start" x="32.5" y="-524.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
 <polyline fill="none" stroke="#000000" points="0,-515.5 167,-515.5 "/>
 <g id="a_node3_23"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node3_24"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {(&#39;test_patches&#39;, 2): &lt;function test_patches at 0x7f8f885338c8&gt;}">
+<g id="a_node3_24"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {(&#39;test_patches&#39;, 2): &lt;function test_patches at 0x7fb6b23e07b8&gt;}">
 <text text-anchor="start" x="8.5" y="-503" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_generated_function_cache</text>
 </a>
 </g>
@@ -20725,10 +20989,10 @@ AssertionError (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[161]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[167]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">diffs</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="n">source_pass</span><span class="p">,</span> <span class="n">diffs</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20748,23 +21012,21 @@ AssertionError (expected)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>def remove_html_markup(s):  # type: ignore
-    tag = False
-    out = &#34;&#34;
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+    tag = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
 
-    for c in s:
-        if c == &#39;&lt;&#39;:    # start of markup
-            tag = True
-        elif c == &#39;&gt;&#39;:  # end of markup
-            tag = False
-        elif c == &#39;&#34;&#39; or c == &#34;&#39;&#34; and tag:
-            quote = not quote
-        elif not tag:
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
+            quote = <span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
 
-    return out
-
-</pre>
+    <span class="ansi-blue-fg">return</span> out</pre>
 </div>
 </div>
 
@@ -20781,10 +21043,10 @@ AssertionError (expected)
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[162]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[168]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">version_1</span><span class="p">,</span> <span class="n">version_2</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">diff</span><span class="p">(</span><span class="n">source_pass</span><span class="p">,</span> <span class="n">source_fail</span><span class="p">):</span>
     <span class="n">print_patch</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
@@ -20810,23 +21072,27 @@ AssertionError (expected)
 
 +    quote = <span class="ansi-blue-fg">False</span>
 
-     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>@@ -<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">50</span> +<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">43</span> @@
+     out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+@@ -<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">50</span> +<span class="ansi-blue-fg">104</span>,<span class="ansi-blue-fg">43</span> @@
   s:
 
 -        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span>:    <span class="ansi-white-fg"># start of markup</span>
 
-+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:@@ -<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">48</span> +<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">45</span> @@
++        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+@@ -<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">48</span> +<span class="ansi-blue-fg">162</span>,<span class="ansi-blue-fg">45</span> @@
  rue
 
 -        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span>:  <span class="ansi-white-fg"># end of markup</span>
 
-+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:@@ -<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">97</span> @@
++        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+@@ -<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">24</span> +<span class="ansi-blue-fg">215</span>,<span class="ansi-blue-fg">97</span> @@
  tag = <span class="ansi-blue-fg">False</span>
 
 +        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-magenta-fg">and</span> tag:
             quote = <span class="ansi-magenta-fg">not</span> quote
 
-         <span class="ansi-blue-fg">elif</span></pre>
+         <span class="ansi-blue-fg">elif</span>
+</pre>
 </div>
 </div>
 
@@ -20869,7 +21135,7 @@ This paper generalized over \cite{Ness1997} by identifying failure-inducing diff
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[163]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[169]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span>
@@ -20892,6 +21158,18 @@ This paper generalized over \cite{Ness1997} by identifying failure-inducing diff
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Exercise-1:-Fine-Grained-Changes">Exercise 1: Fine-Grained Changes<a class="anchor-link" href="#Exercise-1:-Fine-Grained-Changes">&#182;</a></h3><p>Instead of computing patches on lines (as we and most <code>diff</code> programs do), one can also compute fine-grained diffs, using our <code>diff()</code> function with <code>mode='chars'</code>. Would this make sense?</p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Exercise-2:-Failure-Inducing-Changes-in-the-Large">Exercise 2: Failure-Inducing Changes in the Large<a class="anchor-link" href="#Exercise-2:-Failure-Inducing-Changes-in-the-Large">&#182;</a></h3><p>Our <code>ChangeDebugger</code> class works on two versions of one class, function, or module, but not on versions of an entire project. Extend <code>ChangeDebugger</code> to a class <code>DiffDebugger</code> that can actually take two <em>directories</em> (including differences in subdirectories with added and deleted files) and determine failure-inducing differences between them. This would allow checking out two versions of a project and determine failure-inducing differences.</p>
+<p>Note that applying delte debugging on large sets of differences is a time-consuming task, since</p>
+<ul>
+<li>Every test requires a rebuild and rerun of the code; and</li>
+<li>There are many ways to cause inconsistencies by applying random changes.</li>
+</ul>
+<p>Refer to \cite{Zeller1999} for some hints on how to make this efficient.</p>
 
 </div>
 </div></section></section>

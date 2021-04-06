@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-03-26 11:47:18+01:00
+# Last change: 2021-04-06 10:59:23+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -46,16 +46,18 @@ This chapter introduces a class `ChangeDebugger` that automatically determines f
 
 ### High-Level Interface
 
-Given two source files `source_pass` and `source_fail`, where `failing_function()` raises an exception in `source_pass`, but not in `source_fail`, you can use `ChangeDebugger` as follows:
+You are given two Python source codes `source_pass` and `source_fail`, and a function `test()` that works using the definitions in `source_pass`, but raises an exception using the definitions in `source_fail`. Then, you can use `ChangeDebugger` as follows:
 
 with ChangeDebugger(source_pass, source_fail) as cd:
-    failing_function()
+    test()
 cd
 
 
 This will produce the failure-inducing change between `source_pass` and `source_fail`, using [Delta Debugging](DeltaDebugger.ipynb) to determine minimal differences in patches applied.
 
->>> print(version_1)
+Here is an example. The function `test()` passes (raises no exception) if `remove_html_markup()` is defined as follows:
+
+>>> print_content(source_pass, '.py')
 
 def remove_html_markup(s):  # type: ignore
     tag = False
@@ -68,9 +70,16 @@ def remove_html_markup(s):  # type: ignore
             out = out + c
 
     return out
+>>> def test() -> None:
+>>>     assert remove_html_markup('"foo"') == '"foo"'
 
+>>> exec(source_pass)
+>>> test()
 
->>> print(version_2)
+If `remove_html_markup()` is changed as follows, though, then
+`test()` raises an exception and fails:
+
+>>> print_content(source_fail, '.py')
 
 def remove_html_markup(s):  # type: ignore
     tag = False
@@ -86,10 +95,21 @@ def remove_html_markup(s):  # type: ignore
             out = out + c
 
     return out
+>>> exec(source_fail)
+>>> with ExpectError(AssertionError):
+>>>     test()
 
+Traceback (most recent call last):
+  File "", line 3, in 
+    test()
+  File "", line 2, in test
+    assert remove_html_markup('"foo"') == '"foo"'
+AssertionError (expected)
 
->>> with ChangeDebugger(version_1, version_2) as cd:
->>>     test_remove_html_markup()
+We can use `ChangeDebugger` to automatically identify the failure-inducing difference:
+
+>>> with ChangeDebugger(source_pass, source_fail) as cd:
+>>>     test()
 >>> cd
 
 @@ -215,24 +215,97 @@
@@ -100,11 +120,13 @@ def remove_html_markup(s):  # type: ignore
 
          elif
 
+The lines prefixed with `+` from are the ones in `source_fail` that cause the failure when added. (They also are the ones that should be fixed.)
+
 ### Programmatic Interface
 
-A programmatic interface is also available. The method `min_patches()` returns a triple (`pass_patches`, `fail_patches`, `diffs`) where
+For more details or more automation, use the programmatic interface. The method `min_patches()` returns a triple (`pass_patches`, `fail_patches`, `diffs`) where
 
-* applying `pass_patches` causes the call to pass
+* applying `pass_patches` still make the call pass
 * applying `fail_patches` causes the call to fail
 * `diffs` is the (minimal) difference between the two.
 
@@ -112,7 +134,21 @@ The patches come as list of `patch_obj` objects, as defined by Google's [diff-ma
 
 >>> pass_patches, fail_patches, diffs = cd.min_patches()
 
->>> for p in diffs:
+One can apply all patches in `pass_patches` and still not cause the test to fail:
+
+>>> for p in pass_patches:
+>>>     print_patch(p)
+
+@@ -48,24 +48,42 @@
+ tag = False
+
++    quote = False
+
+     out = ""
+@@ -104,50 +104,43 @@
+  s:
+
+-        if c == '>> for p in diffs:
 >>>     print_patch(p)
 
 @@ -215,24 +215,97 @@
@@ -122,6 +158,7 @@ The patches come as list of `patch_obj` objects, as defined by Google's [diff-ma
             quote = not quote
 
          elif
+
 The full set of methods in `ChangeDebugger` is shown below.
 ### Supporting Functions
 
@@ -129,7 +166,7 @@ The full set of methods in `ChangeDebugger` is shown below.
 
 To apply patch objects on source code, use the `patch()` function. It takes a source code and a list of patches to be applied.
 
->>> print(patch(version_1, diffs))
+>>> print_content(patch(source_pass, diffs), '.py')
 
 def remove_html_markup(s):  # type: ignore
     tag = False
@@ -144,11 +181,9 @@ def remove_html_markup(s):  # type: ignore
             out = out + c
 
     return out
-
-
 Conversely, the `diff()` function computes patches between two texts. It returns a list of patch objects that can be applied on text.
 
->>> for p in diff(version_1, version_2):
+>>> for p in diff(source_pass, source_fail):
 >>>     print_patch(p)
 
 @@ -48,24 +48,42 @@
@@ -156,18 +191,21 @@ Conversely, the `diff()` function computes patches between two texts. It returns
 
 +    quote = False
 
-     out = ""@@ -104,50 +104,43 @@
+     out = ""
+@@ -104,50 +104,43 @@
   s:
 
 -        if c == '':  # end of markup
 
-+        elif c == '>' and not quote:@@ -215,24 +215,97 @@
++        elif c == '>' and not quote:
+@@ -215,24 +215,97 @@
  tag = False
 
 +        elif c == '"' or c == "'" and tag:
             quote = not quote
 
          elif
+
 
 For more details, source, and documentation, see
 "The Debugging Book - Isolating Failure-Inducing Changes"
@@ -569,6 +607,10 @@ if __name__ == '__main__':
 
 
 
+if __name__ == '__main__':
+    import os
+    os.system(f'git log')
+
 import subprocess
 
 def get_output(command: List[str]) -> str:
@@ -755,15 +797,15 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    version_1 = get_output(['git', 'show', 
-                                f'{versions[0]}:remove_html_markup.py'])
+    version_1 = get_output(['git', 'show',
+                            f'{versions[0]}:remove_html_markup.py'])
 
 if __name__ == '__main__':
     print_content(version_1, '.py')
 
 if __name__ == '__main__':
-    version_2 = get_output(['git', 'show', 
-                                f'{versions[1]}:remove_html_markup.py'])
+    version_2 = get_output(['git', 'show',
+                            f'{versions[1]}:remove_html_markup.py'])
 
 if __name__ == '__main__':
     print_content(version_2, '.py')
@@ -800,6 +842,7 @@ def patch_string(p: patch_obj) -> str:
 
 def print_patch(p: patch_obj) -> None:
     print_content(patch_string(p), '.py')
+    print()
 
 if __name__ == '__main__':
     for p in patches:
@@ -825,10 +868,10 @@ if __name__ == '__main__':
     print(patch_string(patches[0]))
 
 if __name__ == '__main__':
-    print_content(patch(version_1, [patches[0]]))
+    print_content(patch(version_1, [patches[0]]), '.py')
 
 if __name__ == '__main__':
-    print_content(patch(version_1, [patches[1]]))
+    print_content(patch(version_1, [patches[1]]), '.py')
 
 if __name__ == '__main__':
     quiz("What has changed in version 1 after applying the second patch?",
@@ -993,12 +1036,12 @@ class ChangeDebugger(ChangeDebugger):
         patches = self.patches()
         with DeltaDebugger(**self._ddargs) as dd:
             self.test_patches(patches)
-        
+
         args = dd.min_arg_diff()
         pass_patches = args[0]['patches']
         fail_patches = args[1]['patches']
         diff_patches = args[2]['patches']
-        
+
         return (pass_patches, fail_patches, diff_patches)
 
 class ChangeDebugger(ChangeDebugger):
@@ -1087,14 +1130,30 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    print(version_1)
+    source_pass = version_1
+    source_fail = version_2
 
 if __name__ == '__main__':
-    print(version_2)
+    print_content(source_pass, '.py')
+
+def test() -> None:
+    assert remove_html_markup('"foo"') == '"foo"'
 
 if __name__ == '__main__':
-    with ChangeDebugger(version_1, version_2) as cd:
-        test_remove_html_markup()
+    exec(source_pass)
+    test()
+
+if __name__ == '__main__':
+    print_content(source_fail, '.py')
+
+if __name__ == '__main__':
+    exec(source_fail)
+    with ExpectError(AssertionError):
+        test()
+
+if __name__ == '__main__':
+    with ChangeDebugger(source_pass, source_fail) as cd:
+        test()
     cd
 
 ### Programmatic Interface
@@ -1108,14 +1167,18 @@ if __name__ == '__main__':
     pass_patches, fail_patches, diffs = cd.min_patches()
 
 if __name__ == '__main__':
+    for p in pass_patches:
+        print_patch(p)
+
+if __name__ == '__main__':
     for p in diffs:
         print_patch(p)
 
 from .ClassDiagram import display_class_hierarchy
 
 if __name__ == '__main__':
-    display_class_hierarchy([ChangeDebugger], 
-                            public_methods = [
+    display_class_hierarchy([ChangeDebugger],
+                            public_methods=[
                                 CallCollector.__init__,
                                 CallCollector.__enter__,
                                 CallCollector.__exit__,
@@ -1141,10 +1204,10 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    print(patch(version_1, diffs))
+    print_content(patch(source_pass, diffs), '.py')
 
 if __name__ == '__main__':
-    for p in diff(version_1, version_2):
+    for p in diff(source_pass, source_fail):
         print_patch(p)
 
 ## Lessons Learned
@@ -1198,3 +1261,10 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     for p in patches:
         print(patch_string(p))
+
+### Exercise 2: Failure-Inducing Changes in the Large
+
+if __name__ == '__main__':
+    print('\n### Exercise 2: Failure-Inducing Changes in the Large')
+
+
