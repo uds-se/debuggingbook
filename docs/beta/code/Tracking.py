@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-03-12 14:43:46+01:00
+# Last change: 2021-04-06 13:14:02+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -300,7 +300,7 @@ import time
 
 from multiprocessing import Process
 
-from typing import Tuple, Any
+from typing import Tuple
 
 def run_redmine(port: int) -> None:
     with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1',

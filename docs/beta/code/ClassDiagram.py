@@ -3,7 +3,7 @@
 
 # "Class Diagrams" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-03-11 17:26:08+01:00
+# Last change: 2021-04-06 13:20:11+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

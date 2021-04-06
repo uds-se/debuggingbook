@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-04-06 10:58:58+02:00
+# Last change: 2021-04-06 13:06:38+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -274,7 +274,7 @@ PASS = 'PASS'
 FAIL = 'FAIL'
 UNRESOLVED = 'UNRESOLVED'
 
-from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
+from typing import Sequence, Any, Callable, Optional, Type, Tuple
 from typing import Dict, Union, Set, List, FrozenSet, cast
 
 def ddmin(test: Callable, inp: Sequence, *test_args: Any) -> Sequence:

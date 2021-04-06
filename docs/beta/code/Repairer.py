@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-04-06 11:54:46+02:00
+# Last change: 2021-04-06 13:11:22+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -291,8 +291,8 @@ if __name__ == '__main__':
 
 from ast import NodeVisitor
 
-from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
-from typing import Dict, Union, Set, List, FrozenSet, cast
+from typing import Any, Callable, Optional, Type, Tuple
+from typing import Dict, Union, Set, List, cast
 
 class StatementVisitor(NodeVisitor):
     """Visit all statements within function defs in an AST"""

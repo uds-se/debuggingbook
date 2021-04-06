@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-03-26 10:53:17+01:00
+# Last change: 2021-04-06 15:50:19+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -84,7 +84,7 @@ An alternate representation is `slicer.code()`, annotating the instrumented sour
 
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (4), z (2), x (1)
+*    3     while x <= z <= 64:  # <= x (1), z (4), z (2)
 *    4         z *= 2  # <= z (4), z (2);  (3)
 *    5     return z  # <= z (4)
 
@@ -140,6 +140,12 @@ if __name__ == '__main__':
 
 from .bookutils import quiz, next_inputs, print_content
 
+import inspect
+import warnings
+
+from typing import Set, List, Tuple, Any, Callable, Dict, Optional
+from typing import Union, Type, Generator, cast
+
 ## Synopsis
 ## --------
 
@@ -147,12 +153,6 @@ if __name__ == '__main__':
     print('\n## Synopsis')
 
 
-
-from typing import Set, List, Tuple, Any, Callable, Dict, Optional, Union, Type
-from typing import Generator, Generator
-
-import inspect
-import warnings
 
 ## Dependencies
 ## ------------
@@ -703,8 +703,6 @@ class Dependencies(Dependencies):
 
 if __name__ == '__main__':
     print(repr(middle_deps()))
-
-from typing import cast
 
 class Dependencies(Dependencies):
     def code(self, *items: Callable, mode: str = 'cd') -> None:

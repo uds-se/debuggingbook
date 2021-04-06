@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-03-12 14:41:00+01:00
+# Last change: 2021-04-06 15:48:38+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -120,6 +120,9 @@ if __name__ == '__main__':
 
 from .Tracer import Tracer
 
+from typing import Sequence, Any, Callable, Tuple
+from typing import Dict, Union, Set, List, cast, Optional
+
 ## Synopsis
 ## --------
 
@@ -230,8 +233,6 @@ if __name__ == '__main__':
     with ExpectError(enforce.exceptions.RuntimeTypeError):
         square_root_with_checked_type_annotations(1)
 
-from typing import Union, Optional
-
 @enforce.runtime_validation
 def square_root_with_union_type(x: Union[int, float]) -> float:
     """Computes the square root of x, using the Newton-Raphson method"""
@@ -307,9 +308,7 @@ if __name__ == '__main__':
 
 
 
-from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
-from typing import Dict, Union, Set, List, cast, TypeVar
-from types import FrameType, TracebackType
+from types import FrameType
 
 Arguments = List[Tuple[str, Any]]
 
@@ -636,8 +635,6 @@ def annotate_function_with_types(function_name: str,
     function_code = inspect.getsource(function)
     function_ast = ast.parse(function_code)
     return annotate_function_ast_with_types(function_ast, function_calls)
-
-from typing import Any
 
 def annotate_function_ast_with_types(function_ast: ast.AST,
                                      function_calls: List[Tuple[Arguments, Any]]) -> ast.AST:

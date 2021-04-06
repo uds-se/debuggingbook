@@ -3,7 +3,7 @@
 
 # "Error Handling" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ExpectError.html
-# Last change: 2021-03-11 17:25:44+01:00
+# Last change: 2021-04-06 13:19:50+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -124,6 +124,7 @@ import traceback
 import sys
 
 from types import FrameType, TracebackType
+
 from typing import Union, Optional, Callable, Any
 
 class ExpectError:

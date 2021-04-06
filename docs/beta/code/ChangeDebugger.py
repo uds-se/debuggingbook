@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-04-06 11:51:43+02:00
+# Last change: 2021-04-06 13:07:04+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -237,6 +237,8 @@ if __name__ == '__main__':
 
 from .bookutils import quiz, print_file, print_content
 
+from typing import Dict, Callable, TextIO, List, Tuple, Set, Any, Type
+
 ## Synopsis
 ## --------
 
@@ -265,8 +267,6 @@ from graphviz import Digraph, nohtml
 
 if __name__ == '__main__':
     from IPython.display import display
-
-from typing import Dict, Callable, TextIO, List, Tuple, Set, Any, Type
 
 PASS = "✔"
 FAIL = "✘"

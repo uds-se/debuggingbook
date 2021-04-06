@@ -3,7 +3,7 @@
 
 # "Generalizing Failure Circumstances" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2021-04-06 10:59:50+02:00
+# Last change: 2021-04-06 13:08:25+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -187,8 +187,8 @@ if __name__ == '__main__':
 
 import fuzzingbook
 
-from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
-from typing import Dict, Union, Set, List, FrozenSet, cast, Generator
+from typing import Any, Callable, Optional, Type, Tuple
+from typing import Dict, Union, List, cast, Generator
 
 Grammar = Dict[str,  # A grammar maps strings...
                List[

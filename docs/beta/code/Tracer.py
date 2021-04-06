@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-03-20 17:50:23+01:00
+# Last change: 2021-04-06 13:04:41+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
 from types import FrameType, TracebackType
 
-from typing import Any, Optional, Callable, Dict, List, Type, TextIO
+from typing import Any, Optional, Callable, Dict, List, Type, TextIO, cast
 
 def traceit(frame: FrameType, event: str, arg: Any) -> Optional[Callable]:
     ...
@@ -768,8 +768,6 @@ if __name__ == '__main__':
     show_ast(tree)
 
 from ast import NodeTransformer, FunctionDef, fix_missing_locations, AST, Module
-
-from typing import cast
 
 if __name__ == '__main__':
     subtree_to_be_injected: AST = ast.parse("print('entering function')")

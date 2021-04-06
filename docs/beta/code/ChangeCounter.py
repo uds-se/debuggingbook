@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-04-06 11:59:55+02:00
+# Last change: 2021-04-06 13:19:22+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -161,8 +161,8 @@ from pydriller.domain.commit import Modification
 import os
 import sys
 
-from typing import Sequence, Any, Callable, Optional, Type, Tuple, Any
-from typing import Dict, Union, Set, List, FrozenSet, cast
+from typing import Callable, Optional, Type, Tuple, Any
+from typing import Dict, Union, Set, List
 
 def current_repo() -> Optional[str]:
     path = os.getcwd()
