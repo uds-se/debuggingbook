@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-04-06 10:59:23+02:00
+# Last change: 2021-04-06 11:51:43+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -279,14 +279,22 @@ STEP_COLOR = 'peachpuff'
 FONT_NAME = 'Raleway'
 
 def graph(comment: str = "default") -> Digraph:
-    return Digraph(name='', comment=comment, graph_attr={'rankdir': 'LR'},
-        node_attr={'style': 'filled',
-                   'shape': 'box',
-                   'fillcolor': STEP_COLOR,
-                   'fontname': FONT_NAME},
-        edge_attr={'fontname': FONT_NAME})
+    return Digraph(name='', comment=comment,
+                   graph_attr={
+                       'rankdir': 'LR',
+                   },
+                   node_attr={
+                       'style': 'filled',
+                       'shape': 'box',
+                       'fillcolor': STEP_COLOR,
+                       'fontname': FONT_NAME,
+                   },
+                   edge_attr={
+                       'fontname': FONT_NAME,
+                   })
 
 VERSIONS = 8
+
 
 def display_versions(outcomes: Dict[int, str]) -> Digraph:
     state_machine = graph()
@@ -1266,5 +1274,12 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print('\n### Exercise 2: Failure-Inducing Changes in the Large')
+
+
+
+### Exercise 3: Hierarchical Change Debugging
+
+if __name__ == '__main__':
+    print('\n### Exercise 3: Hierarchical Change Debugging')
 
 
