@@ -3,7 +3,7 @@
 
 # "Inspecting Call Stacks" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StackInspector.html
-# Last change: 2021-04-06 13:20:23+02:00
+# Last change: 2021-04-08 16:36:15+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -63,11 +63,9 @@ Using `caller_function()`, `callee()` determines the first caller outside of a `
 >>> 
 >>>     def caller(self) -> None:
 >>>         self.callee()
-
 >>> def test() -> None:
 >>>     demo = StackInspectorDemo()
 >>>     demo.caller()
-
 >>> test()
 
 

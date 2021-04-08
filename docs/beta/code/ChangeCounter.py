@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-04-06 13:19:22+02:00
+# Last change: 2021-04-08 16:34:59+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -60,13 +60,11 @@ In a change counter, all elements in the repository are represented as _nodes_ â
 A `change_counter` provides a number of attributes. `changes` is a mapping of nodes to the number of changes in that node:
 
 >>> change_counter.changes[('README.md',)]
-
 13
 
 The `messages` attribute holds all commit messages related to that node:
 
 >>> change_counter.messages[('README.md',)]
-
 ['Doc update',
  'Doc update',
  'Doc update',
@@ -84,7 +82,6 @@ The `messages` attribute holds all commit messages related to that node:
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes[('README.md',)]
-
 14392
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
@@ -93,9 +90,7 @@ The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an intera
 
 >>> fine_change_counter.map()
 
-
    
-
 The included classes offer several methods that can be overridden in subclasses to customize what to mine and how to visualize it. See the chapter for details.
 
 Here are all the classes defined in this chapter:

@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-04-06 15:48:38+02:00
+# Last change: 2021-04-08 16:19:38+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,7 +51,6 @@ Both work by _observing_ a function and its invocations within a `with` clause. 
 
 >>> def sum2(a, b):  # type: ignore
 >>>     return a + b
-
 >>> with TypeAnnotator() as type_annotator:
 >>>     sum2(1, 2)
 >>>     sum2(-4, -5)
@@ -60,9 +59,9 @@ Both work by _observing_ a function and its invocations within a `with` clause. 
 The `typed_functions()` method will return a representation of `sum2()` annotated with types observed during execution.
 
 >>> print(type_annotator.typed_functions())
-
 def sum2(a: int, b: int) ->int:
     return a + b
+
 
 
 The invariant annotator works in a similar fashion:
@@ -75,7 +74,6 @@ The invariant annotator works in a similar fashion:
 The `functions_with_invariants()` method will return a representation of `sum2()` annotated with inferred pre- and postconditions that all hold for the observed values.
 
 >>> print(inv_annotator.functions_with_invariants())
-
 @precondition(lambda a, b: isinstance(a, int))
 @precondition(lambda a, b: isinstance(b, int))
 @postcondition(lambda return_value, a, b: a == return_value - b)
@@ -85,6 +83,7 @@ The `functions_with_invariants()` method will return a representation of `sum2()
 @postcondition(lambda return_value, a, b: return_value == b + a)
 def sum2(a, b):  # type: ignore
     return a + b
+
 
 
 Such type specifications and invariants can be helpful as _oracles_ (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.

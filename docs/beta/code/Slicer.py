@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-04-06 15:50:19+02:00
+# Last change: 2021-04-08 16:56:20+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -81,19 +81,18 @@ We see how the parameter `x` flows into `z`, which is returned after some comput
 
 >>> slicer
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
-
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= x (1), z (4), z (2)
-*    4         z *= 2  # <= z (4), z (2);  (3)
+*    3     while x <= z <= 64:  # <= x (1), z (2), z (4)
+*    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
+
 
 Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
 
 The method `all_vars()` returns all variables in the dependency graph. Each variable is encoded as a pair (_name_, _location_) where _location_ is a pair (_codename_, _lineno_).
 
 >>> slicer.dependencies().all_vars()
-
 {('', ( int>, 5)),
  ('', ( int>, 3)),
  ('x', ( int>, 1)),
@@ -104,9 +103,7 @@ The method `all_vars()` returns all variables in the dependency graph. Each vari
 
 >>> _, start_demo = inspect.getsourcelines(demo)
 >>> start_demo
-
 1
-
 >>> slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()  # type: ignore
 Here are the classes defined in this chapter. A `Slicer` instruments a program, using a `DependencyTracker` at run time to collect `Dependencies`.
 

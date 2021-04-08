@@ -12197,118 +12197,51 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <h3 id="Visualizing-Suspicious-Code">Visualizing Suspicious Code<a class="anchor-link" href="#Visualizing-Suspicious-Code">&#182;</a></h3><p>If you collected coverage with <code>CoverageCollector</code>, you can also visualize the code with similar colors, highlighting suspicious lines:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span>
 </pre></div>
-<table>
-<thead><tr>
-<th><code>remove_html_markup</code></th>
-<th><code>s='abc'</code></th>
-<th><code>s='&lt;b&gt;abc&lt;/b&gt;'</code></th>
-<th><code>s='"abc"'</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:1</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:2</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:3</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:4</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:6</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:7</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)" title="  0%"> remove_html_markup:8</samp></td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%"> remove_html_markup:9</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(120.0, 50.0%, 80%)" title="  0%">remove_html_markup:10</samp></td>
-<td>-</td>
-<td>X</td>
-<td>-</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%">remove_html_markup:11</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(0.0, 100.0%, 80%)" title="100%">remove_html_markup:12</samp></td>
-<td>-</td>
-<td>-</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%">remove_html_markup:13</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%">remove_html_markup:14</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-<tr>
-<td><samp style="background-color: hsl(60.0, 100.0%, 80%)" title=" 50%">remove_html_markup:16</samp></td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Ranking-Events">Ranking Events<a class="anchor-link" href="#Ranking-Events">&#182;</a></h3><p>The method <code>rank()</code> returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.</p>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 1:  50%">   1 def remove_html_markup(s):  # type: ignore</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 2:  50%">   2     tag = False</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 3:  50%">   3     quote = False</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 4:  50%">   4     out = &quot;&quot;</pre>
+<pre title="Line 5: not executed">   5 &nbsp;</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 6:  50%">   6     for c in s:</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 7:  50%">   7         if c == &#x27;&lt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(120.0, 50.0%, 80%)"
+                    title="Line 8:   0%">   8             tag = True</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 9:  50%">   9         elif c == &#x27;&gt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(120.0, 50.0%, 80%)"
+                    title="Line 10:   0%">  10             tag = False</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 11:  50%">  11         elif c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot; and tag:</pre>
+<pre style="background-color:hsl(0.0, 100.0%, 80%)"
+                    title="Line 12: 100%">  12             quote = not quote</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 13:  50%">  13         elif not tag:</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 14:  50%">  14             out = out + c</pre>
+<pre title="Line 15: not executed">  15 &nbsp;</pre>
+<pre style="background-color:hsl(60.0, 100.0%, 80%)"
+                    title="Line 16:  50%">  16     return out</pre><h3 id="Ranking-Events">Ranking Events<a class="anchor-link" href="#Ranking-Events">&#182;</a></h3><p>The method <code>rank()</code> returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
-
 <span class="p">[(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)]</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]</span>
 </pre></div>
 <h3 id="Classes-and-Methods">Classes and Methods<a class="anchor-link" href="#Classes-and-Methods">&#182;</a></h3><p>Here are all classes defined in this chapter:</p>
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -12670,8 +12603,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </g>
 </g>
 </svg>
-</p>
-<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.40.1 (20161225.0304)
@@ -12801,7 +12734,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="104" y="-658.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
 <polyline fill="none" stroke="#000000" points="71.5,-649.5 238.5,-649.5 "/>
 <g id="a_node4_21"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node4_22"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;remove_html_markup&#39;, 1): &lt;function remove_html_markup at 0x7ff9d7af1d08&gt;, (&#39;middle&#39;, 1): &lt;function middle at 0x7ff9d84dc730&gt;}">
+<g id="a_node4_22"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;remove_html_markup&#39;, 1): &lt;function remove_html_markup at 0x7fbe8c8c8d08&gt;, (&#39;middle&#39;, 1): &lt;function middle at 0x7fbe8d4fa730&gt;}">
 <text text-anchor="start" x="80" y="-637" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_generated_function_cache</text>
 </a>
 </g>
@@ -12880,7 +12813,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="33" y="-419.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_38"><a xlink:href="Tracer.html" xlink:title="__init__(self, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7ff9d7a3c160&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<g id="a_node3_38"><a xlink:href="Tracer.html" xlink:title="__init__(self, file:TextIO=&lt;ipykernel.iostream.OutStream object at 0x7fbe8c813198&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
 <text text-anchor="start" x="33" y="-408.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00" fill="#000000">__init__()</text>
 </a>
 </g>
@@ -13727,22 +13660,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="445335b4-96c8-11eb-a588-acde48001122" id="445335b4-96c8-11eb-a588-acde48001122-1" onclick="clear_selection('445335b4-96c8-11eb-a588-acde48001122')">
-        <label id="445335b4-96c8-11eb-a588-acde48001122-1-label" for="445335b4-96c8-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
+        <input type="checkbox" name="a8ad9fd8-9876-11eb-a588-acde48001122" id="a8ad9fd8-9876-11eb-a588-acde48001122-1" onclick="clear_selection('a8ad9fd8-9876-11eb-a588-acde48001122')">
+        <label id="a8ad9fd8-9876-11eb-a588-acde48001122-1-label" for="a8ad9fd8-9876-11eb-a588-acde48001122-1"><code>tag = True</code></label><br>
 
-        <input type="checkbox" name="445335b4-96c8-11eb-a588-acde48001122" id="445335b4-96c8-11eb-a588-acde48001122-2" onclick="clear_selection('445335b4-96c8-11eb-a588-acde48001122')">
-        <label id="445335b4-96c8-11eb-a588-acde48001122-2-label" for="445335b4-96c8-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
+        <input type="checkbox" name="a8ad9fd8-9876-11eb-a588-acde48001122" id="a8ad9fd8-9876-11eb-a588-acde48001122-2" onclick="clear_selection('a8ad9fd8-9876-11eb-a588-acde48001122')">
+        <label id="a8ad9fd8-9876-11eb-a588-acde48001122-2-label" for="a8ad9fd8-9876-11eb-a588-acde48001122-2"><code>tag = False</code></label><br>
 
-        <input type="checkbox" name="445335b4-96c8-11eb-a588-acde48001122" id="445335b4-96c8-11eb-a588-acde48001122-3" onclick="clear_selection('445335b4-96c8-11eb-a588-acde48001122')">
-        <label id="445335b4-96c8-11eb-a588-acde48001122-3-label" for="445335b4-96c8-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
+        <input type="checkbox" name="a8ad9fd8-9876-11eb-a588-acde48001122" id="a8ad9fd8-9876-11eb-a588-acde48001122-3" onclick="clear_selection('a8ad9fd8-9876-11eb-a588-acde48001122')">
+        <label id="a8ad9fd8-9876-11eb-a588-acde48001122-3-label" for="a8ad9fd8-9876-11eb-a588-acde48001122-3"><code>quote = not quote</code></label><br>
 
-        <input type="checkbox" name="445335b4-96c8-11eb-a588-acde48001122" id="445335b4-96c8-11eb-a588-acde48001122-4" onclick="clear_selection('445335b4-96c8-11eb-a588-acde48001122')">
-        <label id="445335b4-96c8-11eb-a588-acde48001122-4-label" for="445335b4-96c8-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
+        <input type="checkbox" name="a8ad9fd8-9876-11eb-a588-acde48001122" id="a8ad9fd8-9876-11eb-a588-acde48001122-4" onclick="clear_selection('a8ad9fd8-9876-11eb-a588-acde48001122')">
+        <label id="a8ad9fd8-9876-11eb-a588-acde48001122-4-label" for="a8ad9fd8-9876-11eb-a588-acde48001122-4"><code>out = out + c</code></label><br>
 
     </div>
     </p>
-    <input id="445335b4-96c8-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('445335b4-96c8-11eb-a588-acde48001122', 22, 1, '[ord(c) - ord(\&#x27;a\&#x27;) - 1 for c in \&#x27;cdf\&#x27;]')">
-    <span class="quiz_hint" id="445335b4-96c8-11eb-a588-acde48001122-hint"></span>
+    <input id="a8ad9fd8-9876-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('a8ad9fd8-9876-11eb-a588-acde48001122', 22, 1, '[ord(c) - ord(\&#x27;a\&#x27;) - 1 for c in \&#x27;cdf\&#x27;]')">
+    <span class="quiz_hint" id="a8ad9fd8-9876-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -14525,19 +14458,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="44666ecc-96c8-11eb-8163-acde48001122" id="44666ecc-96c8-11eb-8163-acde48001122-1" onclick="clear_selection('44666ecc-96c8-11eb-8163-acde48001122')">
-        <label id="44666ecc-96c8-11eb-8163-acde48001122-1-label" for="44666ecc-96c8-11eb-8163-acde48001122-1">One</label><br>
+        <input type="radio" name="a8d888a4-9876-11eb-8163-acde48001122" id="a8d888a4-9876-11eb-8163-acde48001122-1" onclick="clear_selection('a8d888a4-9876-11eb-8163-acde48001122')">
+        <label id="a8d888a4-9876-11eb-8163-acde48001122-1-label" for="a8d888a4-9876-11eb-8163-acde48001122-1">One</label><br>
 
-        <input type="radio" name="44666ecc-96c8-11eb-8163-acde48001122" id="44666ecc-96c8-11eb-8163-acde48001122-2" onclick="clear_selection('44666ecc-96c8-11eb-8163-acde48001122')">
-        <label id="44666ecc-96c8-11eb-8163-acde48001122-2-label" for="44666ecc-96c8-11eb-8163-acde48001122-2">Two</label><br>
+        <input type="radio" name="a8d888a4-9876-11eb-8163-acde48001122" id="a8d888a4-9876-11eb-8163-acde48001122-2" onclick="clear_selection('a8d888a4-9876-11eb-8163-acde48001122')">
+        <label id="a8d888a4-9876-11eb-8163-acde48001122-2-label" for="a8d888a4-9876-11eb-8163-acde48001122-2">Two</label><br>
 
-        <input type="radio" name="44666ecc-96c8-11eb-8163-acde48001122" id="44666ecc-96c8-11eb-8163-acde48001122-3" onclick="clear_selection('44666ecc-96c8-11eb-8163-acde48001122')">
-        <label id="44666ecc-96c8-11eb-8163-acde48001122-3-label" for="44666ecc-96c8-11eb-8163-acde48001122-3">Three</label><br>
+        <input type="radio" name="a8d888a4-9876-11eb-8163-acde48001122" id="a8d888a4-9876-11eb-8163-acde48001122-3" onclick="clear_selection('a8d888a4-9876-11eb-8163-acde48001122')">
+        <label id="a8d888a4-9876-11eb-8163-acde48001122-3-label" for="a8d888a4-9876-11eb-8163-acde48001122-3">Three</label><br>
 
     </div>
     </p>
-    <input id="44666ecc-96c8-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('44666ecc-96c8-11eb-8163-acde48001122', 4, 0, 'int(chr(50))')">
-    <span class="quiz_hint" id="44666ecc-96c8-11eb-8163-acde48001122-hint"></span>
+    <input id="a8d888a4-9876-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('a8d888a4-9876-11eb-8163-acde48001122', 4, 0, 'int(chr(50))')">
+    <span class="quiz_hint" id="a8d888a4-9876-11eb-8163-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15549,16 +15482,16 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="447f91ae-96c8-11eb-9732-acde48001122" id="447f91ae-96c8-11eb-9732-acde48001122-1" onclick="clear_selection('447f91ae-96c8-11eb-9732-acde48001122')">
-        <label id="447f91ae-96c8-11eb-9732-acde48001122-1-label" for="447f91ae-96c8-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
+        <input type="radio" name="a9222b30-9876-11eb-9732-acde48001122" id="a9222b30-9876-11eb-9732-acde48001122-1" onclick="clear_selection('a9222b30-9876-11eb-9732-acde48001122')">
+        <label id="a9222b30-9876-11eb-9732-acde48001122-1-label" for="a9222b30-9876-11eb-9732-acde48001122-1">Yes, it should be fixed</label><br>
 
-        <input type="radio" name="447f91ae-96c8-11eb-9732-acde48001122" id="447f91ae-96c8-11eb-9732-acde48001122-2" onclick="clear_selection('447f91ae-96c8-11eb-9732-acde48001122')">
-        <label id="447f91ae-96c8-11eb-9732-acde48001122-2-label" for="447f91ae-96c8-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
+        <input type="radio" name="a9222b30-9876-11eb-9732-acde48001122" id="a9222b30-9876-11eb-9732-acde48001122-2" onclick="clear_selection('a9222b30-9876-11eb-9732-acde48001122')">
+        <label id="a9222b30-9876-11eb-9732-acde48001122-2-label" for="a9222b30-9876-11eb-9732-acde48001122-2">No, the defect is elsewhere</label><br>
 
     </div>
     </p>
-    <input id="447f91ae-96c8-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('447f91ae-96c8-11eb-9732-acde48001122', 4, 0, '164 * 2 % 326')">
-    <span class="quiz_hint" id="447f91ae-96c8-11eb-9732-acde48001122-hint"></span>
+    <input id="a9222b30-9876-11eb-9732-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('a9222b30-9876-11eb-9732-acde48001122', 4, 0, '164 * 2 % 326')">
+    <span class="quiz_hint" id="a9222b30-9876-11eb-9732-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15991,8 +15924,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 8) 1.0
-(&#39;remove_html_markup&#39;, 10) 1.0
+<pre>(&#39;remove_html_markup&#39;, 10) 1.0
+(&#39;remove_html_markup&#39;, 8) 1.0
 </pre>
 </div>
 
@@ -16190,8 +16123,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 8) hsl(120.0, 50.0%, 80%)
-(&#39;remove_html_markup&#39;, 10) hsl(120.0, 50.0%, 80%)
+<pre>(&#39;remove_html_markup&#39;, 10) hsl(120.0, 50.0%, 80%)
+(&#39;remove_html_markup&#39;, 8) hsl(120.0, 50.0%, 80%)
 </pre>
 </div>
 
@@ -16357,22 +16290,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="4491a628-96c8-11eb-b36c-acde48001122" id="4491a628-96c8-11eb-b36c-acde48001122-1" onclick="clear_selection('4491a628-96c8-11eb-b36c-acde48001122')">
-        <label id="4491a628-96c8-11eb-b36c-acde48001122-1-label" for="4491a628-96c8-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
+        <input type="radio" name="a95538b8-9876-11eb-b36c-acde48001122" id="a95538b8-9876-11eb-b36c-acde48001122-1" onclick="clear_selection('a95538b8-9876-11eb-b36c-acde48001122')">
+        <label id="a95538b8-9876-11eb-b36c-acde48001122-1-label" for="a95538b8-9876-11eb-b36c-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
 
-        <input type="radio" name="4491a628-96c8-11eb-b36c-acde48001122" id="4491a628-96c8-11eb-b36c-acde48001122-2" onclick="clear_selection('4491a628-96c8-11eb-b36c-acde48001122')">
-        <label id="4491a628-96c8-11eb-b36c-acde48001122-2-label" for="4491a628-96c8-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
+        <input type="radio" name="a95538b8-9876-11eb-b36c-acde48001122" id="a95538b8-9876-11eb-b36c-acde48001122-2" onclick="clear_selection('a95538b8-9876-11eb-b36c-acde48001122')">
+        <label id="a95538b8-9876-11eb-b36c-acde48001122-2-label" for="a95538b8-9876-11eb-b36c-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
 
-        <input type="radio" name="4491a628-96c8-11eb-b36c-acde48001122" id="4491a628-96c8-11eb-b36c-acde48001122-3" onclick="clear_selection('4491a628-96c8-11eb-b36c-acde48001122')">
-        <label id="4491a628-96c8-11eb-b36c-acde48001122-3-label" for="4491a628-96c8-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
+        <input type="radio" name="a95538b8-9876-11eb-b36c-acde48001122" id="a95538b8-9876-11eb-b36c-acde48001122-3" onclick="clear_selection('a95538b8-9876-11eb-b36c-acde48001122')">
+        <label id="a95538b8-9876-11eb-b36c-acde48001122-3-label" for="a95538b8-9876-11eb-b36c-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
 
-        <input type="radio" name="4491a628-96c8-11eb-b36c-acde48001122" id="4491a628-96c8-11eb-b36c-acde48001122-4" onclick="clear_selection('4491a628-96c8-11eb-b36c-acde48001122')">
-        <label id="4491a628-96c8-11eb-b36c-acde48001122-4-label" for="4491a628-96c8-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
+        <input type="radio" name="a95538b8-9876-11eb-b36c-acde48001122" id="a95538b8-9876-11eb-b36c-acde48001122-4" onclick="clear_selection('a95538b8-9876-11eb-b36c-acde48001122')">
+        <label id="a95538b8-9876-11eb-b36c-acde48001122-4-label" for="a95538b8-9876-11eb-b36c-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
 
     </div>
     </p>
-    <input id="4491a628-96c8-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('4491a628-96c8-11eb-b36c-acde48001122', 8, 0, '999 // 333')">
-    <span class="quiz_hint" id="4491a628-96c8-11eb-b36c-acde48001122-hint"></span>
+    <input id="a95538b8-9876-11eb-b36c-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('a95538b8-9876-11eb-b36c-acde48001122', 8, 0, '999 // 333')">
+    <span class="quiz_hint" id="a95538b8-9876-11eb-b36c-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16883,22 +16816,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="449acd66-96c8-11eb-835f-acde48001122" id="449acd66-96c8-11eb-835f-acde48001122-1" onclick="clear_selection('449acd66-96c8-11eb-835f-acde48001122')">
-        <label id="449acd66-96c8-11eb-835f-acde48001122-1-label" for="449acd66-96c8-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
+        <input type="radio" name="a970caba-9876-11eb-835f-acde48001122" id="a970caba-9876-11eb-835f-acde48001122-1" onclick="clear_selection('a970caba-9876-11eb-835f-acde48001122')">
+        <label id="a970caba-9876-11eb-835f-acde48001122-1-label" for="a970caba-9876-11eb-835f-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>elif x &lt; y</code></span></label><br>
 
-        <input type="radio" name="449acd66-96c8-11eb-835f-acde48001122" id="449acd66-96c8-11eb-835f-acde48001122-2" onclick="clear_selection('449acd66-96c8-11eb-835f-acde48001122')">
-        <label id="449acd66-96c8-11eb-835f-acde48001122-2-label" for="449acd66-96c8-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
+        <input type="radio" name="a970caba-9876-11eb-835f-acde48001122" id="a970caba-9876-11eb-835f-acde48001122-2" onclick="clear_selection('a970caba-9876-11eb-835f-acde48001122')">
+        <label id="a970caba-9876-11eb-835f-acde48001122-2-label" for="a970caba-9876-11eb-835f-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
 
-        <input type="radio" name="449acd66-96c8-11eb-835f-acde48001122" id="449acd66-96c8-11eb-835f-acde48001122-3" onclick="clear_selection('449acd66-96c8-11eb-835f-acde48001122')">
-        <label id="449acd66-96c8-11eb-835f-acde48001122-3-label" for="449acd66-96c8-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
+        <input type="radio" name="a970caba-9876-11eb-835f-acde48001122" id="a970caba-9876-11eb-835f-acde48001122-3" onclick="clear_selection('a970caba-9876-11eb-835f-acde48001122')">
+        <label id="a970caba-9876-11eb-835f-acde48001122-3-label" for="a970caba-9876-11eb-835f-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
 
-        <input type="radio" name="449acd66-96c8-11eb-835f-acde48001122" id="449acd66-96c8-11eb-835f-acde48001122-4" onclick="clear_selection('449acd66-96c8-11eb-835f-acde48001122')">
-        <label id="449acd66-96c8-11eb-835f-acde48001122-4-label" for="449acd66-96c8-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
+        <input type="radio" name="a970caba-9876-11eb-835f-acde48001122" id="a970caba-9876-11eb-835f-acde48001122-4" onclick="clear_selection('a970caba-9876-11eb-835f-acde48001122')">
+        <label id="a970caba-9876-11eb-835f-acde48001122-4-label" for="a970caba-9876-11eb-835f-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
 
     </div>
     </p>
-    <input id="449acd66-96c8-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('449acd66-96c8-11eb-835f-acde48001122', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
-    <span class="quiz_hint" id="449acd66-96c8-11eb-835f-acde48001122-hint"></span>
+    <input id="a970caba-9876-11eb-835f-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('a970caba-9876-11eb-835f-acde48001122', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
+    <span class="quiz_hint" id="a970caba-9876-11eb-835f-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17176,19 +17109,19 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 6),
  (&#39;remove_html_markup&#39;, 4),
  (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 6),
+ (&#39;remove_html_markup&#39;, 9),
  (&#39;remove_html_markup&#39;, 2),
  (&#39;remove_html_markup&#39;, 11),
- (&#39;remove_html_markup&#39;, 9),
- (&#39;remove_html_markup&#39;, 7),
  (&#39;remove_html_markup&#39;, 16),
+ (&#39;remove_html_markup&#39;, 7),
+ (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 14),
  (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 1),
- (&#39;remove_html_markup&#39;, 8),
- (&#39;remove_html_markup&#39;, 10)]
+ (&#39;remove_html_markup&#39;, 10),
+ (&#39;remove_html_markup&#39;, 8)]
 </pre>
 </div>
 
@@ -17318,9 +17251,9 @@ $$</p>
  (&#39;middle&#39;, 3),
  (&#39;middle&#39;, 1),
  (&#39;middle&#39;, 2),
+ (&#39;middle&#39;, 12),
  (&#39;middle&#39;, 10),
  (&#39;middle&#39;, 4),
- (&#39;middle&#39;, 12),
  (&#39;middle&#39;, 8),
  (&#39;middle&#39;, 9)]
 </pre>
@@ -17531,19 +17464,19 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 6),
  (&#39;remove_html_markup&#39;, 4),
  (&#39;remove_html_markup&#39;, 13),
+ (&#39;remove_html_markup&#39;, 6),
+ (&#39;remove_html_markup&#39;, 9),
  (&#39;remove_html_markup&#39;, 2),
  (&#39;remove_html_markup&#39;, 11),
- (&#39;remove_html_markup&#39;, 9),
- (&#39;remove_html_markup&#39;, 7),
  (&#39;remove_html_markup&#39;, 16),
+ (&#39;remove_html_markup&#39;, 7),
+ (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 14),
  (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 1),
- (&#39;remove_html_markup&#39;, 8),
- (&#39;remove_html_markup&#39;, 10)]
+ (&#39;remove_html_markup&#39;, 10),
+ (&#39;remove_html_markup&#39;, 8)]
 </pre>
 </div>
 
@@ -17664,9 +17597,9 @@ $$</p>
  (&#39;middle&#39;, 3),
  (&#39;middle&#39;, 1),
  (&#39;middle&#39;, 2),
+ (&#39;middle&#39;, 12),
  (&#39;middle&#39;, 10),
  (&#39;middle&#39;, 4),
- (&#39;middle&#39;, 12),
  (&#39;middle&#39;, 8),
  (&#39;middle&#39;, 9)]
 </pre>
@@ -18224,24 +18157,24 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>s = &#39;abc&#39;
-c = &#39;&#34;&#39;
-c = &#39;&gt;&#39;
-quote = True
+<pre>s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
 out = &#39;&#39;
-c = &#39;/&#39;
 s = &#39;&#34;abc&#34;&#39;
-s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
-out = &#39;ab&#39;
-quote = False
+tag = False
 c = &#39;&lt;&#39;
 c = &#39;c&#39;
-c = &#39;a&#39;
+c = &#39;/&#39;
 out = &#39;abc&#39;
-tag = False
+quote = True
+s = &#39;abc&#39;
+c = &#39;&#34;&#39;
+out = &#39;a&#39;
+c = &#39;&gt;&#39;
+c = &#39;a&#39;
 c = &#39;b&#39;
 tag = True
-out = &#39;a&#39;
+out = &#39;ab&#39;
+quote = False
 </pre>
 </div>
 
@@ -18274,9 +18207,9 @@ out = &#39;a&#39;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>quote = True
+<pre>c = &#39;&#34;&#39;
+quote = True
 s = &#39;&#34;abc&#34;&#39;
-c = &#39;&#34;&#39;
 </pre>
 </div>
 
@@ -18686,20 +18619,20 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#34;(&#39;remove_html_markup&#39;, 8)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
+<pre>[&#34;(&#39;remove_html_markup&#39;, 10)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 4)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 13)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 9)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 2)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 11)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 9)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 7)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 16)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 14)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 7)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 12)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 1)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 10)&#34;]
+ &#34;(&#39;remove_html_markup&#39;, 14)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 8)&#34;]
 </pre>
 </div>
 
@@ -18755,7 +18688,7 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0]
+<pre>[-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, -1.0]
 </pre>
 </div>
 
@@ -18808,8 +18741,8 @@ c = &#39;&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[[-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0],
+<pre>[[-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, -1.0],
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0],
  [-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0]]
 </pre>
 </div>
@@ -19161,7 +19094,7 @@ c = &#39;&#34;&#39;
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2021-04-06 12:54:55+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2021-04-08 16:19:16+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19177,7 +19110,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2021-04-06 12:54:55+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2021-04-08 16:19:16+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:StatisticalDebugger,
@@ -19187,9 +19120,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDeb
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
-    note = {Retrieved 2021-04-06 12:54:55+02:00},
+    note = {Retrieved 2021-04-08 16:19:16+02:00},
     url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
-    urldate = {2021-04-06 12:54:55+02:00}
+    urldate = {2021-04-08 16:19:16+02:00}
 }
 </pre>
 </div>

@@ -3,7 +3,7 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-04-06 13:05:15+02:00
+# Last change: 2021-04-08 16:55:28+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -54,7 +54,6 @@ Notably, assertions detect _violations_ of these assumptions at runtime:
 
 >>> with ExpectError():
 >>>     y = my_square_root(-1)
-
 Traceback (most recent call last):
   File "", line 2, in 
     y = my_square_root(-1)
@@ -62,11 +61,11 @@ Traceback (most recent call last):
     assert x >= 0
 AssertionError (expected)
 
+
 _System assertions_ help to detect invalid memory operations.
 
 >>> managed_mem = ManagedMemory()
 >>> managed_mem
-
 
 |Address|0|1|2|3|4|5|6|7|8|9|
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
@@ -75,10 +74,8 @@ _System assertions_ help to detect invalid memory operations.
 |Content|-1|0| | | | | | | | |
 
 
-
 >>> with ExpectError():
 >>>     x = managed_mem[2]
-
 Traceback (most recent call last):
   File "", line 2, in 
     x = managed_mem[2]
@@ -87,6 +84,7 @@ Traceback (most recent call last):
   File "", line 10, in read
     "Reading from unallocated memory"
 AssertionError: Reading from unallocated memory (expected)
+
 
 
 For more details, source, and documentation, see

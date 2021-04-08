@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-04-06 13:07:33+02:00
+# Last change: 2021-04-08 16:28:31+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -83,7 +83,6 @@ After collecting events, you can print out the observed events – in this case,
 
 >>> debugger.event_table(args=True, color=True)
 
-
 | `remove_html_markup` | `s='abc'` | `s='abc'` | `s='"abc"'` | 
 | --------------------- | ---- | ---- | ---- | 
 |  remove_html_markup:1 |    X |    X |    X | 
@@ -100,7 +99,6 @@ After collecting events, you can print out the observed events – in this case,
 | remove_html_markup:13 |    X |    X |    X | 
 | remove_html_markup:14 |    X |    X |    X | 
 | remove_html_markup:16 |    X |    X |    X | 
-
 
 ### Visualizing Suspicious Code
 
@@ -108,51 +106,47 @@ If you collected coverage with `CoverageCollector`, you can also visualize the c
 
 >>> debugger
 
-
-| `remove_html_markup` | `s='abc'` | `s='abc'` | `s='"abc"'` | 
-| --------------------- | ---- | ---- | ---- | 
-|  remove_html_markup:1 |    X |    X |    X | 
-|  remove_html_markup:2 |    X |    X |    X | 
-|  remove_html_markup:3 |    X |    X |    X | 
-|  remove_html_markup:4 |    X |    X |    X | 
-|  remove_html_markup:6 |    X |    X |    X | 
-|  remove_html_markup:7 |    X |    X |    X | 
-|  remove_html_markup:8 |    - |    X |    - | 
-|  remove_html_markup:9 |    X |    X |    X | 
-| remove_html_markup:10 |    - |    X |    - | 
-| remove_html_markup:11 |    X |    X |    X | 
-| remove_html_markup:12 |    - |    - |    X | 
-| remove_html_markup:13 |    X |    X |    X | 
-| remove_html_markup:14 |    X |    X |    X | 
-| remove_html_markup:16 |    X |    X |    X | 
-
+   1 def remove_html_markup(s):  # type: ignore
+   2     tag = False
+   3     quote = False
+   4     out = ""
+   5  
+   6     for c in s:
+   7         if c == '<' and not quote:
+   8             tag = True
+   9         elif c == '>' and not quote:
+  10             tag = False
+  11         elif c == '"' or c == "'" and tag:
+  12             quote = not quote
+  13         elif not tag:
+  14             out = out + c
+  15  
+  16     return out
 
 ### Ranking Events
 
 The method `rank()` returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.
 
 >>> debugger.rank()
-
 [('remove_html_markup', 12),
- ('remove_html_markup', 6),
  ('remove_html_markup', 4),
  ('remove_html_markup', 13),
+ ('remove_html_markup', 6),
+ ('remove_html_markup', 9),
  ('remove_html_markup', 2),
  ('remove_html_markup', 11),
- ('remove_html_markup', 9),
- ('remove_html_markup', 7),
  ('remove_html_markup', 16),
+ ('remove_html_markup', 7),
+ ('remove_html_markup', 1),
  ('remove_html_markup', 14),
  ('remove_html_markup', 3),
- ('remove_html_markup', 1),
- ('remove_html_markup', 8),
- ('remove_html_markup', 10)]
+ ('remove_html_markup', 10),
+ ('remove_html_markup', 8)]
 
 ### Classes and Methods
 
 Here are all classes defined in this chapter:
 ![](PICS/StatisticalDebugger-synopsis-2.svg)
-
 
 For more details, source, and documentation, see
 "The Debugging Book - Statistical Debugging"

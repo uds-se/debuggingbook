@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-04-06 13:11:22+02:00
+# Last change: 2021-04-08 17:00:05+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -78,10 +78,10 @@ def middle(x, y, z):  # type: ignore
         elif x > z:
             return x
     return z
+
 We set up a function `middle_test()` that tests it. The `middle_debugger`  collects testcases and outcomes:
 
 >>> middle_debugger = OchiaiDebugger()
-
 >>> for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
 >>>     with middle_debugger:
 >>>         middle_test(x, y, z)
@@ -91,7 +91,6 @@ The repairer attempts to repair the invoked function (`middle()`). The returned 
 >>> middle_repairer = Repairer(middle_debugger)
 >>> tree, fitness = middle_repairer.repair()
 >>> print(astor.to_source(tree), fitness)
-
 def middle(x, y, z):
     if y < z:
         if x < z:
@@ -105,6 +104,7 @@ def middle(x, y, z):
         return x
     return z
  1.0
+
 
 Here are the classes defined in this chapter. A `Repairer` repairs a program, using a `StatementMutator` and a `CrossoverOperator` to evolve a population of candidates.
 
@@ -1407,7 +1407,7 @@ class DefinitionVisitor(NodeVisitor):
         self.add_definition(node)
 
 if __name__ == '__main__':
-    repairer = Repairer(middle_debugger, log=4)
+    repairer = Repairer(middle_debugger, log=1)
 
 if __name__ == '__main__':
     good_fitness = repairer.fitness(middle_tree())

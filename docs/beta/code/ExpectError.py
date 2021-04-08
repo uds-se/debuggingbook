@@ -3,7 +3,7 @@
 
 # "Error Handling" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ExpectError.html
-# Last change: 2021-04-06 13:19:50+02:00
+# Last change: 2021-04-08 16:35:39+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -46,22 +46,22 @@ The `ExpectError` class allows you to catch and report exceptions, yet resume ex
 
 >>> with ExpectError():
 >>>     x = 1 / 0
-
 Traceback (most recent call last):
   File "", line 2, in 
     x = 1 / 0
 ZeroDivisionError: division by zero (expected)
 
+
 The `ExpectTimeout` class allows you to interrupt execution after the specified time.  This is useful for interrupting code that might otherwise run forever.
 
 >>> with ExpectTimeout(5):
 >>>     long_running_test()
-
 Start
 0 seconds have passed
 1 seconds have passed
 2 seconds have passed
 3 seconds have passed
+
 Traceback (most recent call last):
   File "", line 2, in 
     long_running_test()
@@ -72,6 +72,7 @@ Traceback (most recent call last):
   File "", line 25, in check_time
     raise TimeoutError
 TimeoutError (expected)
+
 
 The exception and the associated traceback are printed as error messages.  If you do not want that, 
 use these keyword options:

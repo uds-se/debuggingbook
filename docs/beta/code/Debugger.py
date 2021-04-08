@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-04-06 13:04:57+02:00
+# Last change: 2021-04-08 16:55:11+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,11 +51,10 @@ with Debugger():
 While running, you can enter _debugger commands_ at the `(debugger)` prompt. Here's an example session:
 
 ['help', 'break 14', 'list', 'continue', 'step', 'print out', 'quit']
-
 >>> with Debugger():
 >>>     ret = remove_html_markup('abc')
-
 Calling remove_html_markup(s = 'abc')
+
 
 (debugger) help
 
@@ -69,9 +68,11 @@ print      -- Print an expression. If no expression is given, print all variable
 quit       -- Finish execution
 step       -- Execute up to the next line
 
+
 (debugger) break 14
 
 Breakpoints: {14}
+
 
 (debugger) list
 
@@ -90,22 +91,25 @@ Breakpoints: {14}
   15  
   16      return out
 
+
 (debugger) continue
 
                                          # tag = False, quote = False, out = '', c = 'a'
 14             out = out + c
+
 
 (debugger) step
 
                                          # out = 'a'
 6     for c in s:
 
+
 (debugger) print out
 
 out = 'a'
 
-(debugger) quit
 
+(debugger) quit
 The `Debugger` class can be easily extended in subclasses. A new method `NAME_command(self, arg)` will be invoked whenever a command named `NAME` is entered, with `arg` holding given command arguments (empty string if none).
 
 For more details, source, and documentation, see

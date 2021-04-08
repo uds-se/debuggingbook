@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-04-06 13:07:04+02:00
+# Last change: 2021-04-08 16:57:13+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -58,7 +58,6 @@ This will produce the failure-inducing change between `source_pass` and `source_
 Here is an example. The function `test()` passes (raises no exception) if `remove_html_markup()` is defined as follows:
 
 >>> print_content(source_pass, '.py')
-
 def remove_html_markup(s):  # type: ignore
     tag = False
     out = ""
@@ -72,7 +71,6 @@ def remove_html_markup(s):  # type: ignore
     return out
 >>> def test() -> None:
 >>>     assert remove_html_markup('"foo"') == '"foo"'
-
 >>> exec(source_pass)
 >>> test()
 
@@ -80,7 +78,6 @@ If `remove_html_markup()` is changed as follows, though, then
 `test()` raises an exception and fails:
 
 >>> print_content(source_fail, '.py')
-
 def remove_html_markup(s):  # type: ignore
     tag = False
     quote = False
@@ -98,7 +95,6 @@ def remove_html_markup(s):  # type: ignore
 >>> exec(source_fail)
 >>> with ExpectError(AssertionError):
 >>>     test()
-
 Traceback (most recent call last):
   File "", line 3, in 
     test()
@@ -106,12 +102,12 @@ Traceback (most recent call last):
     assert remove_html_markup('"foo"') == '"foo"'
 AssertionError (expected)
 
+
 We can use `ChangeDebugger` to automatically identify the failure-inducing difference:
 
 >>> with ChangeDebugger(source_pass, source_fail) as cd:
 >>>     test()
 >>> cd
-
 @@ -215,24 +215,97 @@
  tag = False
 
@@ -138,7 +134,6 @@ One can apply all patches in `pass_patches` and still not cause the test to fail
 
 >>> for p in pass_patches:
 >>>     print_patch(p)
-
 @@ -48,24 +48,42 @@
  tag = False
 
@@ -150,7 +145,6 @@ One can apply all patches in `pass_patches` and still not cause the test to fail
 
 -        if c == '>> for p in diffs:
 >>>     print_patch(p)
-
 @@ -215,24 +215,97 @@
  tag = False
 
@@ -158,6 +152,7 @@ One can apply all patches in `pass_patches` and still not cause the test to fail
             quote = not quote
 
          elif
+
 
 The full set of methods in `ChangeDebugger` is shown below.
 ### Supporting Functions
@@ -167,7 +162,6 @@ The full set of methods in `ChangeDebugger` is shown below.
 To apply patch objects on source code, use the `patch()` function. It takes a source code and a list of patches to be applied.
 
 >>> print_content(patch(source_pass, diffs), '.py')
-
 def remove_html_markup(s):  # type: ignore
     tag = False
     out = ""
@@ -181,11 +175,11 @@ def remove_html_markup(s):  # type: ignore
             out = out + c
 
     return out
+
 Conversely, the `diff()` function computes patches between two texts. It returns a list of patch objects that can be applied on text.
 
 >>> for p in diff(source_pass, source_fail):
 >>>     print_patch(p)
-
 @@ -48,24 +48,42 @@
  tag = False
 
@@ -205,6 +199,7 @@ Conversely, the `diff()` function computes patches between two texts. It returns
             quote = not quote
 
          elif
+
 
 
 For more details, source, and documentation, see
