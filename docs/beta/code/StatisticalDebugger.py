@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-04-08 20:47:58+02:00
+# Last change: 2021-04-09 11:27:06+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -129,19 +129,19 @@ The method `rank()` returns a ranked list of events, starting with the most susp
 
 >>> debugger.rank()
 [('remove_html_markup', 12),
+ ('remove_html_markup', 13),
+ ('remove_html_markup', 2),
  ('remove_html_markup', 4),
- ('remove_html_markup', 16),
- ('remove_html_markup', 3),
+ ('remove_html_markup', 6),
  ('remove_html_markup', 1),
+ ('remove_html_markup', 3),
  ('remove_html_markup', 14),
  ('remove_html_markup', 7),
- ('remove_html_markup', 11),
+ ('remove_html_markup', 16),
  ('remove_html_markup', 9),
- ('remove_html_markup', 2),
- ('remove_html_markup', 13),
- ('remove_html_markup', 6),
- ('remove_html_markup', 10),
- ('remove_html_markup', 8)]
+ ('remove_html_markup', 11),
+ ('remove_html_markup', 8),
+ ('remove_html_markup', 10)]
 
 ### Classes and Methods
 
@@ -701,7 +701,7 @@ if __name__ == '__main__':
              "One",
              "Two",
              "Three"
-         ], 'int(chr(50))')
+         ], 'len([12])')
 
 ### Collecting Passing and Failing Runs
 
@@ -756,8 +756,6 @@ def test_debugger_html_simple(debugger: T1) -> T1:
     with debugger.collect_fail():
         remove_html_markup('"abc"')
     return debugger
-
-import traceback
 
 class DifferenceDebugger(DifferenceDebugger):
     def __enter__(self) -> Any:
@@ -1078,7 +1076,7 @@ class ContinuousSpectrumDebugger(ContinuousSpectrumDebugger):
         if hue is None:
             return None
         return 1 - hue
-    
+
     def tooltip(self, event: Any) -> str:
         return self.percentage(event)
 
@@ -1758,5 +1756,26 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print('\n### Exercise 2: Statistical Dependencies')
+
+
+
+### Exercise 3: Correlating with Conditions
+
+if __name__ == '__main__':
+    print('\n### Exercise 3: Correlating with Conditions')
+
+
+
+#### Part 1: Experiment
+
+if __name__ == '__main__':
+    print('\n#### Part 1: Experiment')
+
+
+
+#### Part 2: Collecting Conditions
+
+if __name__ == '__main__':
+    print('\n#### Part 2: Collecting Conditions')
 
 
