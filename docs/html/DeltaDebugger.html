@@ -11883,20 +11883,20 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions</a></li>
 <li><a href="Debugger.html">How Debuggers Work</a></li>
 <li><a href="Assertions.html">Asserting Expectations</a></li>
-<li><a href="#" class="not_public">Debugging Performance Issues</a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins</a></li>
 </ul><li class="has-sub"><a href="04_Reducing.html" class="chapters"><span class="part_number">IV</span> Reducing Failure Causes <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="DeltaDebugger.html" class="this_page">Reducing Failure-Inducing Inputs</a></li>
-<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a></li>
 <li><a href="#" class="not_public">Debugging Concurrent Programs</a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
-<li><a href="#" class="not_public">Statistical Debugging</a></li>
+<li><a href="#" class="not_public">Statistical Debugging <strong class="new_chapter">&bull;</strong></a></li>
 <li><a href="#" class="not_public">Mining Function Specifications</a></li>
 <li><a href="#" class="not_public">Generalizing Failure Circumstances</a></li>
+<li><a href="#" class="not_public">Debugging Performance Issues</a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="#" class="not_public">Repairing Code Automatically</a></li>
@@ -12056,10 +12056,8 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <p>Here is a simple example: An arithmetic expression causes an error in the Python interpreter:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">myeval</span><span class="p">(</span><span class="n">inp</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-
 <span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">):</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
-
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
   <span class="n">File</span> <span class="s2">&quot;&lt;ipython-input-1-93ec01ccd5a1&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
@@ -12077,18 +12075,15 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">DeltaDebugger</span><span class="p">()</span> <span class="k">as</span> <span class="n">dd</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">myeval</span><span class="p">(</span><span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span>
-
 <span class="n">myeval</span><span class="p">(</span><span class="n">inp</span><span class="o">=</span><span class="s1">&#39;3/0&#39;</span><span class="p">)</span>
 </pre></div>
 <p>The input is reduced to the maximum: We get the essence of the division by zero.</p>
 <p>There also is an interface to access the reduced input(s) programmatically. The method <code>min_args()</code> returns a dictionary in which all function arguments are minimized:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_args</span><span class="p">()</span>
-
 <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39;3/0&#39;</span><span class="p">}</span>
 </pre></div>
 <p>In contrast, <code>max_args()</code> returns a dictionary in which all function arguments are maximized, but still pass:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span><span class="o">.</span><span class="n">max_args</span><span class="p">()</span>
-
 <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39;1 + 2 * 3  &#39;</span><span class="p">}</span>
 </pre></div>
 <p>The method <code>min_arg_diff()</code> returns a triple of</p>
@@ -12098,12 +12093,10 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <li>their minimal failure-inducing difference:</li>
 </ul>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span><span class="o">.</span><span class="n">min_arg_diff</span><span class="p">()</span>
-
 <span class="p">({</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39; 3 &#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39; 3 /0&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39;/0&#39;</span><span class="p">})</span>
 </pre></div>
 <p>And you can also access the function itself, as well as its original arguments.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">dd</span><span class="o">.</span><span class="n">function</span><span class="p">()</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">dd</span><span class="o">.</span><span class="n">args</span><span class="p">()</span>
-
 <span class="p">(</span><span class="s1">&#39;myeval&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="s1">&#39;1 + 2 * 3 / 0&#39;</span><span class="p">})</span>
 </pre></div>
 <p><code>DeltaDebugger</code> processes (i.e., minimizes or maximizes) all arguments that support a <code>len()</code> operation and that can be indexed – notably <em>strings</em> and <em>lists</em>. If a function has multiple arguments, all arguments that can be processed will be processed.</p>
@@ -15563,19 +15556,19 @@ Minimized failing call to mystery(inp=&#39;()&#39;)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="1be01b38-96c8-11eb-ad64-acde48001122" id="1be01b38-96c8-11eb-ad64-acde48001122-1" onclick="clear_selection('1be01b38-96c8-11eb-ad64-acde48001122')">
-        <label id="1be01b38-96c8-11eb-ad64-acde48001122-1-label" for="1be01b38-96c8-11eb-ad64-acde48001122-1">Delta debugging searches for the minimal input that produces the same result</label><br>
+        <input type="radio" name="9812b3d0-9a0d-11eb-ad64-acde48001122" id="9812b3d0-9a0d-11eb-ad64-acde48001122-1" onclick="clear_selection('9812b3d0-9a0d-11eb-ad64-acde48001122')">
+        <label id="9812b3d0-9a0d-11eb-ad64-acde48001122-1-label" for="9812b3d0-9a0d-11eb-ad64-acde48001122-1">Delta debugging searches for the minimal input that produces the same result</label><br>
 
-        <input type="radio" name="1be01b38-96c8-11eb-ad64-acde48001122" id="1be01b38-96c8-11eb-ad64-acde48001122-2" onclick="clear_selection('1be01b38-96c8-11eb-ad64-acde48001122')">
-        <label id="1be01b38-96c8-11eb-ad64-acde48001122-2-label" for="1be01b38-96c8-11eb-ad64-acde48001122-2">Delta debugging starts a fuzzer to find an exception</label><br>
+        <input type="radio" name="9812b3d0-9a0d-11eb-ad64-acde48001122" id="9812b3d0-9a0d-11eb-ad64-acde48001122-2" onclick="clear_selection('9812b3d0-9a0d-11eb-ad64-acde48001122')">
+        <label id="9812b3d0-9a0d-11eb-ad64-acde48001122-2-label" for="9812b3d0-9a0d-11eb-ad64-acde48001122-2">Delta debugging starts a fuzzer to find an exception</label><br>
 
-        <input type="radio" name="1be01b38-96c8-11eb-ad64-acde48001122" id="1be01b38-96c8-11eb-ad64-acde48001122-3" onclick="clear_selection('1be01b38-96c8-11eb-ad64-acde48001122')">
-        <label id="1be01b38-96c8-11eb-ad64-acde48001122-3-label" for="1be01b38-96c8-11eb-ad64-acde48001122-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
+        <input type="radio" name="9812b3d0-9a0d-11eb-ad64-acde48001122" id="9812b3d0-9a0d-11eb-ad64-acde48001122-3" onclick="clear_selection('9812b3d0-9a0d-11eb-ad64-acde48001122')">
+        <label id="9812b3d0-9a0d-11eb-ad64-acde48001122-3-label" for="9812b3d0-9a0d-11eb-ad64-acde48001122-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
 
     </div>
     </p>
-    <input id="1be01b38-96c8-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('1be01b38-96c8-11eb-ad64-acde48001122', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')">
-    <span class="quiz_hint" id="1be01b38-96c8-11eb-ad64-acde48001122-hint"></span>
+    <input id="9812b3d0-9a0d-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('9812b3d0-9a0d-11eb-ad64-acde48001122', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')">
+    <span class="quiz_hint" id="9812b3d0-9a0d-11eb-ad64-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15766,19 +15759,14 @@ Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;) raising AssertionError: no substrings
 Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Processing s2...
-Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
-Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
-Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
-Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
-Minimized s2 to &#39;foo&#39;
 Processing s1...
-Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
-Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #2 string_error(s2=&#39;foobar&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;foobar&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s1 to &#39;f&#39;
 Processing s2...
-Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
-Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #4 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #5 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #6 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s2 to &#39;f&#39;
 Processing s1...
 Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
@@ -16524,22 +16512,22 @@ AssertionError: My Test (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="1c49abe8-96c8-11eb-bbf6-acde48001122" id="1c49abe8-96c8-11eb-bbf6-acde48001122-1" onclick="clear_selection('1c49abe8-96c8-11eb-bbf6-acde48001122')">
-        <label id="1c49abe8-96c8-11eb-bbf6-acde48001122-1-label" for="1c49abe8-96c8-11eb-bbf6-acde48001122-1">All of the source code in the assertions chapter.</label><br>
+        <input type="radio" name="984be986-9a0d-11eb-bbf6-acde48001122" id="984be986-9a0d-11eb-bbf6-acde48001122-1" onclick="clear_selection('984be986-9a0d-11eb-bbf6-acde48001122')">
+        <label id="984be986-9a0d-11eb-bbf6-acde48001122-1-label" for="984be986-9a0d-11eb-bbf6-acde48001122-1">All of the source code in the assertions chapter.</label><br>
 
-        <input type="radio" name="1c49abe8-96c8-11eb-bbf6-acde48001122" id="1c49abe8-96c8-11eb-bbf6-acde48001122-2" onclick="clear_selection('1c49abe8-96c8-11eb-bbf6-acde48001122')">
-        <label id="1c49abe8-96c8-11eb-bbf6-acde48001122-2-label" for="1c49abe8-96c8-11eb-bbf6-acde48001122-2">Only the source code of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="984be986-9a0d-11eb-bbf6-acde48001122" id="984be986-9a0d-11eb-bbf6-acde48001122-2" onclick="clear_selection('984be986-9a0d-11eb-bbf6-acde48001122')">
+        <label id="984be986-9a0d-11eb-bbf6-acde48001122-2-label" for="984be986-9a0d-11eb-bbf6-acde48001122-2">Only the source code of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="1c49abe8-96c8-11eb-bbf6-acde48001122" id="1c49abe8-96c8-11eb-bbf6-acde48001122-3" onclick="clear_selection('1c49abe8-96c8-11eb-bbf6-acde48001122')">
-        <label id="1c49abe8-96c8-11eb-bbf6-acde48001122-3-label" for="1c49abe8-96c8-11eb-bbf6-acde48001122-3">Only a subset of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="984be986-9a0d-11eb-bbf6-acde48001122" id="984be986-9a0d-11eb-bbf6-acde48001122-3" onclick="clear_selection('984be986-9a0d-11eb-bbf6-acde48001122')">
+        <label id="984be986-9a0d-11eb-bbf6-acde48001122-3-label" for="984be986-9a0d-11eb-bbf6-acde48001122-3">Only a subset of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="1c49abe8-96c8-11eb-bbf6-acde48001122" id="1c49abe8-96c8-11eb-bbf6-acde48001122-4" onclick="clear_selection('1c49abe8-96c8-11eb-bbf6-acde48001122')">
-        <label id="1c49abe8-96c8-11eb-bbf6-acde48001122-4-label" for="1c49abe8-96c8-11eb-bbf6-acde48001122-4">No lines at all.</label><br>
+        <input type="radio" name="984be986-9a0d-11eb-bbf6-acde48001122" id="984be986-9a0d-11eb-bbf6-acde48001122-4" onclick="clear_selection('984be986-9a0d-11eb-bbf6-acde48001122')">
+        <label id="984be986-9a0d-11eb-bbf6-acde48001122-4-label" for="984be986-9a0d-11eb-bbf6-acde48001122-4">No lines at all.</label><br>
 
     </div>
     </p>
-    <input id="1c49abe8-96c8-11eb-bbf6-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('1c49abe8-96c8-11eb-bbf6-acde48001122', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')">
-    <span class="quiz_hint" id="1c49abe8-96c8-11eb-bbf6-acde48001122-hint"></span>
+    <input id="984be986-9a0d-11eb-bbf6-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('984be986-9a0d-11eb-bbf6-acde48001122', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')">
+    <span class="quiz_hint" id="984be986-9a0d-11eb-bbf6-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17025,22 +17013,22 @@ RuntimeError: Missing functionality (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="1cca1bfa-96c8-11eb-abf8-acde48001122" id="1cca1bfa-96c8-11eb-abf8-acde48001122-1" onclick="clear_selection('1cca1bfa-96c8-11eb-abf8-acde48001122')">
-        <label id="1cca1bfa-96c8-11eb-abf8-acde48001122-1-label" for="1cca1bfa-96c8-11eb-abf8-acde48001122-1">Comments are deleted</label><br>
+        <input type="checkbox" name="989d1f0c-9a0d-11eb-abf8-acde48001122" id="989d1f0c-9a0d-11eb-abf8-acde48001122-1" onclick="clear_selection('989d1f0c-9a0d-11eb-abf8-acde48001122')">
+        <label id="989d1f0c-9a0d-11eb-abf8-acde48001122-1-label" for="989d1f0c-9a0d-11eb-abf8-acde48001122-1">Comments are deleted</label><br>
 
-        <input type="checkbox" name="1cca1bfa-96c8-11eb-abf8-acde48001122" id="1cca1bfa-96c8-11eb-abf8-acde48001122-2" onclick="clear_selection('1cca1bfa-96c8-11eb-abf8-acde48001122')">
-        <label id="1cca1bfa-96c8-11eb-abf8-acde48001122-2-label" for="1cca1bfa-96c8-11eb-abf8-acde48001122-2">Blank lines are deleted</label><br>
+        <input type="checkbox" name="989d1f0c-9a0d-11eb-abf8-acde48001122" id="989d1f0c-9a0d-11eb-abf8-acde48001122-2" onclick="clear_selection('989d1f0c-9a0d-11eb-abf8-acde48001122')">
+        <label id="989d1f0c-9a0d-11eb-abf8-acde48001122-2-label" for="989d1f0c-9a0d-11eb-abf8-acde48001122-2">Blank lines are deleted</label><br>
 
-        <input type="checkbox" name="1cca1bfa-96c8-11eb-abf8-acde48001122" id="1cca1bfa-96c8-11eb-abf8-acde48001122-3" onclick="clear_selection('1cca1bfa-96c8-11eb-abf8-acde48001122')">
-        <label id="1cca1bfa-96c8-11eb-abf8-acde48001122-3-label" for="1cca1bfa-96c8-11eb-abf8-acde48001122-3">Initializations are deleted</label><br>
+        <input type="checkbox" name="989d1f0c-9a0d-11eb-abf8-acde48001122" id="989d1f0c-9a0d-11eb-abf8-acde48001122-3" onclick="clear_selection('989d1f0c-9a0d-11eb-abf8-acde48001122')">
+        <label id="989d1f0c-9a0d-11eb-abf8-acde48001122-3-label" for="989d1f0c-9a0d-11eb-abf8-acde48001122-3">Initializations are deleted</label><br>
 
-        <input type="checkbox" name="1cca1bfa-96c8-11eb-abf8-acde48001122" id="1cca1bfa-96c8-11eb-abf8-acde48001122-4" onclick="clear_selection('1cca1bfa-96c8-11eb-abf8-acde48001122')">
-        <label id="1cca1bfa-96c8-11eb-abf8-acde48001122-4-label" for="1cca1bfa-96c8-11eb-abf8-acde48001122-4">The assertion is deleted</label><br>
+        <input type="checkbox" name="989d1f0c-9a0d-11eb-abf8-acde48001122" id="989d1f0c-9a0d-11eb-abf8-acde48001122-4" onclick="clear_selection('989d1f0c-9a0d-11eb-abf8-acde48001122')">
+        <label id="989d1f0c-9a0d-11eb-abf8-acde48001122-4-label" for="989d1f0c-9a0d-11eb-abf8-acde48001122-4">The assertion is deleted</label><br>
 
     </div>
     </p>
-    <input id="1cca1bfa-96c8-11eb-abf8-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('1cca1bfa-96c8-11eb-abf8-acde48001122', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')">
-    <span class="quiz_hint" id="1cca1bfa-96c8-11eb-abf8-acde48001122-hint"></span>
+    <input id="989d1f0c-9a0d-11eb-abf8-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('989d1f0c-9a0d-11eb-abf8-acde48001122', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')">
+    <span class="quiz_hint" id="989d1f0c-9a0d-11eb-abf8-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17292,7 +17280,7 @@ AssertionError: My Test (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>6.844581562996609
+<pre>5.667470255999433
 </pre>
 </div>
 
@@ -19183,36 +19171,36 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Module at 0x7f9899c366d8&gt;,
- &lt;_ast.FunctionDef at 0x7f9899c36630&gt;,
- &lt;_ast.arguments at 0x7f9899c367b8&gt;,
- &lt;_ast.arg at 0x7f9899c36748&gt;,
- &lt;_ast.Assign at 0x7f9899c36fd0&gt;,
- &lt;_ast.Name at 0x7f9899c365c0&gt;,
- &lt;_ast.Store at 0x7f989794e5c0&gt;,
- &lt;_ast.NameConstant at 0x7f9899c36390&gt;,
- &lt;_ast.Assign at 0x7f9899c36f60&gt;,
- &lt;_ast.Name at 0x7f9899c36f98&gt;,
- &lt;_ast.Store at 0x7f989794e5c0&gt;,
- &lt;_ast.NameConstant at 0x7f9899c36320&gt;,
- &lt;_ast.Assign at 0x7f9899c362b0&gt;,
- &lt;_ast.Name at 0x7f9899c362e8&gt;,
- &lt;_ast.Store at 0x7f989794e5c0&gt;,
- &lt;_ast.Str at 0x7f9899c36358&gt;,
- &lt;_ast.For at 0x7f9899c363c8&gt;,
- &lt;_ast.Name at 0x7f9899c36470&gt;,
- &lt;_ast.Store at 0x7f989794e5c0&gt;,
- &lt;_ast.Name at 0x7f9899c36400&gt;,
- &lt;_ast.Load at 0x7f989794e4a8&gt;,
- &lt;_ast.If at 0x7f9899c36438&gt;,
- &lt;_ast.BoolOp at 0x7f9899c364a8&gt;,
- &lt;_ast.And at 0x7f98979520f0&gt;,
- &lt;_ast.Compare at 0x7f9899c364e0&gt;,
- &lt;_ast.Name at 0x7f9899c36518&gt;,
- &lt;_ast.Load at 0x7f989794e4a8&gt;,
- &lt;_ast.Eq at 0x7f9897956828&gt;,
- &lt;_ast.Str at 0x7f9899c367f0&gt;,
- &lt;_ast.UnaryOp at 0x7f9899c36588&gt;]
+<pre>[&lt;_ast.Module at 0x7fde7ad332e8&gt;,
+ &lt;_ast.FunctionDef at 0x7fde7ad33630&gt;,
+ &lt;_ast.arguments at 0x7fde7ad337b8&gt;,
+ &lt;_ast.arg at 0x7fde7ad33898&gt;,
+ &lt;_ast.Assign at 0x7fde7ad337f0&gt;,
+ &lt;_ast.Name at 0x7fde7ad33860&gt;,
+ &lt;_ast.Store at 0x7fde789385c0&gt;,
+ &lt;_ast.NameConstant at 0x7fde7ad33828&gt;,
+ &lt;_ast.Assign at 0x7fde7ad333c8&gt;,
+ &lt;_ast.Name at 0x7fde7ad33fd0&gt;,
+ &lt;_ast.Store at 0x7fde789385c0&gt;,
+ &lt;_ast.NameConstant at 0x7fde7ad33668&gt;,
+ &lt;_ast.Assign at 0x7fde7ad33320&gt;,
+ &lt;_ast.Name at 0x7fde7ad33358&gt;,
+ &lt;_ast.Store at 0x7fde789385c0&gt;,
+ &lt;_ast.Str at 0x7fde7ad33400&gt;,
+ &lt;_ast.For at 0x7fde7ad33390&gt;,
+ &lt;_ast.Name at 0x7fde7ad334a8&gt;,
+ &lt;_ast.Store at 0x7fde789385c0&gt;,
+ &lt;_ast.Name at 0x7fde7ad33438&gt;,
+ &lt;_ast.Load at 0x7fde789384a8&gt;,
+ &lt;_ast.If at 0x7fde7ad33518&gt;,
+ &lt;_ast.BoolOp at 0x7fde7ad33470&gt;,
+ &lt;_ast.And at 0x7fde7893c0f0&gt;,
+ &lt;_ast.Compare at 0x7fde7ad33550&gt;,
+ &lt;_ast.Name at 0x7fde7ad334e0&gt;,
+ &lt;_ast.Load at 0x7fde789384a8&gt;,
+ &lt;_ast.Eq at 0x7fde78940828&gt;,
+ &lt;_ast.Str at 0x7fde7ad335c0&gt;,
+ &lt;_ast.UnaryOp at 0x7fde7ad335f8&gt;]
 </pre>
 </div>
 
@@ -19375,7 +19363,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_ast.Assign at 0x7f9899c36fd0&gt;
+<pre>&lt;_ast.Assign at 0x7fde7ad337f0&gt;
 </pre>
 </div>
 
@@ -22787,7 +22775,7 @@ AssertionError: My Test (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-04-06 12:45:05+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-04-08 16:17:04+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -22803,7 +22791,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/DeltaDebugger.html">https://www.debuggingbook.org/html/DeltaDebugger.html</a>.  Retrieved 2021-04-06 12:45:05+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/DeltaDebugger.html">https://www.debuggingbook.org/html/DeltaDebugger.html</a>.  Retrieved 2021-04-08 16:17:04+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:DeltaDebugger,
@@ -22813,9 +22801,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DeltaDebugger.html"
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/html/DeltaDebugger.html}},
-    note = {Retrieved 2021-04-06 12:45:05+02:00},
+    note = {Retrieved 2021-04-08 16:17:04+02:00},
     url = {https://www.debuggingbook.org/html/DeltaDebugger.html},
-    urldate = {2021-04-06 12:45:05+02:00}
+    urldate = {2021-04-08 16:17:04+02:00}
 }
 </pre>
 </div>

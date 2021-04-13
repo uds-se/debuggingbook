@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-04-06 13:04:41+02:00
+# Last change: 2021-04-10 17:00:59+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -46,7 +46,6 @@ This chapter provides a `Tracer` class that allows to log events during program 
 
 >>> with EventTracer(condition='line == 223 or len(out) >= 6'):
 >>>     remove_html_markup('foobar')
-
 ...
                                          # s = 'foobar', function = 'remove_html_markup', line = 243, tag = False, quote = False, out = 'foobar', c = 'r'
 243     for c in s:
@@ -54,11 +53,11 @@ This chapter provides a `Tracer` class that allows to log events during program 
 255     return out
 remove_html_markup() returns 'foobar'
 
+
 It also allows to restrict logs to specific events. Log entries are shown only if one of the given `events` changes its value:
 
 >>> with EventTracer(events=["c == '/'"]):
 >>>     remove_html_markup('foobar')
-
 ...
 Calling remove_html_markup(s = 'foobar', function = 'remove_html_markup', line = 238)
 ...

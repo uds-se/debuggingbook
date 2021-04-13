@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-04-06 13:06:38+02:00
+# Last change: 2021-04-10 17:01:33+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -48,10 +48,8 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 
 >>> def myeval(inp: str) -> Any:
 >>>     return eval(inp)
-
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
-
 Traceback (most recent call last):
   File "", line 2, in 
     myeval('1 + 2 * 3 / 0')
@@ -59,6 +57,7 @@ Traceback (most recent call last):
     return eval(inp)
   File "", line 1, in 
 ZeroDivisionError: division by zero (expected)
+
 
 Can we reduce this input to a minimum? _Delta Debugging_ is a simple and robust reduction algorithm. We provide a `DeltaDebugger` class that is used in conjunction with a (failing) function call:
 
@@ -72,7 +71,6 @@ The class automatically determines minimal arguments that cause the function to 
 >>> with DeltaDebugger() as dd:
 >>>     myeval('1 + 2 * 3 / 0')
 >>> dd
-
 myeval(inp='3/0')
 
 The input is reduced to the maximum: We get the essence of the division by zero.
@@ -80,13 +78,11 @@ The input is reduced to the maximum: We get the essence of the division by zero.
 There also is an interface to access the reduced input(s) programmatically. The method `min_args()` returns a dictionary in which all function arguments are minimized:
 
 >>> dd.min_args()
-
 {'inp': '3/0'}
 
 In contrast, `max_args()` returns a dictionary in which all function arguments are maximized, but still pass:
 
 >>> dd.max_args()
-
 {'inp': '1 + 2 * 3  '}
 
 The method `min_arg_diff()` returns a triple of 
@@ -95,13 +91,11 @@ The method `min_arg_diff()` returns a triple of
 * their minimal failure-inducing difference:
 
 >>> dd.min_arg_diff()
-
 ({'inp': ' 3 '}, {'inp': ' 3 /0'}, {'inp': '/0'})
 
 And you can also access the function itself, as well as its original arguments.
 
 >>> dd.function().__name__, dd.args()
-
 ('myeval', {'inp': '1 + 2 * 3 / 0'})
 
 `DeltaDebugger` processes (i.e., minimizes or maximizes) all arguments that support a `len()` operation and that can be indexed – notably _strings_ and _lists_. If a function has multiple arguments, all arguments that can be processed will be processed.
