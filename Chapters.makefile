@@ -53,10 +53,10 @@ EXPERIMENTING_PART_TODO = \
 	ThreadDebugger.ipynb
 
 # Abstracting Failures
-ABSTRACTING_PART =
-ABSTRACTING_PART_READY = \
+ABSTRACTING_PART = \
 	05_Abstracting.ipynb \
-	StatisticalDebugger.ipynb \
+	StatisticalDebugger.ipynb
+ABSTRACTING_PART_READY = \
 	DynamicInvariants.ipynb \
 	DDSetDebugger.ipynb
 ABSTRACTING_PART_TODO = \
