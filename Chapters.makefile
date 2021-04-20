@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = \
-	StatisticalDebugger.ipynb
+	DynamicInvariants.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -55,9 +55,9 @@ EXPERIMENTING_PART_TODO = \
 # Abstracting Failures
 ABSTRACTING_PART = \
 	05_Abstracting.ipynb \
-	StatisticalDebugger.ipynb
+	StatisticalDebugger.ipynb \
+	DynamicInvariants.ipynb
 ABSTRACTING_PART_READY = \
-	DynamicInvariants.ipynb \
 	DDSetDebugger.ipynb
 ABSTRACTING_PART_TODO = \
 	PerformanceDebugger.ipynb
