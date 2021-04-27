@@ -7,7 +7,6 @@ from . import Intro_Debugging
 from . import Tracer
 from . import Debugger
 from . import Assertions
-from . import PerformanceDebugger
 from . import Slicer
 from . import DeltaDebugger
 from . import ChangeDebugger
@@ -15,6 +14,7 @@ from . import ThreadDebugger
 from . import StatisticalDebugger
 from . import DynamicInvariants
 from . import DDSetDebugger
+from . import PerformanceDebugger
 from . import Repairer
 from . import Tracking
 from . import ChangeCounter

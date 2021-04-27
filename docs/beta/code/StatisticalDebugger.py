@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-04-09 11:27:06+02:00
+# Last change: 2021-04-10 16:39:17+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -129,17 +129,17 @@ The method `rank()` returns a ranked list of events, starting with the most susp
 
 >>> debugger.rank()
 [('remove_html_markup', 12),
- ('remove_html_markup', 13),
+ ('remove_html_markup', 7),
+ ('remove_html_markup', 9),
+ ('remove_html_markup', 11),
  ('remove_html_markup', 2),
+ ('remove_html_markup', 13),
  ('remove_html_markup', 4),
+ ('remove_html_markup', 16),
  ('remove_html_markup', 6),
  ('remove_html_markup', 1),
  ('remove_html_markup', 3),
  ('remove_html_markup', 14),
- ('remove_html_markup', 7),
- ('remove_html_markup', 16),
- ('remove_html_markup', 9),
- ('remove_html_markup', 11),
  ('remove_html_markup', 8),
  ('remove_html_markup', 10)]
 
@@ -203,7 +203,7 @@ if __name__ == '__main__':
 from .Tracer import Tracer
 
 from typing import Any, Callable, Optional, Type, Tuple
-from typing import Dict, Set, List, TypeVar
+from typing import Dict, Set, List, TypeVar, Union
 
 from types import FrameType, TracebackType
 
@@ -254,15 +254,21 @@ class Collector(Collector):
         self._args: Optional[Dict[str, Any]] = None
         self._argstring: Optional[str] = None
         self._exception: Optional[Type] = None
-        self.classes_to_ignore = [self.__class__]
+        self.items_to_ignore: List[Union[Type, Callable]] = [self.__class__]
 
     def traceit(self, frame: FrameType, event: str, arg: Any) -> None:
-        """Tracing function. Saves the first function and calls collect()."""
-        if 'self' in frame.f_locals:
-            for cls in self.classes_to_ignore:
-                if isinstance(frame.f_locals['self'], cls):
-                    # Do not collect our own methods
-                    return
+        """
+        Tracing function.
+        Saves the first function and calls collect().
+        """
+        for item in self.items_to_ignore:
+            if (isinstance(item, type) and 'self' in frame.f_locals and
+                isinstance(frame.f_locals['self'], item)):
+                # Ignore this class
+                return
+            if item.__name__ == frame.f_code.co_name:
+                # Ignore this function
+                return
 
         if self._function is None and event == 'call':
             # Save function
@@ -289,7 +295,10 @@ class Collector(Collector):
         return self._function
 
     def argstring(self) -> str:
-        """Return the list of arguments from the first call, as a printable string"""
+        """
+        Return the list of arguments from the first call,
+        as a printable string
+        """
         if not self._argstring:
             raise ValueError("No call collected")
         return self._argstring
@@ -345,12 +354,14 @@ if __name__ == '__main__':
 
 
 class Collector(Collector):
-    def add_classes_to_ignore(self, classes_to_ignore: List[Type]) -> None:
+    def add_items_to_ignore(self,
+                            items_to_ignore: List[Union[Type, Callable]]) \
+                            -> None:
         """
-        Define additional classes to ignore during collection
+        Define additional classes and functions to ignore during collection
         (typically `Debugger` classes using these collectors).
         """
-        self.classes_to_ignore += classes_to_ignore
+        self.items_to_ignore += items_to_ignore
 
 class Collector(Collector):
     def __exit__(self, exc_tp: Type, exc_value: BaseException,
@@ -387,7 +398,9 @@ class CoverageCollector(Collector, StackInspector):
         self._coverage: Coverage = set()
 
     def collect(self, frame: FrameType, event: str, arg: Any) -> None:
-        """Save coverage for an observed event."""
+        """
+        Save coverage for an observed event.
+        """
         name = frame.f_code.co_name
         function = self.search_func(name, frame)
 
@@ -482,7 +495,7 @@ class StatisticalDebugger(StatisticalDebugger):
         """Return a collector for the given outcome. 
         Additional args are passed to the collector."""
         collector = self.collector_class(*args, **kwargs)
-        collector.add_classes_to_ignore([self.__class__])
+        collector.add_items_to_ignore([self.__class__])
         return self.add_collector(outcome, collector)
 
     def add_collector(self, outcome: str, collector: Collector) -> Collector:
@@ -495,13 +508,16 @@ class StatisticalDebugger(StatisticalDebugger):
     def all_events(self, outcome: Optional[str] = None) -> Set[Any]:
         """Return a set of all events observed."""
         all_events = set()
+
         if outcome:
-            for collector in self.collectors[outcome]:
-                all_events.update(collector.events())
+            if outcome in self.collectors:
+                for collector in self.collectors[outcome]:
+                    all_events.update(collector.events())
         else:
             for outcome in self.collectors:
                 for collector in self.collectors[outcome]:
                     all_events.update(collector.events())
+
         return all_events
 
 if __name__ == '__main__':
@@ -764,7 +780,7 @@ class DifferenceDebugger(DifferenceDebugger):
         and PASS if it does not.
         """
         self.collector = self.collector_class()
-        self.collector.add_classes_to_ignore([self.__class__])
+        self.collector.add_items_to_ignore([self.__class__])
         self.collector.__enter__()
         return self
 
@@ -859,60 +875,34 @@ if __name__ == '__main__':
 
 
 
-class DiscreteSpectrumDebugger(DifferenceDebugger):
-    """Visualize differences between executions using three discrete colors"""
-
+class SpectrumDebugger(DifferenceDebugger):
     def suspiciousness(self, event: Any) -> Optional[float]:
-        """Return a suspiciousness value [0, 1.0]
-        for the given event, or `None` if unknown"""
-        passing = self.all_pass_events()
-        failing = self.all_fail_events()
+        """
+        Return a suspiciousness value in the range [0, 1.0]
+        for the given event, or `None` if unknown.
+        To be overloaded in subclasses.
+        """
+        return None
 
-        if event in passing and event in failing:
-            return 0.5
-        elif event in failing:
-            return 1.0
-        elif event in passing:
-            return 0.0
-        else:
-            return None
-
-    def color(self, event: Any) -> Optional[str]:
-        """Return a color for the given event."""
-        suspiciousness = self.suspiciousness(event)
-        if suspiciousness is None:
-            return None
-
-        if suspiciousness > 0.8:
-            return 'mistyrose'
-        if suspiciousness >= 0.5:
-            return 'lightyellow'
-
-        return 'honeydew'
-
+class SpectrumDebugger(SpectrumDebugger):
     def tooltip(self, event: Any) -> str:
-        """Return a tooltip for the given event."""
-        passing = self.all_pass_events()
-        failing = self.all_fail_events()
-
-        if event in passing and event in failing:
-            return "in passing and failing runs"
-        elif event in failing:
-            return "only in failing runs"
-        elif event in passing:
-            return "only in passing runs"
-        else:
-            return "never"
+        """
+        Return a tooltip for the given event (default: percentage).
+        To be overloaded in subclasses.
+        """
+        return self.percentage(event)
 
     def percentage(self, event: Any) -> str:
-        """Return the suspiciousness for the given event as percentage string"""
+        """
+        Return the suspiciousness for the given event as percentage string.
+        """
         suspiciousness = self.suspiciousness(event)
         if suspiciousness is not None:
             return str(int(suspiciousness * 100)).rjust(3) + '%'
         else:
             return ' ' * len('100%')
 
-class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
+class SpectrumDebugger(SpectrumDebugger):
     def code(self, functions: Optional[Set[Callable]] = None, *, 
              color: bool = False, suspiciousness: bool = False,
              line_numbers: bool = True) -> str:
@@ -976,6 +966,7 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
 
         return out
 
+class SpectrumDebugger(SpectrumDebugger):
     def _repr_html_(self) -> str:
         """When output in Jupyter, visualize as HTML"""
         return self.code(color=True)
@@ -987,6 +978,55 @@ class DiscreteSpectrumDebugger(DiscreteSpectrumDebugger):
     def __repr__(self) -> str:
         """Show code as string"""
         return self.code(color=False, suspiciousness=True)
+
+class DiscreteSpectrumDebugger(SpectrumDebugger):
+    """Visualize differences between executions using three discrete colors"""
+
+    def suspiciousness(self, event: Any) -> Optional[float]:
+        """
+        Return a suspiciousness value [0, 1.0]
+        for the given event, or `None` if unknown.
+        """
+        passing = self.all_pass_events()
+        failing = self.all_fail_events()
+
+        if event in passing and event in failing:
+            return 0.5
+        elif event in failing:
+            return 1.0
+        elif event in passing:
+            return 0.0
+        else:
+            return None
+
+    def color(self, event: Any) -> Optional[str]:
+        """
+        Return a HTML color for the given event.
+        """
+        suspiciousness = self.suspiciousness(event)
+        if suspiciousness is None:
+            return None
+
+        if suspiciousness > 0.8:
+            return 'mistyrose'
+        if suspiciousness >= 0.5:
+            return 'lightyellow'
+
+        return 'honeydew'
+
+    def tooltip(self, event: Any) -> str:
+        """Return a tooltip for the given event."""
+        passing = self.all_pass_events()
+        failing = self.all_fail_events()
+
+        if event in passing and event in failing:
+            return "in passing and failing runs"
+        elif event in failing:
+            return "only in failing runs"
+        elif event in passing:
+            return "only in passing runs"
+        else:
+            return "never"
 
 if __name__ == '__main__':
     debugger = test_debugger_html(DiscreteSpectrumDebugger())
@@ -1049,6 +1089,9 @@ class ContinuousSpectrumDebugger(DiscreteSpectrumDebugger):
         return collectors_without_event
 
     def event_fraction(self, event: Any, category: str) -> float:
+        if category not in self.collectors:
+            return 0.0
+
         all_collectors = self.collectors[category]
         collectors_with_event = self.collectors_with_event(event, category)
         fraction = len(collectors_with_event) / len(all_collectors)
@@ -1222,6 +1265,7 @@ if __name__ == '__main__':
 
 class RankingDebugger(DiscreteSpectrumDebugger):
     """Rank events by their suspiciousness"""
+
     def rank(self) -> List[Any]:
         """Return a list of events, sorted by suspiciousness, highest first."""
 
@@ -1670,9 +1714,10 @@ if __name__ == '__main__':
                                 DifferenceDebugger.collect_fail,
                                 DifferenceDebugger.only_pass_events,
                                 DifferenceDebugger.only_fail_events,
-                                DiscreteSpectrumDebugger.code,
-                                DiscreteSpectrumDebugger.__repr__,
-                                DiscreteSpectrumDebugger._repr_html_,
+                                SpectrumDebugger.code,
+                                SpectrumDebugger.__repr__,
+                                SpectrumDebugger.__str__,
+                                SpectrumDebugger._repr_html_,
                                 ContinuousSpectrumDebugger.code,
                                 ContinuousSpectrumDebugger.__repr__,
                                 RankingDebugger.rank

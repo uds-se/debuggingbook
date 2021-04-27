@@ -11883,20 +11883,20 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions</a></li>
 <li><a href="Debugger.html">How Debuggers Work</a></li>
 <li><a href="Assertions.html">Asserting Expectations</a></li>
-<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins</a></li>
 </ul><li class="has-sub"><a href="04_Reducing.html" class="chapters"><span class="part_number">IV</span> Reducing Failure Causes <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs</a></li>
-<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a></li>
 <li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging</a></li>
 <li><a href="DynamicInvariants.html" class="this_page">Mining Function Specifications</a></li>
-<li><a href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
+<li><a href="DDSetDebugger.html">Generalizing Failure Circumstances <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Repairer.html">Repairing Code Automatically</a></li>
@@ -12003,7 +12003,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Mining-Function-Specifications">Mining Function Specifications<a class="anchor-link" href="#Mining-Function-Specifications">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-warning"></i>&nbsp;This chapter is still under review ("beta").  It may change at any time.</em></p><p>In the <a href="Assertions.html">chapter on assertions</a>, we have seen how important it is to <em>check</em> whether the result is as expected.  In this chapter, we introduce a technique that allows us to <em>mine</em> function specifications from a set of given executions, resulting in abstract and formal <em>descriptions</em> of what the function expects and what it delivers.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Mining-Function-Specifications">Mining Function Specifications<a class="anchor-link" href="#Mining-Function-Specifications">&#182;</a></h1><p>In the <a href="Assertions.html">chapter on assertions</a>, we have seen how important it is to <em>check</em> whether the result is as expected.  In this chapter, we introduce a technique that allows us to <em>mine</em> function specifications from a set of given executions, resulting in abstract and formal <em>descriptions</em> of what the function expects and what it delivers.</p>
 <p>These so-called <em>dynamic invariants</em> produce pre- and post-conditions over function arguments and variables from a set of executions. Within debugging, the resulting <em>assertions</em> can immediately check whether function behavior has changed, but can also be useful to determine the characteristics of <em>failing</em> runs (as opposed to <em>passing</em> runs). Furthermore, the resulting specifications provide pre- and postconditions for formal program proofs, testing, and verification.</p>
 <p>This chapter is based on <a href="https://www.fuzzingbook.org/html/DynamicInvariants.html">a chapter with the same name in The Fuzzing Book</a>, which focuses on test generation.</p>
 </div>
@@ -12643,22 +12643,22 @@ enforce.exceptions.RuntimeTypeError:
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="c386a34c-9915-11eb-a588-acde48001122" id="c386a34c-9915-11eb-a588-acde48001122-1" onclick="clear_selection('c386a34c-9915-11eb-a588-acde48001122')">
-        <label id="c386a34c-9915-11eb-a588-acde48001122-1-label" for="c386a34c-9915-11eb-a588-acde48001122-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="8d482a8c-9a0a-11eb-a588-acde48001122" id="8d482a8c-9a0a-11eb-a588-acde48001122-1" onclick="clear_selection('8d482a8c-9a0a-11eb-a588-acde48001122')">
+        <label id="8d482a8c-9a0a-11eb-a588-acde48001122-1-label" for="8d482a8c-9a0a-11eb-a588-acde48001122-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
 
-        <input type="radio" name="c386a34c-9915-11eb-a588-acde48001122" id="c386a34c-9915-11eb-a588-acde48001122-2" onclick="clear_selection('c386a34c-9915-11eb-a588-acde48001122')">
-        <label id="c386a34c-9915-11eb-a588-acde48001122-2-label" for="c386a34c-9915-11eb-a588-acde48001122-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="8d482a8c-9a0a-11eb-a588-acde48001122" id="8d482a8c-9a0a-11eb-a588-acde48001122-2" onclick="clear_selection('8d482a8c-9a0a-11eb-a588-acde48001122')">
+        <label id="8d482a8c-9a0a-11eb-a588-acde48001122-2-label" for="8d482a8c-9a0a-11eb-a588-acde48001122-2"><code>1</code> is a subtype of float. It will pass.</label><br>
 
-        <input type="radio" name="c386a34c-9915-11eb-a588-acde48001122" id="c386a34c-9915-11eb-a588-acde48001122-3" onclick="clear_selection('c386a34c-9915-11eb-a588-acde48001122')">
-        <label id="c386a34c-9915-11eb-a588-acde48001122-3-label" for="c386a34c-9915-11eb-a588-acde48001122-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="8d482a8c-9a0a-11eb-a588-acde48001122" id="8d482a8c-9a0a-11eb-a588-acde48001122-3" onclick="clear_selection('8d482a8c-9a0a-11eb-a588-acde48001122')">
+        <label id="8d482a8c-9a0a-11eb-a588-acde48001122-3-label" for="8d482a8c-9a0a-11eb-a588-acde48001122-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
 
-        <input type="radio" name="c386a34c-9915-11eb-a588-acde48001122" id="c386a34c-9915-11eb-a588-acde48001122-4" onclick="clear_selection('c386a34c-9915-11eb-a588-acde48001122')">
-        <label id="c386a34c-9915-11eb-a588-acde48001122-4-label" for="c386a34c-9915-11eb-a588-acde48001122-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="8d482a8c-9a0a-11eb-a588-acde48001122" id="8d482a8c-9a0a-11eb-a588-acde48001122-4" onclick="clear_selection('8d482a8c-9a0a-11eb-a588-acde48001122')">
+        <label id="8d482a8c-9a0a-11eb-a588-acde48001122-4-label" for="8d482a8c-9a0a-11eb-a588-acde48001122-4">The function will fail for some other reason.</label><br>
 
     </div>
     </p>
-    <input id="c386a34c-9915-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c386a34c-9915-11eb-a588-acde48001122', 8, 0, '37035 // 12345')">
-    <span class="quiz_hint" id="c386a34c-9915-11eb-a588-acde48001122-hint"></span>
+    <input id="8d482a8c-9a0a-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('8d482a8c-9a0a-11eb-a588-acde48001122', 8, 0, '37035 // 12345')">
+    <span class="quiz_hint" id="8d482a8c-9a0a-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -12854,7 +12854,7 @@ enforce.exceptions.RuntimeTypeError:
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpejgb5c2w.py&#39;
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpnfy0gq6u.py&#39;
 </pre>
 </div>
 
@@ -16785,16 +16785,16 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="c4d54a7a-9915-11eb-8163-acde48001122" id="c4d54a7a-9915-11eb-8163-acde48001122-1" onclick="clear_selection('c4d54a7a-9915-11eb-8163-acde48001122')">
-        <label id="c4d54a7a-9915-11eb-8163-acde48001122-1-label" for="c4d54a7a-9915-11eb-8163-acde48001122-1">False</label><br>
+        <input type="radio" name="8e8b8b82-9a0a-11eb-8163-acde48001122" id="8e8b8b82-9a0a-11eb-8163-acde48001122-1" onclick="clear_selection('8e8b8b82-9a0a-11eb-8163-acde48001122')">
+        <label id="8e8b8b82-9a0a-11eb-8163-acde48001122-1-label" for="8e8b8b82-9a0a-11eb-8163-acde48001122-1">False</label><br>
 
-        <input type="radio" name="c4d54a7a-9915-11eb-8163-acde48001122" id="c4d54a7a-9915-11eb-8163-acde48001122-2" onclick="clear_selection('c4d54a7a-9915-11eb-8163-acde48001122')">
-        <label id="c4d54a7a-9915-11eb-8163-acde48001122-2-label" for="c4d54a7a-9915-11eb-8163-acde48001122-2">True</label><br>
+        <input type="radio" name="8e8b8b82-9a0a-11eb-8163-acde48001122" id="8e8b8b82-9a0a-11eb-8163-acde48001122-2" onclick="clear_selection('8e8b8b82-9a0a-11eb-8163-acde48001122')">
+        <label id="8e8b8b82-9a0a-11eb-8163-acde48001122-2-label" for="8e8b8b82-9a0a-11eb-8163-acde48001122-2">True</label><br>
 
     </div>
     </p>
-    <input id="c4d54a7a-9915-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c4d54a7a-9915-11eb-8163-acde48001122', 4, 0, 'p(100, 1) + 1')">
-    <span class="quiz_hint" id="c4d54a7a-9915-11eb-8163-acde48001122-hint"></span>
+    <input id="8e8b8b82-9a0a-11eb-8163-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('8e8b8b82-9a0a-11eb-8163-acde48001122', 4, 0, 'p(100, 1) + 1')">
+    <span class="quiz_hint" id="8e8b8b82-9a0a-11eb-8163-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -18516,16 +18516,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="c83cc0c6-9915-11eb-b3bd-acde48001122" id="c83cc0c6-9915-11eb-b3bd-acde48001122-1" onclick="clear_selection('c83cc0c6-9915-11eb-b3bd-acde48001122')">
-        <label id="c83cc0c6-9915-11eb-b3bd-acde48001122-1-label" for="c83cc0c6-9915-11eb-b3bd-acde48001122-1">Yes</label><br>
+        <input type="radio" name="91f6046e-9a0a-11eb-b3bd-acde48001122" id="91f6046e-9a0a-11eb-b3bd-acde48001122-1" onclick="clear_selection('91f6046e-9a0a-11eb-b3bd-acde48001122')">
+        <label id="91f6046e-9a0a-11eb-b3bd-acde48001122-1-label" for="91f6046e-9a0a-11eb-b3bd-acde48001122-1">Yes</label><br>
 
-        <input type="radio" name="c83cc0c6-9915-11eb-b3bd-acde48001122" id="c83cc0c6-9915-11eb-b3bd-acde48001122-2" onclick="clear_selection('c83cc0c6-9915-11eb-b3bd-acde48001122')">
-        <label id="c83cc0c6-9915-11eb-b3bd-acde48001122-2-label" for="c83cc0c6-9915-11eb-b3bd-acde48001122-2">No</label><br>
+        <input type="radio" name="91f6046e-9a0a-11eb-b3bd-acde48001122" id="91f6046e-9a0a-11eb-b3bd-acde48001122-2" onclick="clear_selection('91f6046e-9a0a-11eb-b3bd-acde48001122')">
+        <label id="91f6046e-9a0a-11eb-b3bd-acde48001122-2-label" for="91f6046e-9a0a-11eb-b3bd-acde48001122-2">No</label><br>
 
     </div>
     </p>
-    <input id="c83cc0c6-9915-11eb-b3bd-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('c83cc0c6-9915-11eb-b3bd-acde48001122', 4, 0, 'int(math.exp(1))')">
-    <span class="quiz_hint" id="c83cc0c6-9915-11eb-b3bd-acde48001122-hint"></span>
+    <input id="91f6046e-9a0a-11eb-b3bd-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('91f6046e-9a0a-11eb-b3bd-acde48001122', 4, 0, 'int(math.exp(1))')">
+    <span class="quiz_hint" id="91f6046e-9a0a-11eb-b3bd-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -19033,10 +19033,10 @@ AssertionError: Precondition violated (expected)
 <pre>Traceback (most recent call last):
   File &#34;&lt;ipython-input-1-7435f8733bc1&gt;&#34;, line 2, in &lt;module&gt;
     square_root(-1.0)
-  File &#34;&lt;ipython-input-1-311c27874789&gt;&#34;, line 6, in square_root
-    approx = guess
-  File &#34;&lt;ipython-input-1-311c27874789&gt;&#34;, line 6, in square_root
-    approx = guess
+  File &#34;&lt;ipython-input-1-311c27874789&gt;&#34;, line 5, in square_root
+    while approx != guess:
+  File &#34;&lt;ipython-input-1-311c27874789&gt;&#34;, line 5, in square_root
+    while approx != guess:
   File &#34;ExpectError.ipynb&#34;, line 86, in check_time
     raise TimeoutError
 TimeoutError (expected)

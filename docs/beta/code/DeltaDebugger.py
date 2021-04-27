@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-04-08 16:56:49+02:00
+# Last change: 2021-04-10 17:01:33+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

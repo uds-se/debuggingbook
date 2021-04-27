@@ -11883,20 +11883,20 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions</a></li>
 <li><a href="Debugger.html">How Debuggers Work</a></li>
 <li><a href="Assertions.html">Asserting Expectations</a></li>
-<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins</a></li>
 </ul><li class="has-sub"><a href="04_Reducing.html" class="chapters"><span class="part_number">IV</span> Reducing Failure Causes <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs</a></li>
-<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a></li>
 <li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging</a></li>
 <li><a href="DynamicInvariants.html">Mining Function Specifications</a></li>
-<li><a href="DDSetDebugger.html" class="this_page">Generalizing Failure Circumstances</a></li>
+<li><a href="DDSetDebugger.html" class="this_page">Generalizing Failure Circumstances <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="PerformanceDebugger.html">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Repairer.html">Repairing Code Automatically</a></li>
@@ -11940,9 +11940,7 @@ MathJax.Hub.Config({
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
 <ul><li class="has-sub"><a href="#Exercise-1:-Generalization-and-Specialization">Exercise 1: Generalization and Specialization</a>
-</li><li class="has-sub"><a href="#Exercise-2:-Hierarchical-Delta-Debugging">Exercise 2: Hierarchical Delta Debugging</a>
-</ul></li><li class="has-sub"><a href="#Exercise-3:-Reducing-Trees">&nbsp;&bull;&nbsp;&nbsp; Exercise 3: Reducing Trees</a>
-</ul></li>
+</ul></li></ul></li>
      </li>
      
      <li class="has-sub"><a href="#"><span title="Resources"><i class="fa fa-fw fa-cube"></i> </span><span class="menu_3">Resources</span></a>
@@ -11989,7 +11987,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Generalizing-Failure-Circumstances">Generalizing Failure Circumstances<a class="anchor-link" href="#Generalizing-Failure-Circumstances">&#182;</a></h1><p><em class="beta"><i class="fa fa-fw fa-warning"></i>&nbsp;This chapter is still under review ("beta").  It may change at any time.</em></p><p>One central question in debugging is: <em>Does this bug occur in other situations, too?</em> In this chapter, we present a technique that is set to <em>generalize</em> the circumstances under which a failure occurs. The DDSET algorithm takes a failure-inducing input, breaks it into individual elements. For each element, it tries to find whether it can be replaced by others in the same category, and if so, it <em>generalizes</em> the concrete element to the very category. The result is a <em>pattern</em> that characterizes the failure condition: "The failure occurs for all inputs of the form <code>(&lt;expr&gt; * &lt;expr&gt;)</code>.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h1 id="Generalizing-Failure-Circumstances">Generalizing Failure Circumstances<a class="anchor-link" href="#Generalizing-Failure-Circumstances">&#182;</a></h1><p>One central question in debugging is: <em>Does this bug occur in other situations, too?</em> In this chapter, we present a technique that is set to <em>generalize</em> the circumstances under which a failure occurs. The DDSET algorithm takes a failure-inducing input, breaks it into individual elements. For each element, it tries to find whether it can be replaced by others in the same category, and if so, it <em>generalizes</em> the concrete element to the very category. The result is a <em>pattern</em> that characterizes the failure condition: "The failure occurs for all inputs of the form <code>(&lt;expr&gt; * &lt;expr&gt;)</code>.</p>
 </div>
 </div>
 </div>
@@ -12680,22 +12678,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ce2ca492-9915-11eb-a588-acde48001122" id="ce2ca492-9915-11eb-a588-acde48001122-1" onclick="clear_selection('ce2ca492-9915-11eb-a588-acde48001122')">
-        <label id="ce2ca492-9915-11eb-a588-acde48001122-1-label" for="ce2ca492-9915-11eb-a588-acde48001122-1"><code>bar</code></label><br>
+        <input type="radio" name="420d1e7e-a757-11eb-a588-acde48001122" id="420d1e7e-a757-11eb-a588-acde48001122-1" onclick="clear_selection('420d1e7e-a757-11eb-a588-acde48001122')">
+        <label id="420d1e7e-a757-11eb-a588-acde48001122-1-label" for="420d1e7e-a757-11eb-a588-acde48001122-1"><code>bar</code></label><br>
 
-        <input type="radio" name="ce2ca492-9915-11eb-a588-acde48001122" id="ce2ca492-9915-11eb-a588-acde48001122-2" onclick="clear_selection('ce2ca492-9915-11eb-a588-acde48001122')">
-        <label id="ce2ca492-9915-11eb-a588-acde48001122-2-label" for="ce2ca492-9915-11eb-a588-acde48001122-2"><code>bar&lt;/foo&gt;</code></label><br>
+        <input type="radio" name="420d1e7e-a757-11eb-a588-acde48001122" id="420d1e7e-a757-11eb-a588-acde48001122-2" onclick="clear_selection('420d1e7e-a757-11eb-a588-acde48001122')">
+        <label id="420d1e7e-a757-11eb-a588-acde48001122-2-label" for="420d1e7e-a757-11eb-a588-acde48001122-2"><code>bar&lt;/foo&gt;</code></label><br>
 
-        <input type="radio" name="ce2ca492-9915-11eb-a588-acde48001122" id="ce2ca492-9915-11eb-a588-acde48001122-3" onclick="clear_selection('ce2ca492-9915-11eb-a588-acde48001122')">
-        <label id="ce2ca492-9915-11eb-a588-acde48001122-3-label" for="ce2ca492-9915-11eb-a588-acde48001122-3"><code>"bar&lt;/foo&gt;</code></label><br>
+        <input type="radio" name="420d1e7e-a757-11eb-a588-acde48001122" id="420d1e7e-a757-11eb-a588-acde48001122-3" onclick="clear_selection('420d1e7e-a757-11eb-a588-acde48001122')">
+        <label id="420d1e7e-a757-11eb-a588-acde48001122-3-label" for="420d1e7e-a757-11eb-a588-acde48001122-3"><code>"bar&lt;/foo&gt;</code></label><br>
 
-        <input type="radio" name="ce2ca492-9915-11eb-a588-acde48001122" id="ce2ca492-9915-11eb-a588-acde48001122-4" onclick="clear_selection('ce2ca492-9915-11eb-a588-acde48001122')">
-        <label id="ce2ca492-9915-11eb-a588-acde48001122-4-label" for="ce2ca492-9915-11eb-a588-acde48001122-4"><code>&lt;foo&gt;"bar&lt;/foo&gt;</code></label><br>
+        <input type="radio" name="420d1e7e-a757-11eb-a588-acde48001122" id="420d1e7e-a757-11eb-a588-acde48001122-4" onclick="clear_selection('420d1e7e-a757-11eb-a588-acde48001122')">
+        <label id="420d1e7e-a757-11eb-a588-acde48001122-4-label" for="420d1e7e-a757-11eb-a588-acde48001122-4"><code>&lt;foo&gt;"bar&lt;/foo&gt;</code></label><br>
 
     </div>
     </p>
-    <input id="ce2ca492-9915-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('ce2ca492-9915-11eb-a588-acde48001122', 4, 0, '9999999 // 4999999')">
-    <span class="quiz_hint" id="ce2ca492-9915-11eb-a588-acde48001122-hint"></span>
+    <input id="420d1e7e-a757-11eb-a588-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('420d1e7e-a757-11eb-a588-acde48001122', 4, 0, '9999999 // 4999999')">
+    <span class="quiz_hint" id="420d1e7e-a757-11eb-a588-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -14860,22 +14858,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cf29ad40-9915-11eb-8748-acde48001122" id="cf29ad40-9915-11eb-8748-acde48001122-1" onclick="clear_selection('cf29ad40-9915-11eb-8748-acde48001122')">
-        <label id="cf29ad40-9915-11eb-8748-acde48001122-1-label" for="cf29ad40-9915-11eb-8748-acde48001122-1"><code>&lt;</code></label><br>
+        <input type="radio" name="43593058-a757-11eb-8748-acde48001122" id="43593058-a757-11eb-8748-acde48001122-1" onclick="clear_selection('43593058-a757-11eb-8748-acde48001122')">
+        <label id="43593058-a757-11eb-8748-acde48001122-1-label" for="43593058-a757-11eb-8748-acde48001122-1"><code>&lt;</code></label><br>
 
-        <input type="radio" name="cf29ad40-9915-11eb-8748-acde48001122" id="cf29ad40-9915-11eb-8748-acde48001122-2" onclick="clear_selection('cf29ad40-9915-11eb-8748-acde48001122')">
-        <label id="cf29ad40-9915-11eb-8748-acde48001122-2-label" for="cf29ad40-9915-11eb-8748-acde48001122-2"><code>/</code></label><br>
+        <input type="radio" name="43593058-a757-11eb-8748-acde48001122" id="43593058-a757-11eb-8748-acde48001122-2" onclick="clear_selection('43593058-a757-11eb-8748-acde48001122')">
+        <label id="43593058-a757-11eb-8748-acde48001122-2-label" for="43593058-a757-11eb-8748-acde48001122-2"><code>/</code></label><br>
 
-        <input type="radio" name="cf29ad40-9915-11eb-8748-acde48001122" id="cf29ad40-9915-11eb-8748-acde48001122-3" onclick="clear_selection('cf29ad40-9915-11eb-8748-acde48001122')">
-        <label id="cf29ad40-9915-11eb-8748-acde48001122-3-label" for="cf29ad40-9915-11eb-8748-acde48001122-3"><code>&lt;/foo&gt;</code></label><br>
+        <input type="radio" name="43593058-a757-11eb-8748-acde48001122" id="43593058-a757-11eb-8748-acde48001122-3" onclick="clear_selection('43593058-a757-11eb-8748-acde48001122')">
+        <label id="43593058-a757-11eb-8748-acde48001122-3-label" for="43593058-a757-11eb-8748-acde48001122-3"><code>&lt;/foo&gt;</code></label><br>
 
-        <input type="radio" name="cf29ad40-9915-11eb-8748-acde48001122" id="cf29ad40-9915-11eb-8748-acde48001122-4" onclick="clear_selection('cf29ad40-9915-11eb-8748-acde48001122')">
-        <label id="cf29ad40-9915-11eb-8748-acde48001122-4-label" for="cf29ad40-9915-11eb-8748-acde48001122-4"><code>&lt;foo&gt;</code></label><br>
+        <input type="radio" name="43593058-a757-11eb-8748-acde48001122" id="43593058-a757-11eb-8748-acde48001122-4" onclick="clear_selection('43593058-a757-11eb-8748-acde48001122')">
+        <label id="43593058-a757-11eb-8748-acde48001122-4-label" for="43593058-a757-11eb-8748-acde48001122-4"><code>&lt;foo&gt;</code></label><br>
 
     </div>
     </p>
-    <input id="cf29ad40-9915-11eb-8748-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cf29ad40-9915-11eb-8748-acde48001122', 4, 0, 'next(prime_numbers)')">
-    <span class="quiz_hint" id="cf29ad40-9915-11eb-8748-acde48001122-hint"></span>
+    <input id="43593058-a757-11eb-8748-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('43593058-a757-11eb-8748-acde48001122', 4, 0, 'next(prime_numbers)')">
+    <span class="quiz_hint" id="43593058-a757-11eb-8748-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16033,16 +16031,16 @@ Testing &#39;&lt;foo&gt;&#34;bar&lt;/Hfi3&gt;&#39;...FAIL (AssertionError)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cff720e2-9915-11eb-9199-acde48001122" id="cff720e2-9915-11eb-9199-acde48001122-1" onclick="clear_selection('cff720e2-9915-11eb-9199-acde48001122')">
-        <label id="cff720e2-9915-11eb-9199-acde48001122-1-label" for="cff720e2-9915-11eb-9199-acde48001122-1">Yes</label><br>
+        <input type="radio" name="446b7b66-a757-11eb-9199-acde48001122" id="446b7b66-a757-11eb-9199-acde48001122-1" onclick="clear_selection('446b7b66-a757-11eb-9199-acde48001122')">
+        <label id="446b7b66-a757-11eb-9199-acde48001122-1-label" for="446b7b66-a757-11eb-9199-acde48001122-1">Yes</label><br>
 
-        <input type="radio" name="cff720e2-9915-11eb-9199-acde48001122" id="cff720e2-9915-11eb-9199-acde48001122-2" onclick="clear_selection('cff720e2-9915-11eb-9199-acde48001122')">
-        <label id="cff720e2-9915-11eb-9199-acde48001122-2-label" for="cff720e2-9915-11eb-9199-acde48001122-2">No</label><br>
+        <input type="radio" name="446b7b66-a757-11eb-9199-acde48001122" id="446b7b66-a757-11eb-9199-acde48001122-2" onclick="clear_selection('446b7b66-a757-11eb-9199-acde48001122')">
+        <label id="446b7b66-a757-11eb-9199-acde48001122-2-label" for="446b7b66-a757-11eb-9199-acde48001122-2">No</label><br>
 
     </div>
     </p>
-    <input id="cff720e2-9915-11eb-9199-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cff720e2-9915-11eb-9199-acde48001122', 4, 0, '(&quot;No&quot; == &quot;No&quot;) + (&quot;No&quot; is &quot;No&quot;)')">
-    <span class="quiz_hint" id="cff720e2-9915-11eb-9199-acde48001122-hint"></span>
+    <input id="446b7b66-a757-11eb-9199-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('446b7b66-a757-11eb-9199-acde48001122', 4, 0, '(&quot;No&quot; == &quot;No&quot;) + (&quot;No&quot; is &quot;No&quot;)')">
+    <span class="quiz_hint" id="446b7b66-a757-11eb-9199-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17576,61 +17574,13 @@ The ALHAZEN work by Kampmann et al. [<a href="https://doi.org/10.1145/3368089.34
 </div>
 </div>
 
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-2:-Hierarchical-Delta-Debugging">Exercise 2: Hierarchical Delta Debugging<a class="anchor-link" href="#Exercise-2:-Hierarchical-Delta-Debugging">&#182;</a></h3><p>Implement Hierarchical Delta Debugging on trees.</p>
-
-    
-<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/DDSetDebugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Solution.</strong> Here is a solution:</p>
-
-    
-<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/DDSetDebugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Exercise-3:-Reducing-Trees">Exercise 3: Reducing Trees<a class="anchor-link" href="#Exercise-3:-Reducing-Trees">&#182;</a></h2><p>Produce minimal trees when reducing.</p>
-
-    
-<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/DDSetDebugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="input_markdown">
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p><strong>Solution.</strong> Here is a solution:</p>
-
-    
-<p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/DDSetDebugger.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
-</div>
-</div>
-</div>
-</div>
-
         
 <p class="imprint">
 <img style="float:right" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons License">
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DDSetDebugger.ipynb" target=_blank)>Last change: 2021-04-08 16:17:08+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DDSetDebugger.ipynb" target=_blank)>Last change: 2021-04-27 14:48:59+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -17646,7 +17596,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DDSetDebugger.html">Generalizing Failure Circumstances</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DDSetDebugger.html">https://www.debuggingbook.org/beta/html/DDSetDebugger.html</a>.  Retrieved 2021-04-08 16:17:08+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DDSetDebugger.html">Generalizing Failure Circumstances</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DDSetDebugger.html">https://www.debuggingbook.org/beta/html/DDSetDebugger.html</a>.  Retrieved 2021-04-27 14:48:59+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:DDSetDebugger,
@@ -17656,9 +17606,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DDSetDebugger.
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DDSetDebugger.html}},
-    note = {Retrieved 2021-04-08 16:17:08+02:00},
+    note = {Retrieved 2021-04-27 14:48:59+02:00},
     url = {https://www.debuggingbook.org/beta/html/DDSetDebugger.html},
-    urldate = {2021-04-08 16:17:08+02:00}
+    urldate = {2021-04-27 14:48:59+02:00}
 }
 </pre>
 </div>

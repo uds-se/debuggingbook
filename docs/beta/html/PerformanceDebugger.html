@@ -11883,20 +11883,20 @@ MathJax.Hub.Config({
 <li><a href="Tracer.html">Tracing Executions</a></li>
 <li><a href="Debugger.html">How Debuggers Work</a></li>
 <li><a href="Assertions.html">Asserting Expectations</a></li>
-<li><a href="PerformanceDebugger.html" class="this_page">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="03_Dependencies.html" class="chapters"><span class="part_number">III</span> Flows and Dependencies <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Slicer.html">Tracking Failure Origins</a></li>
 </ul><li class="has-sub"><a href="04_Reducing.html" class="chapters"><span class="part_number">IV</span> Reducing Failure Causes <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="DeltaDebugger.html">Reducing Failure-Inducing Inputs</a></li>
-<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a></li>
 <li><a href="ThreadDebugger.html">Debugging Concurrent Programs&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="05_Abstracting.html" class="chapters"><span class="part_number">V</span> Abstracting Failures <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="StatisticalDebugger.html">Statistical Debugging</a></li>
 <li><a href="DynamicInvariants.html">Mining Function Specifications</a></li>
-<li><a href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
+<li><a href="DDSetDebugger.html">Generalizing Failure Circumstances <strong class="new_chapter">&bull;</strong></a></li>
+<li><a href="PerformanceDebugger.html" class="this_page">Debugging Performance Issues&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Repairer.html">Repairing Code Automatically</a></li>
@@ -11916,6 +11916,12 @@ MathJax.Hub.Config({
      </li>
      <li class="has-sub"><a href="#"><span title="Debugging Performance Issues"><i class="fa fa-fw fa-list-ul"></i></span> <span class="menu_2">Debugging Performance Issues <i class="fa fa-fw fa-wrench"></i></span></a>
            <ul><li class="has-sub"><a href="#Synopsis"><i class="fa fa-fw fa-map"></i> Synopsis</a>
+</li><li class="has-sub"><a href="#Some-Long-Running-Function">&nbsp;&bull;&nbsp;&nbsp; Some Long-Running Function</a>
+</li><li class="has-sub"><a href="#Simple-Profiling">&nbsp;&bull;&nbsp;&nbsp; Simple Profiling</a>
+</li><li class="has-sub"><a href="#Alternative:-Use-a-Tracer">&nbsp;&bull;&nbsp;&nbsp; Alternative: Use a Tracer</a>
+</li><li class="has-sub"><a href="#Collect">&nbsp;&bull;&nbsp;&nbsp; Collect</a>
+</li><li class="has-sub"><a href="#Visualize">&nbsp;&bull;&nbsp;&nbsp; Visualize</a>
+</li><li class="has-sub"><a href="#Other-Metrics">&nbsp;&bull;&nbsp;&nbsp; Other Metrics</a>
 </li><li class="has-sub"><a href="#_Section-1_">&nbsp;&bull;&nbsp;&nbsp; _Section 1_</a>
 </li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
@@ -12020,6 +12026,21 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><div class="synopsis"><h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2><!-- Automatically generated. Do not edit. -->
+
+<p>To <a href="Importing.html">use the code provided in this chapter</a>, write</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="PerformanceDebugger.html" class="import" target="_blank">debuggingbook.PerformanceDebugger</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+<p>and then make use of the following features.</p>
+<p><em>For those only interested in using the code in this chapter (without wanting to know how it works), give an example.  This will be copied to the beginning of the chapter (before the first section) as text with rendered input and output.</em></p>
+</div>
+</div>
+</div>
+</div>
+
 <div class="input_code">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -12048,19 +12069,947 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </div>
 </div>
 
+</div>
+
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><div class="synopsis"><h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">&#182;</a></h2><!-- Automatically generated. Do not edit. -->
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Some-Long-Running-Function">Some Long-Running Function<a class="anchor-link" href="#Some-Long-Running-Function">&#182;</a></h2></div>
+</div>
+</div>
+</div>
 
-<p>To <a href="Importing.html">use the code provided in this chapter</a>, write</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="PerformanceDebugger.html" class="import" target="_blank">debuggingbook.PerformanceDebugger</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="ChangeCounter.html" class="import" target="_blank">ChangeCounter</a></span> <span class="kn">import</span> <span class="n">ChangeCounter</span><span class="p">,</span> <span class="n">debuggingbook_change_counter</span>
 </pre></div>
-<p>and then make use of the following features.</p>
-<p><em>For those only interested in using the code in this chapter (without wanting to know how it works), give an example.  This will be copied to the beginning of the chapter (before the first section) as text with rendered input and output.</em></p>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># with Timer() as t:</span>
+<span class="c1">#     change_counter = debuggingbook_change_counter(ChangeCounter)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Simple-Profiling">Simple Profiling<a class="anchor-link" href="#Simple-Profiling">&#182;</a></h2></div>
 </div>
 </div>
 </div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/profile.html" class="import" target="_blank">cProfile</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># cProfile.run(&#39;debuggingbook_change_counter(ChangeCounter)&#39;)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><p>Mining calls <code>diff</code> for every two versions. This is expensive.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Alternative:-Use-a-Tracer">Alternative: Use a Tracer<a class="anchor-link" href="#Alternative:-Use-a-Tracer">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Intro_Debugging.html" class="import" target="_blank">Intro_Debugging</a></span> <span class="kn">import</span> <span class="n">remove_html_markup</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/debuggingbook//tree/master/notebooks/shared/bookutils" class="import" target="_blank">bookutils</a></span> <span class="kn">import</span> <span class="n">print_content</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_content</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">remove_html_markup</span><span class="p">),</span> <span class="s1">&#39;.py&#39;</span><span class="p">,</span>
+              <span class="n">start_line_number</span><span class="o">=</span><span class="mi">238</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>238  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+239      tag = <span class="ansi-blue-fg">False</span>
+240      quote = <span class="ansi-blue-fg">False</span>
+241      out = <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+242  
+243      <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+244          <span class="ansi-blue-fg">assert</span> tag <span class="ansi-magenta-fg">or</span> <span class="ansi-magenta-fg">not</span> quote
+245  
+246          <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+247              tag = <span class="ansi-blue-fg">True</span>
+248          <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:
+249              tag = <span class="ansi-blue-fg">False</span>
+250          <span class="ansi-blue-fg">elif</span> (c == <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span> <span class="ansi-magenta-fg">or</span> c == <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span>) <span class="ansi-magenta-fg">and</span> tag:
+251              quote = <span class="ansi-magenta-fg">not</span> quote
+252          <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+253              out = out + c
+254  
+255      <span class="ansi-blue-fg">return</span> out
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="Timer.html" class="import" target="_blank">Timer</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://docs.python.org/3/library/types.html" class="import" target="_blank">types</a></span> <span class="kn">import</span> <span class="n">FrameType</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="Tracer.html" class="import" target="_blank">Tracer</a></span> <span class="kn">import</span> <span class="n">Tracer</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PerformanceTracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">reset_timer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="o">.</span><span class="n">Timer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="n">t</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">PerformanceTracer</span><span class="p">()</span> <span class="k">as</span> <span class="n">perf_tracer</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">perf_tracer</span><span class="o">.</span><span class="n">hits</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(&#39;__init__&#39;, 17): 1,
+ (&#39;__init__&#39;, 19): 1,
+ (&#39;clock&#39;, 8): 1,
+ (&#39;clock&#39;, 12): 2,
+ (&#39;__init__&#39;, 20): 2,
+ (&#39;remove_html_markup&#39;, 238): 10000,
+ (&#39;remove_html_markup&#39;, 239): 10000,
+ (&#39;remove_html_markup&#39;, 240): 10000,
+ (&#39;remove_html_markup&#39;, 241): 10000,
+ (&#39;remove_html_markup&#39;, 243): 110000,
+ (&#39;remove_html_markup&#39;, 244): 100000,
+ (&#39;remove_html_markup&#39;, 246): 100000,
+ (&#39;remove_html_markup&#39;, 247): 20000,
+ (&#39;remove_html_markup&#39;, 248): 80000,
+ (&#39;remove_html_markup&#39;, 250): 60000,
+ (&#39;remove_html_markup&#39;, 252): 60000,
+ (&#39;remove_html_markup&#39;, 249): 20000,
+ (&#39;remove_html_markup&#39;, 253): 30000,
+ (&#39;remove_html_markup&#39;, 255): 20000}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">perf_tracer</span><span class="o">.</span><span class="n">time</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{(&#39;__init__&#39;, 17): 3.868498606607318e-05,
+ (&#39;__init__&#39;, 19): 2.702989149838686e-06,
+ (&#39;clock&#39;, 8): 1.847016392275691e-06,
+ (&#39;clock&#39;, 12): 2.9189977794885635e-06,
+ (&#39;__init__&#39;, 20): 3.108987584710121e-06,
+ (&#39;remove_html_markup&#39;, 238): 0.02706018611206673,
+ (&#39;remove_html_markup&#39;, 239): 0.021644888940500095,
+ (&#39;remove_html_markup&#39;, 240): 0.02082053857157007,
+ (&#39;remove_html_markup&#39;, 241): 0.019359971687663347,
+ (&#39;remove_html_markup&#39;, 243): 0.19406225995044224,
+ (&#39;remove_html_markup&#39;, 244): 0.17277625788119622,
+ (&#39;remove_html_markup&#39;, 246): 0.17115685949102044,
+ (&#39;remove_html_markup&#39;, 247): 0.03494799174950458,
+ (&#39;remove_html_markup&#39;, 248): 0.13707106409128755,
+ (&#39;remove_html_markup&#39;, 250): 0.10299515444785357,
+ (&#39;remove_html_markup&#39;, 252): 0.1092039400828071,
+ (&#39;remove_html_markup&#39;, 249): 0.03538127048523165,
+ (&#39;remove_html_markup&#39;, 253): 0.05167707509826869,
+ (&#39;remove_html_markup&#39;, 255): 0.035241642995970324}
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://docs.python.org/3/library/inspect.html" class="import" target="_blank">inspect</a></span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="https://github.com/uds-se/debuggingbook//tree/master/notebooks/shared/bookutils" class="import" target="_blank">bookutils</a></span> <span class="kn">import</span> <span class="n">print_content</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Collect">Collect<a class="anchor-link" href="#Collect">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="StatisticalDebugger.html" class="import" target="_blank">StatisticalDebugger</a></span> <span class="kn">import</span> <span class="n">CoverageCollector</span><span class="p">,</span> <span class="n">SpectrumDebugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">MetricCollector</span><span class="p">(</span><span class="n">CoverageCollector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">all_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">total</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_metrics</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_metrics</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Location</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TimeCollector</span><span class="p">(</span><span class="n">MetricCollector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Location</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_items_to_ignore</span><span class="p">([</span><span class="n">Timer</span><span class="o">.</span><span class="n">Timer</span><span class="p">,</span> <span class="n">Timer</span><span class="o">.</span><span class="n">clock</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">location</span><span class="p">]</span> <span class="o">+=</span> <span class="n">t</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_timer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">Timer</span><span class="o">.</span><span class="n">Timer</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">location</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">all_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">time</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">lineno</span><span class="p">),</span> <span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">func_name</span> <span class="o">==</span> <span class="n">func</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">TimeCollector</span><span class="p">()</span> <span class="k">as</span> <span class="n">collector</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">location</span><span class="p">,</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">collector</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(&#39;remove_html_markup&#39;, 238) 0.00046378184924833477
+(&#39;remove_html_markup&#39;, 239) 0.0003461359301581979
+(&#39;remove_html_markup&#39;, 240) 0.0003651719889603555
+(&#39;remove_html_markup&#39;, 241) 0.00038043787935748696
+(&#39;remove_html_markup&#39;, 243) 0.0033500908175483346
+(&#39;remove_html_markup&#39;, 244) 0.0030661557393614203
+(&#39;remove_html_markup&#39;, 246) 0.0030253041768446565
+(&#39;remove_html_markup&#39;, 247) 0.0006380707200150937
+(&#39;remove_html_markup&#39;, 248) 0.0023946501896716654
+(&#39;remove_html_markup&#39;, 250) 0.0017864947440102696
+(&#39;remove_html_markup&#39;, 252) 0.0019519860798027366
+(&#39;remove_html_markup&#39;, 249) 0.0006006777402944863
+(&#39;remove_html_markup&#39;, 253) 0.0009687698911875486
+(&#39;remove_html_markup&#39;, 255) 0.0005702070484403521
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">collector</span><span class="o">.</span><span class="n">total</span><span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.01990793479490094
+</pre>
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Visualize">Visualize<a class="anchor-link" href="#Visualize">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">MetricDebugger</span><span class="p">(</span><span class="n">SpectrumDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]:</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">MetricCollector</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">collector</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="nb">sum</span> <span class="o">+=</span> <span class="n">m</span>
+
+        <span class="k">return</span> <span class="nb">sum</span>
+
+    <span class="k">def</span> <span class="nf">total</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]:</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">MetricCollector</span><span class="p">)</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">all_metrics</span><span class="p">(</span><span class="n">func_name</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">total</span>
+
+    <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">maximum</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">collector</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collectors</span><span class="p">[</span><span class="n">outcome</span><span class="p">]:</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">MetricCollector</span><span class="p">)</span>
+                <span class="n">maximum</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maximum</span><span class="p">,</span> 
+                              <span class="nb">max</span><span class="p">(</span><span class="n">collector</span><span class="o">.</span><span class="n">all_metrics</span><span class="p">(</span><span class="n">func_name</span><span class="p">)))</span>
+
+        <span class="k">return</span> <span class="n">maximum</span>
+
+    <span class="k">def</span> <span class="nf">suspiciousness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">func_name</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="p">(</span><span class="n">func_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">func_name</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="n">hue</span> <span class="o">=</span> <span class="mi">240</span>  <span class="c1"># blue</span>
+        <span class="n">saturation</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># fully saturated</span>
+        <span class="n">darkness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">func_name</span><span class="p">)</span>
+        <span class="n">lightness</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="n">darkness</span> <span class="o">*</span> <span class="mi">25</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;hsl(</span><span class="si">{</span><span class="n">hue</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">saturation</span><span class="si">}</span><span class="s2">%, </span><span class="si">{</span><span class="n">lightness</span><span class="si">}</span><span class="s2">%)&quot;</span>
+
+    <span class="k">def</span> <span class="nf">tooltip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">tooltip</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">PerformanceDebugger</span><span class="p">(</span><span class="n">MetricDebugger</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collector_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">collector_class</span><span class="p">,</span> <span class="n">MetricCollector</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">collector_class</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">PerformanceDebugger</span><span class="p">(</span><span class="n">TimeCollector</span><span class="p">)</span> <span class="k">as</span> <span class="n">debugger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 238   2% def remove_html_markup(s):  # type: ignore
+ 239   1%     tag = False
+ 240   1%     quote = False
+ 241   2%     out = &#34;&#34;
+ 242   0%
+ 243  16%     for c in s:
+ 244  15%         assert tag or not quote
+ 245   0%
+ 246  15%         if c == &#39;&lt;&#39; and not quote:
+ 247   2%             tag = True
+ 248  12%         elif c == &#39;&gt;&#39; and not quote:
+ 249   2%             tag = False
+ 250   8%         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 251   0%             quote = not quote
+ 252   9%         elif not tag:
+ 253   4%             out = out + c
+ 254   0%
+ 255   3%     return out
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:hsl(240, 100%, 96.86337340826826%)"
+                    title="Line 238:   2% 0.0004619229584932327"> 238 def remove_html_markup(s):  # type: ignore</pre>
+<pre style="background-color:hsl(240, 100%, 97.28180274796956%)"
+                    title="Line 239:   1% 0.0004003019421361387"> 239     tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 97.21454380498169%)"
+                    title="Line 240:   1% 0.00041020699427463114"> 240     quote = False</pre>
+<pre style="background-color:hsl(240, 100%, 96.06485352200421%)"
+                    title="Line 241:   2% 0.0005795189354103059"> 241     out = &quot;&quot;</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 242:   0% 0.0"> 242 &nbsp;</pre>
+<pre style="background-color:hsl(240, 100%, 75.0%)"
+                    title="Line 243:  16% 0.0036816859210375696"> 243     for c in s:</pre>
+<pre style="background-color:hsl(240, 100%, 76.98434800494681%)"
+                    title="Line 244:  15% 0.0033894560765475035"> 244         assert tag or not quote</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 245:   0% 0.0"> 245 &nbsp;</pre>
+<pre style="background-color:hsl(240, 100%, 76.29194541277744%)"
+                    title="Line 246:  15% 0.0034914244315586984"> 246         if c == &#x27;&lt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.73053605220449%)"
+                    title="Line 247:   2% 0.0006287530122790486"> 247             tag = True</pre>
+<pre style="background-color:hsl(240, 100%, 81.93059420949581%)"
+                    title="Line 248:  12% 0.00266103507601656"> 248         elif c == &#x27;&gt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.63343582597444%)"
+                    title="Line 249:   2% 0.0006430527137126774"> 249             tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 86.83590422631653%)"
+                    title="Line 250:   8% 0.0019386426429264247"> 250         elif (c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot;) and tag:</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 251:   0% 0.0"> 251             quote = not quote</pre>
+<pre style="background-color:hsl(240, 100%, 85.75007728153042%)"
+                    title="Line 252:   9% 0.0020985495939385146"> 252         elif not tag:</pre>
+<pre style="background-color:hsl(240, 100%, 93.04944875670311%)"
+                    title="Line 253:   4% 0.0010235898662358522"> 253             out = out + c</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 254:   0% 0.0"> 254 &nbsp;</pre>
+<pre style="background-color:hsl(240, 100%, 95.4725556595989%)"
+                    title="Line 255:   3% 0.0006667451234534383"> 255     return out</pre>
+
+</div>
+
+</div>
+
+<div class="input_markdown">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html"><h2 id="Other-Metrics">Other Metrics<a class="anchor-link" href="#Other-Metrics">&#182;</a></h2></div>
+</div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">HitCollector</span><span class="p">(</span><span class="n">MetricCollector</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Location</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="n">location</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="p">[</span><span class="n">location</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">all_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">hits</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">lineno</span><span class="p">),</span> <span class="n">hits</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hits</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">func_name</span> <span class="o">==</span> <span class="n">func</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">PerformanceDebugger</span><span class="p">(</span><span class="n">HitCollector</span><span class="p">)</span> <span class="k">as</span> <span class="n">debugger</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span><span class="o">.</span><span class="n">total</span><span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_text output_subarea output_execute_result">
+<pre>6400.0
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 238   1% def remove_html_markup(s):  # type: ignore
+ 239   1%     tag = False
+ 240   1%     quote = False
+ 241   1%     out = &#34;&#34;
+ 242   0%
+ 243  17%     for c in s:
+ 244  15%         assert tag or not quote
+ 245   0%
+ 246  15%         if c == &#39;&lt;&#39; and not quote:
+ 247   3%             tag = True
+ 248  12%         elif c == &#39;&gt;&#39; and not quote:
+ 249   3%             tag = False
+ 250   9%         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
+ 251   0%             quote = not quote
+ 252   9%         elif not tag:
+ 253   4%             out = out + c
+ 254   0%
+ 255   3%     return out
+</pre>
+</div>
+
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debugger</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+
+<pre style="background-color:hsl(240, 100%, 97.72727272727273%)"
+                    title="Line 238:   1% 100.0"> 238 def remove_html_markup(s):  # type: ignore</pre>
+<pre style="background-color:hsl(240, 100%, 97.72727272727273%)"
+                    title="Line 239:   1% 100.0"> 239     tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 97.72727272727273%)"
+                    title="Line 240:   1% 100.0"> 240     quote = False</pre>
+<pre style="background-color:hsl(240, 100%, 97.72727272727273%)"
+                    title="Line 241:   1% 100.0"> 241     out = &quot;&quot;</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 242:   0% 0.0"> 242 &nbsp;</pre>
+<pre style="background-color:hsl(240, 100%, 75.0%)"
+                    title="Line 243:  17% 1100.0"> 243     for c in s:</pre>
+<pre style="background-color:hsl(240, 100%, 77.27272727272728%)"
+                    title="Line 244:  15% 1000.0"> 244         assert tag or not quote</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 245:   0% 0.0"> 245 &nbsp;</pre>
+<pre style="background-color:hsl(240, 100%, 77.27272727272728%)"
+                    title="Line 246:  15% 1000.0"> 246         if c == &#x27;&lt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.45454545454545%)"
+                    title="Line 247:   3% 200.0"> 247             tag = True</pre>
+<pre style="background-color:hsl(240, 100%, 81.81818181818181%)"
+                    title="Line 248:  12% 800.0"> 248         elif c == &#x27;&gt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.45454545454545%)"
+                    title="Line 249:   3% 200.0"> 249             tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 86.36363636363636%)"
+                    title="Line 250:   9% 600.0"> 250         elif (c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot;) and tag:</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 251:   0% 0.0"> 251             quote = not quote</pre>
+<pre style="background-color:hsl(240, 100%, 86.36363636363636%)"
+                    title="Line 252:   9% 600.0"> 252         elif not tag:</pre>
+<pre style="background-color:hsl(240, 100%, 93.18181818181819%)"
+                    title="Line 253:   4% 300.0"> 253             out = out + c</pre>
+<pre style="background-color:hsl(240, 100%, 100.0%)"
+                    title="Line 254:   0% 0.0"> 254 &nbsp;</pre>
+<pre style="background-color:hsl(240, 100%, 95.45454545454545%)"
+                    title="Line 255:   3% 200.0"> 255     return out</pre>
+
 </div>
 
 </div>
@@ -12177,7 +13126,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/PerformanceDebugger.ipynb" target=_blank)>Last change: 2021-03-06 11:43:59+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/PerformanceDebugger.ipynb" target=_blank)>Last change: 2021-04-13 11:10:09+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -12193,7 +13142,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/PerformanceDebugger.html">Debugging Performance Issues</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/PerformanceDebugger.html">https://www.debuggingbook.org/beta/html/PerformanceDebugger.html</a>.  Retrieved 2021-03-06 11:43:59+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/PerformanceDebugger.html">Debugging Performance Issues</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/PerformanceDebugger.html">https://www.debuggingbook.org/beta/html/PerformanceDebugger.html</a>.  Retrieved 2021-04-13 11:10:09+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:PerformanceDebugger,
@@ -12203,9 +13152,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/PerformanceDeb
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/PerformanceDebugger.html}},
-    note = {Retrieved 2021-03-06 11:43:59+01:00},
+    note = {Retrieved 2021-04-13 11:10:09+02:00},
     url = {https://www.debuggingbook.org/beta/html/PerformanceDebugger.html},
-    urldate = {2021-03-06 11:43:59+01:00}
+    urldate = {2021-04-13 11:10:09+02:00}
 }
 </pre>
 </div>

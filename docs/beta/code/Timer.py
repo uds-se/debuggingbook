@@ -3,7 +3,7 @@
 
 # "Timer" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timer.html
-# Last change: 2021-04-08 16:35:49+02:00
+# Last change: 2021-04-10 17:07:49+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -47,7 +47,7 @@ The `Timer` class allows you to measure elapsed real time (in fractional seconds
 >>> with Timer() as t:
 >>>     some_long_running_function()
 >>> t.elapsed_time()
-0.05360976600786671
+0.04541723500005901
 
 
 For more details, source, and documentation, see
@@ -102,7 +102,12 @@ def clock() -> float:
 
 from types import TracebackType
 
-class Timer(object):
+class Timer:
+    def __init__(self) -> None:
+        """Constructor"""
+        self.start_time = clock()
+        self.end_time = None
+
     def __enter__(self) -> Any:
         """Begin of `with` block"""
         self.start_time = clock()
