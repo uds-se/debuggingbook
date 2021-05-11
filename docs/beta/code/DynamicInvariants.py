@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-04-10 16:39:40+02:00
+# Last change: 2021-05-11 14:19:15+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
