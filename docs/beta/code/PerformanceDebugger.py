@@ -3,7 +3,7 @@
 
 # "Debugging Performance Issues" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/PerformanceDebugger.html
-# Last change: 2021-05-11 16:06:12+02:00
+# Last change: 2021-05-11 19:50:57+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -52,16 +52,16 @@ The distribution of executed time within each function can be obtained by printi
 
 >>> print(debugger)
  238   2% def remove_html_markup(s):  # type: ignore
- 239   2%     tag = False
+ 239   1%     tag = False
  240   1%     quote = False
  241   1%     out = ""
  242   0%
  243  17%     for c in s:
- 244  14%         assert tag or not quote
+ 244  15%         assert tag or not quote
  245   0%
  246  15%         if c == '' and not quote:
  249   3%             tag = False
- 250   9%         elif (c == '"' or c == "'") and tag:
+ 250   8%         elif (c == '"' or c == "'") and tag:
  251   0%             quote = not quote
  252   9%         elif not tag:
  253   4%             out = out + c
@@ -167,6 +167,17 @@ import cProfile
 
 if __name__ == '__main__':
     cProfile.run('debuggingbook_change_counter(ChangeCounter)', sort='cumulative')
+
+from .bookutils import quiz
+
+if __name__ == '__main__':
+    quiz('Donald J. Knuth said: "Premature optimization..."',
+        [
+            "... is the root of all evil",
+            "... requires lots of experience",
+            "... should be left to assembly programmers",
+            "... is the reason why TeX is so fast",
+        ], 'len("METAFONT") - len("TeX") - len("CWEB")')
 
 ## How Profilers Work
 ## ------------------
@@ -464,7 +475,7 @@ def remove_html_markup_ampersand(s: str) -> str:
         assert tag or not quote
 
         if c == '&':
-            time.sleep(0.1)
+            time.sleep(0.1)  # <-- the obvious performance issue
 
         if c == '<' and not quote:
             tag = True
@@ -581,3 +592,11 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     tracemalloc.stop()
+
+## Exercise 2: Statistical Performance Debugging
+## ---------------------------------------------
+
+if __name__ == '__main__':
+    print('\n## Exercise 2: Statistical Performance Debugging')
+
+
