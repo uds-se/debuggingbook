@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-05-11 19:58:58+02:00
+# Last change: 2021-05-11 23:32:25+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -90,7 +90,9 @@ The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an intera
 
 >>> fine_change_counter.map()
 
+
    
+
 The included classes offer several methods that can be overridden in subclasses to customize what to mine and how to visualize it. See the chapter for details.
 
 Here are all the classes defined in this chapter:
