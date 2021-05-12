@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-05-12 17:41:48+02:00
+# Last change: 2021-05-12 20:20:05+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -187,12 +187,6 @@ DEBUGGINGBOOK_REMOTE_REPO = 'https://github.com/uds-se/debuggingbook.git'
 # book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO)
 
 if __name__ == '__main__':
-    if 'CI' in os.environ:
-        # In continuous integration, .git is shallow;
-        # so we access the book repo via its URL
-        book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO)
-
-if __name__ == '__main__':
     book_commits = book_miner.traverse_commits()
     book_first_commit = next(book_commits)
 
@@ -368,11 +362,6 @@ DEBUGGINGBOOK_REPO = current_repo()
 if __name__ == '__main__':
     DEBUGGINGBOOK_REPO
 
-if __name__ == '__main__':
-    if 'CI' in os.environ:
-        # As above: We have to access the repo remotely
-        DEBUGGINGBOOK_REPO = DEBUGGINGBOOK_REMOTE_REPO
-
 from datetime import datetime
 
 NUM_WORKERS = 4  # Number of threads to be run in parallel
@@ -395,7 +384,7 @@ def debuggingbook_change_counter(cls: Type,
         return (m.new_path and
                 not m.new_path.startswith('docs/') and
                 not m.new_path.startswith('notebooks/shared/') and
-                not '-synopsis-' in m.new_path)
+                '-synopsis-' not in m.new_path)
 
     return cls(DEBUGGINGBOOK_REPO,
                filter=filter,
