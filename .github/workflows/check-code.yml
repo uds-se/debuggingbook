@@ -29,11 +29,16 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.6'
-
+          
       # Runs a set of commands using the runners shell
       - name: Set up path
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      # The `ChangeCounter` module needs the full git repo
+      - name: Clone full git repository
+        run: git pull --unshallow
+
+      # Actual CI steps
       - name: Install
         run: pip install -r requirements.txt
 
@@ -46,6 +51,6 @@ jobs:
       - name: Tests
         run: make -k check-code
 
-      - name: Start tmate debugging session in case of failure
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+      # - name: Start tmate debugging session in case of failure
+      #   if: ${{ failure() }}
+      #   uses: mxschmitt/action-tmate@v3

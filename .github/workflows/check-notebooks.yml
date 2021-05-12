@@ -34,6 +34,11 @@ jobs:
       - name: Set up path
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      # The `ChangeCounter` module needs the full git repo
+      - name: Clone full git repository
+        run: git pull --unshallow
+
+      # Actual CI steps
       - name: Install Packages
         run: |
             sudo apt-get install graphviz
@@ -50,6 +55,6 @@ jobs:
       - name: Create HTML
         run: make -k html
 
-      - name: Start tmate debugging session in case of failure
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+      # - name: Start tmate debugging session in case of failure
+      #   if: ${{ failure() }}
+      #   uses: mxschmitt/action-tmate@v3
