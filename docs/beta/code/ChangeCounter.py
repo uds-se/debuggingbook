@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-05-12 13:08:35+02:00
+# Last change: 2021-05-12 16:12:53+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -53,7 +53,7 @@ where `repository` is either
 * a _directory_ containing a `git` clone (i.e., it contains a `.git` directory)
 * the URL of a `git` repository.
 
-Additional arguments are being passed to the underlying `RepositoryMining` class from the [PyDriller](https://pydriller.readthedocs.io/) Python package. A `filter` keyword argument, if given, is a predicate that takes a modification (from PyDriller) and returns True if it should be included.
+Additional arguments are being passed to the underlying `Repository` class from the [PyDriller](https://pydriller.readthedocs.io/) Python package. A `filter` keyword argument, if given, is a predicate that takes a modification (from PyDriller) and returns True if it should be included.
 
 In a change counter, all elements in the repository are represented as _nodes_ – tuples $(f_1, f_2, ..., f_n)$ that denote a _hierarchy_: Each $f_i$ is a directory holding $f_{i+1}$, with $f_n$ being the actual file.
 
@@ -149,9 +149,11 @@ if __name__ == '__main__':
 
 
 
-from pydriller import RepositoryMining  # https://pydriller.readthedocs.io/
+from pydriller import Repository  # https://pydriller.readthedocs.io/
+
 from pydriller.domain.commit import Commit
-from pydriller.domain.commit import Modification
+
+from pydriller.domain.commit import ModifiedFile
 
 import os
 import sys
@@ -178,16 +180,16 @@ if __name__ == '__main__':
     current_repo()
 
 if __name__ == '__main__':
-    book_miner = RepositoryMining(current_repo())
+    book_miner = Repository(current_repo())
 
 DEBUGGINGBOOK_REMOTE_REPO = 'https://github.com/uds-se/debuggingbook.git'
-# book_miner = RepositoryMining(DEBUGGINGBOOK_REMOTE_REPO)
+# book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO)
 
 if __name__ == '__main__':
     if 'CI' in os.environ:
         # In continuous integration, .git is shallow;
         # so we access the book repo via its URL
-        book_miner = RepositoryMining(DEBUGGINGBOOK_REMOTE_REPO)
+        book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO)
 
 if __name__ == '__main__':
     book_commits = book_miner.traverse_commits()
@@ -206,28 +208,28 @@ if __name__ == '__main__':
     book_first_commit.author.name, book_first_commit.author.email
 
 if __name__ == '__main__':
-    book_first_commit.modifications
+    book_first_commit.modified_files
 
 if __name__ == '__main__':
-    [attr for attr in dir(book_first_commit.modifications[0]) if not attr.startswith('_')]
+    [attr for attr in dir(book_first_commit.modified_files[0]) if not attr.startswith('_')]
 
 if __name__ == '__main__':
-    book_first_commit.modifications[0].new_path
+    book_first_commit.modified_files[0].new_path
 
 if __name__ == '__main__':
-    print(book_first_commit.modifications[0].source_code)
+    print(book_first_commit.modified_files[0].source_code)
 
 if __name__ == '__main__':
-    print(book_first_commit.modifications[0].source_code_before)
+    print(book_first_commit.modified_files[0].source_code_before)
 
 if __name__ == '__main__':
     book_second_commit = next(book_commits)
 
 if __name__ == '__main__':
-    [m.new_path for m in book_second_commit.modifications]
+    [m.new_path for m in book_second_commit.modified_files]
 
 if __name__ == '__main__':
-    readme_modification = [m for m in book_second_commit.modifications if m.new_path == 'README.md'][0]
+    readme_modification = [m for m in book_second_commit.modified_files if m.new_path == 'README.md'][0]
 
 if __name__ == '__main__':
     print(readme_modification.source_code_before)
@@ -269,13 +271,13 @@ class ChangeCounter:
         `filter` is a predicate that takes a modification and returns True 
         if it should be considered (default: consider all).
         `log` turns on logging if set.
-        `kwargs` are passed to the `RepositoryMining()` constructor.
+        `kwargs` are passed to the `Repository()` constructor.
         """
         self.repo = repo
         self.log = log
 
         if filter is None:
-            def filter(m: Modification) -> bool:
+            def filter(m: ModifiedFile) -> bool:
                 return True
         assert filter is not None
 
@@ -298,10 +300,10 @@ class ChangeCounter:
 class ChangeCounter(ChangeCounter):
     def mine(self, **kwargs: Any) -> None:
         """Gather data from repository. To be extended in subclasses."""
-        miner = RepositoryMining(self.repo, **kwargs)
+        miner = Repository(self.repo, **kwargs)
 
         for commit in miner.traverse_commits():
-            for m in commit.modifications:
+            for m in commit.modified_files:
                 m.committer = commit.committer
                 m.committer_date = commit.committer_date
                 m.msg = commit.msg
@@ -310,7 +312,7 @@ class ChangeCounter(ChangeCounter):
                     self.update_stats(m)
 
 class ChangeCounter(ChangeCounter):
-    def include(self, m: Modification) -> bool:
+    def include(self, m: ModifiedFile) -> bool:
         """
         Return True if the modification `m` should be included
         (default: the `filter` predicate given to the constructor).
@@ -319,7 +321,7 @@ class ChangeCounter(ChangeCounter):
         return self.filter(m)
 
 class ChangeCounter(ChangeCounter):
-    def update_stats(self, m: Modification) -> None:
+    def update_stats(self, m: ModifiedFile) -> None:
         """
         Update counters with modification `m`.
         Can be extended in subclasses.
@@ -353,7 +355,7 @@ class ChangeCounter(ChangeCounter):
         self.messages[node].append(commit_msg)
 
 class ChangeCounter(ChangeCounter):
-    def update_elems(self, node: Tuple, m: Modification) -> None:
+    def update_elems(self, node: Tuple, m: ModifiedFile) -> None:
         """
         Update counters for subelements of `node` with modification `m`.
         To be defined in subclasses.
@@ -380,7 +382,7 @@ def debuggingbook_change_counter(cls: Type,
     Only mines changes after `start_date` (default: March 1, 2021)
     """
 
-    def filter(m: Modification) -> bool:
+    def filter(m: ModifiedFile) -> bool:
         """
         Do not include
         * the `docs/` directory; it only holds generated Web pages
@@ -518,7 +520,8 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     all_notebooks = [node for node in change_counter.changes.keys()
                      if len(node) == 2 and node[1].endswith('.ipynb')]
-    all_notebooks.sort(key=lambda node: change_counter.changes[node], reverse=True)
+    all_notebooks.sort(key=lambda node: change_counter.changes[node],
+                       reverse=True)
 
 from .bookutils import quiz
 
@@ -548,7 +551,7 @@ class FixCounter(ChangeCounter):
     Fixes are all commits whose message starts with the word 'Fix: '
     """
 
-    def include(self, m: Modification) -> bool:
+    def include(self, m: ModifiedFile) -> bool:
         """Include all modifications whose commit messages start with 'Fix:'"""
         return super().include(m) and m and m.msg.startswith("Fix:")
 
@@ -814,7 +817,7 @@ if __name__ == '__main__':
 class FineChangeCounter(ChangeCounter):
     """Count the changes for files in the repository and their elements"""
 
-    def update_elems(self, node: Node, m: Modification) -> None:
+    def update_elems(self, node: Node, m: ModifiedFile) -> None:
         old_source = m.source_code_before if m.source_code_before else ""
         new_source = m.source_code if m.source_code else ""
 
@@ -836,7 +839,8 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     elem_nodes = [node for node in fine_change_counter.changes.keys()
                   if len(node) == 3 and node[1].endswith('.ipynb')]
-    elem_nodes.sort(key=lambda node: fine_change_counter.changes[node], reverse=True)
+    elem_nodes.sort(key=lambda node: fine_change_counter.changes[node],
+                    reverse=True)
     [(node, fine_change_counter.changes[node]) for node in elem_nodes[:1]]
 
 from .bookutils import quiz
