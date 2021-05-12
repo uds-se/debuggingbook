@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-05-12 20:20:05+02:00
+# Last change: 2021-05-12 23:11:54+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -180,8 +180,10 @@ def current_repo() -> Optional[str]:
 if __name__ == '__main__':
     current_repo()
 
+from datetime import datetime
+
 if __name__ == '__main__':
-    book_miner = Repository(current_repo())
+    book_miner = Repository(current_repo(), to=datetime(2020, 10, 1))
 
 DEBUGGINGBOOK_REMOTE_REPO = 'https://github.com/uds-se/debuggingbook.git'
 # book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO)
@@ -362,25 +364,25 @@ DEBUGGINGBOOK_REPO = current_repo()
 if __name__ == '__main__':
     DEBUGGINGBOOK_REPO
 
-from datetime import datetime
+DEBUGGINGBOOK_START_DATE: datetime = datetime(2021, 3, 1)
 
 NUM_WORKERS = 4  # Number of threads to be run in parallel
 
-def debuggingbook_change_counter(cls: Type,
-                                 start_date: datetime = datetime(2021, 3, 1)) \
-                                 -> Any:
+def debuggingbook_change_counter(
+        cls: Type,
+        start_date: datetime = DEBUGGINGBOOK_START_DATE) -> Any:
     """
     Instantiate a ChangeCounter (sub)class `cls` with the debuggingbook repo.
-    Only mines changes after `start_date` (default: March 1, 2021)
+    Only mines changes after `start_date` (default: DEBUGGINGBOOK_START_DATE)
     """
 
     def filter(m: ModifiedFile) -> bool:
         """
         Do not include
         * the `docs/` directory; it only holds generated Web pages
-        * the `synopsis` pictures; these are all generated
         * the `notebooks/shared/` package; this is infrastructure
-        """
+        * the `synopsis` pictures; these are all generated
+         """
         return (m.new_path and
                 not m.new_path.startswith('docs/') and
                 not m.new_path.startswith('notebooks/shared/') and
