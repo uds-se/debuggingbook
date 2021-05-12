@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-05-12 16:12:53+02:00
+# Last change: 2021-05-12 17:41:48+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -65,11 +65,7 @@ A `change_counter` provides a number of attributes. `changes` is a mapping of no
 The `messages` attribute holds all commit messages related to that node:
 
 >>> change_counter.messages[('README.md',)]
-['Doc update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
+['Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
  'New: show badges at top of GitHub project page',
@@ -77,12 +73,16 @@ The `messages` attribute holds all commit messages related to that node:
  'Fix: bad links in CI badges',
  'New: prefer Unicode arrows over LaTeX ones',
  'Updated README.md',
- 'Update']
+ 'Update',
+ 'Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Doc update']
 
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes[('README.md',)]
-14392
+13025
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
 
@@ -91,6 +91,7 @@ The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an intera
 >>> fine_change_counter.map()
 
    
+
 The included classes offer several methods that can be overridden in subclasses to customize what to mine and how to visualize it. See the chapter for details.
 
 Here are all the classes defined in this chapter:
@@ -374,7 +375,9 @@ if __name__ == '__main__':
 
 from datetime import datetime
 
-def debuggingbook_change_counter(cls: Type, 
+NUM_WORKERS = 4  # Number of threads to be run in parallel
+
+def debuggingbook_change_counter(cls: Type,
                                  start_date: datetime = datetime(2021, 3, 1)) \
                                  -> Any:
     """
@@ -394,7 +397,10 @@ def debuggingbook_change_counter(cls: Type,
                 not m.new_path.startswith('notebooks/shared/') and
                 not '-synopsis-' in m.new_path)
 
-    return cls(DEBUGGINGBOOK_REPO, filter=filter, since=start_date)
+    return cls(DEBUGGINGBOOK_REPO,
+               filter=filter,
+               since=start_date,
+               num_workers=NUM_WORKERS)
 
 from .Timer import Timer
 

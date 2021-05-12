@@ -3,7 +3,7 @@
 
 # "Generalizing Failure Circumstances" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2021-05-11 19:11:01+02:00
+# Last change: 2021-05-12 17:21:32+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
