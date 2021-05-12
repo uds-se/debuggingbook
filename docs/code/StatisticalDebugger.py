@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-05-11 19:09:54+02:00
+# Last change: 2021-05-12 17:20:40+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -100,6 +100,7 @@ After collecting events, you can print out the observed events – in this case,
 | remove_html_markup:14 |    X |    X |    X | 
 | remove_html_markup:16 |    X |    X |    X | 
 
+
 ### Visualizing Suspicious Code
 
 If you collected coverage with `CoverageCollector`, you can also visualize the code with similar colors, highlighting suspicious lines:
@@ -123,30 +124,32 @@ If you collected coverage with `CoverageCollector`, you can also visualize the c
   15  
   16     return out
 
+
 ### Ranking Events
 
 The method `rank()` returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.
 
 >>> debugger.rank()
 [('remove_html_markup', 12),
- ('remove_html_markup', 2),
- ('remove_html_markup', 16),
- ('remove_html_markup', 14),
- ('remove_html_markup', 7),
- ('remove_html_markup', 1),
- ('remove_html_markup', 3),
- ('remove_html_markup', 13),
  ('remove_html_markup', 4),
  ('remove_html_markup', 6),
+ ('remove_html_markup', 13),
+ ('remove_html_markup', 2),
  ('remove_html_markup', 9),
+ ('remove_html_markup', 16),
  ('remove_html_markup', 11),
- ('remove_html_markup', 8),
- ('remove_html_markup', 10)]
+ ('remove_html_markup', 7),
+ ('remove_html_markup', 14),
+ ('remove_html_markup', 1),
+ ('remove_html_markup', 3),
+ ('remove_html_markup', 10),
+ ('remove_html_markup', 8)]
 
 ### Classes and Methods
 
 Here are all classes defined in this chapter:
 ![](PICS/StatisticalDebugger-synopsis-2.svg)
+
 
 For more details, source, and documentation, see
 "The Debugging Book - Statistical Debugging"

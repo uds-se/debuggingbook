@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-05-11 19:07:19+02:00
+# Last change: 2021-05-12 17:08:03+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -110,6 +110,7 @@ out = 'a'
 
 
 (debugger) quit
+
 The `Debugger` class can be easily extended in subclasses. A new method `NAME_command(self, arg)` will be invoked whenever a command named `NAME` is entered, with `arg` holding given command arguments (empty string if none).
 
 For more details, source, and documentation, see
