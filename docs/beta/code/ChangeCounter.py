@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-05-12 23:11:54+02:00
+# Last change: 2021-05-13 14:06:35+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -59,12 +59,12 @@ In a change counter, all elements in the repository are represented as _nodes_ â
 
 A `change_counter` provides a number of attributes. `changes` is a mapping of nodes to the number of changes in that node:
 
->>> change_counter.changes[('README.md',)]
+>>> change_counter.changes.get(('README.md',), None)
 13
 
 The `messages` attribute holds all commit messages related to that node:
 
->>> change_counter.messages[('README.md',)]
+>>> change_counter.messages.get(('README.md',), None)
 ['Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
@@ -81,7 +81,7 @@ The `messages` attribute holds all commit messages related to that node:
 
 The `sizes` attribute holds the (last) size of the respective element:
 
->>> change_counter.sizes[('README.md',)]
+>>> change_counter.sizes.get(('README.md',), None)
 13025
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
@@ -157,7 +157,6 @@ from pydriller.domain.commit import Commit
 from pydriller.domain.commit import ModifiedFile
 
 import os
-import sys
 
 from typing import Callable, Optional, Type, Tuple, Any
 from typing import Dict, Union, Set, List
@@ -187,6 +186,12 @@ if __name__ == '__main__':
 
 DEBUGGINGBOOK_REMOTE_REPO = 'https://github.com/uds-se/debuggingbook.git'
 # book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO)
+
+if __name__ == '__main__':
+    if 'CI' in os.environ:
+        # The CI git clone is shallow, so access full repo remotely
+        book_miner = Repository(DEBUGGINGBOOK_REMOTE_REPO,
+                                to=datetime(2020, 10, 1))
 
 if __name__ == '__main__':
     book_commits = book_miner.traverse_commits()
@@ -240,6 +245,9 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     readme_modification.diff_parsed['added'][:10]
 
+if __name__ == '__main__':
+    del book_miner  # Save a bit of memory
+
 ## Counting Changes
 ## ----------------
 
@@ -254,6 +262,10 @@ if __name__ == '__main__':
 Node = Tuple
 
 from collections import defaultdict
+
+import warnings
+
+from git.exc import GitCommandError  # type: ignore
 
 class ChangeCounter:
     """Count the number of changes for a repository."""
@@ -300,13 +312,20 @@ class ChangeCounter(ChangeCounter):
         miner = Repository(self.repo, **kwargs)
 
         for commit in miner.traverse_commits():
-            for m in commit.modified_files:
-                m.committer = commit.committer
-                m.committer_date = commit.committer_date
-                m.msg = commit.msg
+            try:
+                self.mine_commit(commit)
+            except GitCommandError as err:
+                # Warn about failing git commands, but continue
+                warnings.warn(str(err))
 
-                if self.include(m):
-                    self.update_stats(m)
+    def mine_commit(self, commit: Commit) -> None:
+        for m in commit.modified_files:
+            m.committer = commit.committer
+            m.committer_date = commit.committer_date
+            m.msg = commit.msg
+
+            if self.include(m):
+                self.update_stats(m)
 
 class ChangeCounter(ChangeCounter):
     def include(self, m: ModifiedFile) -> bool:
@@ -405,17 +424,17 @@ if __name__ == '__main__':
     list(change_counter.changes.keys())[:10]
 
 if __name__ == '__main__':
-    change_counter.changes[('Chapters.makefile',)]
+    change_counter.changes.get(('Chapters.makefile',), None)
 
 if __name__ == '__main__':
-    change_counter.messages[('Chapters.makefile',)]
+    change_counter.messages.get(('Chapters.makefile',), None)
 
 if __name__ == '__main__':
     for node in change_counter.changes:
         assert len(change_counter.messages[node]) == change_counter.changes[node]
 
 if __name__ == '__main__':
-    change_counter.sizes[('Chapters.makefile',)]
+    change_counter.sizes.get(('Chapters.makefile',), None)
 
 ## Visualizing Past Changes
 ## ------------------------
@@ -431,7 +450,7 @@ import plotly.graph_objects as go
 import math
 
 class ChangeCounter(ChangeCounter):
-    def map_node_sizes(self, scale: str = 'log') -> \
+    def map_node_sizes(self,scale: str = 'log') -> \
         Dict[Node, Union[int, float]]:
         """
         Return a mapping of nodes to sizes.
@@ -454,7 +473,7 @@ class ChangeCounter(ChangeCounter):
 
         else:
             raise ValueError(f"Unknown scale: {scale}; "
-                             f"available scaling modes are [log, sqrt, abs]")
+                             f"use one of [log, sqrt, abs]")
 
 class ChangeCounter(ChangeCounter):
     def map_node_color(self, node: Node) -> Optional[int]:
@@ -524,15 +543,15 @@ from .bookutils import quiz
 
 if __name__ == '__main__':
     quiz("Which two notebooks have seen the most changes over time?",
-        [
-            f"`{all_notebooks[0][1].split('.')[0]}`",
-            f"`{all_notebooks[3][1].split('.')[0]}`",
-            f"`{all_notebooks[1][1].split('.')[0]}`",
-            f"`{all_notebooks[2][1].split('.')[0]}`",
-        ], '[1234 % 3, 3702 / 1234]')
+         [
+             f"`{all_notebooks[i][1].split('.')[0]}`"
+             for i in [0, 3, 1, 2]
+             if i < len(all_notebooks)
+         ]
+         , '[1234 % 3, 3702 / 1234]')
 
 if __name__ == '__main__':
-    all_notebooks[0][1].split('.')[0], all_notebooks[1][1].split('.')[0]
+    [notebook[1].split('.')[0] for notebook in all_notebooks[:2]]
 
 ## Counting Past Fixes
 ## -------------------
@@ -844,12 +863,11 @@ from .bookutils import quiz
 
 if __name__ == '__main__':
     quiz("Which is the _second_ most changed element?",
-        [
-            f"`{elem_nodes[3][2]}` in `{elem_nodes[3][1].split('.ipynb')[0]}`",
-            f"`{elem_nodes[1][2]}` in `{elem_nodes[1][1].split('.ipynb')[0]}`",
-            f"`{elem_nodes[2][2]}` in `{elem_nodes[2][1].split('.ipynb')[0]}`",
-            f"`{elem_nodes[0][2]}` in `{elem_nodes[0][1].split('.ipynb')[0]}`",
-        ], '1975308642 // 987654321')
+         [
+            f"`{elem_nodes[i][2]}` in `{elem_nodes[i][1].split('.ipynb')[0]}`"
+            for i in [3, 1, 2, 0]
+            if i < len(elem_nodes)
+         ], '1975308642 // 987654321')
 
 if __name__ == '__main__':
     [(node, fine_change_counter.changes[node]) for node in elem_nodes[:5]]
@@ -863,13 +881,13 @@ if __name__ == '__main__':
 
 
 if __name__ == '__main__':
-    change_counter.changes[('README.md',)]
+    change_counter.changes.get(('README.md',), None)
 
 if __name__ == '__main__':
-    change_counter.messages[('README.md',)]
+    change_counter.messages.get(('README.md',), None)
 
 if __name__ == '__main__':
-    change_counter.sizes[('README.md',)]
+    change_counter.sizes.get(('README.md',), None)
 
 if __name__ == '__main__':
     fine_change_counter.map()
