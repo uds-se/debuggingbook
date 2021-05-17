@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Enable incompatible extensions
+echo postBuild: Enabling incompatible Jupyter extensions...
+NBCONFIG_PATH=$HOME/.jupyter/nbconfig
+mkdir -p $NBCONFIG_PATH
+echo '{
+    "nbext_hide_incompat": false
+}' > $NBCONFIG_PATH/common.json
+
 # Install and enable Jupyter nbextensions
 # https://github.com/binder-examples/jupyter-extension
 # https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/install.html
@@ -9,13 +17,6 @@ jupyter nbextension enable toc2/main --user
 jupyter nbextension enable exercise2/main --user
 jupyter nbextensions_configurator enable --user
 jupyter nbextension list
-
-# Enable incompatible extensions
-NBCONFIG_PATH=$HOME/.jupyter/nbconfig
-mkdir -p $NBCONFIG_PATH
-echo '{
-    "nbext_hide_incompat": false
-}' > $NBCONFIG_PATH/common.json
 
 # Install grcov
 echo postBuild: Installing grcov...
