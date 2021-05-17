@@ -7,6 +7,15 @@ echo postBuild: Installing Jupyter extensions...
 jupyter contrib nbextension install --user
 jupyter nbextension enable toc2/main --user
 jupyter nbextension enable exercise2/main --user
+jupyter nbextensions_configurator enable --user
+jupyter nbextension list
+
+# Enable incompatible extensions
+mkdir $HOME/.jupyter
+mkdir $HOME/.jupyter/nbconfig
+echo '{
+    nbext_hide_incompat": false
+}' > $HOME/.jupyter/nbconfig/common.json
 
 # Install grcov
 echo postBuild: Installing grcov...

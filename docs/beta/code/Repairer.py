@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-05-13 14:41:34+02:00
+# Last change: 2021-05-17 13:55:44+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -90,7 +90,7 @@ The repairer attempts to repair the invoked function (`middle()`). The returned 
 
 >>> middle_repairer = Repairer(middle_debugger)
 >>> tree, fitness = middle_repairer.repair()
->>> print(astor.to_source(tree), fitness)
+>>> print(astor.to_source(tree))
 def middle(x, y, z):
     if y < z:
         if x < z:
@@ -103,8 +103,15 @@ def middle(x, y, z):
     elif x > z:
         return x
     return z
- 1.0
 
+
+
+The `fitness` value shows how well the repaired program fits the tests. A fitness value of 1.0 shows that the repaired program satisfies all tests.
+
+>>> fitness
+1.0
+
+Hence, the above program indeed is a perfect repair in the sense that all previously failing tests now pass – our repair was successful.
 
 Here are the classes defined in this chapter. A `Repairer` repairs a program, using a `StatementMutator` and a `CrossoverOperator` to evolve a population of candidates.
 
@@ -1957,7 +1964,13 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     middle_repairer = Repairer(middle_debugger)
     tree, fitness = middle_repairer.repair()
-    print(astor.to_source(tree), fitness)
+    print(astor.to_source(tree))
+
+if __name__ == '__main__':
+    fitness
+
+if __name__ == '__main__':
+    assert fitness >= 1.0
 
 from .ClassDiagram import display_class_hierarchy
 
