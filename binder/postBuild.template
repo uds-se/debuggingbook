@@ -11,11 +11,11 @@ jupyter nbextensions_configurator enable --user
 jupyter nbextension list
 
 # Enable incompatible extensions
-mkdir $HOME/.jupyter
-mkdir $HOME/.jupyter/nbconfig
+NBCONFIG_PATH=$HOME/.jupyter/nbconfig
+mkdir -p $NBCONFIG_PATH
 echo '{
     nbext_hide_incompat": false
-}' > $HOME/.jupyter/nbconfig/common.json
+}' > $NBCONFIG_PATH/common.json
 
 # Install grcov
 echo postBuild: Installing grcov...
