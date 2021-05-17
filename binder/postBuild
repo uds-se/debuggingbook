@@ -10,6 +10,13 @@ jupyter nbextension enable exercise2/main --user
 jupyter nbextensions_configurator enable --user
 jupyter nbextension list
 
+# Enable incompatible extensions
+NBCONFIG_PATH=$HOME/.jupyter/nbconfig
+mkdir -p $NBCONFIG_PATH
+echo '{
+    "nbext_hide_incompat": false
+}' > $NBCONFIG_PATH/common.json
+
 # Install grcov
 echo postBuild: Installing grcov...
 cargo install grcov
