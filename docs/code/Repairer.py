@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-05-18 12:24:28+02:00
+# Last change: 2021-05-18 17:14:48+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,7 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Repairer.html
 
-This chapter provides tools and techniques for automated repair of program code. The `Repairer()` class takes a `RankingDebugger` debugger as input (such as `OchiaiDebugger` from the [chapter on statistical debugging](StatisticalDebugger.ipynb). A typical setup looks like this:
+This chapter provides tools and techniques for automated repair of program code. The `Repairer` class takes a `RankingDebugger` debugger as input (such as `OchiaiDebugger` from the [chapter on statistical debugging](StatisticalDebugger.ipynb). A typical setup looks like this:
 
 from debuggingbook.StatisticalDebugger import OchiaiDebugger
 
@@ -56,7 +56,7 @@ repairer = Repairer(debugger)
 
 Here, `test_foo()` is a function that raises an exception if the tested function `foo()` fails. If `foo()` passes, `test_foo()` should not raise an exception.
 
-The `repair()` method of a `Repairer` searches for a repair of the code covered in the debugger (except for methods starting or ending in `test`, such that `foo()`, not `test_foo()` is repaired). `repair()` returns the best fix candidate as a pair `(tree, fitness)` where `tree` is a [Python abstract syntax tree](http://docs.python.org/3/library/ast) (AST) of the fix candidate, and `fitness` is the fitness of the candidate (a value between 0 and 1). A `fitness` of 1.0 means that the candidate passed all tests. A typical usage looks like this:
+The `repair()` method of a `Repairer` searches for a repair of the code covered in the debugger (except for methods whose name starts or ends in `test`, such that `foo()`, not `test_foo()` is repaired). `repair()` returns the best fix candidate as a pair `(tree, fitness)` where `tree` is a [Python abstract syntax tree](http://docs.python.org/3/library/ast) (AST) of the fix candidate, and `fitness` is the fitness of the candidate (a value between 0 and 1). A `fitness` of 1.0 means that the candidate passed all tests. A typical usage looks like this:
 
 import astor
 
@@ -86,10 +86,16 @@ We set up a function `middle_test()` that tests it. The `middle_debugger`  colle
 >>>     with middle_debugger:
 >>>         middle_test(x, y, z)
 
-The repairer attempts to repair the invoked function (`middle()`). The returned AST `tree` can be output via `astor.to_source()`:
+The repairer is instantiated with the debugger used (`middle_debugger`):
 
 >>> middle_repairer = Repairer(middle_debugger)
+
+The `repair()` method of the repairer attempts to repair the function invoked by the test (`middle()`).
+
 >>> tree, fitness = middle_repairer.repair()
+
+The returned AST `tree` can be output via `astor.to_source()`:
+
 >>> print(astor.to_source(tree))
 def middle(x, y, z):
     if y < z:
@@ -1959,7 +1965,11 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     middle_repairer = Repairer(middle_debugger)
+
+if __name__ == '__main__':
     tree, fitness = middle_repairer.repair()
+
+if __name__ == '__main__':
     print(astor.to_source(tree))
 
 if __name__ == '__main__':
