@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = \
-	PerformanceDebugger.ipynb
+	Repairer.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -63,10 +63,10 @@ ABSTRACTING_PART_READY =
 ABSTRACTING_PART_TODO = 
 
 # Repairing Failures
-REPAIRING_PART =
-REPAIRING_PART_READY = \
+REPAIRING_PART = \
 	06_Repairing.ipynb \
 	Repairer.ipynb
+REPAIRING_PART_READY =
 REPAIRING_PART_TODO =
 
 # Debugging in the Large
