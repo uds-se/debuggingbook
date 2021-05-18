@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2021-05-12 17:08:03+02:00
+# Last change: 2021-05-18 11:53:51+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -50,7 +50,6 @@ with Debugger():
 
 While running, you can enter _debugger commands_ at the `(debugger)` prompt. Here's an example session:
 
-['help', 'break 14', 'list', 'continue', 'step', 'print out', 'quit']
 >>> with Debugger():
 >>>     ret = remove_html_markup('abc')
 Calling remove_html_markup(s = 'abc')
@@ -263,9 +262,6 @@ if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-if __name__ == '__main__':
-    assert not next_inputs()
-
 ### A Command Dispatcher
 
 if __name__ == '__main__':
@@ -395,9 +391,6 @@ if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-if __name__ == '__main__':
-    assert not next_inputs()
-
 class Debugger(Debugger):
     def print_command(self, arg: str = "") -> None:
         """Print an expression. If no expression is given, print all variables"""
@@ -420,9 +413,6 @@ if __name__ == '__main__':
         remove_html_markup('abc')
 
 if __name__ == '__main__':
-    assert not next_inputs()
-
-if __name__ == '__main__':
     next_inputs(["print (s[0], 2 + 2)", "continue"]);
 
 if __name__ == '__main__':
@@ -435,9 +425,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
-
-if __name__ == '__main__':
-    assert not next_inputs()
 
 ## Listing Source Code
 ## -------------------
@@ -468,9 +455,6 @@ if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-if __name__ == '__main__':
-    assert not next_inputs()
-
 ## Setting Breakpoints
 ## -------------------
 
@@ -496,9 +480,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
-
-if __name__ == '__main__':
-    assert not next_inputs()
 
 from .bookutils import quiz
 
@@ -542,9 +523,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
-
-if __name__ == '__main__':
-    assert not next_inputs()
 
 if __name__ == '__main__':
     quiz("What does the command `delete` (without argument) do?",
@@ -602,9 +580,6 @@ if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-if __name__ == '__main__':
-    assert not next_inputs()
-
 ### Quitting
 
 if __name__ == '__main__':
@@ -627,9 +602,6 @@ if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-if __name__ == '__main__':
-    assert not next_inputs()
-
 ## Synopsis
 ## --------
 
@@ -642,14 +614,12 @@ if __name__ == '__main__':
     _, remove_html_markup_starting_line_number = \
         inspect.getsourcelines(remove_html_markup)
     next_inputs(["help", f"break {remove_html_markup_starting_line_number + 13}",
-                 "list", "continue", "step", "print out", "quit"]);
+                 "list", "continue", "step", "print out", "quit"])
+    pass
 
 if __name__ == '__main__':
     with Debugger():
         ret = remove_html_markup('abc')
-
-if __name__ == '__main__':
-    assert not next_inputs()
 
 from .ClassDiagram import display_class_hierarchy
 
@@ -729,9 +699,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
-
-if __name__ == '__main__':
-    assert not next_inputs()
 
 ### Exercise 2: More Commands
 

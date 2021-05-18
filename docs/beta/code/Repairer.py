@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-05-17 13:55:44+02:00
+# Last change: 2021-05-18 12:24:28+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,7 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Repairer.html
 
-This chapter provides tools and techniques for automated repair of program code. The `Repairer()` class takes a `RankingDebugger` debugger as input (such as `OchiaiDebugger` from [the chapter on statistical debugging](StatisticalDebugger.ipynb). A typical setup looks like this:
+This chapter provides tools and techniques for automated repair of program code. The `Repairer()` class takes a `RankingDebugger` debugger as input (such as `OchiaiDebugger` from the [chapter on statistical debugging](StatisticalDebugger.ipynb). A typical setup looks like this:
 
 from debuggingbook.StatisticalDebugger import OchiaiDebugger
 
@@ -823,13 +823,14 @@ if __name__ == '__main__':
     middle = original_middle
 
 if __name__ == '__main__':
-    quiz("Some of the lines in our fix candidate are redundant. Which are these?",
+    quiz("Some of the lines in our fix candidate are redundant. "
+         "Which are these?",
         [
-            "Line 3: `if x < y`",
-            "Line 4: `if x > z`",
-            "Line 5: `return x`",
+            "Line 3: `if x < y:`",
+            "Line 4: `if x < z:`",
+            "Line 5: `return y`",
             "Line 13: `return z`"
-        ], '[eval(chr(100 - x)) for x in [49, 50]]')
+        ], '[eval(chr(100 - x)) for x in [48, 50]]')
 
 ## Simplifying
 ## -----------
@@ -1421,15 +1422,9 @@ if __name__ == '__main__':
     good_fitness
 
 if __name__ == '__main__':
-    assert good_fitness >= 0.99, "fitness() failed"
-
-if __name__ == '__main__':
     bad_middle_tree = ast.parse("def middle(x, y, z): return x")
     bad_fitness = repairer.fitness(bad_middle_tree)
     bad_fitness
-
-if __name__ == '__main__':
-    assert bad_fitness < 0.5, "fitness() failed"
 
 #### Repairing
 
@@ -1916,7 +1911,8 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     quiz("Why aren't single quotes handled in the solution?",
         [
-            "Because they're not important. I mean, who uses 'em anyway?",
+            "Because they're not important. "
+                "I mean, y'know, who uses 'em anyway?",
             "Because they are not part of our tests? "
                 "Let me look up how they are constructed..."
         ], 1 << 1)
@@ -1968,9 +1964,6 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     fitness
-
-if __name__ == '__main__':
-    assert fitness >= 1.0
 
 from .ClassDiagram import display_class_hierarchy
 
