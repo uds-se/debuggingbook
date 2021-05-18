@@ -12071,7 +12071,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn"><a href="Repairer.html" class="import" target="_blank">debuggingbook.Repairer</a></span> <span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
 </pre></div>
 <p>and then make use of the following features.</p>
-<p>This chapter provides tools and techniques for automated repair of program code. The <code>Repairer()</code> class takes a <code>RankingDebugger</code> debugger as input (such as <code>OchiaiDebugger</code> from the <a href="StatisticalDebugger.html">chapter on statistical debugging</a>. A typical setup looks like this:</p>
+<p>This chapter provides tools and techniques for automated repair of program code. The <code>Repairer</code> class takes a <code>RankingDebugger</code> debugger as input (such as <code>OchiaiDebugger</code> from the <a href="StatisticalDebugger.html">chapter on statistical debugging</a>. A typical setup looks like this:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn"><a href="StatisticalDebugger.html" class="import" target="_blank">debuggingbook.StatisticalDebugger</a></span> <span class="kn">import</span> <span class="n">OchiaiDebugger</span>
 
 <span class="n">debugger</span> <span class="o">=</span> <span class="n">OchiaiDebugger</span><span class="p">()</span>
@@ -12083,7 +12083,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="n">repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span>
 </pre></div>
 <p>Here, <code>test_foo()</code> is a function that raises an exception if the tested function <code>foo()</code> fails. If <code>foo()</code> passes, <code>test_foo()</code> should not raise an exception.</p>
-<p>The <code>repair()</code> method of a <code>Repairer</code> searches for a repair of the code covered in the debugger (except for methods starting or ending in <code>test</code>, such that <code>foo()</code>, not <code>test_foo()</code> is repaired). <code>repair()</code> returns the best fix candidate as a pair <code>(tree, fitness)</code> where <code>tree</code> is a <a href="http://docs.python.org/3/library/ast">Python abstract syntax tree</a> (AST) of the fix candidate, and <code>fitness</code> is the fitness of the candidate (a value between 0 and 1). A <code>fitness</code> of 1.0 means that the candidate passed all tests. A typical usage looks like this:</p>
+<p>The <code>repair()</code> method of a <code>Repairer</code> searches for a repair of the code covered in the debugger (except for methods whose name starts or ends in <code>test</code>, such that <code>foo()</code>, not <code>test_foo()</code> is repaired). <code>repair()</code> returns the best fix candidate as a pair <code>(tree, fitness)</code> where <code>tree</code> is a <a href="http://docs.python.org/3/library/ast">Python abstract syntax tree</a> (AST) of the fix candidate, and <code>fitness</code> is the fitness of the candidate (a value between 0 and 1). A <code>fitness</code> of 1.0 means that the candidate passed all tests. A typical usage looks like this:</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://asto.readthedocs.io/" class="import" target="_blank">astor</a></span>
 
 <span class="n">tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">()</span>
@@ -12109,10 +12109,14 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="o">&gt;&gt;&gt;</span>     <span class="k">with</span> <span class="n">middle_debugger</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>         <span class="n">middle_test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </pre></div>
-<p>The repairer attempts to repair the invoked function (<code>middle()</code>). The returned AST <code>tree</code> can be output via <code>astor.to_source()</code>:</p>
+<p>The repairer is instantiated with the debugger used (<code>middle_debugger</code>):</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">middle_repairer</span> <span class="o">=</span> <span class="n">Repairer</span><span class="p">(</span><span class="n">middle_debugger</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">middle_repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>
+</pre></div>
+<p>The <code>repair()</code> method of the repairer attempts to repair the function invoked by the test (<code>middle()</code>).</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">tree</span><span class="p">,</span> <span class="n">fitness</span> <span class="o">=</span> <span class="n">middle_repairer</span><span class="o">.</span><span class="n">repair</span><span class="p">()</span>
+</pre></div>
+<p>The returned AST <code>tree</code> can be output via <code>astor.to_source()</code>:</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">astor</span><span class="o">.</span><span class="n">to_source</span><span class="p">(</span><span class="n">tree</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">middle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">z</span><span class="p">:</span>
@@ -12235,7 +12239,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="32.5" y="-412.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
 <polyline fill="none" stroke="#000000" points="0,-403.5 167,-403.5 "/>
 <g id="a_node2_18"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node2_19"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;middle_test&#39;, 1): &lt;function middle_test at 0x7fb3b5361f28&gt;, (&#39;test_reduce&#39;, 2): &lt;function test_reduce at 0x7fb3b581ebf8&gt;, (&#39;remove_html_markup_test&#39;, 1): &lt;function remove_html_markup_test at 0x7fb3b581e840&gt;}">
+<g id="a_node2_19"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;middle_test&#39;, 1): &lt;function middle_test at 0x7fd90035eae8&gt;, (&#39;test_reduce&#39;, 2): &lt;function test_reduce at 0x7fd900819bf8&gt;, (&#39;remove_html_markup_test&#39;, 1): &lt;function remove_html_markup_test at 0x7fd900819488&gt;}">
 <text text-anchor="start" x="8.5" y="-391" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">_generated_function_cache</text>
 </a>
 </g>
@@ -12456,7 +12460,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="350.5" y="-153.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CrossoverOperator</text>
 <polyline fill="none" stroke="#000000" points="342.5,-144.5 486.5,-144.5 "/>
 <g id="a_node7_56"><a xlink:href="#" xlink:title="CrossoverOperator">
-<g id="a_node7_57"><a xlink:href="#" xlink:title="SKIP_LIST = {&lt;class &#39;_ast.ClassDef&#39;&gt;, &lt;class &#39;_ast.Module&#39;&gt;}">
+<g id="a_node7_57"><a xlink:href="#" xlink:title="SKIP_LIST = {&lt;class &#39;_ast.Module&#39;&gt;, &lt;class &#39;_ast.ClassDef&#39;&gt;}">
 <text text-anchor="start" x="387.5" y="-132" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" fill="#000000">SKIP_LIST</text>
 </a>
 </g>
@@ -14206,11 +14210,11 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Return at 0x7fb3b54eaa20&gt;,
- &lt;_ast.Return at 0x7fb3b5386a90&gt;,
- &lt;_ast.Return at 0x7fb3b367eb70&gt;,
- &lt;_ast.Return at 0x7fb3b54eaac8&gt;,
- &lt;_ast.Return at 0x7fb3b54eadd8&gt;]
+<pre>[&lt;_ast.Return at 0x7fd9004eb550&gt;,
+ &lt;_ast.Return at 0x7fd8fe48fa58&gt;,
+ &lt;_ast.Return at 0x7fd8fe48fb00&gt;,
+ &lt;_ast.Return at 0x7fd9004eb908&gt;,
+ &lt;_ast.Return at 0x7fd9004eba90&gt;]
 </pre>
 </div>
 
@@ -14233,11 +14237,11 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[(&lt;_ast.If at 0x7fb3b5386fd0&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fb3b53867b8&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fb3b54eaf98&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fb3b5386a20&gt;, &#39;middle&#39;),
- (&lt;_ast.If at 0x7fb3b54eac18&gt;, &#39;middle&#39;)]
+<pre>[(&lt;_ast.If at 0x7fd9003839e8&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7fd900370860&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7fd9004ebba8&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7fd9004eb780&gt;, &#39;middle&#39;),
+ (&lt;_ast.If at 0x7fd9004eb860&gt;, &#39;middle&#39;)]
 </pre>
 </div>
 
@@ -14827,22 +14831,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="da987988-b7c2-11eb-ae51-acde48001122" id="da987988-b7c2-11eb-ae51-acde48001122-1" onclick="clear_selection('da987988-b7c2-11eb-ae51-acde48001122')">
-        <label id="da987988-b7c2-11eb-ae51-acde48001122-1-label" for="da987988-b7c2-11eb-ae51-acde48001122-1">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br>
+        <input type="checkbox" name="66fe5622-b7eb-11eb-ae51-acde48001122" id="66fe5622-b7eb-11eb-ae51-acde48001122-1" onclick="clear_selection('66fe5622-b7eb-11eb-ae51-acde48001122')">
+        <label id="66fe5622-b7eb-11eb-ae51-acde48001122-1-label" for="66fe5622-b7eb-11eb-ae51-acde48001122-1">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br>
 
-        <input type="checkbox" name="da987988-b7c2-11eb-ae51-acde48001122" id="da987988-b7c2-11eb-ae51-acde48001122-2" onclick="clear_selection('da987988-b7c2-11eb-ae51-acde48001122')">
-        <label id="da987988-b7c2-11eb-ae51-acde48001122-2-label" for="da987988-b7c2-11eb-ae51-acde48001122-2">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br>
+        <input type="checkbox" name="66fe5622-b7eb-11eb-ae51-acde48001122" id="66fe5622-b7eb-11eb-ae51-acde48001122-2" onclick="clear_selection('66fe5622-b7eb-11eb-ae51-acde48001122')">
+        <label id="66fe5622-b7eb-11eb-ae51-acde48001122-2-label" for="66fe5622-b7eb-11eb-ae51-acde48001122-2">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br>
 
-        <input type="checkbox" name="da987988-b7c2-11eb-ae51-acde48001122" id="da987988-b7c2-11eb-ae51-acde48001122-3" onclick="clear_selection('da987988-b7c2-11eb-ae51-acde48001122')">
-        <label id="da987988-b7c2-11eb-ae51-acde48001122-3-label" for="da987988-b7c2-11eb-ae51-acde48001122-3">Because a <code>pass</code> node makes a target for future mutations</label><br>
+        <input type="checkbox" name="66fe5622-b7eb-11eb-ae51-acde48001122" id="66fe5622-b7eb-11eb-ae51-acde48001122-3" onclick="clear_selection('66fe5622-b7eb-11eb-ae51-acde48001122')">
+        <label id="66fe5622-b7eb-11eb-ae51-acde48001122-3-label" for="66fe5622-b7eb-11eb-ae51-acde48001122-3">Because a <code>pass</code> node makes a target for future mutations</label><br>
 
-        <input type="checkbox" name="da987988-b7c2-11eb-ae51-acde48001122" id="da987988-b7c2-11eb-ae51-acde48001122-4" onclick="clear_selection('da987988-b7c2-11eb-ae51-acde48001122')">
-        <label id="da987988-b7c2-11eb-ae51-acde48001122-4-label" for="da987988-b7c2-11eb-ae51-acde48001122-4">Because it causes the tests to pass</label><br>
+        <input type="checkbox" name="66fe5622-b7eb-11eb-ae51-acde48001122" id="66fe5622-b7eb-11eb-ae51-acde48001122-4" onclick="clear_selection('66fe5622-b7eb-11eb-ae51-acde48001122')">
+        <label id="66fe5622-b7eb-11eb-ae51-acde48001122-4-label" for="66fe5622-b7eb-11eb-ae51-acde48001122-4">Because it causes the tests to pass</label><br>
 
     </div>
     </p>
-    <input id="da987988-b7c2-11eb-ae51-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('da987988-b7c2-11eb-ae51-acde48001122', 14, 1, '[3 ^ n for n in range(3)]')">
-    <span class="quiz_hint" id="da987988-b7c2-11eb-ae51-acde48001122-hint"></span>
+    <input id="66fe5622-b7eb-11eb-ae51-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('66fe5622-b7eb-11eb-ae51-acde48001122', 14, 1, '[3 ^ n for n in range(3)]')">
+    <span class="quiz_hint" id="66fe5622-b7eb-11eb-ae51-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15695,22 +15699,22 @@ AssertionError (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="dad56924-b7c2-11eb-8967-acde48001122" id="dad56924-b7c2-11eb-8967-acde48001122-1" onclick="clear_selection('dad56924-b7c2-11eb-8967-acde48001122')">
-        <label id="dad56924-b7c2-11eb-8967-acde48001122-1-label" for="dad56924-b7c2-11eb-8967-acde48001122-1">Line 3: <code>if x &lt; y:</code></label><br>
+        <input type="checkbox" name="674a7298-b7eb-11eb-8967-acde48001122" id="674a7298-b7eb-11eb-8967-acde48001122-1" onclick="clear_selection('674a7298-b7eb-11eb-8967-acde48001122')">
+        <label id="674a7298-b7eb-11eb-8967-acde48001122-1-label" for="674a7298-b7eb-11eb-8967-acde48001122-1">Line 3: <code>if x &lt; y:</code></label><br>
 
-        <input type="checkbox" name="dad56924-b7c2-11eb-8967-acde48001122" id="dad56924-b7c2-11eb-8967-acde48001122-2" onclick="clear_selection('dad56924-b7c2-11eb-8967-acde48001122')">
-        <label id="dad56924-b7c2-11eb-8967-acde48001122-2-label" for="dad56924-b7c2-11eb-8967-acde48001122-2">Line 4: <code>if x &lt; z:</code></label><br>
+        <input type="checkbox" name="674a7298-b7eb-11eb-8967-acde48001122" id="674a7298-b7eb-11eb-8967-acde48001122-2" onclick="clear_selection('674a7298-b7eb-11eb-8967-acde48001122')">
+        <label id="674a7298-b7eb-11eb-8967-acde48001122-2-label" for="674a7298-b7eb-11eb-8967-acde48001122-2">Line 4: <code>if x &lt; z:</code></label><br>
 
-        <input type="checkbox" name="dad56924-b7c2-11eb-8967-acde48001122" id="dad56924-b7c2-11eb-8967-acde48001122-3" onclick="clear_selection('dad56924-b7c2-11eb-8967-acde48001122')">
-        <label id="dad56924-b7c2-11eb-8967-acde48001122-3-label" for="dad56924-b7c2-11eb-8967-acde48001122-3">Line 5: <code>return y</code></label><br>
+        <input type="checkbox" name="674a7298-b7eb-11eb-8967-acde48001122" id="674a7298-b7eb-11eb-8967-acde48001122-3" onclick="clear_selection('674a7298-b7eb-11eb-8967-acde48001122')">
+        <label id="674a7298-b7eb-11eb-8967-acde48001122-3-label" for="674a7298-b7eb-11eb-8967-acde48001122-3">Line 5: <code>return y</code></label><br>
 
-        <input type="checkbox" name="dad56924-b7c2-11eb-8967-acde48001122" id="dad56924-b7c2-11eb-8967-acde48001122-4" onclick="clear_selection('dad56924-b7c2-11eb-8967-acde48001122')">
-        <label id="dad56924-b7c2-11eb-8967-acde48001122-4-label" for="dad56924-b7c2-11eb-8967-acde48001122-4">Line 13: <code>return z</code></label><br>
+        <input type="checkbox" name="674a7298-b7eb-11eb-8967-acde48001122" id="674a7298-b7eb-11eb-8967-acde48001122-4" onclick="clear_selection('674a7298-b7eb-11eb-8967-acde48001122')">
+        <label id="674a7298-b7eb-11eb-8967-acde48001122-4-label" for="674a7298-b7eb-11eb-8967-acde48001122-4">Line 13: <code>return z</code></label><br>
 
     </div>
     </p>
-    <input id="dad56924-b7c2-11eb-8967-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('dad56924-b7c2-11eb-8967-acde48001122', 20, 1, '[eval(chr(100 - x)) for x in [48, 50]]')">
-    <span class="quiz_hint" id="dad56924-b7c2-11eb-8967-acde48001122-hint"></span>
+    <input id="674a7298-b7eb-11eb-8967-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('674a7298-b7eb-11eb-8967-acde48001122', 20, 1, '[eval(chr(100 - x)) for x in [48, 50]]')">
+    <span class="quiz_hint" id="674a7298-b7eb-11eb-8967-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16121,9 +16125,9 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Assign at 0x7fb3b553b198&gt;,
- &lt;_ast.Assign at 0x7fb3b553b1d0&gt;,
- &lt;_ast.Assign at 0x7fb3b553b668&gt;]
+<pre>[&lt;_ast.Assign at 0x7fd90063fcf8&gt;,
+ &lt;_ast.Assign at 0x7fd90063f128&gt;,
+ &lt;_ast.Assign at 0x7fd90063f2e8&gt;]
 </pre>
 </div>
 
@@ -16486,7 +16490,7 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(&lt;_ast.Module at 0x7fb3b56227b8&gt;, &lt;_ast.Module at 0x7fb3b5622c50&gt;)
+<pre>(&lt;_ast.Module at 0x7fd9003875c0&gt;, &lt;_ast.Module at 0x7fd9005b2860&gt;)
 </pre>
 </div>
 
@@ -18179,6 +18183,15 @@ AssertionError: Got &#39;3AGe7!%H&lt;/qcguk&gt;6azh_&#39;, expected &#39;3AGe7&#
 <div class="output_html rendered_html output_subarea output_execute_result">
 
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 1:  70%">   1 def remove_html_markup_test(html: str, plain: str) -&gt; None:</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 2:  70%">   2     outcome = remove_html_markup(html)</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
+                    title="Line 3:  70%">   3     assert outcome == plain, \</pre>
+<pre style="background-color:hsl(0.0, 100.0%, 80%)"
+                    title="Line 4: 100%">   4         f&quot;Got {repr(outcome)}, expected {repr(plain)}&quot;</pre>
+
+<p/><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
                     title="Line 1:  70%">   1 def remove_html_markup(s):  # type: ignore</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
                     title="Line 2:  70%">   2     tag = False</pre>
@@ -18208,15 +18221,6 @@ AssertionError: Got &#39;3AGe7!%H&lt;/qcguk&gt;6azh_&#39;, expected &#39;3AGe7&#
 <pre title="Line 15: not executed">  15 &nbsp;</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
                     title="Line 16:  70%">  16     return out</pre>
-
-<p/><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 1:  70%">   1 def remove_html_markup_test(html: str, plain: str) -&gt; None:</pre>
-<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 2:  70%">   2     outcome = remove_html_markup(html)</pre>
-<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)"
-                    title="Line 3:  70%">   3     assert outcome == plain, \</pre>
-<pre style="background-color:hsl(0.0, 100.0%, 80%)"
-                    title="Line 4: 100%">   4         f&quot;Got {repr(outcome)}, expected {repr(plain)}&quot;</pre>
 
 </div>
 
@@ -18414,28 +18418,28 @@ Reduced code (fitness = 0.99):
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="e180e640-b7c2-11eb-83f2-acde48001122" id="e180e640-b7c2-11eb-83f2-acde48001122-1" onclick="clear_selection('e180e640-b7c2-11eb-83f2-acde48001122')">
-        <label id="e180e640-b7c2-11eb-83f2-acde48001122-1-label" for="e180e640-b7c2-11eb-83f2-acde48001122-1">The population is too small!</label><br>
+        <input type="radio" name="6e74b892-b7eb-11eb-83f2-acde48001122" id="6e74b892-b7eb-11eb-83f2-acde48001122-1" onclick="clear_selection('6e74b892-b7eb-11eb-83f2-acde48001122')">
+        <label id="6e74b892-b7eb-11eb-83f2-acde48001122-1-label" for="6e74b892-b7eb-11eb-83f2-acde48001122-1">The population is too small!</label><br>
 
-        <input type="radio" name="e180e640-b7c2-11eb-83f2-acde48001122" id="e180e640-b7c2-11eb-83f2-acde48001122-2" onclick="clear_selection('e180e640-b7c2-11eb-83f2-acde48001122')">
-        <label id="e180e640-b7c2-11eb-83f2-acde48001122-2-label" for="e180e640-b7c2-11eb-83f2-acde48001122-2">The suspiciousness is too evenly distributed!</label><br>
+        <input type="radio" name="6e74b892-b7eb-11eb-83f2-acde48001122" id="6e74b892-b7eb-11eb-83f2-acde48001122-2" onclick="clear_selection('6e74b892-b7eb-11eb-83f2-acde48001122')">
+        <label id="6e74b892-b7eb-11eb-83f2-acde48001122-2-label" for="6e74b892-b7eb-11eb-83f2-acde48001122-2">The suspiciousness is too evenly distributed!</label><br>
 
-        <input type="radio" name="e180e640-b7c2-11eb-83f2-acde48001122" id="e180e640-b7c2-11eb-83f2-acde48001122-3" onclick="clear_selection('e180e640-b7c2-11eb-83f2-acde48001122')">
-        <label id="e180e640-b7c2-11eb-83f2-acde48001122-3-label" for="e180e640-b7c2-11eb-83f2-acde48001122-3">We need more test cases!</label><br>
+        <input type="radio" name="6e74b892-b7eb-11eb-83f2-acde48001122" id="6e74b892-b7eb-11eb-83f2-acde48001122-3" onclick="clear_selection('6e74b892-b7eb-11eb-83f2-acde48001122')">
+        <label id="6e74b892-b7eb-11eb-83f2-acde48001122-3-label" for="6e74b892-b7eb-11eb-83f2-acde48001122-3">We need more test cases!</label><br>
 
-        <input type="radio" name="e180e640-b7c2-11eb-83f2-acde48001122" id="e180e640-b7c2-11eb-83f2-acde48001122-4" onclick="clear_selection('e180e640-b7c2-11eb-83f2-acde48001122')">
-        <label id="e180e640-b7c2-11eb-83f2-acde48001122-4-label" for="e180e640-b7c2-11eb-83f2-acde48001122-4">We need more iterations!</label><br>
+        <input type="radio" name="6e74b892-b7eb-11eb-83f2-acde48001122" id="6e74b892-b7eb-11eb-83f2-acde48001122-4" onclick="clear_selection('6e74b892-b7eb-11eb-83f2-acde48001122')">
+        <label id="6e74b892-b7eb-11eb-83f2-acde48001122-4-label" for="6e74b892-b7eb-11eb-83f2-acde48001122-4">We need more iterations!</label><br>
 
-        <input type="radio" name="e180e640-b7c2-11eb-83f2-acde48001122" id="e180e640-b7c2-11eb-83f2-acde48001122-5" onclick="clear_selection('e180e640-b7c2-11eb-83f2-acde48001122')">
-        <label id="e180e640-b7c2-11eb-83f2-acde48001122-5-label" for="e180e640-b7c2-11eb-83f2-acde48001122-5">There is no statement in the source with a correct condition!</label><br>
+        <input type="radio" name="6e74b892-b7eb-11eb-83f2-acde48001122" id="6e74b892-b7eb-11eb-83f2-acde48001122-5" onclick="clear_selection('6e74b892-b7eb-11eb-83f2-acde48001122')">
+        <label id="6e74b892-b7eb-11eb-83f2-acde48001122-5-label" for="6e74b892-b7eb-11eb-83f2-acde48001122-5">There is no statement in the source with a correct condition!</label><br>
 
-        <input type="radio" name="e180e640-b7c2-11eb-83f2-acde48001122" id="e180e640-b7c2-11eb-83f2-acde48001122-6" onclick="clear_selection('e180e640-b7c2-11eb-83f2-acde48001122')">
-        <label id="e180e640-b7c2-11eb-83f2-acde48001122-6-label" for="e180e640-b7c2-11eb-83f2-acde48001122-6">The population is too big!</label><br>
+        <input type="radio" name="6e74b892-b7eb-11eb-83f2-acde48001122" id="6e74b892-b7eb-11eb-83f2-acde48001122-6" onclick="clear_selection('6e74b892-b7eb-11eb-83f2-acde48001122')">
+        <label id="6e74b892-b7eb-11eb-83f2-acde48001122-6-label" for="6e74b892-b7eb-11eb-83f2-acde48001122-6">The population is too big!</label><br>
 
     </div>
     </p>
-    <input id="e180e640-b7c2-11eb-83f2-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('e180e640-b7c2-11eb-83f2-acde48001122', 32, 0, '5242880 &gt;&gt; 20')">
-    <span class="quiz_hint" id="e180e640-b7c2-11eb-83f2-acde48001122-hint"></span>
+    <input id="6e74b892-b7eb-11eb-83f2-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('6e74b892-b7eb-11eb-83f2-acde48001122', 32, 0, '5242880 &gt;&gt; 20')">
+    <span class="quiz_hint" id="6e74b892-b7eb-11eb-83f2-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -19123,16 +19127,16 @@ Reduced code (fitness = 1.0):
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="106a78ae-b7c3-11eb-8145-acde48001122" id="106a78ae-b7c3-11eb-8145-acde48001122-1" onclick="clear_selection('106a78ae-b7c3-11eb-8145-acde48001122')">
-        <label id="106a78ae-b7c3-11eb-8145-acde48001122-1-label" for="106a78ae-b7c3-11eb-8145-acde48001122-1">Yes, sure, of course. Why?</label><br>
+        <input type="radio" name="9f874918-b7eb-11eb-8145-acde48001122" id="9f874918-b7eb-11eb-8145-acde48001122-1" onclick="clear_selection('9f874918-b7eb-11eb-8145-acde48001122')">
+        <label id="9f874918-b7eb-11eb-8145-acde48001122-1-label" for="9f874918-b7eb-11eb-8145-acde48001122-1">Yes, sure, of course. Why?</label><br>
 
-        <input type="radio" name="106a78ae-b7c3-11eb-8145-acde48001122" id="106a78ae-b7c3-11eb-8145-acde48001122-2" onclick="clear_selection('106a78ae-b7c3-11eb-8145-acde48001122')">
-        <label id="106a78ae-b7c3-11eb-8145-acde48001122-2-label" for="106a78ae-b7c3-11eb-8145-acde48001122-2">Err - what happened to single quotes?</label><br>
+        <input type="radio" name="9f874918-b7eb-11eb-8145-acde48001122" id="9f874918-b7eb-11eb-8145-acde48001122-2" onclick="clear_selection('9f874918-b7eb-11eb-8145-acde48001122')">
+        <label id="9f874918-b7eb-11eb-8145-acde48001122-2-label" for="9f874918-b7eb-11eb-8145-acde48001122-2">Err - what happened to single quotes?</label><br>
 
     </div>
     </p>
-    <input id="106a78ae-b7c3-11eb-8145-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('106a78ae-b7c3-11eb-8145-acde48001122', 4, 0, '')">
-    <span class="quiz_hint" id="106a78ae-b7c3-11eb-8145-acde48001122-hint"></span>
+    <input id="9f874918-b7eb-11eb-8145-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('9f874918-b7eb-11eb-8145-acde48001122', 4, 0, '')">
+    <span class="quiz_hint" id="9f874918-b7eb-11eb-8145-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -19231,16 +19235,16 @@ Reduced code (fitness = 1.0):
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="106b916c-b7c3-11eb-9d53-acde48001122" id="106b916c-b7c3-11eb-9d53-acde48001122-1" onclick="clear_selection('106b916c-b7c3-11eb-9d53-acde48001122')">
-        <label id="106b916c-b7c3-11eb-9d53-acde48001122-1-label" for="106b916c-b7c3-11eb-9d53-acde48001122-1">Because they're not important. I mean, y'know, who uses 'em anyway?</label><br>
+        <input type="radio" name="9f885b98-b7eb-11eb-9d53-acde48001122" id="9f885b98-b7eb-11eb-9d53-acde48001122-1" onclick="clear_selection('9f885b98-b7eb-11eb-9d53-acde48001122')">
+        <label id="9f885b98-b7eb-11eb-9d53-acde48001122-1-label" for="9f885b98-b7eb-11eb-9d53-acde48001122-1">Because they're not important. I mean, y'know, who uses 'em anyway?</label><br>
 
-        <input type="radio" name="106b916c-b7c3-11eb-9d53-acde48001122" id="106b916c-b7c3-11eb-9d53-acde48001122-2" onclick="clear_selection('106b916c-b7c3-11eb-9d53-acde48001122')">
-        <label id="106b916c-b7c3-11eb-9d53-acde48001122-2-label" for="106b916c-b7c3-11eb-9d53-acde48001122-2">Because they are not part of our tests? Let me look up how they are constructed...</label><br>
+        <input type="radio" name="9f885b98-b7eb-11eb-9d53-acde48001122" id="9f885b98-b7eb-11eb-9d53-acde48001122-2" onclick="clear_selection('9f885b98-b7eb-11eb-9d53-acde48001122')">
+        <label id="9f885b98-b7eb-11eb-9d53-acde48001122-2-label" for="9f885b98-b7eb-11eb-9d53-acde48001122-2">Because they are not part of our tests? Let me look up how they are constructed...</label><br>
 
     </div>
     </p>
-    <input id="106b916c-b7c3-11eb-9d53-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('106b916c-b7c3-11eb-9d53-acde48001122', 4, 0, '')">
-    <span class="quiz_hint" id="106b916c-b7c3-11eb-9d53-acde48001122-hint"></span>
+    <input id="9f885b98-b7eb-11eb-9d53-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('9f885b98-b7eb-11eb-9d53-acde48001122', 4, 0, '')">
+    <span class="quiz_hint" id="9f885b98-b7eb-11eb-9d53-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -19671,7 +19675,7 @@ ZeroDivisionError: float division by zero (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairer.ipynb" target=_blank)>Last change: 2021-05-18 11:44:58+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Repairer.ipynb" target=_blank)>Last change: 2021-05-18 17:11:13+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19687,7 +19691,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairer.html">Repairing Code Automatically</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairer.html">https://www.debuggingbook.org/beta/html/Repairer.html</a>.  Retrieved 2021-05-18 11:44:58+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairer.html">Repairing Code Automatically</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Repairer.html">https://www.debuggingbook.org/beta/html/Repairer.html</a>.  Retrieved 2021-05-18 17:11:13+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:Repairer,
@@ -19697,9 +19701,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Repairer.html"
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Repairer.html}},
-    note = {Retrieved 2021-05-18 11:44:58+02:00},
+    note = {Retrieved 2021-05-18 17:11:13+02:00},
     url = {https://www.debuggingbook.org/beta/html/Repairer.html},
-    urldate = {2021-05-18 11:44:58+02:00}
+    urldate = {2021-05-18 17:11:13+02:00}
 }
 </pre>
 </div>
