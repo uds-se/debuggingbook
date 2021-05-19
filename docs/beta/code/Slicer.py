@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-05-18 12:20:32+02:00
+# Last change: 2021-05-19 17:54:51+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -83,8 +83,8 @@ We see how the parameter `x` flows into `z`, which is returned after some comput
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (4), z (2), x (1)
-*    4         z *= 2  # <= z (4), z (2);  (3)
+*    3     while x <= z <= 64:  # <= z (2), z (4), x (1)
+*    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
 
 
@@ -953,8 +953,12 @@ DATA_TRACKER = '_data'
 
 def is_internal(id: str) -> bool:
     """Return True if `id` is a built-in function or type"""
-    return (id in dir(__builtins__) or 
-            id in dir(typing))
+    return (id in dir(__builtins__) or id in dir(typing))
+
+if __name__ == '__main__':
+    assert is_internal('int')
+    assert is_internal('None')
+    assert is_internal('Tuple')
 
 class TrackGetTransformer(NodeTransformer):
     def visit_Name(self, node: Name) -> AST:
@@ -2587,7 +2591,7 @@ if __name__ == '__main__':
 class WithVisitor(NodeVisitor):
     def __init__(self) -> None:
         self.withs: List[ast.With] = []
-    
+
     def visit_With(self, node: ast.With) -> AST:
         self.withs.append(node)
         return self.generic_visit(node)
@@ -2597,14 +2601,17 @@ class Slicer(Slicer):
         """Return the currently active `with` block."""
         frame = self.caller_frame()
         source_lines, starting_lineno = inspect.getsourcelines(frame)
+        starting_lineno = max(starting_lineno, 1)
+
         source_ast = ast.parse(''.join(source_lines))
         wv = WithVisitor()
         wv.visit(source_ast)
+
         for with_ast in wv.withs:
-            if with_ast.lineno == frame.f_lineno:
+            if starting_lineno + (with_ast.lineno - 1) == frame.f_lineno:
                 return with_ast
 
-        raise ValueError("Cannot find with block")
+        raise ValueError("Cannot find 'with' block")
 
 class CallCollector(NodeVisitor):
     def __init__(self) -> None:
