@@ -3,7 +3,7 @@
 
 # "Debugging Performance Issues" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/PerformanceDebugger.html
-# Last change: 2021-05-18 11:40:44+02:00
+# Last change: 2021-05-26 17:44:49+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -52,7 +52,7 @@ The distribution of executed time within each function can be obtained by printi
 
 >>> print(debugger)
  238   2% def remove_html_markup(s):  # type: ignore
- 239   2%     tag = False
+ 239   1%     tag = False
  240   1%     quote = False
  241   1%     out = ""
  242   0%
@@ -61,12 +61,12 @@ The distribution of executed time within each function can be obtained by printi
  245   0%
  246  15%         if c == '' and not quote:
  249   3%             tag = False
- 250   9%         elif (c == '"' or c == "'") and tag:
+ 250   8%         elif (c == '"' or c == "'") and tag:
  251   0%             quote = not quote
  252   9%         elif not tag:
  253   4%             out = out + c
  254   0%
- 255   2%     return out
+ 255   3%     return out
 
 
 

@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-05-19 17:54:51+02:00
+# Last change: 2021-05-26 17:39:00+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -83,8 +83,8 @@ We see how the parameter `x` flows into `z`, which is returned after some comput
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (2), z (4), x (1)
-*    4         z *= 2  # <= z (2), z (4);  (3)
+*    3     while x <= z <= 64:  # <= z (4), z (2), x (1)
+*    4         z *= 2  # <= z (4), z (2);  (3)
 *    5     return z  # <= z (4)
 
 
