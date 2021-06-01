@@ -10,7 +10,6 @@
 # from . import Slicer
 # from . import DeltaDebugger
 # from . import ChangeDebugger
-# from . import ThreadDebugger
 # from . import StatisticalDebugger
 # from . import DynamicInvariants
 # from . import DDSetDebugger
