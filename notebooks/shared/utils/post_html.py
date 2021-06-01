@@ -323,7 +323,7 @@ def link_exists(link):
         return True
         
     try:
-        urllib.request.urlopen(link)
+        urllib.request.urlopen(link, timeout=5)
     except urllib.error.HTTPError as exc:
         if exc.code == 403:
             # We get this when accessing readthedocs.io
@@ -382,6 +382,8 @@ def add_links_to_imports(contents, html_file):
             link = f'https://ipywidgets.readthedocs.io/'
         elif module.startswith('graphviz'):
             link = f'https://graphviz.readthedocs.io/'
+        elif module in ['git', 'git.exc']:
+            link = f'https://gitpython.readthedocs.io/'
         elif module in ['enforce', 'showast']:
             link = f'https://pypi.org/project/{module}/'
         elif module == 'magic':
