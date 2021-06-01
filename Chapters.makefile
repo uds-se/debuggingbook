@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = \
-	Tracking.ipynb
+	ChangeCounter.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -49,8 +49,8 @@ EXPERIMENTING_PART = \
 	DeltaDebugger.ipynb \
 	ChangeDebugger.ipynb
 EXPERIMENTING_PART_READY = 
-EXPERIMENTING_PART_TODO = \
-	ThreadDebugger.ipynb
+EXPERIMENTING_PART_TODO =
+	# ThreadDebugger.ipynb
 
 # Abstracting Failures
 ABSTRACTING_PART = \
@@ -72,10 +72,10 @@ REPAIRING_PART_TODO =
 # Debugging in the Large
 IN_THE_LARGE_PART = \
 	07_In_the_Large.ipynb \
-	Tracking.ipynb
-IN_THE_LARGE_PART_READY = \
+	Tracking.ipynb \
 	ChangeCounter.ipynb
-IN_THE_LARGE_PART_TODO = 
+IN_THE_LARGE_PART_READY =
+IN_THE_LARGE_PART_TODO =
 
 # Appendices for the book
 APPENDICES = \
