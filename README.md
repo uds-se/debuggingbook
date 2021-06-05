@@ -2,6 +2,7 @@
 
 <!-- Badges to be shown on project page -->
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/uds-se/debuggingbook/master?urlpath=lab/tree/)
 [![Code Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-code.yml)
 &nbsp;
 [![Notebook Tests](https://github.com/uds-se/debuggingbook/actions/workflows/check-notebooks.yml/badge.svg)](https://github.com/uds-se/debuggingbook/actions/workflows/check-notebooks.yml)
