@@ -12,7 +12,7 @@
 &nbsp;
 [![Website www.debuggingbook.org](https://img.shields.io/website-up-down-green-red/https/www.debuggingbook.org.svg)](https://www.debuggingbook.org/)
 
-![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/)
+![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/00_Table_of_Contents.ipynb)
 &nbsp;
 [![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue.svg)](https://www.python.org/)
 &nbsp;
