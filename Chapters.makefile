@@ -155,3 +155,7 @@ TODO_CHAPTERS = \
 # No timeouts; debuggingbook/Tracing can take up to 15 minutes to render
 EXECUTE_TIMEOUT = 900
 TIME = time
+
+# By default, also check types
+web default: test-types
+run: check-types
