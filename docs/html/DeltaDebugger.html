@@ -14657,6 +14657,7 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Passing input:&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">from_set</span><span class="p">(</span><span class="n">c_pass</span><span class="p">,</span> <span class="n">fail_inp</span><span class="p">)))</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failing input:&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">from_set</span><span class="p">(</span><span class="n">c_fail</span><span class="p">,</span> <span class="n">fail_inp</span><span class="p">)))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n =&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 
             <span class="n">delta</span> <span class="o">=</span> <span class="n">c_fail</span> <span class="o">-</span> <span class="n">c_pass</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
@@ -14664,7 +14665,9 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 
             <span class="n">deltas</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 
+            <span class="n">reduction_found</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+
             <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
                 <span class="n">next_c_pass</span> <span class="o">=</span> <span class="n">c_pass</span> <span class="o">|</span> <span class="n">deltas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -14676,36 +14679,50 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
                     <span class="n">c_fail</span> <span class="o">=</span> <span class="n">next_c_pass</span>
                     <span class="c1"># n = 2</span>
                     <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">reduction_found</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
+
                 <span class="k">elif</span> <span class="n">maximize_pass</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">test</span><span class="p">(</span><span class="n">next_c_fail</span><span class="p">)</span> <span class="o">==</span> <span class="n">PASS</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Increase to subset&quot;</span><span class="p">)</span>
                     <span class="n">c_pass</span> <span class="o">=</span> <span class="n">next_c_fail</span>
                     <span class="c1"># n = 2</span>
                     <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">reduction_found</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
+
                 <span class="k">elif</span> <span class="n">minimize_fail</span> <span class="ow">and</span> <span class="n">test</span><span class="p">(</span><span class="n">next_c_fail</span><span class="p">)</span> <span class="o">==</span> <span class="n">FAIL</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reduce to complement&quot;</span><span class="p">)</span>
                     <span class="n">c_fail</span> <span class="o">=</span> <span class="n">next_c_fail</span>
                     <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
                     <span class="n">offset</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">reduction_found</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
+
                 <span class="k">elif</span> <span class="n">maximize_pass</span> <span class="ow">and</span> <span class="n">test</span><span class="p">(</span><span class="n">next_c_pass</span><span class="p">)</span> <span class="o">==</span> <span class="n">PASS</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Increase to complement&quot;</span><span class="p">)</span>
                     <span class="n">c_pass</span> <span class="o">=</span> <span class="n">next_c_pass</span>
                     <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
                     <span class="n">offset</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="n">reduction_found</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">break</span>
+
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># choose next subset</span>
 
-            <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>  <span class="c1"># no reduction found</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">reduction_found</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No reduction found&quot;</span><span class="p">)</span>
+
                 <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">ret</span><span class="p">(</span><span class="n">c_pass</span><span class="p">,</span> <span class="n">c_fail</span><span class="p">)</span>
 
-                <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Increase granularity&quot;</span><span class="p">)</span>
+
+                <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">delta</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -14908,60 +14925,82 @@ Test #2 mystery(inp=&#39;123&#39;): PASS
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Passing input: &#39;&#39;
 Failing input: &#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;
+n = 2
 Test #1 mystery(inp=&#39;V&#34;/+!aF-(V4EO&#39;): PASS
 Test #2 mystery(inp=&#39;z*+s/Q,7)2@0_&#39;): PASS
+No reduction found
+Increase granularity
 Passing input: &#39;&#39;
 Failing input: &#39;V&#34;/+!aF-(V4EOz*+s/Q,7)2@0_&#39;
+n = 4
 Test #3 mystery(inp=&#39;-(V4EOz*+s/Q,7)2@0_&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;-(V4EOz*+s/Q,7)2@0_&#39;
+n = 3
 Test #4 mystery(inp=&#39;*+s/Q,7)2@0_&#39;): PASS
 Test #5 mystery(inp=&#39;-(V4EOz7)2@0_&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;-(V4EOz7)2@0_&#39;
+n = 2
 Test #6 mystery(inp=&#39;7)2@0_&#39;): PASS
 Test #7 mystery(inp=&#39;-(V4EOz&#39;): PASS
+No reduction found
+Increase granularity
 Passing input: &#39;&#39;
 Failing input: &#39;-(V4EOz7)2@0_&#39;
+n = 4
 Test #8 mystery(inp=&#39;-(V47)2@0_&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;-(V47)2@0_&#39;
+n = 3
 Test #9 mystery(inp=&#39;-(V4@0_&#39;): PASS
 Test #10 mystery(inp=&#39;-(V47)2&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;-(V47)2&#39;
+n = 2
 Test #11 mystery(inp=&#39;-7)2&#39;): PASS
 Test #12 mystery(inp=&#39;(V4&#39;): PASS
+No reduction found
+Increase granularity
 Passing input: &#39;&#39;
 Failing input: &#39;-(V47)2&#39;
+n = 4
 Test #13 mystery(inp=&#39;-47)2&#39;): PASS
 Test #14 mystery(inp=&#39;-(V7)2&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;-(V7)2&#39;
+n = 3
 Test #15 mystery(inp=&#39;-(V2&#39;): PASS
 Test #16 mystery(inp=&#39;(V7)&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;(V7)&#39;
+n = 2
 Test #17 mystery(inp=&#39;7)&#39;): PASS
 Test #18 mystery(inp=&#39;(V&#39;): PASS
+No reduction found
+Increase granularity
 Passing input: &#39;&#39;
 Failing input: &#39;(V7)&#39;
+n = 4
 Test #19 mystery(inp=&#39;(7)&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;(7)&#39;
+n = 3
 Test #20 mystery(inp=&#39;()&#39;): FAIL (ValueError: Invalid input)
 Reduce to complement
 Passing input: &#39;&#39;
 Failing input: &#39;()&#39;
+n = 2
 Test #21 mystery(inp=&#39;)&#39;): PASS
 Test #22 mystery(inp=&#39;(&#39;): PASS
+No reduction found
 </pre>
 </div>
 
@@ -15555,19 +15594,19 @@ Minimized failing call to mystery(inp=&#39;()&#39;)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="b57ec558-b7c2-11eb-ad64-acde48001122" id="b57ec558-b7c2-11eb-ad64-acde48001122-1" onclick="clear_selection('b57ec558-b7c2-11eb-ad64-acde48001122')">
-        <label id="b57ec558-b7c2-11eb-ad64-acde48001122-1-label" for="b57ec558-b7c2-11eb-ad64-acde48001122-1">Delta debugging searches for the minimal input that produces the same result</label><br>
+        <input type="radio" name="7e730dfa-0cb6-11ec-ad64-acde48001122" id="7e730dfa-0cb6-11ec-ad64-acde48001122-1" onclick="clear_selection('7e730dfa-0cb6-11ec-ad64-acde48001122')">
+        <label id="7e730dfa-0cb6-11ec-ad64-acde48001122-1-label" for="7e730dfa-0cb6-11ec-ad64-acde48001122-1">Delta debugging searches for the minimal input that produces the same result</label><br>
 
-        <input type="radio" name="b57ec558-b7c2-11eb-ad64-acde48001122" id="b57ec558-b7c2-11eb-ad64-acde48001122-2" onclick="clear_selection('b57ec558-b7c2-11eb-ad64-acde48001122')">
-        <label id="b57ec558-b7c2-11eb-ad64-acde48001122-2-label" for="b57ec558-b7c2-11eb-ad64-acde48001122-2">Delta debugging starts a fuzzer to find an exception</label><br>
+        <input type="radio" name="7e730dfa-0cb6-11ec-ad64-acde48001122" id="7e730dfa-0cb6-11ec-ad64-acde48001122-2" onclick="clear_selection('7e730dfa-0cb6-11ec-ad64-acde48001122')">
+        <label id="7e730dfa-0cb6-11ec-ad64-acde48001122-2-label" for="7e730dfa-0cb6-11ec-ad64-acde48001122-2">Delta debugging starts a fuzzer to find an exception</label><br>
 
-        <input type="radio" name="b57ec558-b7c2-11eb-ad64-acde48001122" id="b57ec558-b7c2-11eb-ad64-acde48001122-3" onclick="clear_selection('b57ec558-b7c2-11eb-ad64-acde48001122')">
-        <label id="b57ec558-b7c2-11eb-ad64-acde48001122-3-label" for="b57ec558-b7c2-11eb-ad64-acde48001122-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
+        <input type="radio" name="7e730dfa-0cb6-11ec-ad64-acde48001122" id="7e730dfa-0cb6-11ec-ad64-acde48001122-3" onclick="clear_selection('7e730dfa-0cb6-11ec-ad64-acde48001122')">
+        <label id="7e730dfa-0cb6-11ec-ad64-acde48001122-3-label" for="7e730dfa-0cb6-11ec-ad64-acde48001122-3">Delta debugging raises an exceptionDelta debugging runs forever in a loop</label><br>
 
     </div>
     </p>
-    <input id="b57ec558-b7c2-11eb-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b57ec558-b7c2-11eb-ad64-acde48001122', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')">
-    <span class="quiz_hint" id="b57ec558-b7c2-11eb-ad64-acde48001122-hint"></span>
+    <input id="7e730dfa-0cb6-11ec-ad64-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7e730dfa-0cb6-11ec-ad64-acde48001122', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')">
+    <span class="quiz_hint" id="7e730dfa-0cb6-11ec-ad64-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15758,14 +15797,19 @@ Minimized failing call to remove_html_markup(s=&#39;&#34;&gt;&#39;)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Observed string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;) raising AssertionError: no substrings
 Test #1 string_error(s2=&#39;foobar&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
+Processing s2...
+Test #2 string_error(s2=&#39;foo&#39;, s1=&#39;foo&#39;): FAIL (AssertionError: no substrings)
+Test #3 string_error(s2=&#39;fo&#39;, s1=&#39;foo&#39;): PASS
+Test #4 string_error(s2=&#39;o&#39;, s1=&#39;foo&#39;): PASS
+Test #5 string_error(s2=&#39;oo&#39;, s1=&#39;foo&#39;): PASS
+Minimized s2 to &#39;foo&#39;
 Processing s1...
-Test #2 string_error(s2=&#39;foobar&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
-Test #3 string_error(s2=&#39;foobar&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #6 string_error(s2=&#39;foo&#39;, s1=&#39;fo&#39;): FAIL (AssertionError: no substrings)
+Test #7 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s1 to &#39;f&#39;
 Processing s2...
-Test #4 string_error(s2=&#39;foo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
-Test #5 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
-Test #6 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #8 string_error(s2=&#39;fo&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
+Test #9 string_error(s2=&#39;f&#39;, s1=&#39;f&#39;): FAIL (AssertionError: no substrings)
 Minimized s2 to &#39;f&#39;
 Processing s1...
 Minimized failing call to string_error(s2=&#39;f&#39;, s1=&#39;f&#39;)
@@ -16511,22 +16555,22 @@ AssertionError: My Test (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="b5b8a25a-b7c2-11eb-bbf6-acde48001122" id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-1" onclick="clear_selection('b5b8a25a-b7c2-11eb-bbf6-acde48001122')">
-        <label id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-1-label" for="b5b8a25a-b7c2-11eb-bbf6-acde48001122-1">All of the source code in the assertions chapter.</label><br>
+        <input type="radio" name="7eabef62-0cb6-11ec-bbf6-acde48001122" id="7eabef62-0cb6-11ec-bbf6-acde48001122-1" onclick="clear_selection('7eabef62-0cb6-11ec-bbf6-acde48001122')">
+        <label id="7eabef62-0cb6-11ec-bbf6-acde48001122-1-label" for="7eabef62-0cb6-11ec-bbf6-acde48001122-1">All of the source code in the assertions chapter.</label><br>
 
-        <input type="radio" name="b5b8a25a-b7c2-11eb-bbf6-acde48001122" id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-2" onclick="clear_selection('b5b8a25a-b7c2-11eb-bbf6-acde48001122')">
-        <label id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-2-label" for="b5b8a25a-b7c2-11eb-bbf6-acde48001122-2">Only the source code of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="7eabef62-0cb6-11ec-bbf6-acde48001122" id="7eabef62-0cb6-11ec-bbf6-acde48001122-2" onclick="clear_selection('7eabef62-0cb6-11ec-bbf6-acde48001122')">
+        <label id="7eabef62-0cb6-11ec-bbf6-acde48001122-2-label" for="7eabef62-0cb6-11ec-bbf6-acde48001122-2">Only the source code of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="b5b8a25a-b7c2-11eb-bbf6-acde48001122" id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-3" onclick="clear_selection('b5b8a25a-b7c2-11eb-bbf6-acde48001122')">
-        <label id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-3-label" for="b5b8a25a-b7c2-11eb-bbf6-acde48001122-3">Only a subset of <code>remove_html_markup()</code></label><br>
+        <input type="radio" name="7eabef62-0cb6-11ec-bbf6-acde48001122" id="7eabef62-0cb6-11ec-bbf6-acde48001122-3" onclick="clear_selection('7eabef62-0cb6-11ec-bbf6-acde48001122')">
+        <label id="7eabef62-0cb6-11ec-bbf6-acde48001122-3-label" for="7eabef62-0cb6-11ec-bbf6-acde48001122-3">Only a subset of <code>remove_html_markup()</code></label><br>
 
-        <input type="radio" name="b5b8a25a-b7c2-11eb-bbf6-acde48001122" id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-4" onclick="clear_selection('b5b8a25a-b7c2-11eb-bbf6-acde48001122')">
-        <label id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-4-label" for="b5b8a25a-b7c2-11eb-bbf6-acde48001122-4">No lines at all.</label><br>
+        <input type="radio" name="7eabef62-0cb6-11ec-bbf6-acde48001122" id="7eabef62-0cb6-11ec-bbf6-acde48001122-4" onclick="clear_selection('7eabef62-0cb6-11ec-bbf6-acde48001122')">
+        <label id="7eabef62-0cb6-11ec-bbf6-acde48001122-4-label" for="7eabef62-0cb6-11ec-bbf6-acde48001122-4">No lines at all.</label><br>
 
     </div>
     </p>
-    <input id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b5b8a25a-b7c2-11eb-bbf6-acde48001122', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')">
-    <span class="quiz_hint" id="b5b8a25a-b7c2-11eb-bbf6-acde48001122-hint"></span>
+    <input id="7eabef62-0cb6-11ec-bbf6-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7eabef62-0cb6-11ec-bbf6-acde48001122', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')">
+    <span class="quiz_hint" id="7eabef62-0cb6-11ec-bbf6-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17012,22 +17056,22 @@ RuntimeError: Missing functionality (expected)
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="b607c0cc-b7c2-11eb-abf8-acde48001122" id="b607c0cc-b7c2-11eb-abf8-acde48001122-1" onclick="clear_selection('b607c0cc-b7c2-11eb-abf8-acde48001122')">
-        <label id="b607c0cc-b7c2-11eb-abf8-acde48001122-1-label" for="b607c0cc-b7c2-11eb-abf8-acde48001122-1">Comments are deleted</label><br>
+        <input type="checkbox" name="7efd20b4-0cb6-11ec-abf8-acde48001122" id="7efd20b4-0cb6-11ec-abf8-acde48001122-1" onclick="clear_selection('7efd20b4-0cb6-11ec-abf8-acde48001122')">
+        <label id="7efd20b4-0cb6-11ec-abf8-acde48001122-1-label" for="7efd20b4-0cb6-11ec-abf8-acde48001122-1">Comments are deleted</label><br>
 
-        <input type="checkbox" name="b607c0cc-b7c2-11eb-abf8-acde48001122" id="b607c0cc-b7c2-11eb-abf8-acde48001122-2" onclick="clear_selection('b607c0cc-b7c2-11eb-abf8-acde48001122')">
-        <label id="b607c0cc-b7c2-11eb-abf8-acde48001122-2-label" for="b607c0cc-b7c2-11eb-abf8-acde48001122-2">Blank lines are deleted</label><br>
+        <input type="checkbox" name="7efd20b4-0cb6-11ec-abf8-acde48001122" id="7efd20b4-0cb6-11ec-abf8-acde48001122-2" onclick="clear_selection('7efd20b4-0cb6-11ec-abf8-acde48001122')">
+        <label id="7efd20b4-0cb6-11ec-abf8-acde48001122-2-label" for="7efd20b4-0cb6-11ec-abf8-acde48001122-2">Blank lines are deleted</label><br>
 
-        <input type="checkbox" name="b607c0cc-b7c2-11eb-abf8-acde48001122" id="b607c0cc-b7c2-11eb-abf8-acde48001122-3" onclick="clear_selection('b607c0cc-b7c2-11eb-abf8-acde48001122')">
-        <label id="b607c0cc-b7c2-11eb-abf8-acde48001122-3-label" for="b607c0cc-b7c2-11eb-abf8-acde48001122-3">Initializations are deleted</label><br>
+        <input type="checkbox" name="7efd20b4-0cb6-11ec-abf8-acde48001122" id="7efd20b4-0cb6-11ec-abf8-acde48001122-3" onclick="clear_selection('7efd20b4-0cb6-11ec-abf8-acde48001122')">
+        <label id="7efd20b4-0cb6-11ec-abf8-acde48001122-3-label" for="7efd20b4-0cb6-11ec-abf8-acde48001122-3">Initializations are deleted</label><br>
 
-        <input type="checkbox" name="b607c0cc-b7c2-11eb-abf8-acde48001122" id="b607c0cc-b7c2-11eb-abf8-acde48001122-4" onclick="clear_selection('b607c0cc-b7c2-11eb-abf8-acde48001122')">
-        <label id="b607c0cc-b7c2-11eb-abf8-acde48001122-4-label" for="b607c0cc-b7c2-11eb-abf8-acde48001122-4">The assertion is deleted</label><br>
+        <input type="checkbox" name="7efd20b4-0cb6-11ec-abf8-acde48001122" id="7efd20b4-0cb6-11ec-abf8-acde48001122-4" onclick="clear_selection('7efd20b4-0cb6-11ec-abf8-acde48001122')">
+        <label id="7efd20b4-0cb6-11ec-abf8-acde48001122-4-label" for="7efd20b4-0cb6-11ec-abf8-acde48001122-4">The assertion is deleted</label><br>
 
     </div>
     </p>
-    <input id="b607c0cc-b7c2-11eb-abf8-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('b607c0cc-b7c2-11eb-abf8-acde48001122', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')">
-    <span class="quiz_hint" id="b607c0cc-b7c2-11eb-abf8-acde48001122-hint"></span>
+    <input id="7efd20b4-0cb6-11ec-abf8-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('7efd20b4-0cb6-11ec-abf8-acde48001122', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')">
+    <span class="quiz_hint" id="7efd20b4-0cb6-11ec-abf8-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17193,11 +17237,12 @@ AssertionError: My Test (expected)
 <div class="output_subarea output_stream output_stdout output_text">
 <pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
     tag=<span class="ansi-blue-fg">False</span>
-    quote=out=<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
+    quote=<span class="ansi-blue-fg">False</span>
+    out=<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">True</span>
-        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">or</span> c==tag:quote
+        <span class="ansi-blue-fg">if</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">and</span> <span class="ansi-magenta-fg">not</span> quote:tag=<span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c==<span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-magenta-fg">or</span> c==<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-magenta-fg">and</span> g:<span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:out=out+c
     <span class="ansi-blue-fg">return</span> out
 </pre>
@@ -17247,7 +17292,7 @@ AssertionError: My Test (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>20611
+<pre>1276
 </pre>
 </div>
 
@@ -17279,7 +17324,7 @@ AssertionError: My Test (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>5.472052532015368
+<pre>0.4145728530129418
 </pre>
 </div>
 
@@ -19170,36 +19215,36 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Module at 0x7fb03f570e10&gt;,
- &lt;_ast.FunctionDef at 0x7fb03f591eb8&gt;,
- &lt;_ast.arguments at 0x7fb03f591f98&gt;,
- &lt;_ast.arg at 0x7fb03f591f60&gt;,
- &lt;_ast.Assign at 0x7fb03f591dd8&gt;,
- &lt;_ast.Name at 0x7fb03f591ef0&gt;,
- &lt;_ast.Store at 0x7fb03c9386d8&gt;,
- &lt;_ast.NameConstant at 0x7fb03f591240&gt;,
- &lt;_ast.Assign at 0x7fb03f591da0&gt;,
- &lt;_ast.Name at 0x7fb03f591128&gt;,
- &lt;_ast.Store at 0x7fb03c9386d8&gt;,
- &lt;_ast.NameConstant at 0x7fb03f591198&gt;,
- &lt;_ast.Assign at 0x7fb03f591160&gt;,
- &lt;_ast.Name at 0x7fb03f591390&gt;,
- &lt;_ast.Store at 0x7fb03c9386d8&gt;,
- &lt;_ast.Str at 0x7fb03f5912b0&gt;,
- &lt;_ast.For at 0x7fb03f5911d0&gt;,
- &lt;_ast.Name at 0x7fb03f591208&gt;,
- &lt;_ast.Store at 0x7fb03c9386d8&gt;,
- &lt;_ast.Name at 0x7fb03f591320&gt;,
- &lt;_ast.Load at 0x7fb03c9385c0&gt;,
- &lt;_ast.If at 0x7fb03f591518&gt;,
- &lt;_ast.BoolOp at 0x7fb03f5913c8&gt;,
- &lt;_ast.And at 0x7fb03c93c208&gt;,
- &lt;_ast.Compare at 0x7fb03f591358&gt;,
- &lt;_ast.Name at 0x7fb03f591e48&gt;,
- &lt;_ast.Load at 0x7fb03c9385c0&gt;,
- &lt;_ast.Eq at 0x7fb03c940940&gt;,
- &lt;_ast.Str at 0x7fb03f591d30&gt;,
- &lt;_ast.UnaryOp at 0x7fb03f591cf8&gt;]
+<pre>[&lt;_ast.Module at 0x7fbdb858a518&gt;,
+ &lt;_ast.FunctionDef at 0x7fbdb858af28&gt;,
+ &lt;_ast.arguments at 0x7fbdb858af60&gt;,
+ &lt;_ast.arg at 0x7fbdb858a588&gt;,
+ &lt;_ast.Assign at 0x7fbdb858afd0&gt;,
+ &lt;_ast.Name at 0x7fbdb858a6a0&gt;,
+ &lt;_ast.Store at 0x7fbdb614e7f0&gt;,
+ &lt;_ast.NameConstant at 0x7fbdb858a4a8&gt;,
+ &lt;_ast.Assign at 0x7fbdb858a438&gt;,
+ &lt;_ast.Name at 0x7fbdb858a4e0&gt;,
+ &lt;_ast.Store at 0x7fbdb614e7f0&gt;,
+ &lt;_ast.NameConstant at 0x7fbdb858a470&gt;,
+ &lt;_ast.Assign at 0x7fbdb858ac88&gt;,
+ &lt;_ast.Name at 0x7fbdb858ab70&gt;,
+ &lt;_ast.Store at 0x7fbdb614e7f0&gt;,
+ &lt;_ast.Str at 0x7fbdb858ac50&gt;,
+ &lt;_ast.For at 0x7fbdb858ac18&gt;,
+ &lt;_ast.Name at 0x7fbdb858aba8&gt;,
+ &lt;_ast.Store at 0x7fbdb614e7f0&gt;,
+ &lt;_ast.Name at 0x7fbdb858aac8&gt;,
+ &lt;_ast.Load at 0x7fbdb614e6d8&gt;,
+ &lt;_ast.If at 0x7fbdb858abe0&gt;,
+ &lt;_ast.BoolOp at 0x7fbdb858acf8&gt;,
+ &lt;_ast.And at 0x7fbdb6152320&gt;,
+ &lt;_ast.Compare at 0x7fbdb858ab38&gt;,
+ &lt;_ast.Name at 0x7fbdb858ab00&gt;,
+ &lt;_ast.Load at 0x7fbdb614e6d8&gt;,
+ &lt;_ast.Eq at 0x7fbdb6155a58&gt;,
+ &lt;_ast.Str at 0x7fbdb858a6d8&gt;,
+ &lt;_ast.UnaryOp at 0x7fbdb858aa90&gt;]
 </pre>
 </div>
 
@@ -19362,7 +19407,7 @@ To this end, we manipulate the AST through the Python modules <code>ast</code> a
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_ast.Assign at 0x7fb03f591dd8&gt;
+<pre>&lt;_ast.Assign at 0x7fbdb858afd0&gt;
 </pre>
 </div>
 
@@ -22433,7 +22478,7 @@ AssertionError: My Test (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>2611
+<pre>312
 </pre>
 </div>
 
@@ -22774,7 +22819,7 @@ AssertionError: My Test (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-05-13 14:27:52+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DeltaDebugger.ipynb" target=_blank)>Last change: 2021-09-03 14:44:52+02:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -22790,7 +22835,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/DeltaDebugger.html">https://www.debuggingbook.org/html/DeltaDebugger.html</a>.  Retrieved 2021-05-13 14:27:52+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/DeltaDebugger.html">https://www.debuggingbook.org/html/DeltaDebugger.html</a>.  Retrieved 2021-09-03 14:44:52+02:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:DeltaDebugger,
@@ -22800,9 +22845,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DeltaDebugger.html"
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/html/DeltaDebugger.html}},
-    note = {Retrieved 2021-05-13 14:27:52+02:00},
+    note = {Retrieved 2021-09-03 14:44:52+02:00},
     url = {https://www.debuggingbook.org/html/DeltaDebugger.html},
-    urldate = {2021-05-13 14:27:52+02:00}
+    urldate = {2021-09-03 14:44:52+02:00}
 }
 </pre>
 </div>

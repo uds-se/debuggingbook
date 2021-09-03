@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-05-18 12:21:03+02:00
+# Last change: 2021-09-03 14:57:41+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -770,6 +770,7 @@ class DeltaDebugger(CachingCallReducer):
             if self.log > 1:
                 print("Passing input:", repr(from_set(c_pass, fail_inp)))
                 print("Failing input:", repr(from_set(c_fail, fail_inp)))
+                print("n =", n)
 
             delta = c_fail - c_pass
             if len(delta) < n:
@@ -777,7 +778,9 @@ class DeltaDebugger(CachingCallReducer):
 
             deltas = split(delta, n)
 
+            reduction_found = False
             j = 0
+
             while j < n:
                 i = (j + offset) % n
                 next_c_pass = c_pass | deltas[i]
@@ -789,36 +792,50 @@ class DeltaDebugger(CachingCallReducer):
                     c_fail = next_c_pass
                     # n = 2
                     offset = 0
+                    reduction_found = True
                     break
+
                 elif maximize_pass and n == 2 and test(next_c_fail) == PASS:
                     if self.log > 1:
                         print("Increase to subset")
                     c_pass = next_c_fail
                     # n = 2
                     offset = 0
+                    reduction_found = True
                     break
+
                 elif minimize_fail and test(next_c_fail) == FAIL:
                     if self.log > 1:
                         print("Reduce to complement")
                     c_fail = next_c_fail
                     n = max(n - 1, 2)
                     offset = i
+                    reduction_found = True
                     break
+
                 elif maximize_pass and test(next_c_pass) == PASS:
                     if self.log > 1:
                         print("Increase to complement")
                     c_pass = next_c_pass
                     n = max(n - 1, 2)
                     offset = i
+                    reduction_found = True
                     break
+
                 else:
                     j += 1  # choose next subset
 
-            if j >= n:  # no reduction found
+            if not reduction_found:
+                if self.log > 1:
+                    print("No reduction found")
+
                 if n >= len(delta):
                     return ret(c_pass, c_fail)
 
-                n = min(n + 2, len(delta))
+                if self.log > 1:
+                    print("Increase granularity")
+
+                n = min(n * 2, len(delta))
 
 if __name__ == '__main__':
     with DeltaDebugger() as dd:
