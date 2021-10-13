@@ -3,7 +3,7 @@
 
 # "Generalizing Failure Circumstances" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2021-09-03 14:58:22+02:00
+# Last change: 2021-10-13 13:34:20+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -600,7 +600,7 @@ if __name__ == '__main__':
          [
              "Yes",
              "No"
-         ], '("No" == "No") + ("No" is "No")')
+         ], '("Yes" == "Yes") + ("No" == "No")')
 
 BAD_ATTR_INPUT = '<foo attr="\'">bar</foo>'
 

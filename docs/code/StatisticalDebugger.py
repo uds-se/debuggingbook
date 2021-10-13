@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2021-05-18 11:35:07+02:00
+# Last change: 2021-10-13 13:32:57+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -131,19 +131,19 @@ The method `rank()` returns a ranked list of events, starting with the most susp
 
 >>> debugger.rank()
 [('remove_html_markup', 12),
- ('remove_html_markup', 3),
- ('remove_html_markup', 1),
- ('remove_html_markup', 13),
- ('remove_html_markup', 6),
- ('remove_html_markup', 11),
  ('remove_html_markup', 16),
- ('remove_html_markup', 4),
- ('remove_html_markup', 9),
  ('remove_html_markup', 2),
  ('remove_html_markup', 14),
+ ('remove_html_markup', 11),
+ ('remove_html_markup', 3),
+ ('remove_html_markup', 6),
+ ('remove_html_markup', 9),
+ ('remove_html_markup', 1),
  ('remove_html_markup', 7),
- ('remove_html_markup', 10),
- ('remove_html_markup', 8)]
+ ('remove_html_markup', 4),
+ ('remove_html_markup', 13),
+ ('remove_html_markup', 8),
+ ('remove_html_markup', 10)]
 
 ### Classes and Methods
 
@@ -245,8 +245,6 @@ if __name__ == '__main__':
     with Collector() as c:
         out = remove_html_markup('"abc"')
     out
-
-from types import FunctionType
 
 Coverage = Set[Tuple[Callable, int]]
 
@@ -1236,7 +1234,7 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     quiz("Which of the above lines should be fixed?",
         [
-            '<span style="background-color: hsl(45.0, 100%, 80%)">Line 3: `elif x < y`</span>',
+            '<span style="background-color: hsl(45.0, 100%, 80%)">Line 3: `if x < y`</span>',
             '<span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: `elif x < z`</span>',
             '<span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: `return y`</span>',
             '<span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: `return y`</span>',
