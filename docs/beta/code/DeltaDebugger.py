@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-05-18 12:21:03+02:00
+# Last change: 2021-10-13 13:31:45+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,9 +51,9 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
 Traceback (most recent call last):
-  File "", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_56034/4002351332.py", line 2, in 
     myeval('1 + 2 * 3 / 0')
-  File "", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_56034/2200911420.py", line 2, in myeval
     return eval(inp)
   File "", line 1, in 
 ZeroDivisionError: division by zero (expected)
@@ -724,6 +724,12 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     split({1, 2, 3, 4, 5, 6, 7}, 3)
 
+class NotFailingError(ValueError):
+    pass
+
+class NotPassingError(ValueError):
+    pass
+
 class DeltaDebugger(CachingCallReducer):
     def dd(self, var_to_be_reduced: str, fail_args: Dict[str, Any], 
            *, mode: str = '-') -> Tuple[Sequence, Sequence, Sequence]:
@@ -766,10 +772,29 @@ class DeltaDebugger(CachingCallReducer):
         minimize_fail = '-' in mode
         maximize_pass = '+' in mode
 
+        # Validate inputs
+        if test(c_pass) == FAIL:
+            if maximize_pass:
+                s_pass = repr(from_set(c_pass, fail_inp))
+                raise NotPassingError(
+                    f"Input {s_pass} expected to pass, but fails")
+            else:
+                return ret(c_pass, c_pass)
+
+        if test(c_fail) == PASS:
+            if minimize_fail:
+                s_fail = repr(from_set(c_fail, fail_inp))
+                raise NotFailingError(
+                    f"Input {s_fail} expected to fail, but passes")
+            else:
+                return ret(c_fail, c_fail)
+
+        # Main loop
         while True:
             if self.log > 1:
                 print("Passing input:", repr(from_set(c_pass, fail_inp)))
                 print("Failing input:", repr(from_set(c_fail, fail_inp)))
+                print("Granularity:  ", n)
 
             delta = c_fail - c_pass
             if len(delta) < n:
@@ -777,7 +802,9 @@ class DeltaDebugger(CachingCallReducer):
 
             deltas = split(delta, n)
 
+            reduction_found = False
             j = 0
+
             while j < n:
                 i = (j + offset) % n
                 next_c_pass = c_pass | deltas[i]
@@ -787,38 +814,50 @@ class DeltaDebugger(CachingCallReducer):
                     if self.log > 1:
                         print("Reduce to subset")
                     c_fail = next_c_pass
-                    # n = 2
-                    offset = 0
+                    offset = i  # was offset = 0 in original dd()
+                    reduction_found = True
                     break
+
                 elif maximize_pass and n == 2 and test(next_c_fail) == PASS:
                     if self.log > 1:
                         print("Increase to subset")
                     c_pass = next_c_fail
-                    # n = 2
-                    offset = 0
+                    offset = i  # was offset = 0 in original dd()
+                    reduction_found = True
                     break
+
                 elif minimize_fail and test(next_c_fail) == FAIL:
                     if self.log > 1:
                         print("Reduce to complement")
                     c_fail = next_c_fail
                     n = max(n - 1, 2)
                     offset = i
+                    reduction_found = True
                     break
+
                 elif maximize_pass and test(next_c_pass) == PASS:
                     if self.log > 1:
                         print("Increase to complement")
                     c_pass = next_c_pass
                     n = max(n - 1, 2)
                     offset = i
+                    reduction_found = True
                     break
+
                 else:
                     j += 1  # choose next subset
 
-            if j >= n:  # no reduction found
+            if not reduction_found:
+                if self.log > 1:
+                    print("No reduction found")
+
                 if n >= len(delta):
                     return ret(c_pass, c_fail)
 
-                n = min(n + 2, len(delta))
+                if self.log > 1:
+                    print("Increase granularity")
+
+                n = min(n * 2, len(delta))
 
 if __name__ == '__main__':
     with DeltaDebugger() as dd:
@@ -867,9 +906,6 @@ def is_reducible(value: Any) -> bool:
     return True
 
 class FailureNotReproducedError(ValueError):
-    pass
-
-class NotFailingError(ValueError):
     pass
 
 class DeltaDebugger(DeltaDebugger):
@@ -1341,7 +1377,6 @@ if __name__ == '__main__':
 
 
 import ast
-import astor
 
 if __name__ == '__main__':
     fun_tree: ast.Module = ast.parse(fun_source)
@@ -1362,7 +1397,7 @@ if __name__ == '__main__':
     test_tree: ast.Module = ast.parse(test_source)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(test_tree), '.py')
+    print_content(ast.unparse(test_tree), '.py')
 
 import copy
 
@@ -1384,10 +1419,11 @@ if __name__ == '__main__':
 
 
 
-from ast import NodeTransformer, NodeVisitor, fix_missing_locations, AST
+from ast import NodeTransformer, NodeVisitor, AST
 
 class NodeCollector(NodeVisitor):
     """Collect all nodes in an AST."""
+
     def __init__(self) -> None:
         super().__init__()
         self._all_nodes: List[AST] = []
@@ -1455,7 +1491,7 @@ if __name__ == '__main__':
     fun_nodes[4]
 
 if __name__ == '__main__':
-    astor.to_source(fun_nodes[4])
+    ast.unparse(fun_nodes[4])
 
 if __name__ == '__main__':
     keep_list = fun_nodes.copy()
@@ -1466,7 +1502,7 @@ if __name__ == '__main__':
     show_ast(new_fun_tree)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(new_fun_tree), '.py')
+    print_content(ast.unparse(new_fun_tree), '.py')
 
 if __name__ == '__main__':
     new_fun_tree.body += test_tree.body
@@ -1482,7 +1518,7 @@ if __name__ == '__main__':
     empty_tree = copy_and_reduce(fun_tree, [])
 
 if __name__ == '__main__':
-    astor.to_source(empty_tree)
+    ast.unparse(empty_tree)
 
 #### Reducing Trees
 
@@ -1494,7 +1530,7 @@ if __name__ == '__main__':
 def compile_and_test_ast(tree: ast.Module, keep_list: List[AST], 
                          test_tree: Optional[ast.Module] = None) -> None:
     new_tree = cast(ast.Module, copy_and_reduce(tree, keep_list))
-    # print(astor.to_source(new_tree))
+    # print(ast.unparse(new_tree))
 
     if test_tree is not None:
         new_tree.body += test_tree.body
@@ -1523,7 +1559,7 @@ if __name__ == '__main__':
     show_ast(reduced_fun_tree)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(reduced_fun_tree), '.py')
+    print_content(ast.unparse(reduced_fun_tree), '.py')
 
 if __name__ == '__main__':
     dd.tests
@@ -1574,7 +1610,7 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     reduced_nodes = dd.min_args()['keep_list']
     reduced_fun_tree = copy_and_reduce(fun_tree, reduced_nodes)
-    print_content(astor.to_source(reduced_fun_tree), '.py')
+    print_content(ast.unparse(reduced_fun_tree), '.py')
 
 ## Synopsis
 ## --------
