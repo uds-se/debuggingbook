@@ -9,7 +9,7 @@ Used from markdown.py
 from __future__ import print_function
 
 import re
-import cgi
+import html
 
 import mistune
 
@@ -82,7 +82,7 @@ class IPythonRenderer(mistune.Renderer):
     # For more details, see:
     # https://wiki.python.org/moin/EscapingHtml
     def escape_html(self, text):
-        return cgi.escape(text)
+        return html.escape(text)
 
     def block_math(self, text):
         return '$$%s$$' % self.escape_html(text)

@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2021-05-26 17:39:21+02:00
+# Last change: 2021-10-17 13:43:42+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -59,9 +59,8 @@ Both work by _observing_ a function and its invocations within a `with` clause. 
 The `typed_functions()` method will return a representation of `sum2()` annotated with types observed during execution.
 
 >>> print(type_annotator.typed_functions())
-def sum2(a: int, b: int) ->int:
+def sum2(a: int, b: int) -> int:
     return a + b
-
 
 
 The invariant annotator works in a similar fashion:
@@ -74,13 +73,13 @@ The invariant annotator works in a similar fashion:
 The `functions_with_invariants()` method will return a representation of `sum2()` annotated with inferred pre- and postconditions that all hold for the observed values.
 
 >>> print(inv_annotator.functions_with_invariants())
-@precondition(lambda a, b: isinstance(a, int))
-@precondition(lambda a, b: isinstance(b, int))
-@postcondition(lambda return_value, a, b: a == return_value - b)
-@postcondition(lambda return_value, a, b: b == return_value - a)
-@postcondition(lambda return_value, a, b: isinstance(return_value, int))
-@postcondition(lambda return_value, a, b: return_value == a + b)
-@postcondition(lambda return_value, a, b: return_value == b + a)
+@precondition(lambda b, a: isinstance(a, int))
+@precondition(lambda b, a: isinstance(b, int))
+@postcondition(lambda return_value, b, a: a == return_value - b)
+@postcondition(lambda return_value, b, a: b == return_value - a)
+@postcondition(lambda return_value, b, a: isinstance(return_value, int))
+@postcondition(lambda return_value, b, a: return_value == a + b)
+@postcondition(lambda return_value, b, a: return_value == b + a)
 def sum2(a, b):  # type: ignore
     return a + b
 
@@ -195,26 +194,12 @@ def square_root_with_type_annotations(x: float) -> float:
     """Computes the square root of x, using the Newton-Raphson method"""
     return square_root(x)
 
-### Runtime Type Checking
+### Excursion: Runtime Type Checking
 
 if __name__ == '__main__':
-    print('\n### Runtime Type Checking')
+    print('\n### Excursion: Runtime Type Checking')
 
 
-
-import enforce
-
-@enforce.runtime_validation
-def square_root_with_checked_type_annotations(x: float) -> float:
-    """Computes the square root of x, using the Newton-Raphson method"""
-    return square_root(x)
-
-if __name__ == '__main__':
-    with ExpectError():
-        square_root_with_checked_type_annotations(True)
-
-if __name__ == '__main__':
-    square_root(True)
 
 from .bookutils import quiz
 
@@ -228,24 +213,12 @@ if __name__ == '__main__':
             "The function will fail for some other reason."
         ], '37035 // 12345')
 
-if __name__ == '__main__':
-    with ExpectError(enforce.exceptions.RuntimeTypeError):
-        square_root_with_checked_type_annotations(1)
-
-@enforce.runtime_validation
-def square_root_with_union_type(x: Union[int, float]) -> float:
-    """Computes the square root of x, using the Newton-Raphson method"""
-    return square_root(x)
+### End of Excursion
 
 if __name__ == '__main__':
-    square_root_with_union_type(2)
+    print('\n### End of Excursion')
 
-if __name__ == '__main__':
-    square_root_with_union_type(2.0)
 
-if __name__ == '__main__':
-    with ExpectError(enforce.exceptions.RuntimeTypeError):
-        square_root_with_union_type("Two dot zero")
 
 ### Static Type Checking
 
@@ -314,7 +287,8 @@ Arguments = List[Tuple[str, Any]]
 def get_arguments(frame: FrameType) -> Arguments:
     """Return call arguments in the given frame"""
     # When called, all arguments are local variables
-    arguments = [(var, frame.f_locals[var]) for var in frame.f_locals]
+    local_variables = dict(frame.f_locals)  # explicit copy
+    arguments = [(var, frame.f_locals[var]) for var in local_variables]
     arguments.reverse()  # Want same order as call
     return arguments
 
@@ -381,6 +355,7 @@ class CallTracer(CallTracer):
         """Add given call to list of calls"""
         if function_name not in self._calls:
             self._calls[function_name] = []
+
         self._calls[function_name].append((arguments, return_value))
 
 class CallTracer(CallTracer):
@@ -469,7 +444,6 @@ if __name__ == '__main__':
 
 import ast
 import inspect
-import astor
 
 if __name__ == '__main__':
     square_root_source = inspect.getsource(square_root)
@@ -484,7 +458,7 @@ if __name__ == '__main__':
     square_root_ast = ast.parse(square_root_source)
 
 if __name__ == '__main__':
-    print(astor.dump_tree(square_root_ast))
+    print(ast.dump(square_root_ast, indent=4))
 
 from .bookutils import show_ast
 
@@ -492,7 +466,7 @@ if __name__ == '__main__':
     show_ast(square_root_ast)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(square_root_ast), '.py')
+    print_content(ast.unparse(square_root_ast), '.py')
 
 #### End of Excursion
 
@@ -519,10 +493,10 @@ def parse_type(name: str) -> ast.expr:
     return name_visitor.value_node
 
 if __name__ == '__main__':
-    print(astor.dump_tree(parse_type('int')))
+    print(ast.dump(parse_type('int')))
 
 if __name__ == '__main__':
-    print(astor.dump_tree(parse_type('[object]')))
+    print(ast.dump(parse_type('[object]')))
 
 class TypeTransformer(ast.NodeTransformer):
     def __init__(self, argument_types: Dict[str, str], return_type: Optional[str] = None):
@@ -539,6 +513,7 @@ class TypeTransformer(TypeTransformer):
             new_args.append(self.annotate_arg(arg))
 
         new_arguments = ast.arguments(
+            node.args.posonlyargs,
             new_args,
             node.args.vararg,
             node.args.kwonlyargs,
@@ -562,13 +537,14 @@ class TypeTransformer(TypeTransformer):
         arg_name = arg.arg
         if arg_name in self.argument_types:
             arg.annotation = parse_type(self.argument_types[arg_name])
+
         return arg
 
 if __name__ == '__main__':
     new_ast = TypeTransformer({'x': 'int'}, 'float').visit(square_root_ast)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(new_ast), '.py')
+    print_content(ast.unparse(new_ast), '.py')
 
 if __name__ == '__main__':
     hello_source = inspect.getsource(hello)
@@ -580,7 +556,7 @@ if __name__ == '__main__':
     new_ast = TypeTransformer({'name': 'str'}, 'None').visit(hello_ast)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(new_ast), '.py')
+    print_content(ast.unparse(new_ast), '.py')
 
 #### End of Excursion
 
@@ -666,7 +642,7 @@ def annotate_function_ast_with_types(function_ast: ast.AST,
     return annotated_function_ast
 
 if __name__ == '__main__':
-    print_content(astor.to_source(annotate_types(tracer.all_calls())['square_root']), '.py')
+    print_content(ast.unparse(annotate_types(tracer.all_calls())['square_root']), '.py')
 
 #### End of Excursion
 
@@ -696,14 +672,14 @@ class TypeAnnotator(TypeTracer):
         functions = ''
         for f_name in self.all_calls():
             try:
-                f_text = astor.to_source(self.typed_function_ast(f_name))
+                f_text = ast.unparse(self.typed_function_ast(f_name))
             except KeyError:
                 f_text = ''
             functions += f_text
         return functions
 
     def typed_function(self, function_name: str) -> str:
-        return astor.to_source(self.typed_function_ast(function_name))
+        return ast.unparse(self.typed_function_ast(function_name))
 
 #### End of Excursion
 
@@ -742,7 +718,7 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     annotated_square_root_ast = annotate_types(tracer.all_calls())['square_root']
-    print_content(astor.to_source(annotated_square_root_ast), '.py')
+    print_content(ast.unparse(annotated_square_root_ast), '.py')
 
 def sum3(a, b, c):  # type: ignore
     return a + b + c
@@ -986,7 +962,7 @@ def instantiate_prop_ast(prop: str, var_names: Sequence[str]) -> ast.AST:
 
 def instantiate_prop(prop: str, var_names: Sequence[str]) -> str:
     prop_ast = instantiate_prop_ast(prop, var_names)
-    prop_text = astor.to_source(prop_ast).strip()
+    prop_text = ast.unparse(prop_ast).strip()
     while prop_text.startswith('(') and prop_text.endswith(')'):
         prop_text = prop_text[1:-1]
     return prop_text
@@ -1669,7 +1645,7 @@ class EmbeddedInvariantAnnotator(InvariantTracer):
         return annotate_function_with_invariants(function_name, self.invariants(function_name))
 
     def function_with_invariants(self, function_name: str) -> str:
-        return astor.to_source(self.function_with_invariants_ast(function_name))
+        return ast.unparse(self.function_with_invariants_ast(function_name))
 
 def annotate_invariants(invariants: Dict[str, Invariants]) -> Dict[str, ast.AST]:
     annotated_functions = {}
@@ -1768,7 +1744,7 @@ class EmbeddedInvariantTransformer(EmbeddedInvariantTransformer):
         body_ends_with_return = isinstance(new_body[-1], ast.Return)
         if body_ends_with_return:
             ret_val = cast(ast.Return, new_body[-1]).value
-            saver = RETURN_VALUE + " = " + astor.to_source(ret_val)
+            saver = RETURN_VALUE + " = " + ast.unparse(cast(ast.AST, ret_val))
         else:
             saver = RETURN_VALUE + " = None"
 

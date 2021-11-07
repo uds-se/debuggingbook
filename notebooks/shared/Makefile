@@ -311,7 +311,7 @@ ZIP_OPTIONS = -r
 # Default target is to build everything needed for publishing,
 # such that we can run "make -k" in a loop
 .PHONY: chapters web default
-web default: html code test-code test-imports test-packages slides
+web default: setup html code test-code test-imports test-packages slides
 chapters: html
 
 # The book is recreated after any change to any source
@@ -397,6 +397,13 @@ help:
 	@echo "* Use make PUBLISH=(nbconvert|nbpublish|bookbook) to choose a converter"
 	@echo "  (default: automatic)"
 	
+# Setup repo
+.PHONY: setup
+setup: .gitignore
+.gitignore: shared/gitignore
+	$(RM) $@
+	cp $< $@
+
 # Run a notebook, (re)creating all output cells
 ADD_METADATA = $(SHARED)utils/add_metadata.py
 NBAUTOSLIDE = $(SHARED)utils/nbautoslide.py
@@ -412,12 +419,15 @@ else
 COMMIT_SYNOPSIS =
 endif
 
-# These notebooks can't be run under CI, so we simply copy them instead
+# These notebooks can't be run under CI, as they interact with Firefox
+# So we simply copy them instead
 ifeq ($(origin CI),environment)
 $(FULL_NOTEBOOKS)/Tracking.ipynb: $(NOTEBOOKS)/Tracking.ipynb
 	cp -pr $< $@
-# $(FULL_NOTEBOOKS)/ChangeCounter.ipynb: $(NOTEBOOKS)/ChangeCounter.ipynb
-# 	cp -pr $< $@
+$(FULL_NOTEBOOKS)/GUIFuzzer.ipynb: $(NOTEBOOKS)/GUIFuzzer.ipynb
+	cp -pr $< $@
+$(FULL_NOTEBOOKS)/FuzzingInTheLarge.ipynb: $(NOTEBOOKS)/FuzzingInTheLarge.ipynb
+	cp -pr $< $@
 endif
 
 $(FULL_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb $(DEPEND_TARGET)%.makefile $(ADD_METADATA) $(NBAUTOSLIDE) $(NBSYNOPSIS)
@@ -794,11 +804,16 @@ $(CODE_TARGET).%.py.out:	$(CODE_TARGET)%.py
 		echo $(PY_SUCCESS_MAGIC) >> $@; \
 		exit 0; \
 	else \
-		echo "Error while running $<" >> $@; \
-		tail $@; \
-		touch -r $< $@; \
-		touch -A -010000 $@; \
-		exit 1; \
+	    echo Re-running $<...; \
+	    if $(PYTHON) $(PYTHON_WARNLEVEL) $< > $@ 2>&1; then \
+		    echo $(PY_SUCCESS_MAGIC) >> $@; \
+		    exit 0; \
+		else \
+			echo "Error while running $<" >> $@; \
+			tail $@; \
+			touch -r $< -A -010000 $@ 2> /dev/null || touch -r $< --date='-1 hour' $@; \
+			exit 1; \
+		fi; \
 	fi
 
 
@@ -806,12 +821,6 @@ $(CODE_TARGET).%.py.out:	$(CODE_TARGET)%.py
 $(CODE_TARGET).Tracking.py.out: $(CODE_TARGET)Tracking.py
 	@echo Skipping $<...
 	@echo $(PY_SUCCESS_MAGIC) > $@
-
-$(CODE_TARGET).FuzzingInTheLarge.py.out: $(CODE_TARGET)FuzzingInTheLarge.py
-	@echo Skipping $<...
-	@echo $(PY_SUCCESS_MAGIC) > $@
-
-
 
 
 .PHONY: test-code
@@ -991,6 +1000,7 @@ $(DOCS_TARGET)html/%: $(HTML_TARGET)%
 publish-code: code publish-code-setup \
 	$(DOCS_TARGET)code/LICENSE.md \
 	$(DOCS_TARGET)code/README.md \
+	$(DOCS_TARGET)code/requirements.txt \
 	$(DOCS_TARGET)code/setup.py \
 	$(DOCS_TARGET)code/__init__.py \
 	$(UTILITY_FILES:%=$(DOCS_TARGET)code/$(UTILS)/%) \
@@ -1008,40 +1018,30 @@ publish-code-setup:
 $(DOCS_TARGET)code/%: $(CODE_TARGET)%
 	cp -pr $< $@
 
+$(DOCS_TARGET)code/requirements.txt: requirements.txt
+	cp -pr $< $@
+
 .PHONY: dist publish-dist
 dist publish-dist: publish-code toc \
 	$(DOCS_TARGET)dist/$(PROJECT)-code.zip \
 	$(DOCS_TARGET)dist/$(PROJECT)-notebooks.zip
 
 DIST_CODE_FILES = \
-	$(DOCS_TARGET)code/README.md \
 	$(DOCS_TARGET)code/LICENSE.md \
+	$(DOCS_TARGET)code/README.md \
+	$(DOCS_TARGET)code/requirements.txt \
 	$(DOCS_TARGET)code/setup.py \
 	$(DOCS_TARGET)code/__init__.py
-	
-check-install:
-	$(eval TMPDIR := $(shell mktemp -d))
-	@cd $(TMPDIR); \
-	$(PYTHON) -c 'import $(PROJECT)' 2> /dev/null; \
-	if [ $$? = 0 ]; then \
-		echo "Error: Installed $(PROJECT) package conflicts with package creation" >&2; \
-		echo "Please uninstall it; e.g. with 'pip uninstall $(PROJECT)'." >&2; \
-		exit 1; \
-	else \
-		exit 0; \
-	fi
 
 clean-dist:
 	$(RM) -r code/__pycache__
+	-chmod +w code/$(UTILS) code/$(UTILS)/__pycache__
 	$(RM) -r code/$(UTILS)/__pycache__
-	$(RM) -r $(DOCS_TARGET)notebooks/$(PROJECT)/__pycache__
-	$(RM) -r $(DOCS_TARGET)notebooks/$(UTILS)/__pycache__
-	$(RM) -r $(DOCS_TARGET)code/$(UTILS)/__pycache__
-	$(RM) -r $(DOCS_TARGET)notebooks/.ipynb_checkpoints
+	-find $(DOCS_TARGET) -name __pycache__ -exec $(RM) -r {} \;
+	-find $(DOCS_TARGET) -name .ipynb_checkpoints -exec $(RM) -r {} \;
 
 $(DOCS_TARGET)dist/$(PROJECT)-code.zip: \
-	$(PYS) $(DIST_CODE_FILES) $(CHAPTERS_MAKEFILE) \
-	check-install clean-dist
+	$(PYS) $(DIST_CODE_FILES) $(CHAPTERS_MAKEFILE) clean-dist
 	@-mkdir $(DOCS_TARGET)dist
 	$(RM) -r $(DOCS_TARGET)dist/*
 	$(RM) -r $(DOCS_TARGET)$(PROJECT)
@@ -1049,6 +1049,7 @@ $(DOCS_TARGET)dist/$(PROJECT)-code.zip: \
 	ln -s ../code $(DOCS_TARGET)$(PROJECT)/$(PROJECT)
 	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/setup.py $(DOCS_TARGET)$(PROJECT)
 	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/README.md $(DOCS_TARGET)$(PROJECT)
+	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/requirements.txt $(DOCS_TARGET)$(PROJECT)
 	cd $(DOCS_TARGET)$(PROJECT); PYTHONPATH= $(PYTHON) ./setup.py sdist
 	mv $(DOCS_TARGET)$(PROJECT)/dist/* $(DOCS_TARGET)dist
 	# mv $(DOCS_TARGET)$(PROJECT)/*.egg-info $(DOCS_TARGET)dist
@@ -1065,11 +1066,11 @@ $(DOCS_TARGET)dist/$(PROJECT)-notebooks.zip: $(FULLS) $(CHAPTERS_MAKEFILE) \
 	cd $(DOCS_TARGET); ln -s notebooks $(PROJECT)-notebooks
 	cd $(DOCS_TARGET); \
 		$(ZIP) $(ZIP_OPTIONS) $(PROJECT)-notebooks.zip $(PROJECT)-notebooks
-	$(RM) $(DOCS_TARGET)/$(PROJECT)-notebooks
-	cd $(DOCS_TARGET); \
-		for file in $(EXTRAS); do \
-			$(ZIP) $(PROJECT)-notebooks.zip -d $(PROJECT)-notebooks/$$file; \
-		done
+	$(RM) $(DOCS_TARGET)$(PROJECT)-notebooks
+	for file in $(EXTRAS); do \
+		$(ZIP) $(DOCS_TARGET)$(PROJECT)-notebooks.zip -d $(PROJECT)-notebooks/$$file; \
+	done
+	# -$(ZIP) $(DOCS_TARGET)$(PROJECT)-notebooks.zip -d '$(PROJECT)-notebooks/data/*'
 	mv $(DOCS_TARGET)$(PROJECT)-notebooks.zip $@
 	@echo "Created notebook distribution files in $(DOCS_TARGET)dist"
 
@@ -1098,6 +1099,7 @@ publish-notebooks: full-notebooks publish-notebooks-setup \
 	$(DOCS_TARGET)notebooks/$(BIB) \
 	$(DOCS_TARGET)notebooks/LICENSE.md \
 	$(DOCS_TARGET)notebooks/README.md \
+	$(DOCS_TARGET)notebooks/requirements.txt \
 	$(DOCS:%=$(DOCS_TARGET)notebooks/%.ipynb) \
 	$(UTILITY_FILES:%=$(DOCS_TARGET)notebooks/$(UTILS)/%)
 
@@ -1111,6 +1113,12 @@ publish-notebooks-setup:
 
 $(DOCS_TARGET)notebooks/%: $(FULL_NOTEBOOKS)/%
 	cp -pr $< $@
+
+$(DOCS_TARGET)notebooks/requirements.txt: requirements.txt
+	cp -pr $< $@
+$(DOCS_TARGET)notebooks/LICENSE,md: LICENSE.md
+	cp -pr $< $@
+
 
 .PHONY: publish-index
 publish-index: $(DOCS_TARGET)notebooks/00_Index.ipynb
@@ -1149,7 +1157,7 @@ $(DOCS_TARGET)notebooks/00_Table_of_Contents.ipynb: $(SHARED)utils/nbtoc.py \
 		
 # Index
 .PHONY: index
-index: $(DOCS_TARGET)notebooks/00_Index.ipynb $(DOCS_TARGET)/html/00_Index.html
+index: $(DOCS_TARGET)notebooks/00_Index.ipynb $(DOCS_TARGET)html/00_Index.html
 $(DOCS_TARGET)notebooks/00_Index.ipynb: $(SHARED)utils/nbindex.py \
 	$(TOC_CHAPTERS:%=$(DOCS_TARGET)notebooks/%) \
 	$(TOC_APPENDICES:%=$(DOCS_TARGET)notebooks/%) \
@@ -1170,11 +1178,16 @@ no-synopsis:
 ## Python packages
 # After this, you can do 'pip install fuzzingbook / debuggingbook' 
 # and then 'from fuzzingbook.Fuzzer import Fuzzer' :-)
-.PHONY: upload-dist
-upload-dist: dist
+.PHONY: upload upload-dist upload-test
+upload upload-dist: dist
 	@echo "Use your pypi.org password to upload"
 	cd $(DOCS_TARGET); twine upload dist/*.tar.gz
+	@echo "Use 'pip install fuzzingbook' to install"
 
+upload-test: dist
+	@echo "Use your pypi.org password to upload"
+	cd $(DOCS_TARGET); twine upload --repository-url https://test.pypi.org/legacy/ dist/*.tar.gz
+	@echo "Use 'pip install --extra-index-url https://test.pypi.org/simple/ fuzzingbook' to install"
 
 
 ## Binder services
@@ -1193,7 +1206,7 @@ binder: .FORCE
 SHARED_LEADER = debuggingbook
 SHARED_FOLLOWER = fuzzingbook
 .PHONY: shared
-shared:
+shared: clean-dist
 	@if [ -d ../$(SHARED_FOLLOWER) ]; then \
 		echo "Copying $(SHARED) from $(SHARED_LEADER) -> $(SHARED_FOLLOWER)"; \
 		chmod -R +w ../$(SHARED_FOLLOWER)/$(SHARED); \

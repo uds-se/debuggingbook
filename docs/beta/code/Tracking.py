@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-05-26 17:47:15+02:00
+# Last change: 2021-10-19 10:50:47+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -298,13 +298,13 @@ if __name__ == '__main__':
 import os
 import time
 
-from multiprocessing import Process
+from multiprocess import Process  # type: ignore
 
 from typing import Tuple
 
 def run_redmine(port: int) -> None:
     with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1',
-             timeout=3600)
+              timeout=3600)
 
 def start_redmine(port: int = 3000) -> Tuple[Process, str]:
     process = Process(target=run_redmine, args=(port,))
@@ -604,7 +604,7 @@ def new_issue(issue_title: str, issue_description: str) -> bytes:
 
 if __name__ == '__main__':
     new_issue("Missing a Chapter on Parallel Debugging",
-    """I am missing a chapter on (automatic) debugging of parallel and distributed systems,
+              """I am missing a chapter on (automatic) debugging of parallel and distributed systems,
 including how to detect and repair data races, log message passing, and more.
 In my experience, almost all programs are parallel today, so you are missing
 an important subject.
@@ -612,7 +612,7 @@ an important subject.
 
 if __name__ == '__main__':
     new_issue("Missing a PDF version",
-    """Your 'book' does not provide a printed version. I think that printed books
+              """Your 'book' does not provide a printed version. I think that printed books
 
 * offer a more enjoyable experience for the reader
 * allow me to annotate pages with my own remarks
@@ -625,11 +625,11 @@ of the debugging book, and make it available for download, such that I can print
 
 if __name__ == '__main__':
     new_issue("No PDF version",
-    """Can I have a printed version of your book? Please!""")
+              """Can I have a printed version of your book? Please!""")
 
 if __name__ == '__main__':
     new_issue("Does not work with Python 2.7 or earlier",
-    """I was deeply disappointed that your hew book requires Python 3.6 or later.
+              """I was deeply disappointed that your hew book requires Python 3.9 or later.
 There are still several Python 2.x users out here (I, for one, cannot stand having to
 type parentheses for every `print` statement), and I would love to run your code on
 my Python 2.7 programs.
@@ -653,7 +653,7 @@ Python 3. This way, you could address all Python lovers, not just Python 3 ones.
 
 if __name__ == '__main__':
     new_issue("Support for C++",
-    """I had lots of fun with your 'debugging book'. Yet, I was somewhat disappointed
+              """I had lots of fun with your 'debugging book'. Yet, I was somewhat disappointed
 to see that all code examples are in and for Python programs only. Is there a chance
 to get them to work on a real programming language such as C or C++? This would also
 open the way to discuss several new debugging techniques for bugs that occur in these

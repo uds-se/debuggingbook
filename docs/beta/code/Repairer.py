@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-05-18 17:14:48+02:00
+# Last change: 2021-10-13 13:42:28+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -58,10 +58,8 @@ Here, `test_foo()` is a function that raises an exception if the tested function
 
 The `repair()` method of a `Repairer` searches for a repair of the code covered in the debugger (except for methods whose name starts or ends in `test`, such that `foo()`, not `test_foo()` is repaired). `repair()` returns the best fix candidate as a pair `(tree, fitness)` where `tree` is a [Python abstract syntax tree](http://docs.python.org/3/library/ast) (AST) of the fix candidate, and `fitness` is the fitness of the candidate (a value between 0 and 1). A `fitness` of 1.0 means that the candidate passed all tests. A typical usage looks like this:
 
-import astor
-
 tree, fitness = repairer.repair()
-print(astor.to_source(tree), fitness)
+print(ast.unparse(tree), fitness)
 
 
 Here is a complete example for the `middle()` program. This is the original source code of `middle()`:
@@ -94,22 +92,20 @@ The `repair()` method of the repairer attempts to repair the function invoked by
 
 >>> tree, fitness = middle_repairer.repair()
 
-The returned AST `tree` can be output via `astor.to_source()`:
+The returned AST `tree` can be output via `ast.unparse()`:
 
->>> print(astor.to_source(tree))
+>>> print(ast.unparse(tree))
 def middle(x, y, z):
     if y < z:
-        if x < z:
-            if x < y:
-                return y
-            else:
-                return x
+        if x < y:
+            return y
+        elif x < z:
+            return x
     elif x > y:
         return y
     elif x > z:
         return x
     return z
-
 
 
 The `fitness` value shows how well the repaired program fits the tests. A fitness value of 1.0 shows that the repaired program satisfies all tests.
@@ -278,7 +274,6 @@ if __name__ == '__main__':
       len(string.ascii_letters + '_' + string.digits)
 
 import ast
-import astor
 import inspect
 
 from .bookutils import print_content, show_ast
@@ -392,7 +387,7 @@ import random
 
 if __name__ == '__main__':
     random_node = random.choice(all_statements(middle_tree()))
-    astor.to_source(random_node)
+    ast.unparse(random_node)
 
 ### Mutating Statements
 
@@ -439,7 +434,7 @@ class StatementMutator(NodeTransformer):
         if self.log > 1:
             for i, node in enumerate(self.source):
                 print(f"Source for repairs #{i}:")
-                print_content(astor.to_source(node), '.py')
+                print_content(ast.unparse(node), '.py')
                 print()
                 print()
 
@@ -637,7 +632,7 @@ class StatementMutator(StatementMutator):
         if isinstance(node, list):
             return "; ".join(self.format_node(elem) for elem in node)
 
-        s = RE_SPACE.sub(' ', astor.to_source(node)).strip()
+        s = RE_SPACE.sub(' ', ast.unparse(node)).strip()
         if len(s) > self.NODE_MAX_LENGTH - len("..."):
             s = s[:self.NODE_MAX_LENGTH] + "..."
         return repr(s)
@@ -682,7 +677,7 @@ if __name__ == '__main__':
         new_tree = mutator.mutate(middle_tree())
 
 if __name__ == '__main__':
-    print_content(astor.to_source(new_tree), '.py')
+    print_content(ast.unparse(new_tree), '.py')
 
 ## Fitness
 ## -------
@@ -767,11 +762,11 @@ MIDDLE_POPULATION = [middle_tree()] + \
 MIDDLE_POPULATION.sort(key=middle_fitness, reverse=True)
 
 if __name__ == '__main__':
-    print(astor.to_source(MIDDLE_POPULATION[0]),
+    print(ast.unparse(MIDDLE_POPULATION[0]),
           middle_fitness(MIDDLE_POPULATION[0]))
 
 if __name__ == '__main__':
-    print(astor.to_source(MIDDLE_POPULATION[-1]),
+    print(ast.unparse(MIDDLE_POPULATION[-1]),
           middle_fitness(MIDDLE_POPULATION[-1]))
 
 ## Evolution
@@ -804,7 +799,7 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     tree = MIDDLE_POPULATION[0]
-    print(astor.to_source(tree), middle_fitness(tree))
+    print(ast.unparse(tree), middle_fitness(tree))
 
 if __name__ == '__main__':
     for i in range(50):
@@ -816,7 +811,7 @@ if __name__ == '__main__':
             break
 
 if __name__ == '__main__':
-    print_content(astor.to_source(best_middle_tree), '.py', start_line_number=1)
+    print_content(ast.unparse(best_middle_tree), '.py', start_line_number=1)
 
 if __name__ == '__main__':
     original_middle = middle
@@ -849,7 +844,7 @@ if __name__ == '__main__':
 from .DeltaDebugger import DeltaDebugger
 
 if __name__ == '__main__':
-    middle_lines = astor.to_source(best_middle_tree).strip().split('\n')
+    middle_lines = ast.unparse(best_middle_tree).strip().split('\n')
 
 def test_middle_lines(lines: List[str]) -> None:
     source = "\n".join(lines)
@@ -867,11 +862,11 @@ if __name__ == '__main__':
     reduced_source = "\n".join(reduced_lines)
 
 if __name__ == '__main__':
-    repaired_source = astor.to_source(ast.parse(reduced_source))  # normalize
+    repaired_source = ast.unparse(ast.parse(reduced_source))  # normalize
     print_content(repaired_source, '.py')
 
 if __name__ == '__main__':
-    original_source = astor.to_source(ast.parse(middle_source))  # normalize
+    original_source = ast.unparse(ast.parse(middle_source))  # normalize
 
 from .ChangeDebugger import diff, print_patch  # minor dependency
 
@@ -944,10 +939,10 @@ if __name__ == '__main__':
     tree_p1.body[0].body, tree_p2.body[0].body = crosser.cross_bodies(body_p1, body_p2)  # type: ignore
 
 if __name__ == '__main__':
-    print_content(astor.to_source(tree_p1), '.py')
+    print_content(ast.unparse(tree_p1), '.py')
 
 if __name__ == '__main__':
-    print_content(astor.to_source(tree_p2), '.py')
+    print_content(ast.unparse(tree_p2), '.py')
 
 #### Applying Crossover on Programs
 
@@ -1093,20 +1088,20 @@ if __name__ == '__main__':
     crossover.crossover(tree_p1, tree_p2);
 
 if __name__ == '__main__':
-    print_content(astor.to_source(tree_p1), '.py')
+    print_content(ast.unparse(tree_p1), '.py')
 
 if __name__ == '__main__':
-    print_content(astor.to_source(tree_p2), '.py')
+    print_content(ast.unparse(tree_p2), '.py')
 
 if __name__ == '__main__':
     middle_t1, middle_t2 = crossover.crossover(middle_tree(),
                                               ast.parse(inspect.getsource(p2)))
 
 if __name__ == '__main__':
-    print_content(astor.to_source(middle_t1), '.py')
+    print_content(ast.unparse(middle_t1), '.py')
 
 if __name__ == '__main__':
-    print_content(astor.to_source(middle_t2), '.py')
+    print_content(ast.unparse(middle_t2), '.py')
 
 ## A Repairer Class
 ## ----------------
@@ -1215,7 +1210,7 @@ class Repairer(Repairer):
         """Print out `tree` as source code prefixed by `description`."""
         if self.log:
             print(description)
-            print_content(astor.to_source(tree), '.py')
+            print_content(ast.unparse(tree), '.py')
             print()
             print()
 
@@ -1353,7 +1348,7 @@ class Repairer(Repairer):
 
         if self.log >= 3:
             print("Repair candidate:")
-            print_content(astor.to_source(tree), '.py')
+            print_content(ast.unparse(tree), '.py')
             print()
 
         # Create new definition
@@ -1553,7 +1548,7 @@ class Repairer(Repairer):
         """Simplify `tree` using delta debugging."""
 
         original_fitness = self.fitness(tree)
-        source_lines = astor.to_source(tree).split('\n')
+        source_lines = ast.unparse(tree).split('\n')
 
         with self.reducer:
             self.test_reduce(source_lines, original_fitness)
@@ -1604,7 +1599,7 @@ if __name__ == '__main__':
     best_tree, fitness = repairer.repair()
 
 if __name__ == '__main__':
-    print_content(astor.to_source(best_tree), '.py')
+    print_content(ast.unparse(best_tree), '.py')
 
 if __name__ == '__main__':
     fitness
@@ -1799,7 +1794,7 @@ class ConditionVisitor(NodeVisitor):
         elems = cast(List[ast.expr], elems)
 
         for elem in elems:
-            elem_str = astor.to_source(elem)
+            elem_str = ast.unparse(elem)
             if elem_str not in self.conditions_seen:
                 self.conditions.append(elem)
                 self.conditions_seen.add(elem_str)
@@ -1819,7 +1814,7 @@ class ConditionVisitor(NodeVisitor):
         return super().generic_visit(node)
 
 if __name__ == '__main__':
-    [astor.to_source(cond).strip()
+    [ast.unparse(cond).strip()
         for cond in all_conditions(remove_html_markup_tree())]
 
 ### Mutating Conditions
@@ -1838,7 +1833,7 @@ class ConditionMutator(StatementMutator):
         self.conditions = all_conditions(self.source)
         if self.log:
             print("Found conditions",
-                  [astor.to_source(cond).strip() 
+                  [ast.unparse(cond).strip() 
                    for cond in self.conditions])
 
     def choose_condition(self) -> ast.expr:
@@ -1895,13 +1890,13 @@ if __name__ == '__main__':
     best_tree, fitness = condition_repairer.repair(iterations=200)
 
 if __name__ == '__main__':
-    repaired_source = astor.to_source(best_tree)
+    repaired_source = ast.unparse(best_tree)
 
 if __name__ == '__main__':
     print_content(repaired_source, '.py')
 
 if __name__ == '__main__':
-    original_source = astor.to_source(remove_html_markup_tree())
+    original_source = ast.unparse(remove_html_markup_tree())
 
 if __name__ == '__main__':
     for patch in diff(original_source, repaired_source):
@@ -1931,7 +1926,7 @@ if __name__ == '__main__':
     best_tree, fitness = condition_repairer.repair(iterations=200)
 
 if __name__ == '__main__':
-    print_content(astor.to_source(best_tree), '.py')
+    print_content(ast.unparse(best_tree), '.py')
 
 if __name__ == '__main__':
     fitness
@@ -1970,7 +1965,7 @@ if __name__ == '__main__':
     tree, fitness = middle_repairer.repair()
 
 if __name__ == '__main__':
-    print(astor.to_source(tree))
+    print(ast.unparse(tree))
 
 if __name__ == '__main__':
     fitness

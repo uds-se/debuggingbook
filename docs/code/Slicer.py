@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-05-26 17:39:00+02:00
+# Last change: 2021-10-13 14:00:12+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -83,8 +83,8 @@ We see how the parameter `x` flows into `z`, which is returned after some comput
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (4), z (2), x (1)
-*    4         z *= 2  # <= z (4), z (2);  (3)
+*    3     while x <= z <= 64:  # <= x (1), z (2), z (4)
+*    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
 
 
@@ -930,7 +930,6 @@ if __name__ == '__main__':
 
 
 import ast
-import astor
 
 from .bookutils import show_ast
 
@@ -1000,7 +999,7 @@ if __name__ == '__main__':
     TrackGetTransformer().visit(middle_tree);
 
 def dump_tree(tree: AST) -> None:
-    print_content(astor.to_source(tree), '.py')
+    print_content(ast.unparse(tree), '.py')
     ast.fix_missing_locations(tree)  # Must run this before compiling
     _ = compile(tree, '<dump_tree>', 'exec')
 
@@ -1146,7 +1145,7 @@ if __name__ == '__main__':
 
 class TrackSetTransformer(NodeTransformer):
     def visit_Assign(self, node: Assign) -> Assign:
-        value = astor.to_source(node.value)
+        value = ast.unparse(node.value)
         if value.startswith(DATA_TRACKER + '.set'):
             return node  # Do not apply twice
 
@@ -1161,7 +1160,7 @@ class TrackSetTransformer(NodeTransformer):
 
 class TrackSetTransformer(TrackSetTransformer):
     def visit_AugAssign(self, node: AugAssign) -> AugAssign:
-        value = astor.to_source(node.value)
+        value = ast.unparse(node.value)
         if value.startswith(DATA_TRACKER):
             return node  # Do not apply twice
 
@@ -1184,7 +1183,7 @@ class TrackSetTransformer(TrackSetTransformer):
         if node.value is None:
             return node  # just <var>: <type> without value
 
-        value = astor.to_source(node.value)
+        value = ast.unparse(node.value)
         if value.startswith(DATA_TRACKER + '.set'):
             return node  # Do not apply twice
 
@@ -1198,7 +1197,7 @@ class TrackSetTransformer(TrackSetTransformer):
 
 class TrackSetTransformer(TrackSetTransformer):
     def visit_Assert(self, node: Assert) -> Assert:
-        value = astor.to_source(node.test)
+        value = ast.unparse(node.test)
         if value.startswith(DATA_TRACKER + '.set'):
             return node  # Do not apply twice
 
@@ -1266,7 +1265,7 @@ class TrackReturnTransformer(NodeTransformer):
                               tp: str = "return") -> AST:
 
         if node.value is not None:
-            value = astor.to_source(node.value)
+            value = ast.unparse(node.value)
             if not value.startswith(DATA_TRACKER + '.set'):
                 node.value = make_set_data(self.return_value(tp), node.value)
 
@@ -1317,7 +1316,7 @@ class TrackControlTransformer(TrackControlTransformer):
         if len(block) == 0:
             return []
 
-        block_as_text = astor.to_source(block[0])
+        block_as_text = ast.unparse(block[0])
         if block_as_text.startswith('with ' + DATA_TRACKER):
             return block  # Do not apply twice
 
@@ -1334,7 +1333,7 @@ class TrackControlTransformer(TrackControlTransformer):
 
 class TrackControlTransformer(TrackControlTransformer):
     def make_test(self, test: ast.expr) -> ast.expr:
-        test_as_text = astor.to_source(test)
+        test_as_text = ast.unparse(test)
         if test_as_text.startswith(DATA_TRACKER + '.test'):
             return test  # Do not apply twice
 
@@ -1358,7 +1357,7 @@ class TrackControlTransformer(TrackControlTransformer):
     # regular `for` loop
     def visit_For(self, node: Union[ast.For, ast.AsyncFor]) -> AST:
         self.generic_visit(node)
-        id = astor.to_source(node.target).strip()
+        id = ast.unparse(node.target).strip()
         node.iter = make_set_data(id, node.iter)
 
         # Uncomment if you want iterators to control their bodies
@@ -1373,7 +1372,7 @@ class TrackControlTransformer(TrackControlTransformer):
     # `for` clause in comprehensions
     def visit_comprehension(self, node: ast.comprehension) -> AST:
         self.generic_visit(node)
-        id = astor.to_source(node.target).strip()
+        id = ast.unparse(node.target).strip()
         node.iter = make_set_data(id, node.iter)
         return node
 
@@ -1446,11 +1445,11 @@ class TrackCallTransformer(NodeTransformer):
     def visit_Call(self, node: Call) -> Call:
         self.generic_visit(node)
 
-        call_as_text = astor.to_source(node)
+        call_as_text = ast.unparse(node)
         if call_as_text.startswith(DATA_TRACKER + '.ret'):
             return node  # Already applied
 
-        func_as_text = astor.to_source(node)
+        func_as_text = ast.unparse(node)
         if func_as_text.startswith(DATA_TRACKER + '.'):
             return node  # Own function
 
@@ -1664,7 +1663,7 @@ from . import Assertions  # minor dependency
 from . import Debugger  # minor dependency
 
 if __name__ == '__main__':
-    for module in [Assertions, Debugger, inspect, ast, astor]:
+    for module in [Assertions, Debugger, inspect, ast]:
         module_tree = ast.parse(inspect.getsource(module))
         TrackCallTransformer().visit(module_tree)
         TrackSetTransformer().visit(module_tree)
@@ -2376,15 +2375,12 @@ class Slicer(Slicer):
             transformer.visit(tree)
             ast.fix_missing_locations(tree)
             if self.log >= 3:
-                print_content(
-                    astor.to_source(tree,
-                                    add_line_information=self.log >= 4),
-                              '.py')
+                print_content(ast.unparse(tree), '.py')
                 print()
                 print()
 
         if 0 < self.log < 3:
-            print_content(astor.to_source(tree), '.py')
+            print_content(ast.unparse(tree), '.py')
             print()
             print()
 
@@ -2618,7 +2614,7 @@ class CallCollector(NodeVisitor):
         self.calls: Set[str] = set()
 
     def visit_Call(self, node: ast.Call) -> AST:
-        caller_id = astor.to_source(node.func).strip()
+        caller_id = ast.unparse(node.func).strip()
         self.calls.add(caller_id)
         return self.generic_visit(node)
 

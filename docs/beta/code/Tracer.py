@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2021-05-26 17:38:26+02:00
+# Last change: 2021-10-13 13:29:11+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -756,7 +756,6 @@ if __name__ == '__main__':
     print_content(source, '.py')
 
 import ast
-import astor
 
 from .bookutils import show_ast
 
@@ -794,7 +793,7 @@ if __name__ == '__main__':
     show_ast(new_tree)
 
 if __name__ == '__main__':
-    new_source = astor.to_source(new_tree)
+    new_source = ast.unparse(new_tree)
     print_content(new_source, '.py')
 
 if __name__ == '__main__':
