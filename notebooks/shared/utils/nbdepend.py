@@ -176,22 +176,7 @@ def draw_notebook_dependencies(notebooks,
         os.system('tred depend.gv > depend.gv~ && mv depend.gv~ depend.gv')
         dot = Source.from_file('depend.gv')
 
-        # Clean up
-        try:
-            os.remove('depend.gv~')
-        except FileNotFoundError:
-            pass
-        try:
-            os.remove('depend.gv')
-        except FileNotFoundError:
-            pass
-
     # Render the graph
-    try:
-        os.remove('depend.' + format)
-    except FileNotFoundError:
-        pass
-
     dot.format = format
     dot.render('depend')
     
@@ -201,15 +186,11 @@ def draw_notebook_dependencies(notebooks,
              print(line, end="")
 
     # Clean up
-    try:
-        os.remove('depend')
-    except FileNotFoundError:
-        pass
-    try:
-        os.remove('depend.' + format)
-    except FileNotFoundError:
-        pass
-        
+    for suffix in ['', '.' + format, '.gv~', '.gv']:
+        try:
+            os.remove('depend' + suffix)
+        except FileNotFoundError:
+            pass
 
 
 if __name__ == "__main__":
