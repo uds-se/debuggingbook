@@ -187,6 +187,11 @@ def draw_notebook_dependencies(notebooks,
             pass
 
     # Render the graph
+    try:
+        os.remove('depend.' + format)
+    except FileNotFoundError:
+        pass
+
     dot.format = format
     dot.render('depend')
     
