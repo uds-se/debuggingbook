@@ -170,17 +170,41 @@ def draw_notebook_dependencies(notebooks,
         dot.subgraph(cluster)
     
     if transitive_reduction:
+        # Reduce the graph using 'tred'
         dot.format = 'gv'
         dot.save('depend.gv')
         os.system('tred depend.gv > depend.gv~ && mv depend.gv~ depend.gv')
         dot = Source.from_file('depend.gv')
-        os.remove('depend.gv')
 
+        # Clean up
+        try:
+            os.remove('depend.gv~')
+        except FileNotFoundError:
+            pass
+        try:
+            os.remove('depend.gv')
+        except FileNotFoundError:
+            pass
+
+    # Render the graph
     dot.format = format
     dot.render('depend')
-    os.system('cat depend.' + format)
-    os.remove('depend')
-    os.remove('depend.' + format)
+    
+    # Print on standard output
+    with open('depend.' + format, 'r') as file:
+        for line in file:
+             print(line, end="")
+
+    # Clean up
+    try:
+        os.remove('depend')
+    except FileNotFoundError:
+        pass
+    try:
+        os.remove('depend.' + format)
+    except FileNotFoundError:
+        pass
+        
 
 
 if __name__ == "__main__":
