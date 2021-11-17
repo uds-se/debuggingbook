@@ -153,6 +153,11 @@ TODO_CHAPTERS = \
 	$(IN_THE_LARGE_PART_TODO)
 
 ## Specific settings
+
 # No timeouts; debuggingbook/Tracing can take up to 15 minutes to render
 EXECUTE_TIMEOUT = 900
 TIME = time
+
+# No type checking for IllustratedCode
+mypy/.IllustratedCode.py.out:
+	echo $(PY_SUCCESS_MAGIC) >> $@ 
