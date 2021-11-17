@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-10-19 11:04:59+02:00
+# Last change: 2021-11-08 18:53:14+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -65,7 +65,11 @@ A `change_counter` provides a number of attributes. `changes` is a mapping of no
 The `messages` attribute holds all commit messages related to that node:
 
 >>> change_counter.messages.get(('README.md',), None)
-['Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
+['Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
  'New: show badges at top of GitHub project page',
@@ -74,10 +78,6 @@ The `messages` attribute holds all commit messages related to that node:
  'New: prefer Unicode arrows over LaTeX ones',
  'Updated README.md',
  'Update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
  'Doc update',
  'Doc update']
 
