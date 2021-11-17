@@ -15,9 +15,16 @@ echo postBuild: Installing Jupyter extensions...
 jupyter contrib nbextension install --user
 jupyter nbextension enable toc2/main --user
 jupyter nbextension enable exercise2/main --user
-jupyter nbextension enable jupyterlab_markup --user  # Mermaid in Jupyter Lab
 jupyter nbextensions_configurator enable --user
 jupyter nbextension list
+
+# Install and enable Jupyter lab extensions
+echo postBuild: Installing Jupyter Lab extensions...
+jupyter labextension enable jupyterlab_markup  # Mermaid in Jupyter Lab
+jupyter labextension enable jupyterlab-cell-flash
+jupyter labextension enable @krassowski/jupyterlab-lsp
+jupyter lab build
+jupyter labextension list
 
 # Install grcov
 echo postBuild: Installing grcov...
