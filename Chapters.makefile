@@ -97,7 +97,8 @@ EXTRAS = \
 	Time_Travel_Debugger.ipynb \
 	Reducing_Code.ipynb \
 	Repairing_Code.ipynb \
-	Project_of_your_choice.ipynb
+	Project_of_your_choice.ipynb \
+	IllustratedCode.ipynb
 
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
