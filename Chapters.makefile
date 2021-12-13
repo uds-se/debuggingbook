@@ -82,6 +82,7 @@ APPENDICES = \
 	99_Appendices.ipynb \
 	ExpectError.ipynb \
 	Timer.ipynb \
+	Timeout.ipynb \
 	ClassDiagram.ipynb \
 	StackInspector.ipynb
 
