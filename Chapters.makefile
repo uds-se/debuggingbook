@@ -159,6 +159,9 @@ TODO_CHAPTERS = \
 EXECUTE_TIMEOUT = 900
 TIME = time
 
+# Default target
+default: web
+
 # No type checking for IllustratedCode
 mypy/.IllustratedCode.py.out:
 	echo $(PY_SUCCESS_MAGIC) >> $@ 
