@@ -160,7 +160,7 @@ EXECUTE_TIMEOUT = 900
 TIME = time
 
 # Default target
-default: web
+web:
 
 # No type checking for IllustratedCode
 mypy/.IllustratedCode.py.out:
