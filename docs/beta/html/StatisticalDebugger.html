@@ -11907,6 +11907,7 @@ MathJax.Hub.Config({
 <ul>
 <li><a href="ExpectError.html">Error Handling</a></li>
 <li><a href="Timer.html">Timer</a></li>
+<li><a href="Timeout.html">Timeout</a></li>
 <li><a href="ClassDiagram.html">Class Diagrams</a></li>
 <li><a href="StackInspector.html">Inspecting Call Stacks</a></li>
 </ul>
@@ -11940,13 +11941,7 @@ MathJax.Hub.Config({
 </ul></li><li class="has-sub"><a href="#Using-Large-Test-Suites">&nbsp;&bull;&nbsp;&nbsp; Using Large Test Suites</a>
 </li><li class="has-sub"><a href="#Other-Events-besides-Coverage">&nbsp;&bull;&nbsp;&nbsp; Other Events besides Coverage</a>
 </li><li class="has-sub"><a href="#Training-Classifiers">&nbsp;&bull;&nbsp;&nbsp; Training Classifiers</a>
-<ul><li class="has-sub"><a href="#Collecting-Events-from-Calls">Collecting Events from Calls</a>
-</li><li class="has-sub"><a href="#Collecting-Events-from-Tests">Collecting Events from Tests</a>
-</li><li class="has-sub"><a href="#Visualizing-Events-as-a-Table">Visualizing Events as a Table</a>
-</li><li class="has-sub"><a href="#Visualizing-Suspicious-Code">Visualizing Suspicious Code</a>
-</li><li class="has-sub"><a href="#Ranking-Events">Ranking Events</a>
-</li><li class="has-sub"><a href="#Classes-and-Methods">Classes and Methods</a>
-</ul></li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
+</li><li class="has-sub"><a href="#Lessons-Learned"><i class="fa fa-fw fa-trophy"></i> Lessons Learned</a>
 </li><li class="has-sub"><a href="#Next-Steps"><i class="fa fa-fw fa-arrows"></i> Next Steps</a>
 </li><li class="has-sub"><a href="#Background"><i class="fa fa-fw fa-mortar-board"></i> Background</a>
 </li><li class="has-sub"><a href="#Exercises"><i class="fa fa-fw fa-edit"></i> Exercises</a>
@@ -12230,17 +12225,17 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
                     title="Line 16:  50%">  16     return out</pre><h3 id="Ranking-Events">Ranking Events<a class="anchor-link" href="#Ranking-Events">&#182;</a></h3><p>The method <code>rank()</code> returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
 <span class="p">[(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
  <span class="p">(</span><span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]</span>
 </pre></div>
@@ -12248,7 +12243,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+<!-- Generated by graphviz version 2.49.3 (20211023.0002)
  -->
 <!-- Pages: 1 -->
 <svg width="489pt" height="916pt"
@@ -12279,11 +12274,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="29" y="-196.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">brightness()</text>
 </a>
 </g>
-<g id="a_node2_2"><a xlink:href="#" xlink:title="collectors_with_event(self, event: Any, category: str) &#45;&gt; Set[__main__.Collector]:&#10;Return all collectors in a category&#10;that observed the given event.">
+<g id="a_node2_2"><a xlink:href="#" xlink:title="collectors_with_event(self, event: Any, category: str) &#45;&gt; Set[Collector]:&#10;Return all collectors in a category&#10;that observed the given event.">
 <text text-anchor="start" x="29" y="-185.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">collectors_with_event()</text>
 </a>
 </g>
-<g id="a_node2_3"><a xlink:href="#" xlink:title="collectors_without_event(self, event: Any, category: str) &#45;&gt; Set[__main__.Collector]:&#10;Return all collectors in a category&#10;that did not observe the given event.">
+<g id="a_node2_3"><a xlink:href="#" xlink:title="collectors_without_event(self, event: Any, category: str) &#45;&gt; Set[Collector]:&#10;Return all collectors in a category&#10;that did not observe the given event.">
 <text text-anchor="start" x="29" y="-174.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">collectors_without_event()</text>
 </a>
 </g>
@@ -12467,11 +12462,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="147" y="-588.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">all_pass_events()</text>
 </a>
 </g>
-<g id="a_node5_34"><a xlink:href="#" xlink:title="collect_fail(self, *args: Any, **kwargs: Any) &#45;&gt; __main__.Collector:&#10;Return a collector for failing runs.">
+<g id="a_node5_34"><a xlink:href="#" xlink:title="collect_fail(self, *args: Any, **kwargs: Any) &#45;&gt; Collector:&#10;Return a collector for failing runs.">
 <text text-anchor="start" x="147" y="-577.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">collect_fail()</text>
 </a>
 </g>
-<g id="a_node5_35"><a xlink:href="#" xlink:title="collect_pass(self, *args: Any, **kwargs: Any) &#45;&gt; __main__.Collector:&#10;Return a collector for passing runs.">
+<g id="a_node5_35"><a xlink:href="#" xlink:title="collect_pass(self, *args: Any, **kwargs: Any) &#45;&gt; Collector:&#10;Return a collector for passing runs.">
 <text text-anchor="start" x="147" y="-566.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">collect_pass()</text>
 </a>
 </g>
@@ -12483,11 +12478,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="147" y="-544.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">only_pass_events()</text>
 </a>
 </g>
-<g id="a_node5_38"><a xlink:href="#" xlink:title="fail_collectors(self) &#45;&gt; List[__main__.Collector]">
+<g id="a_node5_38"><a xlink:href="#" xlink:title="fail_collectors(self) &#45;&gt; List[Collector]">
 <text text-anchor="start" x="147" y="-532.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">fail_collectors()</text>
 </a>
 </g>
-<g id="a_node5_39"><a xlink:href="#" xlink:title="pass_collectors(self) &#45;&gt; List[__main__.Collector]">
+<g id="a_node5_39"><a xlink:href="#" xlink:title="pass_collectors(self) &#45;&gt; List[Collector]">
 <text text-anchor="start" x="147" y="-521.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">pass_collectors()</text>
 </a>
 </g>
@@ -12510,7 +12505,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="141.5" y="-893.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-style="italic" font-size="14.00" fill="#6a0dad">StatisticalDebugger</text>
 <polyline fill="none" stroke="black" points="133.5,-884.5 268.5,-884.5 "/>
 <g id="a_node6_40"><a xlink:href="#" xlink:title="StatisticalDebugger">
-<g id="a_node6_41"><a xlink:href="#" xlink:title="__init__(self, collector_class: Type = &lt;class &#39;__main__.CoverageCollector&#39;&gt;, log: bool = False):&#10;Constructor. Use instances of `collector_class` to collect events.">
+<g id="a_node6_41"><a xlink:href="#" xlink:title="__init__(self, collector_class: Type = &lt;class &#39;CoverageCollector&#39;&gt;, log: bool = False):&#10;Constructor. Use instances of `collector_class` to collect events.">
 <text text-anchor="start" x="144" y="-873.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">__init__()</text>
 </a>
 </g>
@@ -12542,11 +12537,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="144" y="-795.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">_repr_markdown_()</text>
 </a>
 </g>
-<g id="a_node6_49"><a xlink:href="#" xlink:title="add_collector(self, outcome: str, collector: __main__.Collector) &#45;&gt; __main__.Collector">
+<g id="a_node6_49"><a xlink:href="#" xlink:title="add_collector(self, outcome: str, collector: Collector) &#45;&gt; Collector">
 <text text-anchor="start" x="144" y="-784.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">add_collector()</text>
 </a>
 </g>
-<g id="a_node6_50"><a xlink:href="#" xlink:title="collect(self, outcome: str, *args: Any, **kwargs: Any) &#45;&gt; __main__.Collector:&#10;Return a collector for the given outcome.&#10;Additional args are passed to the collector.">
+<g id="a_node6_50"><a xlink:href="#" xlink:title="collect(self, outcome: str, *args: Any, **kwargs: Any) &#45;&gt; Collector:&#10;Return a collector for the given outcome.&#10;Additional args are passed to the collector.">
 <text text-anchor="start" x="144" y="-773.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">collect()</text>
 </a>
 </g>
@@ -12634,7 +12629,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+<!-- Generated by graphviz version 2.49.3 (20211023.0002)
  -->
 <!-- Pages: 1 -->
 <svg width="406pt" height="681pt"
@@ -12760,7 +12755,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="95" y="-658.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
 <polyline fill="none" stroke="black" points="58,-649.5 225,-649.5 "/>
 <g id="a_node4_21"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node4_22"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;remove_html_markup&#39;, 1): &lt;function remove_html_markup at 0x11316a430&gt;, (&#39;middle&#39;, 1): &lt;function middle at 0x113375700&gt;}">
+<g id="a_node4_22"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {(&#39;remove_html_markup&#39;, 1): &lt;function remove_html_markup at 0x11136a280&gt;, (&#39;middle&#39;, 1): &lt;function middle at 0x1115901f0&gt;}">
 <text text-anchor="start" x="66.5" y="-637" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">_generated_function_cache</text>
 </a>
 </g>
@@ -12839,7 +12834,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <text text-anchor="start" x="19.5" y="-419.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__exit__()</text>
 </a>
 </g>
-<g id="a_node3_38"><a xlink:href="Tracer.html" xlink:title="__init__(self, file: &lt;class &#39;TextIO&#39;&gt; = &lt;ipykernel.iostream.OutStream object at 0x10eca52e0&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<g id="a_node3_38"><a xlink:href="Tracer.html" xlink:title="__init__(self, file: &lt;class &#39;TextIO&#39;&gt; = &lt;ipykernel.iostream.OutStream object at 0x10ce78f70&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
 <text text-anchor="start" x="19.5" y="-408.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
 </a>
 </g>
@@ -13812,22 +13807,22 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="cb4dc882-40b8-11ec-83b7-acde48001122" id="cb4dc882-40b8-11ec-83b7-acde48001122-1" onclick="clear_selection('cb4dc882-40b8-11ec-83b7-acde48001122')">
-        <label id="cb4dc882-40b8-11ec-83b7-acde48001122-1-label" for="cb4dc882-40b8-11ec-83b7-acde48001122-1"><code>tag = True</code></label><br>
+        <input type="checkbox" name="eb4e26e4-5c2f-11ec-934a-acde48001122" id="eb4e26e4-5c2f-11ec-934a-acde48001122-1" onclick="clear_selection('eb4e26e4-5c2f-11ec-934a-acde48001122')">
+        <label id="eb4e26e4-5c2f-11ec-934a-acde48001122-1-label" for="eb4e26e4-5c2f-11ec-934a-acde48001122-1"><code>tag = True</code></label><br>
 
-        <input type="checkbox" name="cb4dc882-40b8-11ec-83b7-acde48001122" id="cb4dc882-40b8-11ec-83b7-acde48001122-2" onclick="clear_selection('cb4dc882-40b8-11ec-83b7-acde48001122')">
-        <label id="cb4dc882-40b8-11ec-83b7-acde48001122-2-label" for="cb4dc882-40b8-11ec-83b7-acde48001122-2"><code>tag = False</code></label><br>
+        <input type="checkbox" name="eb4e26e4-5c2f-11ec-934a-acde48001122" id="eb4e26e4-5c2f-11ec-934a-acde48001122-2" onclick="clear_selection('eb4e26e4-5c2f-11ec-934a-acde48001122')">
+        <label id="eb4e26e4-5c2f-11ec-934a-acde48001122-2-label" for="eb4e26e4-5c2f-11ec-934a-acde48001122-2"><code>tag = False</code></label><br>
 
-        <input type="checkbox" name="cb4dc882-40b8-11ec-83b7-acde48001122" id="cb4dc882-40b8-11ec-83b7-acde48001122-3" onclick="clear_selection('cb4dc882-40b8-11ec-83b7-acde48001122')">
-        <label id="cb4dc882-40b8-11ec-83b7-acde48001122-3-label" for="cb4dc882-40b8-11ec-83b7-acde48001122-3"><code>quote = not quote</code></label><br>
+        <input type="checkbox" name="eb4e26e4-5c2f-11ec-934a-acde48001122" id="eb4e26e4-5c2f-11ec-934a-acde48001122-3" onclick="clear_selection('eb4e26e4-5c2f-11ec-934a-acde48001122')">
+        <label id="eb4e26e4-5c2f-11ec-934a-acde48001122-3-label" for="eb4e26e4-5c2f-11ec-934a-acde48001122-3"><code>quote = not quote</code></label><br>
 
-        <input type="checkbox" name="cb4dc882-40b8-11ec-83b7-acde48001122" id="cb4dc882-40b8-11ec-83b7-acde48001122-4" onclick="clear_selection('cb4dc882-40b8-11ec-83b7-acde48001122')">
-        <label id="cb4dc882-40b8-11ec-83b7-acde48001122-4-label" for="cb4dc882-40b8-11ec-83b7-acde48001122-4"><code>out = out + c</code></label><br>
+        <input type="checkbox" name="eb4e26e4-5c2f-11ec-934a-acde48001122" id="eb4e26e4-5c2f-11ec-934a-acde48001122-4" onclick="clear_selection('eb4e26e4-5c2f-11ec-934a-acde48001122')">
+        <label id="eb4e26e4-5c2f-11ec-934a-acde48001122-4-label" for="eb4e26e4-5c2f-11ec-934a-acde48001122-4"><code>out = out + c</code></label><br>
 
     </div>
     </p>
-    <input id="cb4dc882-40b8-11ec-83b7-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cb4dc882-40b8-11ec-83b7-acde48001122', 22, 1, '[ord(c) - ord(\&#x27;a\&#x27;) - 1 for c in \&#x27;cdf\&#x27;]')">
-    <span class="quiz_hint" id="cb4dc882-40b8-11ec-83b7-acde48001122-hint"></span>
+    <input id="eb4e26e4-5c2f-11ec-934a-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('eb4e26e4-5c2f-11ec-934a-acde48001122', 22, 1, '[ord(c) - ord(\&#x27;a\&#x27;) - 1 for c in \&#x27;cdf\&#x27;]')">
+    <span class="quiz_hint" id="eb4e26e4-5c2f-11ec-934a-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -14613,19 +14608,19 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cb6f60aa-40b8-11ec-83b7-acde48001122" id="cb6f60aa-40b8-11ec-83b7-acde48001122-1" onclick="clear_selection('cb6f60aa-40b8-11ec-83b7-acde48001122')">
-        <label id="cb6f60aa-40b8-11ec-83b7-acde48001122-1-label" for="cb6f60aa-40b8-11ec-83b7-acde48001122-1">One</label><br>
+        <input type="radio" name="eb611ccc-5c2f-11ec-934a-acde48001122" id="eb611ccc-5c2f-11ec-934a-acde48001122-1" onclick="clear_selection('eb611ccc-5c2f-11ec-934a-acde48001122')">
+        <label id="eb611ccc-5c2f-11ec-934a-acde48001122-1-label" for="eb611ccc-5c2f-11ec-934a-acde48001122-1">One</label><br>
 
-        <input type="radio" name="cb6f60aa-40b8-11ec-83b7-acde48001122" id="cb6f60aa-40b8-11ec-83b7-acde48001122-2" onclick="clear_selection('cb6f60aa-40b8-11ec-83b7-acde48001122')">
-        <label id="cb6f60aa-40b8-11ec-83b7-acde48001122-2-label" for="cb6f60aa-40b8-11ec-83b7-acde48001122-2">Two</label><br>
+        <input type="radio" name="eb611ccc-5c2f-11ec-934a-acde48001122" id="eb611ccc-5c2f-11ec-934a-acde48001122-2" onclick="clear_selection('eb611ccc-5c2f-11ec-934a-acde48001122')">
+        <label id="eb611ccc-5c2f-11ec-934a-acde48001122-2-label" for="eb611ccc-5c2f-11ec-934a-acde48001122-2">Two</label><br>
 
-        <input type="radio" name="cb6f60aa-40b8-11ec-83b7-acde48001122" id="cb6f60aa-40b8-11ec-83b7-acde48001122-3" onclick="clear_selection('cb6f60aa-40b8-11ec-83b7-acde48001122')">
-        <label id="cb6f60aa-40b8-11ec-83b7-acde48001122-3-label" for="cb6f60aa-40b8-11ec-83b7-acde48001122-3">Three</label><br>
+        <input type="radio" name="eb611ccc-5c2f-11ec-934a-acde48001122" id="eb611ccc-5c2f-11ec-934a-acde48001122-3" onclick="clear_selection('eb611ccc-5c2f-11ec-934a-acde48001122')">
+        <label id="eb611ccc-5c2f-11ec-934a-acde48001122-3-label" for="eb611ccc-5c2f-11ec-934a-acde48001122-3">Three</label><br>
 
     </div>
     </p>
-    <input id="cb6f60aa-40b8-11ec-83b7-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cb6f60aa-40b8-11ec-83b7-acde48001122', 2, 0, 'len([12])')">
-    <span class="quiz_hint" id="cb6f60aa-40b8-11ec-83b7-acde48001122-hint"></span>
+    <input id="eb611ccc-5c2f-11ec-934a-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('eb611ccc-5c2f-11ec-934a-acde48001122', 2, 0, 'len([12])')">
+    <span class="quiz_hint" id="eb611ccc-5c2f-11ec-934a-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -15682,16 +15677,16 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cb9d6464-40b8-11ec-83b7-acde48001122" id="cb9d6464-40b8-11ec-83b7-acde48001122-1" onclick="clear_selection('cb9d6464-40b8-11ec-83b7-acde48001122')">
-        <label id="cb9d6464-40b8-11ec-83b7-acde48001122-1-label" for="cb9d6464-40b8-11ec-83b7-acde48001122-1">Yes, it should be fixed</label><br>
+        <input type="radio" name="eb7cad20-5c2f-11ec-934a-acde48001122" id="eb7cad20-5c2f-11ec-934a-acde48001122-1" onclick="clear_selection('eb7cad20-5c2f-11ec-934a-acde48001122')">
+        <label id="eb7cad20-5c2f-11ec-934a-acde48001122-1-label" for="eb7cad20-5c2f-11ec-934a-acde48001122-1">Yes, it should be fixed</label><br>
 
-        <input type="radio" name="cb9d6464-40b8-11ec-83b7-acde48001122" id="cb9d6464-40b8-11ec-83b7-acde48001122-2" onclick="clear_selection('cb9d6464-40b8-11ec-83b7-acde48001122')">
-        <label id="cb9d6464-40b8-11ec-83b7-acde48001122-2-label" for="cb9d6464-40b8-11ec-83b7-acde48001122-2">No, the defect is elsewhere</label><br>
+        <input type="radio" name="eb7cad20-5c2f-11ec-934a-acde48001122" id="eb7cad20-5c2f-11ec-934a-acde48001122-2" onclick="clear_selection('eb7cad20-5c2f-11ec-934a-acde48001122')">
+        <label id="eb7cad20-5c2f-11ec-934a-acde48001122-2-label" for="eb7cad20-5c2f-11ec-934a-acde48001122-2">No, the defect is elsewhere</label><br>
 
     </div>
     </p>
-    <input id="cb9d6464-40b8-11ec-83b7-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cb9d6464-40b8-11ec-83b7-acde48001122', 4, 0, '164 * 2 % 326')">
-    <span class="quiz_hint" id="cb9d6464-40b8-11ec-83b7-acde48001122-hint"></span>
+    <input id="eb7cad20-5c2f-11ec-934a-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('eb7cad20-5c2f-11ec-934a-acde48001122', 4, 0, '164 * 2 % 326')">
+    <span class="quiz_hint" id="eb7cad20-5c2f-11ec-934a-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16495,22 +16490,22 @@ $$</p>
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cbc2315e-40b8-11ec-83b7-acde48001122" id="cbc2315e-40b8-11ec-83b7-acde48001122-1" onclick="clear_selection('cbc2315e-40b8-11ec-83b7-acde48001122')">
-        <label id="cbc2315e-40b8-11ec-83b7-acde48001122-1-label" for="cbc2315e-40b8-11ec-83b7-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
+        <input type="radio" name="eb8f42e6-5c2f-11ec-934a-acde48001122" id="eb8f42e6-5c2f-11ec-934a-acde48001122-1" onclick="clear_selection('eb8f42e6-5c2f-11ec-934a-acde48001122')">
+        <label id="eb8f42e6-5c2f-11ec-934a-acde48001122-1-label" for="eb8f42e6-5c2f-11ec-934a-acde48001122-1"><span style="background-color: hsl(120.0, 50.0%, 80%)">Green</span></label><br>
 
-        <input type="radio" name="cbc2315e-40b8-11ec-83b7-acde48001122" id="cbc2315e-40b8-11ec-83b7-acde48001122-2" onclick="clear_selection('cbc2315e-40b8-11ec-83b7-acde48001122')">
-        <label id="cbc2315e-40b8-11ec-83b7-acde48001122-2-label" for="cbc2315e-40b8-11ec-83b7-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
+        <input type="radio" name="eb8f42e6-5c2f-11ec-934a-acde48001122" id="eb8f42e6-5c2f-11ec-934a-acde48001122-2" onclick="clear_selection('eb8f42e6-5c2f-11ec-934a-acde48001122')">
+        <label id="eb8f42e6-5c2f-11ec-934a-acde48001122-2-label" for="eb8f42e6-5c2f-11ec-934a-acde48001122-2"><span style="background-color: hsl(60.0, 100.0%, 80%)">Yellow</span></label><br>
 
-        <input type="radio" name="cbc2315e-40b8-11ec-83b7-acde48001122" id="cbc2315e-40b8-11ec-83b7-acde48001122-3" onclick="clear_selection('cbc2315e-40b8-11ec-83b7-acde48001122')">
-        <label id="cbc2315e-40b8-11ec-83b7-acde48001122-3-label" for="cbc2315e-40b8-11ec-83b7-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
+        <input type="radio" name="eb8f42e6-5c2f-11ec-934a-acde48001122" id="eb8f42e6-5c2f-11ec-934a-acde48001122-3" onclick="clear_selection('eb8f42e6-5c2f-11ec-934a-acde48001122')">
+        <label id="eb8f42e6-5c2f-11ec-934a-acde48001122-3-label" for="eb8f42e6-5c2f-11ec-934a-acde48001122-3"><span style="background-color: hsl(30.0, 100.0%, 80%)">Orange</span></label><br>
 
-        <input type="radio" name="cbc2315e-40b8-11ec-83b7-acde48001122" id="cbc2315e-40b8-11ec-83b7-acde48001122-4" onclick="clear_selection('cbc2315e-40b8-11ec-83b7-acde48001122')">
-        <label id="cbc2315e-40b8-11ec-83b7-acde48001122-4-label" for="cbc2315e-40b8-11ec-83b7-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
+        <input type="radio" name="eb8f42e6-5c2f-11ec-934a-acde48001122" id="eb8f42e6-5c2f-11ec-934a-acde48001122-4" onclick="clear_selection('eb8f42e6-5c2f-11ec-934a-acde48001122')">
+        <label id="eb8f42e6-5c2f-11ec-934a-acde48001122-4-label" for="eb8f42e6-5c2f-11ec-934a-acde48001122-4"><span style="background-color: hsl(0.0, 100.0%, 80%)">Red</span></label><br>
 
     </div>
     </p>
-    <input id="cbc2315e-40b8-11ec-83b7-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cbc2315e-40b8-11ec-83b7-acde48001122', 8, 0, '999 // 333')">
-    <span class="quiz_hint" id="cbc2315e-40b8-11ec-83b7-acde48001122-hint"></span>
+    <input id="eb8f42e6-5c2f-11ec-934a-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('eb8f42e6-5c2f-11ec-934a-acde48001122', 8, 0, '999 // 333')">
+    <span class="quiz_hint" id="eb8f42e6-5c2f-11ec-934a-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -16998,22 +16993,22 @@ $$</p>
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cbd5e3ca-40b8-11ec-83b7-acde48001122" id="cbd5e3ca-40b8-11ec-83b7-acde48001122-1" onclick="clear_selection('cbd5e3ca-40b8-11ec-83b7-acde48001122')">
-        <label id="cbd5e3ca-40b8-11ec-83b7-acde48001122-1-label" for="cbd5e3ca-40b8-11ec-83b7-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>if x &lt; y</code></span></label><br>
+        <input type="radio" name="eb99d1ac-5c2f-11ec-934a-acde48001122" id="eb99d1ac-5c2f-11ec-934a-acde48001122-1" onclick="clear_selection('eb99d1ac-5c2f-11ec-934a-acde48001122')">
+        <label id="eb99d1ac-5c2f-11ec-934a-acde48001122-1-label" for="eb99d1ac-5c2f-11ec-934a-acde48001122-1"><span style="background-color: hsl(45.0, 100%, 80%)">Line 3: <code>if x &lt; y</code></span></label><br>
 
-        <input type="radio" name="cbd5e3ca-40b8-11ec-83b7-acde48001122" id="cbd5e3ca-40b8-11ec-83b7-acde48001122-2" onclick="clear_selection('cbd5e3ca-40b8-11ec-83b7-acde48001122')">
-        <label id="cbd5e3ca-40b8-11ec-83b7-acde48001122-2-label" for="cbd5e3ca-40b8-11ec-83b7-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
+        <input type="radio" name="eb99d1ac-5c2f-11ec-934a-acde48001122" id="eb99d1ac-5c2f-11ec-934a-acde48001122-2" onclick="clear_selection('eb99d1ac-5c2f-11ec-934a-acde48001122')">
+        <label id="eb99d1ac-5c2f-11ec-934a-acde48001122-2-label" for="eb99d1ac-5c2f-11ec-934a-acde48001122-2"><span style="background-color: hsl(34.28571428571429, 100.0%, 80%)">Line 5: <code>elif x &lt; z</code></span></label><br>
 
-        <input type="radio" name="cbd5e3ca-40b8-11ec-83b7-acde48001122" id="cbd5e3ca-40b8-11ec-83b7-acde48001122-3" onclick="clear_selection('cbd5e3ca-40b8-11ec-83b7-acde48001122')">
-        <label id="cbd5e3ca-40b8-11ec-83b7-acde48001122-3-label" for="cbd5e3ca-40b8-11ec-83b7-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
+        <input type="radio" name="eb99d1ac-5c2f-11ec-934a-acde48001122" id="eb99d1ac-5c2f-11ec-934a-acde48001122-3" onclick="clear_selection('eb99d1ac-5c2f-11ec-934a-acde48001122')">
+        <label id="eb99d1ac-5c2f-11ec-934a-acde48001122-3-label" for="eb99d1ac-5c2f-11ec-934a-acde48001122-3"><span style="background-color: hsl(20.000000000000004, 100.0%, 80%)">Line 6: <code>return y</code></span></label><br>
 
-        <input type="radio" name="cbd5e3ca-40b8-11ec-83b7-acde48001122" id="cbd5e3ca-40b8-11ec-83b7-acde48001122-4" onclick="clear_selection('cbd5e3ca-40b8-11ec-83b7-acde48001122')">
-        <label id="cbd5e3ca-40b8-11ec-83b7-acde48001122-4-label" for="cbd5e3ca-40b8-11ec-83b7-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
+        <input type="radio" name="eb99d1ac-5c2f-11ec-934a-acde48001122" id="eb99d1ac-5c2f-11ec-934a-acde48001122-4" onclick="clear_selection('eb99d1ac-5c2f-11ec-934a-acde48001122')">
+        <label id="eb99d1ac-5c2f-11ec-934a-acde48001122-4-label" for="eb99d1ac-5c2f-11ec-934a-acde48001122-4"><span style="background-color: hsl(120.0, 20.0%, 80%)">Line 9: <code>return y</code></span></label><br>
 
     </div>
     </p>
-    <input id="cbd5e3ca-40b8-11ec-83b7-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('cbd5e3ca-40b8-11ec-83b7-acde48001122', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
-    <span class="quiz_hint" id="cbd5e3ca-40b8-11ec-83b7-acde48001122-hint"></span>
+    <input id="eb99d1ac-5c2f-11ec-934a-acde48001122-submit" type="submit" value="Submit" onclick="check_selection('eb99d1ac-5c2f-11ec-934a-acde48001122', 8, 0, 'len(&quot; middle  &quot;.strip()[:3])')">
+    <span class="quiz_hint" id="eb99d1ac-5c2f-11ec-934a-acde48001122-hint"></span>
     </div>
 
 </div>
@@ -17292,17 +17287,17 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 6),
- (&#39;remove_html_markup&#39;, 9),
- (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 16),
+ (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 2),
  (&#39;remove_html_markup&#39;, 11),
  (&#39;remove_html_markup&#39;, 14),
+ (&#39;remove_html_markup&#39;, 3),
+ (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 6),
  (&#39;remove_html_markup&#39;, 10),
  (&#39;remove_html_markup&#39;, 8)]
 </pre>
@@ -17434,11 +17429,11 @@ $$</p>
  (&#39;middle&#39;, 3),
  (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 1),
- (&#39;middle&#39;, 4),
- (&#39;middle&#39;, 10),
- (&#39;middle&#39;, 9),
  (&#39;middle&#39;, 12),
- (&#39;middle&#39;, 8)]
+ (&#39;middle&#39;, 9),
+ (&#39;middle&#39;, 8),
+ (&#39;middle&#39;, 4),
+ (&#39;middle&#39;, 10)]
 </pre>
 </div>
 
@@ -17647,17 +17642,17 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[(&#39;remove_html_markup&#39;, 12),
- (&#39;remove_html_markup&#39;, 3),
- (&#39;remove_html_markup&#39;, 6),
- (&#39;remove_html_markup&#39;, 9),
- (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 4),
+ (&#39;remove_html_markup&#39;, 1),
  (&#39;remove_html_markup&#39;, 7),
- (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 16),
+ (&#39;remove_html_markup&#39;, 13),
  (&#39;remove_html_markup&#39;, 2),
  (&#39;remove_html_markup&#39;, 11),
  (&#39;remove_html_markup&#39;, 14),
+ (&#39;remove_html_markup&#39;, 3),
+ (&#39;remove_html_markup&#39;, 9),
+ (&#39;remove_html_markup&#39;, 6),
  (&#39;remove_html_markup&#39;, 10),
  (&#39;remove_html_markup&#39;, 8)]
 </pre>
@@ -17780,11 +17775,11 @@ $$</p>
  (&#39;middle&#39;, 3),
  (&#39;middle&#39;, 2),
  (&#39;middle&#39;, 1),
- (&#39;middle&#39;, 4),
- (&#39;middle&#39;, 10),
- (&#39;middle&#39;, 9),
  (&#39;middle&#39;, 12),
- (&#39;middle&#39;, 8)]
+ (&#39;middle&#39;, 9),
+ (&#39;middle&#39;, 8),
+ (&#39;middle&#39;, 4),
+ (&#39;middle&#39;, 10)]
 </pre>
 </div>
 
@@ -18005,9 +18000,9 @@ $$</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_23987/3661663124.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_46423/3661663124.py&#34;, line 2, in &lt;module&gt;
     middle_test(2, 1, 3)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_23987/40742806.py&#34;, line 3, in middle_test
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_46423/40742806.py&#34;, line 3, in middle_test
     assert m == sorted([x, y, z])[1]
 AssertionError (expected)
 </pre>
@@ -18340,24 +18335,24 @@ AssertionError (expected)
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
-s = &#39;&#34;abc&#34;&#39;
-tag = True
-out = &#39;abc&#39;
-c = &#39;&gt;&#39;
-c = &#39;&#34;&#39;
+<pre>tag = False
+quote = False
+s = &#39;abc&#39;
+out = &#39;a&#39;
+quote = True
+out = &#39;&#39;
 c = &#39;/&#39;
+s = &#39;&lt;b&gt;abc&lt;/b&gt;&#39;
+s = &#39;&#34;abc&#34;&#39;
+c = &#39;&gt;&#39;
+c = &#39;c&#39;
+c = &#39;&lt;&#39;
+out = &#39;abc&#39;
+c = &#39;&#34;&#39;
+c = &#39;b&#39;
 c = &#39;a&#39;
 out = &#39;ab&#39;
-quote = False
-c = &#39;&lt;&#39;
-quote = True
-c = &#39;c&#39;
-tag = False
-out = &#39;a&#39;
-c = &#39;b&#39;
-s = &#39;abc&#39;
-out = &#39;&#39;
+tag = True
 </pre>
 </div>
 
@@ -18391,8 +18386,8 @@ out = &#39;&#39;
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>c = &#39;&#34;&#39;
-s = &#39;&#34;abc&#34;&#39;
 quote = True
+s = &#39;&#34;abc&#34;&#39;
 </pre>
 </div>
 
@@ -18802,20 +18797,20 @@ quote = True
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#34;(&#39;remove_html_markup&#39;, 3)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 9)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 12)&#34;,
+<pre>[&#34;(&#39;remove_html_markup&#39;, 4)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 1)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 4)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 10)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 7)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 13)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 10)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 16)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 13)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 2)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 8)&#34;,
  &#34;(&#39;remove_html_markup&#39;, 11)&#34;,
- &#34;(&#39;remove_html_markup&#39;, 14)&#34;]
+ &#34;(&#39;remove_html_markup&#39;, 8)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 14)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 3)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 9)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 6)&#34;,
+ &#34;(&#39;remove_html_markup&#39;, 12)&#34;]
 </pre>
 </div>
 
@@ -18871,7 +18866,7 @@ quote = True
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0]
+<pre>[1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0]
 </pre>
 </div>
 
@@ -18924,9 +18919,9 @@ quote = True
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[[1.0, 1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0]]
+<pre>[[1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0],
+ [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0],
+ [1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0]]
 </pre>
 </div>
 
@@ -19106,7 +19101,7 @@ quote = True
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.49.1 (20210923.0004)
+<!-- Generated by graphviz version 2.49.3 (20211023.0002)
  -->
 <!-- Title: Tree Pages: 1 -->
 <svg width="233pt" height="165pt"
@@ -19327,7 +19322,7 @@ quote = True
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2021-09-29 13:53:55+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/StatisticalDebugger.ipynb" target=_blank)>Last change: 2021-11-23 20:41:55+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19343,7 +19338,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2021-09-29 13:53:55+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">Statistical Debugging</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/StatisticalDebugger.html">https://www.debuggingbook.org/beta/html/StatisticalDebugger.html</a>.  Retrieved 2021-11-23 20:41:55+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2021:StatisticalDebugger,
@@ -19353,9 +19348,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/StatisticalDeb
     year = {2021},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/StatisticalDebugger.html}},
-    note = {Retrieved 2021-09-29 13:53:55+02:00},
+    note = {Retrieved 2021-11-23 20:41:55+01:00},
     url = {https://www.debuggingbook.org/beta/html/StatisticalDebugger.html},
-    urldate = {2021-09-29 13:53:55+02:00}
+    urldate = {2021-11-23 20:41:55+01:00}
 }
 </pre>
 </div>
