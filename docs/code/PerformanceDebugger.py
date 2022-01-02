@@ -3,7 +3,7 @@
 
 # "Debugging Performance Issues" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/PerformanceDebugger.html
-# Last change: 2021-11-08 18:35:32+01:00
+# Last change: 2021-12-13 17:26:57+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -57,16 +57,16 @@ The distribution of executed time within each function can be obtained by printi
  241   1%     out = ""
  242   0%
  243  16%     for c in s:
- 244  16%         assert tag or not quote
+ 244  15%         assert tag or not quote
  245   0%
- 246  14%         if c == '' and not quote:
+ 246  15%         if c == '' and not quote:
  249   3%             tag = False
- 250   9%         elif (c == '"' or c == "'") and tag:
+ 250   8%         elif (c == '"' or c == "'") and tag:
  251   0%             quote = not quote
- 252   9%         elif not tag:
+ 252  11%         elif not tag:
  253   4%             out = out + c
  254   0%
- 255   2%     return out
+ 255   3%     return out
 
 
 
