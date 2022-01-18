@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-12-13 17:14:17+01:00
+# Last change: 2022-01-17 13:39:56+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,9 +51,9 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_45095/4002351332.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_19830/4002351332.py", line 2, in 
     myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_45095/2200911420.py", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_19830/2200911420.py", line 2, in myeval
     return eval(inp)
   File "", line 1, in 
 ZeroDivisionError: division by zero (expected)

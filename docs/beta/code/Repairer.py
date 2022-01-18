@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-12-13 17:29:56+01:00
+# Last change: 2022-01-17 14:07:33+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -960,7 +960,7 @@ class CrossoverOperator(CrossoverOperator):
             return False
 
         body = getattr(tree, body_attr, [])
-        return body and len(body) >= 2
+        return body is not None and len(body) >= 2
 
 class CrossoverOperator(CrossoverOperator):
     def crossover_attr(self, t1: ast.AST, t2: ast.AST, body_attr: str) -> bool:

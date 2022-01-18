@@ -3,7 +3,7 @@
 
 # "Inspecting Call Stacks" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StackInspector.html
-# Last change: 2021-12-13 17:50:01+01:00
+# Last change: 2022-01-17 14:28:30+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
