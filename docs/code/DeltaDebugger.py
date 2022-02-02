@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2022-01-24 10:45:34+01:00
+# Last change: 2022-02-02 11:15:11+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,9 +51,9 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_58133/4002351332.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28871/4002351332.py", line 2, in 
     myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_58133/2200911420.py", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28871/2200911420.py", line 2, in myeval
     return eval(inp)
   File "", line 1, in 
 ZeroDivisionError: division by zero (expected)
@@ -73,7 +73,7 @@ The class automatically determines minimal arguments that cause the function to 
 >>> dd
 myeval(inp='3/0')
 
-The input is reduced to the maximum: We get the essence of the division by zero.
+The input is reduced to the minimum: We get the essence of the division by zero.
 
 There also is an interface to access the reduced input(s) programmatically. The method `min_args()` returns a dictionary in which all function arguments are minimized:
 
@@ -1085,7 +1085,7 @@ if __name__ == '__main__':
             "Delta debugging searches for the minimal input"
             " that produces the same result",
             "Delta debugging starts a fuzzer to find an exception",
-            "Delta debugging raises an exception"
+            "Delta debugging raises an exception",
             "Delta debugging runs forever in a loop",
         ], '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')
 
