@@ -1493,7 +1493,7 @@ if __name__ == '__main__':
     dump_tree(f_tree)
 
 class DataTracker(DataTracker):
-    def arg(self, value: Any, pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
+    def arg(self, value: Any = tuple(), pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
         """
         Track `value` being passed as argument.
         `pos` (if given) is the argument position (starting with 1).
@@ -2071,7 +2071,7 @@ if __name__ == '__main__':
 
 
 class DependencyTracker(DependencyTracker):
-    def arg(self, value: Any, pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
+    def arg(self, value: Any = tuple(), pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
         """
         Track passing an argument `value`
         (with given position `pos` 1..n or keyword `kw`)
