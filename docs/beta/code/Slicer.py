@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2022-01-24 10:44:21+01:00
+# Last change: 2022-08-07 01:05:47+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -80,6 +80,8 @@ After execution is complete, you can output `slicer` to visualize the dependenci
 We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
+
+
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
@@ -303,16 +305,16 @@ if __name__ == '__main__':
 
 
 
-from graphviz import Digraph, nohtml
+from graphviz import Digraph
 
 import html
 
 class Dependencies(Dependencies):
     NODE_COLOR = 'peachpuff'
-    FONT_NAME = 'Fira Mono, Courier, monospace'
+    FONT_NAME = 'Courier'  # 'Fira Mono' may produce warnings in 'dot'
 
-    def make_graph(self, 
-                   name: str = "dependencies", 
+    def make_graph(self,
+                   name: str = "dependencies",
                    comment: str = "Dependencies") -> Digraph:
         return Digraph(name=name, comment=comment,
             graph_attr={
@@ -328,7 +330,7 @@ class Dependencies(Dependencies):
             })
 
 class Dependencies(Dependencies):
-    def graph(self, *, mode : str = 'flow') -> Digraph:
+    def graph(self, *, mode: str = 'flow') -> Digraph:
         """
         Draw dependencies. `mode` is either
         * `'flow'`: arrows indicate information flow (from A to B); or
@@ -384,7 +386,7 @@ class Dependencies(Dependencies):
             if var in self.control:
                 for source in self.control[var]:
                     self.draw_edge(g, mode, self.id(source), self.id(var),
-                           style='dashed', color='grey')
+                                   style='dashed', color='grey')
 
 class Dependencies(Dependencies):
     def id(self, var: Node) -> str:
@@ -410,8 +412,8 @@ class Dependencies(Dependencies):
         label = f'<B>{title}</B>'
         if source:
             label += (f'<FONT POINT-SIZE="9.0"><BR/><BR/>'
-                    f'{html.escape(source)}'
-                    f'</FONT>')
+                      f'{html.escape(source)}'
+                      f'</FONT>')
         label = f'<{label}>'
         return label
 
@@ -1493,7 +1495,7 @@ if __name__ == '__main__':
     dump_tree(f_tree)
 
 class DataTracker(DataTracker):
-    def arg(self, value: Any = tuple(), pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
+    def arg(self, value: Any, pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
         """
         Track `value` being passed as argument.
         `pos` (if given) is the argument position (starting with 1).
@@ -2071,7 +2073,7 @@ if __name__ == '__main__':
 
 
 class DependencyTracker(DependencyTracker):
-    def arg(self, value: Any = tuple(), pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
+    def arg(self, value: Any, pos: Optional[int] = None, kw: Optional[str] = None) -> Any:
         """
         Track passing an argument `value`
         (with given position `pos` 1..n or keyword `kw`)
@@ -2598,6 +2600,13 @@ class Slicer(Slicer):
         frame = self.caller_frame()
         source_lines, starting_lineno = inspect.getsourcelines(frame)
         starting_lineno = max(starting_lineno, 1)
+        if len(source_lines) == 1:
+            # We only get one `with` line, rather than the full block
+            # This happens in Jupyter notebooks with iPython 8.1.0 and later.
+            # Here's a hacky workaround to get the cell contents:
+            # https://stackoverflow.com/questions/51566497/getting-the-source-of-an-object-defined-in-a-jupyter-notebook
+            source_lines = inspect.linecache.getlines(inspect.getfile(frame))  # type: ignore
+            starting_lineno = 1
 
         source_ast = ast.parse(''.join(source_lines))
         wv = WithVisitor()
