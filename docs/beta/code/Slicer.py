@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2022-08-07 01:05:47+02:00
+# Last change: 2022-10-10 12:37:51+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -80,13 +80,11 @@ After execution is complete, you can output `slicer` to visualize the dependenci
 We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
-
-
 An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
 *    1 def demo(x: int) -> int:
 *    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (4), x (1), z (2)
-*    4         z *= 2  # <= z (4), z (2);  (3)
+*    3     while x <= z <= 64:  # <= z (2), x (1), z (4)
+*    4         z *= 2  # <= z (2), z (4);  (3)
 *    5     return z  # <= z (4)
 
 
@@ -343,9 +341,9 @@ class Dependencies(Dependencies):
         self.add_hierarchy(g)
         return g
 
-    def _repr_svg_(self) -> Any:
+    def _repr_mimebundle_(self, include: Any = None, exclude: Any = None) -> Any:
         """If the object is output in Jupyter, render dependencies as a SVG graph"""
-        return self.graph()._repr_svg_()
+        return self.graph()._repr_mimebundle_(include, exclude)
 
 class Dependencies(Dependencies):
     def all_vars(self) -> Set[Node]:
@@ -2447,9 +2445,9 @@ class Slicer(Slicer):
         """Show dependency graph."""
         return self.dependencies().graph(*args, **kwargs)  # type: ignore
 
-    def _repr_svg_(self) -> Any:
+    def _repr_mimebundle_(self, include: Any = None, exclude: Any = None) -> Any:
         """If the object is output in Jupyter, render dependencies as a SVG graph"""
-        return self.graph()._repr_svg_()
+        return self.graph()._repr_mimebundle_(include, exclude)
 
 if __name__ == '__main__':
     with Slicer(middle) as slicer:
@@ -2841,7 +2839,7 @@ if __name__ == '__main__':
                                 Slicer.code,
                                 Slicer.dependencies,
                                 Slicer.graph,
-                                Slicer._repr_svg_,
+                                Slicer._repr_mimebundle_,
                                 DataTracker.__init__,
                                 DataTracker.__enter__,
                                 DataTracker.__exit__,
@@ -2869,7 +2867,7 @@ if __name__ == '__main__':
                                 Dependencies.__init__,
                                 Dependencies.__repr__,
                                 Dependencies.__str__,
-                                Dependencies._repr_svg_,
+                                Dependencies._repr_mimebundle_,
                                 Dependencies.code,
                                 Dependencies.graph,
                                 Dependencies.backward_slice,
