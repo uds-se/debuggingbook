@@ -50,10 +50,18 @@ export default class AutoAnimate {
 			// Flag the navigation direction, needed for fragment buildup
 			animationOptions.slideDirection = toSlideIndex > fromSlideIndex ? 'forward' : 'backward';
 
+			// If the from-slide is hidden because it has moved outside
+			// the view distance, we need to temporarily show it while
+			// measuring
+			let fromSlideIsHidden = fromSlide.style.display === 'none';
+			if( fromSlideIsHidden ) fromSlide.style.display = this.Reveal.getConfig().display;
+
 			// Inject our auto-animate styles for this transition
 			let css = this.getAutoAnimatableElements( fromSlide, toSlide ).map( elements => {
 				return this.autoAnimateElements( elements.from, elements.to, elements.options || {}, animationOptions, autoAnimateCounter++ );
 			} );
+
+			if( fromSlideIsHidden ) fromSlide.style.display = 'none';
 
 			// Animate unmatched elements, if enabled
 			if( toSlide.dataset.autoAnimateUnmatched !== 'false' && this.Reveal.getConfig().autoAnimateUnmatched === true ) {
@@ -391,7 +399,14 @@ export default class AutoAnimate {
 				value = { value: style.to, explicitValue: true };
 			}
 			else {
-				value = computedStyles[style.property];
+				// Use a unitless value for line-height so that it inherits properly
+				if( style.property === 'line-height' ) {
+					value = parseFloat( computedStyles['line-height'] ) / parseFloat( computedStyles['font-size'] );
+				}
+
+				if( isNaN(value) ) {
+					value = computedStyles[style.property];
+				}
 			}
 
 			if( value !== '' ) {
@@ -467,7 +482,6 @@ export default class AutoAnimate {
 		} );
 
 		pairs.forEach( pair => {
-
 			// Disable scale transformations on text nodes, we transition
 			// each individual text property instead
 			if( matches( pair.from, textNodes ) ) {

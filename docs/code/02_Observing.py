@@ -3,7 +3,7 @@
 
 # "Part II: Observing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/02_Observing.html
-# Last change: 2022-01-17 13:36:39+01:00
+# Last change: 2022-08-07 01:05:02+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

@@ -3,7 +3,7 @@
 
 # "Part IV: Reducing Failure Causes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/04_Reducing.html
-# Last change: 2022-01-17 13:39:28+01:00
+# Last change: 2022-08-07 01:05:52+02:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
