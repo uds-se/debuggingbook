@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = \
-	ChangeCounter.ipynb
+
 
 # Introduction
 INTRO_PART = \
