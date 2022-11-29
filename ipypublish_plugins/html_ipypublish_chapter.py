@@ -27,7 +27,7 @@ from ipypublish.preprocessors.split_outputs import SplitOutputs
 
 # Own adaptations -- AZ
 fuzzingbook_tpl_dict = {
-    'meta_docstring': 'with fuzzingbook adaptations',
+    'meta_docstring': 'with debuggingbook adaptations',
     
 # Fonts for page and menu
 # See https://designshack.net/articles/css/10-great-google-font-combinations-you-can-copy/
@@ -37,6 +37,10 @@ fuzzingbook_tpl_dict = {
 
 {# Icons #}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+{# Header Colors #}
+<meta name="theme-color" content="purple" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#4B0150" media="(prefers-color-scheme: dark)">
 
 {# Open Graph Tags #}
 <meta property="og:url" content="__CHAPTER_HTML__" />
