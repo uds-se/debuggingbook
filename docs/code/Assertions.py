@@ -3,7 +3,7 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2022-08-07 01:05:28+02:00
+# Last change: 2022-11-22 14:19:04+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -55,9 +55,9 @@ Notably, assertions detect _violations_ of these assumptions at runtime:
 >>> with ExpectError():
 >>>     y = my_square_root(-1)
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_501/76616918.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_72855/76616918.py", line 2, in 
     y = my_square_root(-1)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_501/2617682038.py", line 2, in my_square_root
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_72855/2617682038.py", line 2, in my_square_root
     assert x >= 0
 AssertionError (expected)
 
@@ -77,11 +77,11 @@ _System assertions_ help to detect invalid memory operations.
 >>> with ExpectError():
 >>>     x = managed_mem[2]
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_501/1296110967.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_72855/1296110967.py", line 2, in 
     x = managed_mem[2]
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_501/2465984283.py", line 3, in __getitem__
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_72855/2465984283.py", line 3, in __getitem__
     return self.read(address)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_501/2898840933.py", line 9, in read
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_72855/2898840933.py", line 9, in read
     assert self.allocated[address], \
 AssertionError: Reading from unallocated memory (expected)
 
@@ -521,8 +521,7 @@ if __name__ == '__main__':
     t = Time("High noon")  # type: ignore
 
 if __name__ == '__main__':
-    with ExpectError():
-        print(t)
+    print(t)
 
 class Time(Time):
     def __init__(self, hours: int = 0, minutes: int = 0, seconds: int = 0) -> None:
@@ -558,7 +557,7 @@ if __name__ == '__main__':
 
 
 class MyTime(Time):
-    @property
+    @property  # type: ignore
     def hours(self) -> int:
         return self._hours
 

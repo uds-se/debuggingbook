@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2022-08-07 01:06:00+02:00
+# Last change: 2022-11-22 14:19:32+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,9 +51,9 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1656/4002351332.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73287/4002351332.py", line 2, in 
     myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1656/2200911420.py", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73287/2200911420.py", line 2, in myeval
     return eval(inp)
   File "", line 1, in 
 ZeroDivisionError: division by zero (expected)
@@ -414,13 +414,13 @@ class CallCollector(StackInspector):
         """Return the exception produced, or `None` if none."""
         return self._exception
 
-    def format_call(self, args: Optional[Dict[str, Any]] = None) -> str:
+    def format_call(self, args: Optional[Dict[str, Any]] = None) -> str:  # type: ignore
         ...
 
-    def format_exception(self, exc: Optional[BaseException] = None) -> str:
+    def format_exception(self, exc: Optional[BaseException] = None) -> str:  # type: ignore
         ...
 
-    def call(self, new_args: Optional[Dict[str, Any]] = None) -> Any:
+    def call(self, new_args: Optional[Dict[str, Any]] = None) -> Any:  # type: ignore
         ...
 
 class CallCollector(CallCollector):
@@ -911,9 +911,9 @@ class FailureNotReproducedError(ValueError):
 class DeltaDebugger(DeltaDebugger):
     def check_reproducibility(self) -> None:
         # Check whether running the function again fails
-        assert self.function(), \
+        assert self._function, \
             "No call collected. Use `with dd: func()` first."
-        assert self.args(), \
+        assert self._args, \
             "No arguments collected. Use `with dd: func(args)` first."
 
         self.reset()
