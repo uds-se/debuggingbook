@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2022-08-07 01:15:23+02:00
+# Last change: 2022-11-22 13:49:43+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

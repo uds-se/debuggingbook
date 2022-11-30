@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2022-10-10 12:37:51+02:00
+# Last change: 2022-11-29 15:17:25+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -67,8 +67,7 @@ Here is an example. The `demo()` function computes some number from `x`:
 
 >>> def demo(x: int) -> int:
 >>>     z = x
->>>     while x <= z <= 64:
->>>         z *= 2
+>>>     while x >>         z *= 2
 >>>     return z
 
 By using `with Slicer()`, we first instrument `demo()` and then execute it:
@@ -80,19 +79,10 @@ After execution is complete, you can output `slicer` to visualize the dependenci
 We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
-An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
+An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `>> slicer.code()
 *    1 def demo(x: int) -> int:
-*    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= z (2), x (1), z (4)
-*    4         z *= 2  # <= z (2), z (4);  (3)
-*    5     return z  # <= z (4)
-
-
-Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
-
-The method `all_vars()` returns all variables in the dependency graph. Each variable is encoded as a pair (_name_, _location_) where _location_ is a pair (_codename_, _lineno_).
-
->>> slicer.dependencies().all_vars()
+*    2     z = x  #  (3)
+*    5     return z  # >> slicer.dependencies().all_vars()
 {('', ( int>, 5)),
  ('', ( int>, 3)),
  ('x', ( int>, 1)),
@@ -259,7 +249,7 @@ class Dependencies(Dependencies):
         # Return source line, or ''
         (name, location) = node
         func, lineno = location
-        if not func:
+        if not func:  # type: ignore
             # No source
             return ''
 
@@ -2395,9 +2385,11 @@ class Slicer(Slicer):
         source = cast(str, inspect.getsourcefile(item))
         code = compile(tree, source, 'exec')
 
+        # Enable dependency tracker
+        self.globals[DATA_TRACKER] = self.dependency_tracker
+        
         # Execute the code, resulting in a redefinition of item
         exec(code, self.globals)
-        self.globals[DATA_TRACKER] = self.dependency_tracker
 
 class Slicer(Slicer):
     def instrument(self, item: Any) -> Any:
