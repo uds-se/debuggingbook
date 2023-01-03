@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2022-11-22 13:41:08+01:00
+# Last change: 2023-01-03 15:37:24+01:00
 #
 # Copyright (c) 2021 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -73,20 +73,19 @@ The invariant annotator works in a similar fashion:
 The `functions_with_invariants()` method will return a representation of `sum2()` annotated with inferred pre- and postconditions that all hold for the observed values.
 
 >>> print(inv_annotator.functions_with_invariants())
-@precondition(lambda b, a: isinstance(a, int))
-@precondition(lambda b, a: isinstance(b, int))
-@postcondition(lambda return_value, b, a: a == return_value - b)
-@postcondition(lambda return_value, b, a: b == return_value - a)
-@postcondition(lambda return_value, b, a: isinstance(return_value, int))
-@postcondition(lambda return_value, b, a: return_value == a + b)
-@postcondition(lambda return_value, b, a: return_value == b + a)
+@precondition(lambda a, b: isinstance(a, int))
+@precondition(lambda a, b: isinstance(b, int))
+@postcondition(lambda return_value, a, b: a == return_value - b)
+@postcondition(lambda return_value, a, b: b == return_value - a)
+@postcondition(lambda return_value, a, b: isinstance(return_value, int))
+@postcondition(lambda return_value, a, b: return_value == a + b)
+@postcondition(lambda return_value, a, b: return_value == b + a)
 def sum2(a, b):  # type: ignore
     return a + b
 
 
 
 Such type specifications and invariants can be helpful as _oracles_ (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.
-
 
 For more details, source, and documentation, see
 "The Debugging Book - Mining Function Specifications"
@@ -288,8 +287,12 @@ def get_arguments(frame: FrameType) -> Arguments:
     """Return call arguments in the given frame"""
     # When called, all arguments are local variables
     local_variables = dict(frame.f_locals)  # explicit copy
-    arguments = [(var, frame.f_locals[var]) for var in local_variables]
-    arguments.reverse()  # Want same order as call
+    arguments = [(var, frame.f_locals[var]) 
+                 for var in local_variables]
+
+    # FIXME: This may be needed for Python < 3.10
+    # arguments.reverse()  # Want same order as call
+
     return arguments
 
 def simple_call_string(function_name: str, argument_list: Arguments,
@@ -339,7 +342,8 @@ class CallTracer(CallTracer):
         code = frame.f_code
         function_name = code.co_name
         return_value = arg
-        # TODO: Could call get_arguments() here to also retrieve _final_ values of argument variables
+        # TODO: Could call get_arguments() here
+        # to also retrieve _final_ values of argument variables
 
         called_function_name, called_arguments = self._stack.pop()
         assert function_name == called_function_name
@@ -594,7 +598,7 @@ if __name__ == '__main__':
 
 def annotate_types(calls: Dict[str, List[Tuple[Arguments, Any]]]) -> Dict[str, ast.AST]:
     annotated_functions = {}
-    
+
     for function_name in calls:
         try:
             annotated_functions[function_name] = \
@@ -663,12 +667,15 @@ class TypeTracer(CallTracer):
 
 class TypeAnnotator(TypeTracer):
     def typed_functions_ast(self) -> Dict[str, ast.AST]:
+        """Return a dict name -> AST for all functions observed, annotated with types"""
         return annotate_types(self.all_calls())
 
     def typed_function_ast(self, function_name: str) -> ast.AST:
+        """Return an AST for all calls of `function_name` observed, annotated with types"""
         return annotate_function_with_types(function_name, self.calls(function_name))
 
     def typed_functions(self) -> str:
+        """Return the code for all functions observed, annotated with types"""
         functions = ''
         for f_name in self.all_calls():
             try:
@@ -679,6 +686,7 @@ class TypeAnnotator(TypeTracer):
         return functions
 
     def typed_function(self, function_name: str) -> str:
+        """Return the code for all calls of `function_name` observed, annotated with types"""
         return ast.unparse(self.typed_function_ast(function_name))
 
 #### End of Excursion
@@ -1022,7 +1030,6 @@ Invariants = Set[Tuple[str, Tuple[str, ...]]]
 
 def true_property_instantiations(prop: str, vars_and_values: Arguments, 
                                  log: bool = False) -> Invariants:
-
     instantiations = set()
     p = prop_function(prop)
 
@@ -1077,9 +1084,9 @@ RETURN_VALUE = 'return_value'
 
 class InvariantTracer(InvariantTracer):
     def all_invariants(self) -> Dict[str, Invariants]:
-        return {function_name: self.invariants(function_name) 
+        return {function_name: self.invariants(function_name)
                 for function_name in self.all_calls()}
-        
+
     def invariants(self, function_name: str) -> Invariants:
         invariants = None
         for variables, return_value in self.calls(function_name):
@@ -1176,6 +1183,7 @@ if __name__ == '__main__':
 
 class InvariantAnnotator(InvariantAnnotator):
     def preconditions(self, function_name: str) -> List[str]:
+        """Return a list of mined preconditions for `function_name`"""
         conditions = []
 
         for inv in pretty_invariants(self.invariants(function_name)):
@@ -1199,6 +1207,8 @@ if __name__ == '__main__':
 
 class InvariantAnnotator(InvariantAnnotator):
     def postconditions(self, function_name: str) -> List[str]:
+        """Return a list of mined postconditions for `function_name`"""
+
         conditions = []
 
         for inv in pretty_invariants(self.invariants(function_name)):
@@ -1222,6 +1232,8 @@ if __name__ == '__main__':
 
 class InvariantAnnotator(InvariantAnnotator):
     def functions_with_invariants(self) -> str:
+        """Return the code of all observed functions, annotated with invariants"""
+
         functions = ""
         for function_name in self.all_invariants():
             try:
@@ -1232,6 +1244,7 @@ class InvariantAnnotator(InvariantAnnotator):
         return functions
 
     def function_with_invariants(self, function_name: str) -> str:
+        """Return the code of `function_name`, annotated with invariants"""
         function = globals()[function_name]  # Can throw KeyError
         source = inspect.getsource(function)
         return '\n'.join(self.preconditions(function_name) +
@@ -1475,6 +1488,25 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     print(inv_annotator.functions_with_invariants())
 
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy([TypeAnnotator, InvariantAnnotator],
+                            public_methods=[
+                                TypeAnnotator.typed_function,
+                                TypeAnnotator.typed_functions,
+                                TypeAnnotator.typed_function_ast,
+                                TypeAnnotator.typed_functions_ast,
+                                InvariantAnnotator.function_with_invariants,
+                                InvariantAnnotator.functions_with_invariants,
+                                InvariantAnnotator.preconditions,
+                                InvariantAnnotator.postconditions,
+                                InvariantTracer.__init__,
+                                CallTracer.__init__
+                            ],
+                            project='debuggingbook'
+                           )
+
 ## Lessons Learned
 ## ---------------
 
@@ -1548,67 +1580,81 @@ if __name__ == '__main__':
     with ExpectError():
         remove_first_char('')
 
-def my_condition(precondition: Optional[Callable] = None, 
-              postcondition: Optional[Callable] = None, doc: str = 'Unknown') -> Callable:
-   def decorator(func: Callable) -> Callable:
-       @functools.wraps(func) # preserves name, docstring, etc
-       def wrapper(*args: Any, **kwargs: Any) -> Any:
-           if precondition is not None:
-               assert precondition(*args, **kwargs), "Precondition violated: " + doc
+def verbose_condition(precondition: Optional[Callable] = None,
+                      postcondition: Optional[Callable] = None,
+                      doc: str = 'Unknown') -> Callable:
+    def decorator(func: Callable) -> Callable:
+        # Use `functools` to preserve name, docstring, etc
+        @functools.wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            if precondition is not None:
+                assert precondition(*args, **kwargs), \
+                    "Precondition violated: " + doc
 
-           retval = func(*args, **kwargs) # call original function or method
-           if postcondition is not None:
-               assert postcondition(retval, *args, **kwargs), "Postcondition violated: " + doc
+            # call original function or method
+            retval = func(*args, **kwargs)
 
-           return retval
-       return wrapper
-   return decorator
+            if postcondition is not None:
+                assert postcondition(retval, *args, **kwargs), \
+                    "Postcondition violated: " + doc
 
-def my_precondition(check: Callable, **kwargs: Any) -> Callable:
-   return my_condition(precondition=check, doc=kwargs.get('doc', 'Unknown'))
+            return retval
 
-def my_postcondition(check: Callable, **kwargs: Any) -> Callable:
-   return my_condition(postcondition=check, doc=kwargs.get('doc', 'Unknown'))
+        return wrapper
+    return decorator
 
-@my_precondition(lambda s: len(s) > 0, doc="len(s) > 0")    # type: ignore
+def verbose_precondition(check: Callable, **kwargs: Any) -> Callable:
+    return verbose_condition(precondition=check,
+                             doc=kwargs.get('doc', 'Unknown'))
+
+def verbose_postcondition(check: Callable, **kwargs: Any) -> Callable:
+    return verbose_condition(postcondition=check,
+                             doc=kwargs.get('doc', 'Unknown'))
+
+@verbose_precondition(lambda s: len(s) > 0, doc="len(s) > 0")    # type: ignore
 def remove_first_char(s: str) -> str:
     return s[1:]
 
-remove_first_char('abc')
+if __name__ == '__main__':
+    remove_first_char('abc')
 
 if __name__ == '__main__':
     with ExpectError():
         remove_first_char('')
 
-class InvariantAnnotator(InvariantAnnotator):
-   def preconditions(self, function_name: str) -> List[str]:
-       conditions = []
+class VerboseInvariantAnnotator(InvariantAnnotator):
+    def preconditions(self, function_name: str) -> List[str]:
+        conditions = []
 
-       for inv in pretty_invariants(self.invariants(function_name)):
-           if inv.find(RETURN_VALUE) >= 0:
-               continue  # Postcondition
+        for inv in pretty_invariants(self.invariants(function_name)):
+            if inv.find(RETURN_VALUE) >= 0:
+                continue  # Postcondition
 
-           cond = "@my_precondition(lambda " + self.params(function_name) + ": " + inv + ', doc=' + repr(inv) + ")"
-           conditions.append(cond)
+            cond = ("@verbose_precondition(lambda " +
+                    self.params(function_name) + ": " +
+                    inv + ', doc=' + repr(inv) + ")")
+            conditions.append(cond)
 
-       return conditions
+        return conditions
 
-class InvariantAnnotator(InvariantAnnotator):
-   def postconditions(self, function_name: str) -> List[str]:
-       conditions = []
+class VerboseInvariantAnnotator(VerboseInvariantAnnotator):
+    def postconditions(self, function_name: str) -> List[str]:
+        conditions = []
 
-       for inv in pretty_invariants(self.invariants(function_name)):
-           if inv.find(RETURN_VALUE) < 0:
-               continue  # Precondition
+        for inv in pretty_invariants(self.invariants(function_name)):
+            if inv.find(RETURN_VALUE) < 0:
+                continue  # Precondition
 
-           cond = ("@my_postcondition(lambda " + 
-               RETURN_VALUE + ", " + self.params(function_name) + ": " + inv + ', doc=' + repr(inv) + ")")
-           conditions.append(cond)
+            cond = ("@verbose_postcondition(lambda " +
+                    RETURN_VALUE + ", " +
+                    self.params(function_name) + ": " +
+                    inv + ', doc=' + repr(inv) + ")")
+            conditions.append(cond)
 
-       return conditions
+        return conditions
 
 if __name__ == '__main__':
-    with InvariantAnnotator() as annotator:
+    with VerboseInvariantAnnotator() as annotator:
         y = sum2(2, 2)
     print_content(annotator.functions_with_invariants(), '.py')
 
@@ -1649,7 +1695,7 @@ class EmbeddedInvariantAnnotator(InvariantTracer):
 
 def annotate_invariants(invariants: Dict[str, Invariants]) -> Dict[str, ast.AST]:
     annotated_functions = {}
-    
+
     for function_name in invariants:
         try:
             annotated_functions[function_name] = annotate_function_with_invariants(function_name, invariants[function_name])

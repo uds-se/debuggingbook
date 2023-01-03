@@ -14908,9 +14908,9 @@ div.jp-OutputPrompt {
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/1219646233.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/1219646233.py&#34;, line 2, in &lt;module&gt;
     square_root(&#34;foo&#34;)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 4, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 4, in square_root
     guess = x / 2
 TypeError: unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39; (expected)
 </pre>
@@ -14949,9 +14949,9 @@ TypeError: unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39; (e
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3113108935.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3113108935.py&#34;, line 2, in &lt;module&gt;
     x = square_root(0.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 7, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 7, in square_root
     guess = (approx + x / approx) / 2
 ZeroDivisionError: float division by zero (expected)
 </pre>
@@ -14996,9 +14996,9 @@ ZeroDivisionError: float division by zero (expected)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3421421264.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3421421264.py&#34;, line 2, in &lt;module&gt;
     x = square_root(-1.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 5, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 5, in square_root
     while approx != guess:
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb&#34;, line 43, in timeout_handler
     raise TimeoutError()
@@ -15098,7 +15098,7 @@ TimeoutError (expected)
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmp0vkdw5_b.py&#39;</pre>
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmp1_l8ls4u.py&#39;</pre>
 </div>
 
 </div>
@@ -15388,8 +15388,12 @@ Found 3 errors in 1 file (checked 1 source file)
     <span class="sd">&quot;&quot;&quot;Return call arguments in the given frame&quot;&quot;&quot;</span>
     <span class="c1"># When called, all arguments are local variables</span>
     <span class="n">local_variables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)</span>  <span class="c1"># explicit copy</span>
-    <span class="n">arguments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">var</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">local_variables</span><span class="p">]</span>
-    <span class="n">arguments</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>  <span class="c1"># Want same order as call</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">var</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> 
+                 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">local_variables</span><span class="p">]</span>
+
+    <span class="c1"># FIXME: This may be needed for Python &lt; 3.10</span>
+    <span class="c1"># arguments.reverse()  # Want same order as call</span>
+
     <span class="k">return</span> <span class="n">arguments</span>
 </pre></div>
 
@@ -15398,13 +15402,13 @@ Found 3 errors in 1 file (checked 1 source file)
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><code>simple_call_string()</code> is a helper for logging that prints out calls in a user-friendly manner.</p>
 
 </div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
@@ -15428,7 +15432,7 @@ Found 3 errors in 1 file (checked 1 source file)
 </div>
 </div>
 
-</div><div class="fragment">
+</div></div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Now for <code>CallTracer</code>. The constructor simply invokes the <code>Tracer</code> constructor:</p>
@@ -15529,7 +15533,8 @@ Found 3 errors in 1 file (checked 1 source file)
         <span class="n">code</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span>
         <span class="n">function_name</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">co_name</span>
         <span class="n">return_value</span> <span class="o">=</span> <span class="n">arg</span>
-        <span class="c1"># TODO: Could call get_arguments() here to also retrieve _final_ values of argument variables</span>
+        <span class="c1"># TODO: Could call get_arguments() here</span>
+        <span class="c1"># to also retrieve _final_ values of argument variables</span>
 
         <span class="n">called_function_name</span><span class="p">,</span> <span class="n">called_arguments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">function_name</span> <span class="o">==</span> <span class="n">called_function_name</span>
@@ -16505,9 +16510,9 @@ square_root(x=2.0) returns 1.414213562373095
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2859393274.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2859393274.py&#34;, line 2, in &lt;module&gt;
     square_root_with_precondition(-1.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -16628,9 +16633,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/1806983978.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/1806983978.py&#34;, line 2, in &lt;module&gt;
     y = buggy_square_root_with_postcondition(2.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 13, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
 AssertionError: Postcondition violated (expected)
 </pre>
@@ -17214,16 +17219,16 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ec9910a8-6a62-11ed-afff-6298cf1a578f" id="ec9910a8-6a62-11ed-afff-6298cf1a578f-1" onclick="clear_selection('ec9910a8-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ec9910a8-6a62-11ed-afff-6298cf1a578f-1-label" for="ec9910a8-6a62-11ed-afff-6298cf1a578f-1">False</label><br>
+        <input type="radio" name="1efc2468-8b74-11ed-b0ed-6298cf1a578e" id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-1" onclick="clear_selection('1efc2468-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-1-label" for="1efc2468-8b74-11ed-b0ed-6298cf1a578e-1">False</label><br>
     
-        <input type="radio" name="ec9910a8-6a62-11ed-afff-6298cf1a578f" id="ec9910a8-6a62-11ed-afff-6298cf1a578f-2" onclick="clear_selection('ec9910a8-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ec9910a8-6a62-11ed-afff-6298cf1a578f-2-label" for="ec9910a8-6a62-11ed-afff-6298cf1a578f-2">True</label><br>
+        <input type="radio" name="1efc2468-8b74-11ed-b0ed-6298cf1a578e" id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-2" onclick="clear_selection('1efc2468-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-2-label" for="1efc2468-8b74-11ed-b0ed-6298cf1a578e-2">True</label><br>
     
     </div>
     </p>
-    <input id="ec9910a8-6a62-11ed-afff-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('ec9910a8-6a62-11ed-afff-6298cf1a578f', 4, 0, 'p(100, 1) + 1')">
-    <span class="quiz_hint" id="ec9910a8-6a62-11ed-afff-6298cf1a578f-hint"></span>
+    <input id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-submit" type="submit" value="Submit" onclick="check_selection('1efc2468-8b74-11ed-b0ed-6298cf1a578e', 4, 0, 'p(100, 1) + 1')">
+    <span class="quiz_hint" id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-hint"></span>
     </div>
     
 </div>
@@ -17389,7 +17394,6 @@ AssertionError: Postcondition violated (expected)
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">true_property_instantiations</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vars_and_values</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span> 
                                  <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
-
     <span class="n">instantiations</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">prop_function</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
 
@@ -17653,9 +17657,9 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantTracer</span><span class="p">(</span><span class="n">InvariantTracer</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">all_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Invariants</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">function_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="p">{</span><span class="n">function_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">function_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_calls</span><span class="p">()}</span>
-        
+
     <span class="k">def</span> <span class="nf">invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
         <span class="n">invariants</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">variables</span><span class="p">,</span> <span class="n">return_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls</span><span class="p">(</span><span class="n">function_name</span><span class="p">):</span>
@@ -18235,7 +18239,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;c, b, a&#39;</pre>
+<pre>&#39;a, b, c&#39;</pre>
 </div>
 
 </div>
@@ -18258,6 +18262,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">preconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of mined preconditions for `function_name`&quot;&quot;&quot;</span>
         <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">pretty_invariants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)):</span>
@@ -18347,6 +18352,8 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">postconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of mined postconditions for `function_name`&quot;&quot;&quot;</span>
+
         <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">pretty_invariants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)):</span>
@@ -18436,6 +18443,8 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">functions_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the code of all observed functions, annotated with invariants&quot;&quot;&quot;</span>
+
         <span class="n">functions</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">function_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_invariants</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
@@ -18446,6 +18455,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
         <span class="k">return</span> <span class="n">functions</span>
 
     <span class="k">def</span> <span class="nf">function_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the code of `function_name`, annotated with invariants&quot;&quot;&quot;</span>
         <span class="n">function</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">function_name</span><span class="p">]</span>  <span class="c1"># Can throw KeyError</span>
         <span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preconditions</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span> <span class="o">+</span>
@@ -18613,13 +18623,13 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value - b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value - a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a + b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b + a)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value - b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value - a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b</pre>
 </div>
@@ -18663,44 +18673,44 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &lt;= b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a == b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &gt;= b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &lt;= a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b == a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &gt;= a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a &lt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a &lt;= b &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value - b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value / b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b &lt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b &lt;= a &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value - a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value / a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a * b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a + b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b * a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b + a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt; a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt; b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= a &gt;= b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= b &gt;= a)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &lt;= b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a == b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &gt;= b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &lt;= a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b == a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &gt;= a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a &lt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a &lt;= b &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value - b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value / b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b &lt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b &lt;= a &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value - a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value / a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a * b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b * a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt; a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt; b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= a &gt;= b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= b &gt;= a)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b</pre>
 </div>
@@ -18767,13 +18777,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value - b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value - a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a + b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b + a)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value - b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value - a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b</pre>
 </div>
@@ -18864,10 +18874,10 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
@@ -18935,60 +18945,60 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &lt; z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &lt;= z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt; y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt;= y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt; x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt; x &lt; z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt; z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt;= x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt;= x &lt;= z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt;= z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; x &gt; y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= x &gt;= y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt; x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt; x &lt; z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt; z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= x &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= y &lt;= x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= y &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value == y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt;= return_value &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt;= y &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &lt;= return_value &lt;= x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &lt;= return_value &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y == return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt; x &gt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= return_value &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= x &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= y &gt;= return_value)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &lt; z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &lt;= z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt; y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt;= y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt; x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt; x &lt; z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt; z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt;= x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt;= x &lt;= z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt;= z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; x &gt; y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= x &gt;= y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt; x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt; x &lt; z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt; z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= x &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= y &lt;= x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= y &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value == y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt;= return_value &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt;= y &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &lt;= return_value &lt;= x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &lt;= return_value &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y == return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt; x &gt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= return_value &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= x &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= y &gt;= return_value)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
@@ -19130,16 +19140,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
     
-        <input type="radio" name="ee0ca24c-6a62-11ed-afff-6298cf1a578f" id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-1" onclick="clear_selection('ee0ca24c-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-1-label" for="ee0ca24c-6a62-11ed-afff-6298cf1a578f-1">Yes</label><br>
+        <input type="radio" name="207bc4a6-8b74-11ed-b0ed-6298cf1a578e" id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-1" onclick="clear_selection('207bc4a6-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-1-label" for="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-1">Yes</label><br>
     
-        <input type="radio" name="ee0ca24c-6a62-11ed-afff-6298cf1a578f" id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-2" onclick="clear_selection('ee0ca24c-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-2-label" for="ee0ca24c-6a62-11ed-afff-6298cf1a578f-2">No</label><br>
+        <input type="radio" name="207bc4a6-8b74-11ed-b0ed-6298cf1a578e" id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-2" onclick="clear_selection('207bc4a6-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-2-label" for="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-2">No</label><br>
     
     </div>
     </p>
-    <input id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('ee0ca24c-6a62-11ed-afff-6298cf1a578f', 4, 0, 'int(math.exp(1))')">
-    <span class="quiz_hint" id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-hint"></span>
+    <input id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-submit" type="submit" value="Submit" onclick="check_selection('207bc4a6-8b74-11ed-b0ed-6298cf1a578e', 4, 0, 'int(math.exp(1))')">
+    <span class="quiz_hint" id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-hint"></span>
     </div>
     
 </div>
@@ -19198,14 +19208,14 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= <span class="ansi-blue-fg">0</span>)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
@@ -19480,9 +19490,9 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-magenta-fg">not</span> return_value)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-magenta-fg">not</span> return_value)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">print_sum</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-cyan-fg">print</span>(a + b)</pre>
 </div>
@@ -19628,13 +19638,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2533314883.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2533314883.py&#34;, line 2, in &lt;module&gt;
     square_root_annotated(-1.0)  # type: ignore
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -19679,9 +19689,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3436772654.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3436772654.py&#34;, line 2, in &lt;module&gt;
     square_root(-1.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 5, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 5, in square_root
     while approx != guess:
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb&#34;, line 43, in timeout_handler
     raise TimeoutError()
@@ -19815,16 +19825,16 @@ TimeoutError (expected)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2047157021.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2047157021.py&#34;, line 2, in &lt;module&gt;
     square_root_negative(2.0)  # type: ignore
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
   [Previous line repeated 4 more times]
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 13, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
 AssertionError: Postcondition violated (expected)
 </pre>
@@ -19981,13 +19991,13 @@ AssertionError: Postcondition violated (expected)
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>@precondition(lambda b, a: isinstance(a, int))
-@precondition(lambda b, a: isinstance(b, int))
-@postcondition(lambda return_value, b, a: a == return_value - b)
-@postcondition(lambda return_value, b, a: b == return_value - a)
-@postcondition(lambda return_value, b, a: isinstance(return_value, int))
-@postcondition(lambda return_value, b, a: return_value == a + b)
-@postcondition(lambda return_value, b, a: return_value == b + a)
+<pre>@precondition(lambda a, b: isinstance(a, int))
+@precondition(lambda a, b: isinstance(b, int))
+@postcondition(lambda return_value, a, b: a == return_value - b)
+@postcondition(lambda return_value, a, b: b == return_value - a)
+@postcondition(lambda return_value, a, b: isinstance(return_value, int))
+@postcondition(lambda return_value, a, b: return_value == a + b)
+@postcondition(lambda return_value, a, b: return_value == b + a)
 def sum2(a, b):  # type: ignore
     return a + b
 
@@ -20005,6 +20015,302 @@ def sum2(a, b):  # type: ignore
 <p>Such type specifications and invariants can be helpful as <em>oracles</em> (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.</p>
 
 </div>
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[215]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="kn">from</span> <span class="nn">ClassDiagram</span> <span class="kn">import</span> <span class="n">display_class_hierarchy</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[216]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">TypeAnnotator</span><span class="p">,</span> <span class="n">InvariantAnnotator</span><span class="p">],</span>
+                        <span class="n">public_methods</span><span class="o">=</span><span class="p">[</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_function</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_functions</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_function_ast</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_functions_ast</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">function_with_invariants</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">preconditions</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">postconditions</span><span class="p">,</span>
+                            <span class="n">InvariantTracer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span>
+                            <span class="n">CallTracer</span><span class="o">.</span><span class="fm">__init__</span>
+                        <span class="p">],</span>
+                        <span class="n">project</span><span class="o">=</span><span class="s1">&#39;debuggingbook&#39;</span>
+                       <span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[216]:</div>
+
+
+
+<div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 7.0.2 (20221119.0110)
+ -->
+<!-- Pages: 1 -->
+<svg width="487pt" height="504pt"
+ viewBox="0.00 0.00 486.50 504.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 500)">
+<g id="a_graph0"><a xlink:title="TypeAnnotator class hierarchy">
+<polygon fill="white" stroke="none" points="-4,4 -4,-500 482.5,-500 482.5,4 -4,4"/>
+</a>
+</g>
+<!-- TypeAnnotator -->
+<g id="node1" class="node">
+<title>TypeAnnotator</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class TypeAnnotator:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="0,-6 0,-81 143,-81 143,-6 0,-6"/>
+<text text-anchor="start" x="24" y="-66.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">TypeAnnotator</text>
+<polyline fill="none" stroke="black" points="0,-58 143,-58"/>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="TypeAnnotator">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="typed_function(self, function_name: str) &#45;&gt; str:&#10;Return the code for all calls of `function_name` observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-47" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_function()</text>
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="typed_function_ast(self, function_name: str) &#45;&gt; ast.AST:&#10;Return an AST for all calls of `function_name` observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-36" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_function_ast()</text>
+</a>
+</g>
+<g id="a_node1_3"><a xlink:href="#" xlink:title="typed_functions(self) &#45;&gt; str:&#10;Return the code for all functions observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_functions()</text>
+</a>
+</g>
+<g id="a_node1_4"><a xlink:href="#" xlink:title="typed_functions_ast(self) &#45;&gt; Dict[str, ast.AST]:&#10;Return a dict name &#45;&gt; AST for all functions observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-14" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_functions_ast()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- TypeTracer -->
+<g id="node2" class="node">
+<title>TypeTracer</title>
+<g id="a_node2"><a xlink:href="#" xlink:title="class TypeTracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="58.5,-137.5 58.5,-173.5 144.5,-173.5 144.5,-137.5 58.5,-137.5"/>
+<text text-anchor="start" x="66.5" y="-152.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">TypeTracer</text>
+</a>
+</g>
+</g>
+<!-- TypeAnnotator&#45;&gt;TypeTracer -->
+<g id="edge1" class="edge">
+<title>TypeAnnotator&#45;&gt;TypeTracer</title>
+<path fill="none" stroke="black" d="M81.41,-80.82C85.49,-95.78 90.14,-112.84 93.94,-126.76"/>
+<polygon fill="none" stroke="black" points="90.49,-127.43 96.5,-136.16 97.24,-125.59 90.49,-127.43"/>
+</g>
+<!-- CallTracer -->
+<g id="node3" class="node">
+<title>CallTracer</title>
+<g id="a_node3"><a xlink:href="#" xlink:title="class CallTracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="110,-224.5 110,-343.5 211,-343.5 211,-224.5 110,-224.5"/>
+<text text-anchor="start" x="129" y="-329.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CallTracer</text>
+<polyline fill="none" stroke="black" points="110,-320.5 211,-320.5"/>
+<g id="a_node3_5"><a xlink:href="#" xlink:title="CallTracer">
+<g id="a_node3_6"><a xlink:href="#" xlink:title="__init__(self, log: bool = False, **kwargs: Any) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<text text-anchor="start" x="118.5" y="-309.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
+</a>
+</g>
+<g id="a_node3_7"><a xlink:href="#" xlink:title="add_call(self, function_name: str, arguments: List[Tuple[str, Any]], return_value: Any = None) &#45;&gt; None:&#10;Add given call to list of calls">
+<text text-anchor="start" x="118.5" y="-297.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">add_call()</text>
+</a>
+</g>
+<g id="a_node3_8"><a xlink:href="#" xlink:title="all_calls(self) &#45;&gt; Dict[str, List[Tuple[List[Tuple[str, Any]], Any]]]:&#10;Return list of calls for function_name,&#10;or a mapping function_name &#45;&gt; calls for all functions tracked">
+<text text-anchor="start" x="118.5" y="-286.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">all_calls()</text>
+</a>
+</g>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="calls(self, function_name: str) &#45;&gt; List[Tuple[List[Tuple[str, Any]], Any]]:&#10;Return list of calls for `function_name`.">
+<text text-anchor="start" x="118.5" y="-275.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">calls()</text>
+</a>
+</g>
+<g id="a_node3_10"><a xlink:href="#" xlink:title="reset(self) &#45;&gt; None">
+<text text-anchor="start" x="118.5" y="-264.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">reset()</text>
+</a>
+</g>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="trace_call(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Save current function name and args on the stack">
+<text text-anchor="start" x="118.5" y="-253.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">trace_call()</text>
+</a>
+</g>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="trace_return(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Get return value and store complete call with arguments and return value">
+<text text-anchor="start" x="118.5" y="-242.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">trace_return()</text>
+</a>
+</g>
+<g id="a_node3_13"><a xlink:href="#" xlink:title="traceit(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Tracking function: Record all calls and all args">
+<text text-anchor="start" x="118.5" y="-232.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00">traceit()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- TypeTracer&#45;&gt;CallTracer -->
+<g id="edge2" class="edge">
+<title>TypeTracer&#45;&gt;CallTracer</title>
+<path fill="none" stroke="black" d="M109.33,-173.3C114.4,-184.16 121.37,-199.09 128.53,-214.45"/>
+<polygon fill="none" stroke="black" points="125.2,-215.6 132.6,-223.19 131.55,-212.64 125.2,-215.6"/>
+</g>
+<!-- Tracer -->
+<g id="node4" class="node">
+<title>Tracer</title>
+<g id="a_node4"><a xlink:href="Tracer.ipynb" xlink:title="class Tracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="132.5,-380.5 132.5,-416.5 188.5,-416.5 188.5,-380.5 132.5,-380.5"/>
+<text text-anchor="start" x="140.5" y="-395.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Tracer</text>
+</a>
+</g>
+</g>
+<!-- CallTracer&#45;&gt;Tracer -->
+<g id="edge3" class="edge">
+<title>CallTracer&#45;&gt;Tracer</title>
+<path fill="none" stroke="black" d="M160.5,-343.23C160.5,-352.34 160.5,-361.39 160.5,-369.4"/>
+<polygon fill="none" stroke="black" points="157,-369.14 160.5,-379.14 164,-369.14 157,-369.14"/>
+</g>
+<!-- StackInspector -->
+<g id="node5" class="node">
+<title>StackInspector</title>
+<g id="a_node5"><a xlink:href="StackInspector.ipynb" xlink:title="class StackInspector:&#10;Provide functions to inspect the stack">
+<polygon fill="none" stroke="black" points="77,-453.5 77,-495.5 244,-495.5 244,-453.5 77,-453.5"/>
+<text text-anchor="start" x="113.5" y="-481.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
+<polyline fill="none" stroke="black" points="77,-472.5 244,-472.5"/>
+<g id="a_node5_14"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node5_15"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {}">
+<text text-anchor="start" x="85.5" y="-460" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">_generated_function_cache</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Tracer&#45;&gt;StackInspector -->
+<g id="edge4" class="edge">
+<title>Tracer&#45;&gt;StackInspector</title>
+<path fill="none" stroke="black" d="M160.5,-416.29C160.5,-424 160.5,-433.4 160.5,-442.33"/>
+<polygon fill="none" stroke="black" points="157,-442.11 160.5,-452.11 164,-442.11 157,-442.11"/>
+</g>
+<!-- InvariantAnnotator -->
+<g id="node6" class="node">
+<title>InvariantAnnotator</title>
+<g id="a_node6"><a xlink:href="#" xlink:title="class InvariantAnnotator:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="161,-0.5 161,-86.5 340,-86.5 340,-0.5 161,-0.5"/>
+<text text-anchor="start" x="193" y="-72.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">InvariantAnnotator</text>
+<polyline fill="none" stroke="black" points="161,-63.5 340,-63.5"/>
+<g id="a_node6_16"><a xlink:href="#" xlink:title="InvariantAnnotator">
+<g id="a_node6_17"><a xlink:href="#" xlink:title="function_with_invariants(self, function_name: str) &#45;&gt; str:&#10;Return the code of `function_name`, annotated with invariants">
+<text text-anchor="start" x="169.5" y="-52" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">function_with_invariants()</text>
+</a>
+</g>
+<g id="a_node6_18"><a xlink:href="#" xlink:title="functions_with_invariants(self) &#45;&gt; str:&#10;Return the code of all observed functions, annotated with invariants">
+<text text-anchor="start" x="169.5" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">functions_with_invariants()</text>
+</a>
+</g>
+<g id="a_node6_19"><a xlink:href="#" xlink:title="postconditions(self, function_name: str) &#45;&gt; List[str]:&#10;Return a list of mined postconditions for `function_name`">
+<text text-anchor="start" x="169.5" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">postconditions()</text>
+</a>
+</g>
+<g id="a_node6_20"><a xlink:href="#" xlink:title="preconditions(self, function_name: str) &#45;&gt; List[str]:&#10;Return a list of mined preconditions for `function_name`">
+<text text-anchor="start" x="169.5" y="-19" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">preconditions()</text>
+</a>
+</g>
+<g id="a_node6_21"><a xlink:href="#" xlink:title="params(self, function_name: str) &#45;&gt; str">
+<text text-anchor="start" x="169.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">params()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- InvariantTracer -->
+<g id="node7" class="node">
+<title>InvariantTracer</title>
+<g id="a_node7"><a xlink:href="#" xlink:title="class InvariantTracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="178,-123.5 178,-187.5 291,-187.5 291,-123.5 178,-123.5"/>
+<text text-anchor="start" x="189.5" y="-173.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">InvariantTracer</text>
+<polyline fill="none" stroke="black" points="178,-164.5 291,-164.5"/>
+<g id="a_node7_22"><a xlink:href="#" xlink:title="InvariantTracer">
+<g id="a_node7_23"><a xlink:href="#" xlink:title="__init__(self, props: Optional[List[str]] = None, **kwargs: Any) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<text text-anchor="start" x="186.5" y="-153" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
+</a>
+</g>
+<g id="a_node7_24"><a xlink:href="#" xlink:title="all_invariants(self) &#45;&gt; Dict[str, Set[Tuple[str, Tuple[str, ...]]]]">
+<text text-anchor="start" x="186.5" y="-141" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">all_invariants()</text>
+</a>
+</g>
+<g id="a_node7_25"><a xlink:href="#" xlink:title="invariants(self, function_name: str) &#45;&gt; Set[Tuple[str, Tuple[str, ...]]]">
+<text text-anchor="start" x="186.5" y="-130" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">invariants()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- InvariantAnnotator&#45;&gt;InvariantTracer -->
+<g id="edge5" class="edge">
+<title>InvariantAnnotator&#45;&gt;InvariantTracer</title>
+<path fill="none" stroke="black" d="M244.41,-86.4C243.17,-94.92 241.86,-103.88 240.62,-112.4"/>
+<polygon fill="none" stroke="black" points="237.18,-111.77 239.2,-122.17 244.11,-112.77 237.18,-111.77"/>
+</g>
+<!-- InvariantTracer&#45;&gt;CallTracer -->
+<g id="edge6" class="edge">
+<title>InvariantTracer&#45;&gt;CallTracer</title>
+<path fill="none" stroke="black" d="M216.4,-187.45C211.46,-195.89 205.9,-205.39 200.26,-215.04"/>
+<polygon fill="none" stroke="black" points="197.4,-213 195.37,-223.39 203.44,-216.53 197.4,-213"/>
+</g>
+<!-- Legend -->
+<g id="node8" class="node">
+<title>Legend</title>
+<text text-anchor="start" x="358.5" y="-61" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="10.00" fill="#6a0dad">Legend</text>
+<text text-anchor="start" x="358.5" y="-51" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text text-anchor="start" x="365.5" y="-51" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00">public_method()</text>
+<text text-anchor="start" x="358.5" y="-41" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text text-anchor="start" x="365.5" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00">private_method()</text>
+<text text-anchor="start" x="358.5" y="-31" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text text-anchor="start" x="365.5" y="-31" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00">overloaded_method()</text>
+<text text-anchor="start" x="358.5" y="-21.8" font-family="Helvetica,sans-Serif" font-size="9.00">Hover over names to see doc</text>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
@@ -20065,7 +20371,7 @@ def sum2(a, b):  # type: ignore
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[215]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[217]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_with_union_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
@@ -20092,7 +20398,7 @@ def sum2(a, b):  # type: ignore
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[216]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[218]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_with_local_types</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -20125,7 +20431,7 @@ def sum2(a, b):  # type: ignore
 </div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[217]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[219]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
@@ -20141,7 +20447,7 @@ def sum2(a, b):  # type: ignore
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[218]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[220]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
@@ -20166,9 +20472,9 @@ def sum2(a, b):  # type: ignore
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2212034949.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2212034949.py&#34;, line 2, in &lt;module&gt;
     remove_first_char(&#39;&#39;)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -20188,30 +20494,31 @@ AssertionError: Precondition violated (expected)
 </div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[219]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[221]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
-              <span class="n">postcondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-   <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-       <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="c1"># preserves name, docstring, etc</span>
-       <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-           <span class="k">if</span> <span class="n">precondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-               <span class="k">assert</span> <span class="n">precondition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="s2">&quot;Precondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">postcondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="c1"># Use `functools` to preserve name, docstring, etc</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">precondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">precondition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> \
+                    <span class="s2">&quot;Precondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
 
-           <span class="n">retval</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># call original function or method</span>
-           <span class="k">if</span> <span class="n">postcondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-               <span class="k">assert</span> <span class="n">postcondition</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="s2">&quot;Postcondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
+            <span class="c1"># call original function or method</span>
+            <span class="n">retval</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-           <span class="k">return</span> <span class="n">retval</span>
-       <span class="k">return</span> <span class="n">wrapper</span>
-   <span class="k">return</span> <span class="n">decorator</span>
+            <span class="k">if</span> <span class="n">postcondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">postcondition</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> \
+                    <span class="s2">&quot;Postcondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
 
-<span class="k">def</span> <span class="nf">my_precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-   <span class="k">return</span> <span class="n">my_condition</span><span class="p">(</span><span class="n">precondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">retval</span>
 
-<span class="k">def</span> <span class="nf">my_postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-   <span class="k">return</span> <span class="n">my_condition</span><span class="p">(</span><span class="n">postcondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
 </pre></div>
 
      </div>
@@ -20219,17 +20526,61 @@ AssertionError: Precondition violated (expected)
 </div>
 </div>
 
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[220]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[222]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@my_precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;len(s) &gt; 0&quot;</span><span class="p">)</span>    <span class="c1"># type: ignore</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
+                             <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[223]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">verbose_condition</span><span class="p">(</span><span class="n">postcondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
+                             <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[224]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@verbose_precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;len(s) &gt; 0&quot;</span><span class="p">)</span>    <span class="c1"># type: ignore</span>
 <span class="k">def</span> <span class="nf">remove_first_char</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</pre></div>
 
-<span class="n">remove_first_char</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+     </div>
+</div>
+</div>
+</div>
+
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[225]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_first_char</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20245,7 +20596,7 @@ AssertionError: Precondition violated (expected)
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[220]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[225]:</div>
 
 
 
@@ -20260,10 +20611,10 @@ AssertionError: Precondition violated (expected)
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[221]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[226]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
@@ -20288,10 +20639,10 @@ AssertionError: Precondition violated (expected)
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2212034949.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2212034949.py&#34;, line 2, in &lt;module&gt;
     remove_first_char(&#39;&#39;)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3359675083.py&#34;, line 7, in wrapper
-    assert precondition(*args, **kwargs), &#34;Precondition violated: &#34; + doc
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/706783034.py&#34;, line 9, in wrapper
+    assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 </pre>
 </div>
@@ -20301,13 +20652,13 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 
 </div>
 
-</div></div></section><section>
+</div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Extend <code>InvariantAnnotator</code> such that it includes the conditions in the generated pre- and postconditions.</p>
+<p>Extend <code>InvariantAnnotator</code> into a <code>VerboseInvariantAnnotator</code> class that includes the conditions in the generated pre- and postconditions.</p>
 
 </div>
-</div></section><section>
+</div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Exercise-4:-Save-Initial-Values">Exercise 4: Save Initial Values<a class="anchor-link" href="#Exercise-4:-Save-Initial-Values">&#182;</a></h3><p>If the value of an argument changes during function execution, this can easily confuse our implementation: The values are tracked at the beginning of the function, but checked only when it returns.  Extend the <code>InvariantAnnotator</code> and the infrastructure it uses such that</p>
