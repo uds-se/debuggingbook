@@ -12121,17 +12121,248 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </pre></div>
 <p>The <code>functions_with_invariants()</code> method will return a representation of <code>sum2()</code> annotated with inferred pre- and postconditions that all hold for the observed values.</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">inv_annotator</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">())</span>
-<span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
-<span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
-<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span> <span class="o">==</span> <span class="n">return_value</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
-<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">b</span> <span class="o">==</span> <span class="n">return_value</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
-<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
-<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">return_value</span> <span class="o">==</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
-<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">return_value</span> <span class="o">==</span> <span class="n">b</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span>
+<span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+<span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">==</span> <span class="n">return_value</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
+<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span> <span class="o">==</span> <span class="n">return_value</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
+<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">return_value</span> <span class="o">==</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">return_value</span> <span class="o">==</span> <span class="n">b</span> <span class="o">+</span> <span class="n">a</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">sum2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </pre></div>
 <p>Such type specifications and invariants can be helpful as <em>oracles</em> (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.</p>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 7.0.2 (20221119.0110)
+ -->
+<!-- Pages: 1 -->
+<svg width="487pt" height="504pt"
+ viewBox="0.00 0.00 486.50 504.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 500)">
+<g id="a_graph0"><a xlink:title="TypeAnnotator class hierarchy">
+<polygon fill="white" stroke="none" points="-4,4 -4,-500 482.5,-500 482.5,4 -4,4"/>
+</a>
+</g>
+<!-- TypeAnnotator -->
+<g id="node1" class="node">
+<title>TypeAnnotator</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class TypeAnnotator:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="0,-6 0,-81 143,-81 143,-6 0,-6"/>
+<text text-anchor="start" x="24" y="-66.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">TypeAnnotator</text>
+<polyline fill="none" stroke="black" points="0,-58 143,-58"/>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="TypeAnnotator">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="typed_function(self, function_name: str) &#45;&gt; str:&#10;Return the code for all calls of `function_name` observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-47" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_function()</text>
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="typed_function_ast(self, function_name: str) &#45;&gt; ast.AST:&#10;Return an AST for all calls of `function_name` observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-36" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_function_ast()</text>
+</a>
+</g>
+<g id="a_node1_3"><a xlink:href="#" xlink:title="typed_functions(self) &#45;&gt; str:&#10;Return the code for all functions observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_functions()</text>
+</a>
+</g>
+<g id="a_node1_4"><a xlink:href="#" xlink:title="typed_functions_ast(self) &#45;&gt; Dict[str, ast.AST]:&#10;Return a dict name &#45;&gt; AST for all functions observed, annotated with types">
+<text text-anchor="start" x="8.5" y="-14" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">typed_functions_ast()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- TypeTracer -->
+<g id="node2" class="node">
+<title>TypeTracer</title>
+<g id="a_node2"><a xlink:href="#" xlink:title="class TypeTracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="58.5,-137.5 58.5,-173.5 144.5,-173.5 144.5,-137.5 58.5,-137.5"/>
+<text text-anchor="start" x="66.5" y="-152.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">TypeTracer</text>
+</a>
+</g>
+</g>
+<!-- TypeAnnotator&#45;&gt;TypeTracer -->
+<g id="edge1" class="edge">
+<title>TypeAnnotator&#45;&gt;TypeTracer</title>
+<path fill="none" stroke="black" d="M81.41,-80.82C85.49,-95.78 90.14,-112.84 93.94,-126.76"/>
+<polygon fill="none" stroke="black" points="90.49,-127.43 96.5,-136.16 97.24,-125.59 90.49,-127.43"/>
+</g>
+<!-- CallTracer -->
+<g id="node3" class="node">
+<title>CallTracer</title>
+<g id="a_node3"><a xlink:href="#" xlink:title="class CallTracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="110,-224.5 110,-343.5 211,-343.5 211,-224.5 110,-224.5"/>
+<text text-anchor="start" x="129" y="-329.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">CallTracer</text>
+<polyline fill="none" stroke="black" points="110,-320.5 211,-320.5"/>
+<g id="a_node3_5"><a xlink:href="#" xlink:title="CallTracer">
+<g id="a_node3_6"><a xlink:href="#" xlink:title="__init__(self, log: bool = False, **kwargs: Any) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<text text-anchor="start" x="118.5" y="-309.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
+</a>
+</g>
+<g id="a_node3_7"><a xlink:href="#" xlink:title="add_call(self, function_name: str, arguments: List[Tuple[str, Any]], return_value: Any = None) &#45;&gt; None:&#10;Add given call to list of calls">
+<text text-anchor="start" x="118.5" y="-297.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">add_call()</text>
+</a>
+</g>
+<g id="a_node3_8"><a xlink:href="#" xlink:title="all_calls(self) &#45;&gt; Dict[str, List[Tuple[List[Tuple[str, Any]], Any]]]:&#10;Return list of calls for function_name,&#10;or a mapping function_name &#45;&gt; calls for all functions tracked">
+<text text-anchor="start" x="118.5" y="-286.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">all_calls()</text>
+</a>
+</g>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="calls(self, function_name: str) &#45;&gt; List[Tuple[List[Tuple[str, Any]], Any]]:&#10;Return list of calls for `function_name`.">
+<text text-anchor="start" x="118.5" y="-275.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">calls()</text>
+</a>
+</g>
+<g id="a_node3_10"><a xlink:href="#" xlink:title="reset(self) &#45;&gt; None">
+<text text-anchor="start" x="118.5" y="-264.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">reset()</text>
+</a>
+</g>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="trace_call(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Save current function name and args on the stack">
+<text text-anchor="start" x="118.5" y="-253.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">trace_call()</text>
+</a>
+</g>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="trace_return(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Get return value and store complete call with arguments and return value">
+<text text-anchor="start" x="118.5" y="-242.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">trace_return()</text>
+</a>
+</g>
+<g id="a_node3_13"><a xlink:href="#" xlink:title="traceit(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Tracking function: Record all calls and all args">
+<text text-anchor="start" x="118.5" y="-232.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00">traceit()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- TypeTracer&#45;&gt;CallTracer -->
+<g id="edge2" class="edge">
+<title>TypeTracer&#45;&gt;CallTracer</title>
+<path fill="none" stroke="black" d="M109.33,-173.3C114.4,-184.16 121.37,-199.09 128.53,-214.45"/>
+<polygon fill="none" stroke="black" points="125.2,-215.6 132.6,-223.19 131.55,-212.64 125.2,-215.6"/>
+</g>
+<!-- Tracer -->
+<g id="node4" class="node">
+<title>Tracer</title>
+<g id="a_node4"><a xlink:href="Tracer.html" xlink:title="class Tracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="132.5,-380.5 132.5,-416.5 188.5,-416.5 188.5,-380.5 132.5,-380.5"/>
+<text text-anchor="start" x="140.5" y="-395.8" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Tracer</text>
+</a>
+</g>
+</g>
+<!-- CallTracer&#45;&gt;Tracer -->
+<g id="edge3" class="edge">
+<title>CallTracer&#45;&gt;Tracer</title>
+<path fill="none" stroke="black" d="M160.5,-343.23C160.5,-352.34 160.5,-361.39 160.5,-369.4"/>
+<polygon fill="none" stroke="black" points="157,-369.14 160.5,-379.14 164,-369.14 157,-369.14"/>
+</g>
+<!-- StackInspector -->
+<g id="node5" class="node">
+<title>StackInspector</title>
+<g id="a_node5"><a xlink:href="StackInspector.html" xlink:title="class StackInspector:&#10;Provide functions to inspect the stack">
+<polygon fill="none" stroke="black" points="77,-453.5 77,-495.5 244,-495.5 244,-453.5 77,-453.5"/>
+<text text-anchor="start" x="113.5" y="-481.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
+<polyline fill="none" stroke="black" points="77,-472.5 244,-472.5"/>
+<g id="a_node5_14"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node5_15"><a xlink:href="StackInspector.html" xlink:title="_generated_function_cache = {}">
+<text text-anchor="start" x="85.5" y="-460" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">_generated_function_cache</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Tracer&#45;&gt;StackInspector -->
+<g id="edge4" class="edge">
+<title>Tracer&#45;&gt;StackInspector</title>
+<path fill="none" stroke="black" d="M160.5,-416.29C160.5,-424 160.5,-433.4 160.5,-442.33"/>
+<polygon fill="none" stroke="black" points="157,-442.11 160.5,-452.11 164,-442.11 157,-442.11"/>
+</g>
+<!-- InvariantAnnotator -->
+<g id="node6" class="node">
+<title>InvariantAnnotator</title>
+<g id="a_node6"><a xlink:href="#" xlink:title="class InvariantAnnotator:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="161,-0.5 161,-86.5 340,-86.5 340,-0.5 161,-0.5"/>
+<text text-anchor="start" x="193" y="-72.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">InvariantAnnotator</text>
+<polyline fill="none" stroke="black" points="161,-63.5 340,-63.5"/>
+<g id="a_node6_16"><a xlink:href="#" xlink:title="InvariantAnnotator">
+<g id="a_node6_17"><a xlink:href="#" xlink:title="function_with_invariants(self, function_name: str) &#45;&gt; str:&#10;Return the code of `function_name`, annotated with invariants">
+<text text-anchor="start" x="169.5" y="-52" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">function_with_invariants()</text>
+</a>
+</g>
+<g id="a_node6_18"><a xlink:href="#" xlink:title="functions_with_invariants(self) &#45;&gt; str:&#10;Return the code of all observed functions, annotated with invariants">
+<text text-anchor="start" x="169.5" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">functions_with_invariants()</text>
+</a>
+</g>
+<g id="a_node6_19"><a xlink:href="#" xlink:title="postconditions(self, function_name: str) &#45;&gt; List[str]:&#10;Return a list of mined postconditions for `function_name`">
+<text text-anchor="start" x="169.5" y="-30" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">postconditions()</text>
+</a>
+</g>
+<g id="a_node6_20"><a xlink:href="#" xlink:title="preconditions(self, function_name: str) &#45;&gt; List[str]:&#10;Return a list of mined preconditions for `function_name`">
+<text text-anchor="start" x="169.5" y="-19" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">preconditions()</text>
+</a>
+</g>
+<g id="a_node6_21"><a xlink:href="#" xlink:title="params(self, function_name: str) &#45;&gt; str">
+<text text-anchor="start" x="169.5" y="-7" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">params()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- InvariantTracer -->
+<g id="node7" class="node">
+<title>InvariantTracer</title>
+<g id="a_node7"><a xlink:href="#" xlink:title="class InvariantTracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="178,-123.5 178,-187.5 291,-187.5 291,-123.5 178,-123.5"/>
+<text text-anchor="start" x="189.5" y="-173.3" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">InvariantTracer</text>
+<polyline fill="none" stroke="black" points="178,-164.5 291,-164.5"/>
+<g id="a_node7_22"><a xlink:href="#" xlink:title="InvariantTracer">
+<g id="a_node7_23"><a xlink:href="#" xlink:title="__init__(self, props: Optional[List[str]] = None, **kwargs: Any) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<text text-anchor="start" x="186.5" y="-153" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
+</a>
+</g>
+<g id="a_node7_24"><a xlink:href="#" xlink:title="all_invariants(self) &#45;&gt; Dict[str, Set[Tuple[str, Tuple[str, ...]]]]">
+<text text-anchor="start" x="186.5" y="-141" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">all_invariants()</text>
+</a>
+</g>
+<g id="a_node7_25"><a xlink:href="#" xlink:title="invariants(self, function_name: str) &#45;&gt; Set[Tuple[str, Tuple[str, ...]]]">
+<text text-anchor="start" x="186.5" y="-130" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">invariants()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- InvariantAnnotator&#45;&gt;InvariantTracer -->
+<g id="edge5" class="edge">
+<title>InvariantAnnotator&#45;&gt;InvariantTracer</title>
+<path fill="none" stroke="black" d="M244.41,-86.4C243.17,-94.92 241.86,-103.88 240.62,-112.4"/>
+<polygon fill="none" stroke="black" points="237.18,-111.77 239.2,-122.17 244.11,-112.77 237.18,-111.77"/>
+</g>
+<!-- InvariantTracer&#45;&gt;CallTracer -->
+<g id="edge6" class="edge">
+<title>InvariantTracer&#45;&gt;CallTracer</title>
+<path fill="none" stroke="black" d="M216.4,-187.45C211.46,-195.89 205.9,-205.39 200.26,-215.04"/>
+<polygon fill="none" stroke="black" points="197.4,-213 195.37,-223.39 203.44,-216.53 197.4,-213"/>
+</g>
+<!-- Legend -->
+<g id="node8" class="node">
+<title>Legend</title>
+<text text-anchor="start" x="358.5" y="-61" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="10.00" fill="#6a0dad">Legend</text>
+<text text-anchor="start" x="358.5" y="-51" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text text-anchor="start" x="365.5" y="-51" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00">public_method()</text>
+<text text-anchor="start" x="358.5" y="-41" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text text-anchor="start" x="365.5" y="-41" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00">private_method()</text>
+<text text-anchor="start" x="358.5" y="-31" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text text-anchor="start" x="365.5" y="-31" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00">overloaded_method()</text>
+<text text-anchor="start" x="358.5" y="-21.8" font-family="Helvetica,sans-Serif" font-size="9.00">Hover over names to see doc</text>
+</g>
+</g>
+</svg>
+</p>
 </div>
 </div>
 </div>
@@ -12275,9 +12506,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/1219646233.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/1219646233.py&#34;, line 2, in &lt;module&gt;
     square_root(&#34;foo&#34;)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 4, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 4, in square_root
     guess = x / 2
 TypeError: unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39; (expected)
 </pre>
@@ -12304,9 +12535,9 @@ TypeError: unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39; (e
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3113108935.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3113108935.py&#34;, line 2, in &lt;module&gt;
     x = square_root(0.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 7, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 7, in square_root
     guess = (approx + x / approx) / 2
 ZeroDivisionError: float division by zero (expected)
 </pre>
@@ -12342,9 +12573,9 @@ ZeroDivisionError: float division by zero (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3421421264.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3421421264.py&#34;, line 2, in &lt;module&gt;
     x = square_root(-1.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 5, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 5, in square_root
     while approx != guess:
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb&#34;, line 43, in timeout_handler
     raise TimeoutError()
@@ -12621,22 +12852,22 @@ TimeoutError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="eaecd6e0-6a62-11ed-afff-6298cf1a578f" id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-1" onclick="clear_selection('eaecd6e0-6a62-11ed-afff-6298cf1a578f')">
-        <label id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-1-label" for="eaecd6e0-6a62-11ed-afff-6298cf1a578f-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="1e611c7a-8b74-11ed-b0ed-6298cf1a578e" id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-1" onclick="clear_selection('1e611c7a-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-1-label" for="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
 
-        <input type="radio" name="eaecd6e0-6a62-11ed-afff-6298cf1a578f" id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-2" onclick="clear_selection('eaecd6e0-6a62-11ed-afff-6298cf1a578f')">
-        <label id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-2-label" for="eaecd6e0-6a62-11ed-afff-6298cf1a578f-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="1e611c7a-8b74-11ed-b0ed-6298cf1a578e" id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-2" onclick="clear_selection('1e611c7a-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-2-label" for="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-2"><code>1</code> is a subtype of float. It will pass.</label><br>
 
-        <input type="radio" name="eaecd6e0-6a62-11ed-afff-6298cf1a578f" id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-3" onclick="clear_selection('eaecd6e0-6a62-11ed-afff-6298cf1a578f')">
-        <label id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-3-label" for="eaecd6e0-6a62-11ed-afff-6298cf1a578f-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="1e611c7a-8b74-11ed-b0ed-6298cf1a578e" id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-3" onclick="clear_selection('1e611c7a-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-3-label" for="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
 
-        <input type="radio" name="eaecd6e0-6a62-11ed-afff-6298cf1a578f" id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-4" onclick="clear_selection('eaecd6e0-6a62-11ed-afff-6298cf1a578f')">
-        <label id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-4-label" for="eaecd6e0-6a62-11ed-afff-6298cf1a578f-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="1e611c7a-8b74-11ed-b0ed-6298cf1a578e" id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-4" onclick="clear_selection('1e611c7a-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-4-label" for="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-4">The function will fail for some other reason.</label><br>
 
     </div>
     </p>
-    <input id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('eaecd6e0-6a62-11ed-afff-6298cf1a578f', 8, 0, '37035 // 12345')">
-    <span class="quiz_hint" id="eaecd6e0-6a62-11ed-afff-6298cf1a578f-hint"></span>
+    <input id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-submit" type="submit" value="Submit" onclick="check_selection('1e611c7a-8b74-11ed-b0ed-6298cf1a578e', 8, 0, '37035 // 12345')">
+    <span class="quiz_hint" id="1e611c7a-8b74-11ed-b0ed-6298cf1a578e-hint"></span>
     </div>
 
 </div>
@@ -12780,7 +13011,7 @@ TimeoutError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmp0vkdw5_b.py&#39;
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmp1_l8ls4u.py&#39;
 </pre>
 </div>
 
@@ -13081,8 +13312,12 @@ Found 3 errors in 1 file (checked 1 source file)
     <span class="sd">&quot;&quot;&quot;Return call arguments in the given frame&quot;&quot;&quot;</span>
     <span class="c1"># When called, all arguments are local variables</span>
     <span class="n">local_variables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)</span>  <span class="c1"># explicit copy</span>
-    <span class="n">arguments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">var</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">local_variables</span><span class="p">]</span>
-    <span class="n">arguments</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>  <span class="c1"># Want same order as call</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="p">[(</span><span class="n">var</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">[</span><span class="n">var</span><span class="p">])</span> 
+                 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">local_variables</span><span class="p">]</span>
+
+    <span class="c1"># FIXME: This may be needed for Python &lt; 3.10</span>
+    <span class="c1"># arguments.reverse()  # Want same order as call</span>
+
     <span class="k">return</span> <span class="n">arguments</span>
 </pre></div>
 
@@ -13237,7 +13472,8 @@ Found 3 errors in 1 file (checked 1 source file)
         <span class="n">code</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span>
         <span class="n">function_name</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">co_name</span>
         <span class="n">return_value</span> <span class="o">=</span> <span class="n">arg</span>
-        <span class="c1"># TODO: Could call get_arguments() here to also retrieve _final_ values of argument variables</span>
+        <span class="c1"># TODO: Could call get_arguments() here</span>
+        <span class="c1"># to also retrieve _final_ values of argument variables</span>
 
         <span class="n">called_function_name</span><span class="p">,</span> <span class="n">called_arguments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">function_name</span> <span class="o">==</span> <span class="n">called_function_name</span>
@@ -14027,7 +14263,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="output_image output_svg output_subarea ">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1693pt" height="548pt" viewBox="0.00 0.00 1693.00 548.00">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 544)">
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-544 1689,-544 1689,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-544 1689,-544 1689,4 -4,4"/>
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
@@ -14041,7 +14277,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 0&#45;&#45;1 -->
 <g id="edge1" class="edge">
 <title>0--1</title>
-<path fill="none" stroke="black" d="M332,-503C332,-503 222.62,-486.09 136,-468 133.15,-467.4 130.23,-466.78 127.29,-466.13"/>
+<path fill="none" stroke="black" d="M332,-503C332,-503 222.62,-486.09 136,-468 133.02,-467.38 129.98,-466.72 126.91,-466.05"/>
 </g>
 <!-- 2 -->
 <g id="node3" class="node">
@@ -14051,7 +14287,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 0&#45;&#45;2 -->
 <g id="edge2" class="edge">
 <title>0--2</title>
-<path fill="none" stroke="black" d="M332,-503C332,-503 277.95,-483.07 236.78,-467.88"/>
+<path fill="none" stroke="black" d="M332,-503C332,-503 277.61,-482.94 236.39,-467.74"/>
 </g>
 <!-- 5 -->
 <g id="node6" class="node">
@@ -14061,7 +14297,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 0&#45;&#45;5 -->
 <g id="edge5" class="edge">
 <title>0--5</title>
-<path fill="none" stroke="black" d="M332,-503C332,-503 315.24,-483.19 302.41,-468.03"/>
+<path fill="none" stroke="black" d="M332,-503C332,-503 315.03,-482.94 302.16,-467.74"/>
 </g>
 <!-- 10 -->
 <g id="node11" class="node">
@@ -14071,7 +14307,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 0&#45;&#45;10 -->
 <g id="edge10" class="edge">
 <title>0--10</title>
-<path fill="none" stroke="black" d="M332,-503C332,-503 348,-483.19 360.25,-468.03"/>
+<path fill="none" stroke="black" d="M332,-503C332,-503 348.2,-482.94 360.48,-467.74"/>
 </g>
 <!-- 21 -->
 <g id="node22" class="node">
@@ -14081,7 +14317,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 0&#45;&#45;21 -->
 <g id="edge21" class="edge">
 <title>0--21</title>
-<path fill="none" stroke="black" d="M332,-503C332,-503 785.46,-463.9 905.92,-453.51"/>
+<path fill="none" stroke="black" d="M332,-503C332,-503 786.49,-463.81 906.32,-453.47"/>
 </g>
 <!-- 58 -->
 <g id="node59" class="node">
@@ -14091,7 +14327,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 0&#45;&#45;58 -->
 <g id="edge58" class="edge">
 <title>0--58</title>
-<path fill="none" stroke="black" d="M332,-503C332,-503 1139.67,-461.66 1314.77,-452.7"/>
+<path fill="none" stroke="black" d="M332,-503C332,-503 1140.56,-461.62 1315.06,-452.69"/>
 </g>
 <!-- 3 -->
 <g id="node4" class="node">
@@ -14101,7 +14337,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 2&#45;&#45;3 -->
 <g id="edge3" class="edge">
 <title>2--3</title>
-<path fill="none" stroke="black" d="M162.87,-431.88C144.65,-420.79 121.05,-406.42 103.05,-395.47"/>
+<path fill="none" stroke="black" d="M163.16,-432.05C144.81,-420.89 120.92,-406.34 102.79,-395.31"/>
 </g>
 <!-- 4 -->
 <g id="node5" class="node">
@@ -14111,7 +14347,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 3&#45;&#45;4 -->
 <g id="edge4" class="edge">
 <title>3--4</title>
-<path fill="none" stroke="black" d="M63.89,-359.7C56.29,-348.85 46.54,-334.92 38.97,-324.1"/>
+<path fill="none" stroke="black" d="M64.14,-360.05C56.43,-349.05 46.43,-334.76 38.75,-323.79"/>
 </g>
 <!-- 6 -->
 <g id="node7" class="node">
@@ -14121,7 +14357,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 5&#45;&#45;6 -->
 <g id="edge6" class="edge">
 <title>5--6</title>
-<path fill="none" stroke="black" d="M279,-431C279,-431 248.91,-411.19 225.87,-396.03"/>
+<path fill="none" stroke="black" d="M279,-431C279,-431 248.53,-410.94 225.43,-395.74"/>
 </g>
 <!-- 9 -->
 <g id="node10" class="node">
@@ -14131,7 +14367,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 5&#45;&#45;9 -->
 <g id="edge9" class="edge">
 <title>5--9</title>
-<path fill="none" stroke="black" d="M279,-431C279,-431 282.05,-411.19 284.38,-396.03"/>
+<path fill="none" stroke="black" d="M279,-431C279,-431 282.09,-410.94 284.42,-395.74"/>
 </g>
 <!-- 7 -->
 <g id="node8" class="node">
@@ -14141,7 +14377,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 6&#45;&#45;7 -->
 <g id="edge7" class="edge">
 <title>6--7</title>
-<path fill="none" stroke="black" d="M192,-359C192,-359 162.29,-339.19 139.54,-324.03"/>
+<path fill="none" stroke="black" d="M192,-359C192,-359 161.91,-338.94 139.11,-323.74"/>
 </g>
 <!-- 8 -->
 <g id="node9" class="node">
@@ -14151,7 +14387,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 6&#45;&#45;8 -->
 <g id="edge8" class="edge">
 <title>6--8</title>
-<path fill="none" stroke="black" d="M192,-359C192,-359 196.19,-339.19 199.4,-324.03"/>
+<path fill="none" stroke="black" d="M192,-359C192,-359 196.24,-338.94 199.46,-323.74"/>
 </g>
 <!-- 11 -->
 <g id="node12" class="node">
@@ -14161,7 +14397,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 10&#45;&#45;11 -->
 <g id="edge11" class="edge">
 <title>10--11</title>
-<path fill="none" stroke="black" d="M384,-431C384,-431 380.19,-411.19 377.27,-396.03"/>
+<path fill="none" stroke="black" d="M384,-431C384,-431 380.14,-410.94 377.22,-395.74"/>
 </g>
 <!-- 14 -->
 <g id="node15" class="node">
@@ -14171,7 +14407,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 10&#45;&#45;14 -->
 <g id="edge14" class="edge">
 <title>10--14</title>
-<path fill="none" stroke="black" d="M384,-431C384,-431 425.29,-409.53 454.81,-394.18"/>
+<path fill="none" stroke="black" d="M384,-431C384,-431 425.54,-409.4 455.08,-394.04"/>
 </g>
 <!-- 12 -->
 <g id="node13" class="node">
@@ -14181,7 +14417,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 11&#45;&#45;12 -->
 <g id="edge12" class="edge">
 <title>11--12</title>
-<path fill="none" stroke="black" d="M365,-359C365,-359 335.29,-339.19 312.54,-324.03"/>
+<path fill="none" stroke="black" d="M365,-359C365,-359 334.91,-338.94 312.11,-323.74"/>
 </g>
 <!-- 13 -->
 <g id="node14" class="node">
@@ -14191,7 +14427,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 11&#45;&#45;13 -->
 <g id="edge13" class="edge">
 <title>11--13</title>
-<path fill="none" stroke="black" d="M365,-359C365,-359 367.29,-339.19 369.04,-324.03"/>
+<path fill="none" stroke="black" d="M365,-359C365,-359 367.31,-338.94 369.07,-323.74"/>
 </g>
 <!-- 15 -->
 <g id="node16" class="node">
@@ -14201,7 +14437,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 14&#45;&#45;15 -->
 <g id="edge15" class="edge">
 <title>14--15</title>
-<path fill="none" stroke="black" d="M490,-359C490,-359 472.86,-339.19 459.73,-324.03"/>
+<path fill="none" stroke="black" d="M490,-359C490,-359 472.64,-338.94 459.49,-323.74"/>
 </g>
 <!-- 18 -->
 <g id="node19" class="node">
@@ -14211,7 +14447,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 14&#45;&#45;18 -->
 <g id="edge18" class="edge">
 <title>14--18</title>
-<path fill="none" stroke="black" d="M490,-359C490,-359 500.28,-339.19 508.16,-324.03"/>
+<path fill="none" stroke="black" d="M490,-359C490,-359 500.42,-338.94 508.31,-323.74"/>
 </g>
 <!-- 19 -->
 <g id="node20" class="node">
@@ -14221,7 +14457,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 14&#45;&#45;19 -->
 <g id="edge19" class="edge">
 <title>14--19</title>
-<path fill="none" stroke="black" d="M490,-359C490,-359 533.42,-339.19 566.67,-324.03"/>
+<path fill="none" stroke="black" d="M490,-359C490,-359 533.7,-339.07 566.99,-323.88"/>
 </g>
 <!-- 16 -->
 <g id="node17" class="node">
@@ -14231,7 +14467,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 15&#45;&#45;16 -->
 <g id="edge16" class="edge">
 <title>15--16</title>
-<path fill="none" stroke="black" d="M437,-287C437,-287 412.62,-267.19 393.96,-252.03"/>
+<path fill="none" stroke="black" d="M438,-287C438,-287 412.93,-266.94 393.92,-251.74"/>
 </g>
 <!-- 17 -->
 <g id="node18" class="node">
@@ -14241,7 +14477,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 15&#45;&#45;17 -->
 <g id="edge17" class="edge">
 <title>15--17</title>
-<path fill="none" stroke="black" d="M437,-287C437,-287 440.05,-267.19 442.38,-252.03"/>
+<path fill="none" stroke="black" d="M438,-287C438,-287 440.7,-266.94 442.75,-251.74"/>
 </g>
 <!-- 20 -->
 <g id="node21" class="node">
@@ -14251,7 +14487,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 19&#45;&#45;20 -->
 <g id="edge20" class="edge">
 <title>19--20</title>
-<path fill="none" stroke="black" d="M582.49,-287.7C569.01,-276.85 551.7,-262.92 538.26,-252.1"/>
+<path fill="none" stroke="black" d="M582.94,-288.05C569.26,-277.05 551.51,-262.76 537.87,-251.79"/>
 </g>
 <!-- 22 -->
 <g id="node23" class="node">
@@ -14261,7 +14497,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 21&#45;&#45;22 -->
 <g id="edge22" class="edge">
 <title>21--22</title>
-<path fill="none" stroke="black" d="M943,-431C943,-431 886.4,-408.87 847.05,-393.48"/>
+<path fill="none" stroke="black" d="M943,-431C943,-431 886.06,-408.74 846.69,-393.35"/>
 </g>
 <!-- 30 -->
 <g id="node31" class="node">
@@ -14271,7 +14507,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 21&#45;&#45;30 -->
 <g id="edge30" class="edge">
 <title>21--30</title>
-<path fill="none" stroke="black" d="M943,-431C943,-431 959.76,-411.19 972.59,-396.03"/>
+<path fill="none" stroke="black" d="M943,-431C943,-431 959.97,-410.94 972.84,-395.74"/>
 </g>
 <!-- 37 -->
 <g id="node38" class="node">
@@ -14281,7 +14517,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 21&#45;&#45;37 -->
 <g id="edge37" class="edge">
 <title>21--37</title>
-<path fill="none" stroke="black" d="M943,-431C943,-431 1195.55,-396.26 1287.79,-383.57"/>
+<path fill="none" stroke="black" d="M943,-431C943,-431 1196.15,-396.17 1288.12,-383.52"/>
 </g>
 <!-- 23 -->
 <g id="node24" class="node">
@@ -14291,7 +14527,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 22&#45;&#45;23 -->
 <g id="edge23" class="edge">
 <title>22--23</title>
-<path fill="none" stroke="black" d="M803,-359C803,-359 751.26,-334.98 718.11,-319.59"/>
+<path fill="none" stroke="black" d="M803,-359C803,-359 750.96,-334.84 717.83,-319.46"/>
 </g>
 <!-- 26 -->
 <g id="node27" class="node">
@@ -14301,7 +14537,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 22&#45;&#45;26 -->
 <g id="edge26" class="edge">
 <title>22--26</title>
-<path fill="none" stroke="black" d="M803,-359C803,-359 791.57,-339.19 782.82,-324.03"/>
+<path fill="none" stroke="black" d="M803,-359C803,-359 791.43,-338.94 782.66,-323.74"/>
 </g>
 <!-- 27 -->
 <g id="node28" class="node">
@@ -14311,7 +14547,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 22&#45;&#45;27 -->
 <g id="edge27" class="edge">
 <title>22--27</title>
-<path fill="none" stroke="black" d="M803,-359C803,-359 819.76,-339.19 832.59,-324.03"/>
+<path fill="none" stroke="black" d="M803,-359C803,-359 819.97,-338.94 832.84,-323.74"/>
 </g>
 <!-- 24 -->
 <g id="node25" class="node">
@@ -14321,7 +14557,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 23&#45;&#45;24 -->
 <g id="edge24" class="edge">
 <title>23--24</title>
-<path fill="none" stroke="black" d="M682,-287C682,-287 652.29,-267.19 629.54,-252.03"/>
+<path fill="none" stroke="black" d="M683,-287C683,-287 652.53,-266.94 629.43,-251.74"/>
 </g>
 <!-- 25 -->
 <g id="node26" class="node">
@@ -14331,7 +14567,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 23&#45;&#45;25 -->
 <g id="edge25" class="edge">
 <title>23--25</title>
-<path fill="none" stroke="black" d="M682,-287C682,-287 685.43,-267.19 688.05,-252.03"/>
+<path fill="none" stroke="black" d="M683,-287C683,-287 686.09,-266.94 688.42,-251.74"/>
 </g>
 <!-- 28 -->
 <g id="node29" class="node">
@@ -14341,7 +14577,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 27&#45;&#45;28 -->
 <g id="edge28" class="edge">
 <title>27--28</title>
-<path fill="none" stroke="black" d="M841,-287C841,-287 815.1,-267.19 795.27,-252.03"/>
+<path fill="none" stroke="black" d="M841,-287C841,-287 814.77,-266.94 794.89,-251.74"/>
 </g>
 <!-- 29 -->
 <g id="node30" class="node">
@@ -14351,7 +14587,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 27&#45;&#45;29 -->
 <g id="edge29" class="edge">
 <title>27--29</title>
-<path fill="none" stroke="black" d="M841,-287C841,-287 846.33,-267.19 850.42,-252.03"/>
+<path fill="none" stroke="black" d="M841,-287C841,-287 846.4,-266.94 850.49,-251.74"/>
 </g>
 <!-- 31 -->
 <g id="node32" class="node">
@@ -14361,7 +14597,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 30&#45;&#45;31 -->
 <g id="edge31" class="edge">
 <title>30--31</title>
-<path fill="none" stroke="black" d="M998,-359C998,-359 993.81,-339.19 990.6,-324.03"/>
+<path fill="none" stroke="black" d="M998,-359C998,-359 993.76,-338.94 990.54,-323.74"/>
 </g>
 <!-- 34 -->
 <g id="node35" class="node">
@@ -14371,7 +14607,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 30&#45;&#45;34 -->
 <g id="edge34" class="edge">
 <title>30--34</title>
-<path fill="none" stroke="black" d="M998,-359C998,-359 1053.3,-334.42 1087.86,-319.06"/>
+<path fill="none" stroke="black" d="M998,-359C998,-359 1053.62,-334.28 1088.16,-318.93"/>
 </g>
 <!-- 32 -->
 <g id="node33" class="node">
@@ -14381,7 +14617,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 31&#45;&#45;32 -->
 <g id="edge32" class="edge">
 <title>31--32</title>
-<path fill="none" stroke="black" d="M987,-287C987,-287 969.86,-267.19 956.73,-252.03"/>
+<path fill="none" stroke="black" d="M987,-287C987,-287 969.64,-266.94 956.49,-251.74"/>
 </g>
 <!-- 33 -->
 <g id="node34" class="node">
@@ -14391,7 +14627,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 31&#45;&#45;33 -->
 <g id="edge33" class="edge">
 <title>31--33</title>
-<path fill="none" stroke="black" d="M987,-287C987,-287 1003.76,-267.19 1016.59,-252.03"/>
+<path fill="none" stroke="black" d="M987,-287C987,-287 1003.97,-266.94 1016.84,-251.74"/>
 </g>
 <!-- 35 -->
 <g id="node36" class="node">
@@ -14401,7 +14637,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 34&#45;&#45;35 -->
 <g id="edge35" class="edge">
 <title>34--35</title>
-<path fill="none" stroke="black" d="M1123,-287C1123,-287 1119.95,-267.19 1117.62,-252.03"/>
+<path fill="none" stroke="black" d="M1123,-287C1123,-287 1119.91,-266.94 1117.58,-251.74"/>
 </g>
 <!-- 36 -->
 <g id="node37" class="node">
@@ -14411,7 +14647,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 34&#45;&#45;36 -->
 <g id="edge36" class="edge">
 <title>34--36</title>
-<path fill="none" stroke="black" d="M1123,-287C1123,-287 1151.19,-267.19 1172.77,-252.03"/>
+<path fill="none" stroke="black" d="M1123,-287C1123,-287 1151.55,-266.94 1173.18,-251.74"/>
 </g>
 <!-- 38 -->
 <g id="node39" class="node">
@@ -14421,7 +14657,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 37&#45;&#45;38 -->
 <g id="edge38" class="edge">
 <title>37--38</title>
-<path fill="none" stroke="black" d="M1331,-359C1331,-359 1327.19,-339.19 1324.27,-324.03"/>
+<path fill="none" stroke="black" d="M1331,-359C1331,-359 1327.14,-338.94 1324.22,-323.74"/>
 </g>
 <!-- 41 -->
 <g id="node42" class="node">
@@ -14431,7 +14667,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 37&#45;&#45;41 -->
 <g id="edge41" class="edge">
 <title>37--41</title>
-<path fill="none" stroke="black" d="M1331,-359C1331,-359 1377.79,-336.47 1409.77,-321.07"/>
+<path fill="none" stroke="black" d="M1331,-359C1331,-359 1378.07,-336.34 1410.06,-320.94"/>
 </g>
 <!-- 39 -->
 <g id="node40" class="node">
@@ -14441,7 +14677,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 38&#45;&#45;39 -->
 <g id="edge39" class="edge">
 <title>38--39</title>
-<path fill="none" stroke="black" d="M1321,-287C1321,-287 1305,-267.19 1292.75,-252.03"/>
+<path fill="none" stroke="black" d="M1321,-287C1321,-287 1304.8,-266.94 1292.52,-251.74"/>
 </g>
 <!-- 40 -->
 <g id="node41" class="node">
@@ -14451,7 +14687,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 38&#45;&#45;40 -->
 <g id="edge40" class="edge">
 <title>38--40</title>
-<path fill="none" stroke="black" d="M1321,-287C1321,-287 1337,-267.19 1349.25,-252.03"/>
+<path fill="none" stroke="black" d="M1321,-287C1321,-287 1337.2,-266.94 1349.48,-251.74"/>
 </g>
 <!-- 42 -->
 <g id="node43" class="node">
@@ -14461,7 +14697,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 41&#45;&#45;42 -->
 <g id="edge42" class="edge">
 <title>41--42</title>
-<path fill="none" stroke="black" d="M1453,-287C1453,-287 1447.67,-267.19 1443.58,-252.03"/>
+<path fill="none" stroke="black" d="M1453,-287C1453,-287 1447.6,-266.94 1443.51,-251.74"/>
 </g>
 <!-- 55 -->
 <g id="node56" class="node">
@@ -14471,7 +14707,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 41&#45;&#45;55 -->
 <g id="edge55" class="edge">
 <title>41--55</title>
-<path fill="none" stroke="black" d="M1453,-287C1453,-287 1475.86,-267.19 1493.35,-252.03"/>
+<path fill="none" stroke="black" d="M1453,-287C1453,-287 1476.15,-266.94 1493.69,-251.74"/>
 </g>
 <!-- 56 -->
 <g id="node57" class="node">
@@ -14481,7 +14717,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 41&#45;&#45;56 -->
 <g id="edge56" class="edge">
 <title>41--56</title>
-<path fill="none" stroke="black" d="M1453,-287C1453,-287 1514.81,-265.14 1558.27,-249.76"/>
+<path fill="none" stroke="black" d="M1453,-287C1453,-287 1515.18,-265 1558.66,-249.62"/>
 </g>
 <!-- 43 -->
 <g id="node44" class="node">
@@ -14491,7 +14727,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 42&#45;&#45;43 -->
 <g id="edge43" class="edge">
 <title>42--43</title>
-<path fill="none" stroke="black" d="M1439,-215C1439,-215 1411.57,-195.19 1390.58,-180.03"/>
+<path fill="none" stroke="black" d="M1439,-215C1439,-215 1411.23,-194.94 1390.18,-179.74"/>
 </g>
 <!-- 46 -->
 <g id="node47" class="node">
@@ -14501,7 +14737,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 42&#45;&#45;46 -->
 <g id="edge46" class="edge">
 <title>42--46</title>
-<path fill="none" stroke="black" d="M1439,-215C1439,-215 1439,-195.19 1439,-180.03"/>
+<path fill="none" stroke="black" d="M1439,-215C1439,-215 1439,-194.94 1439,-179.74"/>
 </g>
 <!-- 47 -->
 <g id="node48" class="node">
@@ -14511,7 +14747,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 42&#45;&#45;47 -->
 <g id="edge47" class="edge">
 <title>42--47</title>
-<path fill="none" stroke="black" d="M1439,-215C1439,-215 1467.19,-195.19 1488.77,-180.03"/>
+<path fill="none" stroke="black" d="M1439,-215C1439,-215 1467.55,-194.94 1489.18,-179.74"/>
 </g>
 <!-- 44 -->
 <g id="node45" class="node">
@@ -14521,7 +14757,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 43&#45;&#45;44 -->
 <g id="edge44" class="edge">
 <title>43--44</title>
-<path fill="none" stroke="black" d="M1359,-143C1359,-143 1329.29,-123.19 1306.54,-108.03"/>
+<path fill="none" stroke="black" d="M1359,-143C1359,-143 1328.91,-122.94 1306.11,-107.74"/>
 </g>
 <!-- 45 -->
 <g id="node46" class="node">
@@ -14531,7 +14767,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 43&#45;&#45;45 -->
 <g id="edge45" class="edge">
 <title>43--45</title>
-<path fill="none" stroke="black" d="M1359,-143C1359,-143 1362.43,-123.19 1365.05,-108.03"/>
+<path fill="none" stroke="black" d="M1359,-143C1359,-143 1362.47,-122.94 1365.1,-107.74"/>
 </g>
 <!-- 48 -->
 <g id="node49" class="node">
@@ -14541,7 +14777,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 47&#45;&#45;48 -->
 <g id="edge48" class="edge">
 <title>47--48</title>
-<path fill="none" stroke="black" d="M1513,-143C1513,-143 1485.57,-123.19 1464.58,-108.03"/>
+<path fill="none" stroke="black" d="M1513,-143C1513,-143 1485.23,-122.94 1464.18,-107.74"/>
 </g>
 <!-- 51 -->
 <g id="node52" class="node">
@@ -14551,7 +14787,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 47&#45;&#45;51 -->
 <g id="edge51" class="edge">
 <title>47--51</title>
-<path fill="none" stroke="black" d="M1513,-143C1513,-143 1513,-123.19 1513,-108.03"/>
+<path fill="none" stroke="black" d="M1513,-143C1513,-143 1513,-122.94 1513,-107.74"/>
 </g>
 <!-- 52 -->
 <g id="node53" class="node">
@@ -14561,7 +14797,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 47&#45;&#45;52 -->
 <g id="edge52" class="edge">
 <title>47--52</title>
-<path fill="none" stroke="black" d="M1513,-143C1513,-143 1540.43,-123.19 1561.42,-108.03"/>
+<path fill="none" stroke="black" d="M1513,-143C1513,-143 1540.77,-122.94 1561.82,-107.74"/>
 </g>
 <!-- 49 -->
 <g id="node50" class="node">
@@ -14571,7 +14807,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 48&#45;&#45;49 -->
 <g id="edge49" class="edge">
 <title>48--49</title>
-<path fill="none" stroke="black" d="M1437,-71C1437,-71 1416.81,-51.19 1401.35,-36.03"/>
+<path fill="none" stroke="black" d="M1437,-71C1437,-71 1416.55,-50.94 1401.06,-35.74"/>
 </g>
 <!-- 50 -->
 <g id="node51" class="node">
@@ -14581,7 +14817,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 48&#45;&#45;50 -->
 <g id="edge50" class="edge">
 <title>48--50</title>
-<path fill="none" stroke="black" d="M1437,-71C1437,-71 1444.24,-51.19 1449.78,-36.03"/>
+<path fill="none" stroke="black" d="M1437,-71C1437,-71 1444.33,-50.94 1449.88,-35.74"/>
 </g>
 <!-- 53 -->
 <g id="node54" class="node">
@@ -14591,7 +14827,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 52&#45;&#45;53 -->
 <g id="edge53" class="edge">
 <title>52--53</title>
-<path fill="none" stroke="black" d="M1591,-71C1591,-71 1583.38,-51.19 1577.55,-36.03"/>
+<path fill="none" stroke="black" d="M1590,-71C1590,-71 1582.67,-50.94 1577.12,-35.74"/>
 </g>
 <!-- 54 -->
 <g id="node55" class="node">
@@ -14601,7 +14837,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 52&#45;&#45;54 -->
 <g id="edge54" class="edge">
 <title>52--54</title>
-<path fill="none" stroke="black" d="M1591,-71C1591,-71 1616.52,-51.19 1636.06,-36.03"/>
+<path fill="none" stroke="black" d="M1590,-71C1590,-71 1616.23,-50.94 1636.11,-35.74"/>
 </g>
 <!-- 57 -->
 <g id="node58" class="node">
@@ -14611,7 +14847,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 56&#45;&#45;57 -->
 <g id="edge57" class="edge">
 <title>56--57</title>
-<path fill="none" stroke="black" d="M1600,-215.7C1600,-204.85 1600,-190.92 1600,-180.1"/>
+<path fill="none" stroke="black" d="M1600,-216.05C1600,-205.05 1600,-190.76 1600,-179.79"/>
 </g>
 <!-- 59 -->
 <g id="node60" class="node">
@@ -14621,7 +14857,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 58&#45;&#45;59 -->
 <g id="edge59" class="edge">
 <title>58--59</title>
-<path fill="none" stroke="black" d="M1381.01,-436.16C1415.42,-422.78 1468.7,-402.06 1500.78,-389.59"/>
+<path fill="none" stroke="black" d="M1380.6,-436.32C1415.14,-422.89 1469.06,-401.92 1501.22,-389.42"/>
 </g>
 <!-- 60 -->
 <g id="node61" class="node">
@@ -14631,7 +14867,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 59&#45;&#45;60 -->
 <g id="edge60" class="edge">
 <title>59--60</title>
-<path fill="none" stroke="black" d="M1537,-359C1537,-359 1533.57,-339.19 1530.95,-324.03"/>
+<path fill="none" stroke="black" d="M1536,-359C1536,-359 1532.91,-338.94 1530.58,-323.74"/>
 </g>
 <!-- 61 -->
 <g id="node62" class="node">
@@ -14641,7 +14877,7 @@ square_root(x=2.0) returns 1.414213562373095
 <!-- 59&#45;&#45;61 -->
 <g id="edge61" class="edge">
 <title>59--61</title>
-<path fill="none" stroke="black" d="M1537,-359C1537,-359 1566.71,-339.19 1589.46,-324.03"/>
+<path fill="none" stroke="black" d="M1536,-359C1536,-359 1566.47,-338.94 1589.57,-323.74"/>
 </g>
 </g>
 </svg>
@@ -15360,12 +15596,15 @@ the appropriate type of a given value (as a string):</p>
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TypeAnnotator</span><span class="p">(</span><span class="n">TypeTracer</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">typed_functions_ast</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a dict name -&gt; AST for all functions observed, annotated with types&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">annotate_types</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_calls</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">typed_function_ast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return an AST for all calls of `function_name` observed, annotated with types&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">annotate_function_with_types</span><span class="p">(</span><span class="n">function_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls</span><span class="p">(</span><span class="n">function_name</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">typed_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the code for all functions observed, annotated with types&quot;&quot;&quot;</span>
         <span class="n">functions</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">f_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_calls</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
@@ -15376,6 +15615,7 @@ the appropriate type of a given value (as a string):</p>
         <span class="k">return</span> <span class="n">functions</span>
 
     <span class="k">def</span> <span class="nf">typed_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the code for all calls of `function_name` observed, annotated with types&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typed_function_ast</span><span class="p">(</span><span class="n">function_name</span><span class="p">))</span>
 </pre></div>
 
@@ -16035,9 +16275,9 @@ the appropriate type of a given value (as a string):</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2859393274.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2859393274.py&#34;, line 2, in &lt;module&gt;
     square_root_with_precondition(-1.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -16152,9 +16392,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/1806983978.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/1806983978.py&#34;, line 2, in &lt;module&gt;
     y = buggy_square_root_with_postcondition(2.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 13, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
 AssertionError: Postcondition violated (expected)
 </pre>
@@ -16740,16 +16980,16 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ec9910a8-6a62-11ed-afff-6298cf1a578f" id="ec9910a8-6a62-11ed-afff-6298cf1a578f-1" onclick="clear_selection('ec9910a8-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ec9910a8-6a62-11ed-afff-6298cf1a578f-1-label" for="ec9910a8-6a62-11ed-afff-6298cf1a578f-1">False</label><br>
+        <input type="radio" name="1efc2468-8b74-11ed-b0ed-6298cf1a578e" id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-1" onclick="clear_selection('1efc2468-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-1-label" for="1efc2468-8b74-11ed-b0ed-6298cf1a578e-1">False</label><br>
 
-        <input type="radio" name="ec9910a8-6a62-11ed-afff-6298cf1a578f" id="ec9910a8-6a62-11ed-afff-6298cf1a578f-2" onclick="clear_selection('ec9910a8-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ec9910a8-6a62-11ed-afff-6298cf1a578f-2-label" for="ec9910a8-6a62-11ed-afff-6298cf1a578f-2">True</label><br>
+        <input type="radio" name="1efc2468-8b74-11ed-b0ed-6298cf1a578e" id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-2" onclick="clear_selection('1efc2468-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-2-label" for="1efc2468-8b74-11ed-b0ed-6298cf1a578e-2">True</label><br>
 
     </div>
     </p>
-    <input id="ec9910a8-6a62-11ed-afff-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('ec9910a8-6a62-11ed-afff-6298cf1a578f', 4, 0, 'p(100, 1) + 1')">
-    <span class="quiz_hint" id="ec9910a8-6a62-11ed-afff-6298cf1a578f-hint"></span>
+    <input id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-submit" type="submit" value="Submit" onclick="check_selection('1efc2468-8b74-11ed-b0ed-6298cf1a578e', 4, 0, 'p(100, 1) + 1')">
+    <span class="quiz_hint" id="1efc2468-8b74-11ed-b0ed-6298cf1a578e-hint"></span>
     </div>
 
 </div>
@@ -16894,7 +17134,6 @@ AssertionError: Postcondition violated (expected)
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">true_property_instantiations</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vars_and_values</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span> 
                                  <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
-
     <span class="n">instantiations</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">prop_function</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
 
@@ -17123,7 +17362,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantTracer</span><span class="p">(</span><span class="n">InvariantTracer</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">all_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Invariants</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">function_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="p">{</span><span class="n">function_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">function_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_calls</span><span class="p">()}</span>
 
     <span class="k">def</span> <span class="nf">invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
@@ -17604,7 +17843,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;c, b, a&#39;
+<pre>&#39;a, b, c&#39;
 </pre>
 </div>
 
@@ -17627,6 +17866,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">preconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of mined preconditions for `function_name`&quot;&quot;&quot;</span>
         <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">pretty_invariants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)):</span>
@@ -17705,6 +17945,8 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">postconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of mined postconditions for `function_name`&quot;&quot;&quot;</span>
+
         <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">pretty_invariants</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)):</span>
@@ -17783,6 +18025,8 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">functions_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the code of all observed functions, annotated with invariants&quot;&quot;&quot;</span>
+
         <span class="n">functions</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">for</span> <span class="n">function_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_invariants</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
@@ -17793,6 +18037,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
         <span class="k">return</span> <span class="n">functions</span>
 
     <span class="k">def</span> <span class="nf">function_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return the code of `function_name`, annotated with invariants&quot;&quot;&quot;</span>
         <span class="n">function</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">function_name</span><span class="p">]</span>  <span class="c1"># Can throw KeyError</span>
         <span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">preconditions</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span> <span class="o">+</span>
@@ -17955,13 +18200,13 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value - b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value - a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a + b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b + a)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value - b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value - a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b
 </pre>
@@ -17997,44 +18242,44 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &lt;= b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a == b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: a &gt;= b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &lt;= a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b == a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: b &gt;= a)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a &lt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a &lt;= b &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value - b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value / b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b &lt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b &lt;= a &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value - a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value / a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a * b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a + b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b * a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b + a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt; a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt; b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= a &gt;= b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value &gt;= b &gt;= a)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &lt;= b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a == b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: a &gt;= b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &lt;= a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b == a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: b &gt;= a)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a &lt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a &lt;= b &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value - b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value / b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b &lt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b &lt;= a &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value - a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value / a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a * b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b * a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt; a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt; b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= a &gt;= b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= b &gt;= a)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b
 </pre>
@@ -18110,13 +18355,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: a == return_value - b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: b == return_value - a)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == a + b)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: return_value == b + a)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: a == return_value - b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: b == return_value - a)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b
 </pre>
@@ -18228,10 +18473,10 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
@@ -18305,60 +18550,60 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &lt; z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &lt;= z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt; y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt;= y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt; x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt; x &lt; z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt; z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt;= x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt;= x &lt;= z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &lt;= z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; x &gt; y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt; y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= x)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= x &gt;= y)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt; x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt; x &lt; z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt; z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= x &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= y &lt;= x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= y &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value == y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt;= return_value &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: x &gt;= y &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &lt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &lt;= return_value &lt;= x)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &lt;= return_value &lt;= z)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y == return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: y &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt; x &gt; return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= return_value &gt;= y)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= x &gt;= return_value)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: z &gt;= y &gt;= return_value)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &lt; z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &lt;= z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt; y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt;= y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt; x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt; x &lt; z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt; z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt;= x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt;= x &lt;= z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &lt;= z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; x &gt; y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt; y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= x)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= x &gt;= y)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt; x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt; x &lt; z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt; z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= x &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= y &lt;= x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= y &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value == y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt;= return_value &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: x &gt;= y &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &lt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &lt;= return_value &lt;= x)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &lt;= return_value &lt;= z)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y == return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: y &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt; x &gt; return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= return_value &gt;= y)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= x &gt;= return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= y &gt;= return_value)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
@@ -18471,16 +18716,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ee0ca24c-6a62-11ed-afff-6298cf1a578f" id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-1" onclick="clear_selection('ee0ca24c-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-1-label" for="ee0ca24c-6a62-11ed-afff-6298cf1a578f-1">Yes</label><br>
+        <input type="radio" name="207bc4a6-8b74-11ed-b0ed-6298cf1a578e" id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-1" onclick="clear_selection('207bc4a6-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-1-label" for="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-1">Yes</label><br>
 
-        <input type="radio" name="ee0ca24c-6a62-11ed-afff-6298cf1a578f" id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-2" onclick="clear_selection('ee0ca24c-6a62-11ed-afff-6298cf1a578f')">
-        <label id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-2-label" for="ee0ca24c-6a62-11ed-afff-6298cf1a578f-2">No</label><br>
+        <input type="radio" name="207bc4a6-8b74-11ed-b0ed-6298cf1a578e" id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-2" onclick="clear_selection('207bc4a6-8b74-11ed-b0ed-6298cf1a578e')">
+        <label id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-2-label" for="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-2">No</label><br>
 
     </div>
     </p>
-    <input id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('ee0ca24c-6a62-11ed-afff-6298cf1a578f', 4, 0, 'int(math.exp(1))')">
-    <span class="quiz_hint" id="ee0ca24c-6a62-11ed-afff-6298cf1a578f-hint"></span>
+    <input id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-submit" type="submit" value="Submit" onclick="check_selection('207bc4a6-8b74-11ed-b0ed-6298cf1a578e', 4, 0, 'int(math.exp(1))')">
+    <span class="quiz_hint" id="207bc4a6-8b74-11ed-b0ed-6298cf1a578e-hint"></span>
     </div>
 
 </div>
@@ -18543,14 +18788,14 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: x &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: y &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> z, y, x: z &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, z, y, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(x, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: x &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: y &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= <span class="ansi-blue-fg">0</span>)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= <span class="ansi-blue-fg">0</span>)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
@@ -18812,9 +19057,9 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> b, a: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, b, a: <span class="ansi-magenta-fg">not</span> return_value)
+<pre><span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(a, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-magenta-fg">not</span> return_value)
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">print_sum</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-cyan-fg">print</span>(a + b)
 </pre>
@@ -18944,13 +19189,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2533314883.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2533314883.py&#34;, line 2, in &lt;module&gt;
     square_root_annotated(-1.0)  # type: ignore
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -18986,9 +19231,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3436772654.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3436772654.py&#34;, line 2, in &lt;module&gt;
     square_root(-1.0)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/81976482.py&#34;, line 5, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/81976482.py&#34;, line 5, in square_root
     while approx != guess:
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb&#34;, line 43, in timeout_handler
     raise TimeoutError()
@@ -19105,16 +19350,16 @@ TimeoutError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2047157021.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2047157021.py&#34;, line 2, in &lt;module&gt;
     square_root_negative(2.0)  # type: ignore
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
   [Previous line repeated 4 more times]
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 13, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
 AssertionError: Postcondition violated (expected)
 </pre>
@@ -19325,9 +19570,9 @@ AssertionError: Postcondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2212034949.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2212034949.py&#34;, line 2, in &lt;module&gt;
     remove_first_char(&#39;&#39;)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -19350,27 +19595,28 @@ AssertionError: Precondition violated (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
-              <span class="n">postcondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-   <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-       <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="c1"># preserves name, docstring, etc</span>
-       <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-           <span class="k">if</span> <span class="n">precondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-               <span class="k">assert</span> <span class="n">precondition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="s2">&quot;Precondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">postcondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="c1"># Use `functools` to preserve name, docstring, etc</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">precondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">precondition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> \
+                    <span class="s2">&quot;Precondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
 
-           <span class="n">retval</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># call original function or method</span>
-           <span class="k">if</span> <span class="n">postcondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-               <span class="k">assert</span> <span class="n">postcondition</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="s2">&quot;Postcondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
+            <span class="c1"># call original function or method</span>
+            <span class="n">retval</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-           <span class="k">return</span> <span class="n">retval</span>
-       <span class="k">return</span> <span class="n">wrapper</span>
-   <span class="k">return</span> <span class="n">decorator</span>
+            <span class="k">if</span> <span class="n">postcondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">postcondition</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> \
+                    <span class="s2">&quot;Postcondition violated: &quot;</span> <span class="o">+</span> <span class="n">doc</span>
 
-<span class="k">def</span> <span class="nf">my_precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-   <span class="k">return</span> <span class="n">my_condition</span><span class="p">(</span><span class="n">precondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">retval</span>
 
-<span class="k">def</span> <span class="nf">my_postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-   <span class="k">return</span> <span class="n">my_condition</span><span class="p">(</span><span class="n">postcondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
 </pre></div>
 
 </div>
@@ -19384,11 +19630,55 @@ AssertionError: Precondition violated (expected)
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@my_precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;len(s) &gt; 0&quot;</span><span class="p">)</span>  
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
+                             <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">verbose_condition</span><span class="p">(</span><span class="n">postcondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
+                             <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@verbose_precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;len(s) &gt; 0&quot;</span><span class="p">)</span>  
 <span class="k">def</span> <span class="nf">remove_first_char</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</pre></div>
 
-<span class="n">remove_first_char</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</div>
+</div></div>
+</div>
+</div>
+
+<div class="input_code">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+<div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">remove_first_char</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -19424,10 +19714,10 @@ AssertionError: Precondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/2212034949.py&#34;, line 2, in &lt;module&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/2212034949.py&#34;, line 2, in &lt;module&gt;
     remove_first_char(&#39;&#39;)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_53352/3359675083.py&#34;, line 7, in wrapper
-    assert precondition(*args, **kwargs), &#34;Precondition violated: &#34; + doc
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12802/706783034.py&#34;, line 9, in wrapper
+    assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 </pre>
 </div>
@@ -19437,7 +19727,7 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Extend <code>InvariantAnnotator</code> such that it includes the conditions in the generated pre- and postconditions.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Extend <code>InvariantAnnotator</code> into a <code>VerboseInvariantAnnotator</code> class that includes the conditions in the generated pre- and postconditions.</p>
 
     
 <p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/beta/notebooks/DynamicInvariants.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
@@ -19562,7 +19852,7 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2022-11-15 02:57:58+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2023-01-03 15:36:24+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19578,19 +19868,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">https://www.debuggingbook.org/beta/html/DynamicInvariants.html</a>.  Retrieved 2022-11-15 02:57:58+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/DynamicInvariants.html">https://www.debuggingbook.org/beta/html/DynamicInvariants.html</a>.  Retrieved 2023-01-03 15:36:24+01:00.
 </p>
 <pre>
-@incollection{debuggingbook2022:DynamicInvariants,
+@incollection{debuggingbook2023:DynamicInvariants,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
     title = {Mining Function Specifications},
-    year = {2022},
+    year = {2023},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/DynamicInvariants.html}},
-    note = {Retrieved 2022-11-15 02:57:58+01:00},
+    note = {Retrieved 2023-01-03 15:36:24+01:00},
     url = {https://www.debuggingbook.org/beta/html/DynamicInvariants.html},
-    urldate = {2022-11-15 02:57:58+01:00}
+    urldate = {2023-01-03 15:36:24+01:00}
 }
 </pre>
 </div>
