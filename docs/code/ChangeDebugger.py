@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2022-11-22 13:40:40+01:00
+# Last change: 2023-01-04 15:44:54+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -96,9 +96,9 @@ def remove_html_markup(s):  # type: ignore
 >>> with ExpectError(AssertionError):
 >>>     test()
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52707/4262003862.py", line 3, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_95708/4262003862.py", line 3, in 
     test()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52707/3045937450.py", line 2, in test
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_95708/3045937450.py", line 2, in test
     assert remove_html_markup('"foo"') == '"foo"'
 AssertionError (expected)
 
@@ -821,9 +821,18 @@ from diff_match_patch import diff_match_patch, patch_obj
 
 def diff(s1: str, s2: str, mode: str = 'lines') -> List[patch_obj]:
     """Compare s1 and s2 like `diff`; return a list of patches"""
+
+    # Sometimes, we may get bytes instead of strings
+    # Let's convert these in a conservative way
+    if not isinstance(s1, str):
+        s1 = str(s1, 'latin1')
+    if not isinstance(s2, str):
+        s2 = str(s2, 'latin1')
+
     dmp = diff_match_patch()
     if mode == 'lines':
         (text1, text2, linearray) = dmp.diff_linesToChars(s1, s2)
+
         diffs = dmp.diff_main(text1, text2)
         dmp.diff_charsToLines(diffs, linearray)
         return dmp.patch_make(diffs)
