@@ -3,9 +3,9 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2022-11-22 13:59:27+01:00
+# Last change: 2023-01-03 19:49:56+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -69,6 +69,7 @@ The `messages` attribute holds all commit messages related to that node:
  'Doc update',
  'Doc update',
  'Doc update',
+ 'Doc update',
  'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
@@ -78,13 +79,12 @@ The `messages` attribute holds all commit messages related to that node:
  'New: prefer Unicode arrows over LaTeX ones',
  'Updated README.md',
  'Update',
- 'Doc update',
  'Doc update']
 
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes.get(('README.md',), None)
-14562
+10758
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
 
