@@ -3,9 +3,9 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2023-01-03 15:37:24+01:00
+# Last change: 2023-01-07 14:28:33+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -63,7 +63,13 @@ def sum2(a: int, b: int) -> int:
     return a + b
 
 
-The invariant annotator works in a similar fashion:
+As a shortcut, one can also just evaluate the annotator:
+
+>>> type_annotator
+def sum2(a: int, b: int) -> int:
+    return a + b
+
+The invariant annotator works similarly:
 
 >>> with InvariantAnnotator() as inv_annotator:
 >>>     sum2(1, 2)
@@ -84,6 +90,19 @@ def sum2(a, b):  # type: ignore
     return a + b
 
 
+
+Again, a shortcut is available:
+
+>>> inv_annotator
+@precondition(lambda a, b: isinstance(a, int))
+@precondition(lambda a, b: isinstance(b, int))
+@postcondition(lambda return_value, a, b: a == return_value - b)
+@postcondition(lambda return_value, a, b: b == return_value - a)
+@postcondition(lambda return_value, a, b: isinstance(return_value, int))
+@postcondition(lambda return_value, a, b: return_value == a + b)
+@postcondition(lambda return_value, a, b: return_value == b + a)
+def sum2(a, b):  # type: ignore
+    return a + b
 
 Such type specifications and invariants can be helpful as _oracles_ (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.
 
@@ -596,21 +615,23 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     tracer.all_calls()
 
-def annotate_types(calls: Dict[str, List[Tuple[Arguments, Any]]]) -> Dict[str, ast.AST]:
+from .StackInspector import StackInspector
+
+def annotate_types(calls: Dict[str, List[Tuple[Arguments, Any]]]) \
+        -> Dict[str, ast.AST]:
     annotated_functions = {}
+    stack_inspector = StackInspector()
 
     for function_name in calls:
-        try:
+        function = stack_inspector.search_func(function_name)
+        if function:
             annotated_functions[function_name] = \
-                annotate_function_with_types(function_name, calls[function_name])
-        except KeyError:
-            continue
+                annotate_function_with_types(function, calls[function_name])
 
     return annotated_functions
 
-def annotate_function_with_types(function_name: str,
+def annotate_function_with_types(function: Callable,
                                  function_calls: List[Tuple[Arguments, Any]]) -> ast.AST:
-    function = globals()[function_name]  # May raise KeyError for internal functions
     function_code = inspect.getsource(function)
     function_ast = ast.parse(function_code)
     return annotate_function_ast_with_types(function_ast, function_calls)
@@ -670,24 +691,35 @@ class TypeAnnotator(TypeTracer):
         """Return a dict name -> AST for all functions observed, annotated with types"""
         return annotate_types(self.all_calls())
 
-    def typed_function_ast(self, function_name: str) -> ast.AST:
+    def typed_function_ast(self, function_name: str) -> Optional[ast.AST]:
         """Return an AST for all calls of `function_name` observed, annotated with types"""
-        return annotate_function_with_types(function_name, self.calls(function_name))
+        function = self.search_func(function_name)
+        if not function:
+            return None
+        return annotate_function_with_types(function, self.calls(function_name))
 
     def typed_functions(self) -> str:
         """Return the code for all functions observed, annotated with types"""
         functions = ''
         for f_name in self.all_calls():
-            try:
-                f_text = ast.unparse(self.typed_function_ast(f_name))
-            except KeyError:
-                f_text = ''
-            functions += f_text
+            f_ast = self.typed_function_ast(f_name)
+            if f_ast:
+                functions += ast.unparse(f_ast)
+            else:
+                functions += '# Could not find function ' + repr(f_name)
+
         return functions
 
     def typed_function(self, function_name: str) -> str:
         """Return the code for all calls of `function_name` observed, annotated with types"""
-        return ast.unparse(self.typed_function_ast(function_name))
+        function_ast = self.typed_function_ast(function_name)
+        if not function_ast:
+            raise KeyError
+        return ast.unparse(function_ast)
+
+    def __repr__(self) -> str:
+        """String representation, like `typed_functions()`"""
+        return self.typed_functions()
 
 #### End of Excursion
 
@@ -1239,17 +1271,24 @@ class InvariantAnnotator(InvariantAnnotator):
             try:
                 function = self.function_with_invariants(function_name)
             except KeyError:
-                continue
+                function = '# Could not find function ' + repr(function_name)
+
             functions += function
         return functions
 
     def function_with_invariants(self, function_name: str) -> str:
         """Return the code of `function_name`, annotated with invariants"""
-        function = globals()[function_name]  # Can throw KeyError
+        function = self.search_func(function_name)
+        if not function:
+            raise KeyError
         source = inspect.getsource(function)
         return '\n'.join(self.preconditions(function_name) +
                          self.postconditions(function_name)) + \
             '\n' + source
+
+    def __repr__(self) -> str:
+        """String representation, like `functions_with_invariants()`"""
+        return self.functions_with_invariants()
 
 if __name__ == '__main__':
     with InvariantAnnotator() as annotator:
@@ -1480,6 +1519,9 @@ if __name__ == '__main__':
     print(type_annotator.typed_functions())
 
 if __name__ == '__main__':
+    type_annotator
+
+if __name__ == '__main__':
     with InvariantAnnotator() as inv_annotator:
         sum2(1, 2)
         sum2(-4, -5)
@@ -1487,6 +1529,9 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print(inv_annotator.functions_with_invariants())
+
+if __name__ == '__main__':
+    inv_annotator
 
 from .ClassDiagram import display_class_hierarchy
 
@@ -1497,10 +1542,12 @@ if __name__ == '__main__':
                                 TypeAnnotator.typed_functions,
                                 TypeAnnotator.typed_function_ast,
                                 TypeAnnotator.typed_functions_ast,
+                                TypeAnnotator.__repr__,
                                 InvariantAnnotator.function_with_invariants,
                                 InvariantAnnotator.functions_with_invariants,
                                 InvariantAnnotator.preconditions,
                                 InvariantAnnotator.postconditions,
+                                InvariantAnnotator.__repr__,
                                 InvariantTracer.__init__,
                                 CallTracer.__init__
                             ],
@@ -1706,7 +1753,11 @@ def annotate_invariants(invariants: Dict[str, Invariants]) -> Dict[str, ast.AST]
 
 def annotate_function_with_invariants(function_name: str, 
                                       function_invariants: Invariants) -> ast.AST:
-    function = globals()[function_name]
+    stack_inspector = StackInspector()
+    function = stack_inspector.search_func(function_name)
+    if function is None:
+        raise KeyError
+
     function_code = inspect.getsource(function)
     function_ast = ast.parse(function_code)
     return annotate_function_ast_with_invariants(function_ast, function_invariants)

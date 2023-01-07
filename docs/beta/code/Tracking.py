@@ -3,9 +3,9 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2022-11-22 13:49:43+01:00
+# Last change: 2023-01-07 14:35:41+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -300,7 +300,7 @@ import time
 
 from multiprocess import Process  # type: ignore
 
-from typing import Tuple
+from typing import Tuple, Any
 
 def run_redmine(port: int) -> None:
     with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1',
@@ -420,7 +420,7 @@ def drop_shadow(contents: bytes) -> bytes:
 
     return stdout_data
 
-def screenshot(driver: WebDriver, width: int = 500) -> bytes:
+def screenshot(driver: WebDriver, width: int = 500) -> Any:
     return Image(drop_shadow(redmine_gui.get_screenshot_as_png()), width=width)
 
 if __name__ == '__main__':
@@ -598,7 +598,7 @@ if __name__ == '__main__':
 
 
 
-def new_issue(issue_title: str, issue_description: str) -> bytes:
+def new_issue(issue_title: str, issue_description: str) -> Any:
     redmine_gui.get(redmine_url + '/issues/new')
 
     redmine_gui.find_element(By.ID, 'issue_subject').send_keys(issue_title)

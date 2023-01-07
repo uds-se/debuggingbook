@@ -3,9 +3,9 @@
 
 # "Tours through the Book" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tours.html
-# Last change: 2023-01-03 15:37:11+01:00
+# Last change: 2023-01-07 14:26:34+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -65,11 +65,10 @@ if __name__ == '__main__':
 from .bookutils import rich_output
 
 if __name__ == '__main__':
+    sitemap = None
     if rich_output():
         from IPython.display import SVG
         sitemap = SVG(filename='PICS/Sitemap.svg')
-    else:
-        sitemap = None
     sitemap
 
 ## The Pragmatic Programmer Tour
