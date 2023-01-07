@@ -12119,7 +12119,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <span class="k">def</span> <span class="nf">sum2</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </pre></div>
-<p>The invariant annotator works in a similar fashion:</p>
+<p>The invariant annotator works similarly:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">InvariantAnnotator</span><span class="p">()</span> <span class="k">as</span> <span class="n">inv_annotator</span><span class="p">:</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">sum2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">sum2</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
@@ -12532,9 +12532,9 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/1219646233.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/1219646233.py&#34;, line 2, in &lt;cell line: 1&gt;
     square_root(&#34;foo&#34;)
-  File &#34;/tmp/ipykernel_37157/81976482.py&#34;, line 4, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/81976482.py&#34;, line 4, in square_root
     guess = x / 2
 TypeError: unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39; (expected)
 </pre>
@@ -12561,9 +12561,9 @@ TypeError: unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39; (e
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/3113108935.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3113108935.py&#34;, line 2, in &lt;cell line: 1&gt;
     x = square_root(0.0)
-  File &#34;/tmp/ipykernel_37157/81976482.py&#34;, line 7, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/81976482.py&#34;, line 7, in square_root
     guess = (approx + x / approx) / 2
 ZeroDivisionError: float division by zero (expected)
 </pre>
@@ -12599,9 +12599,9 @@ ZeroDivisionError: float division by zero (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/3421421264.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3421421264.py&#34;, line 2, in &lt;cell line: 1&gt;
     x = square_root(-1.0)
-  File &#34;/tmp/ipykernel_37157/81976482.py&#34;, line 5, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/81976482.py&#34;, line 5, in square_root
     while approx != guess:
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb&#34;, line 43, in timeout_handler
     raise TimeoutError()
@@ -12641,7 +12641,7 @@ TimeoutError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>As <em>writer</em> of Python code, omitting explicit type declarations may save time (and allows for some fun hacks).  It is not sure whether a lack of types helps in <em>reading</em> and <em>understanding</em> code for humans.  For a <em>computer</em> trying to analyze code, the lack of explicit types is detrimental.  If, say, a constraint solver, sees <code>if x:</code> and cannot know whether <code>x</code> is supposed to be a number or a string, this introduces an <em>ambiguity</em>.   Such ambiguities may multiply over the entire analysis in a combinatorial explosion – or in the analysis yielding an overly inaccurate result.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>As <em>writer</em> of Python code, omitting explicit type declarations may save time (and allows for some fun hacks).  It is not sure whether a lack of types helps in <em>reading</em> and <em>understanding</em> code for humans.  For a <em>computer</em> trying to analyze code, the lack of explicit types is detrimental.  If, say, a constraint solver, sees <code>if x:</code> and cannot know whether <code>x</code> is supposed to be a number or a string, this introduces an <em>ambiguity</em>.  Such ambiguities may multiply over the entire analysis in a combinatorial explosion – or in the analysis yielding an overly inaccurate result.</p>
 </div>
 </div>
 </div>
@@ -12675,7 +12675,7 @@ TimeoutError (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>By default, such annotations are ignored by the Python interpreter.  Therefore, one can still call <code>square_root_typed()</code> with a string as an argument and get the exact same result as above.  However, one can make use of special <em>typechecking</em> modules that would check types – <em>dynamically</em> at runtime or <em>statically</em> by analyzing the code without having to execute it.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>By default, such annotations are ignored by the Python interpreter.  Therefore, one can still call <code>square_root_typed()</code> with a string as an argument and get the exact same result as above.  However, one can make use of special <em>type checking</em> modules that would check types – <em>dynamically</em> at runtime or <em>statically</em> by analyzing the code without having to execute it.</p>
 </div>
 </div>
 </div>
@@ -12878,22 +12878,22 @@ TimeoutError (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cba8be7c-8c20-11ed-9265-6298cf1a578f" id="cba8be7c-8c20-11ed-9265-6298cf1a578f-1" onclick="clear_selection('cba8be7c-8c20-11ed-9265-6298cf1a578f')">
-        <label id="cba8be7c-8c20-11ed-9265-6298cf1a578f-1-label" for="cba8be7c-8c20-11ed-9265-6298cf1a578f-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
+        <input type="radio" name="296fcf8a-8e8f-11ed-aa05-6298cf1a5790" id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-1" onclick="clear_selection('296fcf8a-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-1-label" for="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-1"><code>1</code> is automatically converted to float. It will pass.</label><br>
 
-        <input type="radio" name="cba8be7c-8c20-11ed-9265-6298cf1a578f" id="cba8be7c-8c20-11ed-9265-6298cf1a578f-2" onclick="clear_selection('cba8be7c-8c20-11ed-9265-6298cf1a578f')">
-        <label id="cba8be7c-8c20-11ed-9265-6298cf1a578f-2-label" for="cba8be7c-8c20-11ed-9265-6298cf1a578f-2"><code>1</code> is a subtype of float. It will pass.</label><br>
+        <input type="radio" name="296fcf8a-8e8f-11ed-aa05-6298cf1a5790" id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-2" onclick="clear_selection('296fcf8a-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-2-label" for="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-2"><code>1</code> is a subtype of float. It will pass.</label><br>
 
-        <input type="radio" name="cba8be7c-8c20-11ed-9265-6298cf1a578f" id="cba8be7c-8c20-11ed-9265-6298cf1a578f-3" onclick="clear_selection('cba8be7c-8c20-11ed-9265-6298cf1a578f')">
-        <label id="cba8be7c-8c20-11ed-9265-6298cf1a578f-3-label" for="cba8be7c-8c20-11ed-9265-6298cf1a578f-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
+        <input type="radio" name="296fcf8a-8e8f-11ed-aa05-6298cf1a5790" id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-3" onclick="clear_selection('296fcf8a-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-3-label" for="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-3"><code>1</code> is an integer, and no float. The type check will fail.</label><br>
 
-        <input type="radio" name="cba8be7c-8c20-11ed-9265-6298cf1a578f" id="cba8be7c-8c20-11ed-9265-6298cf1a578f-4" onclick="clear_selection('cba8be7c-8c20-11ed-9265-6298cf1a578f')">
-        <label id="cba8be7c-8c20-11ed-9265-6298cf1a578f-4-label" for="cba8be7c-8c20-11ed-9265-6298cf1a578f-4">The function will fail for some other reason.</label><br>
+        <input type="radio" name="296fcf8a-8e8f-11ed-aa05-6298cf1a5790" id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-4" onclick="clear_selection('296fcf8a-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-4-label" for="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-4">The function will fail for some other reason.</label><br>
 
     </div>
     </p>
-    <input id="cba8be7c-8c20-11ed-9265-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('cba8be7c-8c20-11ed-9265-6298cf1a578f', 8, 0, '37035 // 12345')">
-    <span class="quiz_hint" id="cba8be7c-8c20-11ed-9265-6298cf1a578f-hint"></span>
+    <input id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-submit" type="submit" value="Submit" onclick="check_selection('296fcf8a-8e8f-11ed-aa05-6298cf1a5790', 8, 0, '37035 // 12345')">
+    <span class="quiz_hint" id="296fcf8a-8e8f-11ed-aa05-6298cf1a5790-hint"></span>
     </div>
 
 </div>
@@ -13037,7 +13037,7 @@ TimeoutError (expected)
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;/tmp/tmpuf_sntwu.py&#39;
+<pre>&#39;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmpgfq9kfij.py&#39;
 </pre>
 </div>
 
@@ -16326,9 +16326,9 @@ the appropriate type of a given value (as a string):</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/2859393274.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/2859393274.py&#34;, line 2, in &lt;cell line: 1&gt;
     square_root_with_precondition(-1.0)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -16443,9 +16443,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/1806983978.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/1806983978.py&#34;, line 2, in &lt;cell line: 1&gt;
     y = buggy_square_root_with_postcondition(2.0)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 13, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
 AssertionError: Postcondition violated (expected)
 </pre>
@@ -17031,16 +17031,16 @@ AssertionError: Postcondition violated (expected)
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="cc7baa26-8c20-11ed-9265-6298cf1a578f" id="cc7baa26-8c20-11ed-9265-6298cf1a578f-1" onclick="clear_selection('cc7baa26-8c20-11ed-9265-6298cf1a578f')">
-        <label id="cc7baa26-8c20-11ed-9265-6298cf1a578f-1-label" for="cc7baa26-8c20-11ed-9265-6298cf1a578f-1">False</label><br>
+        <input type="radio" name="2a3c4768-8e8f-11ed-aa05-6298cf1a5790" id="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-1" onclick="clear_selection('2a3c4768-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-1-label" for="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-1">False</label><br>
 
-        <input type="radio" name="cc7baa26-8c20-11ed-9265-6298cf1a578f" id="cc7baa26-8c20-11ed-9265-6298cf1a578f-2" onclick="clear_selection('cc7baa26-8c20-11ed-9265-6298cf1a578f')">
-        <label id="cc7baa26-8c20-11ed-9265-6298cf1a578f-2-label" for="cc7baa26-8c20-11ed-9265-6298cf1a578f-2">True</label><br>
+        <input type="radio" name="2a3c4768-8e8f-11ed-aa05-6298cf1a5790" id="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-2" onclick="clear_selection('2a3c4768-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-2-label" for="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-2">True</label><br>
 
     </div>
     </p>
-    <input id="cc7baa26-8c20-11ed-9265-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('cc7baa26-8c20-11ed-9265-6298cf1a578f', 4, 0, 'p(100, 1) + 1')">
-    <span class="quiz_hint" id="cc7baa26-8c20-11ed-9265-6298cf1a578f-hint"></span>
+    <input id="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-submit" type="submit" value="Submit" onclick="check_selection('2a3c4768-8e8f-11ed-aa05-6298cf1a5790', 4, 0, 'p(100, 1) + 1')">
+    <span class="quiz_hint" id="2a3c4768-8e8f-11ed-aa05-6298cf1a5790-hint"></span>
     </div>
 
 </div>
@@ -17903,7 +17903,7 @@ X &lt; 0 ((&#39;y&#39;, 1),) False
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Now for the actual annotation.  <code>preconditions()</code> returns the preconditions from the mined invariants (i.e., those propertes that do not depend on the return value) as a string with annotations:</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Now for the actual annotation.  <code>preconditions()</code> returns the preconditions from the mined invariants (i.e., those properties that do not depend on the return value) as a string with annotations:</p>
 </div>
 </div>
 </div>
@@ -18774,16 +18774,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="ce12d828-8c20-11ed-9265-6298cf1a578f" id="ce12d828-8c20-11ed-9265-6298cf1a578f-1" onclick="clear_selection('ce12d828-8c20-11ed-9265-6298cf1a578f')">
-        <label id="ce12d828-8c20-11ed-9265-6298cf1a578f-1-label" for="ce12d828-8c20-11ed-9265-6298cf1a578f-1">Yes</label><br>
+        <input type="radio" name="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790" id="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-1" onclick="clear_selection('2bd4e86e-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-1-label" for="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-1">Yes</label><br>
 
-        <input type="radio" name="ce12d828-8c20-11ed-9265-6298cf1a578f" id="ce12d828-8c20-11ed-9265-6298cf1a578f-2" onclick="clear_selection('ce12d828-8c20-11ed-9265-6298cf1a578f')">
-        <label id="ce12d828-8c20-11ed-9265-6298cf1a578f-2-label" for="ce12d828-8c20-11ed-9265-6298cf1a578f-2">No</label><br>
+        <input type="radio" name="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790" id="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-2" onclick="clear_selection('2bd4e86e-8e8f-11ed-aa05-6298cf1a5790')">
+        <label id="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-2-label" for="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-2">No</label><br>
 
     </div>
     </p>
-    <input id="ce12d828-8c20-11ed-9265-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('ce12d828-8c20-11ed-9265-6298cf1a578f', 4, 0, 'int(math.exp(1))')">
-    <span class="quiz_hint" id="ce12d828-8c20-11ed-9265-6298cf1a578f-hint"></span>
+    <input id="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-submit" type="submit" value="Submit" onclick="check_selection('2bd4e86e-8e8f-11ed-aa05-6298cf1a5790', 4, 0, 'int(math.exp(1))')">
+    <span class="quiz_hint" id="2bd4e86e-8e8f-11ed-aa05-6298cf1a5790-hint"></span>
     </div>
 
 </div>
@@ -19049,7 +19049,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Sum-of-two-Numbers">Sum of two Numbers<a class="anchor-link" href="#Sum-of-two-Numbers">&#182;</a></h3><p>The next example is a very simple function: If we have a function without return value, the return value is <code>None</code> and we can only mine preconditions.  (Well, we get a "postcondition" <code>not return_value</code> that the return value evaluates to False, which holds for <code>None</code>).</p>
+<div class="text_cell_render border-box-sizing rendered_html"><h3 id="Sum-of-two-Numbers">Sum of two Numbers<a class="anchor-link" href="#Sum-of-two-Numbers">&#182;</a></h3><p>The next example is a very simple function: If we have a function without return value, the return value is <code>None</code>, and we can only mine preconditions.  (Well, we get a "postcondition" <code>not return_value</code> that the return value evaluates to False, which holds for <code>None</code>).</p>
 </div>
 </div>
 </div>
@@ -19247,13 +19247,13 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/2533314883.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/2533314883.py&#34;, line 2, in &lt;cell line: 1&gt;
     square_root_annotated(-1.0)  # type: ignore
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -19289,9 +19289,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/3436772654.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3436772654.py&#34;, line 2, in &lt;cell line: 1&gt;
     square_root(-1.0)
-  File &#34;/tmp/ipykernel_37157/81976482.py&#34;, line 5, in square_root
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/81976482.py&#34;, line 5, in square_root
     while approx != guess:
   File &#34;/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb&#34;, line 43, in timeout_handler
     raise TimeoutError()
@@ -19408,16 +19408,16 @@ TimeoutError (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/2047157021.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/2047157021.py&#34;, line 2, in &lt;cell line: 1&gt;
     square_root_negative(2.0)  # type: ignore
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 11, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 11, in wrapper
     retval = func(*args, **kwargs)
   [Previous line repeated 4 more times]
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 13, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
 AssertionError: Postcondition violated (expected)
 </pre>
@@ -19477,7 +19477,7 @@ AssertionError: Postcondition violated (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Mining specifications is not restricted to pre- and postconditions.  The paper "Mining Specifications" [<a href="https://doi.org/10.1145/503272.503275">Ammons <em>et al</em>, 2002</a>] is another classic in the field, learning state protocols from executions.  Grammar mining [<a href="https://doi.org/10.1145/3395363.3397349">Gopinath <em>et al</em>, 2020</a>]  can also be seen as a specification mining approach, this time learning specifications for input formats.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Mining specifications is not restricted to pre- and postconditions.  The paper "Mining Specifications" [<a href="https://doi.org/10.1145/503272.503275">Ammons <em>et al</em>, 2002</a>] is another classic in the field, learning state protocols from executions.  Grammar mining [<a href="https://doi.org/10.1145/3395363.3397349">Gopinath <em>et al</em>, 2020</a>] can also be seen as a specification mining approach, this time learning specifications for input formats.</p>
 </div>
 </div>
 </div>
@@ -19575,7 +19575,7 @@ AssertionError: Postcondition violated (expected)
 <div class="input_markdown">
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html"><p>Extend the <code>TypeAnnotator</code> such that it also annotates local variables with types.  Search the function AST for assignments, determine the type of the assigned value, and make it an annotation on the left hand side.</p>
+<div class="text_cell_render border-box-sizing rendered_html"><p>Extend the <code>TypeAnnotator</code> such that it also annotates local variables with types.  Search the function AST for assignments, determine the type of the assigned value, and make it an annotation on the left-hand side.</p>
 
     
 <p><div class="solution_link"><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?filepath=docs/notebooks/DynamicInvariants.ipynb#Exercises" target=_blank>Use the notebook</a> to work on the exercises and see solutions.</div></p>
@@ -19628,9 +19628,9 @@ AssertionError: Postcondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/2212034949.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/2212034949.py&#34;, line 2, in &lt;cell line: 1&gt;
     remove_first_char(&#39;&#39;)
-  File &#34;/tmp/ipykernel_37157/3759592669.py&#34;, line 7, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/3759592669.py&#34;, line 7, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated (expected)
 </pre>
@@ -19772,9 +19772,9 @@ AssertionError: Precondition violated (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/tmp/ipykernel_37157/2212034949.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/2212034949.py&#34;, line 2, in &lt;cell line: 1&gt;
     remove_first_char(&#39;&#39;)
-  File &#34;/tmp/ipykernel_37157/706783034.py&#34;, line 9, in wrapper
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_28133/706783034.py&#34;, line 9, in wrapper
     assert precondition(*args, **kwargs), \
 AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 </pre>
@@ -19800,7 +19800,7 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 <div class="text_cell_render border-box-sizing rendered_html"><h3 id="Exercise-4:-Save-Initial-Values">Exercise 4: Save Initial Values<a class="anchor-link" href="#Exercise-4:-Save-Initial-Values">&#182;</a></h3><p>If the value of an argument changes during function execution, this can easily confuse our implementation: The values are tracked at the beginning of the function, but checked only when it returns.  Extend the <code>InvariantAnnotator</code> and the infrastructure it uses such that</p>
 <ul>
 <li>it saves argument values both at the beginning and at the end of a function invocation;</li>
-<li>postconditions can be expressed over both <em>initial</em> values of arguments as well as the <em>final</em> values of arguments;</li>
+<li>postconditions can be expressed over both <em>initial</em> values of arguments and the <em>final</em> values of arguments;</li>
 <li>the mined postconditions refer to both these values as well.</li>
 </ul>
 
@@ -19910,7 +19910,7 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2023-01-04 12:13:01+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/DynamicInvariants.ipynb" target=_blank)>Last change: 2023-01-06 18:05:26+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -19926,7 +19926,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/DynamicInvariants.html">https://www.debuggingbook.org/html/DynamicInvariants.html</a>.  Retrieved 2023-01-04 12:13:01+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DynamicInvariants.html">Mining Function Specifications</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/DynamicInvariants.html">https://www.debuggingbook.org/html/DynamicInvariants.html</a>.  Retrieved 2023-01-06 18:05:26+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2023:DynamicInvariants,
@@ -19936,9 +19936,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/html/DynamicInvariants.h
     year = {2023},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/html/DynamicInvariants.html}},
-    note = {Retrieved 2023-01-04 12:13:01+01:00},
+    note = {Retrieved 2023-01-06 18:05:26+01:00},
     url = {https://www.debuggingbook.org/html/DynamicInvariants.html},
-    urldate = {2023-01-04 12:13:01+01:00}
+    urldate = {2023-01-06 18:05:26+01:00}
 }
 </pre>
 </div>

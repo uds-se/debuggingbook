@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2023-01-03 15:18:22+01:00
+# Last change: 2023-01-07 14:27:38+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -89,7 +89,7 @@ An alternate representation is `slicer.code()`, annotating the instrumented sour
  ('z', ( int>, 2)),
  ('z', ( int>, 4))}
 
-`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable (again given as a pair (_name_, _location_). To retrieve where `z` in Line 2 came from, use:
+`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable (again given as a pair (_name_, _location_)). To retrieve where `z` in Line 2 came from, use:
 
 >>> _, start_demo = inspect.getsourcelines(demo)
 >>> start_demo
@@ -1196,8 +1196,8 @@ class TrackSetTransformer(TrackSetTransformer):
         return node
 
 def assign_test(x: int) -> Tuple[int, str]:  # type: ignore
-    fourty_two: int = 42
-    fourty_two = forty_two = 42
+    forty_two: int = 42
+    forty_two = forty_two = 42
     a, b = 1, 2
     c = d = [a, b]
     c[d[a]].attr = 47  # type: ignore
@@ -2091,12 +2091,12 @@ class DependencyTracker(DependencyTracker):
         self.clear_read()
 
         if vararg == '*':
-            # We overapproximate by setting `args` to _all_ positional args
+            # We over-approximate by setting `args` to _all_ positional args
             for index in self.args:
                 if isinstance(index, int) and pos is not None and index >= pos:
                     self.last_read += self.args[index]
         elif vararg == '**':
-            # We overapproximate by setting `kwargs` to _all_ passed keyword args
+            # We over-approximate by setting `kwargs` to _all_ passed keyword args
             for index in self.args:
                 if isinstance(index, str):
                     self.last_read += self.args[index]

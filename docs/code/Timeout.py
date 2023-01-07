@@ -3,7 +3,7 @@
 
 # "Timeout" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timeout.html
-# Last change: 2022-08-07 01:26:00+02:00
+# Last change: 2023-01-07 15:20:23+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -54,7 +54,7 @@ Its typical usage is in conjunction with a `with` clause:
 Timeout!
 
 
-Note: On Unix/Linux systems, the `Timeout` class uses [https://docs.python.org/3.10/library/signal.html](`SIGALRM` signals) (interrupts) to implement timeouts; this has no effect on performance of the tracked code. On other systems (notably Windows), `Timeout` uses the [`sys.settrace()`](https://docs.python.org/3.10/library/sys.html?highlight=settrace#sys.settrace) function to check the timer after each line of code, which affects performance of the tracked code.
+Note: On Unix/Linux systems, the `Timeout` class uses [`SIGALRM` signals](https://docs.python.org/3.10/library/signal.html) (interrupts) to implement timeouts; this has no effect on performance of the tracked code. On other systems (notably Windows), `Timeout` uses the [`sys.settrace()`](https://docs.python.org/3.10/library/sys.html?highlight=settrace#sys.settrace) function to check the timer after each line of code, which affects performance of the tracked code.
 
 
 For more details, source, and documentation, see

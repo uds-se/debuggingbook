@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2023-01-04 12:13:28+01:00
+# Last change: 2023-01-07 14:28:33+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -69,7 +69,7 @@ As a shortcut, one can also just evaluate the annotator:
 def sum2(a: int, b: int) -> int:
     return a + b
 
-The invariant annotator works in a similar fashion:
+The invariant annotator works similarly:
 
 >>> with InvariantAnnotator() as inv_annotator:
 >>>     sum2(1, 2)

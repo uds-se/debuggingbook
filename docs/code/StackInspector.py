@@ -3,7 +3,7 @@
 
 # "Inspecting Call Stacks" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StackInspector.html
-# Last change: 2022-11-22 13:59:45+01:00
+# Last change: 2023-01-07 14:43:32+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -53,7 +53,7 @@ Here is an example of how to use `caller_function()`. The `test()` function invo
 | `test()` | (main) | invokes $\uparrow$ |
 | -/- | (main) | invokes $\uparrow$ |
 
-Using `caller_function()`, `callee()` determines the first caller outside of a `StackInspector` class and prints it out – i.e., ``.
+Using `caller_function()`, `callee()` determines the first caller outside a `StackInspector` class and prints it out – i.e., ``.
 
 >>> class StackInspectorDemo(StackInspector):
 >>>     def callee(self) -> None:
