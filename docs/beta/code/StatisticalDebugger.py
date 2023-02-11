@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2023-01-07 14:28:19+01:00
+# Last change: 2023-02-11 11:05:01+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -131,9 +131,7 @@ The method `rank()` returns a ranked list of events, starting with the most susp
 
 >>> debugger.rank()
 [('remove_html_markup', 12),
- ('remove_html_markup', 3),
  ('remove_html_markup', 9),
- ('remove_html_markup', 6),
  ('remove_html_markup', 1),
  ('remove_html_markup', 7),
  ('remove_html_markup', 4),
@@ -142,6 +140,8 @@ The method `rank()` returns a ranked list of events, starting with the most susp
  ('remove_html_markup', 2),
  ('remove_html_markup', 14),
  ('remove_html_markup', 11),
+ ('remove_html_markup', 3),
+ ('remove_html_markup', 6),
  ('remove_html_markup', 10),
  ('remove_html_markup', 8)]
 

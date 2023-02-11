@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2023-01-07 14:35:41+01:00
+# Last change: 2023-02-11 11:15:13+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -363,10 +363,8 @@ def start_webdriver(browser: str = BROWSER, headless: bool = HEADLESS,
     # Start the browser, and obtain a _web driver_ object such that we can interact with it.
     if browser == 'firefox':
         # For firefox, set a higher resolution for our screenshots
-        profile = webdriver.firefox.firefox_profile.FirefoxProfile()
-        profile.set_preference("layout.css.devPixelsPerPx", repr(zoom))
-        redmine_gui = webdriver.Firefox(firefox_profile=profile,
-                                        options=options)  # type: ignore
+        options.set_preference('layout.css.devPixelsPerPx', repr(zoom))
+        redmine_gui = webdriver.Firefox(options=options)  # type: ignore
 
         # We set the window size such that it fits
         redmine_gui.set_window_size(500, 600)  # was 1024, 600
