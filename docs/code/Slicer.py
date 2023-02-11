@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2023-02-11 11:04:09+01:00
+# Last change: 2023-02-11 13:18:39+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -991,7 +991,7 @@ if __name__ == '__main__':
 def dump_tree(tree: AST) -> None:
     print_content(ast.unparse(tree), '.py')
     ast.fix_missing_locations(tree)  # Must run this before compiling
-    _ = compile(tree, '<dump_tree>', 'exec')
+    _ = compile(cast(ast.Module, tree), '<dump_tree>', 'exec')
 
 if __name__ == '__main__':
     dump_tree(middle_tree)
@@ -1004,7 +1004,7 @@ class DataTrackerTester:
         # We pass the source file of `func` such that we can retrieve it
         # when accessing the location of the new compiled code
         source = cast(str, inspect.getsourcefile(func))
-        self.code = compile(tree, source, 'exec')
+        self.code = compile(cast(ast.Module, tree), source, 'exec')
         self.func = func
         self.log = log
 
@@ -1655,6 +1655,8 @@ from . import Debugger  # minor dependency
 if __name__ == '__main__':
     for module in [Assertions, Debugger, inspect, ast]:
         module_tree = ast.parse(inspect.getsource(module))
+        assert isinstance(module_tree, ast.Module)
+
         TrackCallTransformer().visit(module_tree)
         TrackSetTransformer().visit(module_tree)
         TrackGetTransformer().visit(module_tree)
@@ -1663,6 +1665,7 @@ if __name__ == '__main__':
         TrackParamsTransformer().visit(module_tree)
         # dump_tree(module_tree)
         ast.fix_missing_locations(module_tree)  # Must run this before compiling
+
         module_code = compile(module_tree, '<stress_test>', 'exec')
         print(f"{repr(module.__name__)} instrumented successfully.")
 
@@ -2383,11 +2386,11 @@ class Slicer(Slicer):
         # We pass the source file of `item` such that we can retrieve it
         # when accessing the location of the new compiled code
         source = cast(str, inspect.getsourcefile(item))
-        code = compile(tree, source, 'exec')
+        code = compile(cast(ast.Module, tree), source, 'exec')
 
         # Enable dependency tracker
         self.globals[DATA_TRACKER] = self.dependency_tracker
-        
+
         # Execute the code, resulting in a redefinition of item
         exec(code, self.globals)
 
