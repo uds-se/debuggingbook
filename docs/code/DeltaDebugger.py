@@ -3,9 +3,9 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2021-10-13 13:31:45+02:00
+# Last change: 2023-02-11 11:04:25+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -51,9 +51,9 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_56034/4002351332.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1782/4002351332.py", line 2, in 
     myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_56034/2200911420.py", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1782/2200911420.py", line 2, in myeval
     return eval(inp)
   File "", line 1, in 
 ZeroDivisionError: division by zero (expected)
@@ -73,7 +73,7 @@ The class automatically determines minimal arguments that cause the function to 
 >>> dd
 myeval(inp='3/0')
 
-The input is reduced to the maximum: We get the essence of the division by zero.
+The input is reduced to the minimum: We get the essence of the division by zero.
 
 There also is an interface to access the reduced input(s) programmatically. The method `min_args()` returns a dictionary in which all function arguments are minimized:
 
@@ -414,13 +414,13 @@ class CallCollector(StackInspector):
         """Return the exception produced, or `None` if none."""
         return self._exception
 
-    def format_call(self, args: Optional[Dict[str, Any]] = None) -> str:
+    def format_call(self, args: Optional[Dict[str, Any]] = None) -> str:  # type: ignore
         ...
 
-    def format_exception(self, exc: Optional[BaseException] = None) -> str:
+    def format_exception(self, exc: Optional[BaseException] = None) -> str:  # type: ignore
         ...
 
-    def call(self, new_args: Optional[Dict[str, Any]] = None) -> Any:
+    def call(self, new_args: Optional[Dict[str, Any]] = None) -> Any:  # type: ignore
         ...
 
 class CallCollector(CallCollector):
@@ -911,9 +911,9 @@ class FailureNotReproducedError(ValueError):
 class DeltaDebugger(DeltaDebugger):
     def check_reproducibility(self) -> None:
         # Check whether running the function again fails
-        assert self.function(), \
+        assert self._function, \
             "No call collected. Use `with dd: func()` first."
-        assert self.args(), \
+        assert self._args, \
             "No arguments collected. Use `with dd: func(args)` first."
 
         self.reset()
@@ -1085,7 +1085,7 @@ if __name__ == '__main__':
             "Delta debugging searches for the minimal input"
             " that produces the same result",
             "Delta debugging starts a fuzzer to find an exception",
-            "Delta debugging raises an exception"
+            "Delta debugging raises an exception",
             "Delta debugging runs forever in a loop",
         ], '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')
 

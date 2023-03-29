@@ -40,6 +40,12 @@ def convert(svg_filename, png_filename):
 
     else:
         raise ValueError("Please install Inkscape (preferred) or ImageMagick")
+        
+
+def sanitize_svg(svg):
+    # Don't include (unique) object addresses in SVG
+    # they are not rendered anyway
+    return re.sub(r" at 0x[0-9a-f]*", "", svg)
 
 
 def notebook_synopsis(notebook_name):
@@ -83,7 +89,10 @@ and then make use of the following features.
                 elif cell.source.startswith("# docassert"):
                     pass
                 else:
-                    synopsis += "```python\n>>> " + cell.source.replace('\n', '\n>>> ') + "\n```\n"
+                    cmd = '>>> ' + cell.source.replace('\n', '\n>>> ')
+                    synopsis += "```python\n" + cmd + "\n```\n"
+                    # print(cmd)
+
                 output_text = ''
                 for output in cell.outputs:
                     text = None
@@ -108,7 +117,7 @@ and then make use of the following features.
                                 
                             print("Creating", svg_filename)
                             with open(svg_filename, "w") as f:
-                                f.write(svg)
+                                f.write(sanitize_svg(svg))
                             print("Creating", png_filename)
                             
                             convert(svg_filename, png_filename)
@@ -126,7 +135,7 @@ and then make use of the following features.
                     # PNG output
                     if (text is None and hasattr(output, 'data') and
                         'image/png' in output.data):
-                        png = output.data['image/png']
+                        png = output.data['image/png'].strip()
                         if png is not None:
                             png_basename = (notebook_basename +
                                 '-synopsis-' + repr(img_count) + '.png')
@@ -212,6 +221,9 @@ def update_synopsis(notebook_name, synopsis):
             
     # print(nbformat.writes(notebook))
     
+    # Convert notebook to 4.5
+    notebook = nbformat.convert(notebook, 4)
+
     # Write notebook out again
     with io.open(notebook_path, 'w', encoding='utf-8') as f:
         f.write(nbformat.writes(notebook))

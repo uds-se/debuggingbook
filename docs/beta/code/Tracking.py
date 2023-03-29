@@ -3,9 +3,9 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2021-10-19 10:50:47+02:00
+# Last change: 2023-02-11 11:15:13+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -223,12 +223,12 @@ def with_mysql(cmd: str, timeout: int = 2, show_stdout: bool = False) -> None:
     print(f"sql>{cmd}")
     sql = subprocess.Popen(["mysql", "-u", "root",
                            "--default-character-set=utf8mb4"],
-                            stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE, 
-                            universal_newlines=True)
+                           stdin=subprocess.PIPE,
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE,
+                           universal_newlines=True)
     try:
-        stdout_data, stderr_data = sql.communicate(cmd + ';', 
+        stdout_data, stderr_data = sql.communicate(cmd + ';',
                                                    timeout=timeout)
     except subprocess.TimeoutExpired:
         sql.kill()
@@ -300,7 +300,7 @@ import time
 
 from multiprocess import Process  # type: ignore
 
-from typing import Tuple
+from typing import Tuple, Any
 
 def run_redmine(port: int) -> None:
     with_ruby(f'exec rails s -e production -p {port} > redmine.log 2>&1',
@@ -346,11 +346,14 @@ HEADLESS = True
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-def start_webdriver(browser: str = BROWSER, headless: bool = HEADLESS, zoom: float = 4.0) -> WebDriver:
+from selenium.webdriver.common.by import By
+
+def start_webdriver(browser: str = BROWSER, headless: bool = HEADLESS,
+                    zoom: float = 4.0) -> WebDriver:
     if browser == 'firefox':
         options = webdriver.FirefoxOptions()
     if browser == 'chrome':
-        options = webdriver.ChromeOptions()
+        options = webdriver.ChromeOptions()  # type: ignore
 
     if headless and browser == 'chrome':
         options.add_argument('headless')
@@ -360,15 +363,14 @@ def start_webdriver(browser: str = BROWSER, headless: bool = HEADLESS, zoom: flo
     # Start the browser, and obtain a _web driver_ object such that we can interact with it.
     if browser == 'firefox':
         # For firefox, set a higher resolution for our screenshots
-        profile = webdriver.firefox.firefox_profile.FirefoxProfile()
-        profile.set_preference("layout.css.devPixelsPerPx", repr(zoom))
-        redmine_gui = webdriver.Firefox(firefox_profile=profile, options=options)
+        options.set_preference('layout.css.devPixelsPerPx', repr(zoom))
+        redmine_gui = webdriver.Firefox(options=options)  # type: ignore
 
         # We set the window size such that it fits
         redmine_gui.set_window_size(500, 600)  # was 1024, 600
 
     elif browser == 'chrome':
-        redmine_gui = webdriver.Chrome(options=options)
+        redmine_gui = webdriver.Chrome(options=options)  # type: ignore
         redmine_gui.set_window_size(1024, 510 if headless else 640)
 
     return redmine_gui
@@ -416,7 +418,7 @@ def drop_shadow(contents: bytes) -> bytes:
 
     return stdout_data
 
-def screenshot(driver: WebDriver, width: int = 500) -> bytes:
+def screenshot(driver: WebDriver, width: int = 500) -> Any:
     return Image(drop_shadow(redmine_gui.get_screenshot_as_png()), width=width)
 
 if __name__ == '__main__':
@@ -443,9 +445,9 @@ if __name__ == '__main__':
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_id("username").send_keys("admin")
-    redmine_gui.find_element_by_id("password").send_keys("admin")
-    redmine_gui.find_element_by_name("login").click()
+    redmine_gui.find_element(By.ID, "username").send_keys("admin")
+    redmine_gui.find_element(By.ID, "password").send_keys("admin")
+    redmine_gui.find_element(By.NAME, "login").click()
 
 if __name__ == '__main__':
     time.sleep(2)
@@ -453,15 +455,15 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     if redmine_gui.current_url.endswith('my/password'):
         redmine_gui.get(redmine_url + '/my/password')
-        redmine_gui.find_element_by_id("password").send_keys("admin")
-        redmine_gui.find_element_by_id("new_password").send_keys("admin001")
-        redmine_gui.find_element_by_id("new_password_confirmation").send_keys("admin001")
+        redmine_gui.find_element(By.ID, "password").send_keys("admin")
+        redmine_gui.find_element(By.ID, "new_password").send_keys("admin001")
+        redmine_gui.find_element(By.ID, "new_password_confirmation").send_keys("admin001")
         display(screenshot(redmine_gui))
-        redmine_gui.find_element_by_name("commit").click()
+        redmine_gui.find_element(By.NAME, "commit").click()
 
 if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/logout')
-    redmine_gui.find_element_by_name("commit").click()
+    redmine_gui.find_element(By.NAME, "commit").click()
 
 ### End of Excursion
 
@@ -475,9 +477,9 @@ if __name__ == '__main__':
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_id("username").send_keys("admin")
-    redmine_gui.find_element_by_id("password").send_keys("admin001")
-    redmine_gui.find_element_by_name("login").click()
+    redmine_gui.find_element(By.ID, "username").send_keys("admin")
+    redmine_gui.find_element(By.ID, "password").send_keys("admin001")
+    redmine_gui.find_element(By.NAME, "login").click()
     screenshot(redmine_gui)
 
 ### Excursion: Creating a Project
@@ -497,15 +499,15 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/projects/new')
-    redmine_gui.find_element_by_id('project_name').send_keys("The Debugging Book")
-    redmine_gui.find_element_by_id('project_description').send_keys("A Book on Automated Debugging")
-    redmine_gui.find_element_by_id('project_identifier').clear()
-    redmine_gui.find_element_by_id('project_identifier').send_keys("debuggingbook")
-    redmine_gui.find_element_by_id('project_homepage').send_keys("https://www.debuggingbook.org/")
+    redmine_gui.find_element(By.ID, 'project_name').send_keys("The Debugging Book")
+    redmine_gui.find_element(By.ID, 'project_description').send_keys("A Book on Automated Debugging")
+    redmine_gui.find_element(By.ID, 'project_identifier').clear()
+    redmine_gui.find_element(By.ID, 'project_identifier').send_keys("debuggingbook")
+    redmine_gui.find_element(By.ID, 'project_homepage').send_keys("https://www.debuggingbook.org/")
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_name('commit').click()
+    redmine_gui.find_element(By.NAME, 'commit').click()
 
 ### End of Excursion
 
@@ -554,12 +556,12 @@ How to fix:
 if __name__ == '__main__':
     redmine_gui.get(redmine_url + '/issues/new')
 
-    redmine_gui.find_element_by_id('issue_subject').send_keys(issue_title)
-    redmine_gui.find_element_by_id('issue_description').send_keys(issue_description)
+    redmine_gui.find_element(By.ID, 'issue_subject').send_keys(issue_title)
+    redmine_gui.find_element(By.ID, 'issue_description').send_keys(issue_description)
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_id('issue_assigned_to_id').click()
+    redmine_gui.find_element(By.ID, 'issue_assigned_to_id').click()
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
@@ -567,7 +569,7 @@ if __name__ == '__main__':
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_name('commit').click()
+    redmine_gui.find_element(By.NAME, 'commit').click()
     screenshot(redmine_gui)
 
 from .bookutils import quiz
@@ -594,12 +596,12 @@ if __name__ == '__main__':
 
 
 
-def new_issue(issue_title: str, issue_description: str) -> bytes:
+def new_issue(issue_title: str, issue_description: str) -> Any:
     redmine_gui.get(redmine_url + '/issues/new')
 
-    redmine_gui.find_element_by_id('issue_subject').send_keys(issue_title)
-    redmine_gui.find_element_by_id('issue_description').send_keys(issue_description)
-    redmine_gui.find_element_by_name('commit').click()
+    redmine_gui.find_element(By.ID, 'issue_subject').send_keys(issue_title)
+    redmine_gui.find_element(By.ID, 'issue_description').send_keys(issue_description)
+    redmine_gui.find_element(By.NAME, 'commit').click()
     return screenshot(redmine_gui)
 
 if __name__ == '__main__':
@@ -689,11 +691,11 @@ if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//tr[@id='issue-2']//a[@title='Actions']").click()
+    redmine_gui.find_element(By.XPATH, "//tr[@id='issue-2']//a[@title='Actions']").click()
     time.sleep(0.25)
 
 if __name__ == '__main__':
-    tracker_item = redmine_gui.find_element_by_xpath(
+    tracker_item = redmine_gui.find_element(By.XPATH,
         "//div[@id='context-menu']//a[text()='Tracker']")
     actions = webdriver.ActionChains(redmine_gui)
     actions.move_to_element(tracker_item)
@@ -701,22 +703,22 @@ if __name__ == '__main__':
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Feature']").click()
+    redmine_gui.find_element(By.XPATH, "//div[@id='context-menu']//a[text()='Feature']").click()
 
 def mark_tracker(issue: int, tracker: str) -> None:
     redmine_gui.get(redmine_url + "/issues/")
-    redmine_gui.find_element_by_xpath(
+    redmine_gui.find_element(By.XPATH, 
         f"//tr[@id='issue-{str(issue)}']//a[@title='Actions']").click()
     time.sleep(0.25)
 
-    tracker_item = redmine_gui.find_element_by_xpath(
+    tracker_item = redmine_gui.find_element(By.XPATH,
         "//div[@id='context-menu']//a[text()='Tracker']")
     actions = webdriver.ActionChains(redmine_gui)
     actions.move_to_element(tracker_item)
     actions.perform()
     time.sleep(0.25)
 
-    redmine_gui.find_element_by_xpath(
+    redmine_gui.find_element(By.XPATH,
         f"//div[@id='context-menu']//a[text()='{tracker}']").click()
 
 if __name__ == '__main__':
@@ -741,18 +743,18 @@ if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//tr[@id='issue-1']//a[@title='Actions']").click()
+    redmine_gui.find_element(By.XPATH, "//tr[@id='issue-1']//a[@title='Actions']").click()
     time.sleep(0.25)
 
 if __name__ == '__main__':
-    priority_item = redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Priority']")
+    priority_item = redmine_gui.find_element(By.XPATH, "//div[@id='context-menu']//a[text()='Priority']")
     actions = webdriver.ActionChains(redmine_gui)
     actions.move_to_element(priority_item)
     actions.perform()
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='Urgent']").click()
+    redmine_gui.find_element(By.XPATH, "//div[@id='context-menu']//a[text()='Urgent']").click()
 
 if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
@@ -771,11 +773,11 @@ if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/")
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//tr[@id='issue-1']//a[@title='Actions']").click()
+    redmine_gui.find_element(By.XPATH, "//tr[@id='issue-1']//a[@title='Actions']").click()
     time.sleep(0.25)
 
 if __name__ == '__main__':
-    assignee_item = redmine_gui.find_element_by_xpath(
+    assignee_item = redmine_gui.find_element(By.XPATH,
         "//div[@id='context-menu']//a[text()='Assignee']")
     actions = webdriver.ActionChains(redmine_gui)
     actions.move_to_element(assignee_item)
@@ -783,7 +785,7 @@ if __name__ == '__main__':
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//div[@id='context-menu']//a[text()='<< me >>']").click()
+    redmine_gui.find_element(By.XPATH, "//div[@id='context-menu']//a[text()='<< me >>']").click()
     screenshot(redmine_gui)
 
 ## Resolving Issues
@@ -808,21 +810,21 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     redmine_gui.get(redmine_url + "/issues/1/edit")
-    redmine_gui.find_element_by_id("issue_status_id").click()
+    redmine_gui.find_element(By.ID, "issue_status_id").click()
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_xpath("//option[text()='Resolved']").click()
+    redmine_gui.find_element(By.XPATH, "//option[text()='Resolved']").click()
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
     redmine_gui.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    issue_notes = redmine_gui.find_element_by_id("issue_notes")
+    issue_notes = redmine_gui.find_element(By.ID, "issue_notes")
     issue_notes.send_keys("Will only work for Nokia Communicator Rev B and later; "
         "Rev A is still unsupported")
     screenshot(redmine_gui)
 
 if __name__ == '__main__':
-    redmine_gui.find_element_by_name("commit").click()
+    redmine_gui.find_element(By.NAME, "commit").click()
     screenshot(redmine_gui)
 
 ## The Life Cycle of an Issue

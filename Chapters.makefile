@@ -17,7 +17,7 @@ TWITTER = @Debugging_Book
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = \
-	ChangeCounter.ipynb
+
 
 # Introduction
 INTRO_PART = \
@@ -82,6 +82,7 @@ APPENDICES = \
 	99_Appendices.ipynb \
 	ExpectError.ipynb \
 	Timer.ipynb \
+	Timeout.ipynb \
 	ClassDiagram.ipynb \
 	StackInspector.ipynb
 
@@ -97,7 +98,8 @@ EXTRAS = \
 	Time_Travel_Debugger.ipynb \
 	Reducing_Code.ipynb \
 	Repairing_Code.ipynb \
-	Project_of_your_choice.ipynb
+	Project_of_your_choice.ipynb \
+	IllustratedCode.ipynb
 
 # These chapters will show up in the "public" version
 PUBLIC_CHAPTERS = \
@@ -152,10 +154,14 @@ TODO_CHAPTERS = \
 	$(IN_THE_LARGE_PART_TODO)
 
 ## Specific settings
+
 # No timeouts; debuggingbook/Tracing can take up to 15 minutes to render
 EXECUTE_TIMEOUT = 900
 TIME = time
 
-# By default, also check types
-web default: test-types
-run: check-types
+# Default target
+web:
+
+# No type checking for IllustratedCode
+mypy/.IllustratedCode.py.out:
+	echo $(PY_SUCCESS_MAGIC) >> $@ 

@@ -3,9 +3,9 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2021-10-13 13:32:24+02:00
+# Last change: 2023-02-11 11:04:42+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -96,9 +96,9 @@ def remove_html_markup(s):  # type: ignore
 >>> with ExpectError(AssertionError):
 >>>     test()
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_56550/4262003862.py", line 3, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1946/4262003862.py", line 3, in 
     test()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_56550/3045937450.py", line 2, in test
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1946/3045937450.py", line 2, in test
     assert remove_html_markup('"foo"') == '"foo"'
 AssertionError (expected)
 
@@ -232,7 +232,7 @@ if __name__ == '__main__':
 
 from .bookutils import quiz, print_file, print_content
 
-from typing import Dict, Callable, TextIO, List, Tuple, Set, Any, Type
+from typing import Dict, Callable, TextIO, List, Tuple, Set, Any, Type, Optional
 
 ## Synopsis
 ## --------
@@ -379,7 +379,7 @@ def remove_html_markup(s):  # type: ignore
 
 import inspect
 
-def write_source(fun: Callable, filename: str = None) -> None:
+def write_source(fun: Callable, filename: Optional[str] = None) -> None:
     if filename is None:
         filename = fun.__name__ + '.py'
     with open(filename, 'w') as fh:
@@ -821,9 +821,18 @@ from diff_match_patch import diff_match_patch, patch_obj
 
 def diff(s1: str, s2: str, mode: str = 'lines') -> List[patch_obj]:
     """Compare s1 and s2 like `diff`; return a list of patches"""
+
+    # Sometimes, we may get bytes instead of strings
+    # Let's convert these in a conservative way
+    if not isinstance(s1, str):
+        s1 = str(s1, 'latin1')
+    if not isinstance(s2, str):
+        s2 = str(s2, 'latin1')
+
     dmp = diff_match_patch()
     if mode == 'lines':
         (text1, text2, linearray) = dmp.diff_linesToChars(s1, s2)
+
         diffs = dmp.diff_main(text1, text2)
         dmp.diff_charsToLines(diffs, linearray)
         return dmp.patch_make(diffs)

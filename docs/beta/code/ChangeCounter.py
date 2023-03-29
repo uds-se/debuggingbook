@@ -3,9 +3,9 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2021-10-19 11:04:59+02:00
+# Last change: 2023-02-11 11:23:33+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -65,7 +65,10 @@ A `change_counter` provides a number of attributes. `changes` is a mapping of no
 The `messages` attribute holds all commit messages related to that node:
 
 >>> change_counter.messages.get(('README.md',), None)
-['Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
+['Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
  'New: show badges at top of GitHub project page',
@@ -76,15 +79,12 @@ The `messages` attribute holds all commit messages related to that node:
  'Update',
  'Doc update',
  'Doc update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
  'Doc update']
 
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes.get(('README.md',), None)
-14562
+10763
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
 
@@ -221,10 +221,10 @@ if __name__ == '__main__':
     book_first_commit.modified_files[0].new_path
 
 if __name__ == '__main__':
-    print(book_first_commit.modified_files[0].source_code)
+    print(book_first_commit.modified_files[0].content)
 
 if __name__ == '__main__':
-    print(book_first_commit.modified_files[0].source_code_before)
+    print(book_first_commit.modified_files[0].content_before)
 
 if __name__ == '__main__':
     book_second_commit = next(book_commits)
@@ -236,10 +236,10 @@ if __name__ == '__main__':
     readme_modification = [m for m in book_second_commit.modified_files if m.new_path == 'README.md'][0]
 
 if __name__ == '__main__':
-    print(readme_modification.source_code_before)
+    print(str(readme_modification.content_before, 'utf8'))
 
 if __name__ == '__main__':
-    print(readme_modification.source_code[:400])
+    print(str(readme_modification.content[:400], 'utf8'))
 
 if __name__ == '__main__':
     print(readme_modification.diff[:100])
@@ -318,7 +318,10 @@ class ChangeCounter(ChangeCounter):
                 self.mine_commit(commit)
             except GitCommandError as err:
                 # Warn about failing git commands, but continue
-                warnings.warn(str(err))
+                warnings.warn("Cannot mine commit " + repr(commit.hash) + '\n' + str(err))
+            except (ValueError, TypeError) as err:
+                warnings.warn("Cannot mine commit " + repr(commit.hash) + '\n' + str(err))
+                raise err
 
     def mine_commit(self, commit: Commit) -> None:
         for m in commit.modified_files:
@@ -349,7 +352,7 @@ class ChangeCounter(ChangeCounter):
 
         node = tuple(m.new_path.split('/'))
 
-        self.update_size(node, len(m.source_code) if m.source_code else 0)
+        self.update_size(node, len(m.content) if m.content else 0)
         self.update_changes(node, m.msg)
 
         self.update_elems(node, m)
@@ -836,10 +839,18 @@ class FineChangeCounter(ChangeCounter):
     """Count the changes for files in the repository and their elements"""
 
     def update_elems(self, node: Node, m: ModifiedFile) -> None:
-        old_source = m.source_code_before if m.source_code_before else ""
-        new_source = m.source_code if m.source_code else ""
+        old_source = m.content_before if m.content_before else bytes()
+        new_source = m.content if m.content else bytes()
 
-        for elem in changed_elems(old_source, new_source):
+        # Content comes as bytes instead of strings
+        # Let's convert this in a conservative way
+        if not isinstance(old_source, str):
+            old_source = str(old_source, 'latin1')
+        if not isinstance(new_source, str):
+            new_source = str(new_source, 'latin1')
+
+        changed = changed_elems(old_source, new_source)
+        for elem in changed:
             elem_node = node + (elem,)
 
             self.update_size(elem_node, elem_size(elem, new_source))

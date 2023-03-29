@@ -3,9 +3,9 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2021-10-13 14:00:12+02:00
+# Last change: 2023-02-11 13:18:39+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -67,8 +67,7 @@ Here is an example. The `demo()` function computes some number from `x`:
 
 >>> def demo(x: int) -> int:
 >>>     z = x
->>>     while x <= z <= 64:
->>>         z *= 2
+>>>     while x >>         z *= 2
 >>>     return z
 
 By using `with Slicer()`, we first instrument `demo()` and then execute it:
@@ -80,26 +79,17 @@ After execution is complete, you can output `slicer` to visualize the dependenci
 We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
-An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `>> slicer.code()
+An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `>> slicer.code()
 *    1 def demo(x: int) -> int:
-*    2     z = x  # <= x (1)
-*    3     while x <= z <= 64:  # <= x (1), z (2), z (4)
-*    4         z *= 2  # <= z (2), z (4);  (3)
-*    5     return z  # <= z (4)
-
-
-Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
-
-The method `all_vars()` returns all variables in the dependency graph. Each variable is encoded as a pair (_name_, _location_) where _location_ is a pair (_codename_, _lineno_).
-
->>> slicer.dependencies().all_vars()
+*    2     z = x  #  (3)
+*    5     return z  # >> slicer.dependencies().all_vars()
 {('', ( int>, 5)),
  ('', ( int>, 3)),
  ('x', ( int>, 1)),
  ('z', ( int>, 2)),
  ('z', ( int>, 4))}
 
-`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable (again given as a pair (_name_, _location_). To retrieve where `z` in Line 2 came from, use:
+`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable (again given as a pair (_name_, _location_)). To retrieve where `z` in Line 2 came from, use:
 
 >>> _, start_demo = inspect.getsourcelines(demo)
 >>> start_demo
@@ -259,7 +249,7 @@ class Dependencies(Dependencies):
         # Return source line, or ''
         (name, location) = node
         func, lineno = location
-        if not func:
+        if not func:  # type: ignore
             # No source
             return ''
 
@@ -303,16 +293,16 @@ if __name__ == '__main__':
 
 
 
-from graphviz import Digraph, nohtml
+from graphviz import Digraph
 
 import html
 
 class Dependencies(Dependencies):
     NODE_COLOR = 'peachpuff'
-    FONT_NAME = 'Fira Mono, Courier, monospace'
+    FONT_NAME = 'Courier'  # 'Fira Mono' may produce warnings in 'dot'
 
-    def make_graph(self, 
-                   name: str = "dependencies", 
+    def make_graph(self,
+                   name: str = "dependencies",
                    comment: str = "Dependencies") -> Digraph:
         return Digraph(name=name, comment=comment,
             graph_attr={
@@ -328,7 +318,7 @@ class Dependencies(Dependencies):
             })
 
 class Dependencies(Dependencies):
-    def graph(self, *, mode : str = 'flow') -> Digraph:
+    def graph(self, *, mode: str = 'flow') -> Digraph:
         """
         Draw dependencies. `mode` is either
         * `'flow'`: arrows indicate information flow (from A to B); or
@@ -341,9 +331,9 @@ class Dependencies(Dependencies):
         self.add_hierarchy(g)
         return g
 
-    def _repr_svg_(self) -> Any:
+    def _repr_mimebundle_(self, include: Any = None, exclude: Any = None) -> Any:
         """If the object is output in Jupyter, render dependencies as a SVG graph"""
-        return self.graph()._repr_svg_()
+        return self.graph()._repr_mimebundle_(include, exclude)
 
 class Dependencies(Dependencies):
     def all_vars(self) -> Set[Node]:
@@ -384,7 +374,7 @@ class Dependencies(Dependencies):
             if var in self.control:
                 for source in self.control[var]:
                     self.draw_edge(g, mode, self.id(source), self.id(var),
-                           style='dashed', color='grey')
+                                   style='dashed', color='grey')
 
 class Dependencies(Dependencies):
     def id(self, var: Node) -> str:
@@ -410,8 +400,8 @@ class Dependencies(Dependencies):
         label = f'<B>{title}</B>'
         if source:
             label += (f'<FONT POINT-SIZE="9.0"><BR/><BR/>'
-                    f'{html.escape(source)}'
-                    f'</FONT>')
+                      f'{html.escape(source)}'
+                      f'</FONT>')
         label = f'<{label}>'
         return label
 
@@ -1001,7 +991,7 @@ if __name__ == '__main__':
 def dump_tree(tree: AST) -> None:
     print_content(ast.unparse(tree), '.py')
     ast.fix_missing_locations(tree)  # Must run this before compiling
-    _ = compile(tree, '<dump_tree>', 'exec')
+    _ = compile(cast(ast.Module, tree), '<dump_tree>', 'exec')
 
 if __name__ == '__main__':
     dump_tree(middle_tree)
@@ -1014,7 +1004,7 @@ class DataTrackerTester:
         # We pass the source file of `func` such that we can retrieve it
         # when accessing the location of the new compiled code
         source = cast(str, inspect.getsourcefile(func))
-        self.code = compile(tree, source, 'exec')
+        self.code = compile(cast(ast.Module, tree), source, 'exec')
         self.func = func
         self.log = log
 
@@ -1206,8 +1196,8 @@ class TrackSetTransformer(TrackSetTransformer):
         return node
 
 def assign_test(x: int) -> Tuple[int, str]:  # type: ignore
-    fourty_two: int = 42
-    fourty_two = forty_two = 42
+    forty_two: int = 42
+    forty_two = forty_two = 42
     a, b = 1, 2
     c = d = [a, b]
     c[d[a]].attr = 47  # type: ignore
@@ -1665,6 +1655,8 @@ from . import Debugger  # minor dependency
 if __name__ == '__main__':
     for module in [Assertions, Debugger, inspect, ast]:
         module_tree = ast.parse(inspect.getsource(module))
+        assert isinstance(module_tree, ast.Module)
+
         TrackCallTransformer().visit(module_tree)
         TrackSetTransformer().visit(module_tree)
         TrackGetTransformer().visit(module_tree)
@@ -1673,6 +1665,7 @@ if __name__ == '__main__':
         TrackParamsTransformer().visit(module_tree)
         # dump_tree(module_tree)
         ast.fix_missing_locations(module_tree)  # Must run this before compiling
+
         module_code = compile(module_tree, '<stress_test>', 'exec')
         print(f"{repr(module.__name__)} instrumented successfully.")
 
@@ -2101,12 +2094,12 @@ class DependencyTracker(DependencyTracker):
         self.clear_read()
 
         if vararg == '*':
-            # We overapproximate by setting `args` to _all_ positional args
+            # We over-approximate by setting `args` to _all_ positional args
             for index in self.args:
                 if isinstance(index, int) and pos is not None and index >= pos:
                     self.last_read += self.args[index]
         elif vararg == '**':
-            # We overapproximate by setting `kwargs` to _all_ passed keyword args
+            # We over-approximate by setting `kwargs` to _all_ passed keyword args
             for index in self.args:
                 if isinstance(index, str):
                     self.last_read += self.args[index]
@@ -2393,11 +2386,13 @@ class Slicer(Slicer):
         # We pass the source file of `item` such that we can retrieve it
         # when accessing the location of the new compiled code
         source = cast(str, inspect.getsourcefile(item))
-        code = compile(tree, source, 'exec')
+        code = compile(cast(ast.Module, tree), source, 'exec')
+
+        # Enable dependency tracker
+        self.globals[DATA_TRACKER] = self.dependency_tracker
 
         # Execute the code, resulting in a redefinition of item
         exec(code, self.globals)
-        self.globals[DATA_TRACKER] = self.dependency_tracker
 
 class Slicer(Slicer):
     def instrument(self, item: Any) -> Any:
@@ -2445,9 +2440,9 @@ class Slicer(Slicer):
         """Show dependency graph."""
         return self.dependencies().graph(*args, **kwargs)  # type: ignore
 
-    def _repr_svg_(self) -> Any:
+    def _repr_mimebundle_(self, include: Any = None, exclude: Any = None) -> Any:
         """If the object is output in Jupyter, render dependencies as a SVG graph"""
-        return self.graph()._repr_svg_()
+        return self.graph()._repr_mimebundle_(include, exclude)
 
 if __name__ == '__main__':
     with Slicer(middle) as slicer:
@@ -2598,6 +2593,13 @@ class Slicer(Slicer):
         frame = self.caller_frame()
         source_lines, starting_lineno = inspect.getsourcelines(frame)
         starting_lineno = max(starting_lineno, 1)
+        if len(source_lines) == 1:
+            # We only get one `with` line, rather than the full block
+            # This happens in Jupyter notebooks with iPython 8.1.0 and later.
+            # Here's a hacky workaround to get the cell contents:
+            # https://stackoverflow.com/questions/51566497/getting-the-source-of-an-object-defined-in-a-jupyter-notebook
+            source_lines = inspect.linecache.getlines(inspect.getfile(frame))  # type: ignore
+            starting_lineno = 1
 
         source_ast = ast.parse(''.join(source_lines))
         wv = WithVisitor()
@@ -2832,7 +2834,7 @@ if __name__ == '__main__':
                                 Slicer.code,
                                 Slicer.dependencies,
                                 Slicer.graph,
-                                Slicer._repr_svg_,
+                                Slicer._repr_mimebundle_,
                                 DataTracker.__init__,
                                 DataTracker.__enter__,
                                 DataTracker.__exit__,
@@ -2860,7 +2862,7 @@ if __name__ == '__main__':
                                 Dependencies.__init__,
                                 Dependencies.__repr__,
                                 Dependencies.__str__,
-                                Dependencies._repr_svg_,
+                                Dependencies._repr_mimebundle_,
                                 Dependencies.code,
                                 Dependencies.graph,
                                 Dependencies.backward_slice,

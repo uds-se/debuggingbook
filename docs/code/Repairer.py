@@ -3,9 +3,9 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2021-10-13 13:42:28+02:00
+# Last change: 2023-02-11 13:24:50+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -65,13 +65,7 @@ print(ast.unparse(tree), fitness)
 Here is a complete example for the `middle()` program. This is the original source code of `middle()`:
 
 def middle(x, y, z):  # type: ignore
-    if y < z:
-        if x < y:
-            return y
-        elif x < z:
-            return y
-    else:
-        if x > y:
+    if y  y:
             return y
         elif x > z:
             return x
@@ -96,12 +90,7 @@ The returned AST `tree` can be output via `ast.unparse()`:
 
 >>> print(ast.unparse(tree))
 def middle(x, y, z):
-    if y < z:
-        if x < y:
-            return y
-        elif x < z:
-            return x
-    elif x > y:
+    if y  y:
         return y
     elif x > z:
         return x
@@ -403,11 +392,11 @@ import copy
 class StatementMutator(NodeTransformer):
     """Mutate statements in an AST for automated repair."""
 
-    def __init__(self, 
-                 suspiciousness_func: 
+    def __init__(self,
+                 suspiciousness_func:
                      Optional[Callable[[Tuple[Callable, int]], float]] = None,
-                 source: Optional[List[ast.AST]] = None, 
-                 log: bool = False) -> None:
+                 source: Optional[List[ast.AST]] = None,
+                 log: Union[bool, int] = False) -> None:
         """
         Constructor.
         `suspiciousness_func` is a function that takes a location
@@ -461,7 +450,7 @@ class StatementMutator(StatementMutator):
 
         return suspiciousness
 
-    def format_node(self, node: ast.AST) -> str:
+    def format_node(self, node: ast.AST) -> str:  # type: ignore
         ...
 
 class StatementMutator(StatementMutator):
@@ -695,7 +684,7 @@ def middle_fitness(tree: ast.AST) -> float:
     original_middle = middle
 
     try:
-        code = compile(tree, '<fitness>', 'exec')
+        code = compile(cast(ast.Module, tree), '<fitness>', 'exec')
     except ValueError:
         return 0  # Compilation error
 
@@ -815,7 +804,7 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     original_middle = middle
-    code = compile(best_middle_tree, '<string>', 'exec')
+    code = compile(cast(ast.Module, best_middle_tree), '<string>', 'exec')
     exec(code, globals())
 
     for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
@@ -909,7 +898,7 @@ def p2():  # type: ignore
 class CrossoverOperator:
     """A class for performing statement crossover of Python programs"""
 
-    def __init__(self, log: bool = False):
+    def __init__(self, log: Union[bool, int] = False):
         """Constructor. If `log` is set, turn on logging."""
         self.log = log
 
@@ -960,7 +949,7 @@ class CrossoverOperator(CrossoverOperator):
             return False
 
         body = getattr(tree, body_attr, [])
-        return body and len(body) >= 2
+        return body is not None and len(body) >= 2
 
 class CrossoverOperator(CrossoverOperator):
     def crossover_attr(self, t1: ast.AST, t2: ast.AST, body_attr: str) -> bool:
@@ -1353,7 +1342,7 @@ class Repairer(Repairer):
 
         # Create new definition
         try:
-            code = compile(tree, '<Repairer>', 'exec')
+            code = compile(cast(ast.Module, tree), '<Repairer>', 'exec')
         except ValueError:  # Compilation error
             code = None
 

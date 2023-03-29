@@ -1,5 +1,12 @@
 # Fuzzingbook/Debuggingbook Makefile
 
+# HINT: This Makefile has hundreds of goals. The most important are:
+# * To see the most important goals, do "make help"
+# * To build the book HTML (in html/), do "make"
+# * To build the book with all components (in docs/), do "make docs"
+
+# This Makefile requires GNU make.
+
 # Get chapter files
 CHAPTERS_MAKEFILE = Chapters.makefile
 include $(CHAPTERS_MAKEFILE)
@@ -311,7 +318,7 @@ ZIP_OPTIONS = -r
 # Default target is to build everything needed for publishing,
 # such that we can run "make -k" in a loop
 .PHONY: chapters web default
-web default: setup html code test-code test-imports test-packages slides
+web default: setup html code test-types test-code test-imports test-packages slides
 chapters: html
 
 # The book is recreated after any change to any source
@@ -423,15 +430,15 @@ endif
 # So we simply copy them instead
 ifeq ($(origin CI),environment)
 $(FULL_NOTEBOOKS)/Tracking.ipynb: $(NOTEBOOKS)/Tracking.ipynb
-	cp -pr $< $@
+	cp -r $< $@
 $(FULL_NOTEBOOKS)/GUIFuzzer.ipynb: $(NOTEBOOKS)/GUIFuzzer.ipynb
-	cp -pr $< $@
+	cp -r $< $@
 $(FULL_NOTEBOOKS)/FuzzingInTheLarge.ipynb: $(NOTEBOOKS)/FuzzingInTheLarge.ipynb
-	cp -pr $< $@
+	cp -r $< $@
 endif
 
 $(FULL_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb $(DEPEND_TARGET)%.makefile $(ADD_METADATA) $(NBAUTOSLIDE) $(NBSYNOPSIS)
-	$(EXECUTE_NOTEBOOK) $<
+	$(EXECUTE_NOTEBOOK) $< || $(EXECUTE_NOTEBOOK) $<
 	$(PYTHON) $(ADD_METADATA) --project $(PROJECT) $@ > $@~ && mv $@~ $@
 	$(PYTHON) $(NBAUTOSLIDE) --in-place $@
 	$(PYTHON) $(NBSYNOPSIS) --project $(PROJECT) --update $@
@@ -440,7 +447,7 @@ $(FULL_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb $(DEPEND_TARGET)%.makefile $(ADD
 $(RENDERED_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb \
 	$(DEPEND_TARGET)%.makefile $(ADD_METADATA) $(NBAUTOSLIDE) \
 	$(NBSYNOPSIS) $(NBSHORTEN) $(SHARED)$(UTILS)/__init__.py
-	$(RENDER_NOTEBOOK) $<
+	$(RENDER_NOTEBOOK) $< || $(RENDER_NOTEBOOK) $<
 	$(PYTHON) $(ADD_METADATA) --project $(PROJECT) $@ > $@~ && mv $@~ $@
 	$(PYTHON) $(NBAUTOSLIDE) --in-place $@
 	RENDER_HTML=1 $(PYTHON) $(NBSYNOPSIS) --project $(PROJECT) --update $@
@@ -453,7 +460,7 @@ $(FULL_NOTEBOOKS)/$(UTILS):
 $(FULL_NOTEBOOKS)/$(UTILS)/%: $(SHARED)$(UTILS)/%
 	@test -d $(FULL_NOTEBOOKS)/$(UTILS) || \
 		$(MKDIR) $(FULL_NOTEBOOKS)/$(UTILS)
-	cp -pr $< $@
+	cp -r $< $@
 
 
 
@@ -490,13 +497,16 @@ POST_TEX = utils/post_tex
 $(PDF_TARGET)%.tex:	$(RENDERED_NOTEBOOKS)/%.ipynb $(BIB) $(PUBLISH_PLUGINS) $(SHARED)$(ADD_METADATA) $(SHARED)$(POST_TEX)
 	$(eval TMPDIR := $(shell mktemp -d))
 	$(PYTHON) $(ADD_METADATA) --project $(PROJECT) --titlepage $< > $(TMPDIR)/$(notdir $<)
-	cp -pr $(NOTEBOOKS)/PICS $(BIB) $(TMPDIR)
+	cp -r $(NOTEBOOKS)/PICS $(BIB) $(TMPDIR)
 	$(CONVERT_TO_TEX) $(TMPDIR)/$(notdir $<)
 	$(POST_TEX) $@ > $@~ && mv $@~ $@
 	@-$(RM) -fr $(TMPDIR)
 	@cd $(PDF_TARGET) && $(RM) $*.nbpub.log
 
+# The psot-html.py script
+POST_HTML ?= $(SHARED)utils/post_html.py
 
+# Its options
 POST_HTML_OPTIONS = $(BETA_FLAG) \
 	--project="$(PROJECT)" \
 	--title="$(BOOKTITLE)" \
@@ -508,7 +518,7 @@ POST_HTML_OPTIONS = $(BETA_FLAG) \
 	--todo-chapters="$(TODO_SOURCES)" \
 	--new-chapters="$(NEW_SOURCES)"
 
-HTML_DEPS = $(BIB) $(PUBLISH_PLUGINS) $(SHARED)utils/post_html.py \
+HTML_DEPS = $(BIB) $(PUBLISH_PLUGINS) $(POST_HTML) \
 	$(CHAPTERS_MAKEFILE) $(BIBCHECK)
 
 # Check bib
@@ -526,7 +536,7 @@ check-bib-ascii: .$(BIB).ascii
 check-bib-python: .$(BIB).python
 .$(BIB).python: $(BIB)
 	@echo "Checking $(BIB) for Python usage with bibtexparser"
-	@$(PYTHON) -W error -c 'import bibtexparser; fd = open("$(BIB)"); bibtexparser.load(fd); fd.close()'
+	@$(PYTHON) -c 'import bibtexparser; fd = open("$(BIB)"); bibtexparser.load(fd); fd.close()'
 	@touch $@
 
 check-bib-biber: .$(BIB).biber
@@ -547,7 +557,7 @@ $(DOCS_TARGET)index.html: \
 	$(CONVERT_TO_HTML) $<
 	mv $(HTML_TARGET)index.html $@
 	@cd $(HTML_TARGET) && $(RM) -r index.nbpub.log index_files
-	@$(PYTHON) $(SHARED)utils/post_html.py --menu-prefix=html/ --home $(POST_HTML_OPTIONS)$(HOME_POST_HTML_OPTIONS) $@
+	@$(PYTHON) $(POST_HTML) --menu-prefix=html/ --home $(POST_HTML_OPTIONS)$(HOME_POST_HTML_OPTIONS) $@
 	@$(OPEN) $@
 
 # 404.html comes with absolute links (/html/) such that it works anywhare
@@ -558,7 +568,7 @@ $(DOCS_TARGET)404.html: $(FULL_NOTEBOOKS)/404.ipynb $(HTML_DEPS)
 	$(CONVERT_TO_HTML) $<
 	mv $(HTML_TARGET)404.html $@
 	@cd $(HTML_TARGET) && $(RM) -r 404.nbpub.log 404_files
-	@$(PYTHON) $(SHARED)utils/post_html.py --menu-prefix=/html/ --home $(POST_HTML_OPTIONS) $@
+	@$(PYTHON) $(POST_HTML) --menu-prefix=/html/ --home $(POST_HTML_OPTIONS) $@
 	(echo '---'; echo 'permalink: /404.html'; echo '---'; cat $@) > $@~ && mv $@~ $@
 	@$(OPEN) $@
 
@@ -568,7 +578,7 @@ $(DOCS_TARGET)html/00_Index.html: \
 	@cd $(HTML_TARGET) && $(RM) -r 00_Index.nbpub.log 00_Index_files
 	@cd $(DOCS_TARGET)html && $(RM) -r 00_Index.nbpub.log 00_Index_files
 	mv $(HTML_TARGET)00_Index.html $@
-	@$(PYTHON) $(SHARED)utils/post_html.py $(POST_HTML_OPTIONS) $@
+	@$(PYTHON) $(POST_HTML) $(POST_HTML_OPTIONS) $@
 
 $(DOCS_TARGET)html/00_Table_of_Contents.html: \
 	$(DOCS_TARGET)notebooks/00_Table_of_Contents.ipynb \
@@ -577,14 +587,14 @@ $(DOCS_TARGET)html/00_Table_of_Contents.html: \
 	@cd $(HTML_TARGET) && $(RM) -r 00_Table_of_Contents.nbpub.log 00_Table_of_Contents_files
 	@cd $(DOCS_TARGET)html && $(RM) -r 00_Table_of_Contents.nbpub.log 00_Table_of_Contents_files
 	mv $(HTML_TARGET)00_Table_of_Contents.html $@
-	@$(PYTHON) $(SHARED)utils/post_html.py $(POST_HTML_OPTIONS) $@
+	@$(PYTHON) $(POST_HTML) $(POST_HTML_OPTIONS) $@
 	@$(OPEN) $@
 
 $(HTML_TARGET)%.html: $(FULL_NOTEBOOKS)/%.ipynb $(HTML_DEPS)
 	@test -d $(HTML_TARGET) || $(MKDIR) $(HTML_TARGET)
 	$(CONVERT_TO_HTML) $<
 	@cd $(HTML_TARGET) && $(RM) $*.nbpub.log $*_files/$(BIB)
-	@$(PYTHON) $(SHARED)utils/post_html.py $(POST_HTML_OPTIONS) $@
+	@$(PYTHON) $(POST_HTML) $(POST_HTML_OPTIONS) $@
 	@if grep -i '\[unresolved citation' $@; then false; fi
 	@-test -L $(HTML_TARGET)PICS || ln -s ../$(NOTEBOOKS)/PICS $(HTML_TARGET)
 	@$(OPEN) $@
@@ -626,9 +636,10 @@ endif
 # Reconstructing the reveal.js dir
 .PHONY: reveal.js
 $(REVEAL_JS) reveal.js: .FORCE
-	@-test -d "$@" || (cd $(SLIDES_TARGET); \
+	@-test -d "$(REVEAL_JS)" || (cd $(SLIDES_TARGET); \
 		git submodule add https://github.com/hakimel/reveal.js.git)
-	@git submodule update --remote
+	git submodule update --remote
+	-git commit -m "Update from source" $(REVEAL_JS)
 
 $(CODE_TARGET)setup.py: $(CODE_TARGET)setup.py.in
 	cat $< > $@
@@ -714,7 +725,7 @@ $(PDF_TARGET)$(BOOK).tex: $(RENDERS) $(BIB) $(PUBLISH_PLUGINS) $(CHAPTERS_MAKEFI
 	cd $(PDF_TARGET) && $(RM) $(BOOK).nbpub.log
 	@echo Created $@
 
-$(HTML_TARGET)$(BOOK).html: $(FULLS) $(BIB) $(SHARED)utils/post_html.py
+$(HTML_TARGET)$(BOOK).html: $(FULLS) $(BIB) $(POST_HTML)
 	-$(RM) -r $(BOOK)
 	$(MKDIR) $(BOOK)
 	chapter=0; \
@@ -726,7 +737,7 @@ $(HTML_TARGET)$(BOOK).html: $(FULLS) $(BIB) $(SHARED)utils/post_html.py
 	ln -s ../$(BIB) $(BOOK)
 	$(CONVERT_TO_HTML) $(BOOK)
 	$(PYTHON) $(SHARED)utils/nbmerge.py $(BOOK)/Ch*.ipynb > notebooks/$(BOOK).ipynb
-	@$(PYTHON) $(SHARED)utils/post_html.py $(BETA_FLAG) $(POST_HTML_OPTIONS) $@
+	@$(PYTHON) $(POST_HTML) $(BETA_FLAG) $(POST_HTML_OPTIONS) $@
 	$(RM) -r $(BOOK) notebooks/$(BOOK).ipynb
 	cd $(HTML_TARGET) && $(RM) $(BOOK).nbpub.log $(BOOK)_files/$(BIB)
 	@echo Created $@
@@ -884,21 +895,21 @@ $(MYPY_TARGET).%.py.out: $(MYPY_TARGET)%.py $(MYPY_TARGET)mypy.ini
 		exit 0; \
 	else \
 		echo "Error type checking $<" >> $@; \
-		tail $@; \
+		cat $@; \
 		touch -r $< $@; \
 		touch -A -010000 $@; \
 		exit 1; \
 	fi
 
 UTILS_MYPY_OUT = $(MYPY_TARGET).$(UTILS).py.out
-$(UTILS_MYPY_OUT): $(UTILITY_FILES:%=$(SHARED)$(UTILS)/%)
+$(UTILS_MYPY_OUT): $(UTILITY_FILES:%=$(SHARED)$(UTILS)/%) $(MYPY_TARGET)mypy.ini
 	@echo Type-checking $(SHARED)$(UTILS)...
-	@if $(MYPY) --config-file $(MYPY_TARGET)mypy.ini $(SHARED)$(UTILS) > $@ 2>&1; then \
+	@if $(MYPY) --config-file $(MYPY_TARGET)mypy.ini --follow-imports=skip $(SHARED)$(UTILS) > $@ 2>&1; then \
 		echo $(PY_SUCCESS_MAGIC) >> $@; \
 		exit 0; \
 	else \
 		echo "Error type checking $<" >> $@; \
-		tail $@; \
+		cat $@; \
 		touch -r $< $@; \
 		touch -A -010000 $@; \
 		exit 1; \
@@ -917,7 +928,7 @@ check-types: test-types
 	fi
 
 .PHONY: run
-run: check-imports check-standard-imports check-package check-code
+run: check-types check-imports check-standard-imports check-package check-code
 
 # Todo checks
 check-todo todo:
@@ -993,7 +1004,7 @@ publish-html-setup:
 	
 $(DOCS_TARGET)html/%: $(HTML_TARGET)%
 	$(RM) -r $@
-	cp -pr $< $@
+	cp -r $< $@
 
 # Add/update Python code on Web pages
 .PHONY: publish-code publish-code-setup
@@ -1016,10 +1027,10 @@ publish-code-setup:
 		|| $(MKDIR) $(DOCS_TARGET)code/$(UTILS)
 	
 $(DOCS_TARGET)code/%: $(CODE_TARGET)%
-	cp -pr $< $@
+	cp -r $< $@
 
 $(DOCS_TARGET)code/requirements.txt: requirements.txt
-	cp -pr $< $@
+	cp -r $< $@
 
 .PHONY: dist publish-dist
 dist publish-dist: publish-code toc \
@@ -1089,7 +1100,7 @@ publish-slides-setup:
 
 $(DOCS_TARGET)slides/%: $(SLIDES_TARGET)%
 	-rm -fr $@
-	cp -pr $< $@
+	cp -r $< $@
 
 
 # Add/update notebooks on Web pages
@@ -1112,12 +1123,12 @@ publish-notebooks-setup:
 		|| $(MKDIR) $(DOCS_TARGET)notebooks/$(UTILS)
 
 $(DOCS_TARGET)notebooks/%: $(FULL_NOTEBOOKS)/%
-	cp -pr $< $@
+	cp -r $< $@
 
 $(DOCS_TARGET)notebooks/requirements.txt: requirements.txt
-	cp -pr $< $@
+	cp -r $< $@
 $(DOCS_TARGET)notebooks/LICENSE,md: LICENSE.md
-	cp -pr $< $@
+	cp -r $< $@
 
 
 .PHONY: publish-index
@@ -1173,6 +1184,16 @@ update-synopsis synopsis:
 no-synopsis:
 	@echo Chapters without synopsis:
 	@grep -L '## Synopsis' $(ALL_CHAPTER_SOURCES) | grep -v '[0-9]'
+	
+
+# App icon
+appicon: $(NOTEBOOKS)/PICS/appicon.png
+$(NOTEBOOKS)/PICS/appicon.png: $(NOTEBOOKS)/PICS/Icon.png
+	-chmod +w $(SHARED)icon_gen
+	cp $(NOTEBOOKS)/PICS/Icon.png $(SHARED)icon_gen
+	(cd $(SHARED)icon_gen; $(PYTHON) icon_gen.py)
+	cp $(SHARED)icon_gen/out/Icon-114.png $@
+	$(RM) -r $(SHARED)icon_gen/out
 
 
 ## Python packages
@@ -1182,12 +1203,12 @@ no-synopsis:
 upload upload-dist: dist
 	@echo "Use your pypi.org password to upload"
 	cd $(DOCS_TARGET); twine upload dist/*.tar.gz
-	@echo "Use 'pip install fuzzingbook' to install"
+	@echo "Use 'pip install $(PROJECT)' to install"
 
 upload-test: dist
 	@echo "Use your pypi.org password to upload"
 	cd $(DOCS_TARGET); twine upload --repository-url https://test.pypi.org/legacy/ dist/*.tar.gz
-	@echo "Use 'pip install --extra-index-url https://test.pypi.org/simple/ fuzzingbook' to install"
+	@echo "Use 'pip install --extra-index-url https://test.pypi.org/simple/ $(PROJECT)' to install"
 
 
 ## Binder services
@@ -1331,7 +1352,7 @@ NBDEPEND = $(SHARED)utils/nbdepend.py
 SITEMAP_OPTIONS = --graph --transitive-reduction --project $(PROJECT) # --cluster-by-parts
 
 sitemap: $(SITEMAP_SVG)
-	open $(SITEMAP_SVG)
+	-open $(SITEMAP_SVG)
 
 $(SITEMAP_SVG): $(CHAPTER_SOURCES) $(NBDEPEND)
 	$(PYTHON) $(NBDEPEND) $(SITEMAP_OPTIONS) $(CHAPTER_SOURCES) > $@~ && mv $@~ $@

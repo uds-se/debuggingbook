@@ -3,9 +3,9 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2021-10-13 13:30:07+02:00
+# Last change: 2023-02-11 11:03:41+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -55,9 +55,9 @@ Notably, assertions detect _violations_ of these assumptions at runtime:
 >>> with ExpectError():
 >>>     y = my_square_root(-1)
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_55470/76616918.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1116/76616918.py", line 2, in 
     y = my_square_root(-1)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_55470/2617682038.py", line 2, in my_square_root
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1116/2617682038.py", line 2, in my_square_root
     assert x >= 0
 AssertionError (expected)
 
@@ -77,11 +77,11 @@ _System assertions_ help to detect invalid memory operations.
 >>> with ExpectError():
 >>>     x = managed_mem[2]
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_55470/1296110967.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1116/1296110967.py", line 2, in 
     x = managed_mem[2]
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_55470/2465984283.py", line 3, in __getitem__
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1116/2465984283.py", line 3, in __getitem__
     return self.read(address)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_55470/2898840933.py", line 9, in read
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_1116/2898840933.py", line 9, in read
     assert self.allocated[address], \
 AssertionError: Reading from unallocated memory (expected)
 
@@ -521,7 +521,7 @@ if __name__ == '__main__':
     t = Time("High noon")  # type: ignore
 
 if __name__ == '__main__':
-    with ExpectError():
+    with ExpectError():  # This fails in Python 3.9
         print(t)
 
 class Time(Time):
@@ -558,7 +558,7 @@ if __name__ == '__main__':
 
 
 class MyTime(Time):
-    @property
+    @property  # type: ignore
     def hours(self) -> int:
         return self._hours
 

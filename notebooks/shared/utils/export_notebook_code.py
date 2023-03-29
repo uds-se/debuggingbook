@@ -34,7 +34,7 @@ RE_FROM_BOOKUTILS = re.compile(r'^from bookutils import .*$', re.MULTILINE)
 RE_CODE = re.compile(r"^(def |class |@|[A-Z][A-Za-z0-9_]+ [-+*/]?= |[A-Z][A-Za-z0-9_]+[.:]|import |from )")
 
 # Things to import only if main (reduces dependencies)
-RE_IMPORT_IF_MAIN = re.compile(r'^(from|import)[ \t]+(matplotlib|mpl_toolkits|numpy|scipy|IPython|requests|FTB|Collector|bookutils import YouTubeVideo).*$', re.MULTILINE)
+RE_IMPORT_IF_MAIN = re.compile(r'^(from|import)[ \t]+(matplotlib|mpl_toolkits|numpy|scipy|IPython|FTB|Collector|bookutils import YouTubeVideo).*$', re.MULTILINE)
 
 # Strip blank lines
 RE_BLANK_LINES = re.compile(r'^[ \t]*$', re.MULTILINE)
@@ -50,7 +50,7 @@ HEADER = """#!/usr/bin/env python3
 # Web site: https://www.{project}.org/html/{module}.html
 # Last change: {timestamp}
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -171,8 +171,8 @@ def fix_imports(code: str) -> str:
 class_renamings: Dict[str, int] = {}
 current_class: Optional[str] = None
 
-RE_SUBCLASS = re.compile(r'^class ([A-Z][^(:]*)[(:]')
-RE_SUBCLASS_SELF = re.compile(r'^class ([A-Z].*)\(\1\):$', flags=re.MULTILINE)
+RE_SUBCLASS = re.compile(r'^class ([a-zA-Z]\w*[^(:]*)[(:]')
+RE_SUBCLASS_SELF = re.compile(r'^class ([a-zA-Z]\w*)\s*\(\s*\1\s*\):\s*$', flags=re.MULTILINE)
 
 def fix_subclass_self(code: str) -> str:
     if not mypy:
@@ -329,7 +329,12 @@ def export_notebook_code(notebook_name: str,
             
             bang = False
             if code.startswith('!'):
-                code = "import os\nos.system(f" + repr(code[1:]) + ")"
+                new_code = "import os"
+                for line in code.split('\n'):
+                    if line.startswith('!'):
+                        line = line[1:]
+                    new_code += f"\nos.system(f" + repr(line) + ")"
+                code = new_code
                 bang = True
 
             if RE_IMPORT_BOOKUTILS.match(code):
@@ -382,9 +387,10 @@ def export_notebook_code(notebook_name: str,
                 pass
                 
     if mypy:
+        # Ensure we get the original class names when importing
         print_utf8('\n# Original class names\n')
         for class_name in class_renamings:
-            print_utf8(f'{class_name} = {class_name}_{class_renamings[class_name]}\n')
+            print_utf8(f'{class_name} = {class_name}_{class_renamings[class_name]}  # type: ignore\n')
 
 if __name__ == '__main__':
     args = sys.argv

@@ -17,6 +17,7 @@ import io
 import html
 import urllib
 import shelve
+import dbm
 
 try:
     import nbformat
@@ -206,8 +207,9 @@ def get_description(notebook):
 
 def get_sections(notebook):
     """Return the section titles from a notebook file"""
+
     contents = get_text_contents(notebook)
-    matches = re.findall(r'^(# .*)', contents, re.MULTILINE)
+    matches = re.findall(r'\n\s*\n(# .*)', contents, re.MULTILINE)
     if len(matches) >= 5:
         # Multiple top sections (book?) - use these
         pass
@@ -218,13 +220,28 @@ def get_sections(notebook):
     sections = [match.replace(r'\n', '') for match in matches]
     # print("Sections", repr(sections).encode('utf-8'))
     
-    # Filter out second synopsis section
+    # Move last synopsis section to top; ignore all others
     if '## Synopsis' in sections:
-        sections = ['## Synopsis'] + [sec for sec in sections if sec != '## Synopsis']
-    
+        synopsis_sections = []
+        body_sections = []
+        in_synopsis = False
+        for sec in sections:
+            if sec == '## Synopsis':
+                in_synopsis = True
+                synopsis_sections = []
+            elif sec.startswith('## '):
+                in_synopsis = False
+            
+            if in_synopsis:
+                synopsis_sections.append(sec)
+            else:
+                body_sections.append(sec)
+                
+        sections = synopsis_sections + body_sections
+
     # Filter out "End of Excursion" titles
     sections = [sec for sec in sections 
-        if sec != '## End of Excursion' and sec != '### End of Excursion']
+        if not sec.endswith('# End of Excursion')]
 
     return sections
 
@@ -310,7 +327,23 @@ assert bibtex_unescape(r"B{\"o}hme") == 'Böhme'
 assert bibtex_unescape(r"P{\`e}zze") == 'Pèzze'
 
 LINKS_DB = 'links'
-links_db = shelve.open(LINKS_DB)
+links_db = None
+
+for sleep_time in [1, 2, 4, 8, 16, 32, 64, 128]:
+    if links_db:
+        break
+    try:
+        links_db = shelve.open(LINKS_DB)
+    except dbm.error:
+        links_db = None
+        print(f"Links database is busy; retrying in {sleep_time} seconds")
+        time.sleep(sleep_time)
+
+if links_db is None:
+    # Last attempt
+    links_db = shelve.open(LINKS_DB)
+
+
 if args.clear_link_cache:
     for link in links_db.keys():
         del links_db[link]
@@ -392,6 +425,8 @@ def add_links_to_imports(contents, html_file):
             link = 'https://github.com/google/diff-match-patch'
         elif module == 'easyplotly':
             link = 'https://mwouts.github.io/easyplotly/'
+        elif module.startswith('isla'):
+            link = 'https://rindphi.github.io/isla/'
         elif module.startswith('numpy'):
             link = 'https://numpy.org/'
         elif module.startswith('networkx'):

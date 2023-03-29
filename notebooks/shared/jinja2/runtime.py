@@ -14,7 +14,7 @@ from itertools import chain
 from types import MethodType
 
 from jinja2.nodes import EvalContext, _context_function_types
-from jinja2.utils import Markup, soft_unicode, escape, missing, concat, \
+from jinja2.utils import Markup, soft_str, escape, missing, concat, \
      internalcode, object_type_repr, evalcontextfunction, Namespace
 from jinja2.exceptions import UndefinedError, TemplateRuntimeError, \
      TemplateNotFound
@@ -43,7 +43,7 @@ _last_iteration = object()
 def markup_join(seq):
     """Concatenation that escapes if necessary and converts to unicode."""
     buf = []
-    iterator = imap(soft_unicode, seq)
+    iterator = imap(soft_str, seq)
     for arg in iterator:
         buf.append(arg)
         if hasattr(arg, '__html__'):
@@ -315,7 +315,7 @@ class Context(with_metaclass(ContextMeta)):
 
 # register the context as mapping if possible
 try:
-    from collections import Mapping
+    from collections.abc import Mapping
     Mapping.register(Context)
 except ImportError:
     pass

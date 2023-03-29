@@ -14,7 +14,7 @@
 """
 import types
 import operator
-from collections import Mapping
+from collections.abc import Mapping
 from jinja2.environment import Environment
 from jinja2.exceptions import SecurityError
 from jinja2._compat import string_types, PY2
@@ -79,7 +79,7 @@ except ImportError:
     pass
 
 #: register Python 2.6 abstract base classes
-from collections import MutableSet, MutableMapping, MutableSequence
+from collections.abc import MutableSet, MutableMapping, MutableSequence
 _mutable_set_types += (MutableSet,)
 _mutable_mapping_types += (MutableMapping,)
 _mutable_sequence_types += (MutableSequence,)

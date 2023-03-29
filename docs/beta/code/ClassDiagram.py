@@ -3,9 +3,9 @@
 
 # "Class Diagrams" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2021-05-18 11:54:13+02:00
+# Last change: 2023-02-11 11:24:18+01:00
 #
-# Copyright (c) 2021 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -136,11 +136,13 @@ class B_Class(A_Class):
         `bartender` is an optional attribute."""
         pass
 
+SomeType = List[Optional[Union[str, int]]]
+
 class C_Class:
     """A class injecting some method"""
 
-    def qux(self) -> None:
-        pass
+    def qux(self, arg: SomeType) -> SomeType:
+        return arg
 
 class D_Class(B_Class, C_Class):
     """A subclass inheriting from multiple superclasses.
@@ -165,7 +167,7 @@ if __name__ == '__main__':
 
 D_Class.__bases__
 
-def class_tree(cls: Type, lowest: Type = None) -> List[Tuple[Type, List]]:
+def class_tree(cls: Type, lowest: Optional[Type] = None) -> List[Tuple[Type, List]]:
     ret = []
     for base in cls.__bases__:
         if base.__name__ == cls.__name__:
@@ -402,12 +404,16 @@ from inspect import signature
 
 import warnings
 
-def display_class_hierarchy(classes: Union[Type, List[Type]], 
+import os
+
+def display_class_hierarchy(classes: Union[Type, List[Type]], *,
                             public_methods: Optional[List] = None,
                             abstract_classes: Optional[List] = None,
                             include_methods: bool = True,
-                            include_class_vars: bool =True,
+                            include_class_vars: bool = True,
                             include_legend: bool = True,
+                            local_defs_only: bool = True,
+                            types: Dict[str, Any] = {},
                             project: str = 'fuzzingbook',
                             log: bool = False) -> Any:
     """Visualize a class hierarchy.
@@ -416,10 +422,12 @@ def display_class_hierarchy(classes: Union[Type, List[Type]],
   (Default: all methods with a docstring)
 `abstract_classes`, if given, is a list of classes to be shown as "abstract" (cursive).
   (Default: all classes with an abstract method)
-`include_methods`: if True, include all methods (default)
-`include_legend`: if True, include a legend (default)
+`include_methods`: if set (default), include all methods
+`include_legend`: if set (default), include a legend
+`local_defs_only`: if set (default), hide details of imported classes
+`types`: type names with definitions, to be used in docs
     """
-    from graphviz import Digraph
+    from graphviz import Digraph  # type: ignore
 
     if project == 'debuggingbook':
         CLASS_FONT = 'Raleway, Helvetica, Arial, sans-serif'
@@ -492,6 +500,16 @@ def display_class_hierarchy(classes: Union[Type, List[Type]],
 
         return bool(docstring(f))
 
+    def frame_module(frameinfo: Any) -> str:
+        return os.path.splitext(os.path.basename(frameinfo.frame.f_code.co_filename))[0]
+
+    def callers() -> List[str]:
+        frames = inspect.getouterframes(inspect.currentframe())
+        return [frame_module(frameinfo) for frameinfo in frames]
+
+    def is_local_class(cls: Type) -> bool:
+        return cls.__module__ == '__main__' or cls.__module__ in callers()
+
     def class_vars_string(cls: Type, url: str) -> str:
         cls_vars = class_vars(cls)
         if len(cls_vars) == 0:
@@ -520,16 +538,19 @@ def display_class_hierarchy(classes: Union[Type, List[Type]],
     def class_methods_string(cls: Type, url: str) -> str:
         methods = public_class_methods(cls)
         # return "<br/>".join([name + "()" for (name, f) in methods])
-        if len(methods) == 0:
-            return ""
-
         methods_string = f'<table border="0" cellpadding="0" ' \
                          f'cellspacing="0" ' \
                          f'align="left" tooltip="{cls.__name__}" href="#">'
 
+        public_methods_only = local_defs_only and not is_local_class(cls)
+
+        methods_seen = False
         for public in [True, False]:
             for (name, f) in methods:
                 if public != is_public(name, f):
+                    continue
+
+                if public_methods_only and not public:
                     continue
 
                 if log:
@@ -541,9 +562,19 @@ def display_class_hierarchy(classes: Union[Type, List[Type]],
 
                 overloaded = is_overloaded(name, f)
 
-                method_doc = escape(name + str(inspect.signature(f)))
+                sig = str(inspect.signature(f))
+                # replace 'List[Union[...]]' by the actual type def
+                for tp in types:
+                    tp_def = str(types[tp]).replace('typing.', '')
+                    sig = sig.replace(tp_def, tp)
+                sig = sig.replace('__main__.', '')
+
+                method_doc = escape(name + sig)
                 if docstring(f):
                     method_doc += ":&#x0a;" + escape_doc(docstring(f))
+
+                if log:
+                    print(f"    Method doc: {method_doc}")
 
                 # Tooltips are only shown if a href is present, too
                 tooltip = f' tooltip="{method_doc}"'
@@ -554,6 +585,10 @@ def display_class_hierarchy(classes: Union[Type, List[Type]],
                 methods_string += method_string(name, public, overloaded)
 
                 methods_string += '</td></tr>'
+                methods_seen = True
+
+        if not methods_seen:
+            return ""
 
         methods_string += '</table>'
         return methods_string
@@ -645,17 +680,20 @@ def display_class_hierarchy(classes: Union[Type, List[Type]],
     return dot
 
 if __name__ == '__main__':
-    display_class_hierarchy(D_Class, project='debuggingbook', log=True)
+    display_class_hierarchy(D_Class, types={'SomeType': SomeType},
+                            project='debuggingbook', log=True)
 
 if __name__ == '__main__':
-    display_class_hierarchy(D_Class, project='fuzzingbook')
+    display_class_hierarchy(D_Class, types={'SomeType': SomeType},
+                            project='fuzzingbook')
 
 if __name__ == '__main__':
     display_class_hierarchy([A_Class, B_Class],
                             abstract_classes=[A_Class],
                             public_methods=[
                                 A_Class.quux,
-                            ], log=True)
+                            ],
+                            log=True)
 
 ## Synopsis
 ## --------
