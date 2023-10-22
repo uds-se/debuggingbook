@@ -26,18 +26,16 @@ RE_FROM_BOOKUTILS = re.compile(r'^from bookutils import .*$', re.MULTILINE)
 # * functions: `def func()`
 # * classes: `class X:`
 # * constants: `UPPERCASE_VARIABLES`
-# * types: `TypeVariables`, and
-# * imports: `import foo`
+# * types: `TypeVariables`
+# * imports: `import foo`, and
+# * any code that starts with a comment `# do import`
 #
 # PLEASE NOTE: if you change this, also change the corresponding 
 # definition in bookutils/import_notebooks.py
-RE_CODE = re.compile(r"^(def |class |@|[A-Z][A-Za-z0-9_]+ [-+*/]?= |[A-Z][A-Za-z0-9_]+[.:]|import |from )")
+RE_CODE = re.compile(r"^(def |class |@|[A-Z][A-Za-z0-9_]+ [-+*/]?= |[A-Z][A-Za-z0-9_]+[.:]|import |from |#\s*do import)")
 
 # Things to import only if main (reduces dependencies)
 RE_IMPORT_IF_MAIN = re.compile(r'^(from|import)[ \t]+(matplotlib|mpl_toolkits|numpy|scipy|IPython|FTB|Collector|bookutils import YouTubeVideo).*$', re.MULTILINE)
-
-# Forced import as is
-RE_DO_IMPORT = re.compile(r'^#\s*do import.*', re.DOTALL)
 
 # Strip blank lines
 RE_BLANK_LINES = re.compile(r'^[ \t]*$', re.MULTILINE)
@@ -314,6 +312,7 @@ def export_notebook_code(notebook_name: str,
     for cell in notebook.cells:
         if cell.cell_type == 'code':
             code = cell.source
+            match_code = RE_CODE.match(code)
             
             if RE_DOCASSERT.match(code):
                 # Assertion as part of documentation - skip
@@ -340,10 +339,7 @@ def export_notebook_code(notebook_name: str,
                 code = new_code
                 bang = True
 
-            if RE_DO_IMPORT.match(code):
-                code = fix_code(code)
-                print_utf8("\n" + code + "\n")
-            elif RE_IMPORT_BOOKUTILS.match(code):
+            if RE_IMPORT_BOOKUTILS.match(code):
                 # Don't import all of bookutils (requires nbformat & Ipython)
                 print_if_main(SET_FIXED_SEED)
             elif RE_IMPORT_IF_MAIN.match(code):
@@ -357,7 +353,7 @@ def export_notebook_code(notebook_name: str,
             elif RE_IGNORE.match(code):
                 # Code to ignore - comment out
                 print_utf8("\n" + prefix_code(code, "# ") + "\n")
-            elif RE_CODE.match(code) and not bang:
+            elif (RE_CODE.match(code) or match_code) and not bang:
                 # imports, classes, and defs
                 code = fix_imports(code)
                 code = fix_code(code)
