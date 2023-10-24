@@ -68,3 +68,4 @@ This work is designed as a _textbook_ for a course in software debugging; as _su
 
 This book is _work in progress_, with new chapters being released every week. To get notified on updates, <a href="https://mastodon.social/invite/P27cijZH">follow us on Mastodon</a>.
 
+<!--
