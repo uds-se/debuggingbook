@@ -3,7 +3,7 @@
 
 # "Error Handling" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ExpectError.html
-# Last change: 2023-02-11 11:24:00+01:00
+# Last change: 2023-10-16 20:09:22+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -47,7 +47,7 @@ The `ExpectError` class allows you to catch and report exceptions, yet resume ex
 >>> with ExpectError():
 >>>     x = 1 / 0
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12830/2664980466.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_47751/2664980466.py", line 2, in 
     x = 1 / 0
 ZeroDivisionError: division by zero (expected)
 
@@ -63,9 +63,9 @@ Start
 3 seconds have passed
 
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12830/1223755941.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_47751/1223755941.py", line 2, in 
     long_running_test()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12830/3930412460.py", line 4, in long_running_test
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_47751/3930412460.py", line 4, in long_running_test
     time.sleep(1)
   File "/Users/zeller/Projects/debuggingbook/notebooks/Timeout.ipynb", line 43, in timeout_handler
     raise TimeoutError()

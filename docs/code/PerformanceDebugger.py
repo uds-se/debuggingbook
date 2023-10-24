@@ -3,7 +3,7 @@
 
 # "Debugging Performance Issues" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/PerformanceDebugger.html
-# Last change: 2023-02-11 11:11:11+01:00
+# Last change: 2023-10-16 19:54:18+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,7 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/PerformanceDebugger.html
 
-This chapter provides a class `PerformanceDebugger` that allows to measure and visualize the time taken per line in a function.
+This chapter provides a class `PerformanceDebugger` that allows measuring and visualizing the time taken per line in a function.
 
 >>> with PerformanceDebugger(TimeCollector) as debugger:
 >>>     for i in range(100):
@@ -56,17 +56,17 @@ The distribution of executed time within each function can be obtained by printi
  240   1%     quote = False
  241   1%     out = ""
  242   0%
- 243  17%     for c in s:
+ 243  16%     for c in s:
  244  15%         assert tag or not quote
  245   0%
- 246  16%         if c == '' and not quote:
+ 246  14%         if c == '' and not quote:
  249   3%             tag = False
- 250   8%         elif (c == '"' or c == "'") and tag:
+ 250   9%         elif (c == '"' or c == "'") and tag:
  251   0%             quote = not quote
  252   9%         elif not tag:
- 253   4%             out = out + c
+ 253   5%             out = out + c
  254   0%
- 255   2%     return out
+ 255   3%     return out
 
 
 

@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2023-02-11 11:23:33+01:00
+# Last change: 2023-10-22 16:34:52+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,7 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/ChangeCounter.html
 
-This chapter provides two classes `ChangeCounter` and `FineChangeCounter` that allow to mine and visualize the distribution of changes in a given `git` repository.
+This chapter provides two classes `ChangeCounter` and `FineChangeCounter` that allow mining and visualizing the distribution of changes in a given `git` repository.
 
 `ChangeCounter` is initialized as
 
@@ -68,6 +68,9 @@ The `messages` attribute holds all commit messages related to that node:
 ['Doc update',
  'Doc update',
  'Doc update',
+ 'Doc update',
+ 'Doc update',
+ 'Doc update',
  'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
@@ -76,19 +79,16 @@ The `messages` attribute holds all commit messages related to that node:
  'Fix: bad links in CI badges',
  'New: prefer Unicode arrows over LaTeX ones',
  'Updated README.md',
- 'Update',
- 'Doc update',
- 'Doc update',
- 'Doc update']
+ 'Update']
 
 The `sizes` attribute holds the (last) size of the respective element:
 
 >>> change_counter.sizes.get(('README.md',), None)
-10763
+14405
 
 `FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
 
-The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an interactive tree map that allows to explore the elements of a repository. The redder (darker) a rectangle, the more changes it has seen; the larger a rectangle, the larger its size in bytes.
+The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an interactive tree map that allows exploring the elements of a repository. The redder (darker) a rectangle, the more changes it has seen; the larger a rectangle, the larger its size in bytes.
 
 >>> fine_change_counter.map()
 
