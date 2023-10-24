@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2023-02-11 13:18:39+01:00
+# Last change: 2023-10-22 16:21:50+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -47,7 +47,7 @@ This chapter provides a `Slicer` class to automatically determine and visualize 
 * **Data dependency**: $x$ is assigned a value computed from $y$.
 * **Control dependency**: A statement involving $x$ is executed _only_ because a _condition_ involving $y$ was evaluated, influencing the execution path.
 
-Such dependencies are crucial for debugging, as they allow to determine the origins of individual values (and notably incorrect values). 
+Such dependencies are crucial for debugging, as they allow determininh the origins of individual values (and notably incorrect values).
 
 To determine dynamic dependencies in a function `func`, use
 

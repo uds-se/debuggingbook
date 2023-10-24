@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2023-02-11 11:03:17+01:00
+# Last change: 2023-10-22 16:21:03+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,7 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Tracer.html
 
-This chapter provides a `Tracer` class that allows to log events during program execution. The advanced subclass `EventTracer` allows restricting logs to specific conditions. Logs are shown only while the given `condition` holds:
+This chapter provides a `Tracer` class that allows logging events during program execution. The advanced subclass `EventTracer` allows restricting logs to specific conditions. Logs are shown only while the given `condition` holds:
 
 >>> with EventTracer(condition='line == 223 or len(out) >= 6'):
 >>>     remove_html_markup('foobar')
@@ -54,7 +54,7 @@ This chapter provides a `Tracer` class that allows to log events during program 
 remove_html_markup() returns 'foobar'
 
 
-It also allows to restrict logs to specific events. Log entries are shown only if one of the given `events` changes its value:
+It also allows restricting logs to specific events. Log entries are shown only if one of the given `events` changes its value:
 
 >>> with EventTracer(events=["c == '/'"]):
 >>>     remove_html_markup('foobar')

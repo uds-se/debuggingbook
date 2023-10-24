@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2023-02-11 11:15:13+01:00
+# Last change: 2023-10-22 16:24:18+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -358,7 +358,7 @@ def start_webdriver(browser: str = BROWSER, headless: bool = HEADLESS,
     if headless and browser == 'chrome':
         options.add_argument('headless')
     else:
-        options.headless = headless
+        options.headless = headless  # type: ignore
 
     # Start the browser, and obtain a _web driver_ object such that we can interact with it.
     if browser == 'firefox':
