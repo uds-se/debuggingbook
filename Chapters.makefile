@@ -8,6 +8,7 @@ PROJECT = debuggingbook
 BOOKTITLE = The Debugging Book
 AUTHORS = Andreas Zeller
 TWITTER = @Debugging_Book
+MASTODON = @TheDebuggingBook
 
 # Chapters to include in the book, in this order.
 # * Chapters in `..._PART` get published.
