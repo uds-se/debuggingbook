@@ -12002,7 +12002,7 @@ To do this, you will be given several Python parsers checking for specific prope
 
 <div class="inner_cell">
 <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://github.com/uds-se/debuggingbook//tree/master/notebooks/shared/bookutils" class="import" target="_blank">bookutils</a></span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn"><a href="https://github.com/uds-se/debuggingbook//tree/master/notebooks/shared/bookutils" class="import" target="_blank">bookutils.setup</a></span>
 </pre></div>
 
 </div>
@@ -12511,19 +12511,19 @@ So, let's implement a parser that first parses the source code into an AST and t
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;ast.FunctionDef object at 0x1069070d0&gt;
-&lt;ast.arguments object at 0x106907160&gt;
-&lt;ast.arg object at 0x1069070a0&gt;
-&lt;ast.arg object at 0x106907190&gt;
-&lt;ast.Constant object at 0x1069071f0&gt;
-&lt;ast.If object at 0x1069071c0&gt;
-&lt;ast.BoolOp object at 0x106907280&gt;
-&lt;ast.Name object at 0x106907070&gt;
-&lt;ast.Name object at 0x1069073a0&gt;
-&lt;ast.Return object at 0x106907610&gt;
-&lt;ast.Constant object at 0x106907640&gt;
-&lt;ast.Return object at 0x1069076a0&gt;
-&lt;ast.Constant object at 0x106907430&gt;
+<pre>&lt;ast.FunctionDef object at 0x10496b610&gt;
+&lt;ast.arguments object at 0x10496b640&gt;
+&lt;ast.arg object at 0x10496b5e0&gt;
+&lt;ast.arg object at 0x10496b670&gt;
+&lt;ast.Constant object at 0x10496b7c0&gt;
+&lt;ast.If object at 0x10496ac80&gt;
+&lt;ast.BoolOp object at 0x10496ac50&gt;
+&lt;ast.Name object at 0x10496ae30&gt;
+&lt;ast.Name object at 0x10496aec0&gt;
+&lt;ast.Return object at 0x10496aef0&gt;
+&lt;ast.Constant object at 0x10496afe0&gt;
+&lt;ast.Return object at 0x10496b010&gt;
+&lt;ast.Constant object at 0x10496ad70&gt;
 </pre>
 </div>
 
@@ -12605,12 +12605,12 @@ We simulate this behavior by extending our parser to throw an exception whenever
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;ast.FunctionDef object at 0x106906cb0&gt;
-&lt;ast.arguments object at 0x106906ce0&gt;
-&lt;ast.arg object at 0x106906bc0&gt;
-&lt;ast.arg object at 0x1069069b0&gt;
-&lt;ast.Constant object at 0x106906ef0&gt;
-&lt;ast.If object at 0x106906f80&gt;
+<pre>&lt;ast.FunctionDef object at 0x10496bf40&gt;
+&lt;ast.arguments object at 0x10496bc70&gt;
+&lt;ast.arg object at 0x10496bca0&gt;
+&lt;ast.arg object at 0x10496b730&gt;
+&lt;ast.Constant object at 0x10496b760&gt;
+&lt;ast.If object at 0x104969a80&gt;
 </pre>
 </div>
 
@@ -12620,9 +12620,9 @@ We simulate this behavior by extending our parser to throw an exception whenever
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/257518062.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/257518062.py&#34;, line 2, in &lt;cell line: 1&gt;
     SimpleParserPlus().parse(source)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2922974276.py&#34;, line 12, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2922974276.py&#34;, line 12, in parse
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
@@ -12630,19 +12630,19 @@ We simulate this behavior by extending our parser to throw an exception whenever
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2922974276.py&#34;, line 16, in visit_FunctionDef
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2922974276.py&#34;, line 16, in visit_FunctionDef
     self.generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 418, in generic_visit
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2922974276.py&#34;, line 24, in visit_If
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2922974276.py&#34;, line 24, in visit_If
     self.generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 420, in generic_visit
     self.visit(value)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1656391407.py&#34;, line 10, in visit_BoolOp
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1656391407.py&#34;, line 10, in visit_BoolOp
     raise ParserException(&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13220,11 +13220,11 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;ast.FunctionDef object at 0x1069061d0&gt;
-&lt;ast.arguments object at 0x1069044f0&gt;
-&lt;ast.arg object at 0x106904430&gt;
-&lt;ast.arg object at 0x106905900&gt;
-&lt;ast.Constant object at 0x106905960&gt;
+<pre>&lt;ast.FunctionDef object at 0x104969780&gt;
+&lt;ast.arguments object at 0x10496ae00&gt;
+&lt;ast.arg object at 0x104969990&gt;
+&lt;ast.arg object at 0x10496a080&gt;
+&lt;ast.Constant object at 0x104969b70&gt;
 </pre>
 </div>
 
@@ -13276,11 +13276,11 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;ast.FunctionDef object at 0x106907e20&gt;
-&lt;ast.arguments object at 0x106907580&gt;
-&lt;ast.arg object at 0x106906a40&gt;
-&lt;ast.arg object at 0x106907dc0&gt;
-&lt;ast.Constant object at 0x106906a70&gt;
+<pre>&lt;ast.FunctionDef object at 0x1049694e0&gt;
+&lt;ast.arguments object at 0x10496a5f0&gt;
+&lt;ast.arg object at 0x10496a0b0&gt;
+&lt;ast.arg object at 0x10496ad40&gt;
+&lt;ast.Constant object at 0x10496a6b0&gt;
 </pre>
 </div>
 
@@ -13290,9 +13290,9 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/3561000985.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/3561000985.py&#34;, line 2, in &lt;cell line: 1&gt;
     SimpleParserPlus().parse(new_source)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2922974276.py&#34;, line 12, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2922974276.py&#34;, line 12, in parse
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
@@ -13300,7 +13300,7 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2922974276.py&#34;, line 16, in visit_FunctionDef
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2922974276.py&#34;, line 16, in visit_FunctionDef
     self.generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 418, in generic_visit
     self.visit(item)
@@ -13310,7 +13310,7 @@ Let's apply it to the source code of our <code>foo</code> function:</p>
     self.visit(value)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1656391407.py&#34;, line 10, in visit_BoolOp
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1656391407.py&#34;, line 10, in visit_BoolOp
     raise ParserException(&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13527,11 +13527,11 @@ If you pass all of those tests <strong>without hardcoding the modifications</str
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2806337694.py&#34;, line 5, in &lt;cell line: 4&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2806337694.py&#34;, line 5, in &lt;cell line: 4&gt;
     parser1.parse(input_program)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 9, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 9, in parse
     self.parse_tree(tree)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 5, in parse_tree
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 5, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
@@ -13543,7 +13543,7 @@ If you pass all of those tests <strong>without hardcoding the modifications</str
     self.visit(value)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2980862917.py&#34;, line 7, in visit_BoolOp
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2980862917.py&#34;, line 7, in visit_BoolOp
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13643,11 +13643,11 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1476831468.py&#34;, line 9, in &lt;cell line: 8&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1476831468.py&#34;, line 9, in &lt;cell line: 8&gt;
     parser2.parse(input_program)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 9, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 9, in parse
     self.parse_tree(tree)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 5, in parse_tree
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 5, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
@@ -13655,7 +13655,7 @@ ParserException: Something went wrong (expected)
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1684278366.py&#34;, line 6, in visit_If
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1684278366.py&#34;, line 6, in visit_If
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13725,29 +13725,29 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/951683174.py&#34;, line 6, in &lt;cell line: 5&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/951683174.py&#34;, line 6, in &lt;cell line: 5&gt;
     parser3.parse(input_program)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 9, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 9, in parse
     self.parse_tree(tree)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 5, in parse_tree
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 5, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2904791116.py&#34;, line 15, in generic_visit
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2904791116.py&#34;, line 15, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 418, in generic_visit
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2904791116.py&#34;, line 20, in visit_Assign
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2904791116.py&#34;, line 20, in visit_Assign
     self.generic_visit(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2904791116.py&#34;, line 15, in generic_visit
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2904791116.py&#34;, line 15, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 420, in generic_visit
     self.visit(value)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2904791116.py&#34;, line 26, in visit_Constant
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2904791116.py&#34;, line 26, in visit_Constant
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13820,29 +13820,29 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1261297070.py&#34;, line 7, in &lt;cell line: 6&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1261297070.py&#34;, line 7, in &lt;cell line: 6&gt;
     parser4.parse(input_program)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 9, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 9, in parse
     self.parse_tree(tree)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 5, in parse_tree
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 5, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/3413124393.py&#34;, line 13, in generic_visit
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/3413124393.py&#34;, line 13, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 418, in generic_visit
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/3413124393.py&#34;, line 28, in visit_Assign
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/3413124393.py&#34;, line 28, in visit_Assign
     self.generic_visit(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/3413124393.py&#34;, line 13, in generic_visit
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/3413124393.py&#34;, line 13, in generic_visit
     super().generic_visit(node)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 420, in generic_visit
     self.visit(value)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/3413124393.py&#34;, line 23, in visit_Name
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/3413124393.py&#34;, line 23, in visit_Name
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -13893,11 +13893,11 @@ ParserException: Something went wrong (expected)
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/3158638464.py&#34;, line 6, in &lt;cell line: 5&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/3158638464.py&#34;, line 6, in &lt;cell line: 5&gt;
     parser5.parse(input_program)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 9, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 9, in parse
     self.parse_tree(tree)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 5, in parse_tree
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 5, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
@@ -13921,7 +13921,7 @@ ParserException: Something went wrong (expected)
     self.visit(item)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/4175947920.py&#34;, line 7, in visit_List
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/4175947920.py&#34;, line 7, in visit_List
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -14192,11 +14192,11 @@ def original():
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1292946598.py&#34;, line 2, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1292946598.py&#34;, line 2, in &lt;cell line: 1&gt;
     test.parser.parse(source)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 9, in parse
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 9, in parse
     self.parse_tree(tree)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/1737200860.py&#34;, line 5, in parse_tree
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/1737200860.py&#34;, line 5, in parse_tree
     self.visit(tree)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
@@ -14220,7 +14220,7 @@ def original():
     self.visit(value)
   File &#34;/Users/zeller/.pyenv/versions/3.10.2/lib/python3.10/ast.py&#34;, line 410, in visit
     return visitor(node)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_50647/2980862917.py&#34;, line 7, in visit_BoolOp
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_57532/2980862917.py&#34;, line 7, in visit_BoolOp
     raise ParserException(f&#34;Something went wrong&#34;)
 ParserException: Something went wrong (expected)
 </pre>
@@ -15180,7 +15180,7 @@ Hint: For instance, you can find useful <em>Hierarchical Delta Debugging</em> pa
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Reducing_Code.ipynb" target=_blank)>Last change: 2023-10-16 19:41:49+02:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Reducing_Code.ipynb" target=_blank)>Last change: 2023-11-11 18:05:06+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -15196,7 +15196,7 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Reducing_Code.html">Second Project</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Reducing_Code.html">https://www.debuggingbook.org/beta/html/Reducing_Code.html</a>.  Retrieved 2023-10-16 19:41:49+02:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Reducing_Code.html">Second Project</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/beta/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/beta/html/Reducing_Code.html">https://www.debuggingbook.org/beta/html/Reducing_Code.html</a>.  Retrieved 2023-11-11 18:05:06+01:00.
 </p>
 <pre>
 @incollection{debuggingbook2023:Reducing_Code,
@@ -15206,9 +15206,9 @@ Andreas Zeller: "<a href="https://www.debuggingbook.org/beta/html/Reducing_Code.
     year = {2023},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/beta/html/Reducing_Code.html}},
-    note = {Retrieved 2023-10-16 19:41:49+02:00},
+    note = {Retrieved 2023-11-11 18:05:06+01:00},
     url = {https://www.debuggingbook.org/beta/html/Reducing_Code.html},
-    urldate = {2023-10-16 19:41:49+02:00}
+    urldate = {2023-11-11 18:05:06+01:00}
 }
 </pre>
 </div>
