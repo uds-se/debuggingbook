@@ -142,13 +142,15 @@ export default class SlideContent {
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( source => {
+						const sourceElement = document.createElement( 'source' );
+						sourceElement.setAttribute( 'src', source );
+
 						let type = getMimeTypeFromFile( source );
 						if( type ) {
-							video.innerHTML += `<source src="${source}" type="${type}">`;
+							sourceElement.setAttribute( 'type', type );
 						}
-						else {
-							video.innerHTML += `<source src="${source}">`;
-						}
+
+						video.appendChild( sourceElement );
 					} );
 
 					backgroundContent.appendChild( video );
@@ -373,8 +375,11 @@ export default class SlideContent {
 			isVisible  		= !!closest( event.target, '.present' );
 
 		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
-			event.target.play();
+			// Don't restart if media is already playing
+			if( event.target.paused || event.target.ended ) {
+				event.target.currentTime = 0;
+				event.target.play();
+			}
 		}
 
 		event.target.removeEventListener( 'loadeddata', this.startEmbeddedMedia );

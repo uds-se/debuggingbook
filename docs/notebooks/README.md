@@ -66,6 +66,6 @@ This work is designed as a _textbook_ for a course in software debugging; as _su
 
 ## News
 
-This book is _work in progress_, with new chapters being released every week. To get notified on updates, <a href="https://mastodon.social/invite/P27cijZH">follow us on Mastodon</a>.
+This book is _work in progress._  All chapters planned are out now, but we keep on refining text and code with [minor and major releases.](https://www.debuggingbook.org/html/ReleaseNotes.html) To get notified on updates, <a href="https://mastodon.social/@TheDebuggingBook">follow us on Mastodon</a>.
 
 <!--
