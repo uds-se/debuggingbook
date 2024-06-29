@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2024-01-17 22:32:38+01:00
+# Last change: 2024-05-16 16:01:06+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -96,9 +96,9 @@ def remove_html_markup(s):  # type: ignore
 >>> with ExpectError(AssertionError):
 >>>     test()
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_46013/4262003862.py", line 3, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_71556/4262003862.py", line 3, in 
     test()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_46013/3045937450.py", line 2, in test
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_71556/3045937450.py", line 2, in test
     assert remove_html_markup('"foo"') == '"foo"'
 AssertionError (expected)
 
