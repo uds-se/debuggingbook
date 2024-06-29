@@ -13,3 +13,7 @@ These files can also be used to create a conda environment for the book as follo
 conda env create -f binder/environment.yml
 source activate debuggingbook
 ```
+
+The provided `Dockerfile` allows creating a lightweight Docker image -
+especially for `mybinder`, where the default `repo2docker` script
+takes too long to execute.
