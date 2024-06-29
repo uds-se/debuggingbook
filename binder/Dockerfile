@@ -22,7 +22,7 @@ ARG REPO=https://github.com/uds-se/${PROJECT}.git
 
 # Install git and pip
 RUN apt-get update
-RUN apt-get install -y git python3 pip gcc
+RUN apt-get install -y git python3 pip npm gcc
 
 # Some version info
 RUN echo "This is ${PROJECT} with $(python3 --version)"
