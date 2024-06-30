@@ -1265,12 +1265,13 @@ binder/binder.log: .FORCE
 DOCKER_USERNAME = zeller24
 GIT_HASH = $(shell git log --format="%h" -n 1)
 DOCKER_TAG = $(DOCKER_USERNAME)/$(PROJECT)
+DOCKER_PLATFORM = linux/amd64,linux/arm64
 DOCKERFILE = binder/Dockerfile
 JUPYTER_TOKEN=$(PROJECT)
 JUPYTER_PORT=8888
 
 docker-image: $(DOCKERFILE) $(SOURCES)
-	docker build --tag $(DOCKER_TAG) binder
+	docker build --tag $(DOCKER_TAG) --platform $(DOCKER_PLATFORM) binder
 
 docker-shell: docker-image
 	docker run -it --rm $(DOCKER_TAG) bash
