@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2024-05-16 15:59:28+02:00
+# Last change: 2024-06-30 19:20:09+02:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
