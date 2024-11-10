@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2024-06-30 19:20:03+02:00
+# Last change: 2024-11-09 17:10:28+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -396,6 +396,7 @@ class ConditionalTracer(Tracer):
 
         if condition is None:
             condition = 'False'
+        assert isinstance(condition, str)
 
         self.condition: str = condition
         self.last_report: Optional[bool] = None
@@ -481,6 +482,7 @@ class EventTracer(ConditionalTracer):
     def __init__(self, *, condition: Optional[str] = None,
                  events: List[str] = [], file: TextIO = sys.stdout) -> None:
         """Constructor. `events` is a list of expressions to watch."""
+        assert isinstance(events, List)  # avoid type errors
         self.events = events
         self.last_event_values: Dict[str, Any] = {}
         super().__init__(file=file, condition=condition)

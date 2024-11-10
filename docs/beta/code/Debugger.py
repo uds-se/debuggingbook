@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2024-06-30 19:20:09+02:00
+# Last change: 2024-11-09 17:10:36+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -57,9 +57,9 @@ Calling remove_html_markup(s = 'abc')
 
 (debugger) help
 
-break      -- Set a breakoint in given line. If no line is given, list all breakpoints
+break      -- Set a breakpoint in given line. If no line is given, list all breakpoints
 continue   -- Resume execution
-delete     -- Delete breakoint in line given by `arg`.
+delete     -- Delete breakpoint in line given by `arg`.
            Without given line, clear all breakpoints
 help       -- Give help on given `command`. If no command is given, give help on all
 list       -- Show current function. If `arg` is given, show its source code.
@@ -465,7 +465,7 @@ if __name__ == '__main__':
 
 class Debugger(Debugger):
     def break_command(self, arg: str = "") -> None:
-        """Set a breakoint in given line. If no line is given, list all breakpoints"""
+        """Set a breakpoint in given line. If no line is given, list all breakpoints"""
 
         if arg:
             self.breakpoints.add(int(arg))
@@ -502,7 +502,7 @@ if __name__ == '__main__':
 
 class Debugger(Debugger):
     def delete_command(self, arg: str = "") -> None:
-        """Delete breakoint in line given by `arg`.
+        """Delete breakpoint in line given by `arg`.
            Without given line, clear all breakpoints"""
 
         if arg:
