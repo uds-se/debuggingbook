@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2024-06-30 19:20:52+02:00
+# Last change: 2024-11-09 17:11:19+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -976,11 +976,11 @@ from ast import Module, Load, Store, \
 def make_get_data(id: str, method: str = 'get') -> Call:
     return Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()), 
                                attr=method, ctx=Load()),
-                args=[ast.Str(s=id), Name(id=id, ctx=Load())],
+                args=[ast.Str(id), Name(id=id, ctx=Load())],
                 keywords=[])
 
 if __name__ == '__main__':
-    show_ast(Module(body=[make_get_data("x")]))
+    show_ast(Module(body=[make_get_data("x")], type_ignores=[]))  # type: ignore
 
 if __name__ == '__main__':
     print(ast.dump(ast.parse("_data.get('x', x)")))
@@ -1066,7 +1066,7 @@ def make_set_data(id: str, value: Any,
 
     new_node = Call(func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()),
                                    attr=method, ctx=Load()),
-                    args=[ast.Str(s=id), value],
+                    args=[ast.Str(id), value],
                     keywords=keywords)
 
     ast.copy_location(new_node, value)
@@ -1429,7 +1429,7 @@ class TrackCallTransformer(NodeTransformer):
                                               ctx=Load()),
                                    attr=func,
                                    ctx=Load()),
-                     args=[node],
+                     args=[node],  # type: ignore
                      keywords=keywords)
 
     def visit_Call(self, node: Call) -> Call:
@@ -1562,11 +1562,11 @@ class TrackParamsTransformer(NodeTransformer):
 
         create_stmts = []
         for n, child in enumerate(named_args):
-            keywords=[keyword(arg='pos', value=ast.Num(n=n + 1))]
+            keywords=[keyword(arg='pos', value=ast.Num(n + 1))]
             if child is node.args.vararg:
-                keywords.append(keyword(arg='vararg', value=ast.Str(s='*')))
+                keywords.append(keyword(arg='vararg', value=ast.Str('*')))
             if child is node.args.kwarg:
-                keywords.append(keyword(arg='vararg', value=ast.Str(s='**')))
+                keywords.append(keyword(arg='vararg', value=ast.Str('**')))
             if n == len(named_args) - 1:
                 keywords.append(keyword(arg='last',
                                         value=ast.NameConstant(value=True)))
@@ -1575,7 +1575,7 @@ class TrackParamsTransformer(NodeTransformer):
                 value=Call(
                     func=Attribute(value=Name(id=DATA_TRACKER, ctx=Load()),
                                    attr='param', ctx=Load()),
-                    args=[ast.Str(s=child.arg),
+                    args=[ast.Str(child.arg),
                           Name(id=child.arg, ctx=Load())
                          ],
                     keywords=keywords

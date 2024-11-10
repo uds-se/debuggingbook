@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2024-06-30 18:45:54+02:00
+# Last change: 2024-11-09 17:47:41+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -500,7 +500,7 @@ class StatementMutator(StatementMutator):
         self.mutations += 1
 
         if self.log:
-            print(f"{node.lineno:4}:{op.__name__ + ':':7} "
+            print(f"{node.lineno:4}:{op.__name__ + ':':7} "  # type: ignore
                   f"{self.format_node(node)} "
                   f"becomes {self.format_node(new_node)}")
 
