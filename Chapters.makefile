@@ -18,7 +18,7 @@ MASTODON = @TheDebuggingBook
 
 # Chapter(s) to be marked as "new" in menu
 NEW_CHAPTERS = \
-
+	Alhazen.ipynb
 
 # Introduction
 INTRO_PART = \
@@ -61,7 +61,8 @@ ABSTRACTING_PART = \
 	DDSetDebugger.ipynb \
 	PerformanceDebugger.ipynb
 ABSTRACTING_PART_READY = 
-ABSTRACTING_PART_TODO = 
+ABSTRACTING_PART_TODO = \
+	Alhazen.ipynb
 
 # Repairing Failures
 REPAIRING_PART = \
