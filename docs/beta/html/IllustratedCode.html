@@ -11634,6 +11634,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
 .highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
 .highlight .gr { color: #E40000 } /* Generic.Error */
 .highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .highlight .gi { color: #008400 } /* Generic.Inserted */
@@ -11900,6 +11901,7 @@ MathJax.Hub.Config({
 <li><a href="DynamicInvariants.html">Mining Function Specifications</a></li>
 <li><a href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
 <li><a href="PerformanceDebugger.html">Debugging Performance Issues</a></li>
+<li><a href="Alhazen.html">Learning from Failures <strong class="new_chapter">&bull;</strong>&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Repairer.html">Repairing Code Automatically</a></li>
@@ -12188,11 +12190,11 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
         <span class="n">members</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">fun</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fun</span><span class="p">)</span> <span class="ow">in</span> <span class="n">getmembers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cls</span><span class="p">)</span>
                    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)]</span>
         <span class="n">attributes</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;  -</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">member</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-                                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span> <span class="ow">in</span> <span class="n">members</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span> <span class="ow">in</span> <span class="n">members</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
                                 <span class="p">])</span>
 
         <span class="n">methods</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;  +</span><span class="si">{</span><span class="n">name</span><span class="si">}{</span><span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">member</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; -&gt; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
-                             <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span> <span class="ow">in</span> <span class="n">members</span> <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+                             <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span> <span class="ow">in</span> <span class="n">members</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
                              <span class="p">])</span>
         <span class="k">return</span> <span class="n">attributes</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">methods</span>
 
@@ -12632,7 +12634,7 @@ Server--&gt;&gt;-Client: 5
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.15437058231327683
+<pre>0.11545219062827528
 </pre>
 </div>
 
@@ -12656,7 +12658,7 @@ Server--&gt;&gt;-Client: 5
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.246705659723375
+<pre>0.26901430229190737
 </pre>
 </div>
 
@@ -13181,17 +13183,17 @@ sequenceDiagram
 Client-&gt;&gt;+Server: middle(z=20, y=50, x=30)
 Server--&gt;&gt;-Client: 30
 Client-&gt;&gt;+Server: __del__(self=middle)
-Client-&gt;&gt;+Server: ref(self=&lt;z3.z3.Context object at 0x13d3019c0&gt;)
-Server--&gt;&gt;-Client: &lt;ContextObj object at 0x13d2d8a40&gt;
-Client-&gt;&gt;+Server: ref(self=&lt;z3.z3.Context object at 0x13d3019c0&gt;)
-Server--&gt;&gt;-Client: &lt;ContextObj object at 0x13d2d8a40&gt;
+Client-&gt;&gt;+Server: ref(self=&lt;z3.z3.Context object at 0x11a8b9370&gt;)
+Server--&gt;&gt;-Client: &lt;ContextObj object at 0x11a9a1dd0&gt;
+Client-&gt;&gt;+Server: ref(self=&lt;z3.z3.Context object at 0x11a8b9370&gt;)
+Server--&gt;&gt;-Client: &lt;ContextObj object at 0x11a9a1dd0&gt;
 Client-&gt;&gt;+Server: as_ast(self=middle)
-Server--&gt;&gt;-Client: &lt;Ast object at 0x13d2d8cc0&gt;
-Client-&gt;&gt;+Server: Z3_dec_ref(_elems=&lt;z3.z3core.Elementaries object at 0x13d27e1a0&gt;, a1=&lt;Ast object at 0x13d2d8cc0&gt;, a0=&lt;ContextObj object at 0x13d2d8a40&gt;)
-Client-&gt;&gt;+Server: from_param(obj=&lt;ContextObj object at 0x13d2d8a40&gt;)
-Server--&gt;&gt;-Client: &lt;ContextObj object at 0x13d2d8a40&gt;
-Client-&gt;&gt;+Server: from_param(obj=&lt;Ast object at 0x13d2d8cc0&gt;)
-Server--&gt;&gt;-Client: &lt;Ast object at 0x13d2d8cc0&gt;
+Server--&gt;&gt;-Client: &lt;Ast object at 0x11a9a20d0&gt;
+Client-&gt;&gt;+Server: Z3_dec_ref(_elems=&lt;z3.z3core.Elementaries object at 0x11a8ba8a0&gt;, a1=&lt;Ast object at 0x11a9a20d0&gt;, a0=&lt;ContextObj object at 0x11a9a1dd0&gt;)
+Client-&gt;&gt;+Server: from_param(obj=&lt;ContextObj object at 0x11a9a1dd0&gt;)
+Server--&gt;&gt;-Client: &lt;ContextObj object at 0x11a9a1dd0&gt;
+Client-&gt;&gt;+Server: from_param(obj=&lt;Ast object at 0x11a9a20d0&gt;)
+Server--&gt;&gt;-Client: &lt;Ast object at 0x11a9a20d0&gt;
 Server--&gt;&gt;-Client
 Server--&gt;&gt;-Client</code></pre>
 

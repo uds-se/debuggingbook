@@ -14,6 +14,7 @@
 # from . import DynamicInvariants
 # from . import DDSetDebugger
 # from . import PerformanceDebugger
+# from . import Alhazen
 # from . import Repairer
 # from . import Tracking
 # from . import ChangeCounter

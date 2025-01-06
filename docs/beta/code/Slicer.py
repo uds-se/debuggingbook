@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2024-11-09 17:11:19+01:00
+# Last change: 2025-01-06 13:59:49+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -67,25 +67,48 @@ Here is an example. The `demo()` function computes some number from `x`:
 
 >>> def demo(x: int) -> int:
 >>>     z = x
->>>     while x >>         z *= 2
+>>>     while x <= z <= 64:
+>>>         z *= 2
 >>>     return z
 
 By using `with Slicer()`, we first instrument `demo()` and then execute it:
 
 >>> with Slicer() as slicer:
 >>>     demo(10)
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12030/2454789564.py:22: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+  args=[ast.Str(id), value],
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12030/3554319793.py:4: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+  args=[ast.Str(id), Name(id=id, ctx=Load())],
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12030/882995308.py:12: DeprecationWarning: ast.Num is deprecated and will be removed in Python 3.14; use ast.Constant instead
+  keywords=[keyword(arg='pos', value=ast.Num(n + 1))]
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12030/882995308.py:19: DeprecationWarning: ast.NameConstant is deprecated and will be removed in Python 3.14; use ast.Constant instead
+  value=ast.NameConstant(value=True)))
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12030/882995308.py:25: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+  args=[ast.Str(child.arg),
+
 
 After execution is complete, you can output `slicer` to visualize the dependencies and flows as graph. Data dependencies are shown as black solid edges; control dependencies are shown as grey dashed edges. The arrows indicate influence: If $y$ depends on $x$ (and thus $x$ flows into $y$), then we have an arrow $x \rightarrow y$.
 We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
 
 >>> slicer
-An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `>> slicer.code()
-*    1 def demo(x: int) -> int:
-*    2     z = x  #  (3)
-*    5     return z  # >> slicer.dependencies().all_vars()
+An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `<-`; locations (lines) are shown in parentheses.
+
+>>> slicer.code()
+     1 def demo(x: int) -> int:
+*    2     z = x  # <= x (5)
+*    3     while x <= z <= 64:  # <= z (2), z (4), x (5)
+*    4         z *= 2  # <= z (4), z (2); <-  (3)
+*    5     return z  # <= z (4)
+
+
+Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
+
+The method `all_vars()` returns all variables in the dependency graph. Each variable is encoded as a pair (_name_, _location_) where _location_ is a pair (_codename_, _lineno_).
+
+>>> slicer.dependencies().all_vars()
 {('', ( int>, 5)),
  ('', ( int>, 3)),
- ('x', ( int>, 1)),
+ ('x', ( int>, 5)),
  ('z', ( int>, 2)),
  ('z', ( int>, 4))}
 

@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2024-11-09 17:34:13+01:00
+# Last change: 2025-01-06 18:59:06+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -552,7 +552,7 @@ class TypeTransformer(TypeTransformer):
         return ast.copy_location(
             ast.FunctionDef(node.name, new_arguments,
                             node.body, node.decorator_list,
-                            node.returns), node)
+                            node.returns), node)  # type: ignore
 
 class TypeTransformer(TypeTransformer):
     def annotate_arg(self, arg: ast.arg) -> ast.arg:

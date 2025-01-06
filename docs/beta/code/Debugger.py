@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2024-11-09 17:10:36+01:00
+# Last change: 2025-01-06 18:54:29+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -58,13 +58,20 @@ Calling remove_html_markup(s = 'abc')
 (debugger) help
 
 break      -- Set a breakpoint in given line. If no line is given, list all breakpoints
+
 continue   -- Resume execution
+
 delete     -- Delete breakpoint in line given by `arg`.
            Without given line, clear all breakpoints
+
 help       -- Give help on given `command`. If no command is given, give help on all
+
 list       -- Show current function. If `arg` is given, show its source code.
+
 print      -- Print an expression. If no expression is given, print all variables
+
 quit       -- Finish execution
+
 step       -- Execute up to the next line
 
 
@@ -76,30 +83,49 @@ Breakpoints: {14}
 (debugger) list
 
    1> def remove_html_markup(s):  # type: ignore
+
    2      tag = False
+
    3      quote = False
+
    4      out = ""
+
    5  
+
    6      for c in s:
-   7          if c == '' and not quote:
+
+   7          if c == '<' and not quote:
+
+   8              tag = True
+
+   9          elif c == '>' and not quote:
+
   10              tag = False
+
   11          elif c == '"' or c == "'" and tag:
+
   12              quote = not quote
+
   13          elif not tag:
+
   14#             out = out + c
+
   15  
+
   16      return out
 
 
 (debugger) continue
 
                                          # tag = False, quote = False, out = '', c = 'a'
+
 14             out = out + c
 
 
 (debugger) step
 
                                          # out = 'a'
+
 6     for c in s:
 
 

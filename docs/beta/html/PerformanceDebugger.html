@@ -11634,6 +11634,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
 .highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
 .highlight .gr { color: #E40000 } /* Generic.Error */
 .highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .highlight .gi { color: #008400 } /* Generic.Inserted */
@@ -11900,6 +11901,7 @@ MathJax.Hub.Config({
 <li><a href="DynamicInvariants.html">Mining Function Specifications</a></li>
 <li><a href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
 <li><a href="PerformanceDebugger.html" class="this_page">Debugging Performance Issues</a></li>
+<li><a href="Alhazen.html">Learning from Failures <strong class="new_chapter">&bull;</strong>&nbsp;<i class="fa fa-fw fa-wrench"></i></a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
 <li><a href="Repairer.html">Repairing Code Automatically</a></li>
@@ -12081,69 +12083,69 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 </pre></div>
 <p>The distribution of executed time within each function can be obtained by printing out the debugger:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span>
- <span class="mi">238</span>   <span class="mi">2</span><span class="o">%</span> <span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+ <span class="mi">238</span>   <span class="mi">3</span><span class="o">%</span> <span class="k">def</span> <span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
  <span class="mi">239</span>   <span class="mi">2</span><span class="o">%</span>     <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
- <span class="mi">240</span>   <span class="mi">1</span><span class="o">%</span>     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
- <span class="mi">241</span>   <span class="mi">1</span><span class="o">%</span>     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+ <span class="mi">240</span>   <span class="mi">2</span><span class="o">%</span>     <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+ <span class="mi">241</span>   <span class="mi">2</span><span class="o">%</span>     <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
  <span class="mi">242</span>   <span class="mi">0</span><span class="o">%</span>
  <span class="mi">243</span>  <span class="mi">16</span><span class="o">%</span>     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
- <span class="mi">244</span>  <span class="mi">15</span><span class="o">%</span>         <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
+ <span class="mi">244</span>  <span class="mi">14</span><span class="o">%</span>         <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
  <span class="mi">245</span>   <span class="mi">0</span><span class="o">%</span>
- <span class="mi">246</span>  <span class="mi">15</span><span class="o">%</span>         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
- <span class="mi">247</span>   <span class="mi">3</span><span class="o">%</span>             <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+ <span class="mi">246</span>  <span class="mi">16</span><span class="o">%</span>         <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+ <span class="mi">247</span>   <span class="mi">2</span><span class="o">%</span>             <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
  <span class="mi">248</span>  <span class="mi">12</span><span class="o">%</span>         <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
- <span class="mi">249</span>   <span class="mi">3</span><span class="o">%</span>             <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
- <span class="mi">250</span>   <span class="mi">9</span><span class="o">%</span>         <span class="k">elif</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+ <span class="mi">249</span>   <span class="mi">2</span><span class="o">%</span>             <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+ <span class="mi">250</span>   <span class="mi">8</span><span class="o">%</span>         <span class="k">elif</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
  <span class="mi">251</span>   <span class="mi">0</span><span class="o">%</span>             <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
- <span class="mi">252</span>   <span class="mi">9</span><span class="o">%</span>         <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+ <span class="mi">252</span>   <span class="mi">8</span><span class="o">%</span>         <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
  <span class="mi">253</span>   <span class="mi">4</span><span class="o">%</span>             <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
  <span class="mi">254</span>   <span class="mi">0</span><span class="o">%</span>
- <span class="mi">255</span>   <span class="mi">3</span><span class="o">%</span>     <span class="k">return</span> <span class="n">out</span>
+ <span class="mi">255</span>   <span class="mi">2</span><span class="o">%</span>     <span class="k">return</span> <span class="n">out</span>
 </pre></div>
 <p>The sum of all percentages in a function should always be 100%.</p>
 <p>These percentages can also be visualized, where darker shades represent higher percentage values:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">debugger</span>
 </pre></div>
-<pre style="background-color:hsl(240, 100%, 96.54538598173339%)"
-                    title="Line 238:   2% 0.0002517958637326956"> 238 def remove_html_markup(s):  # type: ignore</pre>
-<pre style="background-color:hsl(240, 100%, 96.91190176029731%)"
-                    title="Line 239:   2% 0.00022508169058710337"> 239     tag = False</pre>
-<pre style="background-color:hsl(240, 100%, 97.12121408142016%)"
-                    title="Line 240:   1% 0.00020982557907700539"> 240     quote = False</pre>
-<pre style="background-color:hsl(240, 100%, 97.38009171479449%)"
-                    title="Line 241:   1% 0.00019095680909231305"> 241     out = &quot;&quot;</pre>
+<pre style="background-color:hsl(240, 100%, 95.45443653245525%)"
+                    title="Line 238:   3% 0.0004182531265541911"> 238 def remove_html_markup(s):  # type: ignore</pre>
+<pre style="background-color:hsl(240, 100%, 95.8645987081311%)"
+                    title="Line 239:   2% 0.00038051267620176077"> 239     tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 96.11972851876378%)"
+                    title="Line 240:   2% 0.0003570372937247157"> 240     quote = False</pre>
+<pre style="background-color:hsl(240, 100%, 96.58065298919597%)"
+                    title="Line 241:   2% 0.0003146260278299451"> 241     out = &quot;&quot;</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 242:   0% 0.0"> 242 &nbsp;</pre>
 <pre style="background-color:hsl(240, 100%, 75.0%)"
-                    title="Line 243:  16% 0.001822170743253082"> 243     for c in s:</pre>
-<pre style="background-color:hsl(240, 100%, 77.51545257406606%)"
-                    title="Line 244:  15% 0.0016388273797929287"> 244         assert tag or not quote</pre>
+                    title="Line 243:  16% 0.002300337073393166"> 243     for c in s:</pre>
+<pre style="background-color:hsl(240, 100%, 78.4867150360493%)"
+                    title="Line 244:  14% 0.001979512278921902"> 244         assert tag or not quote</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 245:   0% 0.0"> 245 &nbsp;</pre>
-<pre style="background-color:hsl(240, 100%, 77.77102878150231%)"
-                    title="Line 246:  15% 0.0016201992402784526"> 246         if c == &#x27;&lt;&#x27; and not quote:</pre>
-<pre style="background-color:hsl(240, 100%, 95.53072538253497%)"
-                    title="Line 247:   3% 0.0003257512580603361"> 247             tag = True</pre>
-<pre style="background-color:hsl(240, 100%, 81.66786776599199%)"
-                    title="Line 248:  12% 0.0013361710007302463"> 248         elif c == &#x27;&gt;&#x27; and not quote:</pre>
-<pre style="background-color:hsl(240, 100%, 95.43021876458948%)"
-                    title="Line 249:   3% 0.0003330768668092787"> 249             tag = False</pre>
-<pre style="background-color:hsl(240, 100%, 86.69221797844442%)"
-                    title="Line 250:   9% 0.0009699620422907174"> 250         elif (c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot;) and tag:</pre>
+<pre style="background-color:hsl(240, 100%, 75.39386641882271%)"
+                    title="Line 246:  16% 0.0022640960523858666"> 246         if c == &#x27;&lt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.6590861876001%)"
+                    title="Line 247:   2% 0.0003994225990027189"> 247             tag = True</pre>
+<pre style="background-color:hsl(240, 100%, 81.64631932244065%)"
+                    title="Line 248:  12% 0.0016887860838323832"> 248         elif c == &#x27;&gt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.72394279379617%)"
+                    title="Line 249:   2% 0.0003934549167752266"> 249             tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 87.21994767645027%)"
+                    title="Line 250:   8% 0.001175937126390636"> 250         elif (c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot;) and tag:</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 251:   0% 0.0"> 251             quote = not quote</pre>
-<pre style="background-color:hsl(240, 100%, 86.27739069477047%)"
-                    title="Line 252:   9% 0.0010001974878832698"> 252         elif not tag:</pre>
-<pre style="background-color:hsl(240, 100%, 93.41560544270493%)"
-                    title="Line 253:   4% 0.00047991564497351646"> 253             out = out + c</pre>
+<pre style="background-color:hsl(240, 100%, 87.0492243194434%)"
+                    title="Line 252:   8% 0.001191645977087319"> 252         elif not tag:</pre>
+<pre style="background-color:hsl(240, 100%, 93.69060557208607%)"
+                    title="Line 253:   4% 0.0005805493565276265"> 253             out = out + c</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 254:   0% 0.0"> 254 &nbsp;</pre>
-<pre style="background-color:hsl(240, 100%, 95.54790573478608%)"
-                    title="Line 255:   3% 0.0003244990366511047"> 255     return out</pre><p>The abstract <code>MetricCollector</code> class allows subclassing to build more collectors, such as <code>HitCollector</code>.</p>
+<pre style="background-color:hsl(240, 100%, 95.78628292014902%)"
+                    title="Line 255:   2% 0.00038771878462284803"> 255     return out</pre><p>The abstract <code>MetricCollector</code> class allows subclassing to build more collectors, such as <code>HitCollector</code>.</p>
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 12.1.1 (20240910.0053)
+<!-- Generated by graphviz version 12.2.1 (20241206.2353)
  -->
 <!-- Pages: 1 -->
 <svg width="552pt" height="590pt"
@@ -12572,7 +12574,7 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>349.07027487503365
+<pre>106.61573462490924
 </pre>
 </div>
 
@@ -12626,536 +12628,653 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>         22156263 function calls (21994125 primitive calls) in 363.626 seconds
+<pre>         37551352 function calls (37365739 primitive calls) in 115.767 seconds
 
    Ordered by: cumulative time
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-        1    0.000    0.000  363.626  363.626 {built-in method builtins.exec}
-        1    0.000    0.000  363.626  363.626 &lt;string&gt;:1(&lt;module&gt;)
-        1    0.000    0.000  363.625  363.625 ChangeCounter.ipynb:168(debuggingbook_change_counter)
-        1    0.002    0.002  363.625  363.625 ChangeCounter.ipynb:51(__init__)
-        1    1.974    1.974  363.624  363.624 ChangeCounter.ipynb:88(mine)
-     1270    0.048    0.000  361.208    0.284 ChangeCounter.ipynb:102(mine_commit)
-     1270    0.123    0.000  360.621    0.284 commit.py:680(modified_files)
-     1270    0.049    0.000  360.496    0.284 commit.py:696(_get_modified_files)
-     1270    0.199    0.000  203.833    0.160 commit.py:730(_parse_diff)
-    26940    0.080    0.000  200.031    0.007 commit.py:759(_get_undecoded_content)
-    89938    0.200    0.000  197.360    0.002 cmd.py:528(read)
-    76010    0.046    0.000  197.245    0.003 base.py:137(read)
-   179854  197.144    0.001  197.144    0.001 {method &#39;read&#39; of &#39;_io.BufferedReader&#39; objects}
-     1220    0.310    0.000  156.512    0.128 diff.py:95(diff)
-     1220   21.631    0.018  142.688    0.117 diff.py:445(_index_from_patch_format)
-     1220    0.088    0.000   96.655    0.079 cmd.py:71(handle_process_output)
-    12302   95.982    0.008   95.982    0.008 {method &#39;acquire&#39; of &#39;_thread.lock&#39; objects}
-     2442    0.017    0.000   95.787    0.039 threading.py:1057(join)
-     2442    0.017    0.000   95.766    0.039 threading.py:1095(_wait_for_tstate_lock)
-    13470    0.154    0.000   23.218    0.002 diff.py:290(__init__)
-    12658    0.030    0.000   22.744    0.002 base.py:363(submodules)
-    12658    0.068    0.000   22.714    0.002 util.py:1092(list_items)
-26228/26225    0.049    0.000   22.626    0.001 {method &#39;extend&#39; of &#39;list&#39; objects}
-    37974    0.210    0.000   22.577    0.001 base.py:1228(iter_items)
-     1269    0.117    0.000   14.169    0.011 cmd.py:1114(_call_process)
-     1269    0.189    0.000   14.025    0.011 cmd.py:726(execute)
-     1221    0.047    0.000   13.512    0.011 cmd.py:638(&lt;lambda&gt;)
-     1269    0.260    0.000   13.432    0.011 subprocess.py:753(__init__)
-     1269    0.312    0.000   13.083    0.010 subprocess.py:1682(_execute_child)
-   140570    0.575    0.000   10.738    0.000 cmd.py:1235(__get_object_header)
-    89938    0.208    0.000    9.478    0.000 db.py:46(stream)
-    89938    0.316    0.000    9.138    0.000 cmd.py:1263(stream_object_data)
-     1269    8.967    0.007    8.967    0.007 {built-in method _posixsubprocess.fork_exec}
-    65780    0.084    0.000    8.915    0.000 util.py:248(__getattr__)
-    37974    0.051    0.000    7.801    0.000 base.py:527(commit)
-   232009    7.465    0.000    7.479    0.000 {method &#39;readline&#39; of &#39;_io.BufferedReader&#39; objects}
-88606/25316    0.061    0.000    7.197    0.000 tree.py:347(__getitem__)
-88606/25316    0.244    0.000    7.164    0.000 tree.py:245(join)
-    37974    0.028    0.000    6.743    0.000 symbolic.py:212(_get_commit)
-    37974    0.057    0.000    6.714    0.000 symbolic.py:203(_get_object)
-    50632    0.082    0.000    6.562    0.000 tree.py:224(_set_cache_)
-    50632    0.043    0.000    5.762    0.000 symbolic.py:143(dereference_recursive)
-   101265    0.121    0.000    5.719    0.000 symbolic.py:196(_get_ref_info)
-   101265    0.343    0.000    5.597    0.000 symbolic.py:156(_get_ref_info_helper)
-    50632    0.148    0.000    3.564    0.000 base.py:75(new_from_sha)
-    12658    0.072    0.000    3.472    0.000 base.py:196(_config_parser)
-    25378    0.051    0.000    3.282    0.000 base.py:129(data_stream)
-    50632    0.131    0.000    3.038    0.000 db.py:42(info)
-     1269    2.964    0.002    2.964    0.002 {built-in method posix.read}
-    12658    0.081    0.000    2.846    0.000 fun.py:191(rev_parse)
-    50632    0.050    0.000    2.842    0.000 cmd.py:1243(get_object_header)
-    12658    0.061    0.000    2.753    0.000 fun.py:121(name_to_object)
-   101449    2.588    0.000    2.688    0.000 {method &#39;read&#39; of &#39;_io.TextIOWrapper&#39; objects}
-  1062392    2.639    0.000    2.639    0.000 {method &#39;decode&#39; of &#39;bytes&#39; objects}
-    13470    0.010    0.000    2.517    0.000 commit.py:749(_get_decoded_str)
-   116883    2.198    0.000    2.271    0.000 {built-in method io.open}
-    15148    0.067    0.000    2.256    0.000 commit.py:196(_set_cache_)
-   140570    1.677    0.000    1.789    0.000 cmd.py:1207(_prepare_ref)
-101550/88701    0.092    0.000    1.715    0.000 config.py:104(assure_data_present)
-    12658    0.049    0.000    1.458    0.000 util.py:72(__init__)
-    12752    0.075    0.000    1.421    0.000 config.py:281(__init__)
-    12752    0.083    0.000    1.337    0.000 configparser.py:601(__init__)
-101550/88798    0.116    0.000    1.328    0.000 config.py:543(read)
-    50632    0.873    0.000    1.137    0.000 fun.py:59(tree_entries_from_data)
-     1220    1.062    0.001    1.062    0.001 {method &#39;join&#39; of &#39;bytes&#39; objects}
-    12752    0.229    0.000    1.021    0.000 configparser.py:1321(__init__)
-    13470    0.074    0.000    0.959    0.000 commit.py:155(__init__)
-    25642    0.048    0.000    0.885    0.000 pathlib.py:955(__new__)
-    12752    0.291    0.000    0.879    0.000 config.py:391(_read)
-    25644    0.033    0.000    0.836    0.000 pathlib.py:587(_from_parts)
-    25644    0.075    0.000    0.798    0.000 pathlib.py:567(_parse_args)
-   140570    0.037    0.000    0.768    0.000 cmd.py:1221(_get_persistent_cmd)
-   140570    0.710    0.000    0.714    0.000 {method &#39;flush&#39; of &#39;_io.BufferedWriter&#39; objects}
-    25644    0.128    0.000    0.704    0.000 pathlib.py:56(parse_parts)
-    14740    0.008    0.000    0.599    0.000 commit.py:587(committer_date)
-    14740    0.010    0.000    0.591    0.000 commit.py:209(committed_datetime)
-    12752    0.581    0.000    0.581    0.000 {built-in method builtins.dir}
-    13928    0.136    0.000    0.534    0.000 commit.py:525(_deserialize)
-     1269    0.250    0.000    0.524    0.000 subprocess.py:1222(_close_pipe_fds)
-    97344    0.515    0.000    0.515    0.000 {built-in method sys.intern}
-     1271    0.002    0.000    0.441    0.000 repository.py:207(traverse_commits)
-     2442    0.028    0.000    0.426    0.000 threading.py:909(start)
-     1274    0.047    0.000    0.370    0.000 repository.py:246(_iter_commits)
-  1761384    0.334    0.000    0.334    0.000 {method &#39;match&#39; of &#39;re.Pattern&#39; objects}
-    14740    0.025    0.000    0.306    0.000 util.py:167(from_timestamp)
-   140570    0.233    0.000    0.306    0.000 cmd.py:1185(_parse_object_header)
-   144419    0.194    0.000    0.299    0.000 posixpath.py:71(join)
-     2443    0.016    0.000    0.293    0.000 threading.py:582(wait)
-     2443    0.015    0.000    0.267    0.000 threading.py:288(wait)
-    50725    0.066    0.000    0.265    0.000 configparser.py:766(get)
-     2442    0.032    0.000    0.261    0.000 ipkernel.py:768(init_closure)
-   882728    0.162    0.000    0.252    0.000 cmd.py:466(__getattr__)
-    27856    0.057    0.000    0.252    0.000 util.py:268(parse_actor_and_date)
-     1269    0.045    0.000    0.236    0.000 os.py:711(copy)
-   443030    0.134    0.000    0.231    0.000 compat.py:49(safe_decode)
-    50632    0.135    0.000    0.229    0.000 util.py:85(get_object_type_by_name)
-     2442    0.082    0.000    0.229    0.000 threading.py:820(__init__)
-   114204    0.218    0.000    0.218    0.000 {method &#39;__exit__&#39; of &#39;_io._IOBase&#39; objects}
-    12752    0.106    0.000    0.215    0.000 configparser.py:1244(__init__)
-   168476    0.156    0.000    0.203    0.000 base.py:50(__init__)
-     2586    0.068    0.000    0.201    0.000 contextlib.py:496(callback)
-   102596    0.089    0.000    0.192    0.000 base.py:153(__init__)
-    14740    0.189    0.000    0.192    0.000 {built-in method fromtimestamp}
-1153445/1153443    0.189    0.000    0.191    0.000 {built-in method builtins.getattr}
-    25640    0.126    0.000    0.184    0.000 util.py:69(mode_str_to_int)
-    65880    0.063    0.000    0.165    0.000 commit.py:84(__init__)
-    51902    0.046    0.000    0.157    0.000 tree.py:214(__init__)
-     1269    0.022    0.000    0.149    0.000 util.py:412(remove_password_if_present)
-1869541/1869537    0.129    0.000    0.136    0.000 {built-in method builtins.isinstance}
-    25316    0.021    0.000    0.126    0.000 base.py:335(index)
-     1309    0.020    0.000    0.126    0.000 cmd.py:463(__del__)
-      804    0.041    0.000    0.126    0.000 ChangeCounter.ipynb:121(update_stats)
-    81473    0.117    0.000    0.121    0.000 {method &#39;search&#39; of &#39;re.Pattern&#39; objects}
-    50725    0.065    0.000    0.116    0.000 configparser.py:1143(_unify_values)
-    88698    0.084    0.000    0.110    0.000 util.py:163(join_path)
-    92730    0.055    0.000    0.108    0.000 os.py:674(__getitem__)
-    12350    0.052    0.000    0.107    0.000 parse.py:437(urlsplit)
-    25316    0.032    0.000    0.106    0.000 base.py:117(__init__)
-     1269    0.037    0.000    0.105    0.000 os.py:619(get_exec_path)
-     2442    0.102    0.000    0.102    0.000 {built-in method _thread.start_new_thread}
-   101449    0.073    0.000    0.100    0.000 codecs.py:319(decode)
-   220806    0.059    0.000    0.098    0.000 os.py:804(fsencode)
-    27856    0.028    0.000    0.098    0.000 util.py:665(_from_string)
-     1309    0.053    0.000    0.092    0.000 cmd.py:421(_terminate)
-   232423    0.087    0.000    0.092    0.000 {method &#39;split&#39; of &#39;str&#39; objects}
-     2586    0.021    0.000    0.090    0.000 contextlib.py:514(_push_exit_callback)
-    12755    0.015    0.000    0.088    0.000 config.py:489(_has_includes)
-    13470    0.046    0.000    0.085    0.000 commit.py:923(_from_change_to_modification_type)
-       92    0.000    0.000    0.085    0.001 util.py:98(wrapper)
-       92    0.000    0.000    0.085    0.001 base.py:1103(module)
-       93    0.004    0.000    0.084    0.001 base.py:108(__init__)
-    25316    0.029    0.000    0.079    0.000 base.py:114(__init__)
-     1221    0.017    0.000    0.079    0.000 util.py:383(finalize_process)
-    13470    0.009    0.000    0.078    0.000 ChangeCounter.ipynb:112(include)
-    30456    0.015    0.000    0.077    0.000 subprocess.py:1770(&lt;genexpr&gt;)
-   801006    0.077    0.000    0.077    0.000 {built-in method builtins.len}
-    93906    0.017    0.000    0.076    0.000 _collections_abc.py:877(__iter__)
-    25316    0.021    0.000    0.074    0.000 base.py:157(_index_path)
-    50725    0.051    0.000    0.074    0.000 __init__.py:976(__getitem__)
-   101449    0.048    0.000    0.073    0.000 codecs.py:309(__init__)
-    12752    0.020    0.000    0.072    0.000 config.py:492(_included_paths)
-     2443    0.010    0.000    0.072    0.000 threading.py:538(__init__)
-    26940    0.011    0.000    0.072    0.000 diff.py:432(_pick_best_path)
-   101265    0.053    0.000    0.072    0.000 symbolic.py:43(_git_dir)
-    89757    0.070    0.000    0.072    0.000 config.py:180(__setitem__)
-     5029    0.070    0.000    0.070    0.000 {method &#39;append&#39; of &#39;collections.deque&#39; objects}
-    13470    0.015    0.000    0.069    0.000 ChangeCounter.ipynb:176(filter)
-     2441    0.032    0.000    0.068    0.000 cmd.py:470(wait)
-    14740    0.062    0.000    0.066    0.000 {method &#39;astimezone&#39; of &#39;datetime.datetime&#39; objects}
-     2485    0.009    0.000    0.062    0.000 subprocess.py:1199(wait)
-    37975    0.023    0.000    0.062    0.000 base.py:342(head)
-   126812    0.050    0.000    0.061    0.000 config.py:192(__getitem__)
-   319184    0.061    0.000    0.061    0.000 {method &#39;endswith&#39; of &#39;str&#39; objects}
-    26940    0.038    0.000    0.061    0.000 diff.py:54(decode_path)
-   746395    0.060    0.000    0.060    0.000 {method &#39;append&#39; of &#39;list&#39; objects}
-    93906    0.038    0.000    0.059    0.000 os.py:697(__iter__)
-    89938    0.036    0.000    0.059    0.000 base.py:128(__new__)
-   454238    0.058    0.000    0.058    0.000 {method &#39;encode&#39; of &#39;str&#39; objects}
-       46    0.000    0.000    0.057    0.001 base.py:1121(module_exists)
-     1736    0.020    0.000    0.056    0.000 ipkernel.py:775(_clean_thread_parent_frames)
-     2485    0.009    0.000    0.053    0.000 subprocess.py:1906(_wait)
-    25408    0.016    0.000    0.053    0.000 util.py:200(join_path_native)
-    32789    0.019    0.000    0.052    0.000 commit.py:243(new_path)
-     1269    0.042    0.000    0.050    0.000 contextlib.py:533(__exit__)
-   260615    0.049    0.000    0.049    0.000 {method &#39;startswith&#39; of &#39;str&#39; objects}
-   153840    0.049    0.000    0.049    0.000 typing.py:305(inner)
-    50633    0.038    0.000    0.048    0.000 &lt;frozen importlib._bootstrap&gt;:404(parent)
-      804    0.046    0.000    0.048    0.000 ChangeCounter.ipynb:145(update_changes)
-   140702    0.047    0.000    0.047    0.000 {method &#39;write&#39; of &#39;_io.BufferedWriter&#39; objects}
-    25316    0.040    0.000    0.047    0.000 symbolic.py:439(to_full_path)
-    89938    0.047    0.000    0.047    0.000 cmd.py:517(__init__)
-     2448    0.045    0.000    0.046    0.000 threading.py:236(__init__)
-   168476    0.046    0.000    0.046    0.000 {method &#39;split&#39; of &#39;bytes&#39; objects}
-    50633    0.036    0.000    0.045    0.000 &lt;frozen importlib._bootstrap&gt;:1053(_handle_fromlist)
-   147608    0.030    0.000    0.045    0.000 posixpath.py:41(_get_sep)
-     1271    0.000    0.000    0.044    0.000 git.py:110(get_list_commits)
-   185274    0.023    0.000    0.044    0.000 os.py:758(decode)
-   181060    0.044    0.000    0.044    0.000 {built-in method __new__ of type object at 0x104e9b0a0}
-     1265    0.006    0.000    0.042    0.000 subprocess.py:1893(_try_wait)
-   245756    0.042    0.000    0.042    0.000 {built-in method binascii.a2b_hex}
-    37976    0.031    0.000    0.039    0.000 head.py:38(__init__)
-    27856    0.038    0.000    0.038    0.000 util.py:110(utctz_to_altz)
-    25316    0.027    0.000    0.037    0.000 configparser.py:878(has_option)
-       86    0.001    0.000    0.036    0.000 cmd.py:1273(clear_cache)
-     1353    0.036    0.000    0.036    0.000 {built-in method posix.waitpid}
-    91196    0.036    0.000    0.036    0.000 typing.py:1408(_no_init_or_replace_init)
-    37213    0.021    0.000    0.034    0.000 base.py:105(__ne__)
-    32308    0.019    0.000    0.034    0.000 pathlib.py:619(__str__)
-    51748    0.032    0.000    0.034    0.000 config.py:183(add)
-     1269    0.033    0.000    0.033    0.000 warnings.py:458(__enter__)
-    50632    0.021    0.000    0.033    0.000 base.py:35(__new__)
-   145700    0.032    0.000    0.032    0.000 {built-in method binascii.b2a_hex}
-   135253    0.032    0.000    0.032    0.000 {method &#39;startswith&#39; of &#39;bytes&#39; objects}
-      804    0.032    0.000    0.032    0.000 ChangeCounter.ipynb:137(update_size)
-   141176    0.031    0.000    0.031    0.000 {method &#39;group&#39; of &#39;re.Match&#39; objects}
-    92730    0.020    0.000    0.031    0.000 os.py:754(encode)
-    89938    0.031    0.000    0.031    0.000 base.py:132(__init__)
-     1271    0.001    0.000    0.030    0.000 commit.py:318(_iter_from_process_or_stream)
-    63808    0.029    0.000    0.029    0.000 {built-in method builtins.setattr}
-   128457    0.024    0.000    0.029    0.000 {built-in method builtins.hasattr}
-    21273    0.028    0.000    0.028    0.000 {method &#39;get&#39; of &#39;dict&#39; objects}
-   101449    0.027    0.000    0.027    0.000 {built-in method _codecs.utf_8_decode}
-     1269    0.010    0.000    0.026    0.000 subprocess.py:1583(_get_handles)
-     2586    0.023    0.000    0.026    0.000 contextlib.py:446(_create_cb_wrapper)
-    12542    0.017    0.000    0.025    0.000 config.py:352(__del__)
-    25953    0.019    0.000    0.025    0.000 diff.py:403(a_path)
-   395830    0.025    0.000    0.025    0.000 {built-in method posix.fspath}
-   101449    0.024    0.000    0.024    0.000 codecs.py:260(__init__)
-    25410    0.022    0.000    0.024    0.000 configparser.py:644(sections)
-      868    0.009    0.000    0.024    0.000 ipkernel.py:790(&lt;setcomp&gt;)
-     1220    0.024    0.000    0.024    0.000 {method &#39;finditer&#39; of &#39;re.Pattern&#39; objects}
-    89938    0.024    0.000    0.024    0.000 cmd.py:604(__del__)
-     2442    0.016    0.000    0.023    0.000 _weakrefset.py:86(add)
-   271034    0.023    0.000    0.023    0.000 {method &#39;strip&#39; of &#39;str&#39; objects}
-    14740    0.022    0.000    0.022    0.000 util.py:147(__init__)
-       84    0.000    0.000    0.022    0.000 base.py:240(__del__)
-  370/186    0.001    0.000    0.022    0.000 fun.py:85(find_submodule_git_dir)
-       84    0.001    0.000    0.022    0.000 base.py:246(close)
-    69182    0.022    0.000    0.022    0.000 {method &#39;groups&#39; of &#39;re.Match&#39; objects}
-     6158    0.022    0.000    0.022    0.000 {built-in method _thread.allocate_lock}
-    50725    0.021    0.000    0.021    0.000 __init__.py:966(__init__)
-     1269    0.020    0.000    0.020    0.000 contextlib.py:452(__init__)
-     2440    0.020    0.000    0.020    0.000 threading.py:775(_newname)
-        2    0.000    0.000    0.020    0.010 {built-in method builtins.next}
-        2    0.000    0.000    0.020    0.010 repository.py:173(_prep_repo)
-    13470    0.015    0.000    0.020    0.000 commit.py:549(committer)
-     1269    0.011    0.000    0.019    0.000 warnings.py:165(simplefilter)
-   153381    0.019    0.000    0.019    0.000 {method &#39;rstrip&#39; of &#39;str&#39; objects}
-11032/1269    0.010    0.000    0.019    0.000 cmd.py:1069(__unpack_args)
-     2442    0.019    0.000    0.019    0.000 threading.py:1294(_make_invoke_excepthook)
-     3855    0.019    0.000    0.019    0.000 {built-in method posix.pipe}
-    50725    0.019    0.000    0.019    0.000 base.py:296(common_dir)
-    12350    0.009    0.000    0.019    0.000 parse.py:155(password)
-    11926    0.012    0.000    0.017    0.000 diff.py:426(renamed_file)
-        1    0.000    0.000    0.017    0.017 contextlib.py:139(__exit__)
-        2    0.000    0.000    0.016    0.008 git.py:77(clear)
-    25316    0.014    0.000    0.016    0.000 util.py:34(sm_name)
-     5125    0.016    0.000    0.016    0.000 {built-in method posix.close}
-    50632    0.015    0.000    0.015    0.000 base.py:38(__init__)
-     7837    0.015    0.000    0.015    0.000 threading.py:1138(ident)
-    12986    0.008    0.000    0.014    0.000 pathlib.py:606(_format_parsed_parts)
-    26365    0.011    0.000    0.014    0.000 diff.py:407(b_path)
-     1265    0.013    0.000    0.014    0.000 subprocess.py:1060(__del__)
-        1    0.000    0.000    0.013    0.013 base.py:560(iter_commits)
-        1    0.000    0.000    0.013    0.013 commit.py:246(iter_items)
-      109    0.000    0.000    0.013    0.000 parse.py:88(clear_cache)
-    12658    0.011    0.000    0.013    0.000 util.py:970(__new__)
-   195719    0.013    0.000    0.013    0.000 typing.py:1715(cast)
-      218    0.012    0.000    0.012    0.000 {method &#39;clear&#39; of &#39;dict&#39; objects}
-     2722    0.007    0.000    0.012    0.000 posixpath.py:150(dirname)
-       93    0.000    0.000    0.012    0.000 base.py:488(config_reader)
-     1270    0.006    0.000    0.012    0.000 conf.py:257(is_commit_filtered)
-    25640    0.012    0.000    0.012    0.000 {method &#39;sub&#39; of &#39;re.Pattern&#39; objects}
-    25644    0.012    0.000    0.012    0.000 pathlib.py:239(splitroot)
-     4884    0.011    0.000    0.012    0.000 threading.py:1423(current_thread)
-    62983    0.011    0.000    0.011    0.000 {method &#39;rpartition&#39; of &#39;str&#39; objects}
-      868    0.011    0.000    0.011    0.000 threading.py:1471(enumerate)
-     1269    0.011    0.000    0.011    0.000 {built-in method posix.access}
-   126944    0.011    0.000    0.011    0.000 {function _OMD.__getitem__ at 0x14dbb9ea0}
-     1269    0.011    0.000    0.011    0.000 warnings.py:437(__init__)
-     1270    0.006    0.000    0.010    0.000 commit.py:529(hash)
-     1320    0.009    0.000    0.010    0.000 commit.py:623(parents)
-   127790    0.010    0.000    0.010    0.000 config.py:387(optionxform)
-    12350    0.009    0.000    0.010    0.000 parse.py:189(_userinfo)
-    13470    0.008    0.000    0.009    0.000 commit.py:614(msg)
-      463    0.002    0.000    0.009    0.000 fun.py:44(is_git_dir)
-    27856    0.009    0.000    0.009    0.000 util.py:646(__init__)
-    37976    0.009    0.000    0.009    0.000 symbolic.py:65(__init__)
-     2440    0.006    0.000    0.009    0.000 threading.py:1191(daemon)
-     1269    0.005    0.000    0.008    0.000 warnings.py:181(_add_filter)
-     2442    0.006    0.000    0.008    0.000 threading.py:1021(_stop)
-    12543    0.005    0.000    0.008    0.000 config.py:364(release)
-    12752    0.007    0.000    0.008    0.000 config.py:333(_acquire_lock)
-    50632    0.008    0.000    0.008    0.000 base.py:52(type)
-    70327    0.008    0.000    0.008    0.000 {method &#39;readline&#39; of &#39;_io.BytesIO&#39; objects}
-   101264    0.008    0.000    0.008    0.000 {built-in method builtins.ord}
-    77602    0.008    0.000    0.008    0.000 {method &#39;lower&#39; of &#39;str&#39; objects}
-    12658    0.007    0.000    0.007    0.000 fun.py:180(to_commit)
-    12658    0.007    0.000    0.007    0.000 util.py:973(__init__)
-    12752    0.006    0.000    0.007    0.000 configparser.py:1363(__iter__)
-     5130    0.005    0.000    0.007    0.000 base.py:123(hexsha)
-      279    0.003    0.000    0.007    0.000 util.py:400(expand_path)
-    12350    0.006    0.000    0.007    0.000 parse.py:114(_coerce_args)
-     2442    0.006    0.000    0.007    0.000 _weakrefset.py:39(_remove)
-     2530    0.005    0.000    0.007    0.000 subprocess.py:1173(poll)
-     1362    0.001    0.000    0.007    0.000 abc.py:117(__instancecheck__)
-    50632    0.007    0.000    0.007    0.000 base.py:42(binsha)
-     1269    0.005    0.000    0.006    0.000 _collections_abc.py:828(keys)
-     1271    0.004    0.000    0.006    0.000 __init__.py:1467(info)
-     2440    0.005    0.000    0.006    0.000 base.py:115(__str__)
-     7654    0.005    0.000    0.006    0.000 conf.py:45(get)
-    13918    0.006    0.000    0.006    0.000 {method &#39;join&#39; of &#39;str&#39; objects}
-     2456    0.005    0.000    0.006    0.000 threading.py:264(__enter__)
-    12658    0.004    0.000    0.006    0.000 base.py:99(__eq__)
-     1269    0.006    0.000    0.006    0.000 cmd.py:416(__init__)
-     1304    0.005    0.000    0.005    0.000 {built-in method posix.stat}
-     4884    0.005    0.000    0.005    0.000 threading.py:1176(daemon)
-     3713    0.005    0.000    0.005    0.000 {method &#39;add&#39; of &#39;set&#39; objects}
-    75506    0.005    0.000    0.005    0.000 {method &#39;replace&#39; of &#39;str&#39; objects}
-     1362    0.005    0.000    0.005    0.000 {built-in method _abc._abc_instancecheck}
-    50632    0.005    0.000    0.005    0.000 base.py:60(size)
-     2443    0.004    0.000    0.005    0.000 threading.py:276(_acquire_restore)
-    25408    0.005    0.000    0.005    0.000 util.py:194(to_native_path_linux)
-     2440    0.005    0.000    0.005    0.000 threading.py:1162(is_alive)
-      928    0.001    0.000    0.005    0.000 genericpath.py:39(isdir)
-    14740    0.005    0.000    0.005    0.000 developer.py:27(__init__)
-     2443    0.003    0.000    0.004    0.000 threading.py:279(_is_owned)
-    12750    0.004    0.000    0.004    0.000 base.py:309(bare)
-    25500    0.004    0.000    0.004    0.000 base.py:290(working_tree_dir)
-    50725    0.004    0.000    0.004    0.000 configparser.py:363(before_get)
-      931    0.003    0.000    0.004    0.000 posixpath.py:337(normpath)
-    63760    0.004    0.000    0.004    0.000 {built-in method builtins.callable}
-     2586    0.001    0.000    0.004    0.000 contextlib.py:448(_exit_wrapper)
-    58960    0.004    0.000    0.004    0.000 util.py:160(dst)
-        1    0.001    0.001    0.004    0.004 _base.py:636(__exit__)
-     1273    0.003    0.000    0.003    0.000 {method &#39;remove&#39; of &#39;list&#39; objects}
-     7324    0.003    0.000    0.003    0.000 threading.py:546(is_set)
-    11926    0.003    0.000    0.003    0.000 diff.py:411(rename_from)
-    45490    0.003    0.000    0.003    0.000 util.py:154(utcoffset)
-        1    0.000    0.000    0.003    0.003 contextlib.py:130(__enter__)
-    29187    0.003    0.000    0.003    0.000 {method &#39;endswith&#39; of &#39;bytes&#39; objects}
-     2441    0.002    0.000    0.003    0.000 encoding.py:1(force_bytes)
-        1    0.000    0.000    0.003    0.003 thread.py:216(shutdown)
-       93    0.001    0.000    0.003    0.000 db.py:37(__init__)
-     2540    0.003    0.000    0.003    0.000 __init__.py:1724(isEnabledFor)
-    25410    0.003    0.000    0.003    0.000 {method &#39;keys&#39; of &#39;collections.OrderedDict&#39; objects}
-    12546    0.003    0.000    0.003    0.000 config.py:707(read_only)
-     1269    0.003    0.000    0.003    0.000 cmd.py:1148(&lt;dictcomp&gt;)
-    12752    0.003    0.000    0.003    0.000 configparser.py:1191(converters)
-     1269    0.003    0.000    0.003    0.000 {built-in method sys.exc_info}
-        1    0.000    0.000    0.002    0.002 git.py:39(__init__)
-     1319    0.001    0.000    0.002    0.000 cmd.py:180(dashify)
+     2514    0.013    0.000  317.004    0.126 threading.py:1117(join)
+2526/2519    0.016    0.000  316.936    0.126 threading.py:1155(_wait_for_tstate_lock)
+22893/17853    0.076    0.000  314.406    0.018 {method &#39;acquire&#39; of &#39;_thread.lock&#39; objects}
+     1306    0.009    0.000  116.056    0.089 repository.py:213(traverse_commits)
+        1    0.000    0.000  115.767  115.767 &lt;string&gt;:1(&lt;module&gt;)
+        1    0.000    0.000  115.767  115.767 ChangeCounter.ipynb:168(debuggingbook_change_counter)
+        1    0.000    0.000  115.767  115.767 ChangeCounter.ipynb:51(__init__)
+        1    0.000    0.000  115.766  115.766 ChangeCounter.ipynb:88(mine)
+        1    0.000    0.000  115.741  115.741 _base.py:646(__exit__)
+        1    0.000    0.000  115.741  115.741 thread.py:220(shutdown)
+   2514/1    0.026    0.000  115.741  115.741 threading.py:1018(_bootstrap)
+   2514/1    0.017    0.000  115.740  115.740 threading.py:1058(_bootstrap_inner)
+   2514/1    0.008    0.000  115.740  115.740 ipkernel.py:744(run_closure)
+   2514/1    6.960    0.003  115.740  115.740 threading.py:1001(run)
+     13/2    0.023    0.002  115.740   57.870 {method &#39;get&#39; of &#39;_queue.SimpleQueue&#39; objects}
+      4/1    0.000    0.000  115.740  115.740 thread.py:70(_worker)
+     1305    0.141    0.000  115.424    0.088 ChangeCounter.ipynb:102(mine_commit)
+     1305    0.033    0.000  111.814    0.086 commit.py:753(modified_files)
+     1255    0.300    0.000  111.741    0.089 diff.py:184(diff)
+     1255   13.867    0.011   94.973    0.076 diff.py:583(_index_from_patch_format)
+     1255    0.060    0.000   71.454    0.057 cmd.py:97(handle_process_output)
+2510/1255   36.868    0.015   56.678    0.045 cmd.py:144(pump_stream)
+      114   26.507    0.233   33.781    0.296 {built-in method time.sleep}
+    13915    0.081    0.000   17.013    0.001 diff.py:412(__init__)
+    13099    0.016    0.000   16.650    0.001 base.py:481(submodules)
+    13099    0.037    0.000   16.634    0.001 util.py:1270(list_items)
+31074/31068    0.050    0.000   16.584    0.001 {method &#39;extend&#39; of &#39;list&#39; objects}
+    39297    0.166    0.000   16.534    0.000 base.py:1571(iter_items)
+5124/4889    0.041    0.000   10.207    0.002 {method &#39;close&#39; of &#39;_io.BufferedReader&#39; objects}
+     1306    0.084    0.000    8.496    0.007 cmd.py:1523(_call_process)
+     1306    0.114    0.000    8.381    0.006 cmd.py:1079(execute)
+     1256    0.049    0.000    8.235    0.007 cmd.py:986(&lt;lambda&gt;)
+     1306    0.157    0.000    7.897    0.006 subprocess.py:807(__init__)
+     1306    0.215    0.000    7.644    0.006 subprocess.py:1791(_execute_child)
+    66800    0.087    0.000    6.039    0.000 util.py:248(__getattr__)
+   120861    0.361    0.000    5.771    0.000 cmd.py:1659(__get_object_header)
+    39297    0.031    0.000    5.408    0.000 base.py:715(commit)
+     1306    5.331    0.004    5.331    0.004 {built-in method _posixsubprocess.fork_exec}
+91693/26198    0.060    0.000    4.955    0.000 tree.py:361(__getitem__)
+    39297    0.024    0.000    4.953    0.000 symbolic.py:290(_get_commit)
+    39297    0.046    0.000    4.929    0.000 symbolic.py:280(_get_object)
+91693/26198    0.212    0.000    4.923    0.000 tree.py:231(join)
+   215486    4.512    0.000    4.512    0.000 {method &#39;readline&#39; of &#39;_io.BufferedReader&#39; objects}
+    68465    0.142    0.000    4.472    0.000 db.py:44(stream)
+    52396    0.064    0.000    4.351    0.000 tree.py:210(_set_cache_)
+    68465    0.180    0.000    4.211    0.000 cmd.py:1695(stream_object_data)
+    52396    0.042    0.000    3.697    0.000 symbolic.py:156(dereference_recursive)
+   104793    0.117    0.000    3.655    0.000 symbolic.py:269(_get_ref_info)
+   104793    0.308    0.000    3.538    0.000 symbolic.py:221(_get_ref_info_helper)
+       27    0.001    0.000    3.059    0.113 base_events.py:1915(_run_once)
+       27    0.000    0.000    3.056    0.113 selectors.py:558(select)
+    52396    0.111    0.000    3.009    0.000 base.py:136(new_from_sha)
+    13099    0.049    0.000    2.971    0.000 base.py:229(_config_parser)
+    52396    0.118    0.000    2.598    0.000 db.py:39(info)
+    52396    0.061    0.000    2.383    0.000 cmd.py:1667(get_object_header)
+    13099    0.052    0.000    1.954    0.000 fun.py:230(rev_parse)
+    13099    0.049    0.000    1.892    0.000 fun.py:150(name_to_object)
+   120945    1.657    0.000    1.720    0.000 {built-in method _io.open}
+     1306    1.626    0.001    1.626    0.001 {built-in method posix.read}
+    14404    0.032    0.000    1.592    0.000 commit.py:241(_set_cache_)
+      834    0.024    0.000    1.459    0.002 ChangeCounter.ipynb:121(update_stats)
+105089/91792    0.100    0.000    1.424    0.000 config.py:111(assure_data_present)
+     1666    0.002    0.000    1.411    0.001 commit.py:214(content)
+     1666    0.003    0.000    1.410    0.001 commit.py:222(_get_undecoded_content)
+    13099    0.021    0.000    1.302    0.000 util.py:82(__init__)
+    13197    0.045    0.000    1.290    0.000 config.py:315(__init__)
+    68465    0.072    0.000    1.245    0.000 cmd.py:863(read)
+    13197    0.070    0.000    1.240    0.000 configparser.py:582(__init__)
+    54061    0.022    0.000    1.186    0.000 base.py:137(read)
+   136929    1.164    0.000    1.164    0.000 {method &#39;read&#39; of &#39;_io.BufferedReader&#39; objects}
+105089/91893    0.071    0.000    1.043    0.000 config.py:589(read)
+    52396    0.642    0.000    1.035    0.000 fun.py:77(tree_entries_from_data)
+    13197    0.238    0.000    0.974    0.000 configparser.py:1287(__init__)
+     1255    0.828    0.001    0.828    0.001 {method &#39;join&#39; of &#39;bytes&#39; objects}
+   104793    0.371    0.000    0.709    0.000 symbolic.py:173(_check_ref_name_valid)
+    13197    0.300    0.000    0.706    0.000 config.py:439(_read)
+ 12211465    0.691    0.000    0.691    0.000 {method &#39;append&#39; of &#39;list&#39; objects}
+     1665    0.001    0.000    0.621    0.000 base.py:192(data_stream)
+    14404    0.114    0.000    0.478    0.000 commit.py:782(_deserialize)
+    13197    0.469    0.000    0.469    0.000 {built-in method builtins.dir}
+   104985    0.360    0.000    0.441    0.000 {method &#39;read&#39; of &#39;_io.TextIOWrapper&#39; objects}
+   120861    0.035    0.000    0.418    0.000 cmd.py:1646(_get_persistent_cmd)
+    13915    0.004    0.000    0.415    0.000 ChangeCounter.ipynb:112(include)
+    13915    0.014    0.000    0.411    0.000 ChangeCounter.ipynb:176(filter)
+    33867    0.051    0.000    0.410    0.000 commit.py:276(new_path)
+  1809659    0.363    0.000    0.363    0.000 {method &#39;match&#39; of &#39;re.Pattern&#39; objects}
+   810862    0.337    0.000    0.337    0.000 cmd.py:972(__getattribute__)
+   458465    0.163    0.000    0.316    0.000 compat.py:117(safe_decode)
+    15220    0.005    0.000    0.299    0.000 commit.py:633(committer_date)
+   149295    0.178    0.000    0.294    0.000 posixpath.py:71(join)
+    15220    0.006    0.000    0.294    0.000 commit.py:254(committed_datetime)
+   120861    0.290    0.000    0.290    0.000 {method &#39;flush&#39; of &#39;_io.BufferedWriter&#39; objects}
+    33483    0.047    0.000    0.267    0.000 pathlib.py:437(__str__)
+    52493    0.058    0.000    0.250    0.000 configparser.py:743(get)
+     1306    0.038    0.000    0.241    0.000 os.py:748(copy)
+     2610    0.019    0.000    0.213    0.000 repository.py:245(_iter_commits)
+   120861    0.141    0.000    0.212    0.000 cmd.py:1601(_parse_object_header)
+    28808    0.071    0.000    0.212    0.000 util.py:326(parse_actor_and_date)
+   118186    0.202    0.000    0.202    0.000 {method &#39;__exit__&#39; of &#39;_io._IOBase&#39; objects}
+   998089    0.151    0.000    0.195    0.000 {built-in method builtins.getattr}
+  1099846    0.195    0.000    0.195    0.000 {method &#39;decode&#39; of &#39;bytes&#39; objects}
+   741237    0.120    0.000    0.193    0.000 cmd.py:792(__getattr__)
+     1306    0.055    0.000    0.190    0.000 subprocess.py:1282(_close_pipe_fds)
+   120861    0.104    0.000    0.189    0.000 cmd.py:1632(_prepare_ref)
+   174316    0.147    0.000    0.188    0.000 base.py:100(__init__)
+    33482    0.023    0.000    0.184    0.000 pathlib.py:551(drive)
+1962443/1962439    0.179    0.000    0.183    0.000 {built-in method builtins.isinstance}
+   106161    0.081    0.000    0.183    0.000 base.py:231(__init__)
+    13197    0.109    0.000    0.181    0.000 configparser.py:1210(__init__)
+    52396    0.092    0.000    0.178    0.000 util.py:111(get_object_type_by_name)
+    26526    0.115    0.000    0.174    0.000 util.py:91(mode_str_to_int)
+   106048    0.061    0.000    0.170    0.000 {built-in method builtins.any}
+    33480    0.019    0.000    0.160    0.000 pathlib.py:407(_load_parts)
+  2095848    0.151    0.000    0.151    0.000 {built-in method builtins.ord}
+    53701    0.037    0.000    0.138    0.000 tree.py:192(__init__)
+    68155    0.047    0.000    0.136    0.000 commit.py:109(__init__)
+    33480    0.055    0.000    0.135    0.000 pathlib.py:387(_parse_path)
+   227244    0.072    0.000    0.133    0.000 os.py:841(fsencode)
+    91789    0.087    0.000    0.124    0.000 util.py:272(join_path)
+     2514    0.008    0.000    0.123    0.000 ipkernel.py:768(init_closure)
+    15220    0.016    0.000    0.122    0.000 util.py:211(from_timestamp)
+    95435    0.047    0.000    0.122    0.000 os.py:709(__getitem__)
+     2514    0.017    0.000    0.116    0.000 threading.py:975(start)
+     2514    0.028    0.000    0.114    0.000 threading.py:884(__init__)
+   314378    0.064    0.000    0.108    0.000 symbolic.py:215(&lt;genexpr&gt;)
+   351527    0.106    0.000    0.106    0.000 {method &#39;split&#39; of &#39;str&#39; objects}
+    26198    0.016    0.000    0.105    0.000 base.py:437(index)
+   515294    0.102    0.000    0.102    0.000 {method &#39;endswith&#39; of &#39;str&#39; objects}
+    52493    0.052    0.000    0.096    0.000 configparser.py:1122(_unify_values)
+    26198    0.012    0.000    0.089    0.000 base.py:140(__init__)
+   824922    0.089    0.000    0.089    0.000 {built-in method builtins.len}
+    52493    0.057    0.000    0.087    0.000 __init__.py:1009(__getitem__)
+     3918    0.049    0.000    0.087    0.000 contextlib.py:530(callback)
+   104985    0.056    0.000    0.081    0.000 codecs.py:319(decode)
+     1306    0.036    0.000    0.080    0.000 util.py:529(remove_password_if_present)
+    96644    0.016    0.000    0.080    0.000 _collections_abc.py:868(__iter__)
+    92890    0.071    0.000    0.077    0.000 config.py:205(__setitem__)
+    13200    0.009    0.000    0.077    0.000 config.py:536(_has_includes)
+    31344    0.012    0.000    0.076    0.000 subprocess.py:1880(&lt;genexpr&gt;)
+    26198    0.011    0.000    0.076    0.000 base.py:172(_index_path)
+     2514    0.072    0.000    0.072    0.000 {built-in method _thread.start_new_thread}
+     1306    0.010    0.000    0.072    0.000 subprocess.py:1688(_get_handles)
+    53558    0.072    0.000    0.072    0.000 config.py:208(add)
+   131230    0.056    0.000    0.072    0.000 config.py:218(__getitem__)
+   443672    0.072    0.000    0.072    0.000 {method &#39;encode&#39; of &#39;str&#39; objects}
+    26198    0.020    0.000    0.071    0.000 base.py:122(__init__)
+   303634    0.071    0.000    0.071    0.000 {method &#39;startswith&#39; of &#39;str&#39; objects}
+     2514    0.032    0.000    0.067    0.000 threading.py:637(wait)
+    84262    0.067    0.000    0.067    0.000 {method &#39;search&#39; of &#39;re.Pattern&#39; objects}
+    27830    0.009    0.000    0.067    0.000 diff.py:570(_pick_best_path)
+    13196    0.017    0.000    0.066    0.000 config.py:539(_included_paths)
+    26294    0.022    0.000    0.065    0.000 util.py:309(join_path_native)
+    28808    0.030    0.000    0.064    0.000 util.py:808(_from_string)
+    96644    0.035    0.000    0.064    0.000 os.py:732(__iter__)
+   104985    0.048    0.000    0.060    0.000 codecs.py:309(__init__)
+   190676    0.029    0.000    0.059    0.000 os.py:795(decode)
+    33577    0.020    0.000    0.058    0.000 pathlib.py:1157(__init__)
+    27830    0.030    0.000    0.058    0.000 diff.py:105(decode_path)
+    15220    0.048    0.000    0.053    0.000 {built-in method fromtimestamp}
+     1306    0.020    0.000    0.052    0.000 os.py:654(get_exec_path)
+    39298    0.021    0.000    0.051    0.000 base.py:450(head)
+       96    0.000    0.000    0.051    0.001 util.py:171(wrapper)
+       97    0.002    0.000    0.051    0.001 base.py:172(__init__)
+       96    0.000    0.000    0.051    0.001 base.py:1404(module)
+   159162    0.050    0.000    0.050    0.000 typing.py:392(inner)
+     2514    0.026    0.000    0.049    0.000 threading.py:588(__init__)
+   149719    0.048    0.000    0.048    0.000 {method &#39;split&#39; of &#39;bytes&#39; objects}
+   121405    0.046    0.000    0.046    0.000 {built-in method sys.intern}
+    52402    0.030    0.000    0.046    0.000 &lt;frozen importlib._bootstrap&gt;:1390(_handle_fromlist)
+   152586    0.027    0.000    0.046    0.000 posixpath.py:41(_get_sep)
+     1306    0.006    0.000    0.046    0.000 _base.py:612(result_iterator)
+   281764    0.045    0.000    0.045    0.000 {method &#39;strip&#39; of &#39;str&#39; objects}
+    95435    0.024    0.000    0.044    0.000 os.py:791(encode)
+    68465    0.026    0.000    0.044    0.000 base.py:128(__new__)
+   229682    0.043    0.000    0.043    0.000 {built-in method binascii.a2b_hex}
+   104793    0.034    0.000    0.043    0.000 symbolic.py:52(_git_dir)
+    26198    0.030    0.000    0.041    0.000 symbolic.py:596(to_full_path)
+    52397    0.021    0.000    0.040    0.000 &lt;frozen importlib._bootstrap&gt;:645(parent)
+   146107    0.039    0.000    0.039    0.000 {method &#39;group&#39; of &#39;re.Match&#39; objects}
+   168822    0.039    0.000    0.039    0.000 {built-in method __new__ of type object at 0x105404990}
+     1256    0.003    0.000    0.039    0.000 subprocess.py:1135(_get_devnull)
+     1358    0.008    0.000    0.038    0.000 cmd.py:789(__del__)
+   481143    0.038    0.000    0.038    0.000 {built-in method posix.fspath}
+    33577    0.023    0.000    0.038    0.000 pathlib.py:358(__init__)
+     1305    0.023    0.000    0.038    0.000 _base.py:314(_result_or_cancel)
+     1256    0.005    0.000    0.038    0.000 util.py:500(finalize_process)
+   120993    0.038    0.000    0.038    0.000 {method &#39;write&#39; of &#39;_io.BufferedWriter&#39; objects}
+    15220    0.031    0.000    0.036    0.000 {method &#39;astimezone&#39; of &#39;datetime.datetime&#39; objects}
+     3806    0.005    0.000    0.036    0.000 threading.py:323(wait)
+     1256    0.036    0.000    0.036    0.000 {built-in method posix.open}
+     2511    0.019    0.000    0.036    0.000 cmd.py:796(wait)
+     2562    0.002    0.000    0.035    0.000 subprocess.py:1259(wait)
+    26198    0.021    0.000    0.034    0.000 configparser.py:855(has_option)
+   139749    0.034    0.000    0.034    0.000 {method &#39;startswith&#39; of &#39;bytes&#39; objects}
+    52396    0.020    0.000    0.034    0.000 base.py:35(__new__)
+     2562    0.004    0.000    0.033    0.000 subprocess.py:2021(_wait)
+       48    0.000    0.000    0.031    0.001 base.py:1427(module_exists)
+    33480    0.014    0.000    0.030    0.000 pathlib.py:429(_format_parsed_parts)
+    39299    0.026    0.000    0.030    0.000 head.py:50(__init__)
+    80586    0.017    0.000    0.030    0.000 diff.py:535(b_path)
+   158735    0.030    0.000    0.030    0.000 {method &#39;rstrip&#39; of &#39;str&#39; objects}
+     1358    0.003    0.000    0.029    0.000 cmd.py:754(_terminate)
+    26295    0.022    0.000    0.028    0.000 configparser.py:630(sections)
+    28808    0.022    0.000    0.028    0.000 util.py:146(utctz_to_altz)
+     1307    0.002    0.000    0.028    0.000 subprocess.py:2008(_try_wait)
+     1306    0.000    0.000    0.027    0.000 git.py:110(get_list_commits)
+     1306    0.018    0.000    0.026    0.000 contextlib.py:567(__exit__)
+   126131    0.026    0.000    0.026    0.000 {built-in method binascii.b2a_hex}
+    94353    0.026    0.000    0.026    0.000 typing.py:1766(_no_init_or_replace_init)
+     1409    0.026    0.000    0.026    0.000 {built-in method posix.waitpid}
+     3918    0.026    0.000    0.026    0.000 contextlib.py:475(_create_cb_wrapper)
+    13915    0.009    0.000    0.025    0.000 commit.py:595(committer)
+        1    0.001    0.001    0.025    0.025 _base.py:583(map)
+   104985    0.024    0.000    0.024    0.000 {built-in method _codecs.utf_8_decode}
+     1285    0.016    0.000    0.024    0.000 parse.py:452(urlsplit)
+12604/1306    0.013    0.000    0.024    0.000 cmd.py:1477(_unpack_args)
+     2514    0.003    0.000    0.023    0.000 threading.py:616(set)
+    71531    0.022    0.000    0.022    0.000 {method &#39;groups&#39; of &#39;re.Match&#39; objects}
+      100    0.000    0.000    0.022    0.000 cmd.py:1710(clear_cache)
+    80319    0.022    0.000    0.022    0.000 {method &#39;rpartition&#39; of &#39;str&#39; objects}
+   132073    0.022    0.000    0.022    0.000 {built-in method builtins.hasattr}
+     3820    0.017    0.000    0.020    0.000 threading.py:277(__init__)
+     1440    0.013    0.000    0.020    0.000 ipkernel.py:775(_clean_thread_parent_frames)
+     1306    0.020    0.000    0.020    0.000 warnings.py:484(__enter__)
+    11567    0.014    0.000    0.019    0.000 threading.py:299(__enter__)
+    68465    0.019    0.000    0.019    0.000 base.py:132(__init__)
+     1306    0.019    0.000    0.019    0.000 contextlib.py:481(__init__)
+    66035    0.019    0.000    0.019    0.000 {built-in method builtins.setattr}
+     1306    0.002    0.000    0.019    0.000 commit.py:512(_iter_from_process_or_stream)
+    33480    0.012    0.000    0.018    0.000 posixpath.py:138(splitroot)
+    15220    0.018    0.000    0.018    0.000 util.py:191(__init__)
+       98    0.000    0.000    0.017    0.000 base.py:327(__del__)
+       98    0.000    0.000    0.017    0.000 base.py:333(close)
+    26198    0.012    0.000    0.017    0.000 util.py:42(sm_name)
+   131362    0.016    0.000    0.016    0.000 {function _OMD.__getitem__ at 0x11ee31c60}
+     1305    0.011    0.000    0.016    0.000 commit.py:796(_parse_diff)
+     3820    0.005    0.000    0.015    0.000 threading.py:424(notify_all)
+    52396    0.015    0.000    0.015    0.000 base.py:38(__init__)
+    13099    0.012    0.000    0.015    0.000 util.py:1169(__new__)
+     2514    0.014    0.000    0.014    0.000 threading.py:1356(_make_invoke_excepthook)
+     1305    0.002    0.000    0.014    0.000 thread.py:165(submit)
+     3968    0.014    0.000    0.014    0.000 {built-in method posix.pipe}
+     6530    0.014    0.000    0.014    0.000 {built-in method posix.close}
+    33577    0.008    0.000    0.013    0.000 pathlib.py:1164(__new__)
+    80316    0.013    0.000    0.013    0.000 {method &#39;lower&#39; of &#39;str&#39; objects}
+     1305    0.006    0.000    0.013    0.000 _base.py:428(result)
+  386/194    0.001    0.000    0.012    0.000 fun.py:99(find_submodule_git_dir)
+     3918    0.010    0.000    0.012    0.000 contextlib.py:548(_push_exit_callback)
+     1255    0.012    0.000    0.012    0.000 {method &#39;finditer&#39; of &#39;re.Pattern&#39; objects}
+   189376    0.012    0.000    0.012    0.000 typing.py:2183(cast)
+    52493    0.012    0.000    0.012    0.000 __init__.py:999(__init__)
+    26526    0.012    0.000    0.012    0.000 {method &#39;sub&#39; of &#39;re.Pattern&#39; objects}
+    26198    0.007    0.000    0.012    0.000 base.py:168(__ne__)
+   132250    0.011    0.000    0.011    0.000 config.py:435(optionxform)
+    15220    0.010    0.000    0.011    0.000 mailmap.py:16(get_developer)
+    27922    0.008    0.000    0.011    0.000 parse.py:193(_userinfo)
+    72707    0.011    0.000    0.011    0.000 {method &#39;readline&#39; of &#39;_io.BytesIO&#39; objects}
+   104985    0.011    0.000    0.011    0.000 codecs.py:260(__init__)
+    13961    0.005    0.000    0.011    0.000 parse.py:160(password)
+     2614    0.002    0.000    0.011    0.000 {built-in method builtins.next}
+    68465    0.010    0.000    0.010    0.000 cmd.py:852(__init__)
+    68465    0.010    0.000    0.010    0.000 cmd.py:939(__del__)
+     3833    0.004    0.000    0.010    0.000 threading.py:394(notify)
+    28808    0.008    0.000    0.010    0.000 util.py:789(__init__)
+    33379    0.007    0.000    0.010    0.000 posixpath.py:131(splitdrive)
+    23086    0.005    0.000    0.010    0.000 conf.py:52(get)
+     7628    0.009    0.000    0.009    0.000 {built-in method _thread.allocate_lock}
+       97    0.000    0.000    0.009    0.000 base.py:660(config_reader)
+    52493    0.009    0.000    0.009    0.000 base.py:381(common_dir)
+       97    0.000    0.000    0.009    0.000 base.py:683(_config_reader)
+        2    0.000    0.000    0.009    0.004 repository.py:179(_prep_repo)
+     1307    0.001    0.000    0.008    0.000 contextlib.py:141(__exit__)
+     2514    0.005    0.000    0.008    0.000 _weakrefset.py:85(add)
+    13961    0.003    0.000    0.008    0.000 parse.py:156(username)
+     1305    0.001    0.000    0.007    0.000 thread.py:184(_adjust_thread_count)
+    52396    0.007    0.000    0.007    0.000 base.py:52(type)
+    13915    0.005    0.000    0.007    0.000 commit.py:660(msg)
+     1307    0.004    0.000    0.007    0.000 contextlib.py:299(helper)
+     2514    0.006    0.000    0.007    0.000 threading.py:1108(_delete)
+     1306    0.003    0.000    0.007    0.000 warnings.py:168(simplefilter)
+        1    0.000    0.000    0.007    0.007 base.py:758(iter_commits)
+        1    0.000    0.000    0.007    0.007 commit.py:299(iter_items)
+    11567    0.005    0.000    0.007    0.000 threading.py:302(__exit__)
+    12922    0.004    0.000    0.007    0.000 diff.py:531(a_path)
+    13206    0.003    0.000    0.007    0.000 config.py:398(__del__)
+     2510    0.007    0.000    0.007    0.000 threading.py:839(_newname)
+     1305    0.001    0.000    0.007    0.000 threading.py:468(acquire)
+    33481    0.006    0.000    0.006    0.000 {method &#39;join&#39; of &#39;str&#39; objects}
+    57616    0.006    0.000    0.006    0.000 {built-in method builtins.abs}
+      483    0.001    0.000    0.006    0.000 fun.py:57(is_git_dir)
+     2804    0.004    0.000    0.006    0.000 posixpath.py:179(dirname)
+     1306    0.006    0.000    0.006    0.000 {built-in method posix.access}
+    52396    0.006    0.000    0.006    0.000 base.py:60(size)
+    13099    0.004    0.000    0.006    0.000 base.py:162(__eq__)
+    52396    0.006    0.000    0.006    0.000 base.py:42(binsha)
+    65985    0.006    0.000    0.006    0.000 {built-in method builtins.callable}
+    14502    0.006    0.000    0.006    0.000 {method &#39;pop&#39; of &#39;list&#39; objects}
+     1307    0.002    0.000    0.006    0.000 contextlib.py:132(__enter__)
+        2    0.000    0.000    0.006    0.003 git.py:77(clear)
+     2514    0.002    0.000    0.005    0.000 threading.py:1045(_set_tstate_lock)
+     7542    0.005    0.000    0.005    0.000 threading.py:1236(daemon)
+    30038    0.005    0.000    0.005    0.000 {method &#39;endswith&#39; of &#39;bytes&#39; objects}
+    26295    0.005    0.000    0.005    0.000 {method &#39;keys&#39; of &#39;collections.OrderedDict&#39; objects}
+    46965    0.005    0.000    0.005    0.000 util.py:198(utcoffset)
+     8935    0.005    0.000    0.005    0.000 {method &#39;release&#39; of &#39;_thread.lock&#39; objects}
+    13197    0.003    0.000    0.005    0.000 configparser.py:1329(__iter__)
+     5028    0.004    0.000    0.005    0.000 threading.py:1485(current_thread)
+    26294    0.005    0.000    0.005    0.000 util.py:303(to_native_path_linux)
+     1305    0.001    0.000    0.005    0.000 _base.py:328(__init__)
+    24682    0.005    0.000    0.005    0.000 {method &#39;get&#39; of &#39;dict&#39; objects}
+     1305    0.001    0.000    0.004    0.000 thread.py:54(run)
+    60880    0.004    0.000    0.004    0.000 util.py:204(dst)
+     5270    0.002    0.000    0.004    0.000 base.py:186(hexsha)
+     2514    0.002    0.000    0.004    0.000 _weakrefset.py:39(_remove)
+    52493    0.004    0.000    0.004    0.000 configparser.py:335(before_get)
+    39299    0.004    0.000    0.004    0.000 symbolic.py:77(__init__)
+     1403    0.001    0.000    0.004    0.000 abc.py:117(__instancecheck__)
+     2614    0.004    0.000    0.004    0.000 subprocess.py:1233(poll)
+    11876    0.004    0.000    0.004    0.000 cmd.py:338(__getattribute)
+     1306    0.002    0.000    0.004    0.000 warnings.py:184(_add_filter)
+    26390    0.004    0.000    0.004    0.000 base.py:372(working_tree_dir)
+     3918    0.001    0.000    0.004    0.000 contextlib.py:477(_exit_wrapper)
+    13207    0.003    0.000    0.004    0.000 config.py:410(release)
+     1360    0.004    0.000    0.004    0.000 {built-in method posix.stat}
+      834    0.004    0.000    0.004    0.000 ChangeCounter.ipynb:137(update_size)
+     6333    0.002    0.000    0.004    0.000 threading.py:314(_is_owned)
+      720    0.003    0.000    0.004    0.000 threading.py:1535(enumerate)
+     1306    0.004    0.000    0.004    0.000 {built-in method sys.exc_info}
+    12966    0.003    0.000    0.003    0.000 threading.py:1198(ident)
+     1307    0.002    0.000    0.003    0.000 contextlib.py:104(__init__)
+    15766    0.003    0.000    0.003    0.000 {method &#39;strip&#39; of &#39;bytes&#39; objects}
+    13099    0.003    0.000    0.003    0.000 fun.py:219(to_commit)
+      834    0.002    0.000    0.003    0.000 ChangeCounter.ipynb:145(update_changes)
+     1403    0.003    0.000    0.003    0.000 {built-in method _abc._abc_instancecheck}
+     3828    0.003    0.000    0.003    0.000 {method &#39;add&#39; of &#39;set&#39; objects}
+     5221    0.003    0.000    0.003    0.000 {method &#39;__enter__&#39; of &#39;_thread.RLock&#39; objects}
+    14404    0.003    0.000    0.003    0.000 {method &#39;read&#39; of &#39;_io.BytesIO&#39; objects}
+     1305    0.001    0.000    0.003    0.000 conf.py:272(is_commit_filtered)
+     1285    0.003    0.000    0.003    0.000 parse.py:119(_coerce_args)
+      968    0.000    0.000    0.003    0.000 genericpath.py:39(isdir)
+       97    0.000    0.000    0.003    0.000 pathlib.py:1022(read_text)
+     1305    0.001    0.000    0.003    0.000 commit.py:568(author)
+     1306    0.002    0.000    0.003    0.000 __init__.py:1529(info)
+       97    0.000    0.000    0.003    0.000 pathlib.py:1005(open)
+    13915    0.003    0.000    0.003    0.000 {method &#39;end&#39; of &#39;re.Match&#39; objects}
+     2514    0.002    0.000    0.003    0.000 threading.py:1081(_stop)
+    33481    0.003    0.000    0.003    0.000 pathlib.py:569(_tail)
+    33482    0.003    0.000    0.003    0.000 pathlib.py:560(root)
+     7754    0.003    0.000    0.003    0.000 {method &#39;append&#39; of &#39;collections.deque&#39; objects}
+     1306    0.001    0.000    0.003    0.000 _base.py:537(set_result)
+     1355    0.001    0.000    0.003    0.000 commit.py:669(parents)
+        1    0.000    0.000    0.003    0.003 git.py:39(__init__)
+     2510    0.002    0.000    0.003    0.000 threading.py:1251(daemon)
         1    0.000    0.000    0.002    0.002 git.py:86(_open_repository)
-       93    0.000    0.000    0.002    0.000 configparser.py:827(getboolean)
-      281    0.001    0.000    0.002    0.000 posixpath.py:376(abspath)
-    15255    0.002    0.000    0.002    0.000 {method &#39;strip&#39; of &#39;bytes&#39; objects}
-     1453    0.002    0.000    0.002    0.000 {method &#39;rfind&#39; of &#39;str&#39; objects}
-       93    0.001    0.000    0.002    0.000 configparser.py:806(_get_conv)
-     1269    0.001    0.000    0.002    0.000 __init__.py:1455(debug)
-     3795    0.002    0.000    0.002    0.000 subprocess.py:1858(_internal_poll)
-    11926    0.002    0.000    0.002    0.000 diff.py:415(rename_to)
-     1270    0.002    0.000    0.002    0.000 {built-in method builtins.sorted}
-     2441    0.002    0.000    0.002    0.000 cmd.py:632(__getattr__)
-     1220    0.002    0.000    0.002    0.000 base.py:90(_set_cache_)
-    13470    0.002    0.000    0.002    0.000 {method &#39;end&#39; of &#39;re.Match&#39; objects}
-     1265    0.001    0.000    0.002    0.000 subprocess.py:1846(_handle_exitstatus)
-    25645    0.002    0.000    0.002    0.000 {method &#39;reverse&#39; of &#39;list&#39; objects}
-     2530    0.002    0.000    0.002    0.000 {method &#39;close&#39; of &#39;_io.BufferedReader&#39; objects}
-     2456    0.001    0.000    0.002    0.000 threading.py:267(__exit__)
-    13928    0.002    0.000    0.002    0.000 {method &#39;read&#39; of &#39;_io.BytesIO&#39; objects}
-       93    0.000    0.000    0.002    0.000 configparser.py:803(_get)
-    13216    0.002    0.000    0.002    0.000 {method &#39;pop&#39; of &#39;list&#39; objects}
-       93    0.001    0.000    0.002    0.000 loose.py:77(__init__)
-     1270    0.001    0.000    0.001    0.000 commit.py:538(author)
-     2188    0.001    0.000    0.001    0.000 &lt;string&gt;:1(&lt;lambda&gt;)
-       44    0.000    0.000    0.001    0.000 subprocess.py:2093(terminate)
-       93    0.000    0.000    0.001    0.000 cmd.py:612(__init__)
-       44    0.000    0.000    0.001    0.000 subprocess.py:2061(send_signal)
-       93    0.000    0.000    0.001    0.000 re.py:197(search)
-    12752    0.001    0.000    0.001    0.000 {built-in method builtins.iter}
-     2443    0.001    0.000    0.001    0.000 threading.py:273(_release_save)
-       44    0.001    0.000    0.001    0.000 {method &#39;close&#39; of &#39;_io.BufferedWriter&#39; objects}
-     1269    0.001    0.000    0.001    0.000 warnings.py:477(__exit__)
-       93    0.000    0.000    0.001    0.000 genericpath.py:16(exists)
-     7326    0.001    0.000    0.001    0.000 {built-in method _thread.get_ident}
-    12250    0.001    0.000    0.001    0.000 {method &#39;start&#39; of &#39;re.Match&#39; objects}
-     1269    0.001    0.000    0.001    0.000 subprocess.py:246(_cleanup)
-       93    0.001    0.000    0.001    0.000 _collections_abc.py:820(__contains__)
-       93    0.001    0.000    0.001    0.000 re.py:288(_compile)
-     1269    0.001    0.000    0.001    0.000 _collections_abc.py:854(__init__)
-    12350    0.001    0.000    0.001    0.000 parse.py:103(_noop)
-        5    0.001    0.000    0.001    0.000 {method &#39;put&#39; of &#39;_queue.SimpleQueue&#39; objects}
-       44    0.001    0.000    0.001    0.000 {built-in method posix.kill}
-     1269    0.001    0.000    0.001    0.000 cmd.py:1058(transform_kwargs)
-      281    0.000    0.000    0.001    0.000 genericpath.py:27(isfile)
-     2188    0.001    0.000    0.001    0.000 {method &#39;find&#39; of &#39;str&#39; objects}
-       93    0.000    0.000    0.001    0.000 base.py:113(__init__)
-     1269    0.001    0.000    0.001    0.000 cmd.py:1156(&lt;listcomp&gt;)
-        3    0.000    0.000    0.001    0.000 config.py:659(write)
-     2442    0.001    0.000    0.001    0.000 {method &#39;discard&#39; of &#39;set&#39; objects}
-     1269    0.001    0.000    0.001    0.000 {method &#39;rfind&#39; of &#39;bytes&#39; objects}
-      2/1    0.000    0.000    0.001    0.001 config.py:117(flush_changes)
-     4973    0.001    0.000    0.001    0.000 {method &#39;release&#39; of &#39;_thread.lock&#39; objects}
-        2    0.000    0.000    0.001    0.000 pathlib.py:1062(resolve)
-     3318    0.001    0.000    0.001    0.000 {method &#39;__exit__&#39; of &#39;_thread.RLock&#39; objects}
-        1    0.000    0.000    0.001    0.001 repository.py:240(&lt;dictcomp&gt;)
-        4    0.000    0.000    0.001    0.000 thread.py:161(submit)
-        1    0.000    0.000    0.001    0.001 base.py:511(config_writer)
-       94    0.000    0.000    0.001    0.000 base.py:464(_get_config_path)
-        2    0.000    0.000    0.001    0.000 posixpath.py:391(realpath)
-     1270    0.000    0.000    0.001    0.000 git.py:134(get_commit_from_gitpython)
-     2448    0.001    0.000    0.001    0.000 {method &#39;__enter__&#39; of &#39;_thread.lock&#39; objects}
-        2    0.000    0.000    0.001    0.000 posixpath.py:400(_joinrealpath)
-        4    0.000    0.000    0.001    0.000 thread.py:180(_adjust_thread_count)
-       84    0.000    0.000    0.001    0.000 mman.py:408(collect)
-        4    0.000    0.000    0.001    0.000 util.py:878(_obtain_lock)
-        4    0.000    0.000    0.001    0.000 util.py:856(_obtain_lock_or_raise)
-     4929    0.001    0.000    0.001    0.000 {method &#39;insert&#39; of &#39;list&#39; objects}
-        8    0.001    0.000    0.001    0.000 {built-in method posix.lstat}
-        5    0.000    0.000    0.001    0.000 _base.py:201(as_completed)
-      279    0.000    0.000    0.001    0.000 posixpath.py:228(expanduser)
-     1269    0.001    0.000    0.001    0.000 cmd.py:1149(&lt;dictcomp&gt;)
-        1    0.001    0.001    0.001    0.001 {built-in method posix.open}
-        1    0.000    0.000    0.001    0.001 config.py:791(set_value)
-      467    0.000    0.000    0.000    0.000 posixpath.py:60(isabs)
-       84    0.000    0.000    0.000    0.000 mman.py:303(_collect_lru_region)
-       93    0.000    0.000    0.000    0.000 base.py:70(__init__)
-     3725    0.000    0.000    0.000    0.000 {method &#39;__exit__&#39; of &#39;_thread.lock&#39; objects}
-     5077    0.000    0.000    0.000    0.000 {method &#39;items&#39; of &#39;dict&#39; objects}
-     3807    0.000    0.000    0.000    0.000 {built-in method _warnings._filters_mutated}
-       93    0.000    0.000    0.000    0.000 configparser.py:1163(_convert_to_boolean)
-     2188    0.000    0.000    0.000    0.000 parse.py:419(_checknetloc)
-        1    0.000    0.000    0.000    0.000 repository.py:256(_split_in_chunks)
-       92    0.000    0.000    0.000    0.000 base.py:197(abspath)
-     3472    0.000    0.000    0.000    0.000 {method &#39;keys&#39; of &#39;dict&#39; objects}
-     1269    0.000    0.000    0.000    0.000 {built-in method sys.audit}
-        1    0.000    0.000    0.000    0.000 {built-in method math.ceil}
-     1265    0.000    0.000    0.000    0.000 {built-in method posix.WIFSTOPPED}
-        3    0.000    0.000    0.000    0.000 config.py:615(_write)
-     2586    0.000    0.000    0.000    0.000 {method &#39;pop&#39; of &#39;collections.deque&#39; objects}
-     1270    0.000    0.000    0.000    0.000 commit.py:503(__init__)
-       45    0.000    0.000    0.000    0.000 config.py:618(write_section)
-     1317    0.000    0.000    0.000    0.000 {method &#39;update&#39; of &#39;dict&#39; objects}
-        2    0.000    0.000    0.000    0.000 weakref.py:370(remove)
-        1    0.000    0.000    0.000    0.000 _base.py:157(_create_and_install_waiters)
-        1    0.000    0.000    0.000    0.000 _base.py:79(__init__)
-        1    0.000    0.000    0.000    0.000 _base.py:63(__init__)
-     1269    0.000    0.000    0.000    0.000 contextlib.py:530(__enter__)
-     1820    0.000    0.000    0.000    0.000 {method &#39;values&#39; of &#39;dict&#39; objects}
-     1265    0.000    0.000    0.000    0.000 {built-in method posix.waitstatus_to_exitcode}
-       52    0.000    0.000    0.000    0.000 cmd.py:1042(transform_kwarg)
-     1220    0.000    0.000    0.000    0.000 util.py:257(_set_cache_)
-      277    0.000    0.000    0.000    0.000 cmd.py:368(is_cygwin)
-      279    0.000    0.000    0.000    0.000 posixpath.py:284(expandvars)
-     1220    0.000    0.000    0.000    0.000 diff.py:86(_process_diff_args)
-     1269    0.000    0.000    0.000    0.000 {method &#39;pop&#39; of &#39;dict&#39; objects}
-     2446    0.000    0.000    0.000    0.000 {method &#39;locked&#39; of &#39;_thread.lock&#39; objects}
-        6    0.000    0.000    0.000    0.000 _base.py:179(_yield_finished_futures)
-       92    0.000    0.000    0.000    0.000 base.py:266(__ne__)
-      804    0.000    0.000    0.000    0.000 ChangeCounter.ipynb:155(update_elems)
-        1    0.000    0.000    0.000    0.000 git.py:92(_discover_main_branch)
-        1    0.000    0.000    0.000    0.000 base.py:792(active_branch)
-        1    0.000    0.000    0.000    0.000 symbolic.py:288(_get_reference)
-        1    0.000    0.000    0.000    0.000 thread.py:123(__init__)
-       45    0.000    0.000    0.000    0.000 config.py:216(items_all)
-      835    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
-       45    0.000    0.000    0.000    0.000 config.py:218(&lt;listcomp&gt;)
-       92    0.000    0.000    0.000    0.000 base.py:261(__eq__)
-        2    0.000    0.000    0.000    0.000 util.py:883(_release_lock)
-        4    0.000    0.000    0.000    0.000 threading.py:421(acquire)
-      277    0.000    0.000    0.000    0.000 util.py:347(is_cygwin_git)
-       88    0.000    0.000    0.000    0.000 config.py:786(_value_to_string)
-        1    0.000    0.000    0.000    0.000 util.py:139(rmfile)
-        1    0.000    0.000    0.000    0.000 conf.py:77(sanity_check_filters)
-        4    0.000    0.000    0.000    0.000 _base.py:418(result)
-        1    0.000    0.000    0.000    0.000 {built-in method posix.remove}
-      132    0.000    0.000    0.000    0.000 config.py:209(getall)
-        1    0.000    0.000    0.000    0.000 conf.py:287(_check_timezones)
-        1    0.000    0.000    0.000    0.000 repository.py:44(__init__)
-        1    0.000    0.000    0.000    0.000 conf.py:293(_replace_timezone)
-        3    0.000    0.000    0.000    0.000 config.py:212(items)
-        1    0.000    0.000    0.000    0.000 threading.py:415(__init__)
-        3    0.000    0.000    0.000    0.000 config.py:214(&lt;listcomp&gt;)
-        1    0.000    0.000    0.000    0.000 symbolic.py:685(from_path)
-        4    0.000    0.000    0.000    0.000 _base.py:318(__init__)
-      187    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISREG}
-        2    0.000    0.000    0.000    0.000 pathlib.py:1090(stat)
-        1    0.000    0.000    0.000    0.000 conf.py:24(__init__)
-       57    0.000    0.000    0.000    0.000 {method &#39;find&#39; of &#39;bytes&#39; objects}
-        2    0.000    0.000    0.000    0.000 threading.py:793(_maintain_shutdown_locks)
-        2    0.000    0.000    0.000    0.000 repository.py:148(_is_remote)
-       88    0.000    0.000    0.000    0.000 encoding.py:11(force_text)
-        7    0.000    0.000    0.000    0.000 conf.py:36(set_value)
-        4    0.000    0.000    0.000    0.000 pathlib.py:629(__fspath__)
-        1    0.000    0.000    0.000    0.000 conf.py:191(build_args)
-        1    0.000    0.000    0.000    0.000 threading.py:572(clear)
-       57    0.000    0.000    0.000    0.000 {method &#39;rstrip&#39; of &#39;bytes&#39; objects}
-        1    0.000    0.000    0.000    0.000 {method &#39;replace&#39; of &#39;datetime.datetime&#39; objects}
-        1    0.000    0.000    0.000    0.000 git.py:322(__del__)
-        5    0.000    0.000    0.000    0.000 {method &#39;remove&#39; of &#39;set&#39; objects}
-        1    0.000    0.000    0.000    0.000 _base.py:146(__init__)
-        4    0.000    0.000    0.000    0.000 _base.py:388(__get_result)
-       93    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
-        8    0.000    0.000    0.000    0.000 {method &#39;__enter__&#39; of &#39;_thread.RLock&#39; objects}
-        2    0.000    0.000    0.000    0.000 weakref.py:428(__setitem__)
-        4    0.000    0.000    0.000    0.000 threading.py:90(RLock)
-        4    0.000    0.000    0.000    0.000 thread.py:47(__init__)
-        1    0.000    0.000    0.000    0.000 _base.py:149(__enter__)
-        1    0.000    0.000    0.000    0.000 configparser.py:892(set)
-        1    0.000    0.000    0.000    0.000 reference.py:46(__init__)
-        1    0.000    0.000    0.000    0.000 conf.py:65(_check_only_one_from_commit)
-        1    0.000    0.000    0.000    0.000 contextlib.py:279(helper)
-        1    0.000    0.000    0.000    0.000 _base.py:153(__exit__)
-        2    0.000    0.000    0.000    0.000 conf.py:181(only_one_filter)
-        1    0.000    0.000    0.000    0.000 contextlib.py:102(__init__)
-        1    0.000    0.000    0.000    0.000 conf.py:71(_check_only_one_to_commit)
-        8    0.000    0.000    0.000    0.000 {method &#39;partition&#39; of &#39;str&#39; objects}
-        2    0.000    0.000    0.000    0.000 threading.py:803(&lt;listcomp&gt;)
-        1    0.000    0.000    0.000    0.000 util.py:844(__del__)
-        8    0.000    0.000    0.000    0.000 util.py:851(_has_lock)
-        3    0.000    0.000    0.000    0.000 config.py:699(_assure_writable)
-        1    0.000    0.000    0.000    0.000 reference.py:100(name)
-        2    0.000    0.000    0.000    0.000 util.py:847(_lock_file_path)
-        3    0.000    0.000    0.000    0.000 git.py:63(repo)
-        4    0.000    0.000    0.000    0.000 _base.py:225(&lt;genexpr&gt;)
-        1    0.000    0.000    0.000    0.000 conf.py:54(_sanity_check_repos)
-        2    0.000    0.000    0.000    0.000 {method &#39;difference_update&#39; of &#39;set&#39; objects}
-        1    0.000    0.000    0.000    0.000 conf.py:142(get_starting_commit)
-        4    0.000    0.000    0.000    0.000 {method &#39;lstrip&#39; of &#39;str&#39; objects}
+    13483    0.002    0.000    0.002    0.000 {method &#39;__exit__&#39; of &#39;_thread.RLock&#39; objects}
+     2510    0.001    0.000    0.002    0.000 base.py:178(__str__)
+      101    0.000    0.000    0.002    0.000 pathlib.py:447(__fspath__)
+     1305    0.001    0.000    0.002    0.000 commit.py:559(hash)
+     2514    0.002    0.000    0.002    0.000 {method &#39;discard&#39; of &#39;set&#39; objects}
+     1306    0.002    0.000    0.002    0.000 subprocess.py:268(_cleanup)
+    13197    0.002    0.000    0.002    0.000 config.py:378(_acquire_lock)
+    12660    0.002    0.000    0.002    0.000 {method &#39;start&#39; of &#39;re.Match&#39; objects}
+     9155    0.002    0.000    0.002    0.000 {method &#39;replace&#39; of &#39;str&#39; objects}
+    13915    0.002    0.000    0.002    0.000 commit.py:155(__init__)
+     1305    0.001    0.000    0.002    0.000 _base.py:364(cancel)
+    12570    0.002    0.000    0.002    0.000 {built-in method _thread.get_ident}
+       28    0.000    0.000    0.002    0.000 events.py:86(_run)
+     2514    0.002    0.000    0.002    0.000 {built-in method _thread._set_sentinel}
+      291    0.001    0.000    0.002    0.000 util.py:517(expand_path)
+       28    0.000    0.000    0.002    0.000 {method &#39;run&#39; of &#39;_contextvars.Context&#39; objects}
+    13099    0.002    0.000    0.002    0.000 util.py:1172(__init__)
+     1306    0.002    0.000    0.002    0.000 {method &#39;remove&#39; of &#39;list&#39; objects}
+     3806    0.001    0.000    0.002    0.000 threading.py:311(_acquire_restore)
+     2511    0.001    0.000    0.002    0.000 cmd.py:977(__getattr__)
+     6346    0.002    0.000    0.002    0.000 {method &#39;__enter__&#39; of &#39;_thread.lock&#39; objects}
+     3806    0.001    0.000    0.002    0.000 threading.py:308(_release_save)
+    13197    0.002    0.000    0.002    0.000 {built-in method builtins.iter}
+     1306    0.002    0.000    0.002    0.000 {built-in method builtins.sorted}
+     2511    0.001    0.000    0.002    0.000 encoding.py:1(force_bytes)
+    10287    0.001    0.000    0.001    0.000 {method &#39;__exit__&#39; of &#39;_thread.lock&#39; objects}
+    15220    0.001    0.000    0.001    0.000 developer.py:27(__init__)
+       97    0.000    0.000    0.001    0.000 configparser.py:804(getboolean)
+     3918    0.001    0.000    0.001    0.000 {method &#39;pop&#39; of &#39;collections.deque&#39; objects}
+    13197    0.001    0.000    0.001    0.000 configparser.py:1170(converters)
+     1358    0.000    0.000    0.001    0.000 cmd.py:294(dashify)
+    13195    0.001    0.000    0.001    0.000 base.py:390(bare)
+     1307    0.001    0.000    0.001    0.000 subprocess.py:1120(__del__)
+     1306    0.001    0.000    0.001    0.000 _collections_abc.py:819(keys)
+     1307    0.001    0.000    0.001    0.000 subprocess.py:1961(_handle_exitstatus)
+       97    0.000    0.000    0.001    0.000 configparser.py:783(_get_conv)
+     2514    0.001    0.000    0.001    0.000 threading.py:1038(_set_ident)
+     1305    0.001    0.000    0.001    0.000 _base.py:497(set_running_or_notify_cancel)
+     3806    0.001    0.000    0.001    0.000 {method &#39;remove&#39; of &#39;collections.deque&#39; objects}
+     1306    0.001    0.000    0.001    0.000 warnings.py:505(__exit__)
+     1305    0.001    0.000    0.001    0.000 threading.py:124(RLock)
+     5071    0.001    0.000    0.001    0.000 {method &#39;insert&#39; of &#39;list&#39; objects}
+     1306    0.001    0.000    0.001    0.000 __init__.py:1517(debug)
+       97    0.000    0.000    0.001    0.000 configparser.py:780(_get)
+       12    0.000    0.000    0.001    0.000 iostream.py:118(_run_event_pipe_gc)
+    13210    0.001    0.000    0.001    0.000 config.py:764(read_only)
+     1285    0.001    0.000    0.001    0.000 &lt;string&gt;:1(&lt;lambda&gt;)
+     5237    0.001    0.000    0.001    0.000 {method &#39;items&#39; of &#39;dict&#39; objects}
+     2514    0.001    0.000    0.001    0.000 threading.py:1042(_set_native_id)
+     1306    0.001    0.000    0.001    0.000 contextlib.py:564(__enter__)
+     7550    0.001    0.000    0.001    0.000 threading.py:601(is_set)
+     2612    0.001    0.000    0.001    0.000 __init__.py:1790(isEnabledFor)
+     1306    0.001    0.000    0.001    0.000 cmd.py:1466(transform_kwargs)
+     1306    0.001    0.000    0.001    0.000 {method &#39;rfind&#39; of &#39;bytes&#39; objects}
+       97    0.000    0.000    0.001    0.000 db.py:34(__init__)
+     5020    0.001    0.000    0.001    0.000 diff.py:235(&lt;genexpr&gt;)
+       51    0.000    0.000    0.001    0.000 subprocess.py:2208(terminate)
+       97    0.000    0.000    0.001    0.000 __init__.py:174(search)
+     3921    0.001    0.000    0.001    0.000 subprocess.py:1973(_internal_poll)
+       97    0.000    0.000    0.001    0.000 genericpath.py:16(exists)
+        1    0.000    0.000    0.001    0.001 base.py:698(config_writer)
+      293    0.000    0.000    0.001    0.000 genericpath.py:27(isfile)
+       97    0.000    0.000    0.001    0.000 pathlib.py:719(__truediv__)
+     1285    0.001    0.000    0.001    0.000 {method &#39;lstrip&#39; of &#39;str&#39; objects}
+      289    0.000    0.000    0.001    0.000 cmd.py:662(is_cygwin)
+      293    0.000    0.000    0.001    0.000 posixpath.py:408(abspath)
+       97    0.000    0.000    0.001    0.000 loose.py:77(__init__)
+       51    0.000    0.000    0.001    0.000 subprocess.py:2176(send_signal)
+     1285    0.001    0.000    0.001    0.000 {method &#39;find&#39; of &#39;str&#39; objects}
+        4    0.000    0.000    0.001    0.000 util.py:1050(_obtain_lock)
+        4    0.000    0.000    0.001    0.000 util.py:1026(_obtain_lock_or_raise)
+       97    0.000    0.000    0.001    0.000 pathlib.py:711(joinpath)
+     1498    0.001    0.000    0.001    0.000 {method &#39;rfind&#39; of &#39;str&#39; objects}
+        3    0.000    0.000    0.001    0.000 config.py:710(write)
+       24    0.000    0.000    0.001    0.000 tasks.py:653(sleep)
+       97    0.000    0.000    0.001    0.000 cmd.py:947(__init__)
+       97    0.000    0.000    0.001    0.000 __init__.py:280(_compile)
+     3918    0.001    0.000    0.001    0.000 {built-in method _warnings._filters_mutated}
+       99    0.000    0.000    0.001    0.000 pathlib.py:380(with_segments)
+     2880    0.001    0.000    0.001    0.000 {method &#39;keys&#39; of &#39;dict&#39; objects}
+       51    0.001    0.000    0.001    0.000 {built-in method posix.kill}
+        2    0.000    0.000    0.001    0.000 pathlib.py:1228(resolve)
+      487    0.000    0.000    0.001    0.000 posixpath.py:60(isabs)
+     1305    0.000    0.000    0.001    0.000 git.py:140(get_commit_from_gitpython)
+      2/1    0.000    0.000    0.000    0.000 config.py:127(flush_changes)
+      971    0.000    0.000    0.000    0.000 {built-in method posix._path_normpath}
+      289    0.000    0.000    0.000    0.000 util.py:486(is_cygwin_git)
+     1356    0.000    0.000    0.000    0.000 {method &#39;update&#39; of &#39;dict&#39; objects}
+     2522    0.000    0.000    0.000    0.000 threading.py:1222(is_alive)
+       97    0.000    0.000    0.000    0.000 _collections_abc.py:811(__contains__)
+     1306    0.000    0.000    0.000    0.000 warnings.py:458(__init__)
+       51    0.000    0.000    0.000    0.000 {method &#39;close&#39; of &#39;_io.BufferedWriter&#39; objects}
+     2514    0.000    0.000    0.000    0.000 {built-in method _thread.get_native_id}
+     1538    0.000    0.000    0.000    0.000 {method &#39;values&#39; of &#39;dict&#39; objects}
+     1306    0.000    0.000    0.000    0.000 cmd.py:749(__init__)
+     2510    0.000    0.000    0.000    0.000 {built-in method _thread.daemon_threads_allowed}
+     2534    0.000    0.000    0.000    0.000 {method &#39;locked&#39; of &#39;_thread.lock&#39; objects}
+        3    0.000    0.000    0.000    0.000 config.py:664(_write)
+       96    0.000    0.000    0.000    0.000 base.py:288(abspath)
+       98    0.000    0.000    0.000    0.000 base.py:633(_get_config_path)
+     1403    0.000    0.000    0.000    0.000 {method &#39;pop&#39; of &#39;dict&#39; objects}
+      115    0.000    0.000    0.000    0.000 {built-in method posix.getppid}
+       45    0.000    0.000    0.000    0.000 config.py:668(write_section)
+       12    0.000    0.000    0.000    0.000 futures.py:313(_set_result_unless_cancelled)
+        1    0.000    0.000    0.000    0.000 config.py:866(set_value)
+     2612    0.000    0.000    0.000    0.000 subprocess.py:1311(_on_error_fd_closer)
+     2638    0.000    0.000    0.000    0.000 {built-in method time.monotonic}
+     1307    0.000    0.000    0.000    0.000 {built-in method posix.WIFSTOPPED}
+      291    0.000    0.000    0.000    0.000 posixpath.py:256(expanduser)
+        2    0.000    0.000    0.000    0.000 zmqstream.py:583(_handle_events)
+       98    0.000    0.000    0.000    0.000 mman.py:408(collect)
+     1305    0.000    0.000    0.000    0.000 _base.py:398(__get_result)
+       12    0.000    0.000    0.000    0.000 base_events.py:742(call_later)
+     1306    0.000    0.000    0.000    0.000 {built-in method sys.audit}
+       14    0.000    0.000    0.000    0.000 {method &#39;set_result&#39; of &#39;_asyncio.Future&#39; objects}
+     1307    0.000    0.000    0.000    0.000 {built-in method posix.waitstatus_to_exitcode}
+       12    0.000    0.000    0.000    0.000 iostream.py:127(_event_pipe_gc)
+     1310    0.000    0.000    0.000    0.000 {method &#39;put&#39; of &#39;_queue.SimpleQueue&#39; objects}
+       14    0.000    0.000    0.000    0.000 base_events.py:784(call_soon)
+        1    0.000    0.000    0.000    0.000 asyncio.py:200(_handle_events)
+     1309    0.000    0.000    0.000    0.000 {method &#39;get_nowait&#39; of &#39;_queue.SimpleQueue&#39; objects}
+      291    0.000    0.000    0.000    0.000 posixpath.py:320(expandvars)
+       97    0.000    0.000    0.000    0.000 base.py:113(__init__)
+      289    0.000    0.000    0.000    0.000 util.py:455(_is_cygwin_git)
         1    0.000    0.000    0.000    0.000 {method &#39;disable&#39; of &#39;_lsprof.Profiler&#39; objects}
-        1    0.000    0.000    0.000    0.000 conf.py:114(_check_correct_filters_order)
-        8    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISLNK}
-        1    0.000    0.000    0.000    0.000 pathlib.py:708(name)
-        1    0.000    0.000    0.000    0.000 conf.py:165(get_ending_commit)
-        2    0.000    0.000    0.000    0.000 conf.py:189(&lt;listcomp&gt;)
-        2    0.000    0.000    0.000    0.000 {method &#39;remove&#39; of &#39;collections.deque&#39; objects}
-        4    0.000    0.000    0.000    0.000 {built-in method time.monotonic}
-        2    0.000    0.000    0.000    0.000 pathlib.py:1430(expanduser)
-        4    0.000    0.000    0.000    0.000 {method &#39;release&#39; of &#39;_thread.RLock&#39; objects}
-        4    0.000    0.000    0.000    0.000 {method &#39;acquire&#39; of &#39;_thread.RLock&#39; objects}
+       12    0.000    0.000    0.000    0.000 events.py:155(cancel)
+       52    0.000    0.000    0.000    0.000 base_events.py:733(time)
+       54    0.000    0.000    0.000    0.000 cmd.py:1450(transform_kwarg)
+     1285    0.000    0.000    0.000    0.000 parse.py:421(_checknetloc)
+     1306    0.000    0.000    0.000    0.000 _base.py:337(_invoke_callbacks)
+     1306    0.000    0.000    0.000    0.000 _collections_abc.py:845(__init__)
+       12    0.000    0.000    0.000    0.000 base_events.py:766(call_at)
+        2    0.000    0.000    0.000    0.000 zmqstream.py:624(_handle_recv)
+       15    0.000    0.000    0.000    0.000 base_events.py:813(_call_soon)
+       98    0.000    0.000    0.000    0.000 mman.py:303(_collect_lru_region)
+       97    0.000    0.000    0.000    0.000 configparser.py:1142(_convert_to_boolean)
+     1305    0.000    0.000    0.000    0.000 thread.py:48(__init__)
+        3    0.000    0.000    0.000    0.000 zmqstream.py:663(_rebuild_io_state)
+     1285    0.000    0.000    0.000    0.000 parse.py:108(_noop)
+        5    0.000    0.000    0.000    0.000 attrsettr.py:43(__getattr__)
+     1255    0.000    0.000    0.000    0.000 diff.py:172(_process_diff_args)
+        2    0.000    0.000    0.000    0.000 zmqstream.py:556(_run_callback)
+     1305    0.000    0.000    0.000    0.000 commit.py:536(__init__)
+      871    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISDIR}
+        2    0.000    0.000    0.000    0.000 iostream.py:157(_handle_event)
+        2    0.000    0.000    0.000    0.000 iostream.py:276(&lt;lambda&gt;)
+        1    0.000    0.000    0.000    0.000 git.py:92(_discover_main_branch)
+       96    0.000    0.000    0.000    0.000 base.py:351(__ne__)
+       27    0.000    0.000    0.000    0.000 events.py:36(__init__)
+        2    0.000    0.000    0.000    0.000 iostream.py:278(_really_send)
+        1    0.000    0.000    0.000    0.000 ioloop.py:742(_run_callback)
+        5    0.000    0.000    0.000    0.000 attrsettr.py:66(_get_attr_opt)
+        1    0.000    0.000    0.000    0.000 zmqstream.py:694(&lt;lambda&gt;)
+     1306    0.000    0.000    0.000    0.000 {method &#39;_is_owned&#39; of &#39;_thread.RLock&#39; objects}
+        1    0.000    0.000    0.000    0.000 base.py:1041(active_branch)
+        3    0.000    0.000    0.000    0.000 zmqstream.py:686(_update_handler)
+        2    0.000    0.000    0.000    0.000 socket.py:703(send_multipart)
+        1    0.000    0.000    0.000    0.000 symbolic.py:402(_get_reference)
+       12    0.000    0.000    0.000    0.000 events.py:111(__init__)
+        2    0.000    0.000    0.000    0.000 posixpath.py:423(realpath)
+       45    0.000    0.000    0.000    0.000 config.py:242(items_all)
+      834    0.000    0.000    0.000    0.000 ChangeCounter.ipynb:155(update_elems)
+       88    0.000    0.000    0.000    0.000 config.py:861(_value_to_string)
+        2    0.000    0.000    0.000    0.000 posixpath.py:432(_joinrealpath)
+        8    0.000    0.000    0.000    0.000 {built-in method posix.lstat}
+       12    0.000    0.000    0.000    0.000 base_events.py:446(create_future)
+        2    0.000    0.000    0.000    0.000 util.py:1057(_release_lock)
+       15    0.000    0.000    0.000    0.000 enum.py:1545(__or__)
+        1    0.000    0.000    0.000    0.000 util.py:245(rmfile)
+        1    0.000    0.000    0.000    0.000 kernelbase.py:302(poll_control_queue)
+      132    0.000    0.000    0.000    0.000 config.py:235(getall)
+       12    0.000    0.000    0.000    0.000 events.py:72(cancel)
+       96    0.000    0.000    0.000    0.000 base.py:346(__eq__)
+        1    0.000    0.000    0.000    0.000 {built-in method posix.remove}
+       14    0.000    0.000    0.000    0.000 socket.py:626(send)
+       13    0.000    0.000    0.000    0.000 threading.py:515(release)
+        8    0.000    0.000    0.000    0.000 threading.py:857(_maintain_shutdown_locks)
+       66    0.000    0.000    0.000    0.000 enum.py:1538(_get_value)
+       40    0.000    0.000    0.000    0.000 {built-in method builtins.max}
+        1    0.000    0.000    0.000    0.000 symbolic.py:879(from_path)
+        1    0.000    0.000    0.000    0.000 conf.py:85(sanity_check_filters)
+        2    0.000    0.000    0.000    0.000 pathlib.py:835(stat)
+      194    0.000    0.000    0.000    0.000 {built-in method _io.text_encoding}
+        3    0.000    0.000    0.000    0.000 config.py:238(items)
+       57    0.000    0.000    0.000    0.000 {method &#39;find&#39; of &#39;bytes&#39; objects}
+      195    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISREG}
+        7    0.000    0.000    0.000    0.000 enum.py:1556(__and__)
+        1    0.000    0.000    0.000    0.000 repository.py:44(__init__)
+       88    0.000    0.000    0.000    0.000 encoding.py:11(force_text)
+        2    0.000    0.000    0.000    0.000 pathlib.py:1398(expanduser)
+        1    0.000    0.000    0.000    0.000 thread.py:127(__init__)
+        2    0.000    0.000    0.000    0.000 socket.py:774(recv_multipart)
+       29    0.000    0.000    0.000    0.000 enum.py:720(__call__)
+       12    0.000    0.000    0.000    0.000 {built-in method _heapq.heappop}
+       57    0.000    0.000    0.000    0.000 {method &#39;rstrip&#39; of &#39;bytes&#39; objects}
+        4    0.000    0.000    0.000    0.000 weakref.py:369(remove)
+        1    0.000    0.000    0.000    0.000 queues.py:186(put)
+        1    0.000    0.000    0.000    0.000 conf.py:302(_check_timezones)
+       14    0.000    0.000    0.000    0.000 {built-in method _contextvars.copy_context}
+        1    0.000    0.000    0.000    0.000 futures.py:396(_call_set_state)
+       99    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 queues.py:209(put_nowait)
+        1    0.000    0.000    0.000    0.000 selector_events.py:129(_read_from_self)
+        1    0.000    0.000    0.000    0.000 base_events.py:837(call_soon_threadsafe)
+        1    0.000    0.000    0.000    0.000 conf.py:26(__init__)
+        1    0.000    0.000    0.000    0.000 conf.py:310(_replace_timezone)
+       97    0.000    0.000    0.000    0.000 base.py:70(__init__)
+        1    0.000    0.000    0.000    0.000 conf.py:202(build_args)
         1    0.000    0.000    0.000    0.000 __init__.py:230(utcoffset)
-        1    0.000    0.000    0.000    0.000 configparser.py:663(has_section)
-        1    0.000    0.000    0.000    0.000 util.py:840(__init__)
-        1    0.000    0.000    0.000    0.000 _base.py:633(__enter__)
-        1    0.000    0.000    0.000    0.000 configparser.py:366(before_set)
+       12    0.000    0.000    0.000    0.000 {built-in method _heapq.heappush}
+        1    0.000    0.000    0.000    0.000 git.py:343(__del__)
+        1    0.000    0.000    0.000    0.000 selector_events.py:141(_write_to_self)
+        4    0.000    0.000    0.000    0.000 weakref.py:427(__setitem__)
+        2    0.000    0.000    0.000    0.000 {method &#39;recv&#39; of &#39;_socket.socket&#39; objects}
+       27    0.000    0.000    0.000    0.000 selector_events.py:750(_process_events)
+        3    0.000    0.000    0.000    0.000 zmqstream.py:542(sending)
+        2    0.000    0.000    0.000    0.000 typing.py:1221(__instancecheck__)
+        1    0.000    0.000    0.000    0.000 queues.py:225(get)
+       29    0.000    0.000    0.000    0.000 enum.py:1123(__new__)
+       32    0.000    0.000    0.000    0.000 {method &#39;popleft&#39; of &#39;collections.deque&#39; objects}
+        1    0.000    0.000    0.000    0.000 {method &#39;send&#39; of &#39;_socket.socket&#39; objects}
+        1    0.000    0.000    0.000    0.000 asyncio.py:225(add_callback)
+        1    0.000    0.000    0.000    0.000 concurrent.py:182(future_set_result_unless_cancelled)
+        3    0.000    0.000    0.000    0.000 queue.py:97(empty)
+        1    0.000    0.000    0.000    0.000 threading.py:457(__init__)
+       13    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+        2    0.000    0.000    0.000    0.000 typing.py:1492(__subclasscheck__)
+       13    0.000    0.000    0.000    0.000 {built-in method _asyncio.get_running_loop}
+        8    0.000    0.000    0.000    0.000 {method &#39;difference_update&#39; of &#39;set&#39; objects}
+       14    0.000    0.000    0.000    0.000 {method &#39;cancelled&#39; of &#39;_asyncio.Future&#39; objects}
+       53    0.000    0.000    0.000    0.000 base_events.py:2010(get_debug)
+        4    0.000    0.000    0.000    0.000 typing.py:1285(__hash__)
+        8    0.000    0.000    0.000    0.000 conf.py:43(set_value)
+        1    0.000    0.000    0.000    0.000 conf.py:72(_check_only_one_from_commit)
+        1    0.000    0.000    0.000    0.000 configparser.py:869(set)
+        1    0.000    0.000    0.000    0.000 reference.py:54(__init__)
+        2    0.000    0.000    0.000    0.000 repository.py:154(_is_remote)
+        1    0.000    0.000    0.000    0.000 {method &#39;replace&#39; of &#39;datetime.datetime&#39; objects}
+       27    0.000    0.000    0.000    0.000 base_events.py:538(_check_closed)
+        8    0.000    0.000    0.000    0.000 {method &#39;partition&#39; of &#39;str&#39; objects}
+        1    0.000    0.000    0.000    0.000 queues.py:256(get_nowait)
+        2    0.000    0.000    0.000    0.000 iostream.py:216(_check_mp_mode)
+        1    0.000    0.000    0.000    0.000 conf.py:79(_check_only_one_to_commit)
+        1    0.000    0.000    0.000    0.000 reference.py:120(name)
+        1    0.000    0.000    0.000    0.000 util.py:1009(__del__)
+        2    0.000    0.000    0.000    0.000 queues.py:322(_consume_expired)
+        2    0.000    0.000    0.000    0.000 abc.py:121(__subclasscheck__)
+        1    0.000    0.000    0.000    0.000 queues.py:317(__put_internal)
+       12    0.000    0.000    0.000    0.000 base_events.py:1910(_timer_handle_cancelled)
+        2    0.000    0.000    0.000    0.000 iostream.py:213(_is_master_process)
+        8    0.000    0.000    0.000    0.000 {built-in method _stat.S_ISLNK}
+        2    0.000    0.000    0.000    0.000 conf.py:192(only_one_filter)
+        3    0.000    0.000    0.000    0.000 queue.py:209(_qsize)
+        5    0.000    0.000    0.000    0.000 {method &#39;upper&#39; of &#39;str&#39; objects}
+        1    0.000    0.000    0.000    0.000 conf.py:61(_sanity_check_repos)
+        3    0.000    0.000    0.000    0.000 config.py:756(_assure_writable)
+        1    0.000    0.000    0.000    0.000 conf.py:175(get_ending_commit)
+        1    0.000    0.000    0.000    0.000 conf.py:123(_check_correct_filters_order)
+        2    0.000    0.000    0.000    0.000 util.py:1012(_lock_file_path)
+        1    0.000    0.000    0.000    0.000 queues.py:312(_put)
+        1    0.000    0.000    0.000    0.000 conf.py:151(get_starting_commit)
+        8    0.000    0.000    0.000    0.000 util.py:1016(_has_lock)
+        1    0.000    0.000    0.000    0.000 {method &#39;reverse&#39; of &#39;list&#39; objects}
+        2    0.000    0.000    0.000    0.000 {built-in method _abc._abc_subclasscheck}
+        5    0.000    0.000    0.000    0.000 zmqstream.py:538(receiving)
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.hash}
+        1    0.000    0.000    0.000    0.000 queues.py:173(qsize)
+        1    0.000    0.000    0.000    0.000 base_events.py:1900(_add_callback)
+        3    0.000    0.000    0.000    0.000 git.py:63(repo)
+        1    0.000    0.000    0.000    0.000 pathlib.py:583(name)
+        1    0.000    0.000    0.000    0.000 queues.py:309(_get)
+        1    0.000    0.000    0.000    0.000 {method &#39;isalpha&#39; of &#39;str&#39; objects}
+        2    0.000    0.000    0.000    0.000 {built-in method posix.getpid}
+        1    0.000    0.000    0.000    0.000 unix_events.py:81(_process_self_data)
+        1    0.000    0.000    0.000    0.000 util.py:1005(__init__)
+        1    0.000    0.000    0.000    0.000 configparser.py:649(has_section)
+        1    0.000    0.000    0.000    0.000 codecs.py:186(__init__)
+        1    0.000    0.000    0.000    0.000 {method &#39;isascii&#39; of &#39;str&#39; objects}
+        1    0.000    0.000    0.000    0.000 {method &#39;done&#39; of &#39;_asyncio.Future&#39; objects}
+        2    0.000    0.000    0.000    0.000 iostream.py:255(closed)
+        1    0.000    0.000    0.000    0.000 selectors.py:275(_key_from_fd)
+        1    0.000    0.000    0.000    0.000 base_events.py:719(is_closed)
+        1    0.000    0.000    0.000    0.000 _base.py:643(__enter__)
+        1    0.000    0.000    0.000    0.000 queues.py:59(_set_timeout)
+        1    0.000    0.000    0.000    0.000 queues.py:177(empty)
+        1    0.000    0.000    0.000    0.000 locks.py:224(clear)
+        1    0.000    0.000    0.000    0.000 configparser.py:338(before_set)
+     26/0    1.302    0.050    0.000          {method &#39;control&#39; of &#39;select.kqueue&#39; objects}
 </pre>
 </div>
 
@@ -13404,22 +13523,22 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="220dd5d8-9eba-11ef-b697-6298cf1a578f" id="220dd5d8-9eba-11ef-b697-6298cf1a578f-1" onclick="clear_selection('220dd5d8-9eba-11ef-b697-6298cf1a578f')">
-        <label id="220dd5d8-9eba-11ef-b697-6298cf1a578f-1-label" for="220dd5d8-9eba-11ef-b697-6298cf1a578f-1">... is the root of all evil</label><br>
+        <input type="radio" name="72b25cfe-cc58-11ef-b89a-6298cf1a578f" id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-1" onclick="clear_selection('72b25cfe-cc58-11ef-b89a-6298cf1a578f')">
+        <label id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-1-label" for="72b25cfe-cc58-11ef-b89a-6298cf1a578f-1">... is the root of all evil</label><br>
 
-        <input type="radio" name="220dd5d8-9eba-11ef-b697-6298cf1a578f" id="220dd5d8-9eba-11ef-b697-6298cf1a578f-2" onclick="clear_selection('220dd5d8-9eba-11ef-b697-6298cf1a578f')">
-        <label id="220dd5d8-9eba-11ef-b697-6298cf1a578f-2-label" for="220dd5d8-9eba-11ef-b697-6298cf1a578f-2">... requires lots of experience</label><br>
+        <input type="radio" name="72b25cfe-cc58-11ef-b89a-6298cf1a578f" id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-2" onclick="clear_selection('72b25cfe-cc58-11ef-b89a-6298cf1a578f')">
+        <label id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-2-label" for="72b25cfe-cc58-11ef-b89a-6298cf1a578f-2">... requires lots of experience</label><br>
 
-        <input type="radio" name="220dd5d8-9eba-11ef-b697-6298cf1a578f" id="220dd5d8-9eba-11ef-b697-6298cf1a578f-3" onclick="clear_selection('220dd5d8-9eba-11ef-b697-6298cf1a578f')">
-        <label id="220dd5d8-9eba-11ef-b697-6298cf1a578f-3-label" for="220dd5d8-9eba-11ef-b697-6298cf1a578f-3">... should be left to assembly programmers</label><br>
+        <input type="radio" name="72b25cfe-cc58-11ef-b89a-6298cf1a578f" id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-3" onclick="clear_selection('72b25cfe-cc58-11ef-b89a-6298cf1a578f')">
+        <label id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-3-label" for="72b25cfe-cc58-11ef-b89a-6298cf1a578f-3">... should be left to assembly programmers</label><br>
 
-        <input type="radio" name="220dd5d8-9eba-11ef-b697-6298cf1a578f" id="220dd5d8-9eba-11ef-b697-6298cf1a578f-4" onclick="clear_selection('220dd5d8-9eba-11ef-b697-6298cf1a578f')">
-        <label id="220dd5d8-9eba-11ef-b697-6298cf1a578f-4-label" for="220dd5d8-9eba-11ef-b697-6298cf1a578f-4">... is the reason why TeX is so fast</label><br>
+        <input type="radio" name="72b25cfe-cc58-11ef-b89a-6298cf1a578f" id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-4" onclick="clear_selection('72b25cfe-cc58-11ef-b89a-6298cf1a578f')">
+        <label id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-4-label" for="72b25cfe-cc58-11ef-b89a-6298cf1a578f-4">... is the reason why TeX is so fast</label><br>
 
     </div>
     </p>
-    <input id="220dd5d8-9eba-11ef-b697-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('220dd5d8-9eba-11ef-b697-6298cf1a578f', 2, 0, 'len(&quot;METAFONT&quot;) - len(&quot;TeX&quot;) - len(&quot;CWEB&quot;)')">
-    <span class="quiz_hint" id="220dd5d8-9eba-11ef-b697-6298cf1a578f-hint"></span>
+    <input id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('72b25cfe-cc58-11ef-b89a-6298cf1a578f', 2, 0, 'len(&quot;METAFONT&quot;) - len(&quot;TeX&quot;) - len(&quot;CWEB&quot;)')">
+    <span class="quiz_hint" id="72b25cfe-cc58-11ef-b89a-6298cf1a578f-hint"></span>
     </div>
 
 </div>
@@ -13773,25 +13892,25 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{(&#39;__init__&#39;, 17): 2.4874985683709383e-05,
- (&#39;__init__&#39;, 19): 1.6669509932398796e-06,
- (&#39;clock&#39;, 8): 1.1249794624745846e-06,
- (&#39;clock&#39;, 12): 1.7499551177024841e-06,
- (&#39;__init__&#39;, 20): 1.9579892978072166e-06,
- (&#39;remove_html_markup&#39;, 238): 0.012263340235222131,
- (&#39;remove_html_markup&#39;, 239): 0.011493229889310896,
- (&#39;remove_html_markup&#39;, 240): 0.010979408340062946,
- (&#39;remove_html_markup&#39;, 241): 0.010019488167017698,
- (&#39;remove_html_markup&#39;, 243): 0.09736047266051173,
- (&#39;remove_html_markup&#39;, 244): 0.0865233785007149,
- (&#39;remove_html_markup&#39;, 246): 0.08576506655663252,
- (&#39;remove_html_markup&#39;, 247): 0.01743341883411631,
- (&#39;remove_html_markup&#39;, 248): 0.0691332631977275,
- (&#39;remove_html_markup&#39;, 250): 0.05126661161193624,
- (&#39;remove_html_markup&#39;, 252): 0.05368070403346792,
- (&#39;remove_html_markup&#39;, 249): 0.017349720059428364,
- (&#39;remove_html_markup&#39;, 253): 0.02558118914021179,
- (&#39;remove_html_markup&#39;, 255): 0.017243082402274013}
+<pre>{(&#39;__init__&#39;, 17): 0.00022016698494553566,
+ (&#39;__init__&#39;, 19): 1.5830155462026596e-06,
+ (&#39;clock&#39;, 8): 1.2919772416353226e-06,
+ (&#39;clock&#39;, 12): 1.4569377526640892e-06,
+ (&#39;__init__&#39;, 20): 1.5828991308808327e-06,
+ (&#39;remove_html_markup&#39;, 238): 0.012882728944532573,
+ (&#39;remove_html_markup&#39;, 239): 0.013635290903039277,
+ (&#39;remove_html_markup&#39;, 240): 0.013054477632977068,
+ (&#39;remove_html_markup&#39;, 241): 0.01165531575679779,
+ (&#39;remove_html_markup&#39;, 243): 0.08077288034837693,
+ (&#39;remove_html_markup&#39;, 244): 0.07150613819248974,
+ (&#39;remove_html_markup&#39;, 246): 0.07079160970170051,
+ (&#39;remove_html_markup&#39;, 247): 0.014456364791840315,
+ (&#39;remove_html_markup&#39;, 248): 0.05541102448478341,
+ (&#39;remove_html_markup&#39;, 250): 0.041573926573619246,
+ (&#39;remove_html_markup&#39;, 252): 0.04255332995671779,
+ (&#39;remove_html_markup&#39;, 249): 0.014053545310162008,
+ (&#39;remove_html_markup&#39;, 253): 0.020640557748265564,
+ (&#39;remove_html_markup&#39;, 255): 0.013936822768300772}
 </pre>
 </div>
 
@@ -14032,20 +14151,20 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;remove_html_markup&#39;, 238) 0.00022766191978007555
-(&#39;remove_html_markup&#39;, 239) 0.00019945891108363867
-(&#39;remove_html_markup&#39;, 240) 0.0001841600751504302
-(&#39;remove_html_markup&#39;, 241) 0.00016928481636568904
-(&#39;remove_html_markup&#39;, 243) 0.0016425381181761622
-(&#39;remove_html_markup&#39;, 244) 0.0014470171881839633
-(&#39;remove_html_markup&#39;, 246) 0.0015351754263974726
-(&#39;remove_html_markup&#39;, 247) 0.0002907503512687981
-(&#39;remove_html_markup&#39;, 248) 0.0011504249996505678
-(&#39;remove_html_markup&#39;, 250) 0.0008595951367169619
-(&#39;remove_html_markup&#39;, 252) 0.0009983080090023577
-(&#39;remove_html_markup&#39;, 249) 0.00028925150400027633
-(&#39;remove_html_markup&#39;, 253) 0.00042692222632467747
-(&#39;remove_html_markup&#39;, 255) 0.0002905394067056477
+<pre>(&#39;remove_html_markup&#39;, 238) 0.00031420751474797726
+(&#39;remove_html_markup&#39;, 239) 0.0002786266850307584
+(&#39;remove_html_markup&#39;, 240) 0.0002594972029328346
+(&#39;remove_html_markup&#39;, 241) 0.00022937403991818428
+(&#39;remove_html_markup&#39;, 243) 0.0016112495213747025
+(&#39;remove_html_markup&#39;, 244) 0.0014270415995270014
+(&#39;remove_html_markup&#39;, 246) 0.001401219516992569
+(&#39;remove_html_markup&#39;, 247) 0.0002861295361071825
+(&#39;remove_html_markup&#39;, 248) 0.0013907889369875193
+(&#39;remove_html_markup&#39;, 250) 0.0008444057311862707
+(&#39;remove_html_markup&#39;, 252) 0.0008519580587744713
+(&#39;remove_html_markup&#39;, 249) 0.0002815014449879527
+(&#39;remove_html_markup&#39;, 253) 0.0004180896794423461
+(&#39;remove_html_markup&#39;, 255) 0.0002799185458570719
 </pre>
 </div>
 
@@ -14077,7 +14196,7 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.009711088088806719
+<pre>0.009874008013866842
 </pre>
 </div>
 
@@ -14224,22 +14343,22 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 <div class="output_subarea output_stream output_stdout output_text">
 <pre> 238   2% def remove_html_markup(s):  # type: ignore
  239   2%     tag = False
- 240   1%     quote = False
- 241   1%     out = &#34;&#34;
+ 240   2%     quote = False
+ 241   3%     out = &#34;&#34;
  242   0%
- 243  17%     for c in s:
- 244  15%         assert tag or not quote
+ 243  16%     for c in s:
+ 244  14%         assert tag or not quote
  245   0%
  246  14%         if c == &#39;&lt;&#39; and not quote:
  247   3%             tag = True
  248  11%         elif c == &#39;&gt;&#39; and not quote:
- 249   3%             tag = False
+ 249   2%             tag = False
  250   8%         elif (c == &#39;&#34;&#39; or c == &#34;&#39;&#34;) and tag:
  251   0%             quote = not quote
- 252   9%         elif not tag:
+ 252   8%         elif not tag:
  253   4%             out = out + c
  254   0%
- 255   3%     return out
+ 255   2%     return out
 </pre>
 </div>
 
@@ -14272,42 +14391,42 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
-<pre style="background-color:hsl(240, 100%, 96.80518928956066%)"
-                    title="Line 238:   2% 0.00025112368166446686"> 238 def remove_html_markup(s):  # type: ignore</pre>
-<pre style="background-color:hsl(240, 100%, 97.09939547684202%)"
-                    title="Line 239:   2% 0.0002279980108141899"> 239     tag = False</pre>
-<pre style="background-color:hsl(240, 100%, 97.28181033309926%)"
-                    title="Line 240:   1% 0.00021365954307839274"> 240     quote = False</pre>
-<pre style="background-color:hsl(240, 100%, 97.51508864174366%)"
-                    title="Line 241:   1% 0.00019532302394509315"> 241     out = &quot;&quot;</pre>
+<pre style="background-color:hsl(240, 100%, 95.59392399394056%)"
+                    title="Line 238:   2% 0.0003450490767136216"> 238 def remove_html_markup(s):  # type: ignore</pre>
+<pre style="background-color:hsl(240, 100%, 95.82324308709862%)"
+                    title="Line 239:   2% 0.000327090616337955"> 239     tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 96.00373179058161%)"
+                    title="Line 240:   2% 0.00031295616645365953"> 240     quote = False</pre>
+<pre style="background-color:hsl(240, 100%, 95.05179190642832%)"
+                    title="Line 241:   3% 0.0003875045804306865"> 241     out = &quot;&quot;</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 242:   0% 0.0"> 242 &nbsp;</pre>
 <pre style="background-color:hsl(240, 100%, 75.0%)"
-                    title="Line 243:  17% 0.001965090457815677"> 243     for c in s:</pre>
-<pre style="background-color:hsl(240, 100%, 78.78220116547996%)"
-                    title="Line 244:  15% 0.0016677957610227168"> 244         assert tag or not quote</pre>
+                    title="Line 243:  16% 0.0019578025676310062"> 243     for c in s:</pre>
+<pre style="background-color:hsl(240, 100%, 78.36783262997434%)"
+                    title="Line 244:  14% 0.001694060512818396"> 244         assert tag or not quote</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 245:   0% 0.0"> 245 &nbsp;</pre>
-<pre style="background-color:hsl(240, 100%, 79.24820609433111%)"
-                    title="Line 246:  14% 0.0016311660874634981"> 246         if c == &#x27;&lt;&#x27; and not quote:</pre>
-<pre style="background-color:hsl(240, 100%, 95.62086231820459%)"
-                    title="Line 247:   3% 0.000344216066878289"> 247             tag = True</pre>
-<pre style="background-color:hsl(240, 100%, 83.3160678302193%)"
-                    title="Line 248:  11% 0.0013114174362272024"> 248         elif c == &#x27;&gt;&#x27; and not quote:</pre>
-<pre style="background-color:hsl(240, 100%, 95.79591639181722%)"
-                    title="Line 249:   3% 0.0003304561832919717"> 249             tag = False</pre>
-<pre style="background-color:hsl(240, 100%, 87.44579568534914%)"
-                    title="Line 250:   8% 0.000986805884167552"> 250         elif (c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot;) and tag:</pre>
+<pre style="background-color:hsl(240, 100%, 78.04303948126095%)"
+                    title="Line 246:  14% 0.0017194957472383976"> 246         if c == &#x27;&lt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.50241160997814%)"
+                    title="Line 247:   3% 0.0003522156039252877"> 247             tag = True</pre>
+<pre style="background-color:hsl(240, 100%, 83.00495510719972%)"
+                    title="Line 248:  11% 0.001330917701125145"> 248         elif c == &#x27;&gt;&#x27; and not quote:</pre>
+<pre style="background-color:hsl(240, 100%, 95.55999484105625%)"
+                    title="Line 249:   2% 0.0003477061400189996"> 249             tag = False</pre>
+<pre style="background-color:hsl(240, 100%, 87.09535501215527%)"
+                    title="Line 250:   8% 0.0010105898836627603"> 250         elif (c == &#x27;&quot;&#x27; or c == &quot;&#x27;&quot;) and tag:</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 251:   0% 0.0"> 251             quote = not quote</pre>
-<pre style="background-color:hsl(240, 100%, 87.19161245778547%)"
-                    title="Line 252:   9% 0.0010067856055684388"> 252         elif not tag:</pre>
-<pre style="background-color:hsl(240, 100%, 93.81280306393393%)"
-                    title="Line 253:   4% 0.00048633606638759375"> 253             out = out + c</pre>
+<pre style="background-color:hsl(240, 100%, 87.2342989366487%)"
+                    title="Line 252:   8% 0.0009997088927775621"> 252         elif not tag:</pre>
+<pre style="background-color:hsl(240, 100%, 93.74551654727046%)"
+                    title="Line 253:   4% 0.0004898017505183816"> 253             out = out + c</pre>
 <pre style="background-color:hsl(240, 100%, 100.0%)"
                     title="Line 254:   0% 0.0"> 254 &nbsp;</pre>
-<pre style="background-color:hsl(240, 100%, 95.42656061254982%)"
-                    title="Line 255:   3% 0.00035948888398706913"> 255     return out</pre>
+<pre style="background-color:hsl(240, 100%, 95.84514302927754%)"
+                    title="Line 255:   2% 0.0003253755858168006"> 255     return out</pre>
 
 </div>
 
@@ -14618,7 +14737,7 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.31061120895901695
+<pre>0.3150141249643639
 </pre>
 </div>
 
@@ -14868,7 +14987,7 @@ underlying <a href="https://pydriller.readthedocs.io/">PyDriller</a> Python pack
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>20539
+<pre>23168
 </pre>
 </div>
 
