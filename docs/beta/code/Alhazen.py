@@ -3,7 +3,7 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-07 11:04:38+01:00
+# Last change: 2025-01-07 11:35:49+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -66,7 +66,10 @@ This predicate is either
 If the predicate evaluates to `True`, follow the left path; if it evaluates to `False`, follow the right path.
 A leaf node (no children) will give you the final decision `class = BUG` or `class = NO_BUG`.
 
-So if the predicate states ` == 'sqrt' <= 0.5`, this means that if the function is _not_ `sqrt`, follow the left (`True`) path. If it is `sqrt`, follow the right (`False`) path.
+So if the predicate states ` == 'sqrt' <= 0.5`, this means that
+
+* If the function is _not_ `sqrt` (the predicate ` == 'sqrt'` is negative, see above, and hence less than 0.5), follow the left (`True`) path.
+* If the function _is_ `sqrt` (the predicate ` == 'sqrt'` is positive), follow the right (`False`) path.
 
 The `samples` field shows the number of sample inputs that contributed to this decision.
 The `gini` field (aka Gini impurity) indicates how many samples fall into the displayed class (`BUG` or `NO_BUG`).
@@ -77,9 +80,9 @@ There is also a text version available, with much fewer (but hopefully still ess
 
 >>> print(alhazen.friendly_decision_tree())
 if  <= 4.5000:
-  if  <= 42.1500:
-    if  == 'sqrt':
-      if  <= -11.9137:
+  if  == 'sqrt':
+    if  <= 42.2000:
+      if  <= -11.8470:
         BUG
       else:
         NO_BUG
@@ -333,6 +336,13 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print('\n## Step 1: Extracting Features')
+
+
+
+### Internal and "Friendly" Feature Names
+
+if __name__ == '__main__':
+    print('\n### Internal and "Friendly" Feature Names')
 
 
 
