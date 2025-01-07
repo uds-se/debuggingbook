@@ -3,7 +3,7 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-06 18:52:47+01:00
+# Last change: 2025-01-07 10:36:36+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -78,26 +78,17 @@ There is also a text version available, with much fewer (but hopefully still ess
 >>> print(alhazen.friendly_decision_tree())
 if  <= 3.5000:
   if  == 'sqrt':
-    if  <= -11.7085:
-      if  <= -73.9000:
-        NO_BUG
-      else:
+    if  <= -11.0000:
+      if  <= 72.9000:
         BUG
+      else:
+        NO_BUG
     else:
       NO_BUG
   else:
     NO_BUG
 else:
-  if  == '4':
-    if  <= 40.5000:
-      if  == '':
-        NO_BUG
-      else:
-        BUG
-    else:
-      NO_BUG
-  else:
-    NO_BUG
+  NO_BUG
 
 
 
@@ -193,16 +184,15 @@ from fuzzingbook.Grammars import Grammar, EXPR_GRAMMAR, reachable_nonterminals, 
 from fuzzingbook.GrammarFuzzer import GrammarFuzzer, expansion_to_children, DerivationTree, tree_to_string, display_tree, is_nonterminal
 from fuzzingbook.Parser import EarleyParser
 
+from math import tan as rtan
+from math import cos as rcos
+from math import sin as rsin
+
 if __name__ == '__main__':
     """
 This file contains the code under test for the example bug.
 The sqrt() method fails on x <= 0.
 """
-    from math import tan as rtan
-    from math import cos as rcos
-    from math import sin as rsin
-
-
     def task_sqrt(x):
         """Computes the square root of x, using the Newton-Raphson method"""
         if x <= -12 and x >= -42:
@@ -314,14 +304,14 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     labels = execute_samples(sample_list)
-    display(labels)
+    labels
 
 if __name__ == '__main__':
     for i, row in enumerate(labels['oracle']): print(sample_list[i].ljust(30) + str(row))
 
 if __name__ == '__main__':
     clean_data = labels.drop(labels[labels.oracle.astype(str) == "UNDEF"].index)
-    display(clean_data)
+    clean_data
 
 if __name__ == '__main__':
     oracle = execute_samples(sample_list)
@@ -452,8 +442,8 @@ class ExistenceFeature(Feature):
 if __name__ == '__main__':
     from numpy import nanmax, isnan
 
-    class NumericInterpretation(Feature):
-        '''
+class NumericInterpretation(Feature):
+    '''
     This class represents numeric interpretation features of a grammar. These features
     are defined for productions that only derive words composed of the characters
     [0-9], '.', and '-'. The returned feature value corresponds to the maximum
@@ -463,36 +453,36 @@ if __name__ == '__main__':
            e.g., 'num(<integer>)'
     rule : The production rule.
     '''
-        def __init__(self, name: str, rule: str, /, 
-                     friendly_name: str = None) -> None:
-            super().__init__(name, rule, rule, friendly_name=friendly_name)
+    def __init__(self, name: str, rule: str, /, 
+                 friendly_name: str = None) -> None:
+        super().__init__(name, rule, rule, friendly_name=friendly_name)
 
-        def name_rep(self) -> str:
-            return f"num({self.key})"
+    def name_rep(self) -> str:
+        return f"num({self.key})"
 
-        def get_feature_value(self, derivation_tree) -> float:
-            '''Returns the feature value for a given derivation tree of an input.'''
-            raise NotImplementedError
+    def get_feature_value(self, derivation_tree) -> float:
+        '''Returns the feature value for a given derivation tree of an input.'''
+        raise NotImplementedError
 
-        def get_feature_value(self, derivation_tree: DerivationTree) -> float:
-            '''Determines the maximum float of this feature in the derivation tree.'''
-            (node, children) = derivation_tree
+    def get_feature_value(self, derivation_tree: DerivationTree) -> float:
+        '''Determines the maximum float of this feature in the derivation tree.'''
+        (node, children) = derivation_tree
 
-            value = float('nan')
-            if node == self.rule:
-                try:
-                    #print(self.name, float(tree_to_string(derivation_tree)))
-                    value = float(tree_to_string(derivation_tree))
-                except ValueError:
-                    #print(self.name, float(tree_to_string(derivation_tree)), "err")
-                    pass
+        value = float('nan')
+        if node == self.rule:
+            try:
+                #print(self.name, float(tree_to_string(derivation_tree)))
+                value = float(tree_to_string(derivation_tree))
+            except ValueError:
+                #print(self.name, float(tree_to_string(derivation_tree)), "err")
+                pass
 
-            # Return maximum value encountered in tree, ignoring all NaNs
-            tree_values = [value] + [self.get_feature_value(c) for c in children]
-            if all(isnan(tree_values)):
-                return value
-            else:
-                return nanmax(tree_values)
+        # Return maximum value encountered in tree, ignoring all NaNs
+        tree_values = [value] + [self.get_feature_value(c) for c in children]
+        if all(isnan(tree_values)):
+            return value
+        else:
+            return nanmax(tree_values)
 
 ### Extracting Feature Sets from Grammars
 
@@ -525,7 +515,6 @@ def extract_existence_features(grammar: Grammar) -> List[ExistenceFeature]:
 from collections import defaultdict
 import re
 
-# Regex for non-terminal symbols in expansions
 RE_NONTERMINAL = re.compile(r'(<[^<> ]*>)')
 
 def extract_numeric_features(grammar: Grammar) -> List[NumericInterpretation]:
@@ -660,13 +649,13 @@ if __name__ == '__main__':
 
 import random
 
-# For this example, fix the random seed so that the produced output is deterministic
-random.seed(24)
-f = GrammarFuzzer(EXPR_GRAMMAR, max_nonterminals=3)
-test_input = f.fuzz()
-assert(test_input == tree_to_string(f.derivation_tree))
+if __name__ == '__main__':
+    random.seed(24)
+    f = GrammarFuzzer(EXPR_GRAMMAR, max_nonterminals=3)
+    test_input = f.fuzz()
+    assert(test_input == tree_to_string(f.derivation_tree))
 
-display(display_tree(f.derivation_tree))
+    display_tree(f.derivation_tree)
 
 def extend_grammar(derivation_tree, grammar):
     (node, children) = derivation_tree
@@ -1936,7 +1925,7 @@ class Alhazen(Alhazen):
                                        self._generator_timeout)
         if self._verbose:
             print(f"  New samples:")
-            print(f"    {", ".join(new_samples)}")
+            print(f"    {', '.join(new_samples)}")
 
         self._previous_samples = new_samples
 
@@ -1989,7 +1978,9 @@ if __name__ == '__main__':
     print(alhazen.friendly_decision_tree())
 
 import inspect
-print(inspect.getsource(task_sqrt))
+
+if __name__ == '__main__':
+    print(inspect.getsource(task_sqrt))
 
 ## Synopsis
 ## --------

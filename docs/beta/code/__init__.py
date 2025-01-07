@@ -13,8 +13,8 @@
 # from . import StatisticalDebugger
 # from . import DynamicInvariants
 # from . import DDSetDebugger
-# from . import PerformanceDebugger
 # from . import Alhazen
+# from . import PerformanceDebugger
 # from . import Repairer
 # from . import Tracking
 # from . import ChangeCounter
