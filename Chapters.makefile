@@ -59,10 +59,10 @@ ABSTRACTING_PART = \
 	StatisticalDebugger.ipynb \
 	DynamicInvariants.ipynb \
 	DDSetDebugger.ipynb \
+	Alhazen.ipynb \
 	PerformanceDebugger.ipynb
-ABSTRACTING_PART_READY = 
-ABSTRACTING_PART_TODO = \
-	Alhazen.ipynb
+ABSTRACTING_PART_READY =
+ABSTRACTING_PART_TODO =
 
 # Repairing Failures
 REPAIRING_PART = \
