@@ -3,7 +3,7 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-07 10:36:36+01:00
+# Last change: 2025-01-07 11:04:38+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -76,10 +76,10 @@ The _saturation_ of nodes also indicates purity – the higher the saturation, t
 There is also a text version available, with much fewer (but hopefully still essential) details:
 
 >>> print(alhazen.friendly_decision_tree())
-if  <= 3.5000:
-  if  == 'sqrt':
-    if  <= -11.0000:
-      if  <= 72.9000:
+if  <= 4.5000:
+  if  <= 42.1500:
+    if  == 'sqrt':
+      if  <= -11.9137:
         BUG
       else:
         NO_BUG
@@ -2002,7 +2002,9 @@ if __name__ == '__main__':
     print(alhazen.friendly_decision_tree())
 
 import inspect
-print(inspect.getsource(task_sqrt))
+
+if __name__ == '__main__':
+    print(inspect.getsource(task_sqrt))
 
 ## Lessons Learned
 ## ---------------
