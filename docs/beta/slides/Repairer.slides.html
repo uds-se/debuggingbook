@@ -7903,9 +7903,9 @@ main {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/3661663124.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30478/3661663124.py", line 2, in &lt;module&gt;
     middle_test(2, 1, 3)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/40742806.py", line 3, in middle_test
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30478/40742806.py", line 3, in middle_test
     assert m == sorted([x, y, z])[1]
            ^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError (expected)
@@ -7986,76 +7986,7 @@ AssertionError (expected)
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1198:  10%">1198     @property</pre>
-<pre title="Line 1199: not executed">1199     def ident(self):
-</pre>
-<pre title="Line 1200: not executed">1200         """Thread identifier of this thread or None if it has not been started.
-</pre>
-<pre title="Line 1201: not executed">1201  </pre>
-<pre title="Line 1202: not executed">1202         This is a nonzero integer. See the get_ident() function. Thread
-</pre>
-<pre title="Line 1203: not executed">1203         identifiers may be recycled when a thread exits and another thread is
-</pre>
-<pre title="Line 1204: not executed">1204         created. The identifier is available even after the thread has exited.
-</pre>
-<pre title="Line 1205: not executed">1205  </pre>
-<pre title="Line 1206: not executed">1206         """
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1207:  10%">1207         assert self._initialized, "Thread.__init__() not called"</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1208:  10%">1208         return self._ident</pre>
-<p></p><pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 775:  10%"> 775     def _clean_thread_parent_frames(</pre>
-<pre title="Line 776: not executed"> 776         self, phase: t.Literal["start", "stop"], info: t.Dict[str, t.Any]
-</pre>
-<pre title="Line 777: not executed"> 777     ):
-</pre>
-<pre title="Line 778: not executed"> 778         """Clean parent frames of threads which are no longer running.
-</pre>
-<pre title="Line 779: not executed"> 779         This is meant to be invoked by garbage collector callback hook.
-</pre>
-<pre title="Line 780: not executed"> 780  </pre>
-<pre title="Line 781: not executed"> 781         The implementation enumerates the threads because there is no "exit" hook yet,
-</pre>
-<pre title="Line 782: not executed"> 782         but there might be one in the future: https://bugs.python.org/issue14073
-</pre>
-<pre title="Line 783: not executed"> 783  </pre>
-<pre title="Line 784: not executed"> 784         This is a no-op if the `self._stdout` and `self._stderr` are not
-</pre>
-<pre title="Line 785: not executed"> 785         sub-classes of `OutStream`.
-</pre>
-<pre title="Line 786: not executed"> 786         """
-</pre>
-<pre title="Line 787: not executed"> 787         # Only run before the garbage collector starts
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 788:  10%"> 788         if phase != "start":</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 789:  10%"> 789             return</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 790:  10%"> 790         active_threads = {thread.ident for thread in threading.enumerate()}</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 791:  10%"> 791         for stream in [self._stdout, self._stderr]:</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 792:  10%"> 792             if isinstance(stream, OutStream):</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 793:  10%"> 793                 thread_to_parent_header = stream._thread_to_parent_header</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 794:  10%"> 794                 for identity in list(thread_to_parent_header.keys()):</pre>
-<pre title="Line 795: not executed"> 795                     if identity not in active_threads:
-</pre>
-<pre title="Line 796: not executed"> 796                         try:
-</pre>
-<pre title="Line 797: not executed"> 797                             del thread_to_parent_header[identity]
-</pre>
-<pre title="Line 798: not executed"> 798                         except KeyError:
-</pre>
-<pre title="Line 799: not executed"> 799                             pass
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 800:  10%"> 800                 thread_to_parent = stream._thread_to_parent</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 801:  10%"> 801                 for identity in list(thread_to_parent.keys()):</pre>
-<pre title="Line 802: not executed"> 802                     if identity not in active_threads:
-</pre>
-<pre title="Line 803: not executed"> 803                         try:
-</pre>
-<pre title="Line 804: not executed"> 804                             del thread_to_parent[identity]
-</pre>
-<pre title="Line 805: not executed"> 805                         except KeyError:
-</pre>
-<pre title="Line 806: not executed"> 806                             pass
-</pre>
-<p></p><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 708:  70%"> 708 def middle(x, y, z):  # type: ignore</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 708:  70%"> 708 def middle(x, y, z):  # type: ignore</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 709:  70%"> 709     if y &lt; z:</pre>
 <pre style="background-color:hsl(15.155513200675452, 100.0%, 80%)" title="Line 710:  87%"> 710         if x &lt; y:</pre>
 <pre style="background-color:hsl(120.0, 8.0%, 80%)" title="Line 711:   0%"> 711             return y</pre>
@@ -8068,21 +7999,6 @@ AssertionError (expected)
 <pre style="background-color:hsl(120.0, 50.0%, 80%)" title="Line 717:   0%"> 717         elif x &gt; z:</pre>
 <pre style="background-color:hsl(120.0, 19.0%, 80%)" title="Line 718:   0%"> 718             return x</pre>
 <pre style="background-color:hsl(120.0, 47.0%, 80%)" title="Line 719:   0%"> 719     return z</pre>
-<p></p><pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1535:  10%">1535 def enumerate():</pre>
-<pre title="Line 1536: not executed">1536     """Return a list of all Thread objects currently alive.
-</pre>
-<pre title="Line 1537: not executed">1537  </pre>
-<pre title="Line 1538: not executed">1538     The list includes daemonic threads, dummy thread objects created by
-</pre>
-<pre title="Line 1539: not executed">1539     current_thread(), and the main thread. It excludes terminated threads and
-</pre>
-<pre title="Line 1540: not executed">1540     threads that have not yet been started.
-</pre>
-<pre title="Line 1541: not executed">1541  </pre>
-<pre title="Line 1542: not executed">1542     """
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1543:  10%">1543     with _active_limbo_lock:</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1544:  10%">1544         return list(_active.values()) + list(_limbo.values())</pre>
 <p></p><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 1:  70%">   1 def middle_test(x: int, y: int, z: int) -&gt; None:</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 2:  70%">   2     m = middle(x, y, z)</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 3:  70%">   3     assert m == sorted([x, y, z])[1]</pre>
@@ -8589,11 +8505,11 @@ AssertionError (expected)
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[&lt;ast.Return at 0x11a8395d0&gt;,
- &lt;ast.Return at 0x11a84e810&gt;,
- &lt;ast.Return at 0x11a84e150&gt;,
- &lt;ast.Return at 0x11a8393d0&gt;,
- &lt;ast.Return at 0x11a83b990&gt;]</pre>
+<pre>[&lt;ast.Return at 0x1235e1090&gt;,
+ &lt;ast.Return at 0x1236be0d0&gt;,
+ &lt;ast.Return at 0x1236bc850&gt;,
+ &lt;ast.Return at 0x1236bfa50&gt;,
+ &lt;ast.Return at 0x1236bf490&gt;]</pre>
 </div>
 </div>
 </div>
@@ -8619,11 +8535,11 @@ AssertionError (expected)
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[35]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[(&lt;ast.If at 0x11a75e050&gt;, 'middle'),
- (&lt;ast.If at 0x11a75dd50&gt;, 'middle'),
- (&lt;ast.If at 0x11a75e150&gt;, 'middle'),
- (&lt;ast.If at 0x11a75ced0&gt;, 'middle'),
- (&lt;ast.If at 0x11a75fc10&gt;, 'middle')]</pre>
+<pre>[(&lt;ast.If at 0x1236aa210&gt;, 'middle'),
+ (&lt;ast.If at 0x1236aa190&gt;, 'middle'),
+ (&lt;ast.If at 0x1235caf50&gt;, 'middle'),
+ (&lt;ast.If at 0x1236aa1d0&gt;, 'middle'),
+ (&lt;ast.If at 0x1235c9890&gt;, 'middle')]</pre>
 </div>
 </div>
 </div>
@@ -9173,18 +9089,18 @@ AssertionError (expected)
 </p>
 <p>
 <div class="quiz_options" title="Check all that apply.">
-<input id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-1" name="e6ad8478-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6ad8478-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-1" id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-1-label">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br/>
-<input id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-2" name="e6ad8478-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6ad8478-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-2" id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-2-label">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br/>
-<input id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-3" name="e6ad8478-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6ad8478-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-3" id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-3-label">Because a <code>pass</code> node makes a target for future mutations</label><br/>
-<input id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-4" name="e6ad8478-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6ad8478-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-4" id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-4-label">Because it causes the tests to pass</label><br/>
+<input id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-1" name="4bc461ce-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4bc461ce-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-1" id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-1-label">Because <code>if P: pass</code> is valid Python, while <code>if P:</code> is not</label><br/>
+<input id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-2" name="4bc461ce-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4bc461ce-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-2" id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-2-label">Because in Python, bodies for <code>if</code>, <code>while</code>, etc. cannot be empty</label><br/>
+<input id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-3" name="4bc461ce-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4bc461ce-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-3" id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-3-label">Because a <code>pass</code> node makes a target for future mutations</label><br/>
+<input id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-4" name="4bc461ce-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4bc461ce-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-4" id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-4-label">Because it causes the tests to pass</label><br/>
 </div>
 </p>
-<input id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-submit" onclick="check_selection('e6ad8478-cc2e-11ef-bad6-6298cf1a578f', 14, 1, '[3 ^ n for n in range(3)]')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="e6ad8478-cc2e-11ef-bad6-6298cf1a578f-hint"></span>
+<input id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-submit" onclick="check_selection('4bc461ce-cce8-11ef-bf4e-6298cf1a578f', 14, 1, '[3 ^ n for n in range(3)]')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="4bc461ce-cce8-11ef-bf4e-6298cf1a578f-hint"></span>
 </div>
 </div>
 </div>
@@ -10147,18 +10063,18 @@ AssertionError (expected)
 </p>
 <p>
 <div class="quiz_options" title="Check all that apply.">
-<input id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-1" name="e6cc7090-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6cc7090-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-1" id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-1-label">Line 3: <code>if x &lt; y:</code></label><br/>
-<input id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-2" name="e6cc7090-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6cc7090-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-2" id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-2-label">Line 4: <code>if x &lt; z:</code></label><br/>
-<input id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-3" name="e6cc7090-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6cc7090-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-3" id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-3-label">Line 5: <code>return y</code></label><br/>
-<input id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-4" name="e6cc7090-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('e6cc7090-cc2e-11ef-bad6-6298cf1a578f')" type="checkbox"/>
-<label for="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-4" id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-4-label">Line 13: <code>return z</code></label><br/>
+<input id="4be54902-cce8-11ef-bf4e-6298cf1a578f-1" name="4be54902-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4be54902-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4be54902-cce8-11ef-bf4e-6298cf1a578f-1" id="4be54902-cce8-11ef-bf4e-6298cf1a578f-1-label">Line 3: <code>if x &lt; y:</code></label><br/>
+<input id="4be54902-cce8-11ef-bf4e-6298cf1a578f-2" name="4be54902-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4be54902-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4be54902-cce8-11ef-bf4e-6298cf1a578f-2" id="4be54902-cce8-11ef-bf4e-6298cf1a578f-2-label">Line 4: <code>if x &lt; z:</code></label><br/>
+<input id="4be54902-cce8-11ef-bf4e-6298cf1a578f-3" name="4be54902-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4be54902-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4be54902-cce8-11ef-bf4e-6298cf1a578f-3" id="4be54902-cce8-11ef-bf4e-6298cf1a578f-3-label">Line 5: <code>return y</code></label><br/>
+<input id="4be54902-cce8-11ef-bf4e-6298cf1a578f-4" name="4be54902-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4be54902-cce8-11ef-bf4e-6298cf1a578f')" type="checkbox"/>
+<label for="4be54902-cce8-11ef-bf4e-6298cf1a578f-4" id="4be54902-cce8-11ef-bf4e-6298cf1a578f-4-label">Line 13: <code>return z</code></label><br/>
 </div>
 </p>
-<input id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-submit" onclick="check_selection('e6cc7090-cc2e-11ef-bad6-6298cf1a578f', 20, 1, '[eval(chr(100 - x)) for x in [48, 50]]')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="e6cc7090-cc2e-11ef-bad6-6298cf1a578f-hint"></span>
+<input id="4be54902-cce8-11ef-bf4e-6298cf1a578f-submit" onclick="check_selection('4be54902-cce8-11ef-bf4e-6298cf1a578f', 20, 1, '[eval(chr(100 - x)) for x in [48, 50]]')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="4be54902-cce8-11ef-bf4e-6298cf1a578f-hint"></span>
 </div>
 </div>
 </div>
@@ -10754,27 +10670,6 @@ AssertionError (expected)
         <span class="ansi-blue-fg">return</span> x
     <span class="ansi-blue-fg">return</span> z
 
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse ident
-  warnings.warn(f"Can't parse {item.__name__}")
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse _clean_thread_parent_frames
-  warnings.warn(f"Can't parse {item.__name__}")
 </pre>
 </div>
 </div>
@@ -10826,17 +10721,6 @@ Best code (fitness = 1.0):
         <span class="ansi-blue-fg">return</span> x
     <span class="ansi-blue-fg">return</span> z
 
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
-
 Reduced code (fitness = 1.0):
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):
     <span class="ansi-blue-fg">if</span> y &lt; z:
@@ -10850,14 +10734,6 @@ Reduced code (fitness = 1.0):
         <span class="ansi-blue-fg">return</span> x
     <span class="ansi-blue-fg">return</span> z
 
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/1291881850.py:14: UserWarning: Couldn't find definition of 'enumerate'
-  warnings.warn(f"Couldn't find definition of {repr(name)}")
 </pre>
 </div>
 </div>
@@ -11077,7 +10953,7 @@ Reduced code (fitness = 1.0):
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[154]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>('SD:v@&lt;ulmmr luikg="Ji _\\"&gt;$VT6c&lt;/ulmmr&gt;{z!Ey', 'SD:v@$VT6c{z!Ey')</pre>
+<pre>('Sg$VT&lt;fqlui ppzww="!EyHN"&gt;J9Ji &lt;/fqlui&gt;.)!$', 'Sg$VTJ9Ji .)!$')</pre>
 </div>
 </div>
 </div>
@@ -11158,9 +11034,9 @@ Reduced code (fitness = 1.0):
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/2578453007.py", line 3, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30478/2578453007.py", line 3, in &lt;module&gt;
     remove_html_markup_test(html, plain)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/700130947.py", line 3, in remove_html_markup_test
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30478/700130947.py", line 3, in remove_html_markup_test
     assert outcome == plain, \
            ^^^^^^^^^^^^^^^^
 AssertionError: Got '3AGe7!%H&lt;/qcguk&gt;6azh_', expected '3AGe7"!%H6azh_' (expected)
@@ -11243,76 +11119,7 @@ AssertionError: Got '3AGe7!%H&lt;/qcguk&gt;6azh_', expected '3AGe7"!%H6azh_' (ex
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[160]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1198:  10%">1198     @property</pre>
-<pre title="Line 1199: not executed">1199     def ident(self):
-</pre>
-<pre title="Line 1200: not executed">1200         """Thread identifier of this thread or None if it has not been started.
-</pre>
-<pre title="Line 1201: not executed">1201  </pre>
-<pre title="Line 1202: not executed">1202         This is a nonzero integer. See the get_ident() function. Thread
-</pre>
-<pre title="Line 1203: not executed">1203         identifiers may be recycled when a thread exits and another thread is
-</pre>
-<pre title="Line 1204: not executed">1204         created. The identifier is available even after the thread has exited.
-</pre>
-<pre title="Line 1205: not executed">1205  </pre>
-<pre title="Line 1206: not executed">1206         """
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1207:  10%">1207         assert self._initialized, "Thread.__init__() not called"</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1208:  10%">1208         return self._ident</pre>
-<p></p><pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 775:  10%"> 775     def _clean_thread_parent_frames(</pre>
-<pre title="Line 776: not executed"> 776         self, phase: t.Literal["start", "stop"], info: t.Dict[str, t.Any]
-</pre>
-<pre title="Line 777: not executed"> 777     ):
-</pre>
-<pre title="Line 778: not executed"> 778         """Clean parent frames of threads which are no longer running.
-</pre>
-<pre title="Line 779: not executed"> 779         This is meant to be invoked by garbage collector callback hook.
-</pre>
-<pre title="Line 780: not executed"> 780  </pre>
-<pre title="Line 781: not executed"> 781         The implementation enumerates the threads because there is no "exit" hook yet,
-</pre>
-<pre title="Line 782: not executed"> 782         but there might be one in the future: https://bugs.python.org/issue14073
-</pre>
-<pre title="Line 783: not executed"> 783  </pre>
-<pre title="Line 784: not executed"> 784         This is a no-op if the `self._stdout` and `self._stderr` are not
-</pre>
-<pre title="Line 785: not executed"> 785         sub-classes of `OutStream`.
-</pre>
-<pre title="Line 786: not executed"> 786         """
-</pre>
-<pre title="Line 787: not executed"> 787         # Only run before the garbage collector starts
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 788:  10%"> 788         if phase != "start":</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 789:  10%"> 789             return</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 790:  10%"> 790         active_threads = {thread.ident for thread in threading.enumerate()}</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 791:  10%"> 791         for stream in [self._stdout, self._stderr]:</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 792:  10%"> 792             if isinstance(stream, OutStream):</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 793:  10%"> 793                 thread_to_parent_header = stream._thread_to_parent_header</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 794:  10%"> 794                 for identity in list(thread_to_parent_header.keys()):</pre>
-<pre title="Line 795: not executed"> 795                     if identity not in active_threads:
-</pre>
-<pre title="Line 796: not executed"> 796                         try:
-</pre>
-<pre title="Line 797: not executed"> 797                             del thread_to_parent_header[identity]
-</pre>
-<pre title="Line 798: not executed"> 798                         except KeyError:
-</pre>
-<pre title="Line 799: not executed"> 799                             pass
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 800:  10%"> 800                 thread_to_parent = stream._thread_to_parent</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 801:  10%"> 801                 for identity in list(thread_to_parent.keys()):</pre>
-<pre title="Line 802: not executed"> 802                     if identity not in active_threads:
-</pre>
-<pre title="Line 803: not executed"> 803                         try:
-</pre>
-<pre title="Line 804: not executed"> 804                             del thread_to_parent[identity]
-</pre>
-<pre title="Line 805: not executed"> 805                         except KeyError:
-</pre>
-<pre title="Line 806: not executed"> 806                             pass
-</pre>
-<p></p><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 1:  70%">   1 def remove_html_markup(s):  # type: ignore</pre>
+<pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 1:  70%">   1 def remove_html_markup(s):  # type: ignore</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 2:  70%">   2     tag = False</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 3:  70%">   3     quote = False</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 4:  70%">   4     out = ""</pre>
@@ -11328,21 +11135,6 @@ AssertionError: Got '3AGe7!%H&lt;/qcguk&gt;6azh_', expected '3AGe7"!%H6azh_' (ex
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 14:  70%">  14             out = out + c</pre>
 <pre title="Line 15: not executed">  15  </pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 16:  70%">  16     return out</pre>
-<p></p><pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1535:  10%">1535 def enumerate():</pre>
-<pre title="Line 1536: not executed">1536     """Return a list of all Thread objects currently alive.
-</pre>
-<pre title="Line 1537: not executed">1537  </pre>
-<pre title="Line 1538: not executed">1538     The list includes daemonic threads, dummy thread objects created by
-</pre>
-<pre title="Line 1539: not executed">1539     current_thread(), and the main thread. It excludes terminated threads and
-</pre>
-<pre title="Line 1540: not executed">1540     threads that have not yet been started.
-</pre>
-<pre title="Line 1541: not executed">1541  </pre>
-<pre title="Line 1542: not executed">1542     """
-</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1543:  10%">1543     with _active_limbo_lock:</pre>
-<pre style="background-color:hsl(108.0, 1.0%, 80%)" title="Line 1544:  10%">1544         return list(_active.values()) + list(_limbo.values())</pre>
 <p></p><pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 1:  70%">   1 def remove_html_markup_test(html: str, plain: str) -&gt; None:</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 2:  70%">   2     outcome = remove_html_markup(html)</pre>
 <pre style="background-color:hsl(35.14718625761431, 100.0%, 80%)" title="Line 3:  70%">   3     assert outcome == plain, \</pre>
@@ -11399,27 +11191,6 @@ AssertionError: Got '3AGe7!%H&lt;/qcguk&gt;6azh_', expected '3AGe7"!%H6azh_' (ex
             out = out + c
     <span class="ansi-blue-fg">return</span> out
 
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse ident
-  warnings.warn(f"Can't parse {item.__name__}")
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse _clean_thread_parent_frames
-  warnings.warn(f"Can't parse {item.__name__}")
 </pre>
 </div>
 </div>
@@ -11458,43 +11229,25 @@ AssertionError: Got '3AGe7!%H&lt;/qcguk&gt;6azh_', expected '3AGe7"!%H6azh_' (ex
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   2/20 fitness = 0.99   </pre>
+<pre>Evolving population: iteration   2/20 fitness = 0.99   Evolving population: iteration   3/20 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   3/20 fitness = 0.99   Evolving population: iteration   4/20 fitness = 0.99   </pre>
+<pre>Evolving population: iteration   4/20 fitness = 0.99   Evolving population: iteration   5/20 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   5/20 fitness = 0.99   </pre>
+<pre>Evolving population: iteration   6/20 fitness = 0.99   Evolving population: iteration   7/20 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   6/20 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   7/20 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   8/20 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   9/20 fitness = 0.99   </pre>
+<pre>Evolving population: iteration   8/20 fitness = 0.99   Evolving population: iteration   9/20 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -11557,10 +11310,9 @@ AssertionError: Got '3AGe7!%H&lt;/qcguk&gt;6azh_', expected '3AGe7"!%H6azh_' (ex
 <pre>Evolving population: iteration  19/20 fitness = 0.99   
 Best code (fitness = 0.99):
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    <span class="ansi-blue-fg">pass</span>
+    tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
-    tag = <span class="ansi-blue-fg">False</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">True</span>
@@ -11571,23 +11323,12 @@ Best code (fitness = 0.99):
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
     <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">pass</span>
 
 Reduced code (fitness = 0.99):
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
-    tag = <span class="ansi-blue-fg">False</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">True</span>
@@ -11598,9 +11339,6 @@ Reduced code (fitness = 0.99):
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
     <span class="ansi-blue-fg">return</span> out
-    <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">pass</span>
 
 </pre>
 </div>
@@ -11739,22 +11477,22 @@ Reduced code (fitness = 0.99):
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-1" name="eb24061c-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eb24061c-cc2e-11ef-bad6-6298cf1a578f-1" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-1-label">The population is too small!</label><br/>
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-2" name="eb24061c-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eb24061c-cc2e-11ef-bad6-6298cf1a578f-2" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-2-label">The suspiciousness is too evenly distributed!</label><br/>
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-3" name="eb24061c-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eb24061c-cc2e-11ef-bad6-6298cf1a578f-3" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-3-label">We need more test cases!</label><br/>
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-4" name="eb24061c-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eb24061c-cc2e-11ef-bad6-6298cf1a578f-4" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-4-label">We need more iterations!</label><br/>
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-5" name="eb24061c-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eb24061c-cc2e-11ef-bad6-6298cf1a578f-5" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-5-label">There is no statement in the source with a correct condition!</label><br/>
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-6" name="eb24061c-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eb24061c-cc2e-11ef-bad6-6298cf1a578f-6" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-6-label">The population is too big!</label><br/>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-1" name="4f772fd6-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-1" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-1-label">The population is too small!</label><br/>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-2" name="4f772fd6-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-2" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-2-label">The suspiciousness is too evenly distributed!</label><br/>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-3" name="4f772fd6-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-3" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-3-label">We need more test cases!</label><br/>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-4" name="4f772fd6-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-4" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-4-label">We need more iterations!</label><br/>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-5" name="4f772fd6-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-5" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-5-label">There is no statement in the source with a correct condition!</label><br/>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-6" name="4f772fd6-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-6" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-6-label">The population is too big!</label><br/>
 </div>
 </p>
-<input id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-submit" onclick="check_selection('eb24061c-cc2e-11ef-bad6-6298cf1a578f', 32, 0, '5242880 &gt;&gt; 20')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="eb24061c-cc2e-11ef-bad6-6298cf1a578f-hint"></span>
+<input id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-submit" onclick="check_selection('4f772fd6-cce8-11ef-bf4e-6298cf1a578f', 32, 0, '5242880 &gt;&gt; 20')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="4f772fd6-cce8-11ef-bf4e-6298cf1a578f-hint"></span>
 </div>
 </div>
 </div>
@@ -12100,16 +11838,16 @@ Reduced code (fitness = 0.99):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>   8:swap:   'tag = True' becomes 'tag = False'
-   6:delete: 'for c in s: if c == ...' becomes "if c == '&lt;' and (not..."
-  13:swap:   'if not tag and (not ...' becomes 'if not tag and (not ...'
-   7:insert: "if c == '&lt;' and (not..." becomes "if c == '&lt;' and (not..."; "out = ''"
-   4:insert: "out = ''" becomes "if c == '&lt;' and (not..."
-   9:insert: "if c == '&gt;' and (not..." becomes "if c == '&gt;' and (not..."; 'quote = not quote'
-  12:delete: 'quote = not quote' becomes 'pass'
-  10:swap:   'tag = False' becomes 'quote = False'
+<pre>   2:insert: 'tag = False' becomes 'for c in s: tag = Fa...'
+  10:insert: 'tag = False' becomes 'tag = False'; 'out = out + c'
+   8:insert: 'tag = True' becomes 'if c == \'"\' or (c ==...'
+  12:insert: 'quote = not quote' becomes 'quote = not quote'; 'tag = True'
   10:delete: 'tag = False' becomes 'pass'
-  11:insert: 'if c == \'"\' or (c ==...' becomes 'for c in s: if c == ...'
+  12:insert: 'quote = not quote' becomes "if c == '&gt;' and (not..."
+   3:insert: 'quote = False' becomes 'quote = False'; "out = ''"
+  14:swap:   'out = out + c' becomes 'quote = False'
+  12:insert: 'quote = not quote' becomes 'for c in s: quote = ...'
+   3:delete: 'quote = False' becomes 'pass'
 </pre>
 </div>
 </div>
@@ -12165,27 +11903,6 @@ Reduced code (fitness = 0.99):
             out = out + c
     <span class="ansi-blue-fg">return</span> out
 
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse ident
-  warnings.warn(f"Can't parse {item.__name__}")
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse _clean_thread_parent_frames
-  warnings.warn(f"Can't parse {item.__name__}")
 </pre>
 </div>
 </div>
@@ -12229,55 +11946,13 @@ Reduced code (fitness = 0.99):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   1/200 fitness = 0.99   </pre>
+<pre>Evolving population: iteration   1/200 fitness = 0.99   Evolving population: iteration   2/200 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   2/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   3/200 fitness = 0.99   Evolving population: iteration   4/200 fitness = 0.99   
-
-New best code (fitness = 0.99):
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    tag = <span class="ansi-blue-fg">False</span>
-    quote = <span class="ansi-blue-fg">False</span>
-    out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">True</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag):
-            quote = <span class="ansi-magenta-fg">not</span> quote
-        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
-            out = out + c
-    <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            <span class="ansi-blue-fg">pass</span>
-
-</pre>
+<pre>Evolving population: iteration   3/200 fitness = 0.99   Evolving population: iteration   4/200 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -12289,13 +11964,7 @@ New best code (fitness = 0.99):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   6/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   7/200 fitness = 0.99   </pre>
+<pre>Evolving population: iteration   6/200 fitness = 0.99   Evolving population: iteration   7/200 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
@@ -12307,44 +11976,745 @@ New best code (fitness = 0.99):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   9/200 fitness = 0.99   
-
-New best code (fitness = 0.99):
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        tag = <span class="ansi-blue-fg">False</span>
-    quote = <span class="ansi-blue-fg">False</span>
-    out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">True</span>
-            <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    threads that have not yet been started.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag):
-            quote = <span class="ansi-magenta-fg">not</span> quote
-        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
-            out = out + c
-    <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">pass</span>
-
-</pre>
+<pre>Evolving population: iteration   9/200 fitness = 0.99   </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  10/200 fitness = 0.99   
+<pre>Evolving population: iteration  10/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  11/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  12/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  13/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  14/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  15/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  16/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  17/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  18/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  19/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  20/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  21/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  22/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  23/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  24/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  25/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  26/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  27/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  28/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  29/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  30/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  31/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  32/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  33/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  34/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  35/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  36/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  37/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  38/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  39/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  40/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  41/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  42/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  43/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  44/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  45/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  46/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  47/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  48/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  49/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  50/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  51/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  52/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  53/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  54/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  55/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  56/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  57/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  58/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  59/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  60/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  61/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  62/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  63/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  64/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  65/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  66/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  67/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  68/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  69/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  70/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  71/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  72/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  73/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  74/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  75/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  76/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  77/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  78/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  79/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  80/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  81/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  82/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  83/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  84/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  85/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  86/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  87/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  88/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  89/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  90/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  91/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  92/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  93/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  94/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  95/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  96/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  97/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  98/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration  99/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 100/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 101/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 102/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 103/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 104/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 105/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 106/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 107/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 108/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 109/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 110/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 111/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 112/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 113/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 114/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 115/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 116/200 fitness = 0.99   Evolving population: iteration 117/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 118/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 119/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 120/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 121/200 fitness = 0.99   Evolving population: iteration 122/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 123/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 124/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 125/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 126/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 127/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 128/200 fitness = 0.99   Evolving population: iteration 129/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 130/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 131/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 132/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 133/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 134/200 fitness = 0.99   Evolving population: iteration 135/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 136/200 fitness = 0.99   
 
 New best code (fitness = 0.99):
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
@@ -12354,26 +12724,13 @@ New best code (fitness = 0.99):
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">True</span>
-            <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    threads that have not yet been started.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag):
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span>:
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
-            tag = <span class="ansi-blue-fg">False</span>
     <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">pass</span>
 
 </pre>
 </div>
@@ -12381,35 +12738,199 @@ New best code (fitness = 0.99):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  11/200 fitness = 1.0   
+<pre>Evolving population: iteration 137/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 138/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 139/200 fitness = 0.99   Evolving population: iteration 140/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 141/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 142/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 143/200 fitness = 0.99   Evolving population: iteration 144/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 145/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 146/200 fitness = 0.99   Evolving population: iteration 147/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 148/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 149/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 150/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 151/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 152/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 153/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 154/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 155/200 fitness = 0.99   Evolving population: iteration 156/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 157/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 158/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 159/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 160/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 161/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 162/200 fitness = 0.99   
+
+New best code (fitness = 0.99):
+<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
+    tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
+    out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
+    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
+        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span>:
+            tag = <span class="ansi-blue-fg">True</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
+            tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span>:
+            quote = <span class="ansi-magenta-fg">not</span> quote
+        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
+            out = out + c
+    <span class="ansi-blue-fg">return</span> out
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 163/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 164/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 165/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 166/200 fitness = 0.99   </pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Evolving population: iteration 167/200 fitness = 1.0   
 
 New best code (fitness = 1.0):
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
     tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
+    out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">True</span>
-            <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    threads that have not yet been started.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> (c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag)):
+        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span>:
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
-            out = out + c
+            <span class="ansi-blue-fg">if</span> <span class="ansi-magenta-fg">not</span> tag:
+                out = out + c
     <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
 
 
 Reduced code (fitness = 1.0):
@@ -12422,14 +12943,11 @@ Reduced code (fitness = 1.0):
             tag = <span class="ansi-blue-fg">True</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> (c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag)):
+        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span>:
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
     <span class="ansi-blue-fg">return</span> out
-    <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
 
 </pre>
 </div>
@@ -12480,14 +12998,11 @@ Reduced code (fitness = 1.0):
             tag = <span class="ansi-blue-fg">True</span>
         <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
             tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> (c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag)):
+        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span>:
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
-    <span class="ansi-blue-fg">return</span> out
-    <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())</pre>
+    <span class="ansi-blue-fg">return</span> out</pre>
 </div>
 </div>
 </div>
@@ -12565,26 +13080,18 @@ Reduced code (fitness = 1.0):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>@@ -<span class="ansi-blue-fg">210</span>,<span class="ansi-blue-fg">53</span> +<span class="ansi-blue-fg">210</span>,<span class="ansi-blue-fg">63</span> @@
+<pre>@@ -<span class="ansi-blue-fg">210</span>,<span class="ansi-blue-fg">53</span> +<span class="ansi-blue-fg">210</span>,<span class="ansi-blue-fg">39</span> @@
  lse
 
 -        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag):
 
-+        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> (c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag)):
-@@ -<span class="ansi-blue-fg">343</span>,<span class="ansi-blue-fg">18</span> +<span class="ansi-blue-fg">343</span>,<span class="ansi-blue-fg">174</span> @@
- + c
-
--    <span class="ansi-blue-fg">return</span> out
-+    <span class="ansi-blue-fg">return</span> out
-    <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">return</span> <span class="ansi-cyan-fg">list</span>(_active.values()) + <span class="ansi-cyan-fg">list</span>(_limbo.values())
++        <span class="ansi-blue-fg">elif</span> tag <span class="ansi-magenta-fg">and</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span>:
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div></section><section>
+</div><div class="fragment">
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -12595,7 +13102,7 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12697,20 +13204,20 @@ Reduced code (fitness = 1.0):
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-1" name="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eda9f4b4-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-1" id="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-1-label">Yes, sure, of course. Why?</label><br/>
-<input id="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-2" name="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('eda9f4b4-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-2" id="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-2-label">Err - what happened to single quotes?</label><br/>
+<input id="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-1" name="69c2d34a-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('69c2d34a-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-1" id="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-1-label">Yes, sure, of course. Why?</label><br/>
+<input id="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-2" name="69c2d34a-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('69c2d34a-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-2" id="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-2-label">Err - what happened to single quotes?</label><br/>
 </div>
 </p>
-<input id="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-submit" onclick="check_selection('eda9f4b4-cc2e-11ef-bad6-6298cf1a578f', 4, 0, '')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="eda9f4b4-cc2e-11ef-bad6-6298cf1a578f-hint"></span>
+<input id="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-submit" onclick="check_selection('69c2d34a-cce8-11ef-bf4e-6298cf1a578f', 4, 0, '')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="69c2d34a-cce8-11ef-bf4e-6298cf1a578f-hint"></span>
 </div>
 </div>
 </div>
 </div>
 </div>
-</div></div><div class="fragment">
+</div><div class="fragment">
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -12825,14 +13332,14 @@ Reduced code (fitness = 1.0):
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-1" name="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('edaa8dfc-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-1" id="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-1-label">Because they're not important. I mean, y'know, who uses 'em anyway?</label><br/>
-<input id="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-2" name="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f" onclick="clear_selection('edaa8dfc-cc2e-11ef-bad6-6298cf1a578f')" type="radio"/>
-<label for="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-2" id="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-2-label">Because they are not part of our tests? Let me look up how they are constructed...</label><br/>
+<input id="69c3651c-cce8-11ef-bf4e-6298cf1a578f-1" name="69c3651c-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('69c3651c-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="69c3651c-cce8-11ef-bf4e-6298cf1a578f-1" id="69c3651c-cce8-11ef-bf4e-6298cf1a578f-1-label">Because they're not important. I mean, y'know, who uses 'em anyway?</label><br/>
+<input id="69c3651c-cce8-11ef-bf4e-6298cf1a578f-2" name="69c3651c-cce8-11ef-bf4e-6298cf1a578f" onclick="clear_selection('69c3651c-cce8-11ef-bf4e-6298cf1a578f')" type="radio"/>
+<label for="69c3651c-cce8-11ef-bf4e-6298cf1a578f-2" id="69c3651c-cce8-11ef-bf4e-6298cf1a578f-2-label">Because they are not part of our tests? Let me look up how they are constructed...</label><br/>
 </div>
 </p>
-<input id="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-submit" onclick="check_selection('edaa8dfc-cc2e-11ef-bad6-6298cf1a578f', 4, 0, '')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="edaa8dfc-cc2e-11ef-bad6-6298cf1a578f-hint"></span>
+<input id="69c3651c-cce8-11ef-bf4e-6298cf1a578f-submit" onclick="check_selection('69c3651c-cce8-11ef-bf4e-6298cf1a578f', 4, 0, '')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="69c3651c-cce8-11ef-bf4e-6298cf1a578f-hint"></span>
 </div>
 </div>
 </div>
@@ -12913,234 +13420,12 @@ Reduced code (fitness = 1.0):
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   1/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   2/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   3/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   4/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   5/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   6/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   7/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   8/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration   9/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  10/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  11/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  12/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  13/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  14/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  15/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  16/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  17/200 fitness = 0.99   
-
-New best code (fitness = 0.99):
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    tag = <span class="ansi-blue-fg">False</span>
-    quote = <span class="ansi-blue-fg">False</span>
-    out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">True</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag):
-            quote = <span class="ansi-magenta-fg">not</span> quote
-            <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    threads that have not yet been started.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
-        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
-            out = out + c
-    <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">pass</span>
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  18/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  19/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  20/200 fitness = 0.99   
-
-New best code (fitness = 0.99):
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    tag = <span class="ansi-blue-fg">False</span>
-    quote = <span class="ansi-blue-fg">False</span>
-    out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
-    <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-        <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">True</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&gt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
-            tag = <span class="ansi-blue-fg">False</span>
-        <span class="ansi-blue-fg">elif</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">or</span> (c == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">"</span> <span class="ansi-magenta-fg">and</span> tag):
-            quote = <span class="ansi-magenta-fg">not</span> quote
-        <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
-            out = out + c
-    <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">pass</span>
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  21/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  22/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  23/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  24/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  25/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  26/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  27/200 fitness = 0.99   </pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Evolving population: iteration  28/200 fitness = 1.0   
+<pre>Evolving population: iteration   1/200 fitness = 0.99   Evolving population: iteration   2/200 fitness = 1.0   
 
 New best code (fitness = 1.0):
 <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
     tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
-    tag = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
@@ -13151,25 +13436,21 @@ New best code (fitness = 1.0):
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
-    <span class="ansi-blue-fg">return</span> out
-
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">enumerate</span>():
-<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Return a list of all Thread objects currently alive.</span>
-
-<span class="ansi-yellow-fg">    The list includes daemonic threads, dummy thread objects created by</span>
-<span class="ansi-yellow-fg">    current_thread(), and the main thread. It excludes terminated threads and</span>
-<span class="ansi-yellow-fg">    threads that have not yet been started.</span>
-
-<span class="ansi-yellow-fg">    """</span>
-    <span class="ansi-blue-fg">with</span> _active_limbo_lock:
-        <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
-            <span class="ansi-blue-fg">pass</span>
+    <span class="ansi-blue-fg">if</span> <span class="ansi-magenta-fg">not</span> tag:
+        tag = <span class="ansi-blue-fg">False</span>
+        <span class="ansi-blue-fg">return</span> out
 
 
 Reduced code (fitness = 1.0):
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    quote = <span class="ansi-blue-fg">False</span>
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
     tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
@@ -13180,8 +13461,8 @@ Reduced code (fitness = 1.0):
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
-    <span class="ansi-blue-fg">return</span> out
-    <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span>
+    <span class="ansi-blue-fg">if</span> <span class="ansi-magenta-fg">not</span> tag:
+        <span class="ansi-blue-fg">return</span> out
 
 </pre>
 </div>
@@ -13221,8 +13502,8 @@ Reduced code (fitness = 1.0):
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):
-    quote = <span class="ansi-blue-fg">False</span>
     tag = <span class="ansi-blue-fg">False</span>
+    quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">'</span>
     <span class="ansi-blue-fg">for</span> c <span class="ansi-magenta-fg">in</span> s:
         <span class="ansi-blue-fg">if</span> c == <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">&lt;</span><span class="ansi-yellow-fg">'</span> <span class="ansi-magenta-fg">and</span> (<span class="ansi-magenta-fg">not</span> quote):
@@ -13233,8 +13514,8 @@ Reduced code (fitness = 1.0):
             quote = <span class="ansi-magenta-fg">not</span> quote
         <span class="ansi-blue-fg">elif</span> <span class="ansi-magenta-fg">not</span> tag:
             out = out + c
-    <span class="ansi-blue-fg">return</span> out
-    <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Return a list of all Thread objects currently alive.</span><span class="ansi-yellow-fg">\n</span><span class="ansi-yellow-fg">    </span><span class="ansi-yellow-fg">'</span></pre>
+    <span class="ansi-blue-fg">if</span> <span class="ansi-magenta-fg">not</span> tag:
+        <span class="ansi-blue-fg">return</span> out</pre>
 </div>
 </div>
 </div>
@@ -13482,7 +13763,7 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 </div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13496,23 +13777,7 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse ident
-  warnings.warn(f"Can't parse {item.__name__}")
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse _clean_thread_parent_frames
-  warnings.warn(f"Can't parse {item.__name__}")
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div></div></section><section>
+</div></div><div class="fragment">
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -13523,7 +13788,7 @@ Reduced code (fitness = 1.0):
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13847,7 +14112,7 @@ Provide functions to inspect the stack">
 <text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="36.5" y="-391.32">StackInspector</text>
 <polyline fill="none" points="0,-382.38 166,-382.38" stroke="black"></polyline>
 <g id="a_node2_18"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node2_19"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {('middle_test', 1): &lt;function middle_test at 0x11a6949a0&gt;, ('_clean_thread_parent_frames', 775): &lt;function IPythonKernel._clean_thread_parent_frames at 0x107eba980&gt;, ('_clean_thread_parent_frames', 788): &lt;function IPythonKernel._clean_thread_parent_frames at 0x107708b80&gt;, ('_clean_thread_parent_frames', 790): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a694720&gt;, ('ident', 1198): &lt;function Thread.ident at 0x11a694c20&gt;, ('ident', 1207): &lt;function Thread.ident at 0x11a694cc0&gt;, ('ident', 1208): &lt;function Thread.ident at 0x11a694f40&gt;, ('_clean_thread_parent_frames', 791): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a694b80&gt;, ('_clean_thread_parent_frames', 792): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a695120&gt;, ('_clean_thread_parent_frames', 793): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a694fe0&gt;, ('_clean_thread_parent_frames', 794): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a695080&gt;, ('_clean_thread_parent_frames', 800): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a6951c0&gt;, ('_clean_thread_parent_frames', 801): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a695440&gt;, ('_clean_thread_parent_frames', 789): &lt;function IPythonKernel._clean_thread_parent_frames at 0x11a6953a0&gt;, ('test_reduce', 2): &lt;function Repairer.test_reduce at 0x11a7f5620&gt;, ('remove_html_markup_test', 1): &lt;function remove_html_markup_test at 0x11a7f68e0&gt;}">
+<g id="a_node2_19"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {('middle_test', 1): &lt;function middle_test at 0x123538f40&gt;, ('test_reduce', 2): &lt;function Repairer.test_reduce at 0x107bef060&gt;, ('remove_html_markup_test', 1): &lt;function remove_html_markup_test at 0x123670e00&gt;}">
 <text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="8" y="-368.88">_generated_function_cache</text>
 </a>
 </g>
@@ -14066,7 +14331,7 @@ A class for performing statement crossover of Python programs">
 <text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="345.38" y="-174.45">CrossoverOperator</text>
 <polyline fill="none" points="337,-165.5 473,-165.5" stroke="black"></polyline>
 <g id="a_node7_39"><a xlink:href="#" xlink:title="CrossoverOperator">
-<g id="a_node7_40"><a xlink:href="#" xlink:title="SKIP_LIST = {&lt;class 'ast.Module'&gt;, &lt;class 'ast.ClassDef'&gt;}">
+<g id="a_node7_40"><a xlink:href="#" xlink:title="SKIP_LIST = {&lt;class 'ast.ClassDef'&gt;, &lt;class 'ast.Module'&gt;}">
 <text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="378" y="-152">SKIP_LIST</text>
 </a>
 </g>
@@ -14255,7 +14520,7 @@ introduce automated program repair based on <em>symbolic analysis</em> rather th
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/1107282428.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30478/1107282428.py", line 2, in &lt;module&gt;
     square_root_of_zero = square_root(0)
                           ^^^^^^^^^^^^^^
   File "Assertions.ipynb", line 61, in square_root

@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2025-01-06 14:05:53+01:00
+# Last change: 2025-01-07 12:13:29+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -87,11 +87,6 @@ We set up a function `middle_test()` that tests it. The `middle_debugger`  colle
 The repairer is instantiated with the debugger used (`middle_debugger`):
 
 >>> middle_repairer = Repairer(middle_debugger)
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse ident
-  warnings.warn(f"Can't parse {item.__name__}")
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_21162/108387771.py:15: UserWarning: Can't parse _clean_thread_parent_frames
-  warnings.warn(f"Can't parse {item.__name__}")
-
 
 The `repair()` method of the repairer attempts to repair the function invoked by the test (`middle()`).
 
