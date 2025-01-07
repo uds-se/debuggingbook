@@ -3,7 +3,7 @@
 
 # "Timeout" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timeout.html
-# Last change: 2024-11-09 17:28:25+01:00
+# Last change: 2025-01-07 13:39:31+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,7 +51,7 @@ Its typical usage is in conjunction with a `with` clause:
 >>>     print("complete!")
 >>> except TimeoutError:
 >>>     print("Timeout!")
-Timeout!
+complete!
 
 
 Note: On Unix/Linux systems, the `Timeout` class uses [`SIGALRM` signals](https://docs.python.org/3.10/library/signal.html) (interrupts) to implement timeouts; this has no effect on performance of the tracked code. On other systems (notably Windows), `Timeout` uses the [`sys.settrace()`](https://docs.python.org/3.10/library/sys.html?highlight=settrace#sys.settrace) function to check the timer after each line of code, which affects performance of the tracked code.

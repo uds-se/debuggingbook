@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2024-11-09 18:09:29+01:00
+# Last change: 2025-01-07 13:38:59+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -67,6 +67,8 @@ The `messages` attribute holds all commit messages related to that node:
 >>> change_counter.messages.get(('README.md',), None)
 ['Doc update',
  'Doc update',
+ 'Doc update',
+ 'Doc update',
  'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
  'Doc update',
  'Doc update',
@@ -76,8 +78,6 @@ The `messages` attribute holds all commit messages related to that node:
  'New: prefer Unicode arrows over LaTeX ones',
  'Updated README.md',
  'Update',
- 'Doc update',
- 'Doc update',
  'Doc update',
  'Doc update',
  'Doc update',

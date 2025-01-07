@@ -11634,6 +11634,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
 .highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
 .highlight .gr { color: #E40000 } /* Generic.Error */
 .highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .highlight .gi { color: #008400 } /* Generic.Inserted */
@@ -11899,6 +11900,7 @@ MathJax.Hub.Config({
 <li><a href="StatisticalDebugger.html">Statistical Debugging</a></li>
 <li><a href="DynamicInvariants.html">Mining Function Specifications</a></li>
 <li><a href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
+<li><a href="Alhazen.html">Learning from Failures <strong class="new_chapter">&bull;</strong></a></li>
 <li><a href="PerformanceDebugger.html">Debugging Performance Issues</a></li>
 </ul><li class="has-sub"><a href="06_Repairing.html" class="chapters"><span class="part_number">VI</span> Automatic Repair <i class="fa fa-fw fa-caret-right"></i></a>
 <ul>
@@ -12092,32 +12094,47 @@ onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">EventTracer</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="s1">&#39;line == 223 or len(out) &gt;= 6&#39;</span><span class="p">):</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;</span><span class="p">)</span>
 <span class="o">...</span>
+
                                          <span class="c1"># s = &#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;, function = &#39;remove_html_markup&#39;, line = 243, tag = False, quote = False, out = &#39;foobar&#39;, c = &#39;r&#39;</span>
+
 <span class="mi">243</span>     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+
                                          <span class="c1"># line = 255</span>
+
 <span class="mi">255</span>     <span class="k">return</span> <span class="n">out</span>
+
 <span class="n">remove_html_markup</span><span class="p">()</span> <span class="n">returns</span> <span class="s1">&#39;foobar&#39;</span>
 </pre></div>
 <p>It also allows restricting logs to specific events. Log entries are shown only if one of the given <code>events</code> changes its value:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">EventTracer</span><span class="p">(</span><span class="n">events</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;c == &#39;/&#39;&quot;</span><span class="p">]):</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;</span><span class="p">)</span>
 <span class="o">...</span>
+
 <span class="n">Calling</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&lt;b&gt;foo&lt;/b&gt;bar&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="o">=</span> <span class="s1">&#39;remove_html_markup&#39;</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="mi">238</span><span class="p">)</span>
+
 <span class="o">...</span>
+
                                          <span class="c1"># line = 244, tag = False, quote = False, out = &#39;&#39;, c = &#39;&lt;&#39;</span>
+
 <span class="mi">244</span>         <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
+
 <span class="o">...</span>
+
                                          <span class="c1"># tag = True, out = &#39;foo&#39;, c = &#39;/&#39;</span>
+
 <span class="mi">244</span>         <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
+
 <span class="o">...</span>
+
                                          <span class="c1"># c = &#39;b&#39;</span>
+
 <span class="mi">244</span>         <span class="k">assert</span> <span class="n">tag</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">quote</span>
 </pre></div>
 <p><code>Tracer</code> and <code>EventTracer</code> classes allow for subclassing and further customization.</p>
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 12.1.1 (20240910.0053)
+<!-- Generated by graphviz version 12.2.1 (20241206.2353)
  -->
 <!-- Pages: 1 -->
 <svg width="285pt" height="457pt"
@@ -12837,22 +12854,22 @@ return 255 remove_html_markup {&#39;s&#39;: &#39;xyz&#39;, &#39;tag&#39;: False,
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="1a8b4430-9eb5-11ef-a83d-6298cf1a578f" id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-1" onclick="clear_selection('1a8b4430-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-1-label" for="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
+        <input type="radio" name="36d99e42-cce7-11ef-a7fa-6298cf1a578f" id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-1" onclick="clear_selection('36d99e42-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-1-label" for="36d99e42-cce7-11ef-a7fa-6298cf1a578f-1">Tracing stops for all functions; the tracing function is no longer called</label><br>
 
-        <input type="radio" name="1a8b4430-9eb5-11ef-a83d-6298cf1a578f" id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-2" onclick="clear_selection('1a8b4430-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-2-label" for="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
+        <input type="radio" name="36d99e42-cce7-11ef-a7fa-6298cf1a578f" id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-2" onclick="clear_selection('36d99e42-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-2-label" for="36d99e42-cce7-11ef-a7fa-6298cf1a578f-2">Tracing stops for <code>f()</code>: the tracing function is called when <code>f()</code> returns</label><br>
 
-        <input type="radio" name="1a8b4430-9eb5-11ef-a83d-6298cf1a578f" id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-3" onclick="clear_selection('1a8b4430-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-3-label" for="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
+        <input type="radio" name="36d99e42-cce7-11ef-a7fa-6298cf1a578f" id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-3" onclick="clear_selection('36d99e42-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-3-label" for="36d99e42-cce7-11ef-a7fa-6298cf1a578f-3">Tracing stops for <code>f()</code> the rest of the execution: the tracing function is no longer called for calls to <code>f()</code></label><br>
 
-        <input type="radio" name="1a8b4430-9eb5-11ef-a83d-6298cf1a578f" id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-4" onclick="clear_selection('1a8b4430-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-4-label" for="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-4">Nothing changes</label><br>
+        <input type="radio" name="36d99e42-cce7-11ef-a7fa-6298cf1a578f" id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-4" onclick="clear_selection('36d99e42-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-4-label" for="36d99e42-cce7-11ef-a7fa-6298cf1a578f-4">Nothing changes</label><br>
 
     </div>
     </p>
-    <input id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('1a8b4430-9eb5-11ef-a83d-6298cf1a578f', 4, 0, 'int(math.log(7.38905609893065))')">
-    <span class="quiz_hint" id="1a8b4430-9eb5-11ef-a83d-6298cf1a578f-hint"></span>
+    <input id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('36d99e42-cce7-11ef-a7fa-6298cf1a578f', 4, 0, 'int(math.log(7.38905609893065))')">
+    <span class="quiz_hint" id="36d99e42-cce7-11ef-a7fa-6298cf1a578f-hint"></span>
     </div>
 
 </div>
@@ -13946,19 +13963,19 @@ remove_html_markup() returns &#39;x&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f" id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-1" onclick="clear_selection('1ab0cb38-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-1-label" for="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-1">The tracer stops, raising an exception</label><br>
+        <input type="radio" name="36ff33f0-cce7-11ef-a7fa-6298cf1a578f" id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-1" onclick="clear_selection('36ff33f0-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-1-label" for="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-1">The tracer stops, raising an exception</label><br>
 
-        <input type="radio" name="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f" id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-2" onclick="clear_selection('1ab0cb38-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-2-label" for="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-2">The tracer continues as if the condition were <code>True</code></label><br>
+        <input type="radio" name="36ff33f0-cce7-11ef-a7fa-6298cf1a578f" id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-2" onclick="clear_selection('36ff33f0-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-2-label" for="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-2">The tracer continues as if the condition were <code>True</code></label><br>
 
-        <input type="radio" name="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f" id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-3" onclick="clear_selection('1ab0cb38-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-3-label" for="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-3">The tracer continues as if the condition were <code>False</code></label><br>
+        <input type="radio" name="36ff33f0-cce7-11ef-a7fa-6298cf1a578f" id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-3" onclick="clear_selection('36ff33f0-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-3-label" for="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-3">The tracer continues as if the condition were <code>False</code></label><br>
 
     </div>
     </p>
-    <input id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('1ab0cb38-9eb5-11ef-a83d-6298cf1a578f', 2, 0, '393 % 7')">
-    <span class="quiz_hint" id="1ab0cb38-9eb5-11ef-a83d-6298cf1a578f-hint"></span>
+    <input id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('36ff33f0-cce7-11ef-a7fa-6298cf1a578f', 2, 0, '393 % 7')">
+    <span class="quiz_hint" id="36ff33f0-cce7-11ef-a7fa-6298cf1a578f-hint"></span>
     </div>
 
 </div>
@@ -14008,18 +14025,22 @@ remove_html_markup() returns &#39;x&#39;
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Traceback (most recent call last):
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73817/3292487498.py&#34;, line 3, in &lt;cell line: 1&gt;
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_17396/3292487498.py&#34;, line 3, in &lt;module&gt;
     remove_html_markup(&#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&lt;/b&gt;&#39;)
   File &#34;Intro_Debugging.ipynb&#34;, line 238, in remove_html_markup
     def remove_html_markup(s):  # type: ignore
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73817/3738699336.py&#34;, line 19, in _traceit
+
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_17396/3738699336.py&#34;, line 19, in _traceit
     self.traceit(frame, event, arg)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73817/2841885016.py&#34;, line 3, in traceit
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_17396/2841885016.py&#34;, line 3, in traceit
     report = self.do_report(frame, event, arg)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73817/3084505080.py&#34;, line 3, in do_report
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_17396/3084505080.py&#34;, line 3, in do_report
     return self.eval_in_context(self.condition, frame)
-  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_73817/1027065478.py&#34;, line 4, in eval_in_context
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_17396/1027065478.py&#34;, line 4, in eval_in_context
     cond = eval(expr, None, frame.f_locals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File &#34;&lt;string&gt;&#34;, line 1
     2 +
 SyntaxError: invalid syntax (expected)
@@ -14260,16 +14281,16 @@ remove_html_markup() returns &#39;xyz&#39;
     <p>
     <div class="quiz_options" title="Pick a choice.">
 
-        <input type="radio" name="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f" id="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-1" onclick="clear_selection('1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-1-label" for="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-1"><code>line</code> as in the debugger</label><br>
+        <input type="radio" name="370fa41a-cce7-11ef-a7fa-6298cf1a578f" id="370fa41a-cce7-11ef-a7fa-6298cf1a578f-1" onclick="clear_selection('370fa41a-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="370fa41a-cce7-11ef-a7fa-6298cf1a578f-1-label" for="370fa41a-cce7-11ef-a7fa-6298cf1a578f-1"><code>line</code> as in the debugger</label><br>
 
-        <input type="radio" name="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f" id="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-2" onclick="clear_selection('1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-2-label" for="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-2"><code>line</code> as in the program</label><br>
+        <input type="radio" name="370fa41a-cce7-11ef-a7fa-6298cf1a578f" id="370fa41a-cce7-11ef-a7fa-6298cf1a578f-2" onclick="clear_selection('370fa41a-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="370fa41a-cce7-11ef-a7fa-6298cf1a578f-2-label" for="370fa41a-cce7-11ef-a7fa-6298cf1a578f-2"><code>line</code> as in the program</label><br>
 
     </div>
     </p>
-    <input id="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f', 2, 0, '(326 * 27 == 8888) + 1')">
-    <span class="quiz_hint" id="1ab8ac2c-9eb5-11ef-a83d-6298cf1a578f-hint"></span>
+    <input id="370fa41a-cce7-11ef-a7fa-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('370fa41a-cce7-11ef-a7fa-6298cf1a578f', 2, 0, '(326 * 27 == 8888) + 1')">
+    <span class="quiz_hint" id="370fa41a-cce7-11ef-a7fa-6298cf1a578f-hint"></span>
     </div>
 
 </div>
@@ -14539,7 +14560,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.0015617079916410148
+<pre>0.001184166000030018
 </pre>
 </div>
 
@@ -14576,7 +14597,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.5947290830081329
+<pre>0.9975509170000123
 </pre>
 </div>
 
@@ -14608,7 +14629,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>380.81964502416497
+<pre>842.4080044307343
 </pre>
 </div>
 
@@ -14921,7 +14942,7 @@ Calling remove_html_markup(s = &#39;&lt;b title=&#34;bar&#34;&gt;&#34;foo&#34;&l
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.01580833300249651
+<pre>0.015089833000047292
 </pre>
 </div>
 
@@ -15045,7 +15066,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.022071374987717718
+<pre>0.04102983400002813
 </pre>
 </div>
 
@@ -15068,7 +15089,7 @@ remove_html_markup() returns &#39;&#34;foo&#34;&#39;
 <div class="output_area">
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1.3961861117318395
+<pre>2.7190383087672036
 </pre>
 </div>
 
@@ -15227,22 +15248,22 @@ remove_html_markup() returns &#39;foo&#39;
     <p>
     <div class="quiz_options" title="Check all that apply.">
 
-        <input type="checkbox" name="1b326242-9eb5-11ef-a83d-6298cf1a578f" id="1b326242-9eb5-11ef-a83d-6298cf1a578f-1" onclick="clear_selection('1b326242-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1b326242-9eb5-11ef-a83d-6298cf1a578f-1-label" for="1b326242-9eb5-11ef-a83d-6298cf1a578f-1">When <code>some_extreme_function()</code> returns</label><br>
+        <input type="checkbox" name="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f" id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-1" onclick="clear_selection('37c8b0d6-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-1-label" for="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-1">When <code>some_extreme_function()</code> returns</label><br>
 
-        <input type="checkbox" name="1b326242-9eb5-11ef-a83d-6298cf1a578f" id="1b326242-9eb5-11ef-a83d-6298cf1a578f-2" onclick="clear_selection('1b326242-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1b326242-9eb5-11ef-a83d-6298cf1a578f-2-label" for="1b326242-9eb5-11ef-a83d-6298cf1a578f-2">For each line of <code>some_extreme_function()</code></label><br>
+        <input type="checkbox" name="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f" id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-2" onclick="clear_selection('37c8b0d6-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-2-label" for="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-2">For each line of <code>some_extreme_function()</code></label><br>
 
-        <input type="checkbox" name="1b326242-9eb5-11ef-a83d-6298cf1a578f" id="1b326242-9eb5-11ef-a83d-6298cf1a578f-3" onclick="clear_selection('1b326242-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1b326242-9eb5-11ef-a83d-6298cf1a578f-3-label" for="1b326242-9eb5-11ef-a83d-6298cf1a578f-3">When <code>remove_html_markup()</code> returns</label><br>
+        <input type="checkbox" name="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f" id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-3" onclick="clear_selection('37c8b0d6-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-3-label" for="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-3">When <code>remove_html_markup()</code> returns</label><br>
 
-        <input type="checkbox" name="1b326242-9eb5-11ef-a83d-6298cf1a578f" id="1b326242-9eb5-11ef-a83d-6298cf1a578f-4" onclick="clear_selection('1b326242-9eb5-11ef-a83d-6298cf1a578f')">
-        <label id="1b326242-9eb5-11ef-a83d-6298cf1a578f-4-label" for="1b326242-9eb5-11ef-a83d-6298cf1a578f-4">For each line of <code>remove_html_markup()</code></label><br>
+        <input type="checkbox" name="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f" id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-4" onclick="clear_selection('37c8b0d6-cce7-11ef-a7fa-6298cf1a578f')">
+        <label id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-4-label" for="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-4">For each line of <code>remove_html_markup()</code></label><br>
 
     </div>
     </p>
-    <input id="1b326242-9eb5-11ef-a83d-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('1b326242-9eb5-11ef-a83d-6298cf1a578f', 30, 1, '[ord(c) - 100 for c in \&#x27;efgh\&#x27;]')">
-    <span class="quiz_hint" id="1b326242-9eb5-11ef-a83d-6298cf1a578f-hint"></span>
+    <input id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-submit" type="submit" value="Submit" onclick="check_selection('37c8b0d6-cce7-11ef-a7fa-6298cf1a578f', 30, 1, '[ord(c) - 100 for c in \&#x27;efgh\&#x27;]')">
+    <span class="quiz_hint" id="37c8b0d6-cce7-11ef-a7fa-6298cf1a578f-hint"></span>
     </div>
 
 </div>
@@ -15542,183 +15563,173 @@ fail() returns None
 
 <div class="output_area">
 
-<div class="output_image output_svg output_subarea output_execute_result">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="561pt" height="404pt" viewBox="0.00 0.00 560.62 404.00">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
-<polygon fill="white" stroke="none" points="-4,4 -4,-400 556.62,-400 556.62,4 -4,4"/>
+<div class="output_image output_svg output_subarea ">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="561pt" height="332pt" viewBox="0.00 0.00 560.62 332.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
+<polygon fill="white" stroke="none" points="-4,4 -4,-328 556.62,-328 556.62,4 -4,4"/>
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
-<text text-anchor="start" x="204.88" y="-373.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Module</text>
+<text text-anchor="start" x="184.25" y="-301.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">FunctionDef</text>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
 <title>1</title>
-<text text-anchor="start" x="184.25" y="-301.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">FunctionDef</text>
+<text text-anchor="middle" x="89.62" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;foo&quot;</text>
 </g>
 <!-- 0&#45;&#45;1 -->
 <g id="edge1" class="edge">
 <title>0--1</title>
-<path fill="none" stroke="black" d="M229.62,-360.05C229.62,-349.05 229.62,-334.76 229.62,-323.79"/>
+<path fill="none" stroke="black" d="M229.62,-287C229.62,-287 172.21,-269.58 127.62,-252 124.53,-250.78 121.32,-249.45 118.14,-248.09"/>
 </g>
 <!-- 2 -->
 <g id="node3" class="node">
 <title>2</title>
-<text text-anchor="middle" x="89.62" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;foo&quot;</text>
+<text text-anchor="middle" x="181.62" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">arguments</text>
 </g>
-<!-- 1&#45;&#45;2 -->
+<!-- 0&#45;&#45;2 -->
 <g id="edge2" class="edge">
-<title>1--2</title>
-<path fill="none" stroke="black" d="M229.62,-287C229.62,-287 172.21,-269.58 127.62,-252 124.53,-250.78 121.32,-249.45 118.14,-248.09"/>
+<title>0--2</title>
+<path fill="none" stroke="black" d="M229.62,-287C229.62,-287 211.11,-266.94 197.08,-251.74"/>
 </g>
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
-<text text-anchor="middle" x="181.62" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">arguments</text>
-</g>
-<!-- 1&#45;&#45;3 -->
-<g id="edge3" class="edge">
-<title>1--3</title>
-<path fill="none" stroke="black" d="M229.62,-287C229.62,-287 211.11,-266.94 197.08,-251.74"/>
-</g>
-<!-- 4 -->
-<g id="node5" class="node">
-<title>4</title>
 <text text-anchor="start" x="252.88" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Assign</text>
 </g>
-<!-- 1&#45;&#45;4 -->
-<g id="edge4" class="edge">
-<title>1--4</title>
+<!-- 0&#45;&#45;3 -->
+<g id="edge3" class="edge">
+<title>0--3</title>
 <path fill="none" stroke="black" d="M229.62,-287C229.62,-287 248.14,-266.94 262.17,-251.74"/>
-</g>
-<!-- 14 -->
-<g id="node15" class="node">
-<title>14</title>
-<text text-anchor="start" x="381.88" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Return</text>
-</g>
-<!-- 1&#45;&#45;14 -->
-<g id="edge14" class="edge">
-<title>1--14</title>
-<path fill="none" stroke="black" d="M229.62,-287C229.62,-287 323.06,-259.55 374.16,-244.54"/>
-</g>
-<!-- 5 -->
-<g id="node6" class="node">
-<title>5</title>
-<text text-anchor="start" x="87.12" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
-</g>
-<!-- 4&#45;&#45;5 -->
-<g id="edge5" class="edge">
-<title>4--5</title>
-<path fill="none" stroke="black" d="M265.62,-215C265.62,-215 176.39,-186.36 130.38,-171.59"/>
-</g>
-<!-- 8 -->
-<g id="node9" class="node">
-<title>8</title>
-<text text-anchor="start" x="257" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">BinOp</text>
-</g>
-<!-- 4&#45;&#45;8 -->
-<g id="edge8" class="edge">
-<title>4--8</title>
-<path fill="none" stroke="black" d="M265.62,-215C265.62,-215 270.25,-194.94 273.76,-179.74"/>
-</g>
-<!-- 6 -->
-<g id="node7" class="node">
-<title>6</title>
-<text text-anchor="middle" x="28.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
-</g>
-<!-- 5&#45;&#45;6 -->
-<g id="edge6" class="edge">
-<title>5--6</title>
-<path fill="none" stroke="black" d="M95.62,-143C95.62,-143 69.78,-122.94 50.19,-107.74"/>
-</g>
-<!-- 7 -->
-<g id="node8" class="node">
-<title>7</title>
-<text text-anchor="middle" x="103.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Store</text>
-</g>
-<!-- 5&#45;&#45;7 -->
-<g id="edge7" class="edge">
-<title>5--7</title>
-<path fill="none" stroke="black" d="M95.62,-143C95.62,-143 98.71,-122.94 101.05,-107.74"/>
-</g>
-<!-- 9 -->
-<g id="node10" class="node">
-<title>9</title>
-<text text-anchor="start" x="158.62" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
-</g>
-<!-- 8&#45;&#45;9 -->
-<g id="edge9" class="edge">
-<title>8--9</title>
-<path fill="none" stroke="black" d="M277.62,-143C277.62,-143 244.45,-122.94 219.31,-107.74"/>
-</g>
-<!-- 11 -->
-<g id="node12" class="node">
-<title>11</title>
-<text text-anchor="middle" x="277.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Mult</text>
-</g>
-<!-- 8&#45;&#45;11 -->
-<g id="edge11" class="edge">
-<title>8--11</title>
-<path fill="none" stroke="black" d="M277.62,-143C277.62,-143 277.62,-122.94 277.62,-107.74"/>
-</g>
-<!-- 12 -->
-<g id="node13" class="node">
-<title>12</title>
-<text text-anchor="start" x="330.62" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
-</g>
-<!-- 8&#45;&#45;12 -->
-<g id="edge12" class="edge">
-<title>8--12</title>
-<path fill="none" stroke="black" d="M277.62,-143C277.62,-143 310.8,-122.94 335.94,-107.74"/>
-</g>
-<!-- 10 -->
-<g id="node11" class="node">
-<title>10</title>
-<text text-anchor="middle" x="191.62" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
-</g>
-<!-- 9&#45;&#45;10 -->
-<g id="edge10" class="edge">
-<title>9--10</title>
-<path fill="none" stroke="black" d="M191.62,-72.05C191.62,-61.05 191.62,-46.76 191.62,-35.79"/>
 </g>
 <!-- 13 -->
 <g id="node14" class="node">
 <title>13</title>
+<text text-anchor="start" x="381.88" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Return</text>
+</g>
+<!-- 0&#45;&#45;13 -->
+<g id="edge13" class="edge">
+<title>0--13</title>
+<path fill="none" stroke="black" d="M229.62,-287C229.62,-287 323.06,-259.55 374.16,-244.54"/>
+</g>
+<!-- 4 -->
+<g id="node5" class="node">
+<title>4</title>
+<text text-anchor="start" x="87.12" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
+</g>
+<!-- 3&#45;&#45;4 -->
+<g id="edge4" class="edge">
+<title>3--4</title>
+<path fill="none" stroke="black" d="M265.62,-215C265.62,-215 176.39,-186.36 130.38,-171.59"/>
+</g>
+<!-- 7 -->
+<g id="node8" class="node">
+<title>7</title>
+<text text-anchor="start" x="257" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">BinOp</text>
+</g>
+<!-- 3&#45;&#45;7 -->
+<g id="edge7" class="edge">
+<title>3--7</title>
+<path fill="none" stroke="black" d="M265.62,-215C265.62,-215 270.25,-194.94 273.76,-179.74"/>
+</g>
+<!-- 5 -->
+<g id="node6" class="node">
+<title>5</title>
+<text text-anchor="middle" x="28.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
+</g>
+<!-- 4&#45;&#45;5 -->
+<g id="edge5" class="edge">
+<title>4--5</title>
+<path fill="none" stroke="black" d="M95.62,-143C95.62,-143 69.78,-122.94 50.19,-107.74"/>
+</g>
+<!-- 6 -->
+<g id="node7" class="node">
+<title>6</title>
+<text text-anchor="middle" x="103.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Store</text>
+</g>
+<!-- 4&#45;&#45;6 -->
+<g id="edge6" class="edge">
+<title>4--6</title>
+<path fill="none" stroke="black" d="M95.62,-143C95.62,-143 98.71,-122.94 101.05,-107.74"/>
+</g>
+<!-- 8 -->
+<g id="node9" class="node">
+<title>8</title>
+<text text-anchor="start" x="158.62" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
+</g>
+<!-- 7&#45;&#45;8 -->
+<g id="edge8" class="edge">
+<title>7--8</title>
+<path fill="none" stroke="black" d="M277.62,-143C277.62,-143 244.45,-122.94 219.31,-107.74"/>
+</g>
+<!-- 10 -->
+<g id="node11" class="node">
+<title>10</title>
+<text text-anchor="middle" x="277.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Mult</text>
+</g>
+<!-- 7&#45;&#45;10 -->
+<g id="edge10" class="edge">
+<title>7--10</title>
+<path fill="none" stroke="black" d="M277.62,-143C277.62,-143 277.62,-122.94 277.62,-107.74"/>
+</g>
+<!-- 11 -->
+<g id="node12" class="node">
+<title>11</title>
+<text text-anchor="start" x="330.62" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
+</g>
+<!-- 7&#45;&#45;11 -->
+<g id="edge11" class="edge">
+<title>7--11</title>
+<path fill="none" stroke="black" d="M277.62,-143C277.62,-143 310.8,-122.94 335.94,-107.74"/>
+</g>
+<!-- 9 -->
+<g id="node10" class="node">
+<title>9</title>
+<text text-anchor="middle" x="191.62" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
+</g>
+<!-- 8&#45;&#45;9 -->
+<g id="edge9" class="edge">
+<title>8--9</title>
+<path fill="none" stroke="black" d="M191.62,-72.05C191.62,-61.05 191.62,-46.76 191.62,-35.79"/>
+</g>
+<!-- 12 -->
+<g id="node13" class="node">
+<title>12</title>
 <text text-anchor="middle" x="363.62" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
 </g>
-<!-- 12&#45;&#45;13 -->
-<g id="edge13" class="edge">
-<title>12--13</title>
+<!-- 11&#45;&#45;12 -->
+<g id="edge12" class="edge">
+<title>11--12</title>
 <path fill="none" stroke="black" d="M363.62,-72.05C363.62,-61.05 363.62,-46.76 363.62,-35.79"/>
+</g>
+<!-- 14 -->
+<g id="node15" class="node">
+<title>14</title>
+<text text-anchor="start" x="435.12" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
+</g>
+<!-- 13&#45;&#45;14 -->
+<g id="edge14" class="edge">
+<title>13--14</title>
+<path fill="none" stroke="black" d="M417.52,-216.05C424.59,-205.05 433.78,-190.76 440.83,-179.79"/>
 </g>
 <!-- 15 -->
 <g id="node16" class="node">
 <title>15</title>
-<text text-anchor="start" x="435.12" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
+<text text-anchor="middle" x="451.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
 </g>
 <!-- 14&#45;&#45;15 -->
 <g id="edge15" class="edge">
 <title>14--15</title>
-<path fill="none" stroke="black" d="M417.52,-216.05C424.59,-205.05 433.78,-190.76 440.83,-179.79"/>
+<path fill="none" stroke="black" d="M459.62,-143C459.62,-143 456.54,-122.94 454.2,-107.74"/>
 </g>
 <!-- 16 -->
 <g id="node17" class="node">
 <title>16</title>
-<text text-anchor="middle" x="451.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
-</g>
-<!-- 15&#45;&#45;16 -->
-<g id="edge16" class="edge">
-<title>15--16</title>
-<path fill="none" stroke="black" d="M459.62,-143C459.62,-143 456.54,-122.94 454.2,-107.74"/>
-</g>
-<!-- 17 -->
-<g id="node18" class="node">
-<title>17</title>
 <text text-anchor="middle" x="525.62" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Load</text>
 </g>
-<!-- 15&#45;&#45;17 -->
-<g id="edge17" class="edge">
-<title>15--17</title>
+<!-- 14&#45;&#45;16 -->
+<g id="edge16" class="edge">
+<title>14--16</title>
 <path fill="none" stroke="black" d="M459.62,-143C459.62,-143 485.08,-122.94 504.38,-107.74"/>
 </g>
 </g>
@@ -15808,83 +15819,73 @@ fail() returns None
 
 <div class="output_area">
 
-<div class="output_image output_svg output_subarea output_execute_result">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="344pt" height="332pt" viewBox="0.00 0.00 344.25 332.00">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
-<polygon fill="white" stroke="none" points="-4,4 -4,-328 340.25,-328 340.25,4 -4,4"/>
+<div class="output_image output_svg output_subarea ">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="344pt" height="260pt" viewBox="0.00 0.00 344.25 260.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<polygon fill="white" stroke="none" points="-4,4 -4,-256 340.25,-256 340.25,4 -4,4"/>
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
-<text text-anchor="start" x="137.12" y="-301.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Module</text>
+<text text-anchor="start" x="145.38" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Expr</text>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
 <title>1</title>
-<text text-anchor="start" x="145.38" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Expr</text>
+<text text-anchor="start" x="145.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Call</text>
 </g>
 <!-- 0&#45;&#45;1 -->
 <g id="edge1" class="edge">
 <title>0--1</title>
-<path fill="none" stroke="black" d="M161.88,-288.05C161.88,-277.05 161.88,-262.76 161.88,-251.79"/>
+<path fill="none" stroke="black" d="M161.88,-216.05C161.88,-205.05 161.88,-190.76 161.88,-179.79"/>
 </g>
 <!-- 2 -->
 <g id="node3" class="node">
 <title>2</title>
-<text text-anchor="start" x="145.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Call</text>
+<text text-anchor="start" x="102.38" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
 </g>
 <!-- 1&#45;&#45;2 -->
 <g id="edge2" class="edge">
 <title>1--2</title>
-<path fill="none" stroke="black" d="M161.88,-216.05C161.88,-205.05 161.88,-190.76 161.88,-179.79"/>
-</g>
-<!-- 3 -->
-<g id="node4" class="node">
-<title>3</title>
-<text text-anchor="start" x="102.38" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
-</g>
-<!-- 2&#45;&#45;3 -->
-<g id="edge3" class="edge">
-<title>2--3</title>
 <path fill="none" stroke="black" d="M163.88,-143C163.88,-143 146.52,-122.94 133.36,-107.74"/>
-</g>
-<!-- 6 -->
-<g id="node7" class="node">
-<title>6</title>
-<text text-anchor="start" x="193.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
-</g>
-<!-- 2&#45;&#45;6 -->
-<g id="edge6" class="edge">
-<title>2--6</title>
-<path fill="none" stroke="black" d="M163.88,-143C163.88,-143 188.18,-122.94 206.59,-107.74"/>
-</g>
-<!-- 4 -->
-<g id="node5" class="node">
-<title>4</title>
-<text text-anchor="middle" x="36.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;print&quot;</text>
-</g>
-<!-- 3&#45;&#45;4 -->
-<g id="edge4" class="edge">
-<title>3--4</title>
-<path fill="none" stroke="black" d="M110.88,-71C110.88,-71 82.33,-50.94 60.7,-35.74"/>
 </g>
 <!-- 5 -->
 <g id="node6" class="node">
 <title>5</title>
+<text text-anchor="start" x="193.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
+</g>
+<!-- 1&#45;&#45;5 -->
+<g id="edge5" class="edge">
+<title>1--5</title>
+<path fill="none" stroke="black" d="M163.88,-143C163.88,-143 188.18,-122.94 206.59,-107.74"/>
+</g>
+<!-- 3 -->
+<g id="node4" class="node">
+<title>3</title>
+<text text-anchor="middle" x="36.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;print&quot;</text>
+</g>
+<!-- 2&#45;&#45;3 -->
+<g id="edge3" class="edge">
+<title>2--3</title>
+<path fill="none" stroke="black" d="M110.88,-71C110.88,-71 82.33,-50.94 60.7,-35.74"/>
+</g>
+<!-- 4 -->
+<g id="node5" class="node">
+<title>4</title>
 <text text-anchor="middle" x="118.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Load</text>
 </g>
-<!-- 3&#45;&#45;5 -->
-<g id="edge5" class="edge">
-<title>3--5</title>
+<!-- 2&#45;&#45;4 -->
+<g id="edge4" class="edge">
+<title>2--4</title>
 <path fill="none" stroke="black" d="M110.88,-71C110.88,-71 113.96,-50.94 116.3,-35.74"/>
 </g>
-<!-- 7 -->
-<g id="node8" class="node">
-<title>7</title>
+<!-- 6 -->
+<g id="node7" class="node">
+<title>6</title>
 <text text-anchor="middle" x="249.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;entering function&quot;</text>
 </g>
-<!-- 6&#45;&#45;7 -->
-<g id="edge7" class="edge">
-<title>6--7</title>
+<!-- 5&#45;&#45;6 -->
+<g id="edge6" class="edge">
+<title>5--6</title>
 <path fill="none" stroke="black" d="M232.44,-72.05C236.06,-61.05 240.75,-46.76 244.36,-35.79"/>
 </g>
 </g>
@@ -15987,253 +15988,253 @@ fail() returns None
 
 <div class="output_area">
 
-<div class="output_image output_svg output_subarea output_execute_result">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="847pt" height="404pt" viewBox="0.00 0.00 846.88 404.00">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
-<polygon fill="white" stroke="none" points="-4,4 -4,-400 842.88,-400 842.88,4 -4,4"/>
+<div class="output_image output_svg output_subarea ">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="847pt" height="332pt" viewBox="0.00 0.00 846.88 332.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
+<polygon fill="white" stroke="none" points="-4,4 -4,-328 842.88,-328 842.88,4 -4,4"/>
 <!-- 0 -->
 <g id="node1" class="node">
 <title>0</title>
-<text text-anchor="start" x="374.12" y="-373.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Module</text>
+<text text-anchor="start" x="349.5" y="-301.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">FunctionDef</text>
 </g>
 <!-- 1 -->
 <g id="node2" class="node">
 <title>1</title>
-<text text-anchor="start" x="353.5" y="-301.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">FunctionDef</text>
+<text text-anchor="middle" x="173.88" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;foo&quot;</text>
 </g>
 <!-- 0&#45;&#45;1 -->
 <g id="edge1" class="edge">
 <title>0--1</title>
-<path fill="none" stroke="black" d="M398.88,-360.05C398.88,-349.05 398.88,-334.76 398.88,-323.79"/>
+<path fill="none" stroke="black" d="M394.88,-287C394.88,-287 290.87,-276.85 211.88,-252 208.7,-251 205.45,-249.81 202.23,-248.54"/>
 </g>
 <!-- 2 -->
 <g id="node3" class="node">
 <title>2</title>
-<text text-anchor="middle" x="216.88" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;foo&quot;</text>
+<text text-anchor="middle" x="265.88" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">arguments</text>
 </g>
-<!-- 1&#45;&#45;2 -->
+<!-- 0&#45;&#45;2 -->
 <g id="edge2" class="edge">
-<title>1--2</title>
-<path fill="none" stroke="black" d="M398.88,-287C398.88,-287 317.19,-273.31 254.88,-252 251.73,-250.92 248.49,-249.69 245.28,-248.38"/>
+<title>0--2</title>
+<path fill="none" stroke="black" d="M394.88,-287C394.88,-287 345.42,-267.07 307.76,-251.88"/>
 </g>
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
-<text text-anchor="middle" x="308.88" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">arguments</text>
+<text text-anchor="start" x="339.38" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Expr</text>
 </g>
-<!-- 1&#45;&#45;3 -->
+<!-- 0&#45;&#45;3 -->
 <g id="edge3" class="edge">
-<title>1--3</title>
-<path fill="none" stroke="black" d="M398.88,-287C398.88,-287 364.16,-266.94 337.85,-251.74"/>
-</g>
-<!-- 4 -->
-<g id="node5" class="node">
-<title>4</title>
-<text text-anchor="start" x="382.38" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Expr</text>
-</g>
-<!-- 1&#45;&#45;4 -->
-<g id="edge4" class="edge">
-<title>1--4</title>
-<path fill="none" stroke="black" d="M398.88,-287C398.88,-287 398.88,-266.94 398.88,-251.74"/>
-</g>
-<!-- 11 -->
-<g id="node12" class="node">
-<title>11</title>
-<text text-anchor="start" x="452.12" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Assign</text>
-</g>
-<!-- 1&#45;&#45;11 -->
-<g id="edge11" class="edge">
-<title>1--11</title>
-<path fill="none" stroke="black" d="M398.88,-287C398.88,-287 428.96,-266.94 451.77,-251.74"/>
-</g>
-<!-- 21 -->
-<g id="node22" class="node">
-<title>21</title>
-<text text-anchor="start" x="625.12" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Return</text>
-</g>
-<!-- 1&#45;&#45;21 -->
-<g id="edge21" class="edge">
-<title>1--21</title>
-<path fill="none" stroke="black" d="M398.88,-287C398.88,-287 549.4,-255.81 617.32,-241.74"/>
-</g>
-<!-- 5 -->
-<g id="node6" class="node">
-<title>5</title>
-<text text-anchor="start" x="210.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Call</text>
-</g>
-<!-- 4&#45;&#45;5 -->
-<g id="edge5" class="edge">
-<title>4--5</title>
-<path fill="none" stroke="black" d="M372.23,-220.17C369.09,-218.73 365.92,-217.31 362.88,-216 325.4,-199.87 281.27,-183.07 253.68,-172.82"/>
-</g>
-<!-- 6 -->
-<g id="node7" class="node">
-<title>6</title>
-<text text-anchor="start" x="102.38" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
-</g>
-<!-- 5&#45;&#45;6 -->
-<g id="edge6" class="edge">
-<title>5--6</title>
-<path fill="none" stroke="black" d="M216.88,-143C216.88,-143 174.67,-120.61 145.65,-105.21"/>
-</g>
-<!-- 9 -->
-<g id="node10" class="node">
-<title>9</title>
-<text text-anchor="start" x="193.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
-</g>
-<!-- 5&#45;&#45;9 -->
-<g id="edge9" class="edge">
-<title>5--9</title>
-<path fill="none" stroke="black" d="M216.88,-143C216.88,-143 220.73,-122.94 223.66,-107.74"/>
-</g>
-<!-- 7 -->
-<g id="node8" class="node">
-<title>7</title>
-<text text-anchor="middle" x="36.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;print&quot;</text>
-</g>
-<!-- 6&#45;&#45;7 -->
-<g id="edge7" class="edge">
-<title>6--7</title>
-<path fill="none" stroke="black" d="M110.88,-71C110.88,-71 82.33,-50.94 60.7,-35.74"/>
-</g>
-<!-- 8 -->
-<g id="node9" class="node">
-<title>8</title>
-<text text-anchor="middle" x="118.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Load</text>
-</g>
-<!-- 6&#45;&#45;8 -->
-<g id="edge8" class="edge">
-<title>6--8</title>
-<path fill="none" stroke="black" d="M110.88,-71C110.88,-71 113.96,-50.94 116.3,-35.74"/>
+<title>0--3</title>
+<path fill="none" stroke="black" d="M394.88,-287C394.88,-287 379.83,-266.94 368.43,-251.74"/>
 </g>
 <!-- 10 -->
 <g id="node11" class="node">
 <title>10</title>
-<text text-anchor="middle" x="249.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;entering function&quot;</text>
+<text text-anchor="start" x="409.12" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Assign</text>
 </g>
-<!-- 9&#45;&#45;10 -->
+<!-- 0&#45;&#45;10 -->
 <g id="edge10" class="edge">
-<title>9--10</title>
-<path fill="none" stroke="black" d="M232.44,-72.05C236.06,-61.05 240.75,-46.76 244.36,-35.79"/>
-</g>
-<!-- 12 -->
-<g id="node13" class="node">
-<title>12</title>
-<text text-anchor="start" x="373.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
-</g>
-<!-- 11&#45;&#45;12 -->
-<g id="edge12" class="edge">
-<title>11--12</title>
-<path fill="none" stroke="black" d="M473.88,-215C473.88,-215 441.06,-194.69 416.45,-179.45"/>
-</g>
-<!-- 15 -->
-<g id="node16" class="node">
-<title>15</title>
-<text text-anchor="start" x="500.25" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">BinOp</text>
-</g>
-<!-- 11&#45;&#45;15 -->
-<g id="edge15" class="edge">
-<title>11--15</title>
-<path fill="none" stroke="black" d="M473.88,-215C473.88,-215 492.01,-194.94 505.75,-179.74"/>
-</g>
-<!-- 13 -->
-<g id="node14" class="node">
-<title>13</title>
-<text text-anchor="middle" x="314.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
-</g>
-<!-- 12&#45;&#45;13 -->
-<g id="edge13" class="edge">
-<title>12--13</title>
-<path fill="none" stroke="black" d="M381.88,-143C381.88,-143 356.03,-122.94 336.44,-107.74"/>
-</g>
-<!-- 14 -->
-<g id="node15" class="node">
-<title>14</title>
-<text text-anchor="middle" x="389.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Store</text>
-</g>
-<!-- 12&#45;&#45;14 -->
-<g id="edge14" class="edge">
-<title>12--14</title>
-<path fill="none" stroke="black" d="M381.88,-143C381.88,-143 384.96,-122.94 387.3,-107.74"/>
-</g>
-<!-- 16 -->
-<g id="node17" class="node">
-<title>16</title>
-<text text-anchor="start" x="444.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
-</g>
-<!-- 15&#45;&#45;16 -->
-<g id="edge16" class="edge">
-<title>15--16</title>
-<path fill="none" stroke="black" d="M527.88,-143C527.88,-143 508.59,-122.94 493.97,-107.74"/>
-</g>
-<!-- 18 -->
-<g id="node19" class="node">
-<title>18</title>
-<text text-anchor="middle" x="563.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Mult</text>
-</g>
-<!-- 15&#45;&#45;18 -->
-<g id="edge18" class="edge">
-<title>15--18</title>
-<path fill="none" stroke="black" d="M527.88,-143C527.88,-143 541.76,-122.94 552.29,-107.74"/>
-</g>
-<!-- 19 -->
-<g id="node20" class="node">
-<title>19</title>
-<text text-anchor="start" x="616.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
-</g>
-<!-- 15&#45;&#45;19 -->
-<g id="edge19" class="edge">
-<title>15--19</title>
-<path fill="none" stroke="black" d="M527.88,-143C527.88,-143 574.64,-123.07 610.27,-107.88"/>
-</g>
-<!-- 17 -->
-<g id="node18" class="node">
-<title>17</title>
-<text text-anchor="middle" x="477.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
-</g>
-<!-- 16&#45;&#45;17 -->
-<g id="edge17" class="edge">
-<title>16--17</title>
-<path fill="none" stroke="black" d="M477.88,-72.05C477.88,-61.05 477.88,-46.76 477.88,-35.79"/>
+<title>0--10</title>
+<path fill="none" stroke="black" d="M394.88,-287C394.88,-287 409.92,-266.94 421.32,-251.74"/>
 </g>
 <!-- 20 -->
 <g id="node21" class="node">
 <title>20</title>
-<text text-anchor="middle" x="649.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
+<text text-anchor="start" x="493.12" y="-229.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Return</text>
 </g>
-<!-- 19&#45;&#45;20 -->
+<!-- 0&#45;&#45;20 -->
 <g id="edge20" class="edge">
-<title>19--20</title>
-<path fill="none" stroke="black" d="M649.88,-72.05C649.88,-61.05 649.88,-46.76 649.88,-35.79"/>
-</g>
-<!-- 22 -->
-<g id="node23" class="node">
-<title>22</title>
-<text text-anchor="start" x="721.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
-</g>
-<!-- 21&#45;&#45;22 -->
-<g id="edge22" class="edge">
-<title>21--22</title>
-<path fill="none" stroke="black" d="M671.18,-216.05C685.01,-205.05 702.97,-190.76 716.77,-179.79"/>
-</g>
-<!-- 23 -->
-<g id="node24" class="node">
-<title>23</title>
-<text text-anchor="middle" x="737.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
-</g>
-<!-- 22&#45;&#45;23 -->
-<g id="edge23" class="edge">
-<title>22--23</title>
-<path fill="none" stroke="black" d="M745.88,-143C745.88,-143 742.79,-122.94 740.45,-107.74"/>
+<title>0--20</title>
+<path fill="none" stroke="black" d="M394.88,-287C394.88,-287 448.8,-264.2 485.24,-248.8"/>
 </g>
 <!-- 24 -->
 <g id="node25" class="node">
 <title>24</title>
+<text text-anchor="middle" x="595.88" y="-228.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;&quot;</text>
+</g>
+<!-- 0&#45;&#45;24 -->
+<g id="edge24" class="edge">
+<title>0--24</title>
+<path fill="none" stroke="black" d="M394.88,-287C394.88,-287 488.84,-275.94 559.88,-252 562.89,-250.98 565.98,-249.79 569.03,-248.5"/>
+</g>
+<!-- 4 -->
+<g id="node5" class="node">
+<title>4</title>
+<text text-anchor="start" x="210.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Call</text>
+</g>
+<!-- 3&#45;&#45;4 -->
+<g id="edge4" class="edge">
+<title>3--4</title>
+<path fill="none" stroke="black" d="M329.15,-218.5C307.01,-206.48 275.7,-189.49 253.57,-177.49"/>
+</g>
+<!-- 5 -->
+<g id="node6" class="node">
+<title>5</title>
+<text text-anchor="start" x="102.38" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
+</g>
+<!-- 4&#45;&#45;5 -->
+<g id="edge5" class="edge">
+<title>4--5</title>
+<path fill="none" stroke="black" d="M216.88,-143C216.88,-143 174.67,-120.61 145.65,-105.21"/>
+</g>
+<!-- 8 -->
+<g id="node9" class="node">
+<title>8</title>
+<text text-anchor="start" x="193.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
+</g>
+<!-- 4&#45;&#45;8 -->
+<g id="edge8" class="edge">
+<title>4--8</title>
+<path fill="none" stroke="black" d="M216.88,-143C216.88,-143 220.73,-122.94 223.66,-107.74"/>
+</g>
+<!-- 6 -->
+<g id="node7" class="node">
+<title>6</title>
+<text text-anchor="middle" x="36.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;print&quot;</text>
+</g>
+<!-- 5&#45;&#45;6 -->
+<g id="edge6" class="edge">
+<title>5--6</title>
+<path fill="none" stroke="black" d="M110.88,-71C110.88,-71 82.33,-50.94 60.7,-35.74"/>
+</g>
+<!-- 7 -->
+<g id="node8" class="node">
+<title>7</title>
+<text text-anchor="middle" x="118.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Load</text>
+</g>
+<!-- 5&#45;&#45;7 -->
+<g id="edge7" class="edge">
+<title>5--7</title>
+<path fill="none" stroke="black" d="M110.88,-71C110.88,-71 113.96,-50.94 116.3,-35.74"/>
+</g>
+<!-- 9 -->
+<g id="node10" class="node">
+<title>9</title>
+<text text-anchor="middle" x="249.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;entering function&quot;</text>
+</g>
+<!-- 8&#45;&#45;9 -->
+<g id="edge9" class="edge">
+<title>8--9</title>
+<path fill="none" stroke="black" d="M232.44,-72.05C236.06,-61.05 240.75,-46.76 244.36,-35.79"/>
+</g>
+<!-- 11 -->
+<g id="node12" class="node">
+<title>11</title>
+<text text-anchor="start" x="373.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
+</g>
+<!-- 10&#45;&#45;11 -->
+<g id="edge11" class="edge">
+<title>10--11</title>
+<path fill="none" stroke="black" d="M436.88,-215C436.88,-215 418.74,-194.94 405,-179.74"/>
+</g>
+<!-- 14 -->
+<g id="node15" class="node">
+<title>14</title>
+<text text-anchor="start" x="500.25" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">BinOp</text>
+</g>
+<!-- 10&#45;&#45;14 -->
+<g id="edge14" class="edge">
+<title>10--14</title>
+<path fill="none" stroke="black" d="M436.88,-215C436.88,-215 469.28,-194.94 493.83,-179.74"/>
+</g>
+<!-- 12 -->
+<g id="node13" class="node">
+<title>12</title>
+<text text-anchor="middle" x="314.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
+</g>
+<!-- 11&#45;&#45;12 -->
+<g id="edge12" class="edge">
+<title>11--12</title>
+<path fill="none" stroke="black" d="M381.88,-143C381.88,-143 356.03,-122.94 336.44,-107.74"/>
+</g>
+<!-- 13 -->
+<g id="node14" class="node">
+<title>13</title>
+<text text-anchor="middle" x="389.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Store</text>
+</g>
+<!-- 11&#45;&#45;13 -->
+<g id="edge13" class="edge">
+<title>11--13</title>
+<path fill="none" stroke="black" d="M381.88,-143C381.88,-143 384.96,-122.94 387.3,-107.74"/>
+</g>
+<!-- 15 -->
+<g id="node16" class="node">
+<title>15</title>
+<text text-anchor="start" x="444.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
+</g>
+<!-- 14&#45;&#45;15 -->
+<g id="edge15" class="edge">
+<title>14--15</title>
+<path fill="none" stroke="black" d="M527.88,-143C527.88,-143 508.59,-122.94 493.97,-107.74"/>
+</g>
+<!-- 17 -->
+<g id="node18" class="node">
+<title>17</title>
+<text text-anchor="middle" x="563.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Mult</text>
+</g>
+<!-- 14&#45;&#45;17 -->
+<g id="edge17" class="edge">
+<title>14--17</title>
+<path fill="none" stroke="black" d="M527.88,-143C527.88,-143 541.76,-122.94 552.29,-107.74"/>
+</g>
+<!-- 18 -->
+<g id="node19" class="node">
+<title>18</title>
+<text text-anchor="start" x="616.88" y="-85.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Constant</text>
+</g>
+<!-- 14&#45;&#45;18 -->
+<g id="edge18" class="edge">
+<title>14--18</title>
+<path fill="none" stroke="black" d="M527.88,-143C527.88,-143 574.64,-123.07 610.27,-107.88"/>
+</g>
+<!-- 16 -->
+<g id="node17" class="node">
+<title>16</title>
+<text text-anchor="middle" x="477.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
+</g>
+<!-- 15&#45;&#45;16 -->
+<g id="edge16" class="edge">
+<title>15--16</title>
+<path fill="none" stroke="black" d="M477.88,-72.05C477.88,-61.05 477.88,-46.76 477.88,-35.79"/>
+</g>
+<!-- 19 -->
+<g id="node20" class="node">
+<title>19</title>
+<text text-anchor="middle" x="649.88" y="-12.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">2</text>
+</g>
+<!-- 18&#45;&#45;19 -->
+<g id="edge19" class="edge">
+<title>18--19</title>
+<path fill="none" stroke="black" d="M649.88,-72.05C649.88,-61.05 649.88,-46.76 649.88,-35.79"/>
+</g>
+<!-- 21 -->
+<g id="node22" class="node">
+<title>21</title>
+<text text-anchor="start" x="721.38" y="-157.95" font-family="Courier,monospace" font-weight="bold" font-size="14.00" fill="#004080">Name</text>
+</g>
+<!-- 20&#45;&#45;21 -->
+<g id="edge21" class="edge">
+<title>20--21</title>
+<path fill="none" stroke="black" d="M550.32,-219.51C553.53,-218.28 556.76,-217.09 559.88,-216 612.82,-197.45 676.03,-179.63 711.08,-170.12"/>
+</g>
+<!-- 22 -->
+<g id="node23" class="node">
+<title>22</title>
+<text text-anchor="middle" x="737.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">&quot;ret&quot;</text>
+</g>
+<!-- 21&#45;&#45;22 -->
+<g id="edge22" class="edge">
+<title>21--22</title>
+<path fill="none" stroke="black" d="M745.88,-143C745.88,-143 742.79,-122.94 740.45,-107.74"/>
+</g>
+<!-- 23 -->
+<g id="node24" class="node">
+<title>23</title>
 <text text-anchor="middle" x="811.88" y="-84.95" font-family="Courier,monospace" font-size="14.00" fill="#008040">Load</text>
 </g>
-<!-- 22&#45;&#45;24 -->
-<g id="edge24" class="edge">
-<title>22--24</title>
+<!-- 21&#45;&#45;23 -->
+<g id="edge23" class="edge">
+<title>21--23</title>
 <path fill="none" stroke="black" d="M745.88,-143C745.88,-143 771.33,-122.94 790.63,-107.74"/>
 </g>
 </g>
@@ -16358,7 +16359,7 @@ fail() returns None
 The content of this project is licensed under the
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target=_blank>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 The source code that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
-<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Tracer.ipynb" target=_blank)>Last change: 2024-11-09 16:09:38+01:00</a> &bull; 
+<a href="https://github.com/uds-se/debuggingbook/commits/master/notebooks/Tracer.ipynb" target=_blank)>Last change: 2025-01-06 18:54:01+01:00</a> &bull; 
 <a href="#citation" id="cite" onclick="revealCitation()">Cite</a> &bull;
 <a href="https://cispa.de/en/impressum" target=_blank>Imprint</a>
 </p>
@@ -16374,19 +16375,19 @@ function revealCitation() {
 <a name="citation"></a>
 <h2>How to Cite this Work</h2>
 <p>
-Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Tracer.html">Tracing Executions</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/Tracer.html">https://www.debuggingbook.org/html/Tracer.html</a>.  Retrieved 2024-11-09 16:09:38+01:00.
+Andreas Zeller: "<a href="https://www.debuggingbook.org/html/Tracer.html">Tracing Executions</a>".  In Andreas Zeller, "<a href="https://www.debuggingbook.org/">The Debugging Book</a>", <a href="https://www.debuggingbook.org/html/Tracer.html">https://www.debuggingbook.org/html/Tracer.html</a>.  Retrieved 2025-01-06 18:54:01+01:00.
 </p>
 <pre>
-@incollection{debuggingbook2024:Tracer,
+@incollection{debuggingbook2025:Tracer,
     author = {Andreas Zeller},
     booktitle = {The Debugging Book},
     title = {Tracing Executions},
-    year = {2024},
+    year = {2025},
     publisher = {CISPA Helmholtz Center for Information Security},
     howpublished = {\url{https://www.debuggingbook.org/html/Tracer.html}},
-    note = {Retrieved 2024-11-09 16:09:38+01:00},
+    note = {Retrieved 2025-01-06 18:54:01+01:00},
     url = {https://www.debuggingbook.org/html/Tracer.html},
-    urldate = {2024-11-09 16:09:38+01:00}
+    urldate = {2025-01-06 18:54:01+01:00}
 }
 </pre>
 </div>

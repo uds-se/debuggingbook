@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2024-11-09 17:47:41+01:00
+# Last change: 2025-01-07 12:13:29+01:00
 #
 # Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -65,7 +65,13 @@ print(ast.unparse(tree), fitness)
 Here is a complete example for the `middle()` program. This is the original source code of `middle()`:
 
 def middle(x, y, z):  # type: ignore
-    if y  y:
+    if y < z:
+        if x < y:
+            return y
+        elif x < z:
+            return y
+    else:
+        if x > y:
             return y
         elif x > z:
             return x
@@ -90,7 +96,12 @@ The returned AST `tree` can be output via `ast.unparse()`:
 
 >>> print(ast.unparse(tree))
 def middle(x, y, z):
-    if y  y:
+    if y < z:
+        if x < y:
+            return y
+        elif x < z:
+            return x
+    elif x > y:
         return y
     elif x > z:
         return x
