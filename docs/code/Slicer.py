@@ -3,9 +3,9 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2025-01-07 12:05:40+01:00
+# Last change: 2025-01-13 15:54:18+01:00
 #
-# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,7 +37,7 @@ This file can be _executed_ as a script, running all experiments:
 or _imported_ as a package, providing classes, functions, and constants:
 
     >>> from debuggingbook.Slicer import <identifier>
-    
+
 but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Slicer.html
@@ -75,15 +75,15 @@ By using `with Slicer()`, we first instrument `demo()` and then execute it:
 
 >>> with Slicer() as slicer:
 >>>     demo(10)
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_18911/2454789564.py:22: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/2454789564.py:22: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
   args=[ast.Str(id), value],
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_18911/3554319793.py:4: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/3554319793.py:4: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
   args=[ast.Str(id), Name(id=id, ctx=Load())],
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_18911/882995308.py:12: DeprecationWarning: ast.Num is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/882995308.py:12: DeprecationWarning: ast.Num is deprecated and will be removed in Python 3.14; use ast.Constant instead
   keywords=[keyword(arg='pos', value=ast.Num(n + 1))]
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_18911/882995308.py:19: DeprecationWarning: ast.NameConstant is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/882995308.py:19: DeprecationWarning: ast.NameConstant is deprecated and will be removed in Python 3.14; use ast.Constant instead
   value=ast.NameConstant(value=True)))
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_18911/882995308.py:25: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/882995308.py:25: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
   args=[ast.Str(child.arg),
 
 
@@ -96,7 +96,7 @@ An alternate representation is `slicer.code()`, annotating the instrumented sour
 >>> slicer.code()
      1 def demo(x: int) -> int:
 *    2     z = x  # <= x (5)
-*    3     while x <= z <= 64:  # <= z (2), z (4), x (5)
+*    3     while x <= z <= 64:  # <= x (5), z (2), z (4)
 *    4         z *= 2  # <= z (2), z (4); <-  (3)
 *    5     return z  # <= z (4)
 

@@ -3,9 +3,9 @@
 
 # "Debugging Performance Issues" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/PerformanceDebugger.html
-# Last change: 2025-01-07 12:12:27+01:00
+# Last change: 2025-01-13 16:01:43+01:00
 #
-# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,7 +37,7 @@ This file can be _executed_ as a script, running all experiments:
 or _imported_ as a package, providing classes, functions, and constants:
 
     >>> from debuggingbook.PerformanceDebugger import <identifier>
-    
+
 but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/PerformanceDebugger.html
@@ -56,14 +56,14 @@ The distribution of executed time within each function can be obtained by printi
  240   2%     quote = False
  241   2%     out = ""
  242   0%
- 243  16%     for c in s:
+ 243  17%     for c in s:
  244  14%         assert tag or not quote
  245   0%
  246  14%         if c == '<' and not quote:
  247   2%             tag = True
  248  11%         elif c == '>' and not quote:
  249   2%             tag = False
- 250   9%         elif (c == '"' or c == "'") and tag:
+ 250   8%         elif (c == '"' or c == "'") and tag:
  251   0%             quote = not quote
  252   8%         elif not tag:
  253   4%             out = out + c
