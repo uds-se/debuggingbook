@@ -3,9 +3,9 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-07 12:08:50+01:00
+# Last change: 2025-01-13 15:57:33+01:00
 #
-# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,7 +37,7 @@ This file can be _executed_ as a script, running all experiments:
 or _imported_ as a package, providing classes, functions, and constants:
 
     >>> from debuggingbook.Alhazen import <identifier>
-    
+
 but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Alhazen.html
@@ -79,14 +79,17 @@ The _saturation_ of nodes also indicates purity – the higher the saturation, t
 There is also a text version available, with much fewer (but hopefully still essential) details:
 
 >>> print(alhazen.friendly_decision_tree())
-if  <= -11.5000:
-  if  <= -42.2970:
-    NO_BUG
-  else:
-    if  == 'sqrt':
-      BUG
+if  <= 4.5000:
+  if  == 'sqrt':
+    if  <= 42.1600:
+      if  == '-':
+        BUG
+      else:
+        NO_BUG
     else:
       NO_BUG
+  else:
+    NO_BUG
 else:
   NO_BUG
 

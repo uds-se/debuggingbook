@@ -3,9 +3,9 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2025-01-07 12:13:29+01:00
+# Last change: 2025-01-13 16:02:47+01:00
 #
-# Copyright (c) 2021-2023 CISPA Helmholtz Center for Information Security
+# Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -37,7 +37,7 @@ This file can be _executed_ as a script, running all experiments:
 or _imported_ as a package, providing classes, functions, and constants:
 
     >>> from debuggingbook.Repairer import <identifier>
-    
+
 but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Repairer.html
@@ -87,10 +87,18 @@ We set up a function `middle_test()` that tests it. The `middle_debugger`  colle
 The repairer is instantiated with the debugger used (`middle_debugger`):
 
 >>> middle_repairer = Repairer(middle_debugger)
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12310/108387771.py:15: UserWarning: Can't parse _clean_thread_parent_frames
+  warnings.warn(f"Can't parse {item.__name__}")
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12310/108387771.py:15: UserWarning: Can't parse ident
+  warnings.warn(f"Can't parse {item.__name__}")
+
 
 The `repair()` method of the repairer attempts to repair the function invoked by the test (`middle()`).
 
 >>> tree, fitness = middle_repairer.repair()
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12310/1291881850.py:14: UserWarning: Couldn't find definition of 'enumerate'
+  warnings.warn(f"Couldn't find definition of {repr(name)}")
+
 
 The returned AST `tree` can be output via `ast.unparse()`:
 
