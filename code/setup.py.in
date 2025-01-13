@@ -4,7 +4,7 @@ import setuptools
 
 with open("README.md", "rb") as fh:
     long_description = fh.read().decode('utf-8')
-    
+
 # See https://packaging.python.org/tutorials/packaging-projects/ for details
 setuptools.setup(
     name="debuggingbook",
@@ -16,9 +16,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://www.debuggingbook.org/",
     packages=['debuggingbook', 'debuggingbook.bookutils'],
-    python_requires='>=3.9',  # Mostly for ast.unparse()
+    python_requires='>=3.10',  # Mostly for ast.unparse()
     # packages=setuptools.find_packages(),
-    
+
     # From requirements.txt
     install_requires=[
         'beautifulsoup4>=4.9.3',
@@ -31,17 +31,21 @@ setuptools.setup(
         'lxml>=4.5.1',
         'Markdown>=3.3.4',
         'matplotlib>=3.3.2',
+        'multiprocess>=0.70.12.2',
         'nbconvert>=6.0.7',
         'nbformat>=5.0.8',
         'networkx>=2.5',
-        'numpy>=1.16.5',
+        'numpy>=2.2.1',
+        'pandas>=2.2.3',
         'pydriller>=2.3',
         'pyparsing==2.4.7',  # newer versions conflict with bibtexparser
+        # 'pygraphviz>=1.9',  # in case of trouble, see https://pygraphviz.github.io/documentation/stable/install.html
         'Pygments>=2.7.1',
         'python-magic>=0.4.18',
         'scikit_learn>=0.23.2',
         'selenium>=3.141.0',
-        'showast>=0.2.4',
+        # 'showast>=0.2.4',
+        'showast @ git+https://github.com/andreas-zeller/show_ast.git@andreas',
     ],
 
     # See https://pypi.org/classifiers/
