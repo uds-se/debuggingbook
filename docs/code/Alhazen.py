@@ -191,6 +191,8 @@ from math import tan as rtan
 from math import cos as rcos
 from math import sin as rsin
 
+from numpy import nanmax, isnan
+
 if __name__ == '__main__':
     """
 This file contains the code under test for the example bug.
