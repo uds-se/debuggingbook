@@ -191,6 +191,8 @@ from math import tan as rtan
 from math import cos as rcos
 from math import sin as rsin
 
+from numpy import nanmax, isnan
+
 if __name__ == '__main__':
     """
 This file contains the code under test for the example bug.
@@ -1645,11 +1647,11 @@ from copy import deepcopy
 import random
 from itertools import chain
 
-def best_trees(forest, spec):
+def best_trees(forest, spec, grammar):
     samples = [tree_to_string(tree) for tree in forest]
     fulfilled_fractions= []
     for sample in samples:
-        gen_features = collect_features([sample], CALC_GRAMMAR)
+        gen_features = collect_features([sample], grammar)
 
         # calculate percentage of fulfilled requirements (used to rank the sample)
         fulfilled_count = 0
@@ -1716,7 +1718,7 @@ def generate_samples_advanced(grammar: Grammar,
         done = False
         starttime = time.time()
         best_chosen = [fuzzer.fuzz_tree() for _ in range(100)]
-        done, best_chosen = best_trees(best_chosen, spec)
+        done, best_chosen = best_trees(best_chosen, spec, grammar)
         if done:
             final_samples.append(tree_to_string(best_chosen))
 
@@ -1756,7 +1758,7 @@ def generate_samples_advanced(grammar: Grammar,
                                 curr = s[0]
                             except SyntaxError:
                                 pass
-            done, best_chosen = best_trees(best_chosen, spec)
+            done, best_chosen = best_trees(best_chosen, spec, grammar)
             if done:
                 final_samples.append(tree_to_string(best_chosen))
         if not done:
@@ -1772,6 +1774,8 @@ def generate_samples_random(grammar, new_input_specifications, num):
         data.append(new_input)
 
     return data
+
+generate_samples = generate_samples_advanced
 
 if __name__ == '__main__':
     generate_samples = generate_samples_advanced
