@@ -3,7 +3,7 @@
 
 # "Introduction to Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2025-01-13 15:53:20+01:00
+# Last change: 2025-01-16 10:35:08+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

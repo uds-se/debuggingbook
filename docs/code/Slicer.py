@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2025-01-13 15:54:18+01:00
+# Last change: 2025-01-16 10:36:05+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -75,15 +75,15 @@ By using `with Slicer()`, we first instrument `demo()` and then execute it:
 
 >>> with Slicer() as slicer:
 >>>     demo(10)
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/2454789564.py:22: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/2454789564.py:22: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
   args=[ast.Str(id), value],
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/3554319793.py:4: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/3554319793.py:4: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
   args=[ast.Str(id), Name(id=id, ctx=Load())],
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/882995308.py:12: DeprecationWarning: ast.Num is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/882995308.py:12: DeprecationWarning: ast.Num is deprecated and will be removed in Python 3.14; use ast.Constant instead
   keywords=[keyword(arg='pos', value=ast.Num(n + 1))]
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/882995308.py:19: DeprecationWarning: ast.NameConstant is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/882995308.py:19: DeprecationWarning: ast.NameConstant is deprecated and will be removed in Python 3.14; use ast.Constant instead
   value=ast.NameConstant(value=True)))
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_2778/882995308.py:25: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
+/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/882995308.py:25: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
   args=[ast.Str(child.arg),
 
 

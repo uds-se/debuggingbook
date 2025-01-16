@@ -3,7 +3,7 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-13 15:57:33+01:00
+# Last change: 2025-01-16 10:39:40+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -81,8 +81,8 @@ There is also a text version available, with much fewer (but hopefully still ess
 >>> print(alhazen.friendly_decision_tree())
 if  <= 4.5000:
   if  == 'sqrt':
-    if  <= 42.1600:
-      if  == '-':
+    if  == '-':
+      if  <= 42.5000:
         BUG
       else:
         NO_BUG
@@ -190,8 +190,6 @@ from fuzzingbook.Parser import EarleyParser
 from math import tan as rtan
 from math import cos as rcos
 from math import sin as rsin
-
-from numpy import nanmax, isnan
 
 if __name__ == '__main__':
     """
@@ -1774,8 +1772,6 @@ def generate_samples_random(grammar, new_input_specifications, num):
         data.append(new_input)
 
     return data
-
-generate_samples = generate_samples_advanced
 
 if __name__ == '__main__':
     generate_samples = generate_samples_advanced
