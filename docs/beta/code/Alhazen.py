@@ -3,7 +3,7 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-16 10:39:40+01:00
+# Last change: 2025-01-16 17:29:54+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -79,17 +79,14 @@ The _saturation_ of nodes also indicates purity – the higher the saturation, t
 There is also a text version available, with much fewer (but hopefully still essential) details:
 
 >>> print(alhazen.friendly_decision_tree())
-if  <= 4.5000:
-  if  == 'sqrt':
-    if  == '-':
-      if  <= 42.5000:
-        BUG
-      else:
-        NO_BUG
+if  <= -12.3500:
+  if  <= -41.2595:
+    NO_BUG
+  else:
+    if  == 'sqrt':
+      BUG
     else:
       NO_BUG
-  else:
-    NO_BUG
 else:
   NO_BUG
 
@@ -449,9 +446,6 @@ class ExistenceFeature(Feature):
 
         return count
 
-if __name__ == '__main__':
-    from numpy import nanmax, isnan
-
 class NumericInterpretation(Feature):
     '''
     This class represents numeric interpretation features of a grammar. These features
@@ -489,10 +483,10 @@ class NumericInterpretation(Feature):
 
         # Return maximum value encountered in tree, ignoring all NaNs
         tree_values = [value] + [self.get_feature_value(c) for c in children]
-        if all(isnan(tree_values)):
+        if all(numpy.isnan(tree_values)):
             return value
         else:
-            return nanmax(tree_values)
+            return numpy.nanmax(tree_values)
 
 ### Extracting Feature Sets from Grammars
 
@@ -1764,8 +1758,10 @@ def generate_samples_advanced(grammar: Grammar,
 
     return final_samples
 
-def generate_samples_random(grammar, new_input_specifications, num):
-    f = GrammarFuzzer(grammar ,max_nonterminals=50, log=False)
+def generate_samples_random(grammar: Grammar,
+                     new_input_specifications: List[InputSpecification],
+                     timeout: int) -> List[str]:
+    f = GrammarFuzzer(grammar, max_nonterminals=50, log=False)
     data = []
     for _ in range(num):
         new_input = f.fuzz()
@@ -1773,8 +1769,11 @@ def generate_samples_random(grammar, new_input_specifications, num):
 
     return data
 
-if __name__ == '__main__':
-    generate_samples = generate_samples_advanced
+def generate_samples(grammar: Grammar,
+                     new_input_specifications: List[InputSpecification],
+                     timeout: int) -> List[str]:
+    # Could also be generate_samples_random()
+    return generate_samples_advanced(grammar, new_input_specifications, timeout)
 
 ### Excursion: Some Tests
 
