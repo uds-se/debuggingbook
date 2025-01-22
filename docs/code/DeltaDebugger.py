@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2025-01-16 10:36:18+01:00
+# Last change: 2025-01-20 10:56:51+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -51,9 +51,9 @@ Here is a simple example: An arithmetic expression causes an error in the Python
 >>> with ExpectError(ZeroDivisionError):
 >>>     myeval('1 + 2 * 3 / 0')
 Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4002351332.py", line 2, in 
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4002351332.py", line 2, in 
     myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2200911420.py", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2200911420.py", line 2, in myeval
     return eval(inp)
            ^^^^^^^^^
   File "", line 1, in 
@@ -272,28 +272,36 @@ UNRESOLVED = 'UNRESOLVED'
 from typing import Sequence, Any, Callable, Optional, Type, Tuple
 from typing import Dict, Union, Set, List, FrozenSet, cast
 
-def ddmin(test: Callable, inp: Sequence, *test_args: Any) -> Sequence:
-    """Reduce the input inp, using the outcome of test(fun, inp)."""
+def ddmin(test: Callable, inp: Sequence[Any], *test_args: Any) -> Sequence:
+    """
+    Reduce `inp` to a 1-minimal failing subset, using the outcome
+    of `test(inp, *test_args)`, which should be `PASS`, `FAIL`, or `UNRESOLVED`.
+    """
     assert test(inp, *test_args) != PASS
 
-    n = 2     # Initial granularity
+    n = 2  # Initial granularity
     while len(inp) >= 2:
-        start = 0
-        subset_length = int(len(inp) / n)
-        some_complement_is_failing = False
+        start: int = 0  # Where to start the next subset
+        subset_length: int = int(len(inp) / n)
+        some_complement_is_failing: bool = False
 
         while start < len(inp):
-            complement = (inp[:int(start)] + inp[int(start + subset_length):])  # type: ignore
+            # Cut out inp[start:(start + subset_length)]
+            complement: Sequence[Any] = \
+                inp[:start] + inp[start + subset_length:]  # type: ignore
 
             if test(complement, *test_args) == FAIL:
+                # Continue with reduced input
                 inp = complement
                 n = max(n - 1, 2)
                 some_complement_is_failing = True
                 break
 
+            # Continue with next subset
             start += subset_length
 
         if not some_complement_is_failing:
+            # Increase granularity
             if n == len(inp):
                 break
             n = min(n * 2, len(inp))
