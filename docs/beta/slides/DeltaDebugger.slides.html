@@ -7752,9 +7752,9 @@ main {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/3137704634.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/3137704634.py", line 2, in &lt;module&gt;
     mystery(failing_input)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4141878445.py", line 5, in mystery
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4141878445.py", line 5, in mystery
     raise ValueError("Invalid input")
 ValueError: Invalid input (expected)
 </pre>
@@ -8032,9 +8032,9 @@ the first quarter, the second quarter, and so on.</p>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2963114098.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2963114098.py", line 2, in &lt;module&gt;
     mystery(input_without_first_quarter)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4141878445.py", line 5, in mystery
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4141878445.py", line 5, in mystery
     raise ValueError("Invalid input")
 ValueError: Invalid input (expected)
 </pre>
@@ -8220,9 +8220,9 @@ ValueError: Invalid input (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4218135276.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4218135276.py", line 2, in &lt;module&gt;
     mystery(input_without_first_and_third_quarter)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4141878445.py", line 5, in mystery
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4141878445.py", line 5, in mystery
     raise ValueError("Invalid input")
 ValueError: Invalid input (expected)
 </pre>
@@ -8314,28 +8314,36 @@ ValueError: Invalid input (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ddmin</span><span class="p">(</span><span class="n">test</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="o">*</span><span class="n">test_args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Reduce the input inp, using the outcome of test(fun, inp)."""</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ddmin</span><span class="p">(</span><span class="n">test</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="n">test_args</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Reduce `inp` to a 1-minimal failing subset, using the outcome</span>
+<span class="sd">    of `test(inp, *test_args)`, which should be `PASS`, `FAIL`, or `UNRESOLVED`.</span>
+<span class="sd">    """</span>
     <span class="k">assert</span> <span class="n">test</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="o">*</span><span class="n">test_args</span><span class="p">)</span> <span class="o">!=</span> <span class="n">PASS</span>
 
-    <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>     <span class="c1"># Initial granularity</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Initial granularity</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">subset_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
-        <span class="n">some_complement_is_failing</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Where to start the next subset</span>
+        <span class="n">subset_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">some_complement_is_failing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
-            <span class="n">complement</span> <span class="o">=</span> <span class="p">(</span><span class="n">inp</span><span class="p">[:</span><span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span> <span class="o">+</span> <span class="n">inp</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">subset_length</span><span class="p">):])</span>  <span class="c1"># type: ignore</span>
+            <span class="c1"># Cut out inp[start:(start + subset_length)]</span>
+            <span class="n">complement</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="n">inp</span><span class="p">[:</span><span class="n">start</span><span class="p">]</span> <span class="o">+</span> <span class="n">inp</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="n">subset_length</span><span class="p">:]</span>  <span class="c1"># type: ignore</span>
 
             <span class="k">if</span> <span class="n">test</span><span class="p">(</span><span class="n">complement</span><span class="p">,</span> <span class="o">*</span><span class="n">test_args</span><span class="p">)</span> <span class="o">==</span> <span class="n">FAIL</span><span class="p">:</span>
+                <span class="c1"># Continue with reduced input</span>
                 <span class="n">inp</span> <span class="o">=</span> <span class="n">complement</span>
                 <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
                 <span class="n">some_complement_is_failing</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">break</span>
 
+            <span class="c1"># Continue with next subset</span>
             <span class="n">start</span> <span class="o">+=</span> <span class="n">subset_length</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">some_complement_is_failing</span><span class="p">:</span>
+            <span class="c1"># Increase granularity</span>
             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
                 <span class="k">break</span>
             <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">))</span>
@@ -8812,18 +8820,18 @@ Minimized failing call to mystery(inp='()')
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-1" name="52d1aca4-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52d1aca4-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52d1aca4-d3ed-11ef-9972-6298cf1a5790-1" id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-1-label">Delta debugging searches for the minimal input that produces the same result</label><br/>
-<input id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-2" name="52d1aca4-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52d1aca4-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52d1aca4-d3ed-11ef-9972-6298cf1a5790-2" id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-2-label">Delta debugging starts a fuzzer to find an exception</label><br/>
-<input id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-3" name="52d1aca4-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52d1aca4-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52d1aca4-d3ed-11ef-9972-6298cf1a5790-3" id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-3-label">Delta debugging raises an exception</label><br/>
-<input id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-4" name="52d1aca4-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52d1aca4-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52d1aca4-d3ed-11ef-9972-6298cf1a5790-4" id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-4-label">Delta debugging runs forever in a loop</label><br/>
+<input id="db2bbed0-d714-11ef-8e40-6298cf1a5790-1" name="db2bbed0-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db2bbed0-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db2bbed0-d714-11ef-8e40-6298cf1a5790-1" id="db2bbed0-d714-11ef-8e40-6298cf1a5790-1-label">Delta debugging searches for the minimal input that produces the same result</label><br/>
+<input id="db2bbed0-d714-11ef-8e40-6298cf1a5790-2" name="db2bbed0-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db2bbed0-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db2bbed0-d714-11ef-8e40-6298cf1a5790-2" id="db2bbed0-d714-11ef-8e40-6298cf1a5790-2-label">Delta debugging starts a fuzzer to find an exception</label><br/>
+<input id="db2bbed0-d714-11ef-8e40-6298cf1a5790-3" name="db2bbed0-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db2bbed0-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db2bbed0-d714-11ef-8e40-6298cf1a5790-3" id="db2bbed0-d714-11ef-8e40-6298cf1a5790-3-label">Delta debugging raises an exception</label><br/>
+<input id="db2bbed0-d714-11ef-8e40-6298cf1a5790-4" name="db2bbed0-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db2bbed0-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db2bbed0-d714-11ef-8e40-6298cf1a5790-4" id="db2bbed0-d714-11ef-8e40-6298cf1a5790-4-label">Delta debugging runs forever in a loop</label><br/>
 </div>
 </p>
-<input id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-submit" onclick="check_selection('52d1aca4-d3ed-11ef-9972-6298cf1a5790', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="52d1aca4-d3ed-11ef-9972-6298cf1a5790-hint"></span>
+<input id="db2bbed0-d714-11ef-8e40-6298cf1a5790-submit" onclick="check_selection('db2bbed0-d714-11ef-8e40-6298cf1a5790', 8, 0, '0 ** 0 + 1 ** 0 + 0 ** 1 + 1 ** 1')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="db2bbed0-d714-11ef-8e40-6298cf1a5790-hint"></span>
 </div>
 </div>
 </div>
@@ -8864,12 +8872,12 @@ Minimized failing call to mystery(inp='()')
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/3784387889.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/3784387889.py", line 2, in &lt;module&gt;
     with DeltaDebugger() as dd:
          ^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4114738534.py", line 24, in __exit__
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4114738534.py", line 24, in __exit__
     self.after_collection()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/1934034330.py", line 7, in after_collection
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/1934034330.py", line 7, in after_collection
     raise NotFailingError(
 NotFailingError: mystery(inp='An input that does not fail') did not raise an exception (expected)
 </pre>
@@ -9022,11 +9030,18 @@ Minimized failing call to remove_html_markup(s='"&gt;')
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Observed string_error(s1='foo', s2='foobar') raising AssertionError: no substrings
 Test #1 string_error(s1='foo', s2='foobar'): FAIL (AssertionError: no substrings)
+Processing s2...
+Test #2 string_error(s1='foo', s2=''): PASS
+Test #3 string_error(s1='foo', s2='foo'): FAIL (AssertionError: no substrings)
+Test #4 string_error(s1='foo', s2='fo'): PASS
+Test #5 string_error(s1='foo', s2='o'): PASS
+Test #6 string_error(s1='foo', s2='oo'): PASS
+Minimized s2 to 'foo'
 Processing s1...
-Test #2 string_error(s1='', s2='foobar'): FAIL (AssertionError: no substrings)
+Test #7 string_error(s1='', s2='foo'): FAIL (AssertionError: no substrings)
 Minimized s1 to ''
 Processing s2...
-Test #3 string_error(s1='', s2=''): FAIL (AssertionError: no substrings)
+Test #8 string_error(s1='', s2=''): FAIL (AssertionError: no substrings)
 Minimized s2 to ''
 Minimized failing call to string_error(s1='', s2='')
 </pre>
@@ -9074,9 +9089,9 @@ Minimized failing call to string_error(s1='', s2='')
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/3257360882.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/3257360882.py", line 2, in &lt;module&gt;
     string_error(string_error_args['s1'], string_error_args['s2'])
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/773514021.py", line 2, in string_error
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/773514021.py", line 2, in string_error
     assert s1 not in s2, "no substrings"
            ^^^^^^^^^^^^
 AssertionError: no substrings (expected)
@@ -9214,9 +9229,9 @@ s2 = ''
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2680174709.py", line 3, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2680174709.py", line 3, in &lt;module&gt;
     string_error(**string_error_args)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/773514021.py", line 2, in string_error
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/773514021.py", line 2, in string_error
     assert s1 not in s2, "no substrings"
            ^^^^^^^^^^^^
 AssertionError: no substrings (expected)
@@ -9704,11 +9719,11 @@ Minimized failing call to mystery(inp='(z*+s/Q,7)2@0_')
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2334363057.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2334363057.py", line 2, in &lt;module&gt;
     compile_and_test_html_markup_simple(assertions_source_lines)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/1838190689.py", line 2, in compile_and_test_html_markup_simple
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/1838190689.py", line 2, in compile_and_test_html_markup_simple
     compile_and_run(lines +
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2075409738.py", line 3, in compile_and_run
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2075409738.py", line 3, in compile_and_run
     exec("".join(lines), {'__name__': '&lt;string&gt;',
   File "&lt;string&gt;", line 553, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -9843,18 +9858,18 @@ AssertionError: My Test (expected)
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="52ee873e-d3ed-11ef-9972-6298cf1a5790-1" name="52ee873e-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52ee873e-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52ee873e-d3ed-11ef-9972-6298cf1a5790-1" id="52ee873e-d3ed-11ef-9972-6298cf1a5790-1-label">All of the source code in the assertions chapter.</label><br/>
-<input id="52ee873e-d3ed-11ef-9972-6298cf1a5790-2" name="52ee873e-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52ee873e-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52ee873e-d3ed-11ef-9972-6298cf1a5790-2" id="52ee873e-d3ed-11ef-9972-6298cf1a5790-2-label">Only the source code of <code>remove_html_markup()</code></label><br/>
-<input id="52ee873e-d3ed-11ef-9972-6298cf1a5790-3" name="52ee873e-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52ee873e-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52ee873e-d3ed-11ef-9972-6298cf1a5790-3" id="52ee873e-d3ed-11ef-9972-6298cf1a5790-3-label">Only a subset of <code>remove_html_markup()</code></label><br/>
-<input id="52ee873e-d3ed-11ef-9972-6298cf1a5790-4" name="52ee873e-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('52ee873e-d3ed-11ef-9972-6298cf1a5790')" type="radio"/>
-<label for="52ee873e-d3ed-11ef-9972-6298cf1a5790-4" id="52ee873e-d3ed-11ef-9972-6298cf1a5790-4-label">No lines at all.</label><br/>
+<input id="db4258a2-d714-11ef-8e40-6298cf1a5790-1" name="db4258a2-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db4258a2-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db4258a2-d714-11ef-8e40-6298cf1a5790-1" id="db4258a2-d714-11ef-8e40-6298cf1a5790-1-label">All of the source code in the assertions chapter.</label><br/>
+<input id="db4258a2-d714-11ef-8e40-6298cf1a5790-2" name="db4258a2-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db4258a2-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db4258a2-d714-11ef-8e40-6298cf1a5790-2" id="db4258a2-d714-11ef-8e40-6298cf1a5790-2-label">Only the source code of <code>remove_html_markup()</code></label><br/>
+<input id="db4258a2-d714-11ef-8e40-6298cf1a5790-3" name="db4258a2-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db4258a2-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db4258a2-d714-11ef-8e40-6298cf1a5790-3" id="db4258a2-d714-11ef-8e40-6298cf1a5790-3-label">Only a subset of <code>remove_html_markup()</code></label><br/>
+<input id="db4258a2-d714-11ef-8e40-6298cf1a5790-4" name="db4258a2-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db4258a2-d714-11ef-8e40-6298cf1a5790')" type="radio"/>
+<label for="db4258a2-d714-11ef-8e40-6298cf1a5790-4" id="db4258a2-d714-11ef-8e40-6298cf1a5790-4-label">No lines at all.</label><br/>
 </div>
 </p>
-<input id="52ee873e-d3ed-11ef-9972-6298cf1a5790-submit" onclick="check_selection('52ee873e-d3ed-11ef-9972-6298cf1a5790', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="52ee873e-d3ed-11ef-9972-6298cf1a5790-hint"></span>
+<input id="db4258a2-d714-11ef-8e40-6298cf1a5790-submit" onclick="check_selection('db4258a2-d714-11ef-8e40-6298cf1a5790', 8, 0, '[x for x in range((1 + 1) ** (1 + 1)) if x % (1 + 1) == 1][1]')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="db4258a2-d714-11ef-8e40-6298cf1a5790-hint"></span>
 </div>
 </div>
 </div>
@@ -9996,11 +10011,11 @@ AssertionError: My Test (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2457905094.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2457905094.py", line 2, in &lt;module&gt;
     compile_and_test_html_markup_simple(reduced_lines)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/1838190689.py", line 2, in compile_and_test_html_markup_simple
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/1838190689.py", line 2, in compile_and_test_html_markup_simple
     compile_and_run(lines +
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2075409738.py", line 3, in compile_and_run
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2075409738.py", line 3, in compile_and_run
     exec("".join(lines), {'__name__': '&lt;string&gt;',
   File "&lt;string&gt;", line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -10097,11 +10112,11 @@ AssertionError: My Test (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/810405118.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/810405118.py", line 2, in &lt;module&gt;
     compile_and_test_html_markup(reduced_lines)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4067432722.py", line 2, in compile_and_test_html_markup
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4067432722.py", line 2, in compile_and_test_html_markup
     compile_and_run(lines +
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2075409738.py", line 3, in compile_and_run
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2075409738.py", line 3, in compile_and_run
     exec("".join(lines), {'__name__': '&lt;string&gt;',
   File "&lt;string&gt;", line 4, in &lt;module&gt;
 RuntimeError: Missing functionality (expected)
@@ -10395,18 +10410,18 @@ RuntimeError: Missing functionality (expected)
 </p>
 <p>
 <div class="quiz_options" title="Check all that apply.">
-<input id="530a9cda-d3ed-11ef-9972-6298cf1a5790-1" name="530a9cda-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('530a9cda-d3ed-11ef-9972-6298cf1a5790')" type="checkbox"/>
-<label for="530a9cda-d3ed-11ef-9972-6298cf1a5790-1" id="530a9cda-d3ed-11ef-9972-6298cf1a5790-1-label">Comments are deleted</label><br/>
-<input id="530a9cda-d3ed-11ef-9972-6298cf1a5790-2" name="530a9cda-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('530a9cda-d3ed-11ef-9972-6298cf1a5790')" type="checkbox"/>
-<label for="530a9cda-d3ed-11ef-9972-6298cf1a5790-2" id="530a9cda-d3ed-11ef-9972-6298cf1a5790-2-label">Blank lines are deleted</label><br/>
-<input id="530a9cda-d3ed-11ef-9972-6298cf1a5790-3" name="530a9cda-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('530a9cda-d3ed-11ef-9972-6298cf1a5790')" type="checkbox"/>
-<label for="530a9cda-d3ed-11ef-9972-6298cf1a5790-3" id="530a9cda-d3ed-11ef-9972-6298cf1a5790-3-label">Initializations are deleted</label><br/>
-<input id="530a9cda-d3ed-11ef-9972-6298cf1a5790-4" name="530a9cda-d3ed-11ef-9972-6298cf1a5790" onclick="clear_selection('530a9cda-d3ed-11ef-9972-6298cf1a5790')" type="checkbox"/>
-<label for="530a9cda-d3ed-11ef-9972-6298cf1a5790-4" id="530a9cda-d3ed-11ef-9972-6298cf1a5790-4-label">The assertion is deleted</label><br/>
+<input id="db620878-d714-11ef-8e40-6298cf1a5790-1" name="db620878-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db620878-d714-11ef-8e40-6298cf1a5790')" type="checkbox"/>
+<label for="db620878-d714-11ef-8e40-6298cf1a5790-1" id="db620878-d714-11ef-8e40-6298cf1a5790-1-label">Comments are deleted</label><br/>
+<input id="db620878-d714-11ef-8e40-6298cf1a5790-2" name="db620878-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db620878-d714-11ef-8e40-6298cf1a5790')" type="checkbox"/>
+<label for="db620878-d714-11ef-8e40-6298cf1a5790-2" id="db620878-d714-11ef-8e40-6298cf1a5790-2-label">Blank lines are deleted</label><br/>
+<input id="db620878-d714-11ef-8e40-6298cf1a5790-3" name="db620878-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db620878-d714-11ef-8e40-6298cf1a5790')" type="checkbox"/>
+<label for="db620878-d714-11ef-8e40-6298cf1a5790-3" id="db620878-d714-11ef-8e40-6298cf1a5790-3-label">Initializations are deleted</label><br/>
+<input id="db620878-d714-11ef-8e40-6298cf1a5790-4" name="db620878-d714-11ef-8e40-6298cf1a5790" onclick="clear_selection('db620878-d714-11ef-8e40-6298cf1a5790')" type="checkbox"/>
+<label for="db620878-d714-11ef-8e40-6298cf1a5790-4" id="db620878-d714-11ef-8e40-6298cf1a5790-4-label">The assertion is deleted</label><br/>
 </div>
 </p>
-<input id="530a9cda-d3ed-11ef-9972-6298cf1a5790-submit" onclick="check_selection('530a9cda-d3ed-11ef-9972-6298cf1a5790', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="530a9cda-d3ed-11ef-9972-6298cf1a5790-hint"></span>
+<input id="db620878-d714-11ef-8e40-6298cf1a5790-submit" onclick="check_selection('db620878-d714-11ef-8e40-6298cf1a5790', 22, 1, '[(1 ** 0 - -1 ** 0) ** n for n in range(0, 3)]')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="db620878-d714-11ef-8e40-6298cf1a5790-hint"></span>
 </div>
 </div>
 </div>
@@ -10507,11 +10522,11 @@ RuntimeError: Missing functionality (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/909985861.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/909985861.py", line 2, in &lt;module&gt;
     compile_and_test_html_markup(reduced_assertions_source_characters)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4067432722.py", line 2, in compile_and_test_html_markup
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4067432722.py", line 2, in compile_and_test_html_markup
     compile_and_run(lines +
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2075409738.py", line 3, in compile_and_run
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2075409738.py", line 3, in compile_and_run
     exec("".join(lines), {'__name__': '&lt;string&gt;',
   File "&lt;string&gt;", line 17, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -10681,7 +10696,7 @@ AssertionError: My Test (expected)
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[140]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>0.2436917910235934</pre>
+<pre>0.24074787506833673</pre>
 </div>
 </div>
 </div>
@@ -11023,7 +11038,7 @@ AssertionError: My Test (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/1290587190.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/1290587190.py", line 2, in &lt;module&gt;
     exec(fun_test_code, {}, {})
   File "&lt;string&gt;", line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -11144,36 +11159,36 @@ To this end, we manipulate the AST through the <code>ast</code> Python module. T
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[157]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>[&lt;ast.Module at 0x10918a910&gt;,
- &lt;ast.FunctionDef at 0x109189850&gt;,
- &lt;ast.arguments at 0x1091887d0&gt;,
- &lt;ast.arg at 0x109188950&gt;,
- &lt;ast.Assign at 0x109135f50&gt;,
- &lt;ast.Name at 0x1091883d0&gt;,
- &lt;ast.Store at 0x10355f390&gt;,
- &lt;ast.Constant at 0x109189710&gt;,
- &lt;ast.Assign at 0x1092ea1d0&gt;,
- &lt;ast.Name at 0x1092e9310&gt;,
- &lt;ast.Store at 0x10355f390&gt;,
- &lt;ast.Constant at 0x1092ea210&gt;,
- &lt;ast.Assign at 0x1092e8ed0&gt;,
- &lt;ast.Name at 0x1092eb210&gt;,
- &lt;ast.Store at 0x10355f390&gt;,
- &lt;ast.Constant at 0x1092ea050&gt;,
- &lt;ast.For at 0x1092ebe90&gt;,
- &lt;ast.Name at 0x1092eb850&gt;,
- &lt;ast.Store at 0x10355f390&gt;,
- &lt;ast.Name at 0x1092e9f90&gt;,
- &lt;ast.Load at 0x10355f310&gt;,
- &lt;ast.If at 0x1092e9050&gt;,
- &lt;ast.BoolOp at 0x109523890&gt;,
- &lt;ast.And at 0x10355f5d0&gt;,
- &lt;ast.Compare at 0x109520550&gt;,
- &lt;ast.Name at 0x109523bd0&gt;,
- &lt;ast.Load at 0x10355f310&gt;,
- &lt;ast.Eq at 0x103570350&gt;,
- &lt;ast.Constant at 0x109277fd0&gt;,
- &lt;ast.UnaryOp at 0x109522350&gt;]</pre>
+<pre>[&lt;ast.Module at 0x110bde910&gt;,
+ &lt;ast.FunctionDef at 0x110bdff10&gt;,
+ &lt;ast.arguments at 0x112beb210&gt;,
+ &lt;ast.arg at 0x112bebc10&gt;,
+ &lt;ast.Assign at 0x112b50450&gt;,
+ &lt;ast.Name at 0x112be9b10&gt;,
+ &lt;ast.Store at 0x1054d7b50&gt;,
+ &lt;ast.Constant at 0x11301aa90&gt;,
+ &lt;ast.Assign at 0x11301aa50&gt;,
+ &lt;ast.Name at 0x11301a090&gt;,
+ &lt;ast.Store at 0x1054d7b50&gt;,
+ &lt;ast.Constant at 0x113019850&gt;,
+ &lt;ast.Assign at 0x1130198d0&gt;,
+ &lt;ast.Name at 0x11301add0&gt;,
+ &lt;ast.Store at 0x1054d7b50&gt;,
+ &lt;ast.Constant at 0x113019750&gt;,
+ &lt;ast.For at 0x11304ef10&gt;,
+ &lt;ast.Name at 0x11304e490&gt;,
+ &lt;ast.Store at 0x1054d7b50&gt;,
+ &lt;ast.Name at 0x11304e2d0&gt;,
+ &lt;ast.Load at 0x1054d7ad0&gt;,
+ &lt;ast.If at 0x11304cf10&gt;,
+ &lt;ast.BoolOp at 0x11304e590&gt;,
+ &lt;ast.And at 0x1054d7d90&gt;,
+ &lt;ast.Compare at 0x11304e510&gt;,
+ &lt;ast.Name at 0x11304e150&gt;,
+ &lt;ast.Load at 0x1054d7ad0&gt;,
+ &lt;ast.Eq at 0x1054e8b10&gt;,
+ &lt;ast.Constant at 0x112b21310&gt;,
+ &lt;ast.UnaryOp at 0x11304c1d0&gt;]</pre>
 </div>
 </div>
 </div>
@@ -11353,7 +11368,7 @@ To this end, we manipulate the AST through the <code>ast</code> Python module. T
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[161]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;ast.Assign at 0x109135f50&gt;</pre>
+<pre>&lt;ast.Assign at 0x112b50450&gt;</pre>
 </div>
 </div>
 </div>
@@ -11571,7 +11586,7 @@ To this end, we manipulate the AST through the <code>ast</code> Python module. T
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2411822553.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2411822553.py", line 2, in &lt;module&gt;
     exec(fun_code, {}, {})
   File "&lt;string&gt;", line 3, in &lt;module&gt;
   File "&lt;string&gt;", line 13, in remove_html_markup
@@ -11693,9 +11708,9 @@ UnboundLocalError: cannot access local variable 'tag' where it is not associated
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2588008834.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2588008834.py", line 2, in &lt;module&gt;
     compile_and_test_ast(fun_tree, fun_nodes, test_tree)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/1107678207.py", line 14, in compile_and_test_ast
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/1107678207.py", line 14, in compile_and_test_ast
     exec(code_object, {}, {})
   File "&lt;string&gt;", line 3, in &lt;module&gt;
 AssertionError: My Test (expected)
@@ -12166,9 +12181,9 @@ AssertionError: My Test (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/4002351332.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4002351332.py", line 2, in &lt;module&gt;
     myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_97510/2200911420.py", line 2, in myeval
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2200911420.py", line 2, in myeval
     return eval(inp)
            ^^^^^^^^^
   File "&lt;string&gt;", line 1, in &lt;module&gt;

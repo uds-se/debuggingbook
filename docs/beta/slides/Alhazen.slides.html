@@ -7522,14 +7522,17 @@ A <code>gini</code> value of <code>0.0</code> means <em>purity</em> - all sample
 The <em>saturation</em> of nodes also indicates purity – the higher the saturation, the higher the purity.</p>
 <p>There is also a text version available, with much fewer (but hopefully still essential) details:</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">alhazen</span><span class="o">.</span><span class="n">friendly_decision_tree</span><span class="p">())</span>
-<span class="k">if</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">12.3500</span><span class="p">:</span>
-  <span class="k">if</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">41.2595</span><span class="p">:</span>
-    <span class="n">NO_BUG</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="k">if</span> <span class="o">&lt;</span><span class="n">function</span><span class="o">&gt;</span> <span class="o">==</span> <span class="s1">'sqrt'</span><span class="p">:</span>
-      <span class="n">BUG</span>
+<span class="k">if</span> <span class="o">&lt;</span><span class="n">lead</span><span class="o">-</span><span class="n">digit</span><span class="o">&gt;</span> <span class="o">&lt;=</span> <span class="mf">4.5000</span><span class="p">:</span>
+  <span class="k">if</span> <span class="o">&lt;</span><span class="n">function</span><span class="o">&gt;</span> <span class="o">==</span> <span class="s1">'sqrt'</span><span class="p">:</span>
+    <span class="k">if</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span> <span class="o">&lt;=</span> <span class="mf">42.7000</span><span class="p">:</span>
+      <span class="k">if</span> <span class="o">&lt;</span><span class="n">term</span><span class="o">&gt;</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">11.7870</span><span class="p">:</span>
+        <span class="n">BUG</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">NO_BUG</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="n">NO_BUG</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">NO_BUG</span>
 <span class="k">else</span><span class="p">:</span>
   <span class="n">NO_BUG</span>
 </pre></div>
@@ -8901,8 +8904,8 @@ When showing the final results, we switch to "friendly" names.</p>
  num(&lt;value&gt;),
  num(&lt;lead-digit&gt;),
  num(&lt;digit&gt;),
- num(&lt;integer&gt;),
- num(&lt;digits&gt;)]</pre>
+ num(&lt;digits&gt;),
+ num(&lt;integer&gt;)]</pre>
 </div>
 </div>
 </div>
@@ -8983,8 +8986,8 @@ When showing the final results, we switch to "friendly" names.</p>
  '&lt;value&gt;',
  '&lt;lead-digit&gt;',
  '&lt;digit&gt;',
- '&lt;integer&gt;',
- '&lt;digits&gt;']</pre>
+ '&lt;digits&gt;',
+ '&lt;integer&gt;']</pre>
 </div>
 </div>
 </div>
@@ -9110,8 +9113,8 @@ For many grammars with many syntactically features, the feature collection can b
 <th>num(&lt;value&gt;)</th>
 <th>num(&lt;lead-digit&gt;)</th>
 <th>num(&lt;digit&gt;)</th>
-<th>num(&lt;integer&gt;)</th>
 <th>num(&lt;digits&gt;)</th>
+<th>num(&lt;integer&gt;)</th>
 </tr>
 </thead>
 <tbody>
@@ -9136,8 +9139,8 @@ For many grammars with many syntactically features, the feature collection can b
 <td>900.00</td>
 <td>9.0</td>
 <td>0.0</td>
-<td>900.0</td>
 <td>0.0</td>
+<td>900.0</td>
 </tr>
 <tr>
 <th>1</th>
@@ -9160,8 +9163,8 @@ For many grammars with many syntactically features, the feature collection can b
 <td>24.00</td>
 <td>2.0</td>
 <td>4.0</td>
-<td>24.0</td>
 <td>4.0</td>
+<td>24.0</td>
 </tr>
 <tr>
 <th>2</th>
@@ -9184,8 +9187,8 @@ For many grammars with many syntactically features, the feature collection can b
 <td>3.14</td>
 <td>NaN</td>
 <td>4.0</td>
-<td>3.0</td>
 <td>14.0</td>
+<td>3.0</td>
 </tr>
 </tbody>
 </table>
@@ -9296,8 +9299,8 @@ For many grammars with many syntactically features, the feature collection can b
     num(&lt;value&gt;): 900.0
     num(&lt;lead-digit&gt;): 9.0
     num(&lt;digit&gt;): 0.0
-    num(&lt;integer&gt;): 900.0
     num(&lt;digits&gt;): 0.0
+    num(&lt;integer&gt;): 900.0
 Features of sin(24):
     exists(&lt;start&gt;): 1
     exists(&lt;start&gt; == &lt;function&gt;(&lt;term&gt;)): 1
@@ -9343,8 +9346,8 @@ Features of sin(24):
     num(&lt;value&gt;): 24.0
     num(&lt;lead-digit&gt;): 2.0
     num(&lt;digit&gt;): 4.0
-    num(&lt;integer&gt;): 24.0
     num(&lt;digits&gt;): 4.0
+    num(&lt;integer&gt;): 24.0
 Features of cos(-3.14):
     exists(&lt;start&gt;): 1
     exists(&lt;start&gt; == &lt;function&gt;(&lt;term&gt;)): 1
@@ -9390,8 +9393,8 @@ Features of cos(-3.14):
     num(&lt;value&gt;): 3.14
     num(&lt;lead-digit&gt;): nan
     num(&lt;digit&gt;): 4.0
-    num(&lt;integer&gt;): 3.0
     num(&lt;digits&gt;): 14.0
+    num(&lt;integer&gt;): 3.0
 </pre>
 </div>
 </div>
@@ -10240,12 +10243,12 @@ These input specifications will be parsed to the input generator that tries to g
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>function-sqrt &lt;= 0.5, number &gt; 13.0
+<pre>function-sqrt &lt;= 0.5, number &lt;= 13.0
 function-sqrt &gt; 0.5
-function-sqrt &gt; 0.5, number &gt; 13.0
-function-sqrt &gt; 0.5, number &lt;= 13.0
-function-sqrt &lt;= 0.5, number &lt;= 13.0
 function-sqrt &lt;= 0.5
+function-sqrt &lt;= 0.5, number &gt; 13.0
+function-sqrt &gt; 0.5, number &lt;= 13.0
+function-sqrt &gt; 0.5, number &gt; 13.0
 </pre>
 </div>
 </div>
@@ -11193,18 +11196,18 @@ The execution time of Alhazen mainly depends on the number of iterations.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Features: exists(&lt;start&gt;), &lt;start&gt; == '&lt;function&gt;(&lt;term&gt;)', exists(&lt;function&gt;), &lt;function&gt; == 'sqrt', &lt;function&gt; == 'tan', &lt;function&gt; == 'cos', &lt;function&gt; == 'sin', exists(&lt;term&gt;), &lt;term&gt; == '-&lt;value&gt;', &lt;term&gt; == '&lt;value&gt;', exists(&lt;value&gt;), &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;', &lt;value&gt; == '&lt;integer&gt;', exists(&lt;integer&gt;), &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;', &lt;integer&gt; == '&lt;digit&gt;', exists(&lt;digits&gt;), &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;', &lt;digits&gt; == '&lt;digit&gt;', exists(&lt;lead-digit&gt;), &lt;lead-digit&gt; == '1', &lt;lead-digit&gt; == '2', &lt;lead-digit&gt; == '3', &lt;lead-digit&gt; == '4', &lt;lead-digit&gt; == '5', &lt;lead-digit&gt; == '6', &lt;lead-digit&gt; == '7', &lt;lead-digit&gt; == '8', &lt;lead-digit&gt; == '9', exists(&lt;digit&gt;), &lt;digit&gt; == '0', &lt;digit&gt; == '1', &lt;digit&gt; == '2', &lt;digit&gt; == '3', &lt;digit&gt; == '4', &lt;digit&gt; == '5', &lt;digit&gt; == '6', &lt;digit&gt; == '7', &lt;digit&gt; == '8', &lt;digit&gt; == '9', &lt;term&gt;, &lt;value&gt;, &lt;lead-digit&gt;, &lt;digit&gt;, &lt;integer&gt;, &lt;digits&gt;
+<pre>Features: exists(&lt;start&gt;), &lt;start&gt; == '&lt;function&gt;(&lt;term&gt;)', exists(&lt;function&gt;), &lt;function&gt; == 'sqrt', &lt;function&gt; == 'tan', &lt;function&gt; == 'cos', &lt;function&gt; == 'sin', exists(&lt;term&gt;), &lt;term&gt; == '-&lt;value&gt;', &lt;term&gt; == '&lt;value&gt;', exists(&lt;value&gt;), &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;', &lt;value&gt; == '&lt;integer&gt;', exists(&lt;integer&gt;), &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;', &lt;integer&gt; == '&lt;digit&gt;', exists(&lt;digits&gt;), &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;', &lt;digits&gt; == '&lt;digit&gt;', exists(&lt;lead-digit&gt;), &lt;lead-digit&gt; == '1', &lt;lead-digit&gt; == '2', &lt;lead-digit&gt; == '3', &lt;lead-digit&gt; == '4', &lt;lead-digit&gt; == '5', &lt;lead-digit&gt; == '6', &lt;lead-digit&gt; == '7', &lt;lead-digit&gt; == '8', &lt;lead-digit&gt; == '9', exists(&lt;digit&gt;), &lt;digit&gt; == '0', &lt;digit&gt; == '1', &lt;digit&gt; == '2', &lt;digit&gt; == '3', &lt;digit&gt; == '4', &lt;digit&gt; == '5', &lt;digit&gt; == '6', &lt;digit&gt; == '7', &lt;digit&gt; == '8', &lt;digit&gt; == '9', &lt;term&gt;, &lt;value&gt;, &lt;lead-digit&gt;, &lt;digit&gt;, &lt;digits&gt;, &lt;integer&gt;
 
 Iteration #1
   Decision Tree:
-    if &lt;integer&gt; &lt;= 10.0000:
-      NO_BUG
-    else:
+    if exists(&lt;lead-digit&gt;):
       BUG
+    else:
+      NO_BUG
 
   New input specifications:
-    &lt;integer&gt; &lt;= 10.0
-    &lt;integer&gt; &gt; 10.0
+    exists(&lt;lead-digit&gt;)
+    exists(&lt;lead-digit&gt;)
 </pre>
 </div>
 </div>
@@ -11212,25 +11215,89 @@ Iteration #1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(-5), sin(87)
+    tan(85), sqrt(8.90)
 
 Iteration #2
   Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 4.5000:
-      NO_BUG
+    if &lt;lead-digit&gt; == '1':
+      BUG
     else:
+      NO_BUG
+
+  New input specifications:
+    &lt;lead-digit&gt; == '1'
+    &lt;lead-digit&gt; == '1'
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    sqrt(-8), sin(-123)
+
+Iteration #3
+  Decision Tree:
+    if &lt;digit&gt; == '6':
+      BUG
+    else:
+      NO_BUG
+
+  New input specifications:
+    &lt;digit&gt; == '6'
+    &lt;digit&gt; == '6'
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    sin(-17.6), sqrt(-9)
+
+Iteration #4
+  Decision Tree:
+    if &lt;digits&gt; &lt;= 6.5000:
+      if &lt;term&gt; == '&lt;value&gt;':
+        NO_BUG
+      else:
+        BUG
+    else:
+      NO_BUG
+
+  New input specifications:
+    &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 6.5
+    &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 6.5
+    &lt;digits&gt; &lt;= 6.5
+    &lt;digits&gt; &gt; 6.5
+    &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &gt; 6.5
+    &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &gt; 6.5
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    tan(-94), sin(9.0), sin(95), cos(-96.87), tan(276), sqrt(-7441)
+
+Iteration #5
+  Decision Tree:
+    if &lt;lead-digit&gt; == '1':
       if &lt;digits&gt; &lt;= 6.5000:
         BUG
       else:
         NO_BUG
+    else:
+      NO_BUG
 
   New input specifications:
-    &lt;lead-digit&gt; &lt;= 4.5
-    &lt;digits&gt; &lt;= 6.5 and &lt;lead-digit&gt; &gt; 4.5
-    &lt;digits&gt; &gt; 6.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;digits&gt; &lt;= 6.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;lead-digit&gt; &gt; 4.5
-    &lt;digits&gt; &gt; 6.5 and &lt;lead-digit&gt; &gt; 4.5
+    &lt;lead-digit&gt; == '1' and &lt;digits&gt; &gt; 6.5
+    &lt;lead-digit&gt; == '1' and &lt;digits&gt; &lt;= 6.5
+    &lt;lead-digit&gt; == '1'
+    &lt;lead-digit&gt; == '1' and &lt;digits&gt; &gt; 6.5
+    &lt;lead-digit&gt; == '1' and &lt;digits&gt; &lt;= 6.5
+    &lt;lead-digit&gt; == '1'
 </pre>
 </div>
 </div>
@@ -11238,9 +11305,9 @@ Iteration #2
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sin(19), cos(95), sin(-17.6), sin(45), tan(-94), sin(-97.442)
+    sqrt(148.3), tan(-64.0), sqrt(-7), cos(578.4776), sin(104), sqrt(190.5)
 
-Iteration #3
+Iteration #6
   Decision Tree:
     if &lt;digit&gt; == '6':
       if &lt;function&gt; == 'sqrt':
@@ -11248,20 +11315,15 @@ Iteration #3
       else:
         NO_BUG
     else:
-      if &lt;value&gt; == '&lt;integer&gt;':
-        NO_BUG
-      else:
-        NO_BUG
+      NO_BUG
 
   New input specifications:
-    &lt;digit&gt; == '6' and &lt;value&gt; == '&lt;integer&gt;'
-    &lt;digit&gt; == '6' and &lt;value&gt; == '&lt;integer&gt;'
     &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt'
     &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt'
     &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt'
     &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt'
-    &lt;digit&gt; == '6' and &lt;value&gt; == '&lt;integer&gt;'
-    &lt;digit&gt; == '6' and &lt;value&gt; == '&lt;integer&gt;'
+    &lt;digit&gt; == '6'
+    &lt;digit&gt; == '6'
 </pre>
 </div>
 </div>
@@ -11269,35 +11331,54 @@ Iteration #3
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    tan(4.9), sin(3), sin(838), sqrt(-7441), sqrt(-276.3), cos(-5647.8), sin(-6), cos(578.4776)
+    sqrt(-650.95), cos(-0.2), tan(47.6220551), sqrt(12.86), sqrt(-7.4), sqrt(56)
 
-Iteration #4
+Iteration #7
   Decision Tree:
     if &lt;lead-digit&gt; &lt;= 1.5000:
       if &lt;integer&gt; &lt;= 16.5000:
-        BUG
+        if &lt;value&gt; == '&lt;integer&gt;':
+          BUG
+        else:
+          NO_BUG
       else:
         if &lt;digit&gt; == '9':
           NO_BUG
         else:
           NO_BUG
     else:
-      NO_BUG
+      if &lt;digits&gt; == '&lt;digit&gt;':
+        NO_BUG
+      else:
+        NO_BUG
 
-  New input specifications:
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;digit&gt; == '9' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;digits&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &gt; 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;digit&gt; == '9' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;digits&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &gt; 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;digit&gt; == '9' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &lt;= 1.5
     &lt;digit&gt; == '9' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &lt;= 1.5
     &lt;digit&gt; == '9' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;digit&gt; == '9' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;digit&gt; == '9' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &gt; 1.5
     &lt;digit&gt; == '9' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;lead-digit&gt; &gt; 1.5
-    &lt;lead-digit&gt; &lt;= 1.5
     &lt;digit&gt; == '9' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;digit&gt; == '9' and &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;digits&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;digits&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &lt;= 1.5
     &lt;digit&gt; == '9' and &lt;integer&gt; &lt;= 16.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;integer&gt; &gt; 16.5 and &lt;lead-digit&gt; &lt;= 1.5
 </pre>
 </div>
 </div>
@@ -11305,9 +11386,9 @@ Iteration #4
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(-7), tan(3.2), sqrt(5.7), tan(-7), tan(15800), cos(5), sin(-1), sin(7.74), sin(-8), cos(1), sqrt(2.30), cos(4), tan(-3), sqrt(-8), sin(-2.461), sqrt(-2), tan(4), sin(104), sin(0), cos(-3.6660), sin(-1.15), tan(-4.6), sqrt(7.03), sqrt(-6), sqrt(7), sin(1), sin(-1), sqrt(-4.7), cos(3.3), sin(5.4), sin(-5), sin(6), cos(-4), sqrt(8), cos(3.284), tan(-7), sqrt(2), sqrt(1.55), cos(-0), cos(-3.83), sqrt(-6.7), sin(-6), sqrt(2), sqrt(0.24), cos(0.553), tan(-0), sin(-6), cos(8), tan(64), sin(93.5), sin(8.100), tan(7), sin(4.21), sqrt(-70), sqrt(-3), tan(7.45), sin(4), cos(-25), sin(68), cos(8), sin(-2), cos(-1), cos(-67), cos(-6), tan(51.2), tan(2.136), sqrt(-0), cos(721), tan(-5), sin(-28), sin(-6.32), sqrt(77.12663), sin(-945.35), cos(70.385), sqrt(2), sin(-85), tan(5), sqrt(57.0015), sqrt(-75), sin(-7.7), tan(-1.2), sin(5.8), tan(8), tan(6), tan(2), tan(987), sin(8.30), sin(31.44), tan(0), cos(4), sqrt(4), tan(456.4), sqrt(-918), tan(-20), tan(93), cos(5), cos(3.0), tan(-74.536), sqrt(63711220), sqrt(53), sin(42152.2), sqrt(30.078), sin(742), tan(6541.86), sqrt(-75), sin(-81.7), sin(0.4), sin(93.3), cos(87713.8), cos(7.4), cos(2), cos(-6.66600052), cos(-23), cos(-3), sqrt(-93), cos(-22), sqrt(48.1458), sqrt(-6), tan(2), sqrt(-8.85), sin(82.305), cos(-825120), sqrt(6), cos(-2), sqrt(4.6047), tan(17489052.84959877), sqrt(58829), tan(93.079006), cos(-89), sqrt(72.9), cos(6.94), sqrt(-82.9), cos(5.099), sqrt(8199612), sqrt(-9), cos(-819.7), cos(542869), sqrt(3729.7), sin(-4.895), tan(910975), sqrt(4.9), tan(-5442.9), sin(-9.98), sqrt(7.9), sin(34.9), tan(9.6), sqrt(9), sqrt(-82956.7), sqrt(51557091989.728), sin(9.0), sqrt(9.55), sqrt(-398.23), sin(2293), tan(-12), tan(-689), cos(14102), cos(-142.8), cos(-1), cos(-762), tan(-1), sqrt(-9.8189), sin(73), tan(737.64), tan(-0.8006), cos(1), sin(-0), tan(3.1), sin(-2), sin(-702474494302.49), sqrt(3.43430260), tan(-3), sqrt(-467), tan(-27.441), sin(41344.83), cos(8), sin(5.64), sqrt(8), sqrt(5), sin(854886.63), cos(65), sin(6.9), tan(8), sqrt(-7), tan(-56260.5), tan(1), sqrt(-13), sqrt(0), cos(-5113), tan(-5.1), sin(-5.9), sin(-66.1), tan(46), sin(-9.37), tan(11), sqrt(-5009), tan(8), sqrt(-2), cos(-6), sqrt(-6476), sin(-96), sin(-6.2), sqrt(6), sin(767), sin(1), tan(-1), sqrt(-8), sin(-9.2), tan(4), sin(3.2), cos(71), sin(9), sin(-729143), sqrt(49.51), cos(-6.49), tan(-4.2), tan(7), cos(8.8987), sqrt(37.81), sin(20.9), sin(-293.06), sqrt(-214.433), tan(-30.4), cos(3.5), cos(-5.2673), sqrt(52.097), sin(-1), sin(-42), sqrt(8.1), tan(-700.7054), cos(-2.072463), sin(807.5), tan(-0.63), sqrt(2.02), cos(-4), cos(4338.1), cos(350.50144), sqrt(-491), sqrt(-3), sqrt(68), cos(422835), tan(89.0), cos(-6540), sqrt(-4), tan(-57), tan(55589), sin(4.9345621), tan(20), cos(7), sqrt(-48.56), tan(5.8), cos(2), sqrt(8), sin(-7.3), cos(908474), tan(2.539), sin(-16), sqrt(-6.98876), tan(-192), cos(-9.35), tan(-1538.5)
+    sin(16338.11), sqrt(-90), sin(20.9), sin(14.4), sin(-16), sin(445.98), sqrt(164), sin(73.9), cos(4.929), sqrt(259), sqrt(-266.21529), sin(-31.96), sin(30.9), sin(-9.2), sqrt(-806.9), cos(-9), sqrt(-9.1), sin(0.94030), sin(8.09), cos(-596.0571795), cos(62.259), sqrt(-288965), sin(-9.158), tan(-5.89), cos(61507.92), cos(-429.7), cos(-944), sin(-315), sin(-41361.210), tan(-7838.7), sin(-55.14), cos(998.301326), tan(48.179), sin(59), cos(-45), sqrt(38.1), sqrt(8), sqrt(-0), cos(-84), tan(-9), tan(54), tan(66.8), sin(-1), sin(-98), tan(-0), sin(-48), cos(-269918), sqrt(-85.6), sin(364), sqrt(-7318), sqrt(35787261), sin(2), sin(5), sqrt(8), sqrt(9491), cos(-3), cos(-49.3), sin(-2), sin(3), sin(-5696.915), tan(51), cos(2), cos(744), sin(45), sin(2), cos(0), cos(6), tan(-87), tan(-1), tan(5), sin(-32.48), sqrt(-9), cos(26), sqrt(30.4), sqrt(-4), tan(-81), tan(-9), tan(-1), tan(651.76), cos(7), tan(-873), sqrt(8828), tan(7), sin(257), sqrt(4), cos(35.16), sqrt(8885.215), tan(-44.4), cos(-446.0), sin(-887), sin(-93.1), sin(-55.4), cos(-532.96), cos(3.851), cos(58.2), cos(9.32800576), cos(80.88), cos(-4.824837), cos(7.0), tan(94.9), sin(6.6), tan(97.20), tan(0.648), sqrt(-96.18), tan(-91.50), sqrt(7.472), tan(-4.10), cos(23.990), tan(65776.5), sin(-3.9), tan(-9.2), sin(-8.26), tan(-73907.302), sin(-401.8), cos(3395.460), tan(-1.5), sqrt(-63.3), sqrt(236903.75), tan(-5.2), sin(9.3), sin(-2.7), cos(99.9), tan(-81.70), tan(38.237), sin(-765.97), tan(-246.611), sqrt(28.2), sqrt(-36.7), cos(-272.68), tan(52699772746.0), sqrt(3.50), sin(866384.7), tan(4.1), cos(-0.123), tan(34.02), tan(-2.917), sin(48.60), cos(8.0), sin(-5.8), sqrt(-81.3), cos(5252.70), sqrt(-5.7), tan(989.723), tan(188), sin(13.6), sin(-84), sqrt(1), sin(1), sqrt(-95.20), sin(-33545), tan(-5.665), sqrt(-1), tan(488.3), tan(-6), tan(-7.172), sin(16), tan(-4555), cos(-6.431), tan(5), sin(-3), sqrt(-2), cos(23), sqrt(-0), sin(6), sin(-325), cos(-27), sin(0.3), sin(0), cos(-8.8), sqrt(-61), sin(-421), cos(-4), tan(6), cos(388), sin(775.84188), cos(-1), sin(-50), tan(-0.36), tan(-6), cos(80.241), tan(8), sin(-3), sqrt(10.7), tan(6.6), cos(75.1), cos(-81.73), sin(-8), cos(31.11), sqrt(14.882731), tan(43), cos(53), tan(34), sin(-31.5), sin(-6.2), tan(325.687), cos(0.034), cos(-6), sqrt(206.6), sin(-0), cos(12), sin(-4), sqrt(8430), tan(-33.4), tan(1.6), sqrt(-767523), tan(6.6), tan(677), sqrt(42.734), tan(0), sin(6), sin(-0), tan(0.40616), tan(6), cos(5.1010), tan(-0.300073), tan(2), cos(941.0), cos(-26), sqrt(-80.77), tan(-0.68), sin(-821), cos(-67088), tan(42.909), sqrt(-255), tan(193), sin(17813), tan(586), tan(-8), cos(5), tan(7), sin(64), cos(37), tan(-0), cos(9), tan(-7), tan(4), sqrt(-693), sqrt(-9550), sqrt(-5), sin(6), cos(-4), cos(608292), sin(-6), sqrt(-5), sqrt(-8), sin(-343), cos(-3), sqrt(94209), sqrt(-93), cos(-8), sin(-8), tan(-9), tan(35), sqrt(-8562), cos(0), sin(-2), tan(-0), cos(4), sqrt(-946), tan(-2), sqrt(6), cos(541678214), sqrt(-8), tan(6), sqrt(6), cos(3), cos(-44), sin(5), tan(-6), cos(92759), cos(437), sqrt(6), sin(18), sqrt(0), tan(9), sin(-6), sin(-5), sqrt(-5), cos(-5), sqrt(2), cos(4), cos(-125276.1), tan(-1243), tan(8), cos(1), sqrt(0), sin(4), sqrt(-0), tan(-9), tan(-8), sin(-8), sqrt(-8), tan(2), cos(-8), sqrt(14), sin(15682), sin(107.814), sin(-13), tan(1), cos(7), sin(-8), sqrt(-3), cos(-2), sin(-11.2), sin(-3), cos(7), sin(19.91), cos(6), tan(-4.028015985), cos(9), sin(-15), tan(9), cos(-9.3), sqrt(-1098), sin(-9), sqrt(-198.1), sin(4.80910), cos(129.8), sqrt(1921)
 
-Iteration #5
+Iteration #8
 </pre>
 </div>
 </div>
@@ -11315,26 +11396,60 @@ Iteration #5
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 1.5000:
+    if &lt;lead-digit&gt; &lt;= 3.5000:
       if &lt;function&gt; == 'sqrt':
-        BUG
+        if &lt;digits&gt; &lt;= 7.5000:
+          if &lt;term&gt; &lt;= -2.6500:
+            BUG
+          else:
+            NO_BUG
+        else:
+          if &lt;lead-digit&gt; == '1':
+            NO_BUG
+          else:
+            NO_BUG
       else:
-        NO_BUG
+        if &lt;term&gt; == '-&lt;value&gt;':
+          NO_BUG
+        else:
+          NO_BUG
     else:
-      if &lt;digit&gt; == '7':
+      if &lt;value&gt; == '&lt;integer&gt;':
         NO_BUG
       else:
         NO_BUG
 
-  New input specifications:
-    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &gt; 1.5
-    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &gt; 1.5
-    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 1.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 1.5
-    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &lt;= 1.5
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &gt; 3.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &gt; 3.5
 </pre>
 </div>
 </div>
@@ -11342,40 +11457,124 @@ Iteration #5
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    cos(-92), sqrt(-747.75), sqrt(187.54), sqrt(-18717.5562), cos(155), sqrt(46.1713), tan(948223), cos(12)
+    cos(78), sqrt(-25334.88), sqrt(8348), sqrt(-45), sqrt(54.3), sqrt(-7144), cos(-65.5), sqrt(54.6), sin(-46), sqrt(-37.3), sqrt(-3.6), sqrt(939228811.2), sqrt(3768837.541), sqrt(686.293), sqrt(-969463), sqrt(-1730), sqrt(14.75), sqrt(-918), sqrt(656.7), sqrt(75878), sqrt(-19.8), sqrt(-79), sqrt(616371.7), sqrt(-41.033), cos(36), cos(-306.4), sqrt(-1598), sqrt(-24), tan(-623), sqrt(23832.3), sqrt(-53.3), sqrt(-57), sqrt(84.3), cos(14.5334), tan(342.0), sqrt(-63429923.1), sqrt(26), sqrt(-16), sqrt(17.04), sqrt(51), cos(-71)
 
-Iteration #6
+Iteration #9
   Decision Tree:
-    if &lt;lead-digit&gt; == '1':
-      if &lt;function&gt; == 'sqrt':
-        if &lt;integer&gt; &lt;= 101.5000:
+    if &lt;term&gt; &lt;= -15.5000:
+      if &lt;integer&gt; &lt;= 42.5000:
+        if &lt;function&gt; == 'sqrt':
+          BUG
+        else:
+          if &lt;digit&gt; == '2':
+            NO_BUG
+          else:
+            NO_BUG
+      else:
+        NO_BUG
+    else:
+      NO_BUG
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;term&gt; &gt; -15.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;term&gt; &lt;= -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &lt;= -15.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;term&gt; &gt; -15.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;term&gt; &lt;= -15.5
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    sqrt(-1145), tan(-21), tan(-20.0), sqrt(-0.48), sqrt(6), sqrt(-69), sqrt(-5.43), sqrt(-47), sqrt(6.3729394), sqrt(9), sqrt(40.7), cos(-18.4), sqrt(5), sqrt(-3.7), sqrt(0), sqrt(9.5), cos(-32.2), sin(5.6), sqrt(84), tan(-30), sin(-3.5), sqrt(-72), tan(-79), tan(97039207), tan(93), sin(-2.94), sin(82.2), tan(-33), cos(-32.35), sin(-57.6689), sqrt(6.6), cos(-62.71)
+
+Iteration #10
+  Decision Tree:
+    if &lt;term&gt; &lt;= -15.5000:
+      if &lt;term&gt; &lt;= -42.5165:
+        if &lt;digits&gt;:
+          NO_BUG
+        else:
+          NO_BUG
+      else:
+        if &lt;function&gt; == 'sqrt':
+          BUG
+        else:
+          if &lt;digit&gt; == '3':
+            NO_BUG
+          else:
+            NO_BUG
+    else:
+      if &lt;function&gt; == 'sin':
+        NO_BUG
+      else:
+        NO_BUG
+
+  New input specifications:
+    &lt;digits&gt; &gt; 0.5 and &lt;term&gt; &lt;= -42.51650047302246
+    &lt;function&gt; == 'sin' and &lt;term&gt; &lt;= -15.5
+    &lt;digits&gt; &gt; 0.5 and &lt;term&gt; &gt; -42.51650047302246
+    &lt;digits&gt; &lt;= 0.5 and &lt;term&gt; &lt;= -42.51650047302246
+    &lt;function&gt; == 'sin' and &lt;term&gt; &gt; -15.5
+    &lt;function&gt; == 'sin' and &lt;term&gt; &lt;= -15.5
+    &lt;function&gt; == 'sin' and &lt;term&gt; &gt; -15.5
+    &lt;digits&gt; &lt;= 0.5 and &lt;term&gt; &gt; -42.51650047302246
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    sin(-953), sin(-58), sin(-10.70546), cos(-75), tan(-342.8), sin(-74.2), sin(-47), tan(-5793.1), sqrt(-549), sin(-778), cos(-46), tan(-61), tan(-1847.7), tan(-506), tan(-611), sin(8.0), sin(2.868), sqrt(-14007), sqrt(37), sin(-40)
+
+Iteration #11
+  Decision Tree:
+    if &lt;term&gt; &lt;= -15.5000:
+      if &lt;value&gt; &lt;= 42.5165:
+        if &lt;function&gt; == 'sqrt':
           BUG
         else:
           NO_BUG
       else:
-        if &lt;digit&gt; == '6':
-          NO_BUG
-        else:
-          NO_BUG
+        NO_BUG
     else:
-      if &lt;digit&gt; == '0':
-        NO_BUG
-      else:
-        NO_BUG
+      NO_BUG
 
   New input specifications:
-    &lt;digit&gt; == '0' and &lt;lead-digit&gt; == '1'
-    &lt;digit&gt; == '0' and &lt;lead-digit&gt; == '1'
-    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1'
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;integer&gt; &gt; 101.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;integer&gt; &gt; 101.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;integer&gt; &lt;= 101.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;integer&gt; &lt;= 101.5
-    &lt;digit&gt; == '0' and &lt;lead-digit&gt; == '1'
-    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1'
-    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1'
-    &lt;digit&gt; == '0' and &lt;lead-digit&gt; == '1'
-    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1'
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -15.5 and &lt;value&gt; &gt; 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -15.5 and &lt;value&gt; &lt;= 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -15.5 and &lt;value&gt; &lt;= 42.51650047302246
+    &lt;term&gt; &gt; -15.5
+    &lt;term&gt; &lt;= -15.5
+    &lt;term&gt; &lt;= -15.5 and &lt;value&gt; &gt; 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -15.5 and &lt;value&gt; &lt;= 42.51650047302246
+    &lt;term&gt; &gt; -15.5 and &lt;value&gt; &gt; 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -15.5 and &lt;value&gt; &gt; 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -15.5 and &lt;value&gt; &gt; 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -15.5 and &lt;value&gt; &gt; 42.51650047302246
+    &lt;term&gt; &lt;= -15.5 and &lt;value&gt; &lt;= 42.51650047302246
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -15.5 and &lt;value&gt; &lt;= 42.51650047302246
 </pre>
 </div>
 </div>
@@ -11383,204 +11582,32 @@ Iteration #6
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    cos(133.8296), tan(-9.6), tan(-37.8), sqrt(5465), sqrt(165086), sqrt(-30), sqrt(-7.48), cos(12.6), sqrt(-2), sqrt(21), sin(-13), sqrt(-3), sqrt(-1.080645), sin(-11.2), sin(19.91), sqrt(-9), sqrt(66.49), sqrt(46), sqrt(-6), sqrt(58.69), sqrt(-1.1313), sqrt(-6.154), sqrt(-5.360), sqrt(21), sqrt(2.4), sqrt(-1098), sqrt(-4.1), sqrt(-4.1), sin(-0), tan(-3.6), sin(-449756), cos(1.369), cos(-6), cos(15), tan(-1153.8289), tan(199), sin(-1203), tan(31567.1), sin(456836.6), tan(6.56314), sin(372.660), cos(66423.2), sin(-6.322), sin(5.926), cos(121.9), sin(-2519.169), cos(42201431.675), cos(-6.8), tan(-8.0605), sin(14570937.16), tan(15)
+    sqrt(450.244), sqrt(-50), tan(-34.6), sqrt(9), sqrt(9), sqrt(-88.0), sqrt(-4.1), sqrt(7.02), sin(-19), sqrt(-39347.9), sqrt(4.0065), sqrt(6.9), sqrt(7.1), sqrt(15.5), cos(-25.795), sqrt(-291), sqrt(-1.92), sqrt(-1.9950), tan(-23), sqrt(8), sqrt(-3.9), sqrt(-422), sqrt(5), sin(-1.6176), tan(-1), sqrt(-60204.20), tan(-7172103), tan(-34.8), sqrt(5756.8), cos(-97), sqrt(-62.0), tan(77.7), sqrt(-21), sqrt(2.305)
 
-Iteration #7
+Iteration #12
   Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 3.5000:
+    if &lt;lead-digit&gt; &lt;= 4.5000:
       if &lt;function&gt; == 'sqrt':
-        if &lt;value&gt; &lt;= 30.0390:
-          if &lt;term&gt; == '-&lt;value&gt;':
+        if &lt;integer&gt; &lt;= 41.5000:
+          if &lt;term&gt; &lt;= -2.6500:
             BUG
           else:
-            NO_BUG
-        else:
-          NO_BUG
-      else:
-        NO_BUG
-    else:
-      NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 30.038999557495117
-    &lt;lead-digit&gt; &gt; 3.5
-    &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 30.038999557495117
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 30.038999557495117
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    sqrt(70.6), sqrt(-21), tan(95), sin(22.79), sqrt(-70.2), sqrt(-3.3), sqrt(-3.96), sqrt(-9), sqrt(-3), sqrt(-7), cos(-13.5), sqrt(-7), sqrt(-5.6), tan(-19.562), sqrt(-1598), sqrt(-3), sqrt(292368264.0), sqrt(-1949.2), sqrt(4), sqrt(-6), sqrt(-4.3), sqrt(55), sqrt(7105.8), sqrt(0), sqrt(1), sqrt(5049798), sqrt(54), sqrt(2.1), sqrt(-831.9), sqrt(84), sqrt(4.1217), sqrt(7), sqrt(-2.7), sqrt(5482508), sqrt(7.09), sqrt(-9), sqrt(-9), sqrt(1.9), sqrt(9), sqrt(-7.17945), sqrt(99899), cos(19.7562140), sqrt(-7.18), sqrt(-8867), sqrt(-6.61), sqrt(-95), sqrt(-63590), sqrt(-0), sqrt(-451750.63), sqrt(-94.5), sqrt(-844.3), sqrt(-1.4), sqrt(-630), sqrt(-81), sqrt(-1.987), sqrt(2.744029), sin(26.4332995), sqrt(-9.8), sqrt(8.8), sin(-12), sqrt(-2), sqrt(1.0), sqrt(-5), tan(12), sqrt(6.7), sqrt(8.349248), sqrt(6.89), sqrt(6), sqrt(3.03), sqrt(-1.333), sin(-11.1), sqrt(2797), sqrt(5.198), sqrt(39.80), cos(25), sqrt(4.01920), sqrt(8), sqrt(9.107), sqrt(7), sqrt(9.6), sin(29), sqrt(4), sqrt(-6509.94), sqrt(-326595249.0), sqrt(6.2), sqrt(8.02), sqrt(908), sqrt(17.9), sqrt(15.1), sqrt(8), sqrt(3), sqrt(6)
-
-Iteration #8
-  Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 3.5000:
-      if &lt;function&gt; == 'sqrt':
-        if &lt;digits&gt; &lt;= 7.5000:
-          if &lt;term&gt; == '-&lt;value&gt;':
-            if &lt;term&gt; &lt;= -25.5000:
-              BUG
-            else:
-              BUG
-          else:
-            NO_BUG
-        else:
-          NO_BUG
-      else:
-        if &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;':
-          NO_BUG
-        else:
-          NO_BUG
-    else:
-      if exists(&lt;lead-digit&gt;):
-        NO_BUG
-      else:
-        NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &gt; -25.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &gt; -25.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &lt;= -25.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &gt; -25.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &lt;= -25.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &gt; 3.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; &lt;= 3.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5 and &lt;term&gt; &lt;= -25.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &lt;= -25.5
-    &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &gt; 7.5 and &lt;lead-digit&gt; &gt; 3.5 and &lt;term&gt; &gt; -25.5
-    &lt;digits&gt; == '&lt;digit&gt;&lt;digits&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;digits&gt; &lt;= 7.5 and &lt;lead-digit&gt; &lt;= 3.5
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    sqrt(604), sqrt(-3576), sqrt(-5.29), sqrt(25.47), sqrt(21287.318), sqrt(-0.48), sqrt(-13), sqrt(87), sqrt(-2.6), sqrt(-62.0), sqrt(-361), sqrt(-958771.347), tan(463.19), tan(58.4), sqrt(28), sqrt(56), tan(60.29), cos(758.78), sqrt(7.82), tan(54654467), sqrt(75.7), cos(490.1969), sin(635181), cos(5524.59782), sin(824.1), tan(76855), cos(51212), sqrt(18.0), sin(8459), sin(92443), tan(22.1), tan(79), sqrt(-20), sqrt(-40204.8), sqrt(-80), sqrt(-0.6), sqrt(3.4), sqrt(-67), sqrt(7.3), cos(22), cos(15), sqrt(56), sqrt(-65), sin(17.4), sin(-14), sqrt(5.4), sqrt(-53), cos(-11), sin(20), sqrt(807), sqrt(44), cos(7), sqrt(-5.46), sqrt(-217.14), tan(-3), cos(6.7832), cos(-128), tan(34.3), tan(7.0), tan(-9), sqrt(-0.4960), tan(-0.51), sqrt(1), cos(-3), sin(-7), sqrt(0.7234333), sqrt(4.0189450), tan(-8), sqrt(-6.8), cos(3.2), cos(-177598.2), sqrt(-17069), sqrt(3.7), sqrt(7.025), sqrt(-5.2349), cos(8), cos(6.24), cos(-8), sqrt(3.1), cos(17.39), tan(-6.86), sin(-38), tan(-5.3), sqrt(-15.9), sqrt(-4), sin(-263917), tan(-1.753), sin(8), sin(11), cos(33), sqrt(31.51), sqrt(-4.2), tan(6.3), tan(37), sin(-0.26), sqrt(-5.25), cos(-8.97), cos(-5.992), tan(-4.4), sqrt(-1), cos(9.8), sqrt(-10178.7107), cos(-1317), sqrt(1), cos(3.0), sqrt(-3.7), sqrt(6.0), sqrt(3), tan(-33), tan(7.58489), tan(-6.8), tan(-8), sqrt(8.2204), tan(6.7851), cos(-2657), cos(1), tan(4), sqrt(-5.754), sin(2.6833), tan(-29.9), tan(-37.0), sqrt(-20.6), sqrt(-39790), sqrt(-44), sqrt(-50.6), sqrt(-375769.2), sqrt(-9), sqrt(3.40), sqrt(-6.30), tan(-7.9), sin(-7), cos(-3.230), cos(-6), tan(-43), sqrt(5.650), cos(-7.637), sin(1), sin(80.6), cos(-1.20), tan(-92), cos(-4), cos(-6.13), tan(-5), sqrt(-7.73), cos(-6.0), tan(8), tan(-0), sin(9.8), sin(-476.6), cos(-7.071), cos(4), sqrt(4), cos(-5597), sqrt(-85), tan(-955), sin(53), tan(9), tan(6), cos(-48.4), sqrt(0.039), cos(-46), cos(-85.3), sin(69.63), sqrt(-5.4), sqrt(79.9), sqrt(86.8), sqrt(-529), sqrt(-64), cos(-0), sin(-463990), cos(79), tan(9), cos(8.12), tan(-6.27), tan(-7.988866), sqrt(6.6), sin(5.03), sin(5.24), tan(1), tan(1), cos(68), tan(-8.3), tan(-4), sqrt(-93), cos(-2.02), sin(-67), sin(-8.49), sin(5.7), cos(9), cos(9.9625), sin(8), cos(46.01), sqrt(6.1459105974), cos(9), sin(-794.8), sin(0.26), sqrt(-5124.664), sqrt(535), sqrt(-1), sqrt(-869452.0), sqrt(6.541), sqrt(9.2), cos(660.083), sin(-96844), sin(-6.668), sqrt(-691), tan(-3.4), cos(-60.8362), cos(2.376), sin(3.7), sin(81.92), sin(-2), cos(990), sin(-924), cos(-42), sin(-94.69), sqrt(-69), sin(915.2), cos(351180377), sqrt(-14981), sqrt(75), sqrt(18.72080), sqrt(807.6), cos(17), sqrt(28.14), sqrt(850279), sqrt(48.3), sqrt(-0.58), sqrt(-8.6173), sqrt(-577.5), sqrt(-959), sqrt(-4.825), sqrt(702999), sqrt(78), sin(73.5), sqrt(-27)
-
-Iteration #9
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 3.5000:
-      if &lt;function&gt; == 'sqrt':
-        if &lt;digits&gt; &lt;= 11.5000:
-          if &lt;term&gt; == '&lt;value&gt;':
-            NO_BUG
-          else:
-            if &lt;lead-digit&gt; &lt;= 1.5000:
-              BUG
-            else:
-              BUG
-        else:
-          NO_BUG
-      else:
-        NO_BUG
-    else:
-      NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &gt; 11.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &gt; 11.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &gt; 11.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 11.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 11.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &lt;= 11.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digits&gt; &gt; 11.5 and &lt;lead-digit&gt; &gt; 3.5
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    sqrt(-85), sqrt(30), sqrt(261), sqrt(-29), tan(380.34), tan(-36), sin(-97), cos(-59.7), sqrt(-30.78), sqrt(-427), sqrt(-763.8), tan(-87), sqrt(98.05), sqrt(-7.8), cos(-97), cos(-94.8), sqrt(30), sqrt(-7.3), sqrt(87), sqrt(-329.14), cos(-59.7), tan(-32.8), sin(-39), cos(-59), sqrt(86.2), sqrt(-21), sqrt(-21.881), sqrt(-753.661), sqrt(-867), sqrt(-2.55), sqrt(-2.912559), sqrt(-79), sqrt(0.2), sqrt(-245), sqrt(-43.2), sqrt(1138), sqrt(-84.0), tan(19.5), tan(24.10), sqrt(256810), sqrt(-89), sqrt(89), sqrt(-7.6), tan(-78.0), sqrt(-67030.834), tan(18), tan(12), sqrt(97), sqrt(59.0), sqrt(-16.4), sqrt(77), sqrt(5.5), sqrt(-386679), cos(56412), sqrt(99), sqrt(138.8), sqrt(-17), sqrt(578485.68)
-
-Iteration #10
-  Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 3.5000:
-      if &lt;function&gt; == 'sqrt':
-        if &lt;integer&gt; &lt;= 30.5000:
-          if &lt;term&gt; == '&lt;value&gt;':
-            if &lt;digit&gt;:
+            if &lt;digit&gt; == '1':
               NO_BUG
             else:
               NO_BUG
-          else:
-            BUG
         else:
           if &lt;lead-digit&gt; &lt;= 1.5000:
             NO_BUG
           else:
             NO_BUG
       else:
-        NO_BUG
+        if &lt;lead-digit&gt; == '1':
+          NO_BUG
+        else:
+          NO_BUG
     else:
-      if &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;':
+      if &lt;function&gt; == 'sqrt':
         NO_BUG
       else:
         NO_BUG
@@ -11592,30 +11619,35 @@ Iteration #10
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &gt; 0.5 and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &lt;= 0.5 and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &gt; 1.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &gt; 0.5 and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &lt;= 0.5 and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &lt;= 0.5 and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &lt;= 0.5 and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &gt; 0.5 and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 30.5 and &lt;lead-digit&gt; &lt;= 1.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;integer&gt; == '&lt;lead-digit&gt;&lt;digits&gt;' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;digit&gt; &gt; 0.5 and &lt;integer&gt; &gt; 30.5 and &lt;lead-digit&gt; &gt; 3.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 1.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 1.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -2.6500000953674316
 </pre>
 </div>
 </div>
@@ -11623,9 +11655,155 @@ Iteration #10
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(13.1705), sqrt(24.08), sqrt(64.578), sqrt(44), sqrt(-80.8641), sqrt(752.6), sqrt(-660), sqrt(9910), sqrt(-71.49), sqrt(-97542), sqrt(-54.9), sqrt(75), sqrt(-738), sqrt(-417), sqrt(-186), sqrt(-0.3), sin(-10.7), sqrt(-7), sin(-25), sqrt(-8.4), sqrt(-4), sqrt(-4.82904), sqrt(-7), sqrt(-2), sqrt(-9.753), sin(-19), sqrt(-3.59442), sqrt(-748.620), sqrt(-4.28), sqrt(-93), sqrt(-1), sqrt(-8.46), sqrt(-90.11772787), sqrt(-2), sqrt(-4794), sqrt(-30.9), sqrt(24), sqrt(1), sqrt(7.2), sqrt(6.13), sqrt(0.9), sqrt(67), cos(0), sqrt(-8.53), sqrt(-37.8), sqrt(5.8), sqrt(-749.709), sqrt(-220.379), sqrt(-5), sqrt(62), sqrt(91.5), sin(-21), sqrt(3.9), sqrt(91), sqrt(-4.88), tan(-21.524397), cos(-25.223), sqrt(-15.92), sqrt(-9), sqrt(-54.03), sqrt(-6.62522), sqrt(0), sqrt(-0.5109), sqrt(44.68686667), sqrt(9.28), cos(27.983), sqrt(-2), sqrt(-9231.1301), sqrt(-5.47), sqrt(53.9), sqrt(-5.6), sqrt(36.4), sqrt(124), tan(-21316.8), cos(-20), sqrt(5.731376792), sin(0), sin(10.6), sin(15), sin(21), sqrt(1.0), sqrt(8), sqrt(145.60), sqrt(3.004), sin(23), sqrt(4), sqrt(2), sqrt(7), tan(2.23), cos(-7), tan(0), sqrt(-296.00), tan(6), cos(4), sqrt(5.29771), cos(27.4), cos(-2.6612), sqrt(-9.4062), tan(-3.266), sin(-8), cos(-2), tan(7), sqrt(-1.2), sin(-3140.1), tan(6.5), sin(-14.7), sin(6.9), sqrt(7), sin(-7.80), cos(9), cos(7), sqrt(-37), cos(1.03294), tan(-9.9), sqrt(-201.5), sqrt(-2), cos(-26.2595830), sin(-7), sqrt(-19.14), sqrt(3.9), tan(5.33), tan(4.544), tan(-2.4), sin(313), sqrt(9.7201791), cos(7.2), tan(4), sqrt(-0.60), cos(-141), tan(3608), tan(3), sqrt(-300), tan(-20.3), sqrt(-2), sqrt(-1.0), sqrt(-1.63), tan(-3905.2), cos(5.9), cos(-6.5), tan(-7), cos(-282), tan(-0), sin(-5.704), tan(4.7), sqrt(-18), cos(9), cos(9.0), sin(7), sin(-13.5), sin(3791933961.9), cos(-6.0), sin(0), cos(-9.4373), tan(-15), cos(2196), tan(3.28633), cos(103.61), sin(-160), cos(-8.6), cos(21), tan(2), cos(-26), sqrt(31), sqrt(22658), sqrt(79), sqrt(75.25), sqrt(90.69), sqrt(75.2151), sqrt(8385.5), cos(60), sqrt(98.94), sqrt(5.90), sqrt(4.0), sqrt(2.56927), sqrt(1.5), sqrt(6032.03), sqrt(59), sqrt(8.15), sqrt(-49.3), tan(-61), sqrt(15), sqrt(-35), sin(-2988), tan(-98), sqrt(-12), tan(-5), sin(6.0), sin(0), sin(-70), sin(8.429), sin(1.0), cos(8), sqrt(-4), tan(-8115), cos(9.2), cos(6), cos(9), sqrt(-8.757), tan(8.47), tan(-6.578), sin(-706), sqrt(8), tan(-50), sqrt(-5), sqrt(7.73), sin(8575), tan(8.34), cos(1), cos(75), sin(62), sin(-70), tan(-0), sin(4448), tan(7), sqrt(-98458470), sqrt(-0), sqrt(-8), sqrt(-7.9059), tan(-9), tan(-612), cos(72608), sin(46), cos(1.841), sqrt(-5.62), sqrt(-4), cos(-64), tan(-1), cos(9), tan(-72), tan(-56.33373134), tan(-3), sqrt(-53), cos(-611.9), cos(643.8), sqrt(0.14), cos(0), sin(-5353), sin(-9770), sqrt(8), cos(5), tan(6.02), tan(-1), cos(-2), tan(8138), sin(8), cos(-1.0), tan(-6694.4), sin(1), tan(4.8), tan(2), sqrt(-96.4), tan(-6.4798), sqrt(97), sin(-2), cos(867841), sin(-58038), tan(6.8), sqrt(2.3), tan(7), cos(-2.1), sin(5), sqrt(-8), cos(3.0), sqrt(-6), cos(-1), tan(-2), cos(-8.328), sqrt(680.890597), sqrt(2), cos(3), tan(-6.001), cos(-4), cos(67.5), sqrt(3.7), cos(-9), sin(-6.300), sqrt(557.442)
+    sin(-98), sin(-3817456.3), sqrt(-71.5), cos(-4475.148), sqrt(-42), sqrt(-20096.4), sqrt(347.1), cos(56.4), cos(-17), sin(70), cos(-95.795), cos(120.3), tan(680), cos(-90.8), sin(522), tan(1248), sin(-51.918), cos(856.00), tan(619.7), tan(-7883), sin(-75), sqrt(269.50), sqrt(72.6), sqrt(34.88), sqrt(-6016.341), sqrt(-35), sqrt(9.86), sqrt(-29.593), cos(38), sqrt(2), sqrt(6.97), sqrt(-91.20471), tan(69.15), sqrt(-74673671), sqrt(97), tan(8346.8219), sqrt(97), sqrt(580.5), sqrt(-30.9), sqrt(-263), cos(36.1), sqrt(-377), sqrt(5228.4), sqrt(-2), sqrt(19), sqrt(9.8), sqrt(5), sqrt(8.83), sqrt(74), sqrt(5.55), sqrt(6), sqrt(-2), sqrt(6), sqrt(2), sqrt(2.5), sqrt(-12), sqrt(434), sqrt(578), sqrt(-13.5), sqrt(-258450.2), sqrt(58), sqrt(-201.5), sqrt(-19.14), cos(-141), sqrt(-300), sqrt(-18), cos(103.61), sin(-160), sqrt(-60.405), sqrt(-77110180), sin(-120.27), sqrt(9.3317), sqrt(-1), sqrt(5465.1), sqrt(1), cos(23), sqrt(31.04), sqrt(217), sin(-604.40), sqrt(-35), sqrt(-4.1), sqrt(-5.60), sqrt(-5771.08), sqrt(-769), sqrt(-7), sqrt(-54.7), sqrt(-61), sqrt(-80), sqrt(-35.7), sqrt(-99), sqrt(-38.34275)
 
-Iteration #11
+Iteration #13
+  Decision Tree:
+    if &lt;lead-digit&gt; &lt;= 4.5000:
+      if &lt;function&gt; == 'sqrt':
+        if &lt;value&gt; &lt;= 42.3670:
+          if &lt;term&gt; == '-&lt;value&gt;':
+            if &lt;digit&gt; == '2':
+              BUG
+            else:
+              BUG
+          else:
+            NO_BUG
+        else:
+          if &lt;value&gt; &lt;= 43.8670:
+            NO_BUG
+          else:
+            NO_BUG
+      else:
+        if &lt;function&gt; == 'sin':
+          NO_BUG
+        else:
+          NO_BUG
+    else:
+      if &lt;lead-digit&gt; == '9':
+        NO_BUG
+      else:
+        NO_BUG
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 43.867000579833984
+    &lt;lead-digit&gt; == '9' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 43.867000579833984
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;lead-digit&gt; == '9' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;lead-digit&gt; == '9' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 43.867000579833984
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 43.867000579833984
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '2' and &lt;function&gt; == 'sqrt' and &lt;term&gt; == '-&lt;value&gt;' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;lead-digit&gt; == '9' and &lt;lead-digit&gt; &lt;= 4.5
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    sqrt(28), sqrt(-9.2901), sqrt(-2.49), sin(6330), sqrt(3544504515.2), sqrt(-273), cos(17.84), sqrt(-33), cos(-42), sqrt(548.2177), cos(-92), sqrt(97), sqrt(7), sqrt(72), sqrt(86), sqrt(4), sqrt(8.9), sqrt(1.2), sqrt(995), sqrt(6), sqrt(2.1), sqrt(7), sqrt(469), sqrt(-11.7), sqrt(-71), tan(902), sqrt(911), sqrt(-30962.7), cos(1106.2), tan(11192), sqrt(38.0), tan(-9682.25), sqrt(12.172), tan(19.6), sqrt(271), tan(-303.7), tan(-315.114), sqrt(99.2), tan(-1634), sqrt(-46.0), sin(-40.8056), cos(-3417265), tan(-32.1), sqrt(31872784.34), sqrt(-991.2299), cos(28), tan(-239.2), cos(40.44748), sin(-44), tan(948086), sin(-93.084), sqrt(-841907.14), sqrt(-5.43), sqrt(-7.5), sqrt(-7), sqrt(-1.80), sqrt(-935), sqrt(-3.585), sqrt(-3), sqrt(-5.4), sqrt(38.4), sqrt(-31.0), sqrt(-950), sqrt(1.4097), sqrt(-23), sqrt(-26), sqrt(-97.269), sqrt(1), sqrt(-19.8), sqrt(5.52), sqrt(4), sqrt(-702159.2), sqrt(1), sqrt(4), sqrt(5.2), sqrt(7.137), sqrt(1), sqrt(-3), sqrt(26), sqrt(833852.9), sqrt(8.45), sqrt(88.68), sqrt(72), sqrt(17), sin(30), sqrt(-11627.4333), sqrt(-96.26), sin(396.3)
+
+Iteration #14
+  Decision Tree:
+    if &lt;lead-digit&gt; &lt;= 4.5000:
+      if &lt;function&gt; == 'sqrt':
+        if &lt;value&gt; &lt;= 42.3670:
+          if &lt;term&gt; &lt;= -11.8500:
+            BUG
+          else:
+            if &lt;digit&gt; == '6':
+              NO_BUG
+            else:
+              NO_BUG
+        else:
+          if &lt;digit&gt; == '1':
+            NO_BUG
+          else:
+            NO_BUG
+      else:
+        if &lt;function&gt; == 'sin':
+          NO_BUG
+        else:
+          NO_BUG
+    else:
+      if &lt;integer&gt; == '&lt;digit&gt;':
+        NO_BUG
+      else:
+        NO_BUG
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;integer&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;integer&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;integer&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;integer&gt; == '&lt;digit&gt;' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '6' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New samples:
+    sqrt(-51137508.17), sqrt(-87), sqrt(-90.3), sqrt(-15), sqrt(-70), sqrt(-9457), sin(-93), sqrt(-0), cos(99), tan(-7), sqrt(-7.821), sqrt(7.9), tan(67), sqrt(3.0), sqrt(537), tan(73), sqrt(699.1), sin(-9), sqrt(1.4), sqrt(-2), cos(68.62), tan(-82), sin(1), tan(-2.30558), tan(-50), tan(6), sqrt(4.224), tan(3), sqrt(-69), sin(607), cos(-9345.6), sin(-2.77), sqrt(7), tan(-77), sqrt(-0), cos(8), sqrt(4), sin(-9.2), sin(-2), sin(-7), tan(-8), sin(-6), tan(925.97293), sqrt(-9.7), sqrt(80), sin(-8.2), tan(605.54792), sin(6.181), cos(69.147647), sin(-8.6), cos(-2.118), cos(-88.5), cos(-5), tan(-69.490), sin(-0), sin(-6433), sqrt(-7.19), cos(1.4), tan(-4.1), sin(-781), tan(-7), tan(8), sqrt(7.56), sin(-5), sin(-5), tan(974.60), sqrt(-5.4), sin(-5.5028), tan(774), sqrt(-989.9154), tan(-9), cos(-94), tan(-8), cos(-2), sin(-3.41), sqrt(1.4), sin(-943.60), sqrt(55), sin(-83084), cos(-83.36), sqrt(9), sqrt(968), cos(-0), sin(5908), tan(-98), sin(-9), cos(-9.3), cos(5.17202), sin(73), tan(97), sqrt(-97.9), sqrt(-97), sqrt(-8467995767.3), sqrt(-57), sqrt(-53340), sin(616), cos(4895), sqrt(-16), sqrt(178), tan(-8172.7), sqrt(-950.1), sqrt(2.15), sqrt(2.7081587), sqrt(-513), sqrt(17.8), sqrt(4.9), sqrt(-23.3), sqrt(-0), sqrt(2944), sqrt(-4), sqrt(319.308), sqrt(2.8095), sqrt(460.88), sqrt(7.5682), sqrt(428.6), sqrt(-22.7), sqrt(314), sqrt(-7.716), sqrt(-22), sqrt(48497), cos(39.10419), sqrt(2), sqrt(-16.5), sqrt(-7), sqrt(1214), sin(34.5), tan(18.1), sqrt(-33), tan(98.86122), tan(9167.4), tan(54.06869), tan(-26), sqrt(-1), cos(17.77), sqrt(-83251.1), sqrt(8.51), tan(33), sqrt(-7), sqrt(-0), sqrt(5.452), sqrt(1.57), sqrt(9.8), sqrt(-48.6), sqrt(-53.8), sqrt(-7.83), sqrt(-71454.05), cos(-127.703), sqrt(-5), sqrt(-9), sqrt(-55), sqrt(8.50), sqrt(-4), sqrt(-3), sqrt(2), sqrt(-585), sqrt(-46.75), sqrt(9.4), sqrt(-5201.73), tan(-25321.8), sqrt(71.0), sqrt(-8104), sqrt(-272.1), sqrt(8017.8), sqrt(9.1), sqrt(3191), sqrt(37), cos(-41.7), sqrt(-28.5), sqrt(3.621), sqrt(6.1), sqrt(8698), sqrt(-6.651), sqrt(-2.65), sqrt(30), sqrt(27), sin(-3464.1), tan(0.533), sqrt(-22), tan(-1.2), cos(27.60), cos(7), sqrt(6.34), sqrt(7.7), tan(8.0), sqrt(2047), sin(2.54), sqrt(-4), cos(-5.4), tan(1.83205), sqrt(31), tan(204), sin(-434.2), cos(-7), cos(-40), sqrt(-5), cos(7), sin(6), cos(5.0), sqrt(6), sqrt(2640), tan(-4217.297), tan(-2), sin(0), tan(44), cos(-498), sqrt(-1), sin(-1.0), sqrt(25.5), tan(2), tan(-2), cos(-29), cos(-29803), sqrt(-0.81), sin(-11.68), sin(3), sin(3.845), sin(247), cos(24.2), sqrt(-0.9), sin(2.73), cos(-3), tan(-38), sqrt(-39), tan(-0), sqrt(-8), tan(-260.63), tan(2.9), cos(-8), cos(9.6582305), sqrt(1.7), tan(0), sqrt(-5.7), cos(8), tan(-36.35), tan(41112), sin(1782.1), sin(-9), cos(1.25), tan(-9), cos(-4), tan(-4.0), tan(-354), sqrt(4), sqrt(-0.8), sqrt(-6), cos(2), tan(-6.9), cos(-10.8), tan(4617.031), sqrt(-19), sqrt(-6.0974), sqrt(-7), sqrt(0.6), sqrt(-4.4587), sqrt(5), sqrt(7.7), sqrt(-3.8), sqrt(5.2), sqrt(82), sqrt(-7), sqrt(25), sqrt(-99), sqrt(-25), sqrt(-26), sqrt(376), sin(2836305), sqrt(0), sqrt(-4), sqrt(575.0), sqrt(5), sqrt(2.1378), sqrt(3), sqrt(-9.32), sqrt(6494), sqrt(0), sqrt(-0), sqrt(27.827), sqrt(-3.45), sqrt(1.113), sqrt(-44.064), sqrt(0.6), tan(28.6), sqrt(2.856), sqrt(-6), tan(29.7662), sqrt(44)
+
+Iteration #15
 </pre>
 </div>
 </div>
@@ -11633,16 +11811,10 @@ Iteration #11
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  Decision Tree:
-    if &lt;lead-digit&gt; &lt;= 3.5000:
-      if &lt;function&gt; == 'sqrt':
-        if &lt;value&gt; &lt;= 37.8050:
-          if &lt;term&gt; == '&lt;value&gt;':
-            NO_BUG
-          else:
-            if &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;':
-              BUG
-            else:
-              BUG
+    if &lt;term&gt; &lt;= -11.8500:
+      if &lt;integer&gt; &lt;= 43.0000:
+        if &lt;function&gt; == 'sqrt':
+          BUG
         else:
           NO_BUG
       else:
@@ -11650,229 +11822,20 @@ Iteration #11
     else:
       NO_BUG
 
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;lead-digit&gt; &gt; 3.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 3.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;value&gt; == '&lt;integer&gt;.&lt;digits&gt;' and &lt;lead-digit&gt; &gt; 3.5 and &lt;value&gt; &gt; 37.80500030517578
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;lead-digit&gt; &lt;= 3.5 and &lt;value&gt; &lt;= 37.80500030517578
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    sqrt(-6), sqrt(-0), sqrt(-8), sqrt(66.804), sqrt(1.777), sqrt(1), sqrt(56780.6), sqrt(1), sqrt(17), sqrt(25.9), sqrt(-6.026), sqrt(-7.5), tan(-29.304), sqrt(-26), tan(-22.9293739), cos(-24.0), sqrt(79.48886), sqrt(342.5), sqrt(-52), sqrt(-1), tan(-21.4), sqrt(-0.95), sqrt(-5.39), sqrt(-5.0), cos(13), sqrt(9.707), sqrt(125), sqrt(6), sqrt(3), sqrt(5), sqrt(7.863), sin(11.9), sqrt(-11.7), sqrt(8.8), sqrt(8), sqrt(7), sin(73), sqrt(-376), sqrt(-23.68), sqrt(-43.4), cos(-86), sqrt(-362.5), sqrt(18), sqrt(-350.1), sqrt(-40), sqrt(5.2), sqrt(7.137), sqrt(1), sqrt(-3), sqrt(26), sqrt(833852.9), sqrt(8.45), sqrt(88.68), sqrt(72), sqrt(17), sqrt(-7), sqrt(-4.04), sqrt(-57832.9), sqrt(15), sqrt(6.854343), sqrt(4.46), sqrt(-85), sqrt(1.7), sqrt(-7), sqrt(8.8), sqrt(5.4), sqrt(-59.7), sqrt(-1.80), sqrt(-0.4), sqrt(-58.87269), sqrt(-5423), cos(-29.8), tan(-14), tan(-31), tan(-27), sqrt(33), sqrt(-1), sqrt(11), cos(-11.1263), sqrt(-6), sqrt(-7), sqrt(-9), sqrt(14.727), sqrt(-6.25), sqrt(-6.1), sqrt(-6)
-
-Iteration #12
-  Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;term&gt; &lt;= -41.0000:
-        NO_BUG
-      else:
-        if &lt;function&gt; == 'sqrt':
-          BUG
-        else:
-          if &lt;function&gt; == 'tan':
-            NO_BUG
-          else:
-            NO_BUG
-    else:
-      if &lt;lead-digit&gt; == '7':
-        NO_BUG
-      else:
-        NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;lead-digit&gt; == '7' and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;lead-digit&gt; == '7' and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;term&gt; &gt; -41.0
-    &lt;term&gt; &lt;= -41.0
-    &lt;lead-digit&gt; == '7' and &lt;term&gt; &gt; -11.849999904632568
-    &lt;lead-digit&gt; == '7' and &lt;term&gt; &gt; -11.849999904632568
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    cos(-58), cos(-73.1), sqrt(-15), sqrt(-4704560.3), tan(-9), sqrt(778)
-
-Iteration #13
-  Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;integer&gt; &lt;= 41.0000:
-        if &lt;function&gt; == 'sqrt':
-          BUG
-        else:
-          if &lt;digit&gt; == '1':
-            NO_BUG
-          else:
-            NO_BUG
-      else:
-        NO_BUG
-    else:
-      NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.0 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &lt;= -11.849999904632568
+  New input specifications:
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 43.0 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 43.0 and &lt;term&gt; &lt;= -11.849999904632568
     &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.0 and &lt;term&gt; &gt; -11.849999904632568
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    tan(-113.77), tan(5.41), sin(1), tan(33.1), sin(1.7), cos(8.16), cos(-26), cos(-441), sin(-212.069), cos(-35), sin(-238.31), tan(-7.91), cos(-55917.210), tan(-7.1), sin(-1.4), cos(-1.04), sin(4.140), sin(-15), tan(-117354), sin(-11), sin(-15.0865), cos(-3.86), cos(-12.48254), sqrt(-60), sqrt(564.28474), sqrt(89), tan(1), sqrt(-16.5), sqrt(-5.1), tan(315), sqrt(-55), sin(-26366), sqrt(-15), cos(-83.71), sin(55.19), tan(49.6)
-
-Iteration #14
-  Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;value&gt; &lt;= 41.0000:
-        if &lt;function&gt; == 'sqrt':
-          BUG
-        else:
-          NO_BUG
-      else:
-        if &lt;digit&gt; == '1':
-          NO_BUG
-        else:
-          NO_BUG
-    else:
-      if &lt;digit&gt; == '0':
-        NO_BUG
-      else:
-        NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;digit&gt; == '1' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '0' and &lt;term&gt; &gt; -11.849999904632568
-    &lt;digit&gt; == '1' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '1' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '1' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '1' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '1' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '1' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;digit&gt; == '0' and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;digit&gt; == '1' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '0' and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digit&gt; == '0' and &lt;term&gt; &lt;= -11.849999904632568
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New samples:
-    tan(-422262.41), sin(7242.1055), sqrt(1.7), cos(-9), sqrt(-86), cos(-2317.6349), cos(-113), sqrt(-15.9), tan(-532.1), sqrt(11.2), sin(-911766103.9), cos(-8.4317), cos(-11), tan(-40), tan(-77321.0450), sqrt(-8883.12), tan(-1), sin(-28), tan(-1.7), sin(-1.32), cos(1), cos(7.19090), sin(-1702001947.502), tan(-7.100), cos(-3178.7), cos(-50.61), sqrt(54), sqrt(-49), sin(-35), sqrt(-28), cos(83), cos(436530.5), sin(26), sin(-21.03523), cos(-1), sqrt(7), sin(533.581334), tan(-12.0), cos(-4723.4)
-
-Iteration #15
-  Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;value&gt; &lt;= 41.0000:
-        if &lt;function&gt; == 'sqrt':
-          BUG
-        else:
-          if &lt;digit&gt; == '5':
-            NO_BUG
-          else:
-            NO_BUG
-      else:
-        NO_BUG
-    else:
-      NO_BUG
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;term&gt; &lt;= -11.849999904632568
-    &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
+    &lt;integer&gt; &gt; 43.0 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;integer&gt; &gt; 43.0 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;integer&gt; &lt;= 43.0 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 43.0 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 43.0 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 43.0 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 43.0 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 43.0 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 43.0 and &lt;term&gt; &gt; -11.849999904632568
     &lt;term&gt; &gt; -11.849999904632568
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;digit&gt; == '5' and &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
 </pre>
 </div>
 </div>
@@ -11880,23 +11843,29 @@ Iteration #15
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(3.76), tan(73), sin(-136.3), tan(-95.5023), tan(-21), sqrt(962), cos(519), sin(-7), cos(-69148), sqrt(-23), sqrt(-59.04), sqrt(14.4), sqrt(-4.6), tan(-29.5), sqrt(13), sqrt(29), sqrt(-963.4), sqrt(-6.1), sqrt(-577), sqrt(4), tan(-23), sqrt(-7), sqrt(39.7), sqrt(2.9), sqrt(-3), sqrt(-7.8), sqrt(-8), sqrt(-8.10), sqrt(-1.0), sin(-14), sqrt(-2), cos(-7.519), cos(72.5), sqrt(3223.8), cos(-55), cos(-5), cos(-745), sin(5.0024), sin(-37), sin(15), sin(2.005), tan(-2.457), tan(-785), cos(9.5), tan(25.18), tan(25.49729), tan(-5.3), cos(-8.551), cos(-0.15), sqrt(-457.140), cos(-58.73)
+    sin(-13), sqrt(-67.52), sin(-7090), sin(88.8), sqrt(-888.67), sqrt(-27.242329), sqrt(-12), sin(18.097), sqrt(55.6), sin(94.1), sin(-97), sqrt(5), sin(-3.83)
 
 Iteration #16
   Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;value&gt; &lt;= 41.0000:
-        if &lt;function&gt; == 'sqrt':
-          BUG
+    if &lt;lead-digit&gt; &lt;= 4.5000:
+      if &lt;function&gt; == 'sqrt':
+        if &lt;term&gt; &lt;= -11.8500:
+          if &lt;value&gt; &lt;= 43.0320:
+            BUG
+          else:
+            if &lt;digits&gt; &lt;= 2.5000:
+              NO_BUG
+            else:
+              NO_BUG
         else:
-          if &lt;lead-digit&gt; == '4':
+          if &lt;lead-digit&gt; == '1':
             NO_BUG
           else:
             NO_BUG
       else:
         NO_BUG
     else:
-      if &lt;lead-digit&gt; == '4':
+      if &lt;digit&gt; == '3':
         NO_BUG
       else:
         NO_BUG
@@ -11908,25 +11877,32 @@ Iteration #16
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New input specifications:
-    &lt;lead-digit&gt; == '4' and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;lead-digit&gt; == '4' and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;lead-digit&gt; == '4' and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;lead-digit&gt; == '4' and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 41.0
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '4' and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 41.0
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 2.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 2.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &gt; 2.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 2.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 2.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;digits&gt; &lt;= 2.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; == '1' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
 </pre>
 </div>
 </div>
@@ -11934,31 +11910,44 @@ Iteration #16
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(-40), tan(-4082), tan(48.272), cos(-6), sqrt(-18.080), sqrt(-87.39), cos(21), sin(4.920), cos(-4), sin(3), sin(7.9), sin(1.3), cos(4.7), sin(-3), tan(-5), tan(-1.44), cos(-7), cos(8.9), tan(18), cos(0.0), tan(-7), tan(9), tan(9.0), cos(-4), sin(-9.9), tan(-8), tan(-6.5), tan(2.024565), cos(6.7), cos(-8), cos(33), sin(2.268), cos(5), sin(2), cos(-3), tan(8.404), sin(0.6), sin(-3.5), sin(-8), tan(-8.475), sin(-8.5), sin(42), sin(1), sqrt(36035.1463), sqrt(-9.7), sin(-50), tan(-18.8942), sqrt(-19.8), sin(41), cos(-45.252), tan(863545036.97), tan(-14.11636), cos(-41.222), cos(-20), sqrt(-2), tan(-34), cos(568)
+    sqrt(-77), sqrt(3592172.4), sqrt(-4944), sqrt(15.40), sqrt(63), sqrt(7995), sqrt(91), sqrt(68.7), sqrt(9107), sqrt(52), cos(-9334345), sqrt(-577), sqrt(-22.251), tan(-31), sqrt(376), sqrt(63.92), sqrt(-76.0), sqrt(25), sqrt(163), tan(-19.09), sqrt(-40), sqrt(-48.20), sqrt(-38), sqrt(-81), tan(-66), sqrt(-299.9), sqrt(37), sqrt(8.2), sqrt(-22.913), sqrt(-217.3), tan(4970.845), cos(2339.493), sqrt(-51), cos(-94559.7648), sqrt(-9253.8), sqrt(-500749.93), sqrt(-94.9), sqrt(-19.32733), sqrt(-60395), sqrt(-580.03), sqrt(-57.2)
 
 Iteration #17
   Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;term&gt; &lt;= -40.6110:
-        if &lt;integer&gt; &lt;= 41.5000:
-          NO_BUG
+    if &lt;lead-digit&gt; &lt;= 4.5000:
+      if &lt;function&gt; == 'sqrt':
+        if &lt;term&gt; &lt;= -11.8500:
+          if &lt;term&gt; &lt;= -43.0320:
+            NO_BUG
+          else:
+            BUG
         else:
           NO_BUG
       else:
-        if &lt;function&gt; == 'sqrt':
-          BUG
-        else:
-          NO_BUG
+        NO_BUG
     else:
       NO_BUG
 
-  New input specifications:
-    &lt;term&gt; &lt;= -11.849999904632568
-    &lt;term&gt; &gt; -11.849999904632568
-    &lt;integer&gt; &lt;= 41.5 and &lt;term&gt; &gt; -40.611000061035156
-    &lt;integer&gt; &gt; 41.5 and &lt;term&gt; &lt;= -40.611000061035156
-    &lt;integer&gt; &lt;= 41.5 and &lt;term&gt; &lt;= -40.611000061035156
-    &lt;integer&gt; &gt; 41.5 and &lt;term&gt; &gt; -40.611000061035156
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -43.031999588012695
+    &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
 </pre>
 </div>
 </div>
@@ -11966,31 +11955,53 @@ Iteration #17
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(-28), sin(4), sqrt(7), tan(-45), sin(7.267), tan(-25.9), cos(-8.0), tan(-0), sin(-5), tan(-20), cos(-2132.347), sin(0.127), sin(-8), cos(2.20), tan(-4.6), tan(-7), sqrt(-40), sin(16), sin(-5), sqrt(-81.4), sin(-567.807), sin(-5.761), sin(7.4), tan(-45), tan(28), cos(6.0), sin(6.0), sqrt(-2.6), tan(3.2), cos(-8), cos(-7), sin(-3.6), sin(-90), sin(-1), sin(-2), cos(-2), sin(-289.5), sqrt(-4), sin(-7352), cos(-9.62), sin(-29), sin(17), tan(9), cos(-38.5), cos(-7309.36), sin(0), sin(-980), sin(26), cos(-4), sin(1.197), tan(-3), sqrt(-4485.4715), tan(-6.331), sqrt(-94), cos(-8.7), sin(-8.972), sin(-377.4), sin(-3), cos(-1.7), tan(-87), sqrt(0.748870720), sqrt(31.621), cos(-86983.102), cos(-763), sqrt(-19.93), sin(-4), cos(8.959), tan(-3), cos(20.2), sqrt(-4.0), cos(4.8), sin(9), cos(7.405), sqrt(-117.1), cos(-24.22), tan(4.484), tan(1), tan(-4), sin(-50.8), tan(-63), sin(-2019748.84), cos(-0.83), tan(4), sin(-6.806), cos(-9), sqrt(-93), cos(4.1), cos(-327.7), sqrt(85.73)
+    tan(-30.48), sqrt(14.9), sqrt(1345), sqrt(7233.843), sqrt(-47), sqrt(-50.81), tan(-482.00), cos(-314), cos(-25891.3), sqrt(34), sqrt(49.857), sin(-153), sqrt(221), sqrt(-16.439), sqrt(-67.58), sqrt(-52), sqrt(113.4), sqrt(24), cos(-461929.7), cos(-584), sqrt(-84.39), sqrt(49.7), sqrt(90), cos(11.7), cos(9563.326)
 
 Iteration #18
   Decision Tree:
-    if &lt;term&gt; &lt;= -11.8500:
-      if &lt;term&gt; &lt;= -40.6110:
-        NO_BUG
-      else:
-        if &lt;function&gt; == 'sqrt':
-          BUG
+    if &lt;lead-digit&gt; &lt;= 4.5000:
+      if &lt;function&gt; == 'sqrt':
+        if &lt;term&gt; &lt;= -11.8500:
+          if &lt;value&gt; &lt;= 43.0320:
+            if &lt;term&gt; &lt;= -41.5165:
+              BUG
+            else:
+              BUG
+          else:
+            NO_BUG
         else:
           NO_BUG
-    else:
-      if &lt;integer&gt;:
-        NO_BUG
       else:
         NO_BUG
+    else:
+      NO_BUG
 
-  New input specifications:
-    &lt;integer&gt; &gt; 0.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;term&gt; &lt;= -40.611000061035156
-    &lt;integer&gt; &lt;= 0.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;integer&gt; &lt;= 0.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;integer&gt; &gt; 0.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;term&gt; &gt; -40.611000061035156
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>  New input specifications:
+    &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -41.51650047302246 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -41.51650047302246 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -41.51650047302246 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -41.51650047302246 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -41.51650047302246 and &lt;value&gt; &gt; 43.031999588012695
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 43.031999588012695
 </pre>
 </div>
 </div>
@@ -11998,38 +12009,32 @@ Iteration #18
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    cos(531.392), sin(-58.2), sin(0), sin(-6625.2), sin(-912.8), sin(-8966952.7), sqrt(-6183), sqrt(-2003.2), cos(-0.8), sin(0), cos(-0), sin(-890), cos(-41), sqrt(-0), sqrt(-416), cos(-65), cos(-69), tan(-31.94), tan(-43), cos(-73592), sin(-174309), sqrt(-53), sqrt(-69.930), tan(-214), cos(-37), tan(-16), sin(-64.71), cos(-4960), tan(0), sqrt(0.5), sqrt(-97.650), tan(-69), cos(-75304.217), sin(-3532.40), cos(-14.9)
+    cos(12.1), sqrt(-33), sqrt(-25.0), sqrt(-34), sqrt(-43.0), sqrt(-940), sqrt(-8048331.4), sqrt(-916), sqrt(-64.70), sqrt(-125.942), sqrt(-84), sqrt(71.4), cos(-46500), sqrt(-13), sin(-4918.9), cos(-329), sqrt(-20.35), sqrt(-875), sqrt(362490), tan(-263863), sin(-3455), sqrt(-59.548931), tan(-357.86292), tan(-49.582), sqrt(39470), sqrt(-35.65), sqrt(3566), sqrt(-43), sqrt(-81415), sqrt(-55909.0), sqrt(33), sqrt(41), sqrt(76), sqrt(-26.0), sin(-45.66), sqrt(-757.35), sqrt(-2773.9), sin(8081929), sqrt(-65.0429)
 
 Iteration #19
   Decision Tree:
     if &lt;lead-digit&gt; &lt;= 4.5000:
-      if &lt;function&gt; == 'sqrt':
-        if &lt;integer&gt; &lt;= 41.5000:
-          if &lt;term&gt; &lt;= -11.8500:
+      if &lt;value&gt; &lt;= 42.3670:
+        if &lt;term&gt; &lt;= -11.8500:
+          if &lt;function&gt; == 'sqrt':
             BUG
           else:
-            if &lt;term&gt; == '&lt;value&gt;':
-              NO_BUG
-            else:
-              NO_BUG
+            NO_BUG
         else:
-          if &lt;digit&gt; &lt;= 1.5000:
+          if &lt;value&gt; &lt;= 10.7027:
             NO_BUG
           else:
             NO_BUG
       else:
-        if &lt;digits&gt; == '&lt;digit&gt;':
+        if &lt;digit&gt; == '7':
           NO_BUG
         else:
           NO_BUG
     else:
-      if &lt;lead-digit&gt; == '3':
-        BUG
+      if &lt;value&gt; == '&lt;integer&gt;':
+        NO_BUG
       else:
-        if exists(&lt;lead-digit&gt;):
-          NO_BUG
-        else:
-          NO_BUG
+        NO_BUG
 
 </pre>
 </div>
@@ -12038,44 +12043,32 @@ Iteration #19
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;digit&gt; &gt; 1.5 and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;digit&gt; &gt; 1.5 and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digits&gt; == '&lt;digit&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;digit&gt; &lt;= 1.5 and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;digits&gt; == '&lt;digit&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;digits&gt; == '&lt;digit&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;digit&gt; &gt; 1.5 and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;digits&gt; == '&lt;digit&gt;' and &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;digit&gt; &lt;= 1.5 and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;digit&gt; &lt;= 1.5 and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5
-    exists(&lt;lead-digit&gt;) and &lt;lead-digit&gt; == '3' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;term&gt; == '&lt;value&gt;' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 10.70272970199585
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 10.70272970199585
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 10.70272970199585
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568 and &lt;value&gt; &gt; 10.70272970199585
+    &lt;value&gt; == '&lt;integer&gt;' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &lt;= 42.367000579833984
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;value&gt; &gt; 42.367000579833984
+    &lt;digit&gt; == '7' and &lt;lead-digit&gt; &gt; 4.5 and &lt;value&gt; &gt; 42.367000579833984
 </pre>
 </div>
 </div>
@@ -12083,7 +12076,7 @@ Iteration #19
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    sqrt(-192), sqrt(16.2), sqrt(362490), sin(-3455), sin(-31), tan(-39.2), tan(-357.86292), sin(-31.7680486), sqrt(39470), cos(-365), sqrt(104868.3096422), sin(-391578.9), sin(-40644.41), sin(-108.19), tan(-498.0), sin(-4546), sqrt(462), sqrt(69210.4), sqrt(-48.6), sqrt(-47.750), sqrt(48.545), sqrt(-4154.51), sqrt(1501.94), sqrt(-402), sqrt(250.5), tan(-80), tan(512249.51174), sqrt(76), tan(-960), sqrt(-664), tan(33.3), cos(51), sin(79.9), sqrt(-986.602), sqrt(54.15), tan(77), sin(-79), sin(-57.33), tan(-39), cos(-90.514), sin(-855), tan(73.50), cos(7554043720.7), cos(9959.2), cos(-680.0), cos(-60.8), sqrt(-33), tan(-95), sin(-341.2), cos(97.1), sqrt(95), cos(-611.95), sqrt(-314.8), sqrt(5291), sqrt(79157589897), tan(532), sin(65.57), sqrt(-30.2), tan(-66541), sqrt(326), sqrt(-31), sqrt(-6645), sqrt(-26.0), tan(54), sqrt(0), sqrt(18), sqrt(13.3), sqrt(-1), sqrt(-34.5), tan(31), sqrt(15), sqrt(19), sqrt(85.0), sqrt(-18.2), sin(-965), tan(7), tan(99), sin(-2), cos(-4), cos(8), cos(-7822.920), sin(894.5), cos(-7), cos(4), tan(-7), sin(789.2), sin(7), tan(8), tan(-52), tan(7), tan(66), tan(81446), sin(-8), cos(-75.9), tan(-2), cos(-85.8), sin(-7), cos(0), cos(9547), sin(-88), tan(0), cos(6), cos(3), tan(-1), cos(7), cos(-4), tan(-74427.484), tan(917.1), sin(-9193840.4), tan(-6), tan(-8002218), sin(-50.18), tan(-2), tan(-73483.80), cos(-0), tan(-956), tan(-1), sin(697), cos(94.3), cos(-5), tan(4), sin(8), sin(71019397), sin(84.4), sin(-638.947), sin(-7), tan(-7886.46), sin(-5), sin(8.21), cos(-4), tan(-5.6515), sin(-94.4), cos(6.7), tan(-738137), sqrt(-5), sin(52.370), tan(56016.61), tan(5), tan(-5), cos(4.25549), sin(9.44), sqrt(-0), sqrt(0), sqrt(51), sin(60788.07496), sqrt(857.08), cos(-8.3), cos(-572), tan(76), sqrt(-929), tan(-1.55), sin(2.26), sin(5.0), tan(-56), tan(-8.5), sqrt(-38217), tan(0.21), cos(7700), sin(1.741), sqrt(-1), cos(1.2), tan(7.3), sin(-0), cos(4), tan(73), tan(9.7), tan(-37.86), tan(-8), cos(5714), sin(-70.03), cos(70), tan(1), tan(-7.1), sqrt(1.6), cos(-1.142), cos(-4), sqrt(6), tan(7), tan(-4), sqrt(-5.67), tan(-0.070), sin(9.62), sqrt(7), sin(816), sqrt(-91542.4), cos(66.9), sin(0), sin(1.2), tan(-9324.7), sqrt(1), sqrt(5215.7), sqrt(68), tan(-3), cos(2), tan(-6), sqrt(1), sqrt(-877.9), tan(718), sqrt(-9.510), sin(-80.2), sqrt(-89.4), sqrt(-5), sqrt(-990), sin(-5971), sin(3.27653005), sqrt(6.120354), sin(30.7358), cos(-27.826672), tan(48), tan(-4), cos(-257.96), tan(39.8), tan(-2652924.10), tan(1), cos(18024.2), sin(2), cos(18.4), sin(-4), sin(-4184.309), cos(-440), sin(-1), sin(251289), sin(6), cos(386.2), tan(20), tan(-2), tan(6), sin(296364.211), tan(-19), cos(44), cos(0), cos(-6), sin(0), tan(-18), tan(-9), tan(-5), cos(415.70), cos(1), tan(-284.638), sin(-1561011), sin(4), cos(-44.7), tan(13.7), sin(-37.030), sin(-4), sin(-36.4), tan(-18.242), sin(3251308.4), sin(-30.78794), tan(-0), tan(3), sqrt(29.6), sqrt(-64952.3709), sqrt(-625), sqrt(-79666), sqrt(103), sin(-328.05592), sqrt(147.7), sqrt(-331.06), sqrt(-10), sqrt(-15), sqrt(71), sqrt(4.3), sqrt(804.5), sqrt(0), sqrt(95), sqrt(9.3), sqrt(6357.7), sqrt(34.9251395), sqrt(6), sqrt(96.997), sqrt(9.25), sin(-10.852), sqrt(-3), sqrt(-9.6817), sqrt(-22.0), sqrt(-9.11), sqrt(-0), sqrt(-7.5), sqrt(-4.756), tan(-2383902), sqrt(-30.0), sqrt(109), sqrt(-43.5), sqrt(-50), cos(95.0), sqrt(5.1), tan(1.39), cos(-7), sqrt(-5), sqrt(0), sin(3.17497), sin(67.5862), sin(8.8), tan(4), sqrt(3), sqrt(-5828), sin(54), cos(9), tan(-636435), sin(-5485859.9), cos(5316826.6776), cos(-1), sqrt(6), tan(0), sin(9466.7802), sin(-974.4), tan(-3.575), sqrt(9), sin(6.52), sqrt(84005.2), cos(-7.0), sqrt(50), sin(-8.40), tan(-6), cos(-2), sin(-877.175), sin(-2.123771), sin(-3.76), cos(-6), sqrt(4.1), tan(923.4), tan(82), sin(0.08), tan(0.6), tan(-82964.9827), cos(8808), sqrt(-3.0), tan(713.0), tan(1.3), tan(98.8), cos(-8.82), sqrt(73), tan(7.0), sqrt(-0), sqrt(2.94), tan(7.08), sin(9), sin(60), sin(2), tan(0.3), sqrt(97), cos(74), sin(9), cos(-1), cos(-7), sin(-6.3), cos(671), cos(-983.9), sqrt(9.1), cos(-79), sin(2.6503), tan(-8), sqrt(4), sin(-0.7), tan(-5), sin(7), cos(3.368), sqrt(6.875), sqrt(74.90), tan(8), tan(-0), sin(4.02), cos(-42), cos(-23297.404), sin(8.5), sin(5.70), cos(-10.7), sin(-44.1), cos(8), tan(5), cos(-12), tan(-443), cos(7), cos(-9.5954), sqrt(-4), sin(-7), tan(-7.966), tan(0), tan(6), tan(-9), tan(43.5), tan(-453567.74), sin(-22.51), tan(-47), sqrt(-1), tan(6.9), sqrt(-3), cos(-5.9604620), cos(-1), tan(9), sqrt(-4.992), tan(3.5), sin(-4), cos(241), tan(-7), cos(8.06), sqrt(-43.60), cos(-42), sqrt(-3.3), cos(-3.56), cos(2), cos(9), cos(5.79), tan(-417.7), sin(-3.2658702), tan(9.78), tan(251), cos(-3.2), cos(3.38), tan(-110), sin(-3), sin(-7.5), cos(8), tan(-4), cos(-3.2), sqrt(-0.286), sin(-2.24), sqrt(3.8206), sin(475), tan(-6.58093), sin(-1.18), sqrt(9), cos(4.16288052), sqrt(-5.0155), sin(1.4), tan(-7.549), sin(-0), cos(6), tan(-4703.1), sqrt(1), sqrt(-486), cos(15.29), sqrt(-0), sqrt(-4476155.7), tan(3.3421), sqrt(65), sqrt(-7351.183), sqrt(57), sqrt(-61.0), sqrt(-9264), sqrt(-695), sqrt(863), sqrt(-83), sin(-56.8131237), sin(-8951.3), sin(-61.759), cos(946866), tan(9006), cos(73), sqrt(-59.0), sin(-59.95), sin(-6201.59), sqrt(5496), sin(70343.3), cos(-52472.71), tan(59.5), sin(-35203.1), tan(-3889.432), tan(-34.8), sin(-608.2986), cos(-570.5), cos(85), sin(7120), tan(-51070.62), cos(-591.067), sin(338.9), sqrt(-929.3), tan(58), tan(39.7), sqrt(822), sqrt(-95.6), tan(-66), sqrt(88.456), sqrt(-702), tan(290.42), sqrt(967.33), cos(486), sqrt(92), sin(142), sin(1666.2), sin(46), sqrt(-70), tan(-81.1), sqrt(-9.00), sqrt(-2.6), sqrt(-0.679), sqrt(-3), sqrt(-4), sqrt(-6), sqrt(-7.291), sqrt(-4)
+    sin(27.7), sin(67.98), sqrt(-6290), sqrt(-72), sqrt(-652.2), sqrt(-87.1), cos(-22), tan(3.6), sqrt(9), tan(-7.3), sin(0.859890), cos(2054.8), sqrt(-1), sin(3), cos(6.6), sqrt(-4.991), sqrt(-4), tan(-7), cos(-7), sqrt(-3.6), sin(4.6), sqrt(8.79), tan(-3.9445), sqrt(-6.1), tan(-0), tan(3), tan(6.122), cos(42), cos(1), cos(-2), cos(-7.8), sin(-9), sqrt(7.36), cos(-7), tan(-5), cos(8.175), sqrt(2.01), tan(8.4), cos(273), sin(1452.3), sin(7), sin(-8), tan(-4.37), sin(8), sqrt(-5.6), sin(-0), cos(5.3280), sqrt(42.36), sin(8), tan(8), sqrt(-5), sqrt(-4), cos(-0.906), cos(-2.54), sqrt(0), sin(2), cos(13), sin(-4), sin(4), cos(4.2), cos(-6), sqrt(2), sin(125540), cos(-5), cos(2), sin(2), sqrt(-5.22), cos(4876.204), sqrt(5.7), sqrt(48), sqrt(20), sqrt(3.6), sqrt(5), sin(6.943), tan(32), cos(38921523.0), sqrt(1179), tan(2), sin(-49.35), sin(91.08), tan(9.52), cos(-3), cos(2), tan(6), tan(-3.5), sin(-3), cos(9.16), tan(64), cos(3.7), sin(5), tan(8.583), cos(-6.78), sqrt(-4.94), sin(8180), sqrt(7.4), cos(5.44), cos(-2), sin(2), tan(62), tan(1.7), sqrt(1.00), sin(862), cos(6.5447221), sin(2.5), cos(2), sqrt(-9.8), tan(704.7), sqrt(-7), sin(-7), tan(5), sqrt(-0.8), sin(-7.6), sin(869734), sqrt(63367), cos(3), sin(4.17), tan(-4.7), sin(1), sqrt(-6.1), sin(-3.0), sqrt(3.2), cos(-0.9), sqrt(-0), tan(9), cos(79.5), tan(-8), tan(4.17878), tan(6.7), tan(7113.8), cos(90), sqrt(-2.634), sin(4), sqrt(733), tan(84.27), sin(749), sqrt(-1), tan(-3.4), cos(740.49), cos(-5.4), sqrt(-4.0), sin(507.94), sin(-1.2), tan(-6.9), tan(2), cos(56.82), sin(1), tan(5), sqrt(-1), sqrt(0), sin(-9.91), tan(90.7), tan(-6.7), sin(5), sin(16.2), sin(699.7), cos(-76), tan(-54.034), sin(-25), tan(-528), tan(-20), cos(-6814.5), tan(-9664.5), tan(-30), sin(-63), sin(-50), tan(-62.3), cos(-59.6), tan(-886.62), sqrt(-17.45153), sqrt(39), sin(337.2), sqrt(-59.7), sqrt(-5828), cos(-23297.404), cos(15.29), sqrt(-14), sqrt(-33), sin(-70.9266), sqrt(2), cos(-4), cos(4.5), cos(6.8), sin(0), sin(66.8), sqrt(-502.9), cos(65450.0), tan(-6), sin(0.5), tan(-4), cos(-9.41), sin(54), cos(-63099569.32), sin(83.3), sqrt(8), sqrt(-3), sqrt(5.20401), sin(88), tan(1), sin(-9), sqrt(-6), sin(-58), tan(3), sin(0), cos(-3), sin(-4), sin(2.4), sin(-1), tan(74.8), sin(3), sin(2.8), tan(-59), tan(5), tan(-8.1), sqrt(-5.9192), cos(-91.10), sqrt(-4), sin(-0), cos(6.8180), sin(9.36560908), sin(73), sin(-19.6), sqrt(-4.8), tan(5238.38), tan(52), sqrt(-9.2), sqrt(-2.9), cos(0.3), sqrt(85.8546), tan(-2), cos(68.53), cos(0), sin(3.5), tan(3.2), cos(-20), cos(6), sin(9.4), sqrt(-2), sqrt(-0.35662), sqrt(-5.52), tan(64113), sqrt(52.14), cos(8.0), cos(-5), cos(3), sqrt(-1), tan(-8), cos(-11), tan(-1), sqrt(-1037.25), sin(58.7), sin(-2.7744462), cos(52.07), cos(77), sqrt(-63.7), cos(-603.3067), sin(-9.87125), cos(-7.61), tan(-0.73), cos(-7), tan(-517.73), sqrt(-5427.4), tan(7), sqrt(2.57), sqrt(-739.438765), cos(-7.499), sqrt(-7.291), sin(67974279.41), sqrt(9867.7), sin(-7.177), sin(8.071326), tan(-7.723), cos(25.57), sin(887.3), sqrt(7.49), cos(-4505), sin(-760.19)
 
 Iteration #20
 </pre>
@@ -12095,8 +12088,8 @@ Iteration #20
 <pre>  Decision Tree:
     if &lt;lead-digit&gt; &lt;= 4.5000:
       if &lt;function&gt; == 'sqrt':
-        if &lt;integer&gt; &lt;= 41.5000:
-          if &lt;term&gt; &lt;= -11.8500:
+        if &lt;term&gt; &lt;= -11.8500:
+          if &lt;integer&gt; &lt;= 42.5000:
             BUG
           else:
             NO_BUG
@@ -12105,10 +12098,7 @@ Iteration #20
       else:
         NO_BUG
     else:
-      if &lt;function&gt; == 'sin':
-        NO_BUG
-      else:
-        NO_BUG
+      NO_BUG
 
 </pre>
 </div>
@@ -12117,25 +12107,21 @@ Iteration #20
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New input specifications:
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &gt; 4.5
+    &lt;lead-digit&gt; &lt;= 4.5
+    &lt;lead-digit&gt; &gt; 4.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
     &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 42.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &gt; -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
     &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5
-    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &lt;= 4.5
-    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &gt; 41.5 and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
-    &lt;function&gt; == 'sin' and &lt;lead-digit&gt; &lt;= 4.5
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;lead-digit&gt; &gt; 4.5 and &lt;term&gt; &lt;= -11.849999904632568
+    &lt;function&gt; == 'sqrt' and &lt;integer&gt; &lt;= 42.5 and &lt;lead-digit&gt; &lt;= 4.5 and &lt;term&gt; &gt; -11.849999904632568
 </pre>
 </div>
 </div>
@@ -12143,7 +12129,7 @@ Iteration #20
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>  New samples:
-    tan(-424), sin(-49.868), tan(-1052), tan(-4044097), sin(-10785), sqrt(-632), cos(-2193847.42), cos(-1285.96), sqrt(-62.26), tan(-176.217299), sqrt(1445), sin(-240.63), sin(-216.5), sin(515.289220693), sqrt(-15.5), sqrt(-5.2), sqrt(-99117404.7), sqrt(-950), sqrt(-92), sqrt(4.6), sqrt(-7), sqrt(972), sqrt(-73.909), sqrt(5), sqrt(-0), sqrt(3.8), sqrt(-802.4), sqrt(-6), sqrt(-5.2), sqrt(93.948), sqrt(4.15), sin(-24), sqrt(-42), cos(-30), sqrt(29), tan(32), sqrt(58), sqrt(-9357916.3), sqrt(-604.1), sqrt(-763), sqrt(885.65), sqrt(-1.433099), sqrt(-2), sqrt(2), sqrt(4), sqrt(1), sqrt(80.5), sqrt(-8), sqrt(11.5), sqrt(-6), sqrt(-5), sqrt(-5), sqrt(7), sqrt(8), sqrt(8.8), sqrt(-1), sqrt(2), sqrt(-3), sqrt(-6), sqrt(-96.21), cos(-878.3), sqrt(-216.56), sqrt(37.6), sqrt(4282), sin(70), cos(3373734109), sqrt(1550636), sqrt(-54), sin(3674)
+    sqrt(-15.5), sin(6986), sqrt(-44.843), sqrt(-16), sqrt(-62.5), cos(-314.4), sqrt(52.1779), sqrt(83.5849), sqrt(29.3), sqrt(-1497272), cos(1385.83093), sqrt(10.98104), tan(2744.4), sqrt(11.5), cos(4706), tan(46265), sqrt(48), sqrt(63), sqrt(41), sqrt(-545), sqrt(-9320.680), sqrt(-80.65), sqrt(-87), sin(97159.2), sqrt(-428), sqrt(-50.9), sqrt(11)
 </pre>
 </div>
 </div>
@@ -12596,10 +12582,10 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(class_weight={'BUG': 0.02127659574468085,
-                                     'NO_BUG': 0.0005422993492407809},
-                       max_depth=5)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input checked="" class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for DecisionTreeClassifier</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight={'BUG': 0.02127659574468085,
-                                     'NO_BUG': 0.0005422993492407809},
+</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(class_weight={'BUG': 0.01818181818181818,
+                                     'NO_BUG': 0.0007836990595611285},
+                       max_depth=5)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input checked="" class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label fitted sk-toggleable__label-arrow" for="sk-estimator-id-1"><div><div>DecisionTreeClassifier</div></div><div><a class="sk-estimator-doc-link fitted" href="https://scikit-learn.org/1.6/modules/generated/sklearn.tree.DecisionTreeClassifier.html" rel="noreferrer" target="_blank">?<span>Documentation for DecisionTreeClassifier</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeClassifier(class_weight={'BUG': 0.01818181818181818,
+                                     'NO_BUG': 0.0007836990595611285},
                        max_depth=5)</pre></div> </div></div></div></div>
 </div>
 </div>
@@ -12637,7 +12623,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[103]:</div>
 <div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBUcmVlIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIzODZwdCIgaGVpZ2h0PSI1NTJwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCAzODUuNTAgNTUyLjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDU0OCkiPgo8dGl0bGU+VHJlZTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtNTQ4IDM4MS41LC01NDggMzgxLjUsNCAtNCw0Ii8+CjwhLS0gMCAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4wPC90aXRsZT4KPHBhdGggZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJibGFjayIgZD0iTTI3OC43NSwtNTQ0QzI3OC43NSwtNTQ0IDE3Mi43NSwtNTQ0IDE3Mi43NSwtNTQ0IDE2Ni43NSwtNTQ0IDE2MC43NSwtNTM4IDE2MC43NSwtNTMyIDE2MC43NSwtNTMyIDE2MC43NSwtNDczIDE2MC43NSwtNDczIDE2MC43NSwtNDY3IDE2Ni43NSwtNDYxIDE3Mi43NSwtNDYxIDE3Mi43NSwtNDYxIDI3OC43NSwtNDYxIDI3OC43NSwtNDYxIDI4NC43NSwtNDYxIDI5MC43NSwtNDY3IDI5MC43NSwtNDczIDI5MC43NSwtNDczIDI5MC43NSwtNTMyIDI5MC43NSwtNTMyIDI5MC43NSwtNTM4IDI4NC43NSwtNTQ0IDI3OC43NSwtNTQ0Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIyNS43NSIgeT0iLTUyNi43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPiZsdDtsZWFkJiM0NTtkaWdpdCZndDsgJmx0Oz0gNC41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii01MTEuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii00OTYuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gMTg5MTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjI1Ljc1IiB5PSItNDgxLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMS4wLCAxLjBdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii00NjYuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDEgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTwvdGl0bGU+CjxwYXRoIGZpbGw9IiNlYjlmNjgiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMTYuMjUsLTQyNUMyMTYuMjUsLTQyNSA2NS4yNSwtNDI1IDY1LjI1LC00MjUgNTkuMjUsLTQyNSA1My4yNSwtNDE5IDUzLjI1LC00MTMgNTMuMjUsLTQxMyA1My4yNSwtMzU0IDUzLjI1LC0zNTQgNTMuMjUsLTM0OCA1OS4yNSwtMzQyIDY1LjI1LC0zNDIgNjUuMjUsLTM0MiAyMTYuMjUsLTM0MiAyMTYuMjUsLTM0MiAyMjIuMjUsLTM0MiAyMjguMjUsLTM0OCAyMjguMjUsLTM1NCAyMjguMjUsLTM1NCAyMjguMjUsLTQxMyAyMjguMjUsLTQxMyAyMjguMjUsLTQxOSAyMjIuMjUsLTQyNSAyMTYuMjUsLTQyNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii00MDcuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4mbHQ7ZnVuY3Rpb24mZ3Q7ID09ICYjMzk7c3FydCYjMzk7ICZsdDs9IDAuNTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMzkyLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMzExPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0zNzcuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gNDg4PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0zNjIuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFsxLjAsIDAuMjM5XTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMzQ3LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBCVUc8L3RleHQ+CjwvZz4KPCEtLSAwJiM0NTsmZ3Q7MSAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4wJiM0NTsmZ3Q7MTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xOTYuMDIsLTQ2MC41OEMxODkuOSwtNDUyLjE2IDE4My40LC00NDMuMiAxNzcuMDgsLTQzNC41Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE3OS45MiwtNDMyLjQ2IDE3MS4yMSwtNDI2LjQyIDE3NC4yNSwtNDM2LjU3IDE3OS45MiwtNDMyLjQ2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE2Ni40MSIgeT0iLTQ0NC4wOSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5UcnVlPC90ZXh0Pgo8L2c+CjwhLS0gOCAtLT4KPGcgaWQ9Im5vZGU5IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT44PC90aXRsZT4KPHBhdGggZmlsbD0iIzM5OWRlNSIgc3Ryb2tlPSJibGFjayIgZD0iTTM2NS41LC00MTcuNUMzNjUuNSwtNDE3LjUgMjU4LC00MTcuNSAyNTgsLTQxNy41IDI1MiwtNDE3LjUgMjQ2LC00MTEuNSAyNDYsLTQwNS41IDI0NiwtNDA1LjUgMjQ2LC0zNjEuNSAyNDYsLTM2MS41IDI0NiwtMzU1LjUgMjUyLC0zNDkuNSAyNTgsLTM0OS41IDI1OCwtMzQ5LjUgMzY1LjUsLTM0OS41IDM2NS41LC0zNDkuNSAzNzEuNSwtMzQ5LjUgMzc3LjUsLTM1NS41IDM3Ny41LC0zNjEuNSAzNzcuNSwtMzYxLjUgMzc3LjUsLTQwNS41IDM3Ny41LC00MDUuNSAzNzcuNSwtNDExLjUgMzcxLjUsLTQxNy41IDM2NS41LC00MTcuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMTEuNzUiIHk9Ii00MDAuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMTEuNzUiIHk9Ii0zODUuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gMTQwMzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzExLjc1IiB5PSItMzcwLjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMC4wLCAwLjc2MV08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMxMS43NSIgeT0iLTM1NS4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gTk9fQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMCYjNDU7Jmd0OzggLS0+CjxnIGlkPSJlZGdlOCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MCYjNDU7Jmd0Ozg8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjU1LjgzLC00NjAuNThDMjYzLjg1LC00NDkuNjYgMjcyLjU0LC00MzcuODUgMjgwLjYxLC00MjYuODYiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjgzLjIzLC00MjkuMjEgMjg2LjMzLC00MTkuMDggMjc3LjU5LC00MjUuMDcgMjgzLjIzLC00MjkuMjEiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjkxIiB5PSItNDM2Ljc3IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkZhbHNlPC90ZXh0Pgo8L2c+CjwhLS0gMiAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4yPC90aXRsZT4KPHBhdGggZmlsbD0iIzM5OWRlNSIgc3Ryb2tlPSJibGFjayIgZD0iTTExOS41LC0yOTguNUMxMTkuNSwtMjk4LjUgMTIsLTI5OC41IDEyLC0yOTguNSA2LC0yOTguNSAwLC0yOTIuNSAwLC0yODYuNSAwLC0yODYuNSAwLC0yNDIuNSAwLC0yNDIuNSAwLC0yMzYuNSA2LC0yMzAuNSAxMiwtMjMwLjUgMTIsLTIzMC41IDExOS41LC0yMzAuNSAxMTkuNSwtMjMwLjUgMTI1LjUsLTIzMC41IDEzMS41LC0yMzYuNSAxMzEuNSwtMjQyLjUgMTMxLjUsLTI0Mi41IDEzMS41LC0yODYuNSAxMzEuNSwtMjg2LjUgMTMxLjUsLTI5Mi41IDEyNS41LC0yOTguNSAxMTkuNSwtMjk4LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yODEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gJiM0NTswLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY1Ljc1IiB5PSItMjY2LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDMwMjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yNTEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuMTY0XTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yMzYuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDEmIzQ1OyZndDsyIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEmIzQ1OyZndDsyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTExNC41MiwtMzQxLjU4QzEwNy42NiwtMzMwLjg4IDEwMC4yNSwtMzE5LjMyIDkzLjMzLC0zMDguNTIiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iOTYuMywtMzA2LjY3IDg3Ljk1LC0zMDAuMTQgOTAuNCwtMzEwLjQ0IDk2LjMsLTMwNi42NyIvPgo8L2c+CjwhLS0gMyAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4zPC90aXRsZT4KPHBhdGggZmlsbD0iI2U3OGE0OCIgc3Ryb2tlPSJibGFjayIgZD0iTTI2OS41LC0zMDZDMjY5LjUsLTMwNiAxNjIsLTMwNiAxNjIsLTMwNiAxNTYsLTMwNiAxNTAsLTMwMCAxNTAsLTI5NCAxNTAsLTI5NCAxNTAsLTIzNSAxNTAsLTIzNSAxNTAsLTIyOSAxNTYsLTIyMyAxNjIsLTIyMyAxNjIsLTIyMyAyNjkuNSwtMjIzIDI2OS41LC0yMjMgMjc1LjUsLTIyMyAyODEuNSwtMjI5IDI4MS41LC0yMzUgMjgxLjUsLTIzNSAyODEuNSwtMjk0IDI4MS41LC0yOTQgMjgxLjUsLTMwMCAyNzUuNSwtMzA2IDI2OS41LC0zMDYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE1Ljc1IiB5PSItMjg4LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Jmx0O2ludGVnZXImZ3Q7ICZsdDs9IDQxLjU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxNS43NSIgeT0iLTI3My43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjEzPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTUuNzUiIHk9Ii0yNTguNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gMTg2PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTUuNzUiIHk9Ii0yNDMuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFsxLjAsIDAuMDc1XTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE1Ljc1IiB5PSItMjI4LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBCVUc8L3RleHQ+CjwvZz4KPCEtLSAxJiM0NTsmZ3Q7MyAtLT4KPGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4xJiM0NTsmZ3Q7MzwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xNjYuOTgsLTM0MS41OEMxNzIuMzIsLTMzMy4yNSAxNzgsLTMyNC4zOSAxODMuNTIsLTMxNS43OCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxODYuMzksLTMxNy43OCAxODguODQsLTMwNy40NyAxODAuNSwtMzE0IDE4Ni4zOSwtMzE3Ljc4Ii8+CjwvZz4KPCEtLSA0IC0tPgo8ZyBpZD0ibm9kZTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjQ8L3RpdGxlPgo8cGF0aCBmaWxsPSIjZTY4NDNlIiBzdHJva2U9ImJsYWNrIiBkPSJNMTk0LjUsLTE4N0MxOTQuNSwtMTg3IDg3LC0xODcgODcsLTE4NyA4MSwtMTg3IDc1LC0xODEgNzUsLTE3NSA3NSwtMTc1IDc1LC0xMTYgNzUsLTExNiA3NSwtMTEwIDgxLC0xMDQgODcsLTEwNCA4NywtMTA0IDE5NC41LC0xMDQgMTk0LjUsLTEwNCAyMDAuNSwtMTA0IDIwNi41LC0xMTAgMjA2LjUsLTExNiAyMDYuNSwtMTE2IDIwNi41LC0xNzUgMjA2LjUsLTE3NSAyMDYuNSwtMTgxIDIwMC41LC0xODcgMTk0LjUsLTE4NyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0xNjkuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4mbHQ7dGVybSZndDsgJmx0Oz0gJiM0NTsxMS44NTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMTU0LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMDQ3PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0xMzkuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gOTI8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTEyNC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4wMjRdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0xMDkuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDMmIzQ1OyZndDs0IC0tPgo8ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjMmIzQ1OyZndDs0PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE4OS41MiwtMjIyLjU4QzE4NC4xOCwtMjE0LjI1IDE3OC41LC0yMDUuMzkgMTcyLjk4LC0xOTYuNzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTc2LC0xOTUgMTY3LjY2LC0xODguNDcgMTcwLjExLC0xOTguNzggMTc2LC0xOTUiLz4KPC9nPgo8IS0tIDcgLS0+CjxnIGlkPSJub2RlOCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+NzwvdGl0bGU+CjxwYXRoIGZpbGw9IiMzOTlkZTUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zNDQuNSwtMTc5LjVDMzQ0LjUsLTE3OS41IDIzNywtMTc5LjUgMjM3LC0xNzkuNSAyMzEsLTE3OS41IDIyNSwtMTczLjUgMjI1LC0xNjcuNSAyMjUsLTE2Ny41IDIyNSwtMTIzLjUgMjI1LC0xMjMuNSAyMjUsLTExNy41IDIzMSwtMTExLjUgMjM3LC0xMTEuNSAyMzcsLTExMS41IDM0NC41LC0xMTEuNSAzNDQuNSwtMTExLjUgMzUwLjUsLTExMS41IDM1Ni41LC0xMTcuNSAzNTYuNSwtMTIzLjUgMzU2LjUsLTEyMy41IDM1Ni41LC0xNjcuNSAzNTYuNSwtMTY3LjUgMzU2LjUsLTE3My41IDM1MC41LC0xNzkuNSAzNDQuNSwtMTc5LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjkwLjc1IiB5PSItMTYyLjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9ICYjNDU7MC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTAuNzUiIHk9Ii0xNDcuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gOTQ8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI5MC43NSIgeT0iLTEzMi4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzAuMCwgMC4wNTFdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTAuNzUiIHk9Ii0xMTcuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDMmIzQ1OyZndDs3IC0tPgo8ZyBpZD0iZWRnZTciIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjMmIzQ1OyZndDs3PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI0MS45OCwtMjIyLjU4QzI0OC44NCwtMjExLjg4IDI1Ni4yNSwtMjAwLjMyIDI2My4xNywtMTg5LjUyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI2Ni4xLC0xOTEuNDQgMjY4LjU1LC0xODEuMTQgMjYwLjIsLTE4Ny42NyAyNjYuMSwtMTkxLjQ0Ii8+CjwvZz4KPCEtLSA1IC0tPgo8ZyBpZD0ibm9kZTYiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjU8L3RpdGxlPgo8cGF0aCBmaWxsPSIjZTU4MTM5IiBzdHJva2U9ImJsYWNrIiBkPSJNMTE2LC02OEMxMTYsLTY4IDIzLjUsLTY4IDIzLjUsLTY4IDE3LjUsLTY4IDExLjUsLTYyIDExLjUsLTU2IDExLjUsLTU2IDExLjUsLTEyIDExLjUsLTEyIDExLjUsLTYgMTcuNSwwIDIzLjUsMCAyMy41LDAgMTE2LDAgMTE2LDAgMTIyLDAgMTI4LC02IDEyOCwtMTIgMTI4LC0xMiAxMjgsLTU2IDEyOCwtNTYgMTI4LC02MiAxMjIsLTY4IDExNiwtNjgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjkuNzUiIHk9Ii01MC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY5Ljc1IiB5PSItMzUuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gNDc8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY5Ljc1IiB5PSItMjAuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFsxLjAsIDAuMF08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY5Ljc1IiB5PSItNS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gQlVHPC90ZXh0Pgo8L2c+CjwhLS0gNCYjNDU7Jmd0OzUgLS0+CjxnIGlkPSJlZGdlNSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+NCYjNDU7Jmd0OzU8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE0LjMxLC0xMDMuNzNDMTA4LjgxLC05NS4yNCAxMDMsLTg2LjI4IDk3LjQ2LC03Ny43MyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMDAuNTQsLTc2LjA2IDkyLjE2LC02OS41NyA5NC42NywtNzkuODYgMTAwLjU0LC03Ni4wNiIvPgo8L2c+CjwhLS0gNiAtLT4KPGcgaWQ9Im5vZGU3IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT42PC90aXRsZT4KPHBhdGggZmlsbD0iIzM5OWRlNSIgc3Ryb2tlPSJibGFjayIgZD0iTTI2NS41LC02OEMyNjUuNSwtNjggMTU4LC02OCAxNTgsLTY4IDE1MiwtNjggMTQ2LC02MiAxNDYsLTU2IDE0NiwtNTYgMTQ2LC0xMiAxNDYsLTEyIDE0NiwtNiAxNTIsMCAxNTgsMCAxNTgsMCAyNjUuNSwwIDI2NS41LDAgMjcxLjUsMCAyNzcuNSwtNiAyNzcuNSwtMTIgMjc3LjUsLTEyIDI3Ny41LC01NiAyNzcuNSwtNTYgMjc3LjUsLTYyIDI3MS41LC02OCAyNjUuNSwtNjgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjExLjc1IiB5PSItNTAuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gJiM0NTswLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxMS43NSIgeT0iLTM1LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDQ1PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTEuNzUiIHk9Ii0yMC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzAuMCwgMC4wMjRdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTEuNzUiIHk9Ii01LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBOT19CVUc8L3RleHQ+CjwvZz4KPCEtLSA0JiM0NTsmZ3Q7NiAtLT4KPGcgaWQ9ImVkZ2U2IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT40JiM0NTsmZ3Q7NjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xNjcuMTksLTEwMy43M0MxNzIuNjksLTk1LjI0IDE3OC41LC04Ni4yOCAxODQuMDQsLTc3LjczIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE4Ni44MywtNzkuODYgMTg5LjM0LC02OS41NyAxODAuOTYsLTc2LjA2IDE4Ni44MywtNzkuODYiLz4KPC9nPgo8L2c+Cjwvc3ZnPgo="/>
+<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBUcmVlIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIzNzlwdCIgaGVpZ2h0PSI1NTJwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCAzNzguNzUgNTUyLjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDU0OCkiPgo8dGl0bGU+VHJlZTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtNTQ4IDM3NC43NSwtNTQ4IDM3NC43NSw0IC00LDQiLz4KPCEtLSAwIC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjA8L3RpdGxlPgo8cGF0aCBmaWxsPSIjZmZmZmZmIiBzdHJva2U9ImJsYWNrIiBkPSJNMjc3Ljc1LC01NDRDMjc3Ljc1LC01NDQgMTcxLjc1LC01NDQgMTcxLjc1LC01NDQgMTY1Ljc1LC01NDQgMTU5Ljc1LC01MzggMTU5Ljc1LC01MzIgMTU5Ljc1LC01MzIgMTU5Ljc1LC00NzMgMTU5Ljc1LC00NzMgMTU5Ljc1LC00NjcgMTY1Ljc1LC00NjEgMTcxLjc1LC00NjEgMTcxLjc1LC00NjEgMjc3Ljc1LC00NjEgMjc3Ljc1LC00NjEgMjgzLjc1LC00NjEgMjg5Ljc1LC00NjcgMjg5Ljc1LC00NzMgMjg5Ljc1LC00NzMgMjg5Ljc1LC01MzIgMjg5Ljc1LC01MzIgMjg5Ljc1LC01MzggMjgzLjc1LC01NDQgMjc3Ljc1LC01NDQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjI0Ljc1IiB5PSItNTI2LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Jmx0O2xlYWQmIzQ1O2RpZ2l0Jmd0OyAmbHQ7PSA0LjU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIyNC43NSIgeT0iLTUxMS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIyNC43NSIgeT0iLTQ5Ni43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAxMzMxPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjQuNzUiIHk9Ii00ODEuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFsxLjAsIDEuMF08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIyNC43NSIgeT0iLTQ2Ni43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMSAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4xPC90aXRsZT4KPHBhdGggZmlsbD0iI2VjYTI2ZCIgc3Ryb2tlPSJibGFjayIgZD0iTTIxNi4yNSwtNDI1QzIxNi4yNSwtNDI1IDY1LjI1LC00MjUgNjUuMjUsLTQyNSA1OS4yNSwtNDI1IDUzLjI1LC00MTkgNTMuMjUsLTQxMyA1My4yNSwtNDEzIDUzLjI1LC0zNTQgNTMuMjUsLTM1NCA1My4yNSwtMzQ4IDU5LjI1LC0zNDIgNjUuMjUsLTM0MiA2NS4yNSwtMzQyIDIxNi4yNSwtMzQyIDIxNi4yNSwtMzQyIDIyMi4yNSwtMzQyIDIyOC4yNSwtMzQ4IDIyOC4yNSwtMzU0IDIyOC4yNSwtMzU0IDIyOC4yNSwtNDEzIDIyOC4yNSwtNDEzIDIyOC4yNSwtNDE5IDIyMi4yNSwtNDI1IDIxNi4yNSwtNDI1Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTQwNy43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPiZsdDtmdW5jdGlvbiZndDsgPT0gJiMzOTtzcXJ0JiMzOTsgJmx0Oz0gMC41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0zOTIuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4zMjg8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTM3Ny43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAzODc8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTM2Mi43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4yNl08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTM0Ny43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMCYjNDU7Jmd0OzEgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MCYjNDU7Jmd0OzE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTk1LjM3LC00NjAuNThDMTg5LjMzLC00NTIuMTYgMTgyLjksLTQ0My4yIDE3Ni42NSwtNDM0LjUiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTc5LjUzLC00MzIuNTEgMTcwLjg1LC00MjYuNDMgMTczLjg0LC00MzYuNTkgMTc5LjUzLC00MzIuNTEiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTY1LjkyIiB5PSItNDQ0LjA3IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPlRydWU8L3RleHQ+CjwvZz4KPCEtLSA4IC0tPgo8ZyBpZD0ibm9kZTkiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjg8L3RpdGxlPgo8cGF0aCBmaWxsPSIjMzk5ZGU1IiBzdHJva2U9ImJsYWNrIiBkPSJNMzU4Ljc1LC00MTcuNUMzNTguNzUsLTQxNy41IDI1OC43NSwtNDE3LjUgMjU4Ljc1LC00MTcuNSAyNTIuNzUsLTQxNy41IDI0Ni43NSwtNDExLjUgMjQ2Ljc1LC00MDUuNSAyNDYuNzUsLTQwNS41IDI0Ni43NSwtMzYxLjUgMjQ2Ljc1LC0zNjEuNSAyNDYuNzUsLTM1NS41IDI1Mi43NSwtMzQ5LjUgMjU4Ljc1LC0zNDkuNSAyNTguNzUsLTM0OS41IDM1OC43NSwtMzQ5LjUgMzU4Ljc1LC0zNDkuNSAzNjQuNzUsLTM0OS41IDM3MC43NSwtMzU1LjUgMzcwLjc1LC0zNjEuNSAzNzAuNzUsLTM2MS41IDM3MC43NSwtNDA1LjUgMzcwLjc1LC00MDUuNSAzNzAuNzUsLTQxMS41IDM2NC43NSwtNDE3LjUgMzU4Ljc1LC00MTcuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDguNzUiIHk9Ii00MDAuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDguNzUiIHk9Ii0zODUuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gOTQ0PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDguNzUiIHk9Ii0zNzAuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuNzRdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDguNzUiIHk9Ii0zNTUuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDAmIzQ1OyZndDs4IC0tPgo8ZyBpZD0iZWRnZTgiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjAmIzQ1OyZndDs4PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI1NC4xMywtNDYwLjU4QzI2MS44OSwtNDQ5Ljc3IDI3MC4yOCwtNDM4LjA5IDI3OC4xLC00MjcuMTkiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjgwLjkzLC00MjkuMjYgMjgzLjkyLC00MTkuMDkgMjc1LjI0LC00MjUuMTcgMjgwLjkzLC00MjkuMjYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjg4Ljg1IiB5PSItNDM2LjczIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkZhbHNlPC90ZXh0Pgo8L2c+CjwhLS0gMiAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4yPC90aXRsZT4KPHBhdGggZmlsbD0iIzM5OWRlNSIgc3Ryb2tlPSJibGFjayIgZD0iTTExOS41LC0yOTguNUMxMTkuNSwtMjk4LjUgMTIsLTI5OC41IDEyLC0yOTguNSA2LC0yOTguNSAwLC0yOTIuNSAwLC0yODYuNSAwLC0yODYuNSAwLC0yNDIuNSAwLC0yNDIuNSAwLC0yMzYuNSA2LC0yMzAuNSAxMiwtMjMwLjUgMTIsLTIzMC41IDExOS41LC0yMzAuNSAxMTkuNSwtMjMwLjUgMTI1LjUsLTIzMC41IDEzMS41LC0yMzYuNSAxMzEuNSwtMjQyLjUgMTMxLjUsLTI0Mi41IDEzMS41LC0yODYuNSAxMzEuNSwtMjg2LjUgMTMxLjUsLTI5Mi41IDEyNS41LC0yOTguNSAxMTkuNSwtMjk4LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yODEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gJiM0NTswLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY1Ljc1IiB5PSItMjY2LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDIwNjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yNTEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuMTYxXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yMzYuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDEmIzQ1OyZndDsyIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEmIzQ1OyZndDsyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTExNC41MiwtMzQxLjU4QzEwNy42NiwtMzMwLjg4IDEwMC4yNSwtMzE5LjMyIDkzLjMzLC0zMDguNTIiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iOTYuMywtMzA2LjY3IDg3Ljk1LC0zMDAuMTQgOTAuNCwtMzEwLjQ0IDk2LjMsLTMwNi42NyIvPgo8L2c+CjwhLS0gMyAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4zPC90aXRsZT4KPHBhdGggZmlsbD0iI2U4OGQ0ZCIgc3Ryb2tlPSJibGFjayIgZD0iTTI2OS41LC0zMDZDMjY5LjUsLTMwNiAxNjIsLTMwNiAxNjIsLTMwNiAxNTYsLTMwNiAxNTAsLTMwMCAxNTAsLTI5NCAxNTAsLTI5NCAxNTAsLTIzNSAxNTAsLTIzNSAxNTAsLTIyOSAxNTYsLTIyMyAxNjIsLTIyMyAxNjIsLTIyMyAyNjkuNSwtMjIzIDI2OS41LC0yMjMgMjc1LjUsLTIyMyAyODEuNSwtMjI5IDI4MS41LC0yMzUgMjgxLjUsLTIzNSAyODEuNSwtMjk0IDI4MS41LC0yOTQgMjgxLjUsLTMwMCAyNzUuNSwtMzA2IDI2OS41LC0zMDYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE1Ljc1IiB5PSItMjg4LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Jmx0O3Rlcm0mZ3Q7ICZsdDs9ICYjNDU7MTEuODU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxNS43NSIgeT0iLTI3My43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjE2NDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE1Ljc1IiB5PSItMjU4LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDE4MTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE1Ljc1IiB5PSItMjQzLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMS4wLCAwLjA5OV08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxNS43NSIgeT0iLTIyOC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMSYjNDU7Jmd0OzMgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MSYjNDU7Jmd0OzM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTY2Ljk4LC0zNDEuNThDMTcyLjMyLC0zMzMuMjUgMTc4LC0zMjQuMzkgMTgzLjUyLC0zMTUuNzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTg2LjM5LC0zMTcuNzggMTg4Ljg0LC0zMDcuNDcgMTgwLjUsLTMxNCAxODYuMzksLTMxNy43OCIvPgo8L2c+CjwhLS0gNCAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT40PC90aXRsZT4KPHBhdGggZmlsbD0iI2U2ODUzZiIgc3Ryb2tlPSJibGFjayIgZD0iTTE5NC41LC0xODdDMTk0LjUsLTE4NyA4NywtMTg3IDg3LC0xODcgODEsLTE4NyA3NSwtMTgxIDc1LC0xNzUgNzUsLTE3NSA3NSwtMTE2IDc1LC0xMTYgNzUsLTExMCA4MSwtMTA0IDg3LC0xMDQgODcsLTEwNCAxOTQuNSwtMTA0IDE5NC41LC0xMDQgMjAwLjUsLTEwNCAyMDYuNSwtMTEwIDIwNi41LC0xMTYgMjA2LjUsLTExNiAyMDYuNSwtMTc1IDIwNi41LC0xNzUgMjA2LjUsLTE4MSAyMDAuNSwtMTg3IDE5NC41LC0xODciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMTY5LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Jmx0O2ludGVnZXImZ3Q7ICZsdDs9IDQyLjU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTE1NC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjA1ODwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMTM5LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDk0PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0xMjQuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFsxLjAsIDAuMDMxXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMTA5LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBCVUc8L3RleHQ+CjwvZz4KPCEtLSAzJiM0NTsmZ3Q7NCAtLT4KPGcgaWQ9ImVkZ2U0IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4zJiM0NTsmZ3Q7NDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xODkuNTIsLTIyMi41OEMxODQuMTgsLTIxNC4yNSAxNzguNSwtMjA1LjM5IDE3Mi45OCwtMTk2Ljc4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE3NiwtMTk1IDE2Ny42NiwtMTg4LjQ3IDE3MC4xMSwtMTk4Ljc4IDE3NiwtMTk1Ii8+CjwvZz4KPCEtLSA3IC0tPgo8ZyBpZD0ibm9kZTgiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjc8L3RpdGxlPgo8cGF0aCBmaWxsPSIjMzk5ZGU1IiBzdHJva2U9ImJsYWNrIiBkPSJNMzQ0LjUsLTE3OS41QzM0NC41LC0xNzkuNSAyMzcsLTE3OS41IDIzNywtMTc5LjUgMjMxLC0xNzkuNSAyMjUsLTE3My41IDIyNSwtMTY3LjUgMjI1LC0xNjcuNSAyMjUsLTEyMy41IDIyNSwtMTIzLjUgMjI1LC0xMTcuNSAyMzEsLTExMS41IDIzNywtMTExLjUgMjM3LC0xMTEuNSAzNDQuNSwtMTExLjUgMzQ0LjUsLTExMS41IDM1MC41LC0xMTEuNSAzNTYuNSwtMTE3LjUgMzU2LjUsLTEyMy41IDM1Ni41LC0xMjMuNSAzNTYuNSwtMTY3LjUgMzU2LjUsLTE2Ny41IDM1Ni41LC0xNzMuNSAzNTAuNSwtMTc5LjUgMzQ0LjUsLTE3OS41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI5MC43NSIgeT0iLTE2Mi4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAmIzQ1OzAuMDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjkwLjc1IiB5PSItMTQ3LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDg3PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTAuNzUiIHk9Ii0xMzIuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuMDY4XTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjkwLjc1IiB5PSItMTE3LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBOT19CVUc8L3RleHQ+CjwvZz4KPCEtLSAzJiM0NTsmZ3Q7NyAtLT4KPGcgaWQ9ImVkZ2U3IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT4zJiM0NTsmZ3Q7NzwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yNDEuOTgsLTIyMi41OEMyNDguODQsLTIxMS44OCAyNTYuMjUsLTIwMC4zMiAyNjMuMTcsLTE4OS41MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNjYuMSwtMTkxLjQ0IDI2OC41NSwtMTgxLjE0IDI2MC4yLC0xODcuNjcgMjY2LjEsLTE5MS40NCIvPgo8L2c+CjwhLS0gNSAtLT4KPGcgaWQ9Im5vZGU2IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT41PC90aXRsZT4KPHBhdGggZmlsbD0iI2U1ODEzOSIgc3Ryb2tlPSJibGFjayIgZD0iTTExNiwtNjhDMTE2LC02OCAyMy41LC02OCAyMy41LC02OCAxNy41LC02OCAxMS41LC02MiAxMS41LC01NiAxMS41LC01NiAxMS41LC0xMiAxMS41LC0xMiAxMS41LC02IDE3LjUsMCAyMy41LDAgMjMuNSwwIDExNiwwIDExNiwwIDEyMiwwIDEyOCwtNiAxMjgsLTEyIDEyOCwtMTIgMTI4LC01NiAxMjgsLTU2IDEyOCwtNjIgMTIyLC02OCAxMTYsLTY4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY5Ljc1IiB5PSItNTAuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2OS43NSIgeT0iLTM1LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDU1PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2OS43NSIgeT0iLTIwLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMS4wLCAwLjBdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2OS43NSIgeT0iLTUuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDQmIzQ1OyZndDs1IC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjQmIzQ1OyZndDs1PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTExNC4zMSwtMTAzLjczQzEwOC44MSwtOTUuMjQgMTAzLC04Ni4yOCA5Ny40NiwtNzcuNzMiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTAwLjU0LC03Ni4wNiA5Mi4xNiwtNjkuNTcgOTQuNjcsLTc5Ljg2IDEwMC41NCwtNzYuMDYiLz4KPC9nPgo8IS0tIDYgLS0+CjxnIGlkPSJub2RlNyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+NjwvdGl0bGU+CjxwYXRoIGZpbGw9IiMzOTlkZTUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yNjUuNSwtNjhDMjY1LjUsLTY4IDE1OCwtNjggMTU4LC02OCAxNTIsLTY4IDE0NiwtNjIgMTQ2LC01NiAxNDYsLTU2IDE0NiwtMTIgMTQ2LC0xMiAxNDYsLTYgMTUyLDAgMTU4LDAgMTU4LDAgMjY1LjUsMCAyNjUuNSwwIDI3MS41LDAgMjc3LjUsLTYgMjc3LjUsLTEyIDI3Ny41LC0xMiAyNzcuNSwtNTYgMjc3LjUsLTU2IDI3Ny41LC02MiAyNzEuNSwtNjggMjY1LjUsLTY4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxMS43NSIgeT0iLTUwLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9ICYjNDU7MC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTEuNzUiIHk9Ii0zNS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAzOTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjExLjc1IiB5PSItMjAuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuMDMxXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjExLjc1IiB5PSItNS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gTk9fQlVHPC90ZXh0Pgo8L2c+CjwhLS0gNCYjNDU7Jmd0OzYgLS0+CjxnIGlkPSJlZGdlNiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+NCYjNDU7Jmd0OzY8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTY3LjE5LC0xMDMuNzNDMTcyLjY5LC05NS4yNCAxNzguNSwtODYuMjggMTg0LjA0LC03Ny43MyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxODYuODMsLTc5Ljg2IDE4OS4zNCwtNjkuNTcgMTgwLjk2LC03Ni4wNiAxODYuODMsLTc5Ljg2Ii8+CjwvZz4KPC9nPgo8L3N2Zz4K"/>
 </div>
 </div>
 </div>
@@ -12676,8 +12662,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>if &lt;lead-digit&gt; &lt;= 4.5000:
   if &lt;function&gt; == 'sqrt':
-    if &lt;integer&gt; &lt;= 41.5000:
-      if &lt;term&gt; &lt;= -11.8500:
+    if &lt;term&gt; &lt;= -11.8500:
+      if &lt;integer&gt; &lt;= 42.5000:
         BUG
       else:
         NO_BUG
@@ -12855,7 +12841,7 @@ Given a test function, a grammar, and a set of inputs, the <code>Alhazen</code> 
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[109]:</div>
 <div class="jp-RenderedSVG jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="image/svg+xml" tabindex="0">
-<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBUcmVlIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIzNzVwdCIgaGVpZ2h0PSI0MzNwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCAzNzQuNTAgNDMzLjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDQyOSkiPgo8dGl0bGU+VHJlZTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtNDI5IDM3MC41LC00MjkgMzcwLjUsNCAtNCw0Ii8+CjwhLS0gMCAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4wPC90aXRsZT4KPHBhdGggZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJibGFjayIgZD0iTTI3NSwtNDI1QzI3NSwtNDI1IDE3Ni41LC00MjUgMTc2LjUsLTQyNSAxNzAuNSwtNDI1IDE2NC41LC00MTkgMTY0LjUsLTQxMyAxNjQuNSwtNDEzIDE2NC41LC0zNTQgMTY0LjUsLTM1NCAxNjQuNSwtMzQ4IDE3MC41LC0zNDIgMTc2LjUsLTM0MiAxNzYuNSwtMzQyIDI3NSwtMzQyIDI3NSwtMzQyIDI4MSwtMzQyIDI4NywtMzQ4IDI4NywtMzU0IDI4NywtMzU0IDI4NywtNDEzIDI4NywtNDEzIDI4NywtNDE5IDI4MSwtNDI1IDI3NSwtNDI1Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIyNS43NSIgeT0iLTQwNy43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPiZsdDt0ZXJtJmd0OyAmbHQ7PSAmIzQ1OzEyLjM1PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii0zOTIuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii0zNzcuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gMTEyNjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjI1Ljc1IiB5PSItMzYyLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMS4wLCAxLjBdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii0zNDcuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDEgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTwvdGl0bGU+CjxwYXRoIGZpbGw9IiNlZWFkN2QiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMDQuNSwtMzA2QzIwNC41LC0zMDYgOTcsLTMwNiA5NywtMzA2IDkxLC0zMDYgODUsLTMwMCA4NSwtMjk0IDg1LC0yOTQgODUsLTIzNSA4NSwtMjM1IDg1LC0yMjkgOTEsLTIyMyA5NywtMjIzIDk3LC0yMjMgMjA0LjUsLTIyMyAyMDQuNSwtMjIzIDIxMC41LC0yMjMgMjE2LjUsLTIyOSAyMTYuNSwtMjM1IDIxNi41LC0yMzUgMjE2LjUsLTI5NCAyMTYuNSwtMjk0IDIxNi41LC0zMDAgMjEwLjUsLTMwNiAyMDQuNSwtMzA2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE1MC43NSIgeT0iLTI4OC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPiZsdDt0ZXJtJmd0OyAmbHQ7PSAmIzQ1OzQxLjI2PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNTAuNzUiIHk9Ii0yNzMuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4zODI8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE1MC43NSIgeT0iLTI1OC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSA0MTU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE1MC43NSIgeT0iLTI0My43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4zNDZdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNTAuNzUiIHk9Ii0yMjguNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDAmIzQ1OyZndDsxIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjAmIzQ1OyZndDsxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE5OS41MiwtMzQxLjU4QzE5NC4xOCwtMzMzLjI1IDE4OC41LC0zMjQuMzkgMTgyLjk4LC0zMTUuNzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTg2LC0zMTQgMTc3LjY2LC0zMDcuNDcgMTgwLjExLC0zMTcuNzggMTg2LC0zMTQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTcxLjUiIHk9Ii0zMjQuODIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+VHJ1ZTwvdGV4dD4KPC9nPgo8IS0tIDEwIC0tPgo8ZyBpZD0ibm9kZTciIGNsYXNzPSJub2RlIj4KPHRpdGxlPjEwPC90aXRsZT4KPHBhdGggZmlsbD0iIzM5OWRlNSIgc3Ryb2tlPSJibGFjayIgZD0iTTM1NC41LC0yOTguNUMzNTQuNSwtMjk4LjUgMjQ3LC0yOTguNSAyNDcsLTI5OC41IDI0MSwtMjk4LjUgMjM1LC0yOTIuNSAyMzUsLTI4Ni41IDIzNSwtMjg2LjUgMjM1LC0yNDIuNSAyMzUsLTI0Mi41IDIzNSwtMjM2LjUgMjQxLC0yMzAuNSAyNDcsLTIzMC41IDI0NywtMjMwLjUgMzU0LjUsLTIzMC41IDM1NC41LC0yMzAuNSAzNjAuNSwtMjMwLjUgMzY2LjUsLTIzNi41IDM2Ni41LC0yNDIuNSAzNjYuNSwtMjQyLjUgMzY2LjUsLTI4Ni41IDM2Ni41LC0yODYuNSAzNjYuNSwtMjkyLjUgMzYwLjUsLTI5OC41IDM1NC41LC0yOTguNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDAuNzUiIHk9Ii0yODEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDAuNzUiIHk9Ii0yNjYuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gNzExPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDAuNzUiIHk9Ii0yNTEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuNjU0XTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzAwLjc1IiB5PSItMjM2LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBOT19CVUc8L3RleHQ+CjwvZz4KPCEtLSAwJiM0NTsmZ3Q7MTAgLS0+CjxnIGlkPSJlZGdlNiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MCYjNDU7Jmd0OzEwPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI1MS45OCwtMzQxLjU4QzI1OC44NCwtMzMwLjg4IDI2Ni4yNSwtMzE5LjMyIDI3My4xNywtMzA4LjUyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI3Ni4xLC0zMTAuNDQgMjc4LjU1LC0zMDAuMTQgMjcwLjIsLTMwNi42NyAyNzYuMSwtMzEwLjQ0Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI4NC43MSIgeT0iLTMxNy40OCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5GYWxzZTwvdGV4dD4KPC9nPgo8IS0tIDIgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MjwvdGl0bGU+CjxwYXRoIGZpbGw9IiMzOTlkZTUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMTkuNSwtMTc5LjVDMTE5LjUsLTE3OS41IDEyLC0xNzkuNSAxMiwtMTc5LjUgNiwtMTc5LjUgMCwtMTczLjUgMCwtMTY3LjUgMCwtMTY3LjUgMCwtMTIzLjUgMCwtMTIzLjUgMCwtMTE3LjUgNiwtMTExLjUgMTIsLTExMS41IDEyLC0xMTEuNSAxMTkuNSwtMTExLjUgMTE5LjUsLTExMS41IDEyNS41LC0xMTEuNSAxMzEuNSwtMTE3LjUgMTMxLjUsLTEyMy41IDEzMS41LC0xMjMuNSAxMzEuNSwtMTY3LjUgMTMxLjUsLTE2Ny41IDEzMS41LC0xNzMuNSAxMjUuNSwtMTc5LjUgMTE5LjUsLTE3OS41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY1Ljc1IiB5PSItMTYyLjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0xNDcuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gMzEzPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2NS43NSIgeT0iLTEzMi4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzAuMCwgMC4yODhdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2NS43NSIgeT0iLTExNy4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gTk9fQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMSYjNDU7Jmd0OzIgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MSYjNDU7Jmd0OzI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTIxLjAyLC0yMjIuNThDMTEzLjA5LC0yMTEuNjYgMTA0LjUxLC0xOTkuODUgOTYuNTIsLTE4OC44NiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI5OS41OSwtMTg3LjEyIDkwLjg4LC0xODEuMDkgOTMuOTIsLTE5MS4yMyA5OS41OSwtMTg3LjEyIi8+CjwvZz4KPCEtLSA1IC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjU8L3RpdGxlPgo8cGF0aCBmaWxsPSIjZTc4ODQ0IiBzdHJva2U9ImJsYWNrIiBkPSJNMzEyLjI1LC0xODdDMzEyLjI1LC0xODcgMTYxLjI1LC0xODcgMTYxLjI1LC0xODcgMTU1LjI1LC0xODcgMTQ5LjI1LC0xODEgMTQ5LjI1LC0xNzUgMTQ5LjI1LC0xNzUgMTQ5LjI1LC0xMTYgMTQ5LjI1LC0xMTYgMTQ5LjI1LC0xMTAgMTU1LjI1LC0xMDQgMTYxLjI1LC0xMDQgMTYxLjI1LC0xMDQgMzEyLjI1LC0xMDQgMzEyLjI1LC0xMDQgMzE4LjI1LC0xMDQgMzI0LjI1LC0xMTAgMzI0LjI1LC0xMTYgMzI0LjI1LC0xMTYgMzI0LjI1LC0xNzUgMzI0LjI1LC0xNzUgMzI0LjI1LC0xODEgMzE4LjI1LC0xODcgMzEyLjI1LC0xODciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjM2Ljc1IiB5PSItMTY5LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Jmx0O2Z1bmN0aW9uJmd0OyA9PSAmIzM5O3NxcnQmIzM5OyAmbHQ7PSAwLjU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIzNi43NSIgeT0iLTE1NC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjEwNDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjM2Ljc1IiB5PSItMTM5LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDEwMjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjM2Ljc1IiB5PSItMTI0LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMS4wLCAwLjA1OF08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIzNi43NSIgeT0iLTEwOS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMSYjNDU7Jmd0OzUgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+MSYjNDU7Jmd0OzU8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTgwLjgzLC0yMjIuNThDMTg3LjA4LC0yMTQuMDcgMTkzLjc0LC0yMDUuMDEgMjAwLjIsLTE5Ni4yMyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyMDIuODMsLTE5OC41NSAyMDUuOTQsLTE4OC40MiAxOTcuMTksLTE5NC40IDIwMi44MywtMTk4LjU1Ii8+CjwvZz4KPCEtLSA2IC0tPgo8ZyBpZD0ibm9kZTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjY8L3RpdGxlPgo8cGF0aCBmaWxsPSIjMzk5ZGU1IiBzdHJva2U9ImJsYWNrIiBkPSJNMjE5LjUsLTY4QzIxOS41LC02OCAxMTIsLTY4IDExMiwtNjggMTA2LC02OCAxMDAsLTYyIDEwMCwtNTYgMTAwLC01NiAxMDAsLTEyIDEwMCwtMTIgMTAwLC02IDEwNiwwIDExMiwwIDExMiwwIDIxOS41LDAgMjE5LjUsMCAyMjUuNSwwIDIzMS41LC02IDIzMS41LC0xMiAyMzEuNSwtMTIgMjMxLjUsLTU2IDIzMS41LC01NiAyMzEuNSwtNjIgMjI1LjUsLTY4IDIxOS41LC02OCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNjUuNzUiIHk9Ii01MC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE2NS43NSIgeT0iLTM1LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDYzPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNjUuNzUiIHk9Ii0yMC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzAuMCwgMC4wNThdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNjUuNzUiIHk9Ii01LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBOT19CVUc8L3RleHQ+CjwvZz4KPCEtLSA1JiM0NTsmZ3Q7NiAtLT4KPGcgaWQ9ImVkZ2U0IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT41JiM0NTsmZ3Q7NjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMTAuMzEsLTEwMy43M0MyMDQuODEsLTk1LjI0IDE5OSwtODYuMjggMTkzLjQ2LC03Ny43MyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxOTYuNTQsLTc2LjA2IDE4OC4xNiwtNjkuNTcgMTkwLjY3LC03OS44NiAxOTYuNTQsLTc2LjA2Ii8+CjwvZz4KPCEtLSA5IC0tPgo8ZyBpZD0ibm9kZTYiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjk8L3RpdGxlPgo8cGF0aCBmaWxsPSIjZTU4MTM5IiBzdHJva2U9ImJsYWNrIiBkPSJNMzU0LC02OEMzNTQsLTY4IDI2MS41LC02OCAyNjEuNSwtNjggMjU1LjUsLTY4IDI0OS41LC02MiAyNDkuNSwtNTYgMjQ5LjUsLTU2IDI0OS41LC0xMiAyNDkuNSwtMTIgMjQ5LjUsLTYgMjU1LjUsMCAyNjEuNSwwIDI2MS41LDAgMzU0LDAgMzU0LDAgMzYwLDAgMzY2LC02IDM2NiwtMTIgMzY2LC0xMiAzNjYsLTU2IDM2NiwtNTYgMzY2LC02MiAzNjAsLTY4IDM1NCwtNjgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzA3Ljc1IiB5PSItNTAuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMDcuNzUiIHk9Ii0zNS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAzOTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzA3Ljc1IiB5PSItMjAuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFsxLjAsIDAuMF08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNy43NSIgeT0iLTUuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDUmIzQ1OyZndDs5IC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjUmIzQ1OyZndDs5PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI2My4xOSwtMTAzLjczQzI2OC42OSwtOTUuMjQgMjc0LjUsLTg2LjI4IDI4MC4wNCwtNzcuNzMiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjgyLjgzLC03OS44NiAyODUuMzQsLTY5LjU3IDI3Ni45NiwtNzYuMDYgMjgyLjgzLC03OS44NiIvPgo8L2c+CjwvZz4KPC9zdmc+Cg=="/>
+<img alt="No description has been provided for this image" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBUcmVlIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIzODZwdCIgaGVpZ2h0PSI1NTJwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCAzODUuNTAgNTUyLjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDU0OCkiPgo8dGl0bGU+VHJlZTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtNTQ4IDM4MS41LC01NDggMzgxLjUsNCAtNCw0Ii8+CjwhLS0gMCAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4wPC90aXRsZT4KPHBhdGggZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJibGFjayIgZD0iTTI3OC43NSwtNTQ0QzI3OC43NSwtNTQ0IDE3Mi43NSwtNTQ0IDE3Mi43NSwtNTQ0IDE2Ni43NSwtNTQ0IDE2MC43NSwtNTM4IDE2MC43NSwtNTMyIDE2MC43NSwtNTMyIDE2MC43NSwtNDczIDE2MC43NSwtNDczIDE2MC43NSwtNDY3IDE2Ni43NSwtNDYxIDE3Mi43NSwtNDYxIDE3Mi43NSwtNDYxIDI3OC43NSwtNDYxIDI3OC43NSwtNDYxIDI4NC43NSwtNDYxIDI5MC43NSwtNDY3IDI5MC43NSwtNDczIDI5MC43NSwtNDczIDI5MC43NSwtNTMyIDI5MC43NSwtNTMyIDI5MC43NSwtNTM4IDI4NC43NSwtNTQ0IDI3OC43NSwtNTQ0Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIyNS43NSIgeT0iLTUyNi43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPiZsdDtsZWFkJiM0NTtkaWdpdCZndDsgJmx0Oz0gNC41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii01MTEuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii00OTYuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gMTAxMzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjI1Ljc1IiB5PSItNDgxLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMS4wLCAxLjBdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMjUuNzUiIHk9Ii00NjYuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDEgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+MTwvdGl0bGU+CjxwYXRoIGZpbGw9IiNlZGE4NzYiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMTYuMjUsLTQyNUMyMTYuMjUsLTQyNSA2NS4yNSwtNDI1IDY1LjI1LC00MjUgNTkuMjUsLTQyNSA1My4yNSwtNDE5IDUzLjI1LC00MTMgNTMuMjUsLTQxMyA1My4yNSwtMzU0IDUzLjI1LC0zNTQgNTMuMjUsLTM0OCA1OS4yNSwtMzQyIDY1LjI1LC0zNDIgNjUuMjUsLTM0MiAyMTYuMjUsLTM0MiAyMTYuMjUsLTM0MiAyMjIuMjUsLTM0MiAyMjguMjUsLTM0OCAyMjguMjUsLTM1NCAyMjguMjUsLTM1NCAyMjguMjUsLTQxMyAyMjguMjUsLTQxMyAyMjguMjUsLTQxOSAyMjIuMjUsLTQyNSAyMTYuMjUsLTQyNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii00MDcuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj4mbHQ7ZnVuY3Rpb24mZ3Q7ID09ICYjMzk7c3FydCYjMzk7ICZsdDs9IDAuNTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMzkyLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMzY8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTM3Ny43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAzMzg8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTM2Mi43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4zMDhdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0zNDcuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDAmIzQ1OyZndDsxIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjAmIzQ1OyZndDsxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE5Ni4wMiwtNDYwLjU4QzE4OS45LC00NTIuMTYgMTgzLjQsLTQ0My4yIDE3Ny4wOCwtNDM0LjUiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTc5LjkyLC00MzIuNDYgMTcxLjIxLC00MjYuNDIgMTc0LjI1LC00MzYuNTcgMTc5LjkyLC00MzIuNDYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTY2LjQxIiB5PSItNDQ0LjA5IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPlRydWU8L3RleHQ+CjwvZz4KPCEtLSAxNCAtLT4KPGcgaWQ9Im5vZGU5IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT4xNDwvdGl0bGU+CjxwYXRoIGZpbGw9IiMzOTlkZTUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zNjUuNSwtNDE3LjVDMzY1LjUsLTQxNy41IDI1OCwtNDE3LjUgMjU4LC00MTcuNSAyNTIsLTQxNy41IDI0NiwtNDExLjUgMjQ2LC00MDUuNSAyNDYsLTQwNS41IDI0NiwtMzYxLjUgMjQ2LC0zNjEuNSAyNDYsLTM1NS41IDI1MiwtMzQ5LjUgMjU4LC0zNDkuNSAyNTgsLTM0OS41IDM2NS41LC0zNDkuNSAzNjUuNSwtMzQ5LjUgMzcxLjUsLTM0OS41IDM3Ny41LC0zNTUuNSAzNzcuNSwtMzYxLjUgMzc3LjUsLTM2MS41IDM3Ny41LC00MDUuNSAzNzcuNSwtNDA1LjUgMzc3LjUsLTQxMS41IDM3MS41LC00MTcuNSAzNjUuNSwtNDE3LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzExLjc1IiB5PSItNDAwLjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzExLjc1IiB5PSItMzg1LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDY3NTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzExLjc1IiB5PSItMzcwLjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dmFsdWUgPSBbMC4wLCAwLjY5Ml08L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMxMS43NSIgeT0iLTM1NS4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNsYXNzID0gTk9fQlVHPC90ZXh0Pgo8L2c+CjwhLS0gMCYjNDU7Jmd0OzE0IC0tPgo8ZyBpZD0iZWRnZTgiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjAmIzQ1OyZndDsxNDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yNTUuODMsLTQ2MC41OEMyNjMuODUsLTQ0OS42NiAyNzIuNTQsLTQzNy44NSAyODAuNjEsLTQyNi44NiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyODMuMjMsLTQyOS4yMSAyODYuMzMsLTQxOS4wOCAyNzcuNTksLTQyNS4wNyAyODMuMjMsLTQyOS4yMSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTEiIHk9Ii00MzYuNzciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+RmFsc2U8L3RleHQ+CjwvZz4KPCEtLSAyIC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjI8L3RpdGxlPgo8cGF0aCBmaWxsPSIjMzk5ZGU1IiBzdHJva2U9ImJsYWNrIiBkPSJNMTE5LjUsLTI5OC41QzExOS41LC0yOTguNSAxMiwtMjk4LjUgMTIsLTI5OC41IDYsLTI5OC41IDAsLTI5Mi41IDAsLTI4Ni41IDAsLTI4Ni41IDAsLTI0Mi41IDAsLTI0Mi41IDAsLTIzNi41IDYsLTIzMC41IDEyLC0yMzAuNSAxMiwtMjMwLjUgMTE5LjUsLTIzMC41IDExOS41LC0yMzAuNSAxMjUuNSwtMjMwLjUgMTMxLjUsLTIzNi41IDEzMS41LC0yNDIuNSAxMzEuNSwtMjQyLjUgMTMxLjUsLTI4Ni41IDEzMS41LC0yODYuNSAxMzEuNSwtMjkyLjUgMTI1LjUsLTI5OC41IDExOS41LC0yOTguNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2NS43NSIgeT0iLTI4MS4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY1Ljc1IiB5PSItMjY2LjIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDE3NzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yNTEuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj52YWx1ZSA9IFswLjAsIDAuMTgyXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjUuNzUiIHk9Ii0yMzYuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDEmIzQ1OyZndDsyIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEmIzQ1OyZndDsyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTExNC41MiwtMzQxLjU4QzEwNy42NiwtMzMwLjg4IDEwMC4yNSwtMzE5LjMyIDkzLjMzLC0zMDguNTIiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iOTYuMywtMzA2LjY3IDg3Ljk1LC0zMDAuMTQgOTAuNCwtMzEwLjQ0IDk2LjMsLTMwNi42NyIvPgo8L2c+CjwhLS0gNSAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT41PC90aXRsZT4KPHBhdGggZmlsbD0iI2U4OTE1MiIgc3Ryb2tlPSJibGFjayIgZD0iTTI2OS41LC0zMDZDMjY5LjUsLTMwNiAxNjIsLTMwNiAxNjIsLTMwNiAxNTYsLTMwNiAxNTAsLTMwMCAxNTAsLTI5NCAxNTAsLTI5NCAxNTAsLTIzNSAxNTAsLTIzNSAxNTAsLTIyOSAxNTYsLTIyMyAxNjIsLTIyMyAxNjIsLTIyMyAyNjkuNSwtMjIzIDI2OS41LC0yMjMgMjc1LjUsLTIyMyAyODEuNSwtMjI5IDI4MS41LC0yMzUgMjgxLjUsLTIzNSAyODEuNSwtMjk0IDI4MS41LC0yOTQgMjgxLjUsLTMwMCAyNzUuNSwtMzA2IDI2OS41LC0zMDYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjE1Ljc1IiB5PSItMjg4LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Jmx0O3ZhbHVlJmd0OyAmbHQ7PSA0Mi43PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTUuNzUiIHk9Ii0yNzMuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4xOTk8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxNS43NSIgeT0iLTI1OC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAxNjE8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxNS43NSIgeT0iLTI0My43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4xMjZdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTUuNzUiIHk9Ii0yMjguNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDEmIzQ1OyZndDs1IC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjEmIzQ1OyZndDs1PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE2Ni45OCwtMzQxLjU4QzE3Mi4zMiwtMzMzLjI1IDE3OCwtMzI0LjM5IDE4My41MiwtMzE1Ljc4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE4Ni4zOSwtMzE3Ljc4IDE4OC44NCwtMzA3LjQ3IDE4MC41LC0zMTQgMTg2LjM5LC0zMTcuNzgiLz4KPC9nPgo8IS0tIDYgLS0+CjxnIGlkPSJub2RlNSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+NjwvdGl0bGU+CjxwYXRoIGZpbGw9IiNlNjg3NDIiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xOTQuNSwtMTg3QzE5NC41LC0xODcgODcsLTE4NyA4NywtMTg3IDgxLC0xODcgNzUsLTE4MSA3NSwtMTc1IDc1LC0xNzUgNzUsLTExNiA3NSwtMTE2IDc1LC0xMTAgODEsLTEwNCA4NywtMTA0IDg3LC0xMDQgMTk0LjUsLTEwNCAxOTQuNSwtMTA0IDIwMC41LC0xMDQgMjA2LjUsLTExMCAyMDYuNSwtMTE2IDIwNi41LC0xMTYgMjA2LjUsLTE3NSAyMDYuNSwtMTc1IDIwNi41LC0xODEgMjAwLjUsLTE4NyAxOTQuNSwtMTg3Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTE2OS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPiZsdDt0ZXJtJmd0OyAmbHQ7PSAmIzQ1OzExLjc4NzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTQwLjc1IiB5PSItMTU0LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMDgzPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0xMzkuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gODI8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MC43NSIgeT0iLTEyNC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4wNDVdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDAuNzUiIHk9Ii0xMDkuNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IEJVRzwvdGV4dD4KPC9nPgo8IS0tIDUmIzQ1OyZndDs2IC0tPgo8ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPjUmIzQ1OyZndDs2PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE4OS41MiwtMjIyLjU4QzE4NC4xOCwtMjE0LjI1IDE3OC41LC0yMDUuMzkgMTcyLjk4LC0xOTYuNzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTc2LC0xOTUgMTY3LjY2LC0xODguNDcgMTcwLjExLC0xOTguNzggMTc2LC0xOTUiLz4KPC9nPgo8IS0tIDExIC0tPgo8ZyBpZD0ibm9kZTgiIGNsYXNzPSJub2RlIj4KPHRpdGxlPjExPC90aXRsZT4KPHBhdGggZmlsbD0iIzM5OWRlNSIgc3Ryb2tlPSJibGFjayIgZD0iTTM0NC41LC0xNzkuNUMzNDQuNSwtMTc5LjUgMjM3LC0xNzkuNSAyMzcsLTE3OS41IDIzMSwtMTc5LjUgMjI1LC0xNzMuNSAyMjUsLTE2Ny41IDIyNSwtMTY3LjUgMjI1LC0xMjMuNSAyMjUsLTEyMy41IDIyNSwtMTE3LjUgMjMxLC0xMTEuNSAyMzcsLTExMS41IDIzNywtMTExLjUgMzQ0LjUsLTExMS41IDM0NC41LC0xMTEuNSAzNTAuNSwtMTExLjUgMzU2LjUsLTExNy41IDM1Ni41LC0xMjMuNSAzNTYuNSwtMTIzLjUgMzU2LjUsLTE2Ny41IDM1Ni41LC0xNjcuNSAzNTYuNSwtMTczLjUgMzUwLjUsLTE3OS41IDM0NC41LC0xNzkuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTAuNzUiIHk9Ii0xNjIuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5naW5pID0gMC4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTAuNzUiIHk9Ii0xNDcuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5zYW1wbGVzID0gNzk8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI5MC43NSIgeT0iLTEzMi4yIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzAuMCwgMC4wODFdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyOTAuNzUiIHk9Ii0xMTcuMiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jbGFzcyA9IE5PX0JVRzwvdGV4dD4KPC9nPgo8IS0tIDUmIzQ1OyZndDsxMSAtLT4KPGcgaWQ9ImVkZ2U3IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT41JiM0NTsmZ3Q7MTE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjQxLjk4LC0yMjIuNThDMjQ4Ljg0LC0yMTEuODggMjU2LjI1LC0yMDAuMzIgMjYzLjE3LC0xODkuNTIiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjY2LjEsLTE5MS40NCAyNjguNTUsLTE4MS4xNCAyNjAuMiwtMTg3LjY3IDI2Ni4xLC0xOTEuNDQiLz4KPC9nPgo8IS0tIDcgLS0+CjxnIGlkPSJub2RlNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+NzwvdGl0bGU+CjxwYXRoIGZpbGw9IiNlNTgxMzkiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMTYsLTY4QzExNiwtNjggMjMuNSwtNjggMjMuNSwtNjggMTcuNSwtNjggMTEuNSwtNjIgMTEuNSwtNTYgMTEuNSwtNTYgMTEuNSwtMTIgMTEuNSwtMTIgMTEuNSwtNiAxNy41LDAgMjMuNSwwIDIzLjUsMCAxMTYsMCAxMTYsMCAxMjIsMCAxMjgsLTYgMTI4LC0xMiAxMjgsLTEyIDEyOCwtNTYgMTI4LC01NiAxMjgsLTYyIDEyMiwtNjggMTE2LC02OCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2OS43NSIgeT0iLTUwLjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Z2luaSA9IDAuMDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjkuNzUiIHk9Ii0zNS43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnNhbXBsZXMgPSAzODwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjkuNzUiIHk9Ii0yMC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzEuMCwgMC4wXTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjkuNzUiIHk9Ii01LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBCVUc8L3RleHQ+CjwvZz4KPCEtLSA2JiM0NTsmZ3Q7NyAtLT4KPGcgaWQ9ImVkZ2U1IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT42JiM0NTsmZ3Q7NzwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMTQuMzEsLTEwMy43M0MxMDguODEsLTk1LjI0IDEwMywtODYuMjggOTcuNDYsLTc3LjczIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEwMC41NCwtNzYuMDYgOTIuMTYsLTY5LjU3IDk0LjY3LC03OS44NiAxMDAuNTQsLTc2LjA2Ii8+CjwvZz4KPCEtLSA4IC0tPgo8ZyBpZD0ibm9kZTciIGNsYXNzPSJub2RlIj4KPHRpdGxlPjg8L3RpdGxlPgo8cGF0aCBmaWxsPSIjMzk5ZGU1IiBzdHJva2U9ImJsYWNrIiBkPSJNMjY1LjUsLTY4QzI2NS41LC02OCAxNTgsLTY4IDE1OCwtNjggMTUyLC02OCAxNDYsLTYyIDE0NiwtNTYgMTQ2LC01NiAxNDYsLTEyIDE0NiwtMTIgMTQ2LC02IDE1MiwwIDE1OCwwIDE1OCwwIDI2NS41LDAgMjY1LjUsMCAyNzEuNSwwIDI3Ny41LC02IDI3Ny41LC0xMiAyNzcuNSwtMTIgMjc3LjUsLTU2IDI3Ny41LC01NiAyNzcuNSwtNjIgMjcxLjUsLTY4IDI2NS41LC02OCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTEuNzUiIHk9Ii01MC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmdpbmkgPSAwLjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIxMS43NSIgeT0iLTM1LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+c2FtcGxlcyA9IDQ0PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTEuNzUiIHk9Ii0yMC43IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnZhbHVlID0gWzAuMCwgMC4wNDVdPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMTEuNzUiIHk9Ii01LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y2xhc3MgPSBOT19CVUc8L3RleHQ+CjwvZz4KPCEtLSA2JiM0NTsmZ3Q7OCAtLT4KPGcgaWQ9ImVkZ2U2IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT42JiM0NTsmZ3Q7ODwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xNjcuMTksLTEwMy43M0MxNzIuNjksLTk1LjI0IDE3OC41LC04Ni4yOCAxODQuMDQsLTc3LjczIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE4Ni44MywtNzkuODYgMTg5LjM0LC02OS41NyAxODAuOTYsLTc2LjA2IDE4Ni44MywtNzkuODYiLz4KPC9nPgo8L2c+Cjwvc3ZnPgo="/>
 </div>
 </div>
 </div>
@@ -12899,7 +12885,7 @@ The <em>saturation</em> of nodes also indicates purity – the higher the satura
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12920,14 +12906,17 @@ The <em>saturation</em> of nodes also indicates purity – the higher the satura
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>if &lt;term&gt; &lt;= -12.3500:
-  if &lt;term&gt; &lt;= -41.2595:
-    NO_BUG
-  else:
-    if &lt;function&gt; == 'sqrt':
-      BUG
+<pre>if &lt;lead-digit&gt; &lt;= 4.5000:
+  if &lt;function&gt; == 'sqrt':
+    if &lt;value&gt; &lt;= 42.7000:
+      if &lt;term&gt; &lt;= -11.7870:
+        BUG
+      else:
+        NO_BUG
     else:
       NO_BUG
+  else:
+    NO_BUG
 else:
   NO_BUG
 
@@ -12936,7 +12925,7 @@ else:
 </div>
 </div>
 </div>
-</div></div></section><section>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
