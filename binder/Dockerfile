@@ -62,6 +62,7 @@ WORKDIR ${HOME}
 COPY . ${HOME}
 WORKDIR ${HOME}
 
+# Get the repo
 RUN git clone --depth 1 ${REPO}
 RUN chown -R ${NB_UID} ${HOME}
 WORKDIR ${PROJECT}
@@ -75,6 +76,9 @@ USER ${NB_USER}
 # Add local bin path
 ENV PATH="/home/${NB_USER}/.local/bin:$PATH"
 
+# Diagnostics
+RUN python3 -c 'import sys, platform; print(sys.version, sys.platform, platform.machine(), file=sys.stderr)'
+
 # Set up the conda environment
 # (Skipping for now, as installing conda is hard,
 #  and apparently we can do without)
@@ -82,8 +86,8 @@ ENV PATH="/home/${NB_USER}/.local/bin:$PATH"
 # RUN conda activate myenv
 
 # Install the required Python packages
-RUN pip install -r requirements.txt; exit 0
-RUN pip install -r binder/requirements.txt; exit 0
+RUN python3 -m pip install .
+RUN python3 -m pip install ".[binder]"
 
 # Run the postBuild script (to set up Jupyter, sign notebooks and more)
 RUN bash binder/postBuild
