@@ -1303,7 +1303,7 @@ binder/binder.log: .FORCE
 
 
 ## Running Jupyter in docker
-.PHONY: docker docker-image docker-push docker-release docker-shell docker-run
+.PHONY: docker docker-image docker-push docker-release docker-shell docker-root docker-run
 DOCKER_USERNAME = zeller24
 GIT_HASH = $(shell git log --format="%h" -n 1)
 DOCKER_TAG = $(DOCKER_USERNAME)/$(PROJECT)
@@ -1319,6 +1319,8 @@ docker-image: $(DOCKERFILE) $(SOURCES) binder/postBuild
 # Once the image is built, access it via a shell
 docker-shell:
 	docker run -it --rm $(DOCKER_TAG) bash
+docker-root:
+	docker run -it --rm --user root $(DOCKER_TAG) bash
 
 # Main usage: run jupyter lab in the image
 docker-run docker:
