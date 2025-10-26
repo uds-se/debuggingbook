@@ -1,0 +1,2041 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Second Project &#8212; The Debugging Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d5c2cecb" />
+    <link rel="stylesheet" type="text/css" href="_static/mastodon-timeline.css?v=f82c2b23" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Reducing_Code';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p>This is a beta version of debuggingbook.org, currently in development. See the <a href="https://debuggingbook.org/classic/"  style="color:white!important;">classic site</a> for the 2024 version.</p></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/debuggingbook.png" class="logo__image only-light" alt="The Debugging Book - Home"/>
+    <script>document.write(`<img src="_static/debuggingbook.png" class="logo__image only-dark" alt="The Debugging Book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    The Debugging Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tours.html">Sitemap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Intro_Debugging.html">Introduction to Debugging</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Observing Executions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tracer.html">Tracing Executions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Debugger.html">How Debuggers Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Assertions.html">Asserting Expectations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Flows and Dependencies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Slicer.html">Tracking Failure Origins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reducing Failure Causes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="DeltaDebugger.html">Reducing Failure-Inducing Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstracting Failures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="StatisticalDebugger.html">Statistical Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DynamicInvariants.html">Mining Function Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Alhazen.html">Learning from Failures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerformanceDebugger.html">Debugging Performance Issues</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Automatic Repair</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Repairer.html">Repairing Code Automatically</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Debugging in the Large</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tracking.html">Tracking Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChangeCounter.html">Where the Bugs are</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ExpectError.html">Error Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Timer.html">Timer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Timeout.html">Timeout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ClassDiagram.html">Class Diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StackInspector.html">Inspecting Call Stacks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About This Book</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ReleaseNotes.html">Release Notes for The Debugging Book</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Importing.html">Downloads and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Guide_for_Authors.html">Guide for Authors</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?urlpath=tree/docs/notebooks/Reducing_Code.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/uds-se/debuggingbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/uds-se/debuggingbook/issues/new?title=Issue%20on%20page%20%2FReducing_Code.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="../code/Reducing_Code.py" target="_blank"
+       class="btn btn-sm btn-download-source-button dropdown-item"
+       title="Download Python code"
+       data-bs-placement="left" data-bs-toggle="tooltip"
+    >
+  
+
+    <span class="btn__icon-container">
+      <i class="fas fa-file"></i>
+      </span>
+    <span class="btn__text-container">.py</span>
+    </a>
+    </li>
+    
+      
+      
+      
+      <li><a href="_sources/Reducing_Code.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download notebook"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  
+    <li><a href="Importing.html" target="_blank"
+       class="btn btn-sm btn-download-source-button dropdown-item"
+       title="All downloads"
+       data-bs-placement="left" data-bs-toggle="tooltip"
+    >
+  
+
+    <span class="btn__icon-container">
+      <i class="fas fa-file"></i>
+      </span>
+    <span class="btn__text-container">All downloads</span>
+    </a>
+    </li>
+    </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Second Project</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#description">Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parsing-python">Parsing Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reducing-python">Reducing Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-reducing-debugger">Implementing a Reducing Debugger</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parsers">Parsers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-programs">Input Programs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-infrastructure">Testing Infrastructure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grading">Grading</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#must-have-features">Must-have Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#may-have-features">May-have Features</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="second-project">
+<h1>Second Project<a class="headerlink" href="#second-project" title="Link to this heading">#</a></h1>
+<p>In this project, you will implement a debugging reducer able to reduce a Python program containing a specific property down to a syntactically correct Python program that <em>only</em> contains said property.
+To do this, you will be given several Python parsers checking for specific properties as well as Python programs containing these properties.</p>
+<p>The time frame for this project is <strong>2 weeks</strong>, and the Deadline is <strong>January 15th 23:59</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bookutils.setup</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bookutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">show_ast</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ExpectError</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpectError</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">#</a></h2>
+<p>Imagine we want to create a new compiler for Python programs which transforms the code into a binary executable.
+To this end, at first we need to implement a parser that parses a given program into a set of individual statements which can then be converted to the bytecode.</p>
+<section id="parsing-python">
+<h3>Parsing Python<a class="headerlink" href="#parsing-python" title="Link to this heading">#</a></h3>
+<p>If we want to parse a programming language like Python, it makes sense to parse the code into an abstract syntax tree (AST) and work with the AST from this point onward.
+The reason we might want to do this, is to preserve the syntactic integrity of our program.
+Let’s start with parsing a simple Python function (<code class="docutils literal notranslate"><span class="pre">foo</span></code>) into an AST using <code class="docutils literal notranslate"><span class="pre">ast.parse()</span></code> and printing it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>    <span class="c1"># type: ignore</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks whether a and b are true</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="ow">and</span> <span class="n">b</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We take a string representation of <code class="docutils literal notranslate"><span class="pre">foo()</span></code>…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>def foo(a, b):    # type: ignore
+    &quot;&quot;&quot;
+    Checks whether a and b are true
+    &quot;&quot;&quot;
+    if a and b:
+        return 1
+    return 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>…and convert it to the AST:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">source_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">show_ast</span><span class="p">(</span><span class="n">source_ast</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/becd0d9f4acdc7ebe2ee69446821e193cbe160b38c1ee844ae891eebd84e545f.svg" src="_images/becd0d9f4acdc7ebe2ee69446821e193cbe160b38c1ee844ae891eebd84e545f.svg" />
+</div>
+</div>
+<p>We can see how the code is structured by inspecting the AST shown above.</p>
+<p>To learn the structure of an AST, have a look at the <a class="reference external" href="http://docs.python.org/3/library/ast">official Python <code class="docutils literal notranslate"><span class="pre">ast</span></code> reference</a> for a list of AST nodes and their attributes.
+This reference is complete, but a bit terse; the <a class="reference external" href="https://greentreesnakes.readthedocs.io/en/latest/manipulating.html">“Green Tree Snakes missing Python AST docs”</a> provide a good manual on how to modify the tree.</p>
+<p>If we want to inspect certain elements of the source code, we can now use the <code class="docutils literal notranslate"><span class="pre">ast.NodeVisitor</span></code> to visit every node in the AST.
+This can be done by extending this class and implementing <em>visit-methods</em> for each type of node in the tree we want to inspect.<br />
+So, let’s implement a parser that first parses the source code into an AST and then visits each node one after another.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SimpleParser</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple parser printing all nodes in order</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        When the parse function is called, we parse the source code</span>
+<span class="sd">        into a tree and then start visiting all nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_FunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_If</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">If</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Return</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">arg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Constant</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_BoolOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">BoolOp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using this <code class="docutils literal notranslate"><span class="pre">SimpleParser</span></code>, we can visit each node and print the node object itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SimpleParser</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ast.FunctionDef object at 0x10b4c8b50&gt;
+&lt;ast.arguments object at 0x10b4c8b10&gt;
+&lt;ast.arg object at 0x10b4c90d0&gt;
+&lt;ast.arg object at 0x10b4c9150&gt;
+&lt;ast.Constant object at 0x10b4c9190&gt;
+&lt;ast.If object at 0x10b4c8710&gt;
+&lt;ast.BoolOp object at 0x10b4c86d0&gt;
+&lt;ast.Name object at 0x10b4c83d0&gt;
+&lt;ast.Name object at 0x10b4c8390&gt;
+&lt;ast.Return object at 0x10b4c8410&gt;
+&lt;ast.Constant object at 0x10b4c8290&gt;
+&lt;ast.Return object at 0x10b4c8510&gt;
+&lt;ast.Constant object at 0x10b4c84d0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now imagine, instead of just parsing the input and printing each node, we start to process the information present in each node.
+To notify the user if anything breaks, we introduce a <code class="docutils literal notranslate"><span class="pre">ParserException</span></code> that is thrown when we encounter a parsing error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ParserException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For instance, let’s consider our parser has troubles processing boolean operators.
+We simulate this behavior by extending our parser to throw an exception whenever it encounters a <code class="docutils literal notranslate"><span class="pre">BoolOp</span></code> node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SimpleParserPlus</span><span class="p">(</span><span class="n">SimpleParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple parser printing all nodes in order until it reaches a BoolOp</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_BoolOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">BoolOp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If a BoolOp is encountered, we throw an exception</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">SimpleParserPlus</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ast.FunctionDef object at 0x10b4cad10&gt;
+&lt;ast.arguments object at 0x10b4cb450&gt;
+&lt;ast.arg object at 0x10b4c9c10&gt;
+&lt;ast.arg object at 0x10b4c8dd0&gt;
+&lt;ast.Constant object at 0x10b4c8390&gt;
+&lt;ast.If object at 0x10b4c9150&gt;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/257518062.py&quot;, line 2, in &lt;module&gt;
+    SimpleParserPlus().parse(source)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2922974276.py&quot;, line 12, in parse
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2922974276.py&quot;, line 16, in visit_FunctionDef
+    self.generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2922974276.py&quot;, line 24, in visit_If
+    self.generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1656391407.py&quot;, line 10, in visit_BoolOp
+    raise ParserException(&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see here, as soon as we encounter a boolean operation, an exception is thrown.</p>
+</section>
+<section id="reducing-python">
+<h3>Reducing Python<a class="headerlink" href="#reducing-python" title="Link to this heading">#</a></h3>
+<p>Let’s get back to our <code class="docutils literal notranslate"><span class="pre">SimpleParserPlus</span></code> example. This parser parses Python code into an AST and then iterates over all nodes. When it reaches a boolean operation, it encounters an error and crashes.<br />
+Of course our example is a very small and artificial one. Furthermore, the input triggering our bug is rather small as well.
+However, in reality a similar situation might present itself to you but with a far less obvious error and a far larger input that causes it.
+In this case, instead of using the entire input, one might want to reduce the input down to only those parts actually causing the error.<br />
+But how do we do that?<br />
+We could, for instance, randomly remove some parts of the program.
+However, this would likely produce syntactically invalid Python code and hence prevent the parser from reaching the desired code location.
+So instead of just removing random parts of the code itself, we will manipulate the AST to preserve the correct syntax.</p>
+<p>How do we manipulate an AST produced by <code class="docutils literal notranslate"><span class="pre">ast.parse</span></code>? We can make use of the <code class="docutils literal notranslate"><span class="pre">ast.NodeTransformer</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">NodeReducer</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeTransformer</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_If</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">If</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Instead of the `if` node return just its condition</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Apply other transformations to the children first</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="c1"># We create an expression around the node test</span>
+        <span class="n">new_node</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">Expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_node</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ast.NodeTransformer</span></code> again uses the visitor pattern to walk over all nodes.
+This time, however, we change the resulting AST. In our case, if we encounter an <em>if-statement</em> we only return the condition.</p>
+<p>(Keep in mind, <code class="docutils literal notranslate"><span class="pre">NodeReducer</span></code> changes the ast in place, so if you want to preserve the original tree, you need to copy it with <code class="docutils literal notranslate"><span class="pre">copy.deepcopy(tree)</span></code>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">NodeReducer</span><span class="p">()</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">source_ast</span><span class="p">)</span>
+<span class="n">show_ast</span><span class="p">(</span><span class="n">source_ast</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c9c1cec5c9ab85643115ebf54fd1bd3c4d20451e3be92f2d3d4c36ad14e21c24.svg" src="_images/c9c1cec5c9ab85643115ebf54fd1bd3c4d20451e3be92f2d3d4c36ad14e21c24.svg" />
+</div>
+</div>
+<p>As you can see, after running the <code class="docutils literal notranslate"><span class="pre">NodeReducer</span></code> there is no longer an <em>if-statement</em>, but only its condition.
+A more sophisticated NodeReducer is presented in the <a class="reference external" href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs chapter</a> in the debugging book.</p>
+<p>To learn the structure of an AST, have a look at the <a class="reference external" href="http://docs.python.org/3/library/ast">official Python <code class="docutils literal notranslate"><span class="pre">ast</span></code> reference</a> for a list of AST nodes and their attributes. This reference is complete, but a bit terse; the <a class="reference external" href="https://greentreesnakes.readthedocs.io/en/latest/manipulating.html">“Green Tree Snakes missing Python AST docs”</a> provide a good manual on how to modify the tree.</p>
+<p><strong>Pro tip</strong>: You can learn the expected structure of any Python fragment by invoking <code class="docutils literal notranslate"><span class="pre">ast.dump()</span></code> on any (parsed) AST.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">demo_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if a == b:</span>
+<span class="s1">    c = d</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">demo_ast</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Module(
+    body=[
+        If(
+            test=Compare(
+                left=Name(id=&#39;a&#39;, ctx=Load()),
+                ops=[
+                    Eq()],
+                comparators=[
+                    Name(id=&#39;b&#39;, ctx=Load())]),
+            body=[
+                Assign(
+                    targets=[
+                        Name(id=&#39;c&#39;, ctx=Store())],
+                    value=Name(id=&#39;d&#39;, ctx=Load()))])])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The nice thing is that this not only reveals the AST structure, it also tells you how to construct it. If you take the very structure as produced by <code class="docutils literal notranslate"><span class="pre">ast.dump()</span></code> and evaluate it, you obtain the same syntax tree.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">If</span><span class="p">,</span> <span class="n">Compare</span><span class="p">,</span> <span class="n">Load</span><span class="p">,</span> <span class="n">Eq</span><span class="p">,</span> <span class="n">Assign</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Store</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ast_from_scratch</span> <span class="o">=</span> <span class="n">Module</span><span class="p">(</span>
+    <span class="n">body</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">If</span><span class="p">(</span>
+            <span class="n">test</span><span class="o">=</span><span class="n">Compare</span><span class="p">(</span>
+                <span class="n">left</span><span class="o">=</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Load</span><span class="p">()),</span>
+                <span class="n">ops</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">Eq</span><span class="p">()],</span>
+                <span class="n">comparators</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Load</span><span class="p">())]),</span>
+            <span class="n">body</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Assign</span><span class="p">(</span>
+                    <span class="n">targets</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Store</span><span class="p">())],</span>
+                    <span class="n">value</span><span class="o">=</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">Load</span><span class="p">()))],</span>
+            <span class="n">orelse</span><span class="o">=</span><span class="p">[])],</span>
+    <span class="n">type_ignores</span><span class="o">=</span><span class="p">[])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You need to invoke <code class="docutils literal notranslate"><span class="pre">ast.fix_missing_locations()</span></code> to add line numbers and other location info that would be normally added during parsing…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ast_from_scratch</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">fix_missing_locations</span><span class="p">(</span><span class="n">ast_from_scratch</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>… and with this, you’re all set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="n">ast_from_scratch</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>if a == b:
+    c = d
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hence, if you do not know what kind of AST fragment to produce, just</p>
+<ol class="arabic simple">
+<li><p>parse its text with <code class="docutils literal notranslate"><span class="pre">ast.parse()</span></code></p></li>
+<li><p>study the expression produced by <code class="docutils literal notranslate"><span class="pre">ast.dump()</span></code>, and</p></li>
+<li><p>build it from the same expression, using <code class="docutils literal notranslate"><span class="pre">ast.fix_missing_locations()</span></code> and <code class="docutils literal notranslate"><span class="pre">ast.unparse()</span></code></p></li>
+</ol>
+</section>
+<section id="implementing-a-reducing-debugger">
+<h3>Implementing a Reducing Debugger<a class="headerlink" href="#implementing-a-reducing-debugger" title="Link to this heading">#</a></h3>
+<p>Having seen how one can access and transform AST structures using a <code class="docutils literal notranslate"><span class="pre">NodeReducer</span></code> in Python, we can now use that knowledge to implement a <code class="docutils literal notranslate"><span class="pre">ReducingDebugger</span></code>
+capable of reducing the failure inducing Python code down to only that parts of the code that actually triggers the failure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ReducingDebugger</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">SimpleParser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        We initialize the DebuggingReducer with a parser,</span>
+<span class="sd">        as this is needed to verify whether the failure </span>
+<span class="sd">        is still triggered after the code transformation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">parser</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_reducer</span> <span class="o">=</span> <span class="n">NodeReducer</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function takes some Python code as string, reduces</span>
+<span class="sd">        it using the NodeReducer defined earlier and returns the </span>
+<span class="sd">        reduced program.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Parse the code to a tree</span>
+        <span class="n">code_ast</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+
+        <span class="c1"># Use the visit-method of the NodeReducer to reduce if nodes down to their condition</span>
+        <span class="n">new_code_ast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_reducer</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">code_ast</span><span class="p">)</span>
+
+        <span class="c1"># After we&#39;ve updated nodes, we need to fix the tree</span>
+        <span class="n">ast</span><span class="o">.</span><span class="n">fix_missing_locations</span><span class="p">(</span><span class="n">new_code_ast</span><span class="p">)</span>
+
+        <span class="c1"># Generate code from the reduced tree</span>
+        <span class="n">new_code</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="n">new_code_ast</span><span class="p">)</span>
+
+        <span class="c1"># Test, whether the error is still triggered by the reduced code</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">new_code</span><span class="p">)</span>
+            <span class="c1"># No exception is thrown. This means the new_code does not </span>
+            <span class="c1"># trigger an error anymore. Therefore, we failed in</span>
+            <span class="c1"># reduction and return the initial code.</span>
+            <span class="k">return</span> <span class="n">code</span>
+        <span class="k">except</span> <span class="n">ParserException</span><span class="p">:</span>
+            <span class="c1"># The error is still triggered. Return the reduced code</span>
+            <span class="k">return</span> <span class="n">new_code</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ReducingDebugger</span></code> implemented above takes some Python code as an input and replaces all if-statements with their conditions.
+Then, it checks whether the newly generated code still triggers the error. If not, it returns the initial code. If the exception is still triggered, it returns the reduced code.
+Let’s apply it to the source code of our <code class="docutils literal notranslate"><span class="pre">foo</span></code> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reducing_debugger</span> <span class="o">=</span> <span class="n">ReducingDebugger</span><span class="p">(</span><span class="n">SimpleParserPlus</span><span class="p">())</span>
+<span class="n">new_source</span> <span class="o">=</span> <span class="n">reducing_debugger</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ast.FunctionDef object at 0x10b5452d0&gt;
+&lt;ast.arguments object at 0x10b545250&gt;
+&lt;ast.arg object at 0x10b545410&gt;
+&lt;ast.arg object at 0x10b545450&gt;
+&lt;ast.Constant object at 0x10b544910&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">new_source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>def foo(a, b):
+    &quot;&quot;&quot;
+    Checks whether a and b are true
+    &quot;&quot;&quot;
+    a and b
+    return 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">SimpleParserPlus</span><span class="p">()</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">new_source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;ast.FunctionDef object at 0x10b547990&gt;
+&lt;ast.arguments object at 0x10b547950&gt;
+&lt;ast.arg object at 0x10b547910&gt;
+&lt;ast.arg object at 0x10b5478d0&gt;
+&lt;ast.Constant object at 0x10b547850&gt;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/3561000985.py&quot;, line 2, in &lt;module&gt;
+    SimpleParserPlus().parse(new_source)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2922974276.py&quot;, line 12, in parse
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2922974276.py&quot;, line 16, in visit_FunctionDef
+    self.generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1656391407.py&quot;, line 10, in visit_BoolOp
+    raise ParserException(&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see, our <code class="docutils literal notranslate"><span class="pre">ReducingDebugger</span></code> reduces the original function to a smaller input, while still preserving the property of the code that triggers the same error as before.
+However, this reducer is very simple: it applies only one transformation to all <code class="docutils literal notranslate"><span class="pre">if</span></code> nodes at once.
+Instead, one can consider various transformations of the same node as well as transformations of various node types and apply them one by one (or in batches) to gradually reduce the code.</p>
+<p>Keep in mind, that the changes should be made in a way that the code is still accepted by a regular Python interpreter.
+Besides, the goal is to obtain a minimal program that still triggers the error.
+So, your debugging reducer should not simply reduce all possible nodes, but also regularly check whether the reduced code still triggers the failure.</p>
+<p>Therefore, you are required to implement certain modifications that can be done to the AST. In general, these transformations can be one of the following:</p>
+<ol class="arabic simple">
+<li><p>Delete a node,</p></li>
+<li><p>Substitute a node with the new node (e.g., <em>pass</em> node),</p></li>
+<li><p>Substitute a node with all of its children,</p></li>
+<li><p>Substitute a node with one of its children.</p></li>
+</ol>
+<p>More detailed, one can consider, for instance:</p>
+<ol class="arabic simple">
+<li><p>Replacing a <code class="docutils literal notranslate"><span class="pre">BoolOp</span></code> node by <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p>Replacing a <code class="docutils literal notranslate"><span class="pre">BoolOp</span></code> node by <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p>Replacing a <code class="docutils literal notranslate"><span class="pre">BoolOp</span></code> node by its left operand.</p></li>
+<li><p>Replacing a <code class="docutils literal notranslate"><span class="pre">BoolOp</span></code> node by its right operand.</p></li>
+<li><p>Replacing an <code class="docutils literal notranslate"><span class="pre">If</span></code> node by its “then” body.</p></li>
+<li><p>Replacing an <code class="docutils literal notranslate"><span class="pre">If</span></code> node by its condition.</p></li>
+<li><p>Replacing an <code class="docutils literal notranslate"><span class="pre">If</span></code> node by its “else” body.</p></li>
+<li><p>Replacing all instances of a variable by a constant.</p></li>
+<li><p>Replacing expressions by a constant.</p></li>
+<li><p>etc.</p></li>
+</ol>
+<p>Please, refer to the <a class="reference external" href="http://docs.python.org/3/library/ast">official Python <code class="docutils literal notranslate"><span class="pre">ast</span></code> reference</a> for a full list of node types.</p>
+</section>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
+<p>To succeed in this project, you need to complete the <code class="docutils literal notranslate"><span class="pre">MyReducer</span></code> class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyReducer</span><span class="p">(</span><span class="n">ReducingDebugger</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">minimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="c1"># TODO: implement this!</span>
+        <span class="k">return</span> <span class="n">code</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To this end, you will need to extend the <code class="docutils literal notranslate"><span class="pre">NodeReducer</span></code> with additional transformations and implement a reducer strategy
+which collects all possible transformations and applies them to the AST until it is exhaustively minimized.
+Feel free to make your own implementation or extend the <code class="docutils literal notranslate"><span class="pre">DeltaDebugger</span></code> from the <a class="reference external" href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs chapter</a> with
+the proper strategy.</p>
+</section>
+<section id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading">#</a></h2>
+<p>We evaluate your project based on public as well as secret tests. In this section, we present <strong>five</strong> different Python parsers as well as <strong>five</strong> Python input programs, which should be minified.
+These parsers check for a specific property in the code and fail the execution if the property exists. The input programs and parsers in this section make up the public test cases.
+If you pass all of those tests <strong>without hardcoding the modifications</strong> you are guaranteed to score 15 points in this project. You can get more points for passing secret tests.</p>
+<section id="parsers">
+<h3>Parsers<a class="headerlink" href="#parsers" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Parser</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The base class for a parser&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;The input was successfully parsed.&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parser</span></code> is the base class for a parser from which all other parsers are derived. It works the same way as the <code class="docutils literal notranslate"><span class="pre">SimpleParser</span></code> introduced earlier.</p>
+<p>Let’s define a couple of parsers which model a failure during processing of a certain code feature.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Parser1</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains a boolean operation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_BoolOp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">BoolOp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we feed this parser with an input program which contains a boolean operation, it fails:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parser1</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = True and False&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser1</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2806337694.py&quot;, line 5, in &lt;module&gt;
+    parser1.parse(input_program)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 9, in parse
+    self.parse_tree(tree)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 5, in parse_tree
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2980862917.py&quot;, line 7, in visit_BoolOp
+    raise ParserException(f&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In contrast to the above, an input program <em>without</em> a boolean operation is parsed correctly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parser1</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = 1</span>
+<span class="s1">b = True</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">parser1</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The input was successfully parsed.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The other parsers are</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Parser2</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains `if` statement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_If</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">If</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parser2</span> <span class="o">=</span> <span class="n">Parser2</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if a:</span>
+<span class="s1">    b = 1</span>
+<span class="s1">else:</span>
+<span class="s1">    b = 2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">parser2</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1476831468.py&quot;, line 9, in &lt;module&gt;
+    parser2.parse(input_program)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 9, in parse
+    self.parse_tree(tree)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 5, in parse_tree
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1684278366.py&quot;, line 6, in visit_If
+    raise ParserException(f&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Parser3</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains a special unicode character</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_unicode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">string</span> <span class="o">==</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generic_visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Assign</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Constant</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_unicode</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parser3</span> <span class="o">=</span> <span class="n">Parser3</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = u&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="n">ParserException</span><span class="p">):</span>
+    <span class="n">parser3</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/951683174.py&quot;, line 6, in &lt;module&gt;
+    parser3.parse(input_program)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 9, in parse
+    self.parse_tree(tree)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 5, in parse_tree
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2904791116.py&quot;, line 15, in generic_visit
+    super().generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2904791116.py&quot;, line 20, in visit_Assign
+    self.generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2904791116.py&quot;, line 15, in generic_visit
+    super().generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2904791116.py&quot;, line 26, in visit_Constant
+    raise ParserException(f&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Parser4</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains a variable which is not defined</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generic_visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Assign</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assignment</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parser4</span> <span class="o">=</span> <span class="n">Parser4</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = 1</span>
+<span class="s1">b = c</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="n">ParserException</span><span class="p">):</span>
+    <span class="n">parser4</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1261297070.py&quot;, line 7, in &lt;module&gt;
+    parser4.parse(input_program)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 9, in parse
+    self.parse_tree(tree)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 5, in parse_tree
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/3413124393.py&quot;, line 13, in generic_visit
+    super().generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/3413124393.py&quot;, line 28, in visit_Assign
+    self.generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/3413124393.py&quot;, line 13, in generic_visit
+    super().generic_visit(node)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/3413124393.py&quot;, line 23, in visit_Name
+    raise ParserException(f&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Parser5</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fails if an input program contains a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_List</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parser5</span> <span class="o">=</span> <span class="n">Parser5</span><span class="p">()</span>
+<span class="n">input_program</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a = {x * 2 for x in map(int, [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;])}</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="k">with</span> <span class="n">ExpectError</span><span class="p">(</span><span class="n">ParserException</span><span class="p">):</span>
+    <span class="n">parser5</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">input_program</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/3158638464.py&quot;, line 6, in &lt;module&gt;
+    parser5.parse(input_program)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 9, in parse
+    self.parse_tree(tree)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 5, in parse_tree
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/4175947920.py&quot;, line 7, in visit_List
+    raise ParserException(f&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<p>For secret tests we may use other parsers crafted in the same way.</p>
+</section>
+<section id="input-programs">
+<h3>Input Programs<a class="headerlink" href="#input-programs" title="Link to this heading">#</a></h3>
+<p>Now we present five public tests.
+Each test case implements a <code class="docutils literal notranslate"><span class="pre">get_original()</span></code> method that returns an input program which your reducer should minify.
+It also has a <code class="docutils literal notranslate"><span class="pre">parser</span></code> field which stores a parser used for a respective input program.
+Besides, <code class="docutils literal notranslate"><span class="pre">get_minimized()</span></code> method provides a reference solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test1</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = True</span>
+<span class="s1">    b = not False</span>
+<span class="s1">    c = 30</span>
+<span class="s1">    for i in range(c):</span>
+<span class="s1">        if i == 15:</span>
+<span class="s1">            if a and b:</span>
+<span class="s1">                return 1</span>
+<span class="s1">    return 0</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">True and True&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test2</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser2</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = True</span>
+<span class="s1">    b = not False</span>
+<span class="s1">    c = 30</span>
+<span class="s1">    for i in range(c):</span>
+<span class="s1">        if i == 15:</span>
+<span class="s1">            if a and b:</span>
+<span class="s1">                return 1</span>
+<span class="s1">    return 0</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if True:</span>
+<span class="s1">    return</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test3</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser3</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = 1</span>
+<span class="s1">    b = a</span>
+<span class="s1">    c = a - b</span>
+<span class="s1">    if c &lt; a:</span>
+<span class="s1">        d = &#39;&#39;</span>
+<span class="s1">        while a == b:</span>
+<span class="s1">            d = u&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+<span class="s1">            a += 1</span>
+<span class="s1">        return d</span>
+<span class="s1">    return &#39;&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">d = u&#39;</span><span class="se">\u0426</span><span class="s1">&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test4</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser4</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = 1</span>
+<span class="s1">    b = a</span>
+<span class="s1">    c = a - b</span>
+<span class="s1">    if c &lt; a:</span>
+<span class="s1">        while a == b:</span>
+<span class="s1">            a += 1</span>
+<span class="s1">        return d</span>
+<span class="s1">    return &#39;&#39;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">d</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test5</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser5</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">def original():</span>
+<span class="s1">    a = 1</span>
+<span class="s1">    b = 0</span>
+<span class="s1">    while True:</span>
+<span class="s1">        if a &lt; b:</span>
+<span class="s1">            return [1, 2, 3]</span>
+<span class="s1">        else:</span>
+<span class="s1">            return []</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">[]</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For instance, let’s take the input program of <code class="docutils literal notranslate"><span class="pre">Test1</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">Test1</span><span class="p">()</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">get_original</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>def original():
+    a = True
+    b = not False
+    c = 30
+    for i in range(c):
+        if i == 15:
+            if a and b:
+                return 1
+    return 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>And parse it with the provided parser:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1292946598.py&quot;, line 2, in &lt;module&gt;
+    test.parser.parse(source)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 9, in parse
+    self.parse_tree(tree)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/1737200860.py&quot;, line 5, in parse_tree
+    self.visit(tree)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 430, in generic_visit
+    self.visit(item)
+    ~~~~~~~~~~^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 432, in generic_visit
+    self.visit(value)
+    ~~~~~~~~~~^^^^^^^
+  File &quot;/opt/homebrew/Cellar/python@3.13/3.13.4/Frameworks/Python.framework/Versions/3.13/lib/python3.13/ast.py&quot;, line 422, in visit
+    return visitor(node)
+  File &quot;/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_67238/2980862917.py&quot;, line 7, in visit_BoolOp
+    raise ParserException(f&quot;Something went wrong&quot;)
+ParserException: Something went wrong (expected)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The parser failed.</p>
+</section>
+<section id="testing-infrastructure">
+<h3>Testing Infrastructure<a class="headerlink" href="#testing-infrastructure" title="Link to this heading">#</a></h3>
+<p>The following section introduces the testing infrastructure, which is used to assess your performance in the project. Passing all tests will be enough to complete the project successfully.</p>
+<p>We are not going to directly compare a minimized program with the reference solution (as two strings). Instead, we again transform the code into AST and count the number of nodes in both trees.
+If the difference between them is lower than a <code class="docutils literal notranslate"><span class="pre">THRESHOLD</span></code> (and a parser still produces an error), the test is passed.
+To count the number of nodes in the AST, we need a helper class <code class="docutils literal notranslate"><span class="pre">NodeCounter</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">NodeCounter</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This node counter is used to assess</span>
+<span class="sd">    the amount of reductions performed by your reducer.</span>
+<span class="sd">    It counts the number of nodes in the AST.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The AST of the input program is as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_ast</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of nodes is </span><span class="si">{</span><span class="n">NodeCounter</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04f321e637d7f5ca2e63f55da89ac7be4bdb0bd5a8d1b56f31d83e0aa67a59be.svg" src="_images/04f321e637d7f5ca2e63f55da89ac7be4bdb0bd5a8d1b56f31d83e0aa67a59be.svg" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of nodes is 42
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, the input program of <code class="docutils literal notranslate"><span class="pre">Test1</span></code> has 42 nodes.</p>
+<p>The testing framework takes a reducer and allows executing a single test or all tests at once.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TestingFramework</span><span class="p">:</span>
+    <span class="n">THRESHOLD</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">test_cases</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;test1&#39;</span><span class="p">:</span> <span class="n">Test1</span><span class="p">(),</span>
+        <span class="s1">&#39;test2&#39;</span><span class="p">:</span> <span class="n">Test2</span><span class="p">(),</span>
+        <span class="s1">&#39;test3&#39;</span><span class="p">:</span> <span class="n">Test3</span><span class="p">(),</span>
+        <span class="s1">&#39;test4&#39;</span><span class="p">:</span> <span class="n">Test4</span><span class="p">(),</span>
+        <span class="s1">&#39;test5&#39;</span><span class="p">:</span> <span class="n">Test5</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reducer</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span> <span class="o">=</span> <span class="n">reducer</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">count_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">100000</span>
+        <span class="k">return</span> <span class="n">NodeCounter</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run a single test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running test </span><span class="si">{</span><span class="n">test</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">reducer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">parser</span><span class="p">)</span>
+        <span class="n">reduced_code</span> <span class="o">=</span> <span class="n">reducer</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">get_original</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">has_property</span><span class="p">(</span><span class="n">reduced_code</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">parser</span><span class="p">)</span> <span class="ow">and</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">is_minimized</span><span class="p">(</span><span class="n">reduced_code</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">get_minimized</span><span class="p">()))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        run all public tests</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">passed_tests</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_cases</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_test</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+                <span class="n">passed_tests</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;In total </span><span class="si">{</span><span class="n">passed_tests</span><span class="si">}</span><span class="s2"> tests passed&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">has_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;returns True if the parser fails to parse the source&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;HAS PROPERTY: FAIL&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span> <span class="n">ParserException</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;HAS PROPERTY: OK&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;HAS PROPERTY: FAIL </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduced</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reference</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the AST of the reduced code contains </span>
+<span class="sd">        no more then the number of nodes in the reference + a THRESHOLD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">count_minimized</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_nodes</span><span class="p">(</span><span class="n">reduced</span><span class="p">)</span>
+        <span class="n">count_reference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_nodes</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">count_minimized</span> <span class="o">&lt;=</span> <span class="n">count_reference</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">THRESHOLD</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;IS MINIMIZED: OK&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;IS MINIMIZED: FAIL&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s test our <code class="docutils literal notranslate"><span class="pre">ReducingDebugger</span></code> with the following test:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test0</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">Parser1</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_original</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">if a and b:</span>
+<span class="s1">    c = 1</span>
+<span class="s1">else:</span>
+<span class="s1">    c = 2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_minimized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">a and b&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">TestingFramework</span><span class="p">(</span><span class="n">ReducingDebugger</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">run_test</span><span class="p">(</span><span class="n">Test0</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Success!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running test Test0
+HAS PROPERTY: OK
+IS MINIMIZED: OK
+Success!
+</pre></div>
+</div>
+</div>
+</div>
+<p>The input program was successfully minimized.</p>
+<p>What if we run all public tests?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">run_tests</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running test Test1
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test2
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test3
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test4
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+Running test Test5
+HAS PROPERTY: OK
+IS MINIMIZED: FAIL
+In total 0 tests passed
+</pre></div>
+</div>
+</div>
+</div>
+<p>Unfortunately, our parser failed to minimize all input programs from the public test suite.</p>
+</section>
+</section>
+<section id="grading">
+<h2>Grading<a class="headerlink" href="#grading" title="Link to this heading">#</a></h2>
+<p>For this project, you can get a total of 30 Points:</p>
+<ul class="simple">
+<li><p>15 Points will be awarded for passing the public test (<strong>without hardcoding the minimized solution or the sequence of transformations</strong>) presented in this notebook.
+These 15 points mean that you successfully implemented the must-have implementation.</p></li>
+<li><p>5 Points will be awarded for passing secret tests.</p></li>
+<li><p>10 Points will be awarded for efficient implementation (see may-have implementation).</p></li>
+</ul>
+<section id="must-have-features">
+<h3>Must-have Features<a class="headerlink" href="#must-have-features" title="Link to this heading">#</a></h3>
+<p>Implement a reducer which minifies a given program so that its parser still produces an error.
+To this end, collect all possible transformations over the nodes of an AST tree and then apply one change at a time.
+These modifications should be repeated until no further updates can be made without triggering a parser exception.
+If your reducer passes secret test you are awarded additional 5 points.</p>
+<p><em>Note: Implementing the given modifications should be sufficient to successfully complete this project.</em></p>
+</section>
+<section id="may-have-features">
+<h3>May-have Features<a class="headerlink" href="#may-have-features" title="Link to this heading">#</a></h3>
+<p>An implementation only of the must-have features aims for correctness but can be inefficient (if transformations are applied one at a time). So, it can be optimized, for instance, with help of the Delta Debugging approach.</p>
+<p>Implement an AST Delta Debugger which efficiently prunes the nodes.
+If your reducer can beat the runtime of our reference implementation (which simply collects all possible transformations and applies them randomly one at a time) you can get up to 10 points (depending on the margin).</p>
+<p>Hint: The <a class="reference external" href="https://www.debuggingbook.org/beta/html/DeltaDebugger.html">Reducing Failure-Inducing Inputs chapter</a> already tries to optimize the reduction of the AST with help of Delta Debugging.<br />
+Hint: For instance, you can find useful <em>Hierarchical Delta Debugging</em> paper from the Background section of <strong>Reducing Failure-Inducing Inputs</strong> Chapter.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#description">Description</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parsing-python">Parsing Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reducing-python">Reducing Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-reducing-debugger">Implementing a Reducing Debugger</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parsers">Parsers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-programs">Input Programs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-infrastructure">Testing Infrastructure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grading">Grading</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#must-have-features">Must-have Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#may-have-features">May-have Features</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Andreas Zeller
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+  Copyright &copy; 2021–2025 <a href="https://www.cispa.de/">CISPA Helmholtz Center for Information Security</a>.
+  The <strong>content</strong> of this project is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  The <strong>source code</strong> that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
+  <br>
+  <a href="https://cispa.de/en/impressum">Imprint</a> &middot; <a href="/html/index.html#how-do-i-cite-your-work">Cite</a>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

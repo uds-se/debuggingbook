@@ -1,0 +1,2586 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How Debuggers Work &#8212; The Debugging Book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d5c2cecb" />
+    <link rel="stylesheet" type="text/css" href="_static/mastodon-timeline.css?v=f82c2b23" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Debugger';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Asserting Expectations" href="Assertions.html" />
+    <link rel="prev" title="Tracing Executions" href="Tracer.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p>This is a beta version of debuggingbook.org, currently in development. See the <a href="https://debuggingbook.org/classic/"  style="color:white!important;">classic site</a> for the 2024 version.</p></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/debuggingbook.png" class="logo__image only-light" alt="The Debugging Book - Home"/>
+    <script>document.write(`<img src="_static/debuggingbook.png" class="logo__image only-dark" alt="The Debugging Book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    The Debugging Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tours.html">Sitemap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Intro_Debugging.html">Introduction to Debugging</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Observing Executions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tracer.html">Tracing Executions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How Debuggers Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Assertions.html">Asserting Expectations</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Flows and Dependencies</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Slicer.html">Tracking Failure Origins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reducing Failure Causes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="DeltaDebugger.html">Reducing Failure-Inducing Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChangeDebugger.html">Isolating Failure-Inducing Changes</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Abstracting Failures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="StatisticalDebugger.html">Statistical Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DynamicInvariants.html">Mining Function Specifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DDSetDebugger.html">Generalizing Failure Circumstances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Alhazen.html">Learning from Failures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PerformanceDebugger.html">Debugging Performance Issues</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Automatic Repair</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Repairer.html">Repairing Code Automatically</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Debugging in the Large</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tracking.html">Tracking Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChangeCounter.html">Where the Bugs are</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendices</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ExpectError.html">Error Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Timer.html">Timer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Timeout.html">Timeout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ClassDiagram.html">Class Diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="StackInspector.html">Inspecting Call Stacks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">About This Book</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ReleaseNotes.html">Release Notes for The Debugging Book</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Importing.html">Downloads and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Guide_for_Authors.html">Guide for Authors</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/master?urlpath=tree/docs/notebooks/Debugger.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/uds-se/debuggingbook" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/uds-se/debuggingbook/issues/new?title=Issue%20on%20page%20%2FDebugger.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="../code/Debugger.py" target="_blank"
+       class="btn btn-sm btn-download-source-button dropdown-item"
+       title="Download Python code"
+       data-bs-placement="left" data-bs-toggle="tooltip"
+    >
+  
+
+    <span class="btn__icon-container">
+      <i class="fas fa-file"></i>
+      </span>
+    <span class="btn__text-container">.py</span>
+    </a>
+    </li>
+    
+      
+      
+      
+      <li><a href="_sources/Debugger.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download notebook"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  
+    <li><a href="Importing.html" target="_blank"
+       class="btn btn-sm btn-download-source-button dropdown-item"
+       title="All downloads"
+       data-bs-placement="left" data-bs-toggle="tooltip"
+    >
+  
+
+    <span class="btn__icon-container">
+      <i class="fas fa-file"></i>
+      </span>
+    <span class="btn__text-container">All downloads</span>
+    </a>
+    </li>
+    </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>How Debuggers Work</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synopsis">Synopsis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debuggers">Debuggers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugger-interaction">Debugger Interaction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-command-dispatcher">A Command Dispatcher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#excursion-implementing-execute">Excursion: Implementing execute()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-excursion">End of Excursion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#printing-values">Printing Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listing-source-code">Listing Source Code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-breakpoints">Setting Breakpoints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deleting-breakpoints">Deleting Breakpoints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listings-with-benefits">Listings with Benefits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quitting">Quitting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lessons-learned">Lessons Learned</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-changing-state">Exercise 1: Changing State</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-more-commands">Exercise 2: More Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-breakpoints-break">Named breakpoints (“break”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-over-functions-next">Step over functions (“next”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#print-call-stack-where">Print call stack (“where”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#move-up-and-down-the-call-stack-up-and-down">Move up and down the call stack (“up” and “down”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-until-line-until">Execute until line (“until”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-until-return-finish">Execute until return (“finish”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#watchpoints-watch">Watchpoints (“watch”)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-time-travel-debugging">Exercise 3: Time-Travel Debugging</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-recording-values">Part 1: Recording Values</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-command-line-interface">Part 2: Command Line Interface</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-graphical-user-interface">Part 3: Graphical User Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-debuggers-work">
+<h1>How Debuggers Work<a class="headerlink" href="#how-debuggers-work" title="Link to this heading">#</a></h1>
+<p>Interactive <em>debuggers</em> are tools that allow you to selectively observe the program state during an execution.  In this chapter, you will learn how such debuggers work – by building your own debugger.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bookutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">YouTubeVideo</span>
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s2">&quot;4aZ0t7CWSjA&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+        <iframe
+            width="640"
+            height="360"
+            src="https://www.youtube-nocookie.com/embed/4aZ0t7CWSjA"
+            frameborder="0"
+            allowfullscreen
+            
+        ></iframe>
+        </div></div>
+</div>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li><p>You should have read the <a class="reference internal" href="Tracer.html"><span class="std std-doc">Chapter on Tracing Executions</span></a>.</p></li>
+<li><p>Again, knowing a bit of <em>Python</em> is helpful for understanding the code examples in the book.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">bookutils.setup</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">Tracer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tracer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Link to this heading">#</a></h2>
+<p>To <a class="reference internal" href="Importing.html"><span class="std std-doc">use the code provided in this chapter</span></a>, write</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">debuggingbook.Debugger</span><span class="w"> </span><span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>and then make use of the following features.</p>
+<p><strong>Note</strong>: The examples in this section only work after the rest of the cells have been executed.</p>
+<p>This chapter provides an interactive debugger for Python functions. The debugger is invoked as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">function_to_be_observed</span><span class="p">()</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>While running, you can enter <em>debugger commands</em> at the <code class="docutils literal notranslate"><span class="pre">(debugger)</span></code> prompt. Here’s an example session:</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>help</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>break      -- Set a breakpoint in given line. If no line is given, list all breakpoints
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>continue   -- Resume execution
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>delete     -- Delete breakpoint in line given by `arg`.
+Without given line, clear all breakpoints
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>help       -- Give help on given `command`. If no command is given, give help on all
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list       -- Show current function. If `arg` is given, show its source code.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>print      -- Print an expression. If no expression is given, print all variables
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>quit       -- Finish execution
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step       -- Execute up to the next line
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>break 14</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Breakpoints: {14}
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>list</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   1&gt; <span class=" -Color -Color-Blue">def</span><span class=" -Color -Color-White"> </span><span class=" -Color -Color-Green">remove_html_markup</span>(s):  <span class=" -Color -Color-White"># type: ignore</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   2      tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   3      quote = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   4      out = <span class=" -Color -Color-Yellow">&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   5  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   6      <span class=" -Color -Color-Blue">for</span> c <span class=" -Color -Color-Magenta">in</span> s:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   7          <span class=" -Color -Color-Blue">if</span> c == <span class=" -Color -Color-Yellow">&#39;&lt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   8              tag = <span class=" -Color -Color-Blue">True</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   9          <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&gt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  10              tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  11          <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&quot;&#39;</span> <span class=" -Color -Color-Magenta">or</span> c == <span class=" -Color -Color-Yellow">&quot;&#39;&quot;</span> <span class=" -Color -Color-Magenta">and</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  12              quote = <span class=" -Color -Color-Magenta">not</span> quote
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  13          <span class=" -Color -Color-Blue">elif</span> <span class=" -Color -Color-Magenta">not</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  14#             out = out + c
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  15  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  16      <span class=" -Color -Color-Blue">return</span> out
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14             out = out + c
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # out = &#39;a&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6     for c in s:
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print out</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>out = &#39;a&#39;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>quit</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Debugger</span></code> class can be easily extended in subclasses. A new method <code class="docutils literal notranslate"><span class="pre">NAME_command(self,</span> <span class="pre">arg)</span></code> will be invoked whenever a command named <code class="docutils literal notranslate"><span class="pre">NAME</span></code> is entered, with <code class="docutils literal notranslate"><span class="pre">arg</span></code> holding given command arguments (empty string if none).</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 14.0.2 (20251019.1705)
+ -->
+<!-- Pages: 1 -->
+<svg width="291pt" height="438pt"
+ viewBox="0.00 0.00 291.00 438.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 433.75)">
+<g id="a_graph0"><a xlink:title="Debugger class hierarchy">
+<polygon fill="white" stroke="none" points="-4,4 -4,-433.75 286.62,-433.75 286.62,4 -4,4"/>
+</a>
+</g>
+<!-- Debugger -->
+<g id="node1" class="node">
+<title>Debugger</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class Debugger:&#10;Interactive Debugger">
+<polygon fill="none" stroke="black" points="21,-0.5 21,-225 145,-225 145,-0.5 21,-0.5"/>
+<text xml:space="preserve" text-anchor="start" x="49.25" y="-208.7" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Debugger</text>
+<polyline fill="none" stroke="black" points="21,-199.75 145,-199.75"/>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="Debugger">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, *, file: &lt;class &#39;TextIO&#39;&gt; = &lt;ipykernel.iostream.OutStream object at 0x108027850&gt;) &#45;&gt; None:&#10;Create a new interactive debugger.">
+<text xml:space="preserve" text-anchor="start" x="29" y="-187.25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="break_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Set a breakpoint in given line. If no line is given, list all breakpoints">
+<text xml:space="preserve" text-anchor="start" x="29" y="-173.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">break_command()</text>
+</a>
+</g>
+<g id="a_node1_3"><a xlink:href="#" xlink:title="command_method(self, command: str) &#45;&gt; Optional[Callable[[str], NoneType]]:&#10;Convert `command` into the method to be called.&#10;If the method is not found, return `None` instead.">
+<text xml:space="preserve" text-anchor="start" x="29" y="-160.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">command_method()</text>
+</a>
+</g>
+<g id="a_node1_4"><a xlink:href="#" xlink:title="commands(self) &#45;&gt; List[str]:&#10;Return a list of commands">
+<text xml:space="preserve" text-anchor="start" x="29" y="-148" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">commands()</text>
+</a>
+</g>
+<g id="a_node1_5"><a xlink:href="#" xlink:title="continue_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Resume execution">
+<text xml:space="preserve" text-anchor="start" x="29" y="-135.25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">continue_command()</text>
+</a>
+</g>
+<g id="a_node1_6"><a xlink:href="#" xlink:title="delete_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Delete breakpoint in line given by `arg`.&#10;Without given line, clear all breakpoints">
+<text xml:space="preserve" text-anchor="start" x="29" y="-122.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">delete_command()</text>
+</a>
+</g>
+<g id="a_node1_7"><a xlink:href="#" xlink:title="execute(self, command: str) &#45;&gt; None:&#10;Execute `command`">
+<text xml:space="preserve" text-anchor="start" x="29" y="-109.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">execute()</text>
+</a>
+</g>
+<g id="a_node1_8"><a xlink:href="#" xlink:title="help_command(self, command: str = &#39;&#39;) &#45;&gt; None:&#10;Give help on given `command`. If no command is given, give help on all">
+<text xml:space="preserve" text-anchor="start" x="29" y="-97" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">help_command()</text>
+</a>
+</g>
+<g id="a_node1_9"><a xlink:href="#" xlink:title="interaction_loop(self) &#45;&gt; None:&#10;Interact with the user">
+<text xml:space="preserve" text-anchor="start" x="29" y="-84.25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">interaction_loop()</text>
+</a>
+</g>
+<g id="a_node1_10"><a xlink:href="#" xlink:title="list_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Show current function. If `arg` is given, show its source code.">
+<text xml:space="preserve" text-anchor="start" x="29" y="-71.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">list_command()</text>
+</a>
+</g>
+<g id="a_node1_11"><a xlink:href="#" xlink:title="print_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Print an expression. If no expression is given, print all variables">
+<text xml:space="preserve" text-anchor="start" x="29" y="-58.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">print_command()</text>
+</a>
+</g>
+<g id="a_node1_12"><a xlink:href="#" xlink:title="quit_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Finish execution">
+<text xml:space="preserve" text-anchor="start" x="29" y="-46" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">quit_command()</text>
+</a>
+</g>
+<g id="a_node1_13"><a xlink:href="#" xlink:title="step_command(self, arg: str = &#39;&#39;) &#45;&gt; None:&#10;Execute up to the next line">
+<text xml:space="preserve" text-anchor="start" x="29" y="-33.25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">step_command()</text>
+</a>
+</g>
+<g id="a_node1_14"><a xlink:href="#" xlink:title="stop_here(self) &#45;&gt; bool:&#10;Return True if we should stop">
+<text xml:space="preserve" text-anchor="start" x="29" y="-20.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">stop_here()</text>
+</a>
+</g>
+<g id="a_node1_15"><a xlink:href="#" xlink:title="traceit(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Tracing function; called at every line. To be overloaded in subclasses.">
+<text xml:space="preserve" text-anchor="start" x="29" y="-8.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="10.00">traceit()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Tracer -->
+<g id="node2" class="node">
+<title>Tracer</title>
+<g id="a_node2"><a xlink:href="Tracer.ipynb" xlink:title="class Tracer:&#10;A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" stroke="black" points="42,-262 42,-346.25 124,-346.25 124,-262 42,-262"/>
+<text xml:space="preserve" text-anchor="start" x="61.62" y="-329.95" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">Tracer</text>
+<polyline fill="none" stroke="black" points="42,-321 124,-321"/>
+<g id="a_node2_16"><a xlink:href="#" xlink:title="Tracer">
+<g id="a_node2_17"><a xlink:href="Tracer.ipynb" xlink:title="__enter__(self) &#45;&gt; Any:&#10;Called at begin of `with` block. Turn tracing on.">
+<text xml:space="preserve" text-anchor="start" x="50" y="-308.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">__enter__()</text>
+</a>
+</g>
+<g id="a_node2_18"><a xlink:href="Tracer.ipynb" xlink:title="__exit__(self, exc_tp: Type, exc_value: BaseException, exc_traceback: traceback) &#45;&gt; Optional[bool]:&#10;Called at end of `with` block. Turn tracing off.&#10;Return `None` if ok, not `None` if internal error.">
+<text xml:space="preserve" text-anchor="start" x="50" y="-295.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="10.00">__exit__()</text>
+</a>
+</g>
+<g id="a_node2_19"><a xlink:href="Tracer.ipynb" xlink:title="__init__(self, file: &lt;class &#39;TextIO&#39;&gt; = &lt;ipykernel.iostream.OutStream object at 0x108027850&gt;) &#45;&gt; None:&#10;Create a new tracer.&#10;If `file` is given, output to `file` instead of stdout.">
+<text xml:space="preserve" text-anchor="start" x="50" y="-283" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">__init__()</text>
+</a>
+</g>
+<g id="a_node2_20"><a xlink:href="Tracer.ipynb" xlink:title="traceit(self, frame: frame, event: str, arg: Any) &#45;&gt; None:&#10;Tracing function; called at every line. To be overloaded in subclasses.">
+<text xml:space="preserve" text-anchor="start" x="50" y="-270.25" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-style="italic" font-size="10.00">traceit()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Debugger&#45;&gt;Tracer -->
+<g id="edge1" class="edge">
+<title>Debugger&#45;&gt;Tracer</title>
+<path fill="none" stroke="black" d="M83,-225.28C83,-233.91 83,-242.35 83,-250.3"/>
+<polygon fill="none" stroke="black" points="79.5,-250.04 83,-260.04 86.5,-250.04 79.5,-250.04"/>
+</g>
+<!-- StackInspector -->
+<g id="node3" class="node">
+<title>StackInspector</title>
+<g id="a_node3"><a xlink:href="StackInspector.ipynb" xlink:title="class StackInspector:&#10;Provide functions to inspect the stack">
+<polygon fill="none" stroke="black" points="0,-383.25 0,-429.25 166,-429.25 166,-383.25 0,-383.25"/>
+<text xml:space="preserve" text-anchor="start" x="32.75" y="-412.95" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="14.00" fill="#6a0dad">StackInspector</text>
+<polyline fill="none" stroke="black" points="0,-404 166,-404"/>
+<g id="a_node3_21"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node3_22"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {}">
+<text xml:space="preserve" text-anchor="start" x="8" y="-390.5" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00">_generated_function_cache</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Tracer&#45;&gt;StackInspector -->
+<g id="edge2" class="edge">
+<title>Tracer&#45;&gt;StackInspector</title>
+<path fill="none" stroke="black" d="M83,-346.72C83,-354.92 83,-363.44 83,-371.36"/>
+<polygon fill="none" stroke="black" points="79.5,-371.27 83,-381.27 86.5,-371.27 79.5,-371.27"/>
+</g>
+<!-- Legend -->
+<g id="node4" class="node">
+<title>Legend</title>
+<text xml:space="preserve" text-anchor="start" x="163.38" y="-128.75" font-family="Raleway, Helvetica, Arial, sans-serif" font-weight="bold" font-size="10.00" fill="#6a0dad">Legend</text>
+<text xml:space="preserve" text-anchor="start" x="163.38" y="-118.75" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text xml:space="preserve" text-anchor="start" x="169.38" y="-118.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-weight="bold" font-size="8.00">public_method()</text>
+<text xml:space="preserve" text-anchor="start" x="163.38" y="-108.75" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text xml:space="preserve" text-anchor="start" x="169.38" y="-108.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00">private_method()</text>
+<text xml:space="preserve" text-anchor="start" x="163.38" y="-98.75" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00">• </text>
+<text xml:space="preserve" text-anchor="start" x="169.38" y="-98.75" font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-style="italic" font-size="8.00">overloaded_method()</text>
+<text xml:space="preserve" text-anchor="start" x="163.38" y="-89.7" font-family="Helvetica,sans-Serif" font-size="9.00">Hover over names to see doc</text>
+</g>
+</g>
+</svg>
+</div></div>
+</div>
+</section>
+<section id="debuggers">
+<h2>Debuggers<a class="headerlink" href="#debuggers" title="Link to this heading">#</a></h2>
+<p><em>Interactive Debuggers</em> (or short <em>debuggers</em>) are tools that allow you to observe program executions. A debugger typically offers the following features:</p>
+<ul class="simple">
+<li><p><em>Run</em> the program</p></li>
+<li><p>Define <em>conditions</em> under which the execution should <em>stop</em> and hand over control to the debugger. Conditions include</p>
+<ul>
+<li><p>a particular location is reached</p></li>
+<li><p>a particular variable takes a particular value</p></li>
+<li><p>a particular variable is accessed</p></li>
+<li><p>or some other condition of choice.</p></li>
+</ul>
+</li>
+<li><p>When the program stops, you can <em>observe</em> the current state, including</p>
+<ul>
+<li><p>the current location</p></li>
+<li><p>variables and their values</p></li>
+<li><p>the current function and its callers</p></li>
+</ul>
+</li>
+<li><p>When the program stops, you can <em>step</em> through program execution, having it stop at the next instruction again.</p></li>
+<li><p>Finally, you can also <em>resume</em> execution to the next stop.</p></li>
+</ul>
+<p>This functionality often comes as a <em>command-line interface</em>, typing commands at a prompt; or as a <em>graphical user interface</em>, selecting commands from the screen. Debuggers can come as standalone tools, or be integrated into a programming environment of choice.</p>
+<p>Debugger interaction typically follows a <em>loop</em> pattern. First, you identify the location(s) you want to inspect, and tell the debugger to stop execution once one of these <em>breakpoints</em> is reached. Here’s a command that could instruct a command-line debugger to stop at Line 239:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="k">break</span> <span class="mi">239</span>
+<span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="n">_</span>
+</pre></div>
+</div>
+<p>Then you have the debugger resume or start execution. The debugger will stop at the given location.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="k">continue</span>
+<span class="n">Line</span> <span class="mi">239</span><span class="p">:</span> <span class="n">s</span> <span class="o">=</span> <span class="n">x</span>
+<span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="n">_</span>
+</pre></div>
+</div>
+<p>When it stops at the given location, you use debugger commands to inspect the state (and check whether things are as expected).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="nb">print</span> <span class="n">s</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span>
+<span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="n">_</span>
+</pre></div>
+</div>
+<p>You can then step through the program, executing more lines.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="n">step</span>
+<span class="n">Line</span> <span class="mi">240</span><span class="p">:</span> <span class="n">c</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="nb">print</span> <span class="n">c</span>
+<span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+<span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="n">_</span>
+</pre></div>
+</div>
+<p>You can also define new stop conditions, investigating other locations, variables, and conditions.</p>
+</section>
+<section id="debugger-interaction">
+<h2>Debugger Interaction<a class="headerlink" href="#debugger-interaction" title="Link to this heading">#</a></h2>
+<p>Let us now show how to build such a debugger.  The key idea of an <em>interactive</em> debugger is to set up the <em>tracing function</em> such that it actually <em>asks</em> what to do next, prompting you to enter a <em>command</em>. For the sake of simplicity, we collect such a command interactively from a command line, using the Python <code class="docutils literal notranslate"><span class="pre">input()</span></code> function.</p>
+<p>Our debugger holds a number of variables to indicate its current status:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stepping</span></code> is True whenever the user wants to step into the next line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">breakpoints</span></code> is a set of breakpoints (line numbers)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interact</span></code> is True while the user stays at one position.</p></li>
+</ul>
+<p>We also store the current tracing information in three attributes <code class="docutils literal notranslate"><span class="pre">frame</span></code>, <code class="docutils literal notranslate"><span class="pre">event</span></code>, and <code class="docutils literal notranslate"><span class="pre">arg</span></code>. The variable <code class="docutils literal notranslate"><span class="pre">local_vars</span></code> holds local variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrameType</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interactive Debugger&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">TextIO</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new interactive debugger.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_vars</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">traceit()</span></code> method is the main entry point for our debugger. If we should stop, we go into user interaction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tracing function; called at every line. To be overloaded in subclasses.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_vars</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span>  <span class="c1"># Dereference exactly once</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span> <span class="o">=</span> <span class="n">event</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop_here</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interaction_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We stop whenever we are stepping through the program or reach a breakpoint:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_here</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if we should stop&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our interaction loop shows the current status, reads in commands, and executes them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interaction_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interact with the user&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_debugger_status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arg</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">interact</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;(debugger) &quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a moment, let us implement two commands, <code class="docutils literal notranslate"><span class="pre">step</span></code> and <code class="docutils literal notranslate"><span class="pre">continue</span></code>. <code class="docutils literal notranslate"><span class="pre">step</span></code> steps through the program:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute up to the next line&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">continue_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resume execution&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method dispatches between these two.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">step_command</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">command</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">continue_command</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our debugger is now ready to run! Let us invoke it on the buggy <code class="docutils literal notranslate"><span class="pre">remove_html_markup()</span></code> variant from the <a class="reference internal" href="Intro_Debugging.html"><span class="std std-doc">Introduction to Debugging</span></a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">remove_html_markup</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">quote</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&lt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">quote</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">and</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">quote</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">quote</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">c</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We invoke the debugger just like <code class="docutils literal notranslate"><span class="pre">Tracer</span></code>, using a <code class="docutils literal notranslate"><span class="pre">with</span></code> clause. The code</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>gives us a debugger prompt</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">debugger</span><span class="p">)</span> <span class="n">_</span>
+</pre></div>
+</div>
+<p>where we can enter one of our two commands.</p>
+<p>Let us do two steps through the program and then resume execution:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bookutils</span><span class="w"> </span><span class="kn">import</span> <span class="nb">input</span><span class="p">,</span> <span class="n">next_inputs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;step&#39;, &#39;step&#39;, &#39;continue&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2     tag = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3     quote = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Try this out for yourself by running the above invocation in the interactive notebook! If you are reading the Web version, the top menu entry <code class="docutils literal notranslate"><span class="pre">Resources</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Edit</span> <span class="pre">as</span> <span class="pre">Notebook</span></code> will do the trick. Navigate to the above invocation and press <code class="docutils literal notranslate"><span class="pre">Shift</span></code>+<code class="docutils literal notranslate"><span class="pre">Enter</span></code>.</p>
+<section id="a-command-dispatcher">
+<h3>A Command Dispatcher<a class="headerlink" href="#a-command-dispatcher" title="Link to this heading">#</a></h3>
+<p>Our <code class="docutils literal notranslate"><span class="pre">execute()</span></code> function is still a bit rudimentary. A true command-line tool should provide means to tell which commands are available (<code class="docutils literal notranslate"><span class="pre">help</span></code>), automatically split arguments, and not stand in line of extensibility.</p>
+<p>We therefore implement a better <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method which does all that. Our revised <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method <em>inspects</em> its class for methods that end in <code class="docutils literal notranslate"><span class="pre">_command()</span></code>, and automatically registers their names as commands. Hence, with the above, we already get <code class="docutils literal notranslate"><span class="pre">step</span></code> and <code class="docutils literal notranslate"><span class="pre">continue</span></code> as possible commands.</p>
+</section>
+<section id="excursion-implementing-execute">
+<h3>Excursion: Implementing execute()<a class="headerlink" href="#excursion-implementing-execute" title="Link to this heading">#</a></h3>
+<p>Let us detail how we implement <code class="docutils literal notranslate"><span class="pre">execute()</span></code>. The <code class="docutils literal notranslate"><span class="pre">commands()</span></code> method returns a list of all commands (as strings) from the class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">commands</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of commands&quot;&quot;&quot;</span>
+
+        <span class="n">cmds</span> <span class="o">=</span> <span class="p">[</span><span class="n">method</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_command&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_command&#39;</span><span class="p">)]</span>
+        <span class="n">cmds</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">cmds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;continue&#39;, &#39;step&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">command_method()</span></code> method converts a given command (or its abbrevation) into a method to be called.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">help_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">command_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert `command` into the method to be called.</span>
+<span class="sd">           If the method is not found, return `None` instead.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Comment</span>
+
+        <span class="n">possible_cmds</span> <span class="o">=</span> <span class="p">[</span><span class="n">possible_cmd</span> <span class="k">for</span> <span class="n">possible_cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+                         <span class="k">if</span> <span class="n">possible_cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">command</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cmds</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">possible_cmds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s1">&#39;_command&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x10a00a3c0&gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;bound method Debugger.step_command of &lt;__main__.Debugger object at 0x109f29590&gt;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The revised <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method now determines this method and executes it with the given argument.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute `command`&quot;&quot;&quot;</span>
+
+        <span class="n">sep</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span><span class="p">[:</span><span class="n">sep</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">command</span><span class="p">[</span><span class="n">sep</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span><span class="p">:</span>
+            <span class="n">method</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">command_method()</span></code> cannot find the command, or finds more than one matching the prefix, it invokes the <code class="docutils literal notranslate"><span class="pre">help</span></code> command providing additional assistance. <code class="docutils literal notranslate"><span class="pre">help</span></code> draws extra info on each command from its documentation string.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">help_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Give help on given `command`. If no command is given, give help on all&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">command</span><span class="p">:</span>
+            <span class="n">possible_cmds</span> <span class="o">=</span> <span class="p">[</span><span class="n">possible_cmd</span> <span class="k">for</span> <span class="n">possible_cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+                             <span class="k">if</span> <span class="n">possible_cmd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">command</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cmds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown command </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">. Possible commands are:&quot;</span><span class="p">)</span>
+                <span class="n">possible_cmds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_cmds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiguous command </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="si">}</span><span class="s2">. Possible expansions are:&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">possible_cmds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">possible_cmds</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_method</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cmd</span><span class="si">:</span><span class="s2">10</span><span class="si">}</span><span class="s2"> -- </span><span class="si">{</span><span class="n">method</span><span class="o">.</span><span class="vm">__doc__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>continue   -- Resume execution
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>help       -- Give help on given `command`. If no command is given, give help on all
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step       -- Execute up to the next line
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">Debugger</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unknown command &#39;foo&#39;. Possible commands are:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>continue   -- Resume execution
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>help       -- Give help on given `command`. If no command is given, give help on all
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step       -- Execute up to the next line
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="end-of-excursion">
+<h3>End of Excursion<a class="headerlink" href="#end-of-excursion" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="printing-values">
+<h2>Printing Values<a class="headerlink" href="#printing-values" title="Link to this heading">#</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">execute()</span></code>, we can now easily extend our class – all it takes is for a new command <code class="docutils literal notranslate"><span class="pre">NAME</span></code> is a new <code class="docutils literal notranslate"><span class="pre">NAME_command()</span></code> method. Let us start by providing a <code class="docutils literal notranslate"><span class="pre">print</span></code> command to print all variables. We use similar code as for the <code class="docutils literal notranslate"><span class="pre">Tracer</span></code> class in the <a class="reference internal" href="Tracer.html"><span class="std std-doc">chapter on tracing</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print an expression. If no expression is given, print all variables&quot;&quot;&quot;</span>
+
+        <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">vars</span><span class="o">.</span><span class="n">items</span><span class="p">()]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2     tag = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3     quote = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # quote = False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4     out = &quot;&quot;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;abc&#39;
+tag = False
+quote = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us extend <code class="docutils literal notranslate"><span class="pre">print</span></code> such that if an argument is given, it only evaluates and prints out this argument.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print an expression. If no expression is given, print all variables&quot;&quot;&quot;</span>
+
+        <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_vars</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">vars</span><span class="o">.</span><span class="n">items</span><span class="p">()]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span><span class="w"> </span><span class="nb">globals</span><span class="p">(),</span><span class="w"> </span><span class="nb">vars</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>p s</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;abc&#39;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>c</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note how we would abbreviate commands to speed things up. The argument to <code class="docutils literal notranslate"><span class="pre">print</span></code> can be any Python expression:</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print (s[0], 2 + 2)</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(s[0], 2 + 2) = (&#39;a&#39;, 4)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<p>Our <code class="docutils literal notranslate"><span class="pre">help</span></code> command also properly lists <code class="docutils literal notranslate"><span class="pre">print</span></code> as a possible command:</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>help print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>print      -- Print an expression. If no expression is given, print all variables
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="listing-source-code">
+<h2>Listing Source Code<a class="headerlink" href="#listing-source-code" title="Link to this heading">#</a></h2>
+<p>We implement a <code class="docutils literal notranslate"><span class="pre">list</span></code> command that shows the source code of the current function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bookutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">getsourcelines</span>  <span class="c1"># like inspect.getsourcelines(), but in color</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show current function.&quot;&quot;&quot;</span>
+
+        <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> <span class="n">getsourcelines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">line_number</span><span class="si">:</span><span class="s1">4</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>list</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   1 <span class=" -Color -Color-Blue">def</span><span class=" -Color -Color-White"> </span><span class=" -Color -Color-Green">remove_html_markup</span>(s):  <span class=" -Color -Color-White"># type: ignore</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   2     tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   3     quote = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   4     out = <span class=" -Color -Color-Yellow">&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   5 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   6     <span class=" -Color -Color-Blue">for</span> c <span class=" -Color -Color-Magenta">in</span> s:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   7         <span class=" -Color -Color-Blue">if</span> c == <span class=" -Color -Color-Yellow">&#39;&lt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   8             tag = <span class=" -Color -Color-Blue">True</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   9         <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&gt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  10             tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  11         <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&quot;&#39;</span> <span class=" -Color -Color-Magenta">or</span> c == <span class=" -Color -Color-Yellow">&quot;&#39;&quot;</span> <span class=" -Color -Color-Magenta">and</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  12             quote = <span class=" -Color -Color-Magenta">not</span> quote
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  13         <span class=" -Color -Color-Blue">elif</span> <span class=" -Color -Color-Magenta">not</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  14             out = out + c
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  15 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  16     <span class=" -Color -Color-Blue">return</span> out
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="setting-breakpoints">
+<h2>Setting Breakpoints<a class="headerlink" href="#setting-breakpoints" title="Link to this heading">#</a></h2>
+<p>Stepping through the program line by line is a bit cumbersome. We therefore implement <em>breakpoints</em> – a set of lines that cause the program to be interrupted as soon as this line is met.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">break_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a breakpoint in given line. If no line is given, list all breakpoints&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Breakpoints:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s an example, setting a breakpoint at the end of the loop:</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>break 14</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Breakpoints: {14}
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14             out = out + c
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;abc&#39;
+tag = False
+quote = False
+out = &#39;&#39;
+c = &#39;a&#39;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # out = &#39;a&#39;, c = &#39;b&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14             out = out + c
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # out = &#39;ab&#39;, c = &#39;c&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14             out = out + c
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bookutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">quiz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html">
+    
+    <script>
+    var bad_answers = new Map();
+
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
+    }
+    </script>
+    
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">What happens if we enter the command <code>break 2 + 3</code>?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Pick a choice.">
+    
+        <input type="radio" name="b591a260-b293-11f0-a26c-6298cf1a5790" id="b591a260-b293-11f0-a26c-6298cf1a5790-1" onclick="clear_selection('b591a260-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b591a260-b293-11f0-a26c-6298cf1a5790-1-label" for="b591a260-b293-11f0-a26c-6298cf1a5790-1">A breakpoint is set in Line 2.</label><br>
+    
+        <input type="radio" name="b591a260-b293-11f0-a26c-6298cf1a5790" id="b591a260-b293-11f0-a26c-6298cf1a5790-2" onclick="clear_selection('b591a260-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b591a260-b293-11f0-a26c-6298cf1a5790-2-label" for="b591a260-b293-11f0-a26c-6298cf1a5790-2">A breakpoint is set in Line 5.</label><br>
+    
+        <input type="radio" name="b591a260-b293-11f0-a26c-6298cf1a5790" id="b591a260-b293-11f0-a26c-6298cf1a5790-3" onclick="clear_selection('b591a260-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b591a260-b293-11f0-a26c-6298cf1a5790-3-label" for="b591a260-b293-11f0-a26c-6298cf1a5790-3">Two breakpoints are set in Lines 2 and 3.</label><br>
+    
+        <input type="radio" name="b591a260-b293-11f0-a26c-6298cf1a5790" id="b591a260-b293-11f0-a26c-6298cf1a5790-4" onclick="clear_selection('b591a260-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b591a260-b293-11f0-a26c-6298cf1a5790-4-label" for="b591a260-b293-11f0-a26c-6298cf1a5790-4">The debugger raises a <code>ValueError</code> exception.</label><br>
+    
+    </div>
+    </p>
+    <input id="b591a260-b293-11f0-a26c-6298cf1a5790-submit" type="submit" value="Submit" onclick="check_selection('b591a260-b293-11f0-a26c-6298cf1a5790', 16, 0, '12345 % 7')">
+    <span class="quiz_hint" id="b591a260-b293-11f0-a26c-6298cf1a5790-hint"></span>
+    </div>
+    </div></div>
+</div>
+<p>Try it out yourself by executing the above code block!</p>
+</section>
+<section id="deleting-breakpoints">
+<h2>Deleting Breakpoints<a class="headerlink" href="#deleting-breakpoints" title="Link to this heading">#</a></h2>
+<p>To delete breakpoints, we introduce a <code class="docutils literal notranslate"><span class="pre">delete</span></code> command:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete breakpoint in line given by `arg`.</span>
+<span class="sd">           Without given line, clear all breakpoints&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No such breakpoint: </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Breakpoints:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>break 16</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Breakpoints: {16}
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False, quote = False, out = &#39;abc&#39;, c = &#39;c&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16     return out
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;abc&#39;
+tag = False
+quote = False
+out = &#39;abc&#39;
+c = &#39;c&#39;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>delete 16</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Breakpoints: set()
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html">
+    
+    <script>
+    var bad_answers = new Map();
+
+    function answer(quiz_id) {
+        ans = 0;
+        for (i = 1;; i++) {
+            checkbox = document.getElementById(quiz_id + "-" + i.toString());
+            if (!checkbox)
+                break;
+            if (checkbox.checked)
+                ans |= (1 << i);
+        }
+        return ans;
+    }
+    function check_selection(quiz_id, correct_answer, multiple_choice, hint) {
+        given_answer = answer(quiz_id);
+        if (given_answer == correct_answer)
+        {
+            document.getElementById(quiz_id + "-submit").value = "Correct!";
+            document.getElementById(quiz_id + "-hint").innerHTML = "";
+
+            for (i = 1;; i++) {
+                checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+                if (!checkbox)
+                    break;
+
+                if (checkbox.checked) {
+                    label.style.fontWeight = "bold";
+                }
+                else {
+                    label.style.textDecoration = "line-through";
+                }
+            }
+        }
+        else 
+        {
+            document.getElementById(quiz_id + "-submit").value = "Try again";
+
+            if (!bad_answers.has(quiz_id)) {
+                bad_answers.set(quiz_id, 1);
+            }
+            else {
+                bad_answers.set(quiz_id, bad_answers.get(quiz_id) + 1);
+            }
+
+            if (bad_answers.get(quiz_id) >= 2 && hint.length > 0) {
+                document.getElementById(quiz_id + "-hint").innerHTML = 
+                    "&nbsp;&nbsp;(Hint: <code>" + hint + "</code>)";
+            }
+
+            if (!multiple_choice) {
+                for (i = 1;; i++) {
+                    checkbox = document.getElementById(quiz_id + "-" + i.toString());
+                    label = document.getElementById(quiz_id + "-" + i.toString() + "-label")
+
+                    if (!checkbox)
+                        break;
+                    if (checkbox.checked) {
+                        label.style.textDecoration = "line-through";
+                    }
+                }
+            }
+        }
+    }
+    function clear_selection(quiz_id) {
+        document.getElementById(quiz_id + "-submit").value = "Submit";
+        document.getElementById(quiz_id + "-hint").innerHTML = "";
+    }
+    </script>
+    
+    <div class="quiz">
+    <h3 class="quiz_title">Quiz</h3>
+    <p>
+    <div class="quiz_question">What does the command <code>delete</code> (without argument) do?</div>
+    </p>
+    <p>
+    <div class="quiz_options" title="Check all that apply.">
+    
+        <input type="checkbox" name="b5954352-b293-11f0-a26c-6298cf1a5790" id="b5954352-b293-11f0-a26c-6298cf1a5790-1" onclick="clear_selection('b5954352-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b5954352-b293-11f0-a26c-6298cf1a5790-1-label" for="b5954352-b293-11f0-a26c-6298cf1a5790-1">It deletes all breakpoints</label><br>
+    
+        <input type="checkbox" name="b5954352-b293-11f0-a26c-6298cf1a5790" id="b5954352-b293-11f0-a26c-6298cf1a5790-2" onclick="clear_selection('b5954352-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b5954352-b293-11f0-a26c-6298cf1a5790-2-label" for="b5954352-b293-11f0-a26c-6298cf1a5790-2">It deletes the source code</label><br>
+    
+        <input type="checkbox" name="b5954352-b293-11f0-a26c-6298cf1a5790" id="b5954352-b293-11f0-a26c-6298cf1a5790-3" onclick="clear_selection('b5954352-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b5954352-b293-11f0-a26c-6298cf1a5790-3-label" for="b5954352-b293-11f0-a26c-6298cf1a5790-3">It lists all breakpoints</label><br>
+    
+        <input type="checkbox" name="b5954352-b293-11f0-a26c-6298cf1a5790" id="b5954352-b293-11f0-a26c-6298cf1a5790-4" onclick="clear_selection('b5954352-b293-11f0-a26c-6298cf1a5790')">
+        <label id="b5954352-b293-11f0-a26c-6298cf1a5790-4-label" for="b5954352-b293-11f0-a26c-6298cf1a5790-4">It stops execution</label><br>
+    
+    </div>
+    </p>
+    <input id="b5954352-b293-11f0-a26c-6298cf1a5790-submit" type="submit" value="Submit" onclick="check_selection('b5954352-b293-11f0-a26c-6298cf1a5790', 10, 1, '[n for n in range(2 // 2, 2 * 2) if n % 2 / 2]')">
+    <span class="quiz_hint" id="b5954352-b293-11f0-a26c-6298cf1a5790-hint"></span>
+    </div>
+    </div></div>
+</div>
+</section>
+<section id="listings-with-benefits">
+<h2>Listings with Benefits<a class="headerlink" href="#listings-with-benefits" title="Link to this heading">#</a></h2>
+<p>Let us extend <code class="docutils literal notranslate"><span class="pre">list</span></code> a bit such that</p>
+<ol class="arabic simple">
+<li><p>it can also list a given function, and</p></li>
+<li><p>it shows the current line (<code class="docutils literal notranslate"><span class="pre">&gt;</span></code>) as well as breakpoints (<code class="docutils literal notranslate"><span class="pre">#</span></code>)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show current function. If `arg` is given, show its source code.&quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                <span class="n">current_line</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">source_lines</span><span class="p">,</span> <span class="n">line_number</span> <span class="o">=</span> \
+                    <span class="n">getsourcelines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="p">)</span>
+                <span class="n">current_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">source_lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">line_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">source_lines</span><span class="p">:</span>
+            <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+            <span class="k">if</span> <span class="n">line_number</span> <span class="o">==</span> <span class="n">current_line</span><span class="p">:</span>
+                <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39;&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">line_number</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span><span class="p">:</span>
+                <span class="n">spacer</span> <span class="o">=</span> <span class="s1">&#39;#&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">line_number</span><span class="si">:</span><span class="s1">4</span><span class="si">}{</span><span class="n">spacer</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">line_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>break 14</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Breakpoints: {14}
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>list</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   1&gt; <span class=" -Color -Color-Blue">def</span><span class=" -Color -Color-White"> </span><span class=" -Color -Color-Green">remove_html_markup</span>(s):  <span class=" -Color -Color-White"># type: ignore</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   2      tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   3      quote = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   4      out = <span class=" -Color -Color-Yellow">&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   5  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   6      <span class=" -Color -Color-Blue">for</span> c <span class=" -Color -Color-Magenta">in</span> s:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   7          <span class=" -Color -Color-Blue">if</span> c == <span class=" -Color -Color-Yellow">&#39;&lt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   8              tag = <span class=" -Color -Color-Blue">True</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   9          <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&gt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  10              tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  11          <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&quot;&#39;</span> <span class=" -Color -Color-Magenta">or</span> c == <span class=" -Color -Color-Yellow">&quot;&#39;&quot;</span> <span class=" -Color -Color-Magenta">and</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  12              quote = <span class=" -Color -Color-Magenta">not</span> quote
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  13          <span class=" -Color -Color-Blue">elif</span> <span class=" -Color -Color-Magenta">not</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  14#             out = out + c
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  15  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  16      <span class=" -Color -Color-Blue">return</span> out
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False, quote = False, out = &#39;&#39;, c = &#39;a&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14             out = out + c
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>delete</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Breakpoints: set()
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>list</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   1  <span class=" -Color -Color-Blue">def</span><span class=" -Color -Color-White"> </span><span class=" -Color -Color-Green">remove_html_markup</span>(s):  <span class=" -Color -Color-White"># type: ignore</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   2      tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   3      quote = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   4      out = <span class=" -Color -Color-Yellow">&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   5  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   6      <span class=" -Color -Color-Blue">for</span> c <span class=" -Color -Color-Magenta">in</span> s:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   7          <span class=" -Color -Color-Blue">if</span> c == <span class=" -Color -Color-Yellow">&#39;&lt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   8              tag = <span class=" -Color -Color-Blue">True</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   9          <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&gt;&#39;</span> <span class=" -Color -Color-Magenta">and</span> <span class=" -Color -Color-Magenta">not</span> quote:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  10              tag = <span class=" -Color -Color-Blue">False</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  11          <span class=" -Color -Color-Blue">elif</span> c == <span class=" -Color -Color-Yellow">&#39;&quot;&#39;</span> <span class=" -Color -Color-Magenta">or</span> c == <span class=" -Color -Color-Yellow">&quot;&#39;&quot;</span> <span class=" -Color -Color-Magenta">and</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  12              quote = <span class=" -Color -Color-Magenta">not</span> quote
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  13          <span class=" -Color -Color-Blue">elif</span> <span class=" -Color -Color-Magenta">not</span> tag:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  14&gt;             out = out + c
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  15  
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  16      <span class=" -Color -Color-Blue">return</span> out
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="quitting">
+<h3>Quitting<a class="headerlink" href="#quitting" title="Link to this heading">#</a></h3>
+<p>In the Python debugger interface, we can only observe, but not alter the control flow. To make sure we can always exit out of our debugging session, we introduce a <code class="docutils literal notranslate"><span class="pre">quit</span></code> command that deletes all breakpoints and resumes execution until the observed function finishes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">quit_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Finish execution&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">breakpoints</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepping</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this, our command palette is pretty complete, and we can use our debugger to happily inspect Python executions.</p>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>help</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>break      -- Set a breakpoint in given line. If no line is given, list all breakpoints
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>continue   -- Resume execution
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>delete     -- Delete breakpoint in line given by `arg`.
+Without given line, clear all breakpoints
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>help       -- Give help on given `command`. If no command is given, give help on all
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list       -- Show current function. If `arg` is given, show its source code.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>print      -- Print an expression. If no expression is given, print all variables
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>quit       -- Finish execution
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>step       -- Execute up to the next line
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>quit</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="lessons-learned">
+<h2>Lessons Learned<a class="headerlink" href="#lessons-learned" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><em>Debugging hooks</em> from interpreted languages allow for simple interactive debugging.</p></li>
+<li><p>A command-line debugging framework can be very easily extended with additional functionality.</p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<p>In the next chapter, we will see how <a class="reference internal" href="Assertions.html"><span class="std std-doc">assertions</span></a> check correctness at runtime.</p>
+</section>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>The command-line interface in this chapter is modeled after <a class="reference external" href="https://www.gnu.org/software/gdb/">GDB, the GNU debugger</a>, whose interface in turn goes back to earlier command-line debuggers such as <a class="reference external" href="https://en.wikipedia.org/wiki/Dbx_%28debugger%29">dbx</a>. All modern debuggers build on the functionality and concepts realized in these debuggers, be it breakpoints, stepping through programs, or inspecting program state.</p>
+<p>The concept of time travel debugging (see the Exercises, below) has been invented (and reinvented) many times. One of the most impactful tools comes from King et al. \cite{King2005}, integrating <em>a time-traveling virtual machine</em> (TTVM) for debugging operating systems, integrated into GDB. The recent <a class="reference external" href="https://rr-project.org">record+replay “rr” debugger</a> also implements time travel debugging on top of the GDB command line debugger; it is applicable for general-purpose programs and available as open source.</p>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-1-changing-state">
+<h3>Exercise 1: Changing State<a class="headerlink" href="#exercise-1-changing-state" title="Link to this heading">#</a></h3>
+<p>Some Python implementations allow altering the state by assigning values to <code class="docutils literal notranslate"><span class="pre">frame.f_locals</span></code>. Implement a <code class="docutils literal notranslate"><span class="pre">assign</span> <span class="pre">VAR=VALUE</span></code> command that allows changing the value of (local) variable <code class="docutils literal notranslate"><span class="pre">VAR</span></code> to the new value <code class="docutils literal notranslate"><span class="pre">VALUE</span></code>.</p>
+<p>Note: As detailed in <a class="reference external" href="https://utcc.utoronto.ca/~cks/space/blog/python/FLocalsAndTraceFunctions">this blog post</a>,
+<code class="docutils literal notranslate"><span class="pre">frame.f_locals</span></code> is re-populated with every access, so assign to our local alias <code class="docutils literal notranslate"><span class="pre">self.local_vars</span></code> instead.</p>
+<p><strong>Solution.</strong> Here is an <code class="docutils literal notranslate"><span class="pre">assign</span></code> command that gets things right on CPython.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Debugger</span><span class="p">(</span><span class="n">Debugger</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">assign_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Use as &#39;assign VAR=VALUE&#39;. Assign VALUE to local variable VAR.&quot;&quot;&quot;</span>
+
+        <span class="n">sep</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[:</span><span class="n">sep</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">expr</span> <span class="o">=</span> <span class="n">arg</span><span class="p">[</span><span class="n">sep</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">help_command</span><span class="p">(</span><span class="s2">&quot;assign&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="nb">vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_vars</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">vars</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">,</span> <span class="nb">vars</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">err</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">Debugger</span><span class="p">():</span>
+    <span class="n">remove_html_markup</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Calling remove_html_markup(s = &#39;abc&#39;)
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>assign s = 'xyz'</b></samp></div><div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;xyz&#39;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # s = &#39;xyz&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2     tag = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;xyz&#39;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # tag = False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3     quote = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>assign tag = True</b></samp></div><div class="output text_html"><samp>(debugger) <b>assign s = 'abc'</b></samp></div><div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;abc&#39;
+tag = True
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>step</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         # s = &#39;abc&#39;, tag = True, quote = False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4     out = &quot;&quot;
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>print</b></samp></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>s = &#39;abc&#39;
+tag = True
+quote = False
+</pre></div>
+</div>
+<div class="output text_html"><samp>(debugger) <b>continue</b></samp></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># docassert</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">next_inputs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2-more-commands">
+<h3>Exercise 2: More Commands<a class="headerlink" href="#exercise-2-more-commands" title="Link to this heading">#</a></h3>
+<p>Extending the <code class="docutils literal notranslate"><span class="pre">Debugger</span></code> class with extra features and commands is a breeze. The following commands are inspired from <a class="reference external" href="https://www.gnu.org/software/gdb/">the GNU command-line debugger (GDB)</a>:</p>
+<section id="named-breakpoints-break">
+<h4>Named breakpoints (“break”)<a class="headerlink" href="#named-breakpoints-break" title="Link to this heading">#</a></h4>
+<p>With <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">FUNCTION</span></code> and <code class="docutils literal notranslate"><span class="pre">delete</span> <span class="pre">FUNCTION</span></code>, set and delete a breakpoint at <code class="docutils literal notranslate"><span class="pre">FUNCTION</span></code>.</p>
+</section>
+<section id="step-over-functions-next">
+<h4>Step over functions (“next”)<a class="headerlink" href="#step-over-functions-next" title="Link to this heading">#</a></h4>
+<p>When stopped at a function call, the <code class="docutils literal notranslate"><span class="pre">next</span></code> command should execute the entire call, stopping when the function returns. (In contrast, <code class="docutils literal notranslate"><span class="pre">step</span></code> stops at the first line of the function called.)</p>
+</section>
+<section id="print-call-stack-where">
+<h4>Print call stack (“where”)<a class="headerlink" href="#print-call-stack-where" title="Link to this heading">#</a></h4>
+<p>Implement a <code class="docutils literal notranslate"><span class="pre">where</span></code> command that shows the stack of calling functions.</p>
+</section>
+<section id="move-up-and-down-the-call-stack-up-and-down">
+<h4>Move up and down the call stack (“up” and “down”)<a class="headerlink" href="#move-up-and-down-the-call-stack-up-and-down" title="Link to this heading">#</a></h4>
+<p>After entering the <code class="docutils literal notranslate"><span class="pre">up</span></code> command, explore the source and variables of the <em>calling</em> function rather than the current function. Use <code class="docutils literal notranslate"><span class="pre">up</span></code> repeatedly to move further up the stack. <code class="docutils literal notranslate"><span class="pre">down</span></code> returns to the caller.</p>
+</section>
+<section id="execute-until-line-until">
+<h4>Execute until line (“until”)<a class="headerlink" href="#execute-until-line-until" title="Link to this heading">#</a></h4>
+<p>With <code class="docutils literal notranslate"><span class="pre">until</span> <span class="pre">LINE</span></code>, resume execution until a line greater than <code class="docutils literal notranslate"><span class="pre">LINE</span></code> is reached. If <code class="docutils literal notranslate"><span class="pre">LINE</span></code> is not given, resume execution until a line greater than the current is reached. This is useful to avoid stepping through multiple loop iterations.</p>
+</section>
+<section id="execute-until-return-finish">
+<h4>Execute until return (“finish”)<a class="headerlink" href="#execute-until-return-finish" title="Link to this heading">#</a></h4>
+<p>With <code class="docutils literal notranslate"><span class="pre">finish</span></code>, resume execution until the current function returns.</p>
+</section>
+<section id="watchpoints-watch">
+<h4>Watchpoints (“watch”)<a class="headerlink" href="#watchpoints-watch" title="Link to this heading">#</a></h4>
+<p>With <code class="docutils literal notranslate"><span class="pre">watch</span> <span class="pre">CONDITION</span></code>, stop execution as soon as <code class="docutils literal notranslate"><span class="pre">CONDITION</span></code> changes its value. (Use the code from our <code class="docutils literal notranslate"><span class="pre">EventTracer</span></code> class in the <a class="reference internal" href="Tracer.html"><span class="std std-doc">chapter on Tracing</span></a>.) <code class="docutils literal notranslate"><span class="pre">delete</span> <span class="pre">CONDITION</span></code> removes the watchpoint. Keep in mind that some variable names may not exist at all times.</p>
+</section>
+</section>
+<section id="exercise-3-time-travel-debugging">
+<h3>Exercise 3: Time-Travel Debugging<a class="headerlink" href="#exercise-3-time-travel-debugging" title="Link to this heading">#</a></h3>
+<p>Rather than inspecting a function at the moment it executes, you can also <em>record</em> the entire state (call stack, local variables, etc.) during execution, and then run an interactive session to step through the recorded execution. Your time travel debugger would be invoked as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">TimeTravelDebugger</span><span class="p">():</span>
+    <span class="n">function_to_be_tracked</span><span class="p">()</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The interaction then starts at the end of the <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p>
+<section id="part-1-recording-values">
+<h4>Part 1: Recording Values<a class="headerlink" href="#part-1-recording-values" title="Link to this heading">#</a></h4>
+<p>Start with a subclass of <code class="docutils literal notranslate"><span class="pre">Tracer</span></code> from the <a class="reference internal" href="Tracer.html"><span class="std std-doc">chapter on tracing</span></a> (say, <code class="docutils literal notranslate"><span class="pre">TimeTravelTracer</span></code>) to execute a program while recording all values. Keep in mind that recording even only local variables at each step quickly consumes large amounts of memory. As an alternative, consider recording only <em>changes</em> to variables, with the option to restore an entire state from a baseline and later changes.</p>
+</section>
+<section id="part-2-command-line-interface">
+<h4>Part 2: Command Line Interface<a class="headerlink" href="#part-2-command-line-interface" title="Link to this heading">#</a></h4>
+<p>Create <code class="docutils literal notranslate"><span class="pre">TimeTravelDebugger</span></code> as subclass of both <code class="docutils literal notranslate"><span class="pre">TimeTravelTracer</span></code> and <code class="docutils literal notranslate"><span class="pre">Debugger</span></code> to provide a command line interface as with <code class="docutils literal notranslate"><span class="pre">Debugger</span></code>, including additional commands which get you back to earlier states:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">back</span></code> is like <code class="docutils literal notranslate"><span class="pre">step</span></code>, except that you go one line back</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restart</span></code> gets you to the beginning of the execution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rewind</span></code> gets you to the beginning of the current function invocation</p></li>
+</ul>
+</section>
+<section id="part-3-graphical-user-interface">
+<h4>Part 3: Graphical User Interface<a class="headerlink" href="#part-3-graphical-user-interface" title="Link to this heading">#</a></h4>
+<p>Create <code class="docutils literal notranslate"><span class="pre">GUItimeTravelDebugger</span></code> to provide a <em>graphical user interface</em> that allows you to explore a recorded execution, using HTML and JavaScript.</p>
+<p>Here’s a simple example to get you started. Assume you have recorded the following line numbers and variable values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recording</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s2">&quot;abc&quot;</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s2">&quot;def&quot;</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s2">&quot;def&quot;</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">35</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">35</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s2">&quot;ghi&quot;</span><span class="p">}),</span>
+    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">36</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s2">&quot;ghi&quot;</span><span class="p">}),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, the following function will provide a <em>slider</em> that will allow you to explore these values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bookutils</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">slider</span><span class="p">(</span><span class="n">rec</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">lines_over_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span> <span class="ow">in</span> <span class="n">rec</span><span class="p">]</span>
+    <span class="n">vars_over_time</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="nb">vars</span><span class="p">)</span> <span class="ow">in</span> <span class="n">rec</span><span class="p">:</span>
+        <span class="n">vars_over_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                                        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">vars</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+    <span class="c1"># print(lines_over_time)</span>
+    <span class="c1"># print(vars_over_time)</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    &lt;div class=&quot;time_travel_debugger&quot;&gt;</span>
+<span class="s1">      &lt;input type=&quot;range&quot; min=&quot;0&quot; max=&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lines_over_time</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">&quot;</span>
+<span class="s1">      value=&quot;0&quot; class=&quot;slider&quot; id=&quot;time_slider&quot;&gt;</span>
+<span class="s1">      Line &lt;span id=&quot;line&quot;&gt;</span><span class="si">{</span><span class="n">lines_over_time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&lt;/span&gt;:</span>
+<span class="s1">      &lt;span id=&quot;vars&quot;&gt;</span><span class="si">{</span><span class="n">vars_over_time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&lt;/span&gt;</span>
+<span class="s1">    &lt;/div&gt;</span>
+<span class="s1">    &lt;script&gt;</span>
+<span class="s1">       var lines_over_time = </span><span class="si">{</span><span class="n">lines_over_time</span><span class="si">}</span><span class="s1">;</span>
+<span class="s1">       var vars_over_time = </span><span class="si">{</span><span class="n">vars_over_time</span><span class="si">}</span><span class="s1">;</span>
+
+<span class="s1">       var time_slider = document.getElementById(&quot;time_slider&quot;);</span>
+<span class="s1">       var line = document.getElementById(&quot;line&quot;);</span>
+<span class="s1">       var vars = document.getElementById(&quot;vars&quot;);</span>
+
+<span class="s1">       time_slider.oninput = function() </span><span class="se">{{</span>
+<span class="s1">          line.innerHTML = lines_over_time[this.value];</span>
+<span class="s1">          vars.innerHTML = vars_over_time[this.value];</span>
+<span class="s1">       </span><span class="se">}}</span>
+<span class="s1">    &lt;/script&gt;</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+    <span class="c1"># print(template)</span>
+    <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">slider</span><span class="p">(</span><span class="n">recording</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+    <div class="time_travel_debugger">
+      <input type="range" min="0" max="11"
+      value="0" class="slider" id="time_slider">
+      Line <span id="line">10</span>:
+      <span id="vars">x = 25</span>
+    </div>
+    <script>
+       var lines_over_time = [10, 11, 12, 13, 10, 11, 12, 13, 10, 11, 12, 13];
+       var vars_over_time = ['x = 25', 'x = 25', "x = 26, a = 'abc'", "x = 26, a = 'abc'", 'x = 30', 'x = 30', "x = 31, a = 'def'", "x = 31, a = 'def'", 'x = 35', 'x = 35', "x = 36, a = 'ghi'", "x = 36, a = 'ghi'"];
+
+       var time_slider = document.getElementById("time_slider");
+       var line = document.getElementById("line");
+       var vars = document.getElementById("vars");
+
+       time_slider.oninput = function() {
+          line.innerHTML = lines_over_time[this.value];
+          vars.innerHTML = vars_over_time[this.value];
+       }
+    </script>
+    </div></div>
+</div>
+<p>Explore the HTML and JavaScript details of how <code class="docutils literal notranslate"><span class="pre">slider()</span></code> works, and then expand it to a user interface where you can</p>
+<ul class="simple">
+<li><p>see the current source code (together with the line being executed)</p></li>
+<li><p>search for specific events, such as a line being executed or a variable changing its value</p></li>
+</ul>
+<p>Just like <code class="docutils literal notranslate"><span class="pre">slider()</span></code>, your user interface should come in pure HTML and JavaScript such that it can run in a browser (or a Jupyter notebook) without interacting with a Python program.</p>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Tracer.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tracing Executions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Assertions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Asserting Expectations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synopsis">Synopsis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debuggers">Debuggers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugger-interaction">Debugger Interaction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-command-dispatcher">A Command Dispatcher</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#excursion-implementing-execute">Excursion: Implementing execute()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#end-of-excursion">End of Excursion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#printing-values">Printing Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listing-source-code">Listing Source Code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-breakpoints">Setting Breakpoints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deleting-breakpoints">Deleting Breakpoints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#listings-with-benefits">Listings with Benefits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quitting">Quitting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lessons-learned">Lessons Learned</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-changing-state">Exercise 1: Changing State</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-more-commands">Exercise 2: More Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#named-breakpoints-break">Named breakpoints (“break”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-over-functions-next">Step over functions (“next”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#print-call-stack-where">Print call stack (“where”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#move-up-and-down-the-call-stack-up-and-down">Move up and down the call stack (“up” and “down”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-until-line-until">Execute until line (“until”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-until-return-finish">Execute until return (“finish”)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#watchpoints-watch">Watchpoints (“watch”)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-time-travel-debugging">Exercise 3: Time-Travel Debugging</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-recording-values">Part 1: Recording Values</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-command-line-interface">Part 2: Command Line Interface</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-graphical-user-interface">Part 3: Graphical User Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Andreas Zeller
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>
+  Copyright &copy; 2021–2025 <a href="https://www.cispa.de/">CISPA Helmholtz Center for Information Security</a>.
+  The <strong>content</strong> of this project is licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  The <strong>source code</strong> that is part of the content, as well as the source code used to format and display that content is licensed under the <a href="https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md#mit-license">MIT License</a>.
+  <br>
+  <a href="https://cispa.de/en/impressum">Imprint</a> &middot; <a href="/html/index.html#how-do-i-cite-your-work">Cite</a>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
