@@ -277,7 +277,7 @@ To [use the code provided in this chapter](Importing.ipynb), write
 
 and then make use of the following features.
 
-(Caveat: In a notebook, the examples in this section only work after (a) the rest of the notebook cells have been executed.)
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 """
     synopsis_cells[0].source = synopsis_first_cell_text
 
