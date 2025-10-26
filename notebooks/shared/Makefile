@@ -585,8 +585,12 @@ ifeq ($(PUBLISH),jupyter-book)
 $(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb jupyter-book
 	@test -d $(DOCS_TARGET) || $(MKDIR) $(DOCS_TARGET)
 	@test -d $(DOCS_TARGET)html || $(MKDIR) $(DOCS_TARGET)html
-	cp -pr $(HTML_TARGET) $(DOCS_TARGET)html
-	
+	cp -pr $(HTML_TARGET) $(DOCS_TARGET)
+	for file in $(DOCS_TARGET)*.html; do \
+		base=$$(basename $$file); \
+		echo '<meta http-equiv="refresh" content="0; url=https://www.$(PROJECT).org/'$$base'">' > $(DOCS_TARGET)html/$$base; \
+	done
+
 # FIXME: Need to set up rules for 404.html and index.html
 else
 # index.html comes with relative links (html/) such that the beta version gets the beta menu
