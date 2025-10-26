@@ -21,7 +21,7 @@
 [![License: MIT (Code), CC BY-NC-SA (Book)](https://img.shields.io/badge/License-MIT_(Code),_CC_BY--NC--SA_4.0_(Book)-blue.svg)](https://github.com/uds-se/debuggingbook/blob/master/LICENSE.md)
 
 
-# About this Book
+# The Debugging Book
 
 __Welcome to "The Debugging Book"!__ 
 Software has bugs, and finding bugs can involve lots of effort.  This book addresses this problem by _automating_ software debugging, specifically by _locating errors and their causes automatically_.  Recent years have seen the development of novel techniques that lead to dramatic improvements in automated software debugging.  They now are mature enough to be assembled in a book – even with executable code. 
@@ -30,6 +30,11 @@ Software has bugs, and finding bugs can involve lots of effort.  This book addre
     <i class="fa fa-fw fa-wrench"></i>
 This book is work in progress. It will be released to the public in Spring 2021.</span>**
 -->
+
+
+```python
+import bookutils.setup
+```
 
 
 ```python
@@ -50,15 +55,13 @@ YouTubeVideo("-nOxI6Ev_I4")
 
 ## A Textbook for Paper, Screen, and Keyboard
 
-You can use this book in four ways:
+You can use this book in multiple ways:
 
 * You can __read chapters in your browser__.  Check out the list of chapters in the menu above, or start right away with the [introduction to debugging](https://www.debuggingbook.org/html/Intro_Debugging.html) or [how debuggers work](https://www.debuggingbook.org/html/Debugger.html).  All code is available for download.
 
-* You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Simply select "Resources → Edit as Notebook" at the top of each chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/HEAD?labpath=docs/notebooks/Debugger.ipynb" target=_blank>Try interacting with the introduction to interactive debuggers.</a>
+* You can __interact with chapters as Jupyter Notebooks__ (beta).  This allows you to edit and extend the code, experimenting _live in your browser._  Select "Binder" at the top of any chapter. <a href="https://mybinder.org/v2/gh/uds-se/debuggingbook/HEAD?labpath=docs/notebooks/Debugger.ipynb" target=_blank>Try interacting with the introduction to interactive debuggers.</a>
 
-* You can __use the code in your own projects__.  You can download the code as Python programs; simply select "Resources → Download Code" for one chapter or "Resources → All Code" for all chapters.  These code files can be executed, yielding (hopefully) the same results as the notebooks.  Once the book is out of beta, you can also [install the Python package](https://www.debuggingbook.org/html/Importing.html).
-
-* You can __present chapters as slides__.  This allows for presenting the material in lectures.  Just select "Resources → View slides" at the top of each chapter. <a href="https://www.debuggingbook.org/slides/Debugger.slides.html" target=_blank>Try viewing the slides for how debuggers work.</a>
+* You can __use the code in your own projects__.  You can [download and install the code and/or the notebooks on your machine](https://www.debuggingbook.org/html/Importing.html).  These code files can be executed, yielding (hopefully) the same results as the notebooks.
 
 ## Who this Book is for
 
