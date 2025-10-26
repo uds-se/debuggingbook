@@ -582,11 +582,10 @@ check-bib-biber: .$(BIB).biber
 ifeq ($(PUBLISH),jupyter-book)
 # No specific rules for individual HTML files;
 # we use jupyter book to convert in bulk
-$(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb jupyter-books
+$(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb jupyter-book
 	@test -d $(DOCS_TARGET) || $(MKDIR) $(DOCS_TARGET)
-	@test -d $(HTML_TARGET) || $(MKDIR) $(HTML_TARGET)
-	$(RM) -fr $(HTML_TARGET)
-	cp -pr _build/html $(HTML_TARGET)
+	@test -d $(DOCS_TARGET)html || $(MKDIR) $(DOCS_TARGET)html
+	cp -pr $(HTML_TARGET) $(DOCS_TARGET)html
 else
 # index.html comes with relative links (html/) such that the beta version gets the beta menu
 $(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb $(HTML_DEPS)
@@ -816,6 +815,7 @@ endif
 
 
 ## Jupyter Book (experimental)
+.PHONY: jb jb-links jupyter-book
 JUPYTER_BOOK = jupyter-book
 jb jupyter-book: $(JB_LINKS) _build/index.html
 jb-links: $(JB_LINKS)
