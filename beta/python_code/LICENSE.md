@@ -1,1 +1,1 @@
-../../code/LICENSE.md
+../../python_code/LICENSE.md

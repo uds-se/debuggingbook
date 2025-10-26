@@ -11,6 +11,16 @@
 CHAPTERS_MAKEFILE = Chapters.makefile
 include $(CHAPTERS_MAKEFILE)
 
+# Configuration
+# The site
+SITE = https://www.$(PROJECT).org
+
+# What we use for production: jupyter-book (preferred), nbpublish (classic), bookbook, or nbconvert
+PUBLISH ?= jupyter-book
+
+# What we use for LaTeX: jupyter-book (preferred), latexmk, or pdflatex
+LATEX ?= jupyter-book
+
 # All source notebooks
 SOURCE_FILES = \
 	$(FRONTMATTER) \
@@ -86,6 +96,11 @@ ifndef BETA
 BETA_FLAG = 
 endif
 
+ifeq ($(PUBLISH),jupyter-book)
+# Jupyter book always generates files in _build/html
+HTML_TARGET := _build/html/
+endif
+
 # Files to appear in the table of contents
 ifndef BETA
 CHAPTER_SOURCES := $(PUBLIC_CHAPTERS:%=$(NOTEBOOKS)/%)
@@ -134,15 +149,6 @@ SLIDES_FILES  = $(SOURCE_FILES:%.ipynb=$(SLIDES_TARGET)%_files)
 SITEMAP_SVG = $(NOTEBOOKS)/PICS/Sitemap.svg
 
 
-# Configuration
-# The site
-SITE = https://www.$(PROJECT).org
-
-# What we use for production: nbpublish (preferred), bookbook, or nbconvert
-PUBLISH ?= nbpublish
-
-# What we use for LaTeX: latexmk (preferred), or pdflatex
-LATEX ?= latexmk
 
 ## Tools
 # Python
@@ -235,9 +241,21 @@ endif
 endif
 
 
+
 # Book base name
 BOOK = $(PROJECT)
 
+ifeq ($(PUBLISH),jupyter-book)
+# We use jupyter-book to convert things in bulk
+CONVERT_TO_HTML = false
+CONVERT_TO_TEX = false
+BOOK_TEX = 
+BOOK_PDF = 
+BOOK_HTML = 
+BOOK_HTML_FILES = 
+BOOK_PDF_FILES = 
+PUBLISH_PLUGINS = 
+else
 ifeq ($(PUBLISH),bookbook)
 # Use bookbook
 CONVERT_TO_HTML   = $(NBCONVERT) $(NBCONVERT_OPTIONS) --to html --output-dir=$(HTML_TARGET)
@@ -274,6 +292,7 @@ BOOK_HTML  =
 BOOK_HTML_FILES = 
 BOOK_PDF_FILES  = 
 PUBLISH_PLUGINS = 
+endif
 endif
 endif
 
@@ -349,6 +368,11 @@ book-pdf $(PROJECT)-pdf:  ipypublish-book $(BOOK_PDF)
 book-html $(PROJECT)-html: ipypublish-book $(BOOK_HTML)
 
 .PHONY: ipypublish-book ipypublish-chapters
+ifeq ($(PUBLISH),jupyter-book)
+HTMLS := _build/html/index.html
+ipypublish-book: jupyter-book
+ipypublish-chapters: jupyter-book
+else
 ifeq ($(PUBLISH),bookbook)
 ipypublish-book:
 ipypublish-chapters:
@@ -366,6 +390,7 @@ ipypublish-chapters:
 	@echo "Documents will be created without citations and references"
 	@echo "Install the 'ipypublish' package"
 	@echo "from https://github.com/chrisjsewell/ipypublish"
+endif
 endif
 endif
 
@@ -405,7 +430,7 @@ help:
 	@echo "* make publish-all -> Add docs to git, preparing for publication" 
 	@echo ""
 	@echo "Settings:"
-	@echo "* Use make PUBLISH=(nbconvert|nbpublish|bookbook) to choose a converter"
+	@echo "* Use make PUBLISH=(jupyter-book|nbconvert|nbpublish|bookbook) to choose a converter"
 	@echo "  (default: automatic)"
 	
 # Setup repo
@@ -447,7 +472,7 @@ $(FULL_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb $(DEPEND_TARGET)%.makefile $(ADD
 	$(PYTHON) $(NBAUTOSLIDE) --in-place $@
 	$(PYTHON) $(NBSYNOPSIS) --project $(PROJECT) --move $@
 	$(COMMIT_SYNOPSIS)
-	
+
 $(RENDERED_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb \
 	$(DEPEND_TARGET)%.makefile $(ADD_METADATA) $(NBAUTOSLIDE) \
 	$(NBSYNOPSIS) $(NBSHORTEN) $(SHARED)$(UTILS)/__init__.py
@@ -554,9 +579,17 @@ check-bib-biber: .$(BIB).biber
 .PHONY: checkbib check-bib check-bib-ascii check-bib-python check-bib-biber
 	
 
+ifeq ($(PUBLISH),jupyter-book)
+# No specific rules for individual HTML files;
+# we use jupyter book to convert in bulk
+$(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb jupyter-books
+	@test -d $(DOCS_TARGET) || $(MKDIR) $(DOCS_TARGET)
+	@test -d $(HTML_TARGET) || $(MKDIR) $(HTML_TARGET)
+	$(RM) -fr $(HTML_TARGET)
+	cp -pr _build/html $(HTML_TARGET)
+else
 # index.html comes with relative links (html/) such that the beta version gets the beta menu
-$(DOCS_TARGET)index.html: \
-	$(FULL_NOTEBOOKS)/index.ipynb $(HTML_DEPS)
+$(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb $(HTML_DEPS)
 	@test -d $(DOCS_TARGET) || $(MKDIR) $(DOCS_TARGET)
 	@test -d $(HTML_TARGET) || $(MKDIR) $(HTML_TARGET)
 	$(CONVERT_TO_HTML) $<
@@ -603,6 +636,7 @@ $(HTML_TARGET)%.html: $(FULL_NOTEBOOKS)/%.ipynb $(HTML_DEPS)
 	@if grep -i '\[unresolved citation' $@; then false; fi
 	@-test -L $(HTML_TARGET)PICS || ln -s ../$(NOTEBOOKS)/PICS $(HTML_TARGET)
 	@$(OPEN) $@
+endif
 
 $(SLIDES_TARGET)%.slides.html: $(FULL_NOTEBOOKS)/%.ipynb $(BIB) $(NBSHORTEN)
 	@test -d $(SLIDES_TARGET) || $(MKDIR) $(SLIDES_TARGET)
@@ -712,6 +746,9 @@ $(NBPDF_TARGET)%.pdf:  $(HTML_TARGET)/%.html $(RENDERED_NOTEBOOKS)/%.ipynb $(HTM
 # We create a fuzzingbook/ or debuggingbook/ folder 
 # with the chapters ordered by number, 
 # and let the fuzzingbook converters run on this
+ifeq ($(PUBLISH),jupyter-book)
+# No book-related rules yet
+else
 ifeq ($(PUBLISH),nbpublish)
 # With nbpublish
 $(PDF_TARGET)$(BOOK).tex: $(RENDERS) $(BIB) $(PUBLISH_PLUGINS) $(CHAPTERS_MAKEFILE)
@@ -774,6 +811,7 @@ $(HTML_TARGET)book.html: $(FULLS) $(BIB) $(PUBLISH_PLUGINS)
 	mv book/html/*.html $(HTML_TARGET)
 	$(RM) -r book
 	@echo Created $@
+endif
 endif
 
 
@@ -1033,8 +1071,11 @@ quick-publish: docs
 	-git commit -m "Doc update" 
 	@echo "Now use 'make push' to place docs on website and trigger a mybinder update"
 
-# Add/update HTML code in Web pages
 .PHONY: publish-html publish-html-setup
+ifeq ($(PUBLISH),jupyter-book)
+publish-html: html publish-html-setup
+else
+# Add/update HTML code in Web pages
 publish-html: html publish-html-setup \
 	$(DOCS_TARGET)html/00_Index.html \
 	$(DOCS_TARGET)html/00_Table_of_Contents.html \
@@ -1043,6 +1084,7 @@ publish-html: html publish-html-setup \
 	$(DOCS_TARGET)html/mastodon-timeline.js \
 	$(DOCS:%=$(DOCS_TARGET)html/%.html) \
 	$(DOCS:%=$(DOCS_TARGET)html/%_files)
+endif
 
 publish-html-setup:
 	@test -d $(DOCS_TARGET) || $(MKDIR) $(DOCS_TARGET)
@@ -1057,7 +1099,7 @@ $(DOCS_TARGET)html/%: $(HTML_TARGET)%
 publish-code: $(CODE_TARGET) publish-code-setup \
 	$(DOCS_TARGET)code/LICENSE.md \
 	$(DOCS_TARGET)code/README.md \
-	$(DOCS_TARGET)code/requirements.txt \
+	$(DOCS_TARGET)code/pyproject.toml \
 	$(DOCS_TARGET)code/setup.py \
 	$(DOCS_TARGET)code/__init__.py \
 	$(UTILITY_FILES:%=$(DOCS_TARGET)code/$(UTILS)/%) \
@@ -1075,7 +1117,7 @@ publish-code-setup:
 $(DOCS_TARGET)code/%: $(CODE_TARGET)%
 	cp -r $< $@
 
-$(DOCS_TARGET)code/requirements.txt: requirements.txt
+$(DOCS_TARGET)code/pyproject.toml: pyproject.toml
 	cp -r $< $@
 
 .PHONY: dist publish-dist
@@ -1086,7 +1128,7 @@ dist publish-dist: publish-code toc \
 DIST_CODE_FILES = \
 	$(DOCS_TARGET)code/LICENSE.md \
 	$(DOCS_TARGET)code/README.md \
-	$(DOCS_TARGET)code/requirements.txt \
+	$(DOCS_TARGET)code/pyproject.toml \
 	$(DOCS_TARGET)code/setup.py \
 	$(DOCS_TARGET)code/__init__.py
 
@@ -1106,7 +1148,7 @@ $(DOCS_TARGET)dist/$(PROJECT)-code.zip: \
 	ln -s ../code $(DOCS_TARGET)$(PROJECT)/$(PROJECT)
 	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/setup.py $(DOCS_TARGET)$(PROJECT)
 	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/README.md $(DOCS_TARGET)$(PROJECT)
-	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/requirements.txt $(DOCS_TARGET)$(PROJECT)
+	mv $(DOCS_TARGET)$(PROJECT)/$(PROJECT)/pyproject.toml $(DOCS_TARGET)$(PROJECT)
 	cd $(DOCS_TARGET)$(PROJECT); PYTHONPATH= $(PYTHON) ./setup.py sdist
 	mv $(DOCS_TARGET)$(PROJECT)/dist/* $(DOCS_TARGET)dist
 	# mv $(DOCS_TARGET)$(PROJECT)/*.egg-info $(DOCS_TARGET)dist
@@ -1156,7 +1198,7 @@ publish-notebooks: full-notebooks publish-notebooks-setup \
 	$(DOCS_TARGET)notebooks/$(BIB) \
 	$(DOCS_TARGET)notebooks/LICENSE.md \
 	$(DOCS_TARGET)notebooks/README.md \
-	$(DOCS_TARGET)notebooks/requirements.txt \
+	$(DOCS_TARGET)notebooks/pyproject.toml \
 	$(DOCS:%=$(DOCS_TARGET)notebooks/%.ipynb) \
 	$(UTILITY_FILES:%=$(DOCS_TARGET)notebooks/$(UTILS)/%)
 
@@ -1171,7 +1213,7 @@ publish-notebooks-setup:
 $(DOCS_TARGET)notebooks/%: $(FULL_NOTEBOOKS)/%
 	cp -r $< $@
 
-$(DOCS_TARGET)notebooks/requirements.txt: requirements.txt
+$(DOCS_TARGET)notebooks/pyproject.toml: pyproject.toml
 	cp -r $< $@
 $(DOCS_TARGET)notebooks/LICENSE,md: LICENSE.md
 	cp -r $< $@
@@ -1258,8 +1300,8 @@ upload-test: dist
 
 ## Binder services
 # Make sure we have our custom.css in Binder, too
-binder/postBuild: binder/postBuild.template $(HTML_TARGET)custom.css
-	cat binder/postBuild.template $(HTML_TARGET)custom.css > $@
+binder/postBuild: binder/postBuild.template html/custom.css
+	cat binder/postBuild.template html/custom.css > $@
 	echo END >> $@
 	chmod +x $@
 
