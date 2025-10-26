@@ -588,7 +588,7 @@ $(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb jupyter-book
 	cp -pr $(HTML_TARGET) $(DOCS_TARGET)
 	for file in $(DOCS_TARGET)*.html; do \
 		base=$$(basename $$file); \
-		echo '<meta http-equiv="refresh" content="0; url=https://www.$(PROJECT).org/'$$base'">' > $(DOCS_TARGET)html/$$base; \
+		echo '<meta http-equiv="refresh" content="0; url=../'$$base'">' > $(DOCS_TARGET)html/$$base; \
 	done
 
 # FIXME: Need to set up rules for 404.html and index.html
