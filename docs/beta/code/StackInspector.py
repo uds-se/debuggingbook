@@ -3,7 +3,7 @@
 
 # "Inspecting Call Stacks" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StackInspector.html
-# Last change: 2025-01-16 10:55:53+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,35 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/StackInspector.html
 
-`StackInspector` is typically used as superclass, providing its functionality to subclasses. 
-
-Here is an example of how to use `caller_function()`. The `test()` function invokes an internal method `caller()` of `StackInspectorDemo`, which in turn invokes `callee()`:
-
-| Function | Class | |
-| --- | --- | --- |
-| `callee()` | `StackInspectorDemo` | |
-| `caller()` | `StackInspectorDemo` | invokes $\uparrow$ |
-| `test()` | (main) | invokes $\uparrow$ |
-| -/- | (main) | invokes $\uparrow$ |
-
-Using `caller_function()`, `callee()` determines the first caller outside a `StackInspector` class and prints it out – i.e., ``.
-
->>> class StackInspectorDemo(StackInspector):
->>>     def callee(self) -> None:
->>>         func = self.caller_function()
->>>         assert func.__name__ == 'test'
->>>         print(func)
->>> 
->>>     def caller(self) -> None:
->>>         self.callee()
->>> def test() -> None:
->>>     demo = StackInspectorDemo()
->>>     demo.caller()
->>> test()
-
-
-
-Here are all methods defined in this chapter:
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Inspecting Call Stacks"
@@ -88,14 +60,6 @@ if __name__ == '__main__' and __package__ is None:
 
 if __name__ == '__main__':
     print('# Inspecting Call Stacks')
-
-
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
 
 
 
@@ -234,7 +198,7 @@ import traceback
 
 class StackInspector(StackInspector):
     def is_internal_error(self, exc_tp: Type, 
-                          exc_value: BaseException, 
+                          exc_value: BaseException,  # ignored
                           exc_traceback: TracebackType) -> bool:
         """Return True if exception was raised from `StackInspector` or a subclass."""
         if not exc_tp:
@@ -245,6 +209,14 @@ class StackInspector(StackInspector):
                 return True
 
         return False
+
+## Lessons Learned
+## ---------------
+
+if __name__ == '__main__':
+    print('\n## Lessons Learned')
+
+
 
 ## Synopsis
 ## --------
@@ -289,11 +261,3 @@ if __name__ == '__main__':
                                 StackInspector.our_frame,
                             ],
                             project='debuggingbook')
-
-## Lessons Learned
-## ---------------
-
-if __name__ == '__main__':
-    print('\n## Lessons Learned')
-
-

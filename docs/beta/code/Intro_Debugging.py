@@ -3,7 +3,7 @@
 
 # "Introduction to Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Intro_Debugging.html
-# Last change: 2025-01-16 10:35:08+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,8 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Intro_Debugging.html
 
-In this chapter, we introduce some basics of how failures come to be as well as a general process for debugging.
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Introduction to Debugging"
@@ -67,14 +66,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     from .bookutils import YouTubeVideo, quiz
     YouTubeVideo("bCHRCehDOq0")
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## A Simple Function
 ## -----------------
@@ -819,14 +810,6 @@ if __name__ == '__main__':
               'like "bugbear" and "bugaboo"'
          ], [bughash.index(i) for i in "d42f"])
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
 ## Lessons Learned
 ## ---------------
 
@@ -972,3 +955,11 @@ if __name__ == '__main__':
     assert remove_html_markup_with_proper_quotes('<b>"foo"</b>') == '"foo"'
     assert remove_html_markup_with_proper_quotes('"<b>foo</b>"') == '"foo"'
     assert remove_html_markup_with_proper_quotes('<b id="bar">foo</b>') == 'foo'
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+

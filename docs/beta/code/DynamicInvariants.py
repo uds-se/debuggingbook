@@ -3,7 +3,7 @@
 
 # "Mining Function Specifications" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DynamicInvariants.html
-# Last change: 2025-01-16 10:36:59+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,69 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/DynamicInvariants.html
 
-This chapter provides two classes that automatically extract specifications from a function and a set of inputs:
-
-* `TypeAnnotator` for _types_, and
-* `InvariantAnnotator` for _pre-_ and _postconditions_.
-
-Both work by _observing_ a function and its invocations within a `with` clause.  Here is an example for the type annotator:
-
->>> def sum2(a, b):  # type: ignore
->>>     return a + b
->>> with TypeAnnotator() as type_annotator:
->>>     sum2(1, 2)
->>>     sum2(-4, -5)
->>>     sum2(0, 0)
-
-The `typed_functions()` method will return a representation of `sum2()` annotated with types observed during execution.
-
->>> print(type_annotator.typed_functions())
-def sum2(a: int, b: int) -> int:
-    return a + b
-
-
-As a shortcut, one can also just evaluate the annotator:
-
->>> type_annotator
-def sum2(a: int, b: int) -> int:
-    return a + b
-
-The invariant annotator works similarly:
-
->>> with InvariantAnnotator() as inv_annotator:
->>>     sum2(1, 2)
->>>     sum2(-4, -5)
->>>     sum2(0, 0)
-
-The `functions_with_invariants()` method will return a representation of `sum2()` annotated with inferred pre- and postconditions that all hold for the observed values.
-
->>> print(inv_annotator.functions_with_invariants())
-@precondition(lambda a, b: isinstance(a, int))
-@precondition(lambda a, b: isinstance(b, int))
-@postcondition(lambda return_value, a, b: a == return_value - b)
-@postcondition(lambda return_value, a, b: b == return_value - a)
-@postcondition(lambda return_value, a, b: isinstance(return_value, int))
-@postcondition(lambda return_value, a, b: return_value == a + b)
-@postcondition(lambda return_value, a, b: return_value == b + a)
-def sum2(a, b):  # type: ignore
-    return a + b
-
-
-
-Again, a shortcut is available:
-
->>> inv_annotator
-@precondition(lambda a, b: isinstance(a, int))
-@precondition(lambda a, b: isinstance(b, int))
-@postcondition(lambda return_value, a, b: a == return_value - b)
-@postcondition(lambda return_value, a, b: b == return_value - a)
-@postcondition(lambda return_value, a, b: isinstance(return_value, int))
-@postcondition(lambda return_value, a, b: return_value == a + b)
-@postcondition(lambda return_value, a, b: return_value == b + a)
-def sum2(a, b):  # type: ignore
-    return a + b
-
-Such type specifications and invariants can be helpful as _oracles_ (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Mining Function Specifications"
@@ -138,14 +76,6 @@ from .Tracer import Tracer
 
 from typing import Sequence, Any, Callable, Tuple
 from typing import Dict, Union, Set, List, cast, Optional
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Specifications and Assertions
 ## -----------------------------
@@ -1496,63 +1426,7 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     with ExpectError():
-        square_root_negative(2.0)  # type: ignore
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-def sum2(a, b):  # type: ignore
-    return a + b
-
-if __name__ == '__main__':
-    with TypeAnnotator() as type_annotator:
-        sum2(1, 2)
-        sum2(-4, -5)
-        sum2(0, 0)
-
-if __name__ == '__main__':
-    print(type_annotator.typed_functions())
-
-if __name__ == '__main__':
-    type_annotator
-
-if __name__ == '__main__':
-    with InvariantAnnotator() as inv_annotator:
-        sum2(1, 2)
-        sum2(-4, -5)
-        sum2(0, 0)
-
-if __name__ == '__main__':
-    print(inv_annotator.functions_with_invariants())
-
-if __name__ == '__main__':
-    inv_annotator
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy([TypeAnnotator, InvariantAnnotator],
-                            public_methods=[
-                                TypeAnnotator.typed_function,
-                                TypeAnnotator.typed_functions,
-                                TypeAnnotator.typed_function_ast,
-                                TypeAnnotator.typed_functions_ast,
-                                TypeAnnotator.__repr__,
-                                InvariantAnnotator.function_with_invariants,
-                                InvariantAnnotator.functions_with_invariants,
-                                InvariantAnnotator.preconditions,
-                                InvariantAnnotator.postconditions,
-                                InvariantAnnotator.__repr__,
-                                InvariantTracer.__init__,
-                                CallTracer.__init__
-                            ],
-                            project='debuggingbook'
-                           )
+        square_root_negative(4.0)  # type: ignore
 
 ## Lessons Learned
 ## ---------------
@@ -1912,3 +1786,59 @@ if __name__ == '__main__':
     print('\n### Exercise 10: Path Invariants')
 
 
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+def sum2(a, b):  # type: ignore
+    return a + b
+
+if __name__ == '__main__':
+    with TypeAnnotator() as type_annotator:
+        sum2(1, 2)
+        sum2(-4, -5)
+        sum2(0, 0)
+
+if __name__ == '__main__':
+    print(type_annotator.typed_functions())
+
+if __name__ == '__main__':
+    type_annotator
+
+if __name__ == '__main__':
+    with InvariantAnnotator() as inv_annotator:
+        sum2(1, 2)
+        sum2(-4, -5)
+        sum2(0, 0)
+
+if __name__ == '__main__':
+    print(inv_annotator.functions_with_invariants())
+
+if __name__ == '__main__':
+    inv_annotator
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy([TypeAnnotator, InvariantAnnotator],
+                            public_methods=[
+                                TypeAnnotator.typed_function,
+                                TypeAnnotator.typed_functions,
+                                TypeAnnotator.typed_function_ast,
+                                TypeAnnotator.typed_functions_ast,
+                                TypeAnnotator.__repr__,
+                                InvariantAnnotator.function_with_invariants,
+                                InvariantAnnotator.functions_with_invariants,
+                                InvariantAnnotator.preconditions,
+                                InvariantAnnotator.postconditions,
+                                InvariantAnnotator.__repr__,
+                                InvariantTracer.__init__,
+                                CallTracer.__init__
+                            ],
+                            project='debuggingbook'
+                           )

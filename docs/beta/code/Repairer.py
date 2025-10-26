@@ -3,7 +3,7 @@
 
 # "Repairing Code Automatically" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Repairer.html
-# Last change: 2025-01-22 09:28:30+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,80 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Repairer.html
 
-This chapter provides tools and techniques for automated repair of program code. The `Repairer` class takes a `RankingDebugger` debugger as input (such as `OchiaiDebugger` from the [chapter on statistical debugging](StatisticalDebugger.ipynb). A typical setup looks like this:
-
-from debuggingbook.StatisticalDebugger import OchiaiDebugger
-
-debugger = OchiaiDebugger()
-for inputs in TESTCASES:
-    with debugger:
-        test_foo(inputs)
-...
-
-repairer = Repairer(debugger)
-
-Here, `test_foo()` is a function that raises an exception if the tested function `foo()` fails. If `foo()` passes, `test_foo()` should not raise an exception.
-
-The `repair()` method of a `Repairer` searches for a repair of the code covered in the debugger (except for methods whose name starts or ends in `test`, such that `foo()`, not `test_foo()` is repaired). `repair()` returns the best fix candidate as a pair `(tree, fitness)` where `tree` is a [Python abstract syntax tree](http://docs.python.org/3/library/ast) (AST) of the fix candidate, and `fitness` is the fitness of the candidate (a value between 0 and 1). A `fitness` of 1.0 means that the candidate passed all tests. A typical usage looks like this:
-
-tree, fitness = repairer.repair()
-print(ast.unparse(tree), fitness)
-
-
-Here is a complete example for the `middle()` program. This is the original source code of `middle()`:
-
-def middle(x, y, z):  # type: ignore
-    if y < z:
-        if x < y:
-            return y
-        elif x < z:
-            return y
-    else:
-        if x > y:
-            return y
-        elif x > z:
-            return x
-    return z
-
-We set up a function `middle_test()` that tests it. The `middle_debugger`  collects testcases and outcomes:
-
->>> middle_debugger = OchiaiDebugger()
->>> for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
->>>     with middle_debugger:
->>>         middle_test(x, y, z)
-
-The repairer is instantiated with the debugger used (`middle_debugger`):
-
->>> middle_repairer = Repairer(middle_debugger)
-
-The `repair()` method of the repairer attempts to repair the function invoked by the test (`middle()`).
-
->>> tree, fitness = middle_repairer.repair()
-
-The returned AST `tree` can be output via `ast.unparse()`:
-
->>> print(ast.unparse(tree))
-def middle(x, y, z):
-    if y < z:
-        if x < y:
-            return y
-        elif x < z:
-            return x
-    elif x > y:
-        return y
-    elif x > z:
-        return x
-    return z
-
-
-The `fitness` value shows how well the repaired program fits the tests. A fitness value of 1.0 shows that the repaired program satisfies all tests.
-
->>> fitness
-1.0
-
-Hence, the above program indeed is a perfect repair in the sense that all previously failing tests now pass – our repair was successful.
-
-Here are the classes defined in this chapter. A `Repairer` repairs a program, using a `StatementMutator` and a `CrossoverOperator` to evolve a population of candidates.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Repairing Code Automatically"
@@ -144,14 +71,6 @@ if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Automatic Code Repairs
 ## ----------------------
@@ -1939,56 +1858,6 @@ if __name__ == '__main__':
 
 
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    print_content(middle_source, '.py')
-
-if __name__ == '__main__':
-    middle_debugger = OchiaiDebugger()
-
-if __name__ == '__main__':
-    for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
-        with middle_debugger:
-            middle_test(x, y, z)
-
-if __name__ == '__main__':
-    middle_repairer = Repairer(middle_debugger)
-
-if __name__ == '__main__':
-    tree, fitness = middle_repairer.repair()
-
-if __name__ == '__main__':
-    print(ast.unparse(tree))
-
-if __name__ == '__main__':
-    fitness
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
-                            abstract_classes=[
-                                NodeVisitor,
-                                NodeTransformer
-                            ],
-                            public_methods=[
-                                Repairer.__init__,
-                                Repairer.repair,
-                                StatementMutator.__init__,
-                                StatementMutator.mutate,
-                                ConditionMutator.__init__,
-                                CrossoverOperator.__init__,
-                                CrossoverOperator.crossover,
-                            ],
-                            project='debuggingbook')
-
 ## Lessons Learned
 ## ---------------
 
@@ -2070,3 +1939,53 @@ if __name__ == '__main__':
     print('\n### Exercise 5: Parallel Repair')
 
 
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    print_content(middle_source, '.py')
+
+if __name__ == '__main__':
+    middle_debugger = OchiaiDebugger()
+
+if __name__ == '__main__':
+    for x, y, z in MIDDLE_PASSING_TESTCASES + MIDDLE_FAILING_TESTCASES:
+        with middle_debugger:
+            middle_test(x, y, z)
+
+if __name__ == '__main__':
+    middle_repairer = Repairer(middle_debugger)
+
+if __name__ == '__main__':
+    tree, fitness = middle_repairer.repair()
+
+if __name__ == '__main__':
+    print(ast.unparse(tree))
+
+if __name__ == '__main__':
+    fitness
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy([Repairer, ConditionMutator, CrossoverOperator],
+                            abstract_classes=[
+                                NodeVisitor,
+                                NodeTransformer
+                            ],
+                            public_methods=[
+                                Repairer.__init__,
+                                Repairer.repair,
+                                StatementMutator.__init__,
+                                StatementMutator.mutate,
+                                ConditionMutator.__init__,
+                                CrossoverOperator.__init__,
+                                CrossoverOperator.crossover,
+                            ],
+                            project='debuggingbook')

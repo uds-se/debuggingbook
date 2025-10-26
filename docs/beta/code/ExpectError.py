@@ -3,7 +3,7 @@
 
 # "Error Handling" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ExpectError.html
-# Last change: 2025-01-16 10:55:32+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,47 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/ExpectError.html
 
-The `ExpectError` class allows you to catch and report exceptions, yet resume execution.  This is useful in notebooks, as they would normally interrupt execution as soon as an exception is raised.  Its typical usage is in conjunction with a `with` clause:
-
->>> with ExpectError():
->>>     x = 1 / 0
-Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30978/2664980466.py", line 2, in 
-    x = 1 / 0
-        ~~^~~
-ZeroDivisionError: division by zero (expected)
-
-
-The `ExpectTimeout` class allows you to interrupt execution after the specified time.  This is useful for interrupting code that might otherwise run forever.
-
->>> with ExpectTimeout(5):
->>>     long_running_test()
-Start
-
-0 seconds have passed
-
-1 seconds have passed
-
-2 seconds have passed
-
-3 seconds have passed
-
-Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30978/1223755941.py", line 2, in 
-    long_running_test()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_30978/3930412460.py", line 4, in long_running_test
-    time.sleep(1)
-  File "Timeout.ipynb", line 43, in timeout_handler
-    raise TimeoutError()
-TimeoutError (expected)
-
-
-The exception and the associated traceback are printed as error messages.  If you do not want that, 
-use these keyword options:
-
-* `print_traceback` (default True) can be set to `False` to avoid the traceback being printed
-* `mute` (default False) can be set to `True` to completely avoid any output.
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Error Handling"
@@ -100,14 +60,6 @@ if __name__ == '__main__' and __package__ is None:
 
 if __name__ == '__main__':
     print('# Error Handling')
-
-
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
 
 
 
@@ -266,6 +218,14 @@ if __name__ == '__main__':
             long_running_test()
         long_running_test()
 
+## Lessons Learned
+## ---------------
+
+if __name__ == '__main__':
+    print('\n## Lessons Learned')
+
+
+
 ## Synopsis
 ## --------
 
@@ -281,11 +241,3 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     with ExpectTimeout(5):
         long_running_test()
-
-## Lessons Learned
-## ---------------
-
-if __name__ == '__main__':
-    print('\n## Lessons Learned')
-
-

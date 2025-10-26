@@ -3,7 +3,7 @@
 
 # "Reducing Failure-Inducing Inputs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DeltaDebugger.html
-# Last change: 2025-01-20 10:56:51+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,66 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/DeltaDebugger.html
 
-A _reducer_ takes a failure-inducing input and reduces it to the minimum that still reproduces the failure.  This chapter provides a `DeltaDebugger` class that implements such a reducer.
-
-Here is a simple example: An arithmetic expression causes an error in the Python interpreter:
-
->>> def myeval(inp: str) -> Any:
->>>     return eval(inp)
->>> with ExpectError(ZeroDivisionError):
->>>     myeval('1 + 2 * 3 / 0')
-Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/4002351332.py", line 2, in 
-    myeval('1 + 2 * 3 / 0')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12128/2200911420.py", line 2, in myeval
-    return eval(inp)
-           ^^^^^^^^^
-  File "", line 1, in 
-ZeroDivisionError: division by zero (expected)
-
-
-Can we reduce this input to a minimum? _Delta Debugging_ is a simple and robust reduction algorithm. We provide a `DeltaDebugger` class that is used in conjunction with a (failing) function call:
-
-with DeltaDebugger() as dd:
-    fun(args...)
-dd
-
-
-The class automatically determines minimal arguments that cause the function to fail with the same exception as the original. Printing out the class object reveals the minimized call.
-
->>> with DeltaDebugger() as dd:
->>>     myeval('1 + 2 * 3 / 0')
->>> dd
-myeval(inp='3/0')
-
-The input is reduced to the minimum: We get the essence of the division by zero.
-
-There also is an interface to access the reduced input(s) programmatically. The method `min_args()` returns a dictionary in which all function arguments are minimized:
-
->>> dd.min_args()
-{'inp': '3/0'}
-
-In contrast, `max_args()` returns a dictionary in which all function arguments are maximized, but still pass:
-
->>> dd.max_args()
-{'inp': '1 + 2 * 3  '}
-
-The method `min_arg_diff()` returns a triple of 
-* passing input,
-* failing input, and
-* their minimal failure-inducing difference:
-
->>> dd.min_arg_diff()
-({'inp': ' 3 '}, {'inp': ' 3 /0'}, {'inp': '/0'})
-
-And you can also access the function itself, as well as its original arguments.
-
->>> dd.function().__name__, dd.args()
-('myeval', {'inp': '1 + 2 * 3 / 0'})
-
-`DeltaDebugger` processes (i.e., minimizes or maximizes) all arguments that support a `len()` operation and that can be indexed – notably _strings_ and _lists_. If a function has multiple arguments, all arguments that can be processed will be processed.
-
-This chapter also provides a number of superclasses to `DeltaDebugger`, notably `CallCollector`, which obtains the first function call for `DeltaDebugger`. `CallReducer` classes allow for implementing alternate call reduction strategies.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Reducing Failure-Inducing Inputs"
@@ -125,14 +66,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     from .bookutils import YouTubeVideo
     YouTubeVideo("6fmJ5l257bM")
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Why Reducing?
 ## -------------
@@ -1621,6 +1554,45 @@ if __name__ == '__main__':
     reduced_fun_tree = copy_and_reduce(fun_tree, reduced_nodes)
     print_content(ast.unparse(reduced_fun_tree), '.py')
 
+## Lessons Learned
+## ---------------
+
+if __name__ == '__main__':
+    print('\n## Lessons Learned')
+
+
+
+## Next Steps
+## ----------
+
+if __name__ == '__main__':
+    print('\n## Next Steps')
+
+
+
+## Background
+## ----------
+
+if __name__ == '__main__':
+    print('\n## Background')
+
+
+
+## Exercises
+## ---------
+
+if __name__ == '__main__':
+    print('\n## Exercises')
+
+
+
+### Exercise 1: Advanced Syntactic Code Reduction
+
+if __name__ == '__main__':
+    print('\n### Exercise 1: Advanced Syntactic Code Reduction')
+
+
+
 ## Synopsis
 ## --------
 
@@ -1683,42 +1655,3 @@ if __name__ == '__main__':
                                 DeltaDebugger.__repr__
                             ],
                             project='debuggingbook')
-
-## Lessons Learned
-## ---------------
-
-if __name__ == '__main__':
-    print('\n## Lessons Learned')
-
-
-
-## Next Steps
-## ----------
-
-if __name__ == '__main__':
-    print('\n## Next Steps')
-
-
-
-## Background
-## ----------
-
-if __name__ == '__main__':
-    print('\n## Background')
-
-
-
-## Exercises
-## ---------
-
-if __name__ == '__main__':
-    print('\n## Exercises')
-
-
-
-### Exercise 1: Advanced Syntactic Code Reduction
-
-if __name__ == '__main__':
-    print('\n### Exercise 1: Advanced Syntactic Code Reduction')
-
-

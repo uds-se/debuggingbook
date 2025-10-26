@@ -3,7 +3,7 @@
 
 # "Debugging Performance Issues" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/PerformanceDebugger.html
-# Last change: 2025-01-20 10:41:06+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,63 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/PerformanceDebugger.html
 
-This chapter provides a class `PerformanceDebugger` that allows measuring and visualizing the time taken per line in a function.
-
->>> with PerformanceDebugger(TimeCollector) as debugger:
->>>     for i in range(100):
->>>         s = remove_html_markup('foo')
-
-The distribution of executed time within each function can be obtained by printing out the debugger:
-
->>> print(debugger)
- 238   5% def remove_html_markup(s):  # type: ignore
- 239   2%     tag = False
- 240   2%     quote = False
- 241   2%     out = ""
- 242   0%
- 243  16%     for c in s:
- 244  14%         assert tag or not quote
- 245   0%
- 246  14%         if c == '<' and not quote:
- 247   2%             tag = True
- 248  11%         elif c == '>' and not quote:
- 249   2%             tag = False
- 250   8%         elif (c == '"' or c == "'") and tag:
- 251   0%             quote = not quote
- 252   8%         elif not tag:
- 253   4%             out = out + c
- 254   0%
- 255   2%     return out
-
-
-
-The sum of all percentages in a function should always be 100%.
-
-These percentages can also be visualized, where darker shades represent higher percentage values:
-
->>> debugger
-
- 238 def remove_html_markup(s):  # type: ignore
- 239     tag = False
- 240     quote = False
- 241     out = ""
- 242  
- 243     for c in s:
- 244         assert tag or not quote
- 245  
- 246         if c == '<' and not quote:
- 247             tag = True
- 248         elif c == '>' and not quote:
- 249             tag = False
- 250         elif (c == '"' or c == "'") and tag:
- 251             quote = not quote
- 252         elif not tag:
- 253             out = out + c
- 254  
- 255     return out
-
-
-The abstract `MetricCollector` class allows subclassing to build more collectors, such as `HitCollector`.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Debugging Performance Issues"
@@ -130,14 +74,6 @@ if __name__ == '__main__':
 
 from . import StatisticalDebugger
 from . import DeltaDebugger
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Measuring Performance
 ## ---------------------
@@ -531,34 +467,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     s_pass
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    with PerformanceDebugger(TimeCollector) as debugger:
-        for i in range(100):
-            s = remove_html_markup('<b>foo</b>')
-
-if __name__ == '__main__':
-    print(debugger)
-
-if __name__ == '__main__':
-    debugger
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy([PerformanceDebugger, TimeCollector, HitCollector],
-                            public_methods=[
-                                PerformanceDebugger.__init__,
-                            ],
-                            project='debuggingbook')
-
 ## Lessons Learned
 ## ---------------
 
@@ -617,3 +525,31 @@ if __name__ == '__main__':
     print('\n## Exercise 2: Statistical Performance Debugging')
 
 
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    with PerformanceDebugger(TimeCollector) as debugger:
+        for i in range(100):
+            s = remove_html_markup('<b>foo</b>')
+
+if __name__ == '__main__':
+    print(debugger)
+
+if __name__ == '__main__':
+    debugger
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy([PerformanceDebugger, TimeCollector, HitCollector],
+                            public_methods=[
+                                PerformanceDebugger.__init__,
+                            ],
+                            project='debuggingbook')

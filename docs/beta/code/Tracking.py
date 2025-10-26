@@ -3,7 +3,7 @@
 
 # "Tracking Bugs" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracking.html
-# Last change: 2025-01-16 11:28:05+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,8 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Tracking.html
 
-This chapter provides no functionality that could be used by third-party code.
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Tracking Bugs"
@@ -86,14 +85,6 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     assert os.getenv('USER') == 'zeller'
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Reporting Issues
 ## ----------------
@@ -943,14 +934,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     os.system("pkill ruby");
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
 ## Lessons Learned
 ## ---------------
 
@@ -972,5 +955,13 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     print('\n## Background')
+
+
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
 
 

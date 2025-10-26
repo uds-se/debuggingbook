@@ -3,7 +3,7 @@
 
 # "Timer" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timer.html
-# Last change: 2025-01-16 10:55:36+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,13 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Timer.html
 
-The `Timer` class allows you to measure elapsed real time (in fractional seconds).  Its typical usage is in conjunction with a `with` clause:
-
->>> with Timer() as t:
->>>     some_long_running_function()
->>> t.elapsed_time()
-0.019930540991481394
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Timer"
@@ -66,14 +60,6 @@ if __name__ == '__main__' and __package__ is None:
 
 if __name__ == '__main__':
     print('# Timer')
-
-
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
 
 
 
@@ -145,6 +131,14 @@ if __name__ == '__main__':
             some_long_running_function()
             print(t.elapsed_time())
 
+## Lessons Learned
+## ---------------
+
+if __name__ == '__main__':
+    print('\n## Lessons Learned')
+
+
+
 ## Synopsis
 ## --------
 
@@ -157,11 +151,3 @@ if __name__ == '__main__':
     with Timer() as t:
         some_long_running_function()
     t.elapsed_time()
-
-## Lessons Learned
-## ---------------
-
-if __name__ == '__main__':
-    print('\n## Lessons Learned')
-
-

@@ -3,7 +3,7 @@
 
 # "Timeout" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Timeout.html
-# Last change: 2025-01-16 10:55:39+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,20 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Timeout.html
 
-The `Timeout` class throws a `TimeoutError` exception after a given timeout has expired.
-Its typical usage is in conjunction with a `with` clause:
-
->>> try:
->>>     with Timeout(0.2):
->>>         some_long_running_function()
->>>     print("complete!")
->>> except TimeoutError:
->>>     print("Timeout!")
-Timeout!
-
-
-Note: On Unix/Linux systems, the `Timeout` class uses [`SIGALRM` signals](https://docs.python.org/3.10/library/signal.html) (interrupts) to implement timeouts; this has no effect on performance of the tracked code. On other systems (notably Windows), `Timeout` uses the [`sys.settrace()`](https://docs.python.org/3.10/library/sys.html?highlight=settrace#sys.settrace) function to check the timer after each line of code, which affects performance of the tracked code.
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Timeout"
@@ -73,14 +60,6 @@ if __name__ == '__main__' and __package__ is None:
 
 if __name__ == '__main__':
     print('# Timeout')
-
-
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
 
 
 
@@ -229,6 +208,14 @@ if __name__ == '__main__':
 
 Timeout: Type[SignalTimeout] = SignalTimeout if hasattr(signal, 'SIGALRM') else GenericTimeout  # type: ignore
 
+## Exercises
+## ---------
+
+if __name__ == '__main__':
+    print('\n## Exercises')
+
+
+
 ## Synopsis
 ## --------
 
@@ -244,11 +231,3 @@ if __name__ == '__main__':
         print("complete!")
     except TimeoutError:
         print("Timeout!")
-
-## Exercises
-## ---------
-
-if __name__ == '__main__':
-    print('\n## Exercises')
-
-

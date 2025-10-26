@@ -3,7 +3,7 @@
 
 # "Where the Bugs are" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeCounter.html
-# Last change: 2025-01-16 10:55:08+01:00
+# Last change: 2025-10-26 19:08:07+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,66 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/ChangeCounter.html
 
-This chapter provides two classes `ChangeCounter` and `FineChangeCounter` that allow mining and visualizing the distribution of changes in a given `git` repository.
-
-`ChangeCounter` is initialized as
-
-change_counter = ChangeCounter(repository)
-
-where `repository` is either 
-
-* a _directory_ containing a `git` clone (i.e., it contains a `.git` directory)
-* the URL of a `git` repository.
-
-Additional arguments are being passed to the underlying `Repository` class from the [PyDriller](https://pydriller.readthedocs.io/) Python package. A `filter` keyword argument, if given, is a predicate that takes a modification (from PyDriller) and returns True if it should be included.
-
-In a change counter, all elements in the repository are represented as _nodes_ – tuples $(f_1, f_2, ..., f_n)$ that denote a _hierarchy_: Each $f_i$ is a directory holding $f_{i+1}$, with $f_n$ being the actual file.
-
-A `change_counter` provides a number of attributes. `changes` is a mapping of nodes to the number of changes in that node:
-
->>> change_counter.changes.get(('README.md',), None)
-20
-
-The `messages` attribute holds all commit messages related to that node:
-
->>> change_counter.messages.get(('README.md',), None)
-['Doc update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Fix: corrected rule for rendered notebooks (#24)\nNew: strip out any  tags\nNew: when rendering .md files, replace videos by proper image',
- 'Doc update',
- 'Doc update',
- 'New: show badges at top of GitHub project page',
- 'More badges',
- 'Fix: bad links in CI badges',
- 'New: prefer Unicode arrows over LaTeX ones',
- 'Updated README.md',
- 'Update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Doc update',
- 'Updated README',
- 'Doc update',
- 'Doc update']
-
-The `sizes` attribute holds the (last) size of the respective element:
-
->>> change_counter.sizes.get(('README.md',), None)
-4728
-
-`FineChangeCounter` acts like `ChangeCounter`, but also retrieves statistics for elements _within_ the respective files; it has been tested for C, Python, and Jupyter Notebooks and should provide sufficient results for programming languages with similar syntax.
-
-The `map()` method of `ChangeCounter` and `FineChangeCounter` produces an interactive tree map that allows exploring the elements of a repository. The redder (darker) a rectangle, the more changes it has seen; the larger a rectangle, the larger its size in bytes.
-
->>> fine_change_counter.map()
-
-   
-
-The included classes offer several methods that can be overridden in subclasses to customize what to mine and how to visualize it. See the chapter for details.
-
-Here are all the classes defined in this chapter:
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Where the Bugs are"
@@ -132,14 +73,6 @@ if __name__ == '__main__':
     random.seed(2001)
 
 from . import Tracking
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Mining Change Histories
 ## -----------------------
@@ -890,36 +823,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     [(node, fine_change_counter.changes[node]) for node in elem_nodes[:5]]
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    change_counter.changes.get(('README.md',), None)
-
-if __name__ == '__main__':
-    change_counter.messages.get(('README.md',), None)
-
-if __name__ == '__main__':
-    change_counter.sizes.get(('README.md',), None)
-
-if __name__ == '__main__':
-    fine_change_counter.map()
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy([FineChangeCounter, FixCounter],
-                            public_methods=[
-                                ChangeCounter.__init__,
-                                ChangeCounter.map
-                            ],
-                            project='debuggingbook')
-
 ## Lessons Learned
 ## ---------------
 
@@ -953,3 +856,33 @@ if __name__ == '__main__':
 
 class FineFixCounter(FixCounter, FineChangeCounter):
     pass
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    change_counter.changes.get(('README.md',), None)
+
+if __name__ == '__main__':
+    change_counter.messages.get(('README.md',), None)
+
+if __name__ == '__main__':
+    change_counter.sizes.get(('README.md',), None)
+
+if __name__ == '__main__':
+    fine_change_counter.map()
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy([FineChangeCounter, FixCounter],
+                            public_methods=[
+                                ChangeCounter.__init__,
+                                ChangeCounter.map
+                            ],
+                            project='debuggingbook')

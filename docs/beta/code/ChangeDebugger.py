@@ -3,7 +3,7 @@
 
 # "Isolating Failure-Inducing Changes" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ChangeDebugger.html
-# Last change: 2025-01-20 10:57:07+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,185 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/ChangeDebugger.html
 
-This chapter introduces a class `ChangeDebugger` that automatically determines failure-inducing code changes.
-
-### High-Level Interface
-
-You are given two Python source codes `source_pass` and `source_fail`, and a function `test()` that works using the definitions in `source_pass`, but raises an exception using the definitions in `source_fail`. Then, you can use `ChangeDebugger` as follows:
-
-with ChangeDebugger(source_pass, source_fail) as cd:
-    test()
-cd
-
-
-This will produce the failure-inducing change between `source_pass` and `source_fail`, using [Delta Debugging](DeltaDebugger.ipynb) to determine minimal differences in patches applied.
-
-Here is an example. The function `test()` passes (raises no exception) if `remove_html_markup()` is defined as follows:
-
->>> print_content(source_pass, '.py')
-def remove_html_markup(s):  # type: ignore
-    tag = False
-    out = ""
-
-    for c in s:
-        if c == '<':    # start of markup
-            tag = True
-        elif c == '>':  # end of markup
-            tag = False
-        elif not tag:
-            out = out + c
-
-    return out
->>> def test() -> None:
->>>     assert remove_html_markup('"foo"') == '"foo"'
->>> exec(source_pass)
->>> test()
-
-If `remove_html_markup()` is changed as follows, though, then
-`test()` raises an exception and fails:
-
->>> print_content(source_fail, '.py')
-def remove_html_markup(s):  # type: ignore
-    tag = False
-    quote = False
-    out = ""
-
-    for c in s:
-        if c == '<' and not quote:
-            tag = True
-        elif c == '>' and not quote:
-            tag = False
-        elif c == '"' or c == "'" and tag:
-            quote = not quote
-        elif not tag:
-            out = out + c
-
-    return out
->>> exec(source_fail)
->>> with ExpectError(AssertionError):
->>>     test()
-Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12520/4262003862.py", line 3, in 
-    test()
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_12520/3045937450.py", line 2, in test
-    assert remove_html_markup('"foo"') == '"foo"'
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError (expected)
-
-
-We can use `ChangeDebugger` to automatically identify the failure-inducing difference:
-
->>> with ChangeDebugger(source_pass, source_fail) as cd:
->>>     test()
->>> cd
-@@ -215,24 +215,97 @@
- tag = False
-
-+        elif c == '"' or c == "'" and tag:
-            quote = not quote
-
-         elif
-
-The lines prefixed with `+` from are the ones in `source_fail` that cause the failure when added. (They also are the ones that should be fixed.)
-
-### Programmatic Interface
-
-For more details or more automation, use the programmatic interface. The method `min_patches()` returns a triple (`pass_patches`, `fail_patches`, `diffs`) where
-
-* applying `pass_patches` still make the call pass
-* applying `fail_patches` causes the call to fail
-* `diffs` is the (minimal) difference between the two.
-
-The patches come as list of `patch_obj` objects, as defined by Google's [diff-match-patch library](https://github.com/google/diff-match-patch).
-
->>> pass_patches, fail_patches, diffs = cd.min_patches()
-
-One can apply all patches in `pass_patches` and still not cause the test to fail:
-
->>> for p in pass_patches:
->>>     print_patch(p)
-@@ -48,24 +48,42 @@
- tag = False
-
-+    quote = False
-
-     out = ""
-@@ -104,50 +104,43 @@
-  s:
-
--        if c == '<':    # start of markup
-
-+        if c == '<' and not quote:
-
-
-However, as soon as we also apply the patches in `diffs`, we get the failure. (This is also what is shown when we output a `ChangeDebugger`.)
-
->>> for p in diffs:
->>>     print_patch(p)
-@@ -215,24 +215,97 @@
- tag = False
-
-+        elif c == '"' or c == "'" and tag:
-            quote = not quote
-
-         elif
-
-
-The full set of methods in `ChangeDebugger` is shown below.
-### Supporting Functions
-
-`ChangeDebugger` relies on lower level `patch()` and `diff()` functions.
-
-To apply patch objects on source code, use the `patch()` function. It takes a source code and a list of patches to be applied.
-
->>> print_content(patch(source_pass, diffs), '.py')
-def remove_html_markup(s):  # type: ignore
-    tag = False
-    out = ""
-
-    for c in s:
-        if c == '<':    # start of markup
-            tag = True
-        elif c == '>':  # end of markup
-            tag = False
-        elif c == '"' or c == "'" and tag:
-            quote = not quote
-        elif not tag:
-            out = out + c
-
-    return out
-
-Conversely, the `diff()` function computes patches between two texts. It returns a list of patch objects that can be applied on text.
-
->>> for p in diff(source_pass, source_fail):
->>>     print_patch(p)
-@@ -48,24 +48,42 @@
- tag = False
-
-+    quote = False
-
-     out = ""
-@@ -104,50 +104,43 @@
-  s:
-
--        if c == '<':    # start of markup
-
-+        if c == '<' and not quote:
-@@ -162,48 +162,45 @@
- rue
-
--        elif c == '>':  # end of markup
-
-+        elif c == '>' and not quote:
-@@ -215,24 +215,97 @@
- tag = False
-
-+        elif c == '"' or c == "'" and tag:
-            quote = not quote
-
-         elif
-
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Isolating Failure-Inducing Changes"
@@ -253,14 +75,6 @@ if __name__ == '__main__':
 from .bookutils import quiz, print_file, print_content
 
 from typing import Dict, Callable, TextIO, List, Tuple, Set, Any, Type, Optional
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Changes and Bugs
 ## ----------------
@@ -1146,6 +960,72 @@ if __name__ == '__main__':
         with ChangeDebugger(version_1, version_2) as cd:
             test_remove_html_markup()
 
+## Lessons Learned
+## ---------------
+
+if __name__ == '__main__':
+    print('\n## Lessons Learned')
+
+
+
+## Next Steps
+## ----------
+
+if __name__ == '__main__':
+    print('\n## Next Steps')
+
+
+
+## Background
+## ----------
+
+if __name__ == '__main__':
+    print('\n## Background')
+
+
+
+if __name__ == '__main__':
+    try:
+        shutil.rmtree(PROJECT)
+    except FileNotFoundError:
+        pass
+
+## Exercises
+## ---------
+
+if __name__ == '__main__':
+    print('\n## Exercises')
+
+
+
+### Exercise 1: Fine-Grained Changes
+
+if __name__ == '__main__':
+    print('\n### Exercise 1: Fine-Grained Changes')
+
+
+
+if __name__ == '__main__':
+    patches = diff(version_1, version_2, mode='chars')
+
+if __name__ == '__main__':
+    for p in patches:
+        print(patch_string(p))
+
+### Exercise 2: Failure-Inducing Changes in the Large
+
+if __name__ == '__main__':
+    print('\n### Exercise 2: Failure-Inducing Changes in the Large')
+
+
+
+### Exercise 3: Hierarchical Change Debugging
+
+if __name__ == '__main__':
+    print('\n### Exercise 3: Hierarchical Change Debugging')
+
+
+
 ## Synopsis
 ## --------
 
@@ -1241,69 +1121,3 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     for p in diff(source_pass, source_fail):
         print_patch(p)
-
-## Lessons Learned
-## ---------------
-
-if __name__ == '__main__':
-    print('\n## Lessons Learned')
-
-
-
-## Next Steps
-## ----------
-
-if __name__ == '__main__':
-    print('\n## Next Steps')
-
-
-
-## Background
-## ----------
-
-if __name__ == '__main__':
-    print('\n## Background')
-
-
-
-if __name__ == '__main__':
-    try:
-        shutil.rmtree(PROJECT)
-    except FileNotFoundError:
-        pass
-
-## Exercises
-## ---------
-
-if __name__ == '__main__':
-    print('\n## Exercises')
-
-
-
-### Exercise 1: Fine-Grained Changes
-
-if __name__ == '__main__':
-    print('\n### Exercise 1: Fine-Grained Changes')
-
-
-
-if __name__ == '__main__':
-    patches = diff(version_1, version_2, mode='chars')
-
-if __name__ == '__main__':
-    for p in patches:
-        print(patch_string(p))
-
-### Exercise 2: Failure-Inducing Changes in the Large
-
-if __name__ == '__main__':
-    print('\n### Exercise 2: Failure-Inducing Changes in the Large')
-
-
-
-### Exercise 3: Hierarchical Change Debugging
-
-if __name__ == '__main__':
-    print('\n### Exercise 3: Hierarchical Change Debugging')
-
-

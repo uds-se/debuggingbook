@@ -3,7 +3,7 @@
 
 # "Learning from Failures" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Alhazen.html
-# Last change: 2025-01-22 09:32:53+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,82 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Alhazen.html
 
-This chapter provides an implementation of the _Alhazen_ approach \cite{Kampmann2020}, which trains machine learning _classifiers_ from input features.
-Given a test function, a grammar, and a set of inputs, the `Alhazen` class produces a decision tree that _characterizes failure circumstances_:
-
->>> alhazen = Alhazen(sample_runner, CALC_GRAMMAR, initial_sample_list,
->>>                   max_iterations=20)
->>> alhazen.run()
-
-The final decision tree can be accessed using `last_tree()`:
-
->>> # alhazen.last_tree()
-
-We can visualize the resulting decision tree using `Alhazen.show_decision_tree()`:
-
->>> alhazen.show_decision_tree()
-A decision tree is read from top to bottom.
-Decision nodes (with two children) come with a _predicate_ on top.
-This predicate is either
-
-* _numeric_, such as ` > 20`, indicating the numeric value of the given symbol, or
-* _existential_, such as ` == '1'`, which has a _negative_ value when False, and a _positive_ value when True.
-
-If the predicate evaluates to `True`, follow the left path; if it evaluates to `False`, follow the right path.
-A leaf node (no children) will give you the final decision `class = BUG` or `class = NO_BUG`.
-
-So if the predicate states ` == 'sqrt' <= 0.5`, this means that
-
-* If the function is _not_ `sqrt` (the predicate ` == 'sqrt'` is negative, see above, and hence less than 0.5), follow the left (`True`) path.
-* If the function _is_ `sqrt` (the predicate ` == 'sqrt'` is positive), follow the right (`False`) path.
-
-The `samples` field shows the number of sample inputs that contributed to this decision.
-The `gini` field (aka Gini impurity) indicates how many samples fall into the displayed class (`BUG` or `NO_BUG`).
-A `gini` value of `0.0` means _purity_ - all samples fall into the displayed class.
-The _saturation_ of nodes also indicates purity – the higher the saturation, the higher the purity.
-
-There is also a text version available, with much fewer (but hopefully still essential) details:
-
->>> print(alhazen.friendly_decision_tree())
-if  <= 4.5000:
-  if  == 'sqrt':
-    if  <= 42.7000:
-      if  <= -11.7870:
-        BUG
-      else:
-        NO_BUG
-    else:
-      NO_BUG
-  else:
-    NO_BUG
-else:
-  NO_BUG
-
-
-
-In both representations, we see that the present failure is associated with a negative value for the `sqrt` function and precise boundaries for its value.
-In fact, the error conditions are given in the source code:
-
->>> import inspect
->>> print(inspect.getsource(task_sqrt))
-def task_sqrt(x):
-    """Computes the square root of x, using the Newton-Raphson method"""
-    if x <= -12 and x >= -42:
-        x = 0  # Guess where the bug is :-)
-    else:
-        x = 1
-    x = max(x, 0)
-    approx = None
-    guess = x / 2
-    while approx != guess:
-        approx = guess
-        guess = (approx + x / approx) / 2
-    return approx
-
-
-
-Try out Alhazen on your own code and your own examples!
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Learning from Failures"
@@ -142,14 +67,6 @@ if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Machine Learning for Automated Debugging
 ## ----------------------------------------
@@ -1994,30 +1911,6 @@ import inspect
 if __name__ == '__main__':
     print(inspect.getsource(task_sqrt))
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    alhazen = Alhazen(sample_runner, CALC_GRAMMAR, initial_sample_list,
-                      max_iterations=20)
-    alhazen.run()
-
-if __name__ == '__main__':
-    alhazen.show_decision_tree()
-
-if __name__ == '__main__':
-    print(alhazen.friendly_decision_tree())
-
-import inspect
-
-if __name__ == '__main__':
-    print(inspect.getsource(task_sqrt))
-
 ## Lessons Learned
 ## ---------------
 
@@ -2041,3 +1934,27 @@ if __name__ == '__main__':
     print('\n## Background')
 
 
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    alhazen = Alhazen(sample_runner, CALC_GRAMMAR, initial_sample_list,
+                      max_iterations=20)
+    alhazen.run()
+
+if __name__ == '__main__':
+    alhazen.show_decision_tree()
+
+if __name__ == '__main__':
+    print(alhazen.friendly_decision_tree())
+
+import inspect
+
+if __name__ == '__main__':
+    print(inspect.getsource(task_sqrt))

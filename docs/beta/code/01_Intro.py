@@ -3,7 +3,7 @@
 
 # "Part I: Whetting Your Appetite" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/01_Intro.html
-# Last change: 2025-01-16 10:34:51+01:00
+# Last change: 2025-10-26 19:01:35+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

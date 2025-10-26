@@ -3,7 +3,7 @@
 
 # "Generalizing Failure Circumstances" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/DDSetDebugger.html
-# Last change: 2025-01-20 10:57:22+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,49 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/DDSetDebugger.html
 
-This chapter provides a class `DDSetDebugger`, implementing the DDSET algorithm for generalizing failure-inducing inputs. The `DDSetDebugger` is used as follows:
-
-with DDSetDebugger(grammar) as dd:
-    function(args...)
-dd
-
-
-Here, `function(args...)` is a failing function call (= raises an execption) that takes at least one string argument; `grammar` is an [input grammar in fuzzingbook format](https://www.fuzzingbook.org/html/Grammars.html) that matches the format of this argument.
-
-The result is a call of `function()` with an _abstract failure-inducing input_ – a variant of the conrete input in which parts are replaced by placeholders in the form ``, where `` is a nonterminal in the grammar. The failure has been verified to occur for a number of instantiations of ``.
-
-Here is an example of how `DDSetDebugger` works. The concrete failing input `"bar` is generalized to an _abstract failure-inducing input_:
-
->>> with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
->>>     remove_html_markup('"bar')
->>> dd
-remove_html_markup(s='"')
-
-The abstract input tells us that the failure occurs for whatever opening and closing HTML tags as long as there is a double quote between them.
-
-A programmatic interface is available as well. `generalize()` returns a mapping of argument names to (generalized) values:
-
->>> dd.generalize()
-{'s': '"'}
-
-Using `fuzz()`, the abstract input can be instantiated to further concrete inputs, all set to produce the failure again:
-
->>> for i in range(10):
->>>     print(dd.fuzz())
-remove_html_markup(s='"1')
-remove_html_markup(s='"c*C')
-remove_html_markup(s='"')
-remove_html_markup(s='")')
-remove_html_markup(s='"')
-remove_html_markup(s='"')
-remove_html_markup(s='"\t7')
-remove_html_markup(s='"')
-remove_html_markup(s='"2')
-remove_html_markup(s='"\r~\t\r')
-
-
-`DDSetDebugger` can be customized by passing a subclass of `TreeGeneralizer`, which does the gist of the work; for details, see its constructor.
-The full class hierarchy is shown below.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Generalizing Failure Circumstances"
@@ -115,14 +73,6 @@ if __name__ == '__main__':
     random.seed(2001)
 
 from . import DeltaDebugger
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## A Failing Program
 ## -----------------
@@ -983,45 +933,6 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     dd_middle
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
-        remove_html_markup('<foo>"bar</foo>')
-    dd
-
-if __name__ == '__main__':
-    dd.generalize()
-
-if __name__ == '__main__':
-    for i in range(10):
-        print(dd.fuzz())
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy([DDSetDebugger, TreeGeneralizer],
-                            public_methods=[
-                                CallCollector.__init__,
-                                CallCollector.__enter__,
-                                CallCollector.__exit__,
-                                CallCollector.function,
-                                CallCollector.args,
-                                CallCollector.exception,
-                                CallCollector.call,  # type: ignore
-                                DDSetDebugger.__init__,
-                                DDSetDebugger.__repr__,
-                                DDSetDebugger.fuzz,
-                                DDSetDebugger.fuzz_args,
-                                DDSetDebugger.generalize,
-                            ], project='debuggingbook')
-
 ## Lessons Learned
 ## ---------------
 
@@ -1095,3 +1006,42 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     failures / 1000
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    with DDSetDebugger(SIMPLE_HTML_GRAMMAR) as dd:
+        remove_html_markup('<foo>"bar</foo>')
+    dd
+
+if __name__ == '__main__':
+    dd.generalize()
+
+if __name__ == '__main__':
+    for i in range(10):
+        print(dd.fuzz())
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy([DDSetDebugger, TreeGeneralizer],
+                            public_methods=[
+                                CallCollector.__init__,
+                                CallCollector.__enter__,
+                                CallCollector.__exit__,
+                                CallCollector.function,
+                                CallCollector.args,
+                                CallCollector.exception,
+                                CallCollector.call,  # type: ignore
+                                DDSetDebugger.__init__,
+                                DDSetDebugger.__repr__,
+                                DDSetDebugger.fuzz,
+                                DDSetDebugger.fuzz_args,
+                                DDSetDebugger.generalize,
+                            ], project='debuggingbook')

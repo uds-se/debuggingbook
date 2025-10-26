@@ -3,7 +3,7 @@
 
 # "Class Diagrams" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/ClassDiagram.html
-# Last change: 2025-01-16 10:55:48+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,11 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/ClassDiagram.html
 
-The function `display_class_hierarchy()` function shows the class hierarchy for the given class (or list of classes). 
-* The keyword parameter `public_methods`, if given, is a list of "public" methods to be used by clients (default: all methods with docstrings).
-* The keyword parameter `abstract_classes`, if given, is a list of classes to be displayed as "abstract" (i.e. with a cursive class name).
-
->>> display_class_hierarchy(D_Class, abstract_classes=[A_Class])
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Class Diagrams"
@@ -71,14 +67,6 @@ if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Getting a Class Hierarchy
 ## -------------------------
@@ -699,6 +687,14 @@ if __name__ == '__main__':
                             ],
                             log=True)
 
+## Exercises
+## ---------
+
+if __name__ == '__main__':
+    print('\n## Exercises')
+
+
+
 ## Synopsis
 ## --------
 
@@ -709,11 +705,3 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     display_class_hierarchy(D_Class, abstract_classes=[A_Class])
-
-## Exercises
-## ---------
-
-if __name__ == '__main__':
-    print('\n## Exercises')
-
-

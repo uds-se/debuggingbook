@@ -3,7 +3,7 @@
 
 # "Tracking Failure Origins" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Slicer.html
-# Last change: 2025-01-16 10:36:05+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,83 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Slicer.html
 
-This chapter provides a `Slicer` class to automatically determine and visualize dynamic flows and dependencies. When we say that a variable $x$ _depends_ on a variable $y$ (and that $y$ _flows_ into $x$), we distinguish two kinds of dependencies:
-
-* **Data dependency**: $x$ is assigned a value computed from $y$.
-* **Control dependency**: A statement involving $x$ is executed _only_ because a _condition_ involving $y$ was evaluated, influencing the execution path.
-
-Such dependencies are crucial for debugging, as they allow determininh the origins of individual values (and notably incorrect values).
-
-To determine dynamic dependencies in a function `func`, use
-
-with Slicer() as slicer:
-    
-
-
-and then `slicer.graph()` or `slicer.code()` to examine dependencies.
-
-You can also explicitly specify the functions to be instrumented, as in 
-
-with Slicer(func, func_1, func_2) as slicer:
-    
-
-
-Here is an example. The `demo()` function computes some number from `x`:
-
->>> def demo(x: int) -> int:
->>>     z = x
->>>     while x <= z <= 64:
->>>         z *= 2
->>>     return z
-
-By using `with Slicer()`, we first instrument `demo()` and then execute it:
-
->>> with Slicer() as slicer:
->>>     demo(10)
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/2454789564.py:22: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
-  args=[ast.Str(id), value],
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/3554319793.py:4: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
-  args=[ast.Str(id), Name(id=id, ctx=Load())],
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/882995308.py:12: DeprecationWarning: ast.Num is deprecated and will be removed in Python 3.14; use ast.Constant instead
-  keywords=[keyword(arg='pos', value=ast.Num(n + 1))]
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/882995308.py:19: DeprecationWarning: ast.NameConstant is deprecated and will be removed in Python 3.14; use ast.Constant instead
-  value=ast.NameConstant(value=True)))
-/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94980/882995308.py:25: DeprecationWarning: ast.Str is deprecated and will be removed in Python 3.14; use ast.Constant instead
-  args=[ast.Str(child.arg),
-
-
-After execution is complete, you can output `slicer` to visualize the dependencies and flows as graph. Data dependencies are shown as black solid edges; control dependencies are shown as grey dashed edges. The arrows indicate influence: If $y$ depends on $x$ (and thus $x$ flows into $y$), then we have an arrow $x \rightarrow y$.
-We see how the parameter `x` flows into `z`, which is returned after some computation that is control dependent on a `` involving `z`.
-
->>> slicer
-An alternate representation is `slicer.code()`, annotating the instrumented source code with (backward) dependencies. Data dependencies are shown with `<=`, control dependencies with `<-`; locations (lines) are shown in parentheses.
-
->>> slicer.code()
-     1 def demo(x: int) -> int:
-*    2     z = x  # <= x (5)
-*    3     while x <= z <= 64:  # <= x (5), z (2), z (4)
-*    4         z *= 2  # <= z (2), z (4); <-  (3)
-*    5     return z  # <= z (4)
-
-
-Dependencies can also be retrieved programmatically. The `dependencies()` method returns a `Dependencies` object encapsulating the dependency graph.
-
-The method `all_vars()` returns all variables in the dependency graph. Each variable is encoded as a pair (_name_, _location_) where _location_ is a pair (_codename_, _lineno_).
-
->>> slicer.dependencies().all_vars()
-{('', ( int>, 5)),
- ('', ( int>, 3)),
- ('x', ( int>, 5)),
- ('z', ( int>, 2)),
- ('z', ( int>, 4))}
-
-`code()` and `graph()` methods can also be applied on dependencies. The method `backward_slice(var)` returns a backward slice for the given variable (again given as a pair (_name_, _location_)). To retrieve where `z` in Line 2 came from, use:
-
->>> _, start_demo = inspect.getsourcelines(demo)
->>> start_demo
-1
->>> slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()  # type: ignore
-Here are the classes defined in this chapter. A `Slicer` instruments a program, using a `DependencyTracker` at run time to collect `Dependencies`.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Tracking Failure Origins"
@@ -155,14 +79,6 @@ import warnings
 
 from typing import Set, List, Tuple, Any, Callable, Dict, Optional
 from typing import Union, Type, Generator, cast
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Dependencies
 ## ------------
@@ -2795,105 +2711,6 @@ if __name__ == '__main__':
 
 
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-def demo(x: int) -> int:
-    z = x
-    while x <= z <= 64:
-        z *= 2
-    return z
-
-if __name__ == '__main__':
-    with Slicer() as slicer:
-        demo(10)
-
-if __name__ == '__main__':
-    slicer
-
-if __name__ == '__main__':
-    slicer.code()
-
-if __name__ == '__main__':
-    slicer.dependencies().all_vars()
-
-if __name__ == '__main__':
-    _, start_demo = inspect.getsourcelines(demo)
-    start_demo
-
-if __name__ == '__main__':
-    slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()  # type: ignore
-
-from .ClassDiagram import display_class_hierarchy, class_tree
-
-if __name__ == '__main__':
-    assert class_tree(Slicer)[0][0] == Slicer
-
-if __name__ == '__main__':
-    display_class_hierarchy([Slicer, DependencyTracker, 
-                             StackInspector, Dependencies],
-                            abstract_classes=[
-                                StackInspector,
-                                Instrumenter
-                            ],
-                            public_methods=[
-                                StackInspector.caller_frame,
-                                StackInspector.caller_function,
-                                StackInspector.caller_globals,
-                                StackInspector.caller_locals,
-                                StackInspector.caller_location,
-                                StackInspector.search_frame,
-                                StackInspector.search_func,
-                                Instrumenter.__init__,
-                                Instrumenter.__enter__,
-                                Instrumenter.__exit__,
-                                Instrumenter.instrument,
-                                Slicer.__init__,
-                                Slicer.code,
-                                Slicer.dependencies,
-                                Slicer.graph,
-                                Slicer._repr_mimebundle_,
-                                DataTracker.__init__,
-                                DataTracker.__enter__,
-                                DataTracker.__exit__,
-                                DataTracker.arg,
-                                DataTracker.augment,
-                                DataTracker.call,
-                                DataTracker.get,
-                                DataTracker.param,
-                                DataTracker.ret,
-                                DataTracker.set,
-                                DataTracker.test,
-                                DataTracker.__repr__,
-                                DependencyTracker.__init__,
-                                DependencyTracker.__enter__,
-                                DependencyTracker.__exit__,
-                                DependencyTracker.arg,
-                                # DependencyTracker.augment,
-                                DependencyTracker.call,
-                                DependencyTracker.get,
-                                DependencyTracker.param,
-                                DependencyTracker.ret,
-                                DependencyTracker.set,
-                                DependencyTracker.test,
-                                DependencyTracker.__repr__,
-                                Dependencies.__init__,
-                                Dependencies.__repr__,
-                                Dependencies.__str__,
-                                Dependencies._repr_mimebundle_,
-                                Dependencies.code,
-                                Dependencies.graph,
-                                Dependencies.backward_slice,
-                                Dependencies.all_functions,
-                                Dependencies.all_vars,
-                            ],
-                            project='debuggingbook')
-
 ## Things that do not Work
 ## -----------------------
 
@@ -2993,3 +2810,102 @@ if __name__ == '__main__':
     print('\n### Exercise 6: Checked Coverage')
 
 
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+def demo(x: int) -> int:
+    z = x
+    while x <= z <= 64:
+        z *= 2
+    return z
+
+if __name__ == '__main__':
+    with Slicer() as slicer:
+        demo(10)
+
+if __name__ == '__main__':
+    slicer
+
+if __name__ == '__main__':
+    slicer.code()
+
+if __name__ == '__main__':
+    slicer.dependencies().all_vars()
+
+if __name__ == '__main__':
+    _, start_demo = inspect.getsourcelines(demo)
+    start_demo
+
+if __name__ == '__main__':
+    slicer.dependencies().backward_slice(('z', (demo, start_demo + 1))).graph()  # type: ignore
+
+from .ClassDiagram import display_class_hierarchy, class_tree
+
+if __name__ == '__main__':
+    assert class_tree(Slicer)[0][0] == Slicer
+
+if __name__ == '__main__':
+    display_class_hierarchy([Slicer, DependencyTracker, 
+                             StackInspector, Dependencies],
+                            abstract_classes=[
+                                StackInspector,
+                                Instrumenter
+                            ],
+                            public_methods=[
+                                StackInspector.caller_frame,
+                                StackInspector.caller_function,
+                                StackInspector.caller_globals,
+                                StackInspector.caller_locals,
+                                StackInspector.caller_location,
+                                StackInspector.search_frame,
+                                StackInspector.search_func,
+                                Instrumenter.__init__,
+                                Instrumenter.__enter__,
+                                Instrumenter.__exit__,
+                                Instrumenter.instrument,
+                                Slicer.__init__,
+                                Slicer.code,
+                                Slicer.dependencies,
+                                Slicer.graph,
+                                Slicer._repr_mimebundle_,
+                                DataTracker.__init__,
+                                DataTracker.__enter__,
+                                DataTracker.__exit__,
+                                DataTracker.arg,
+                                DataTracker.augment,
+                                DataTracker.call,
+                                DataTracker.get,
+                                DataTracker.param,
+                                DataTracker.ret,
+                                DataTracker.set,
+                                DataTracker.test,
+                                DataTracker.__repr__,
+                                DependencyTracker.__init__,
+                                DependencyTracker.__enter__,
+                                DependencyTracker.__exit__,
+                                DependencyTracker.arg,
+                                # DependencyTracker.augment,
+                                DependencyTracker.call,
+                                DependencyTracker.get,
+                                DependencyTracker.param,
+                                DependencyTracker.ret,
+                                DependencyTracker.set,
+                                DependencyTracker.test,
+                                DependencyTracker.__repr__,
+                                Dependencies.__init__,
+                                Dependencies.__repr__,
+                                Dependencies.__str__,
+                                Dependencies._repr_mimebundle_,
+                                Dependencies.code,
+                                Dependencies.graph,
+                                Dependencies.backward_slice,
+                                Dependencies.all_functions,
+                                Dependencies.all_vars,
+                            ],
+                            project='debuggingbook')

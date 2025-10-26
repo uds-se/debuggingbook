@@ -3,7 +3,7 @@
 
 # "How Debuggers Work" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Debugger.html
-# Last change: 2025-01-16 10:35:25+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,101 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Debugger.html
 
-This chapter provides an interactive debugger for Python functions. The debugger is invoked as
-
-with Debugger():
-    function_to_be_observed()
-    ...
-
-While running, you can enter _debugger commands_ at the `(debugger)` prompt. Here's an example session:
-
->>> with Debugger():
->>>     ret = remove_html_markup('abc')
-Calling remove_html_markup(s = 'abc')
-
-
-(debugger) help
-
-break      -- Set a breakpoint in given line. If no line is given, list all breakpoints
-
-continue   -- Resume execution
-
-delete     -- Delete breakpoint in line given by `arg`.
-           Without given line, clear all breakpoints
-
-help       -- Give help on given `command`. If no command is given, give help on all
-
-list       -- Show current function. If `arg` is given, show its source code.
-
-print      -- Print an expression. If no expression is given, print all variables
-
-quit       -- Finish execution
-
-step       -- Execute up to the next line
-
-
-(debugger) break 14
-
-Breakpoints: {14}
-
-
-(debugger) list
-
-   1> def remove_html_markup(s):  # type: ignore
-
-   2      tag = False
-
-   3      quote = False
-
-   4      out = ""
-
-   5  
-
-   6      for c in s:
-
-   7          if c == '<' and not quote:
-
-   8              tag = True
-
-   9          elif c == '>' and not quote:
-
-  10              tag = False
-
-  11          elif c == '"' or c == "'" and tag:
-
-  12              quote = not quote
-
-  13          elif not tag:
-
-  14#             out = out + c
-
-  15  
-
-  16      return out
-
-
-(debugger) continue
-
-                                         # tag = False, quote = False, out = '', c = 'a'
-
-14             out = out + c
-
-
-(debugger) step
-
-                                         # out = 'a'
-
-6     for c in s:
-
-
-(debugger) print out
-
-out = 'a'
-
-
-(debugger) quit
-
-The `Debugger` class can be easily extended in subclasses. A new method `NAME_command(self, arg)` will be invoked whenever a command named `NAME` is entered, with `arg` holding given command arguments (empty string if none).
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - How Debuggers Work"
@@ -169,14 +75,6 @@ if __name__ == '__main__':
 import sys
 
 from .Tracer import Tracer
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Debuggers
 ## ---------
@@ -628,38 +526,6 @@ if __name__ == '__main__':
     with Debugger():
         remove_html_markup('abc')
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    _, remove_html_markup_starting_line_number = \
-        inspect.getsourcelines(remove_html_markup)
-    next_inputs(["help", f"break {remove_html_markup_starting_line_number + 13}",
-                 "list", "continue", "step", "print out", "quit"])
-    pass
-
-if __name__ == '__main__':
-    with Debugger():
-        ret = remove_html_markup('abc')
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy(Debugger, 
-                            public_methods=[
-                                Tracer.__init__,
-                                Tracer.__enter__,
-                                Tracer.__exit__,
-                                Tracer.traceit,
-                                Debugger.__init__,
-                            ],
-        project='debuggingbook')
-
 ## Lessons Learned
 ## ---------------
 
@@ -864,3 +730,35 @@ def slider(rec: List[Tuple[int, Dict[str, Any]]]) -> str:
 
 if __name__ == '__main__':
     slider(recording)
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    _, remove_html_markup_starting_line_number = \
+        inspect.getsourcelines(remove_html_markup)
+    next_inputs(["help", f"break {remove_html_markup_starting_line_number + 13}",
+                 "list", "continue", "step", "print out", "quit"])
+    pass
+
+if __name__ == '__main__':
+    with Debugger():
+        ret = remove_html_markup('abc')
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy(Debugger, 
+                            public_methods=[
+                                Tracer.__init__,
+                                Tracer.__enter__,
+                                Tracer.__exit__,
+                                Tracer.traceit,
+                                Debugger.__init__,
+                            ],
+        project='debuggingbook')

@@ -3,7 +3,7 @@
 
 # "Statistical Debugging" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/StatisticalDebugger.html
-# Last change: 2025-01-16 10:36:45+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,114 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/StatisticalDebugger.html
 
-This chapter introduces classes and techniques for _statistical debugging_ – that is, correlating specific events, such as lines covered, with passing and failing outcomes.
-
-To make use of the code in this chapter, use one of the provided `StatisticalDebugger` subclasses such as `TarantulaDebugger` or `OchiaiDebugger`. 
-
-Both are instantiated with a `Collector` denoting the type of events you want to correlate outcomes with. The default `CoverageCollector`, collecting line coverage.
-
-### Collecting Events from Calls
-
-To collect events from calls that are labeled manually, use
-
->>> debugger = TarantulaDebugger()
->>> with debugger.collect_pass():
->>>     remove_html_markup("abc")
->>> with debugger.collect_pass():
->>>     remove_html_markup('abc')
->>> with debugger.collect_fail():
->>>     remove_html_markup('"abc"')
-
-Within each `with` block, the _first function call_ is collected and tracked for coverage. (Note that _only_ the first call is tracked.)
-
-### Collecting Events from Tests
-
-To collect events from _tests_ that use exceptions to indicate failure, use the simpler `with` form:
-
->>> debugger = TarantulaDebugger()
->>> with debugger:
->>>     remove_html_markup("abc")
->>> with debugger:
->>>     remove_html_markup('abc')
->>> with debugger:
->>>     remove_html_markup('"abc"')
->>>     assert False  # raise an exception
-
-`with` blocks that raise an exception will be classified as failing, blocks that do not will be classified as passing. Note that exceptions raised are "swallowed" by the debugger.
-
-### Visualizing Events as a Table
-
-After collecting events, you can print out the observed events – in this case, line numbers – in a table, showing in which runs they occurred (`X`), and with colors highlighting the suspiciousness of the event. A "red" event means that the event predominantly occurs in failing runs.
-
->>> debugger.event_table(args=True, color=True)
-
-| `remove_html_markup` | `s='abc'` | `s='abc'` | `s='"abc"'` | 
-| --------------------- | ---- | ---- | ---- | 
-|  remove_html_markup:1 |    X |    X |    X | 
-|  remove_html_markup:2 |    X |    X |    X | 
-|  remove_html_markup:3 |    X |    X |    X | 
-|  remove_html_markup:4 |    X |    X |    X | 
-|  remove_html_markup:6 |    X |    X |    X | 
-|  remove_html_markup:7 |    X |    X |    X | 
-|  remove_html_markup:8 |    - |    X |    - | 
-|  remove_html_markup:9 |    X |    X |    X | 
-| remove_html_markup:10 |    - |    X |    - | 
-| remove_html_markup:11 |    X |    X |    X | 
-| remove_html_markup:12 |    - |    - |    X | 
-| remove_html_markup:13 |    X |    X |    X | 
-| remove_html_markup:14 |    X |    X |    X | 
-| remove_html_markup:16 |    X |    X |    X | 
-
-
-### Visualizing Suspicious Code
-
-If you collected coverage with `CoverageCollector`, you can also visualize the code with similar colors, highlighting suspicious lines:
-
->>> debugger
-
-   1 def remove_html_markup(s):  # type: ignore
-   2     tag = False
-   3     quote = False
-   4     out = ""
-   5  
-   6     for c in s:
-   7         if c == '<' and not quote:
-   8             tag = True
-   9         elif c == '>' and not quote:
-  10             tag = False
-  11         elif c == '"' or c == "'" and tag:
-  12             quote = not quote
-  13         elif not tag:
-  14             out = out + c
-  15  
-  16     return out
-
-
-### Ranking Events
-
-The method `rank()` returns a ranked list of events, starting with the most suspicious. This is useful for automated techniques that need potential defect locations.
-
->>> debugger.rank()
-[('remove_html_markup', 12),
- ('remove_html_markup', 2),
- ('remove_html_markup', 11),
- ('remove_html_markup', 14),
- ('remove_html_markup', 3),
- ('remove_html_markup', 9),
- ('remove_html_markup', 6),
- ('remove_html_markup', 4),
- ('remove_html_markup', 1),
- ('remove_html_markup', 7),
- ('remove_html_markup', 16),
- ('remove_html_markup', 13),
- ('remove_html_markup', 8),
- ('remove_html_markup', 10)]
-
-### Classes and Methods
-
-Here are all classes defined in this chapter:
-![](PICS/StatisticalDebugger-synopsis-2.svg)
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Statistical Debugging"
@@ -178,14 +71,6 @@ if __name__ == '__main__':
     # We use the same fixed seed as the notebook to ensure consistency
     import random
     random.seed(2001)
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Introduction
 ## ------------
@@ -465,7 +350,7 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     with CoverageCollector() as c:
         remove_html_markup("<b>Don't do this!</b>")
-    # code_with_coverage(remove_html_markup, c.coverage)
+    # code_with_coverage(remove_html_markup, c.coverage())
 
 ## Computing Differences
 ## ---------------------
@@ -1613,6 +1498,84 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     classifier.predict([[1, 1, 1, 1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1]])
 
+## Lessons Learned
+## ---------------
+
+if __name__ == '__main__':
+    print('\n## Lessons Learned')
+
+
+
+## Next Steps
+## ----------
+
+if __name__ == '__main__':
+    print('\n## Next Steps')
+
+
+
+## Background
+## ----------
+
+if __name__ == '__main__':
+    print('\n## Background')
+
+
+
+## Exercises
+## ---------
+
+if __name__ == '__main__':
+    print('\n## Exercises')
+
+
+
+### Exercise 1: A Postcondition for Middle
+
+if __name__ == '__main__':
+    print('\n### Exercise 1: A Postcondition for Middle')
+
+
+
+def middle_checked(x, y, z):  # type: ignore
+    m = middle(x, y, z)
+    assert m == sorted([x, y, z])[1]
+    return m
+
+from .ExpectError import ExpectError
+
+if __name__ == '__main__':
+    with ExpectError():
+        m = middle_checked(2, 1, 3)
+
+### Exercise 2: Statistical Dependencies
+
+if __name__ == '__main__':
+    print('\n### Exercise 2: Statistical Dependencies')
+
+
+
+### Exercise 3: Correlating with Conditions
+
+if __name__ == '__main__':
+    print('\n### Exercise 3: Correlating with Conditions')
+
+
+
+#### Part 1: Experiment
+
+if __name__ == '__main__':
+    print('\n#### Part 1: Experiment')
+
+
+
+#### Part 2: Collecting Conditions
+
+if __name__ == '__main__':
+    print('\n#### Part 2: Collecting Conditions')
+
+
+
 ## Synopsis
 ## --------
 
@@ -1747,81 +1710,3 @@ if __name__ == '__main__':
                                 ValueCollector.events
                             ],
                             project='debuggingbook')
-
-## Lessons Learned
-## ---------------
-
-if __name__ == '__main__':
-    print('\n## Lessons Learned')
-
-
-
-## Next Steps
-## ----------
-
-if __name__ == '__main__':
-    print('\n## Next Steps')
-
-
-
-## Background
-## ----------
-
-if __name__ == '__main__':
-    print('\n## Background')
-
-
-
-## Exercises
-## ---------
-
-if __name__ == '__main__':
-    print('\n## Exercises')
-
-
-
-### Exercise 1: A Postcondition for Middle
-
-if __name__ == '__main__':
-    print('\n### Exercise 1: A Postcondition for Middle')
-
-
-
-def middle_checked(x, y, z):  # type: ignore
-    m = middle(x, y, z)
-    assert m == sorted([x, y, z])[1]
-    return m
-
-from .ExpectError import ExpectError
-
-if __name__ == '__main__':
-    with ExpectError():
-        m = middle_checked(2, 1, 3)
-
-### Exercise 2: Statistical Dependencies
-
-if __name__ == '__main__':
-    print('\n### Exercise 2: Statistical Dependencies')
-
-
-
-### Exercise 3: Correlating with Conditions
-
-if __name__ == '__main__':
-    print('\n### Exercise 3: Correlating with Conditions')
-
-
-
-#### Part 1: Experiment
-
-if __name__ == '__main__':
-    print('\n#### Part 1: Experiment')
-
-
-
-#### Part 2: Collecting Conditions
-
-if __name__ == '__main__':
-    print('\n#### Part 2: Collecting Conditions')
-
-

@@ -3,7 +3,7 @@
 
 # "Part III: Flows and Dependencies" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/03_Dependencies.html
-# Last change: 2025-01-16 10:35:40+01:00
+# Last change: 2025-10-26 19:02:47+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors

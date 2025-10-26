@@ -3,7 +3,7 @@
 
 # "Asserting Expectations" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Assertions.html
-# Last change: 2025-01-16 10:35:36+01:00
+# Last change: 2025-10-26 18:59:10+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,55 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Assertions.html
 
-This chapter discusses _assertions_ to define _assumptions_ on function inputs and results:
-
->>> def my_square_root(x):  # type: ignore
->>>     assert x >= 0
->>>     y = square_root(x)
->>>     assert math.isclose(y * y, x)
->>>     return y
-
-Notably, assertions detect _violations_ of these assumptions at runtime:
-
->>> with ExpectError():
->>>     y = my_square_root(-1)
-Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94066/76616918.py", line 2, in 
-    y = my_square_root(-1)
-        ^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94066/2617682038.py", line 2, in my_square_root
-    assert x >= 0
-           ^^^^^^
-AssertionError (expected)
-
-
-_System assertions_ help to detect invalid memory operations.
-
->>> managed_mem = ManagedMemory()
->>> managed_mem
-
-|Address|0|1|2|3|4|5|6|7|8|9|
-|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-|Allocated| | | | | | | | | | |
-|Initialized| | | | | | | | | | |
-|Content|-1|0| | | | | | | | |
-
-
->>> with ExpectError():
->>>     x = managed_mem[2]
-Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94066/1296110967.py", line 2, in 
-    x = managed_mem[2]
-        ~~~~~~~~~~~^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94066/2465984283.py", line 3, in __getitem__
-    return self.read(address)
-           ^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_94066/2898840933.py", line 9, in read
-    assert self.allocated[address], \
-           ~~~~~~~~~~~~~~^^^^^^^^^
-AssertionError: Reading from unallocated memory (expected)
-
-
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Asserting Expectations"
@@ -123,14 +75,6 @@ if __name__ == '__main__':
 from .bookutils import quiz
 
 from . import Tracer
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Introducing Assertions
 ## ----------------------
@@ -1283,32 +1227,6 @@ if __name__ == '__main__':
 
 
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-def my_square_root(x):  # type: ignore
-    assert x >= 0
-    y = square_root(x)
-    assert math.isclose(y * y, x)
-    return y
-
-if __name__ == '__main__':
-    with ExpectError():
-        y = my_square_root(-1)
-
-if __name__ == '__main__':
-    managed_mem = ManagedMemory()
-    managed_mem
-
-if __name__ == '__main__':
-    with ExpectError():
-        x = managed_mem[2]
-
 ## Lessons Learned
 ## ---------------
 
@@ -1491,3 +1409,29 @@ if __name__ == '__main__':
         os.remove('mydb')  # on Linux
     except FileNotFoundError:
         pass
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+def my_square_root(x):  # type: ignore
+    assert x >= 0
+    y = square_root(x)
+    assert math.isclose(y * y, x)
+    return y
+
+if __name__ == '__main__':
+    with ExpectError():
+        y = my_square_root(-1)
+
+if __name__ == '__main__':
+    managed_mem = ManagedMemory()
+    managed_mem
+
+if __name__ == '__main__':
+    with ExpectError():
+        x = managed_mem[2]

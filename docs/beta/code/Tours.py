@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# "Tours through the Book" - a chapter of "The Debugging Book"
+# "Sitemap" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tours.html
-# Last change: 2025-01-22 09:30:24+01:00
+# Last change: 2025-10-26 19:01:59+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -28,7 +28,7 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 r'''
-The Debugging Book - Tours through the Book
+The Debugging Book - Sitemap
 
 This file can be _executed_ as a script, running all experiments:
 
@@ -44,7 +44,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
 
 For more details, source, and documentation, see
-"The Debugging Book - Tours through the Book"
+"The Debugging Book - Sitemap"
 at https://www.debuggingbook.org/html/Tours.html
 '''
 
@@ -54,11 +54,11 @@ if __name__ == '__main__' and __package__ is None:
     __package__ = 'debuggingbook'
 
 
-# Tours through the Book
-# ======================
+# Sitemap
+# =======
 
 if __name__ == '__main__':
-    print('# Tours through the Book')
+    print('# Sitemap')
 
 
 

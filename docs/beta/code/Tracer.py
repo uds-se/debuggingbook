@@ -3,7 +3,7 @@
 
 # "Tracing Executions" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/Tracer.html
-# Last change: 2025-01-16 10:35:20+01:00
+# Last change: 2025-10-26 18:59:11+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
@@ -42,51 +42,7 @@ but before you do so, _read_ it and _interact_ with it at:
 
     https://www.debuggingbook.org/html/Tracer.html
 
-This chapter provides a `Tracer` class that allows logging events during program execution. The advanced subclass `EventTracer` allows restricting logs to specific conditions. Logs are shown only while the given `condition` holds:
-
->>> with EventTracer(condition='line == 223 or len(out) >= 6'):
->>>     remove_html_markup('foobar')
-...
-
-                                         # s = 'foobar', function = 'remove_html_markup', line = 243, tag = False, quote = False, out = 'foobar', c = 'r'
-
-243     for c in s:
-
-                                         # line = 255
-
-255     return out
-
-remove_html_markup() returns 'foobar'
-
-
-It also allows restricting logs to specific events. Log entries are shown only if one of the given `events` changes its value:
-
->>> with EventTracer(events=["c == '/'"]):
->>>     remove_html_markup('foobar')
-...
-
-Calling remove_html_markup(s = 'foobar', function = 'remove_html_markup', line = 238)
-
-...
-
-                                         # line = 244, tag = False, quote = False, out = '', c = '<'
-
-244         assert tag or not quote
-
-...
-
-                                         # tag = True, out = 'foo', c = '/'
-
-244         assert tag or not quote
-
-...
-
-                                         # c = 'b'
-
-244         assert tag or not quote
-
-
-`Tracer` and `EventTracer` classes allow for subclassing and further customization.
+**Note**: The examples in this section only work after the rest of the cells have been executed.
 
 For more details, source, and documentation, see
 "The Debugging Book - Tracing Executions"
@@ -119,14 +75,6 @@ if __name__ == '__main__':
 from .bookutils import quiz
 
 from . import Intro_Debugging
-
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
 
 ## Tracing Python Programs
 ## -----------------------
@@ -309,7 +257,9 @@ class Tracer(Tracer):
 
         if event == 'line':
             module = inspect.getmodule(frame.f_code)
-            if module:
+            if module is None:
+                source = inspect.getsource(frame.f_code)
+            else:
                 source = inspect.getsource(module)
             if source:
                 current_line = source.split('\n')[frame.f_lineno - 1]
@@ -658,37 +608,6 @@ if __name__ == '__main__':
 
 
 
-## Synopsis
-## --------
-
-if __name__ == '__main__':
-    print('\n## Synopsis')
-
-
-
-if __name__ == '__main__':
-    with EventTracer(condition='line == 223 or len(out) >= 6'):
-        remove_html_markup('<b>foo</b>bar')
-
-if __name__ == '__main__':
-    with EventTracer(events=["c == '/'"]):
-        remove_html_markup('<b>foo</b>bar')
-
-from .ClassDiagram import display_class_hierarchy
-
-if __name__ == '__main__':
-    display_class_hierarchy(EventTracer,
-                            public_methods=[
-                                Tracer.__init__,
-                                Tracer.__enter__,
-                                Tracer.__exit__,
-                                Tracer.changed_vars,
-                                Tracer.print_debugger_status,
-                                ConditionalTracer.__init__,
-                                EventTracer.__init__,
-                            ],
-                            project='debuggingbook')
-
 ## Lessons Learned
 ## ---------------
 
@@ -829,3 +748,34 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     foo()
+
+## Synopsis
+## --------
+
+if __name__ == '__main__':
+    print('\n## Synopsis')
+
+
+
+if __name__ == '__main__':
+    with EventTracer(condition='line == 223 or len(out) >= 6'):
+        remove_html_markup('<b>foo</b>bar')
+
+if __name__ == '__main__':
+    with EventTracer(events=["c == '/'"]):
+        remove_html_markup('<b>foo</b>bar')
+
+from .ClassDiagram import display_class_hierarchy
+
+if __name__ == '__main__':
+    display_class_hierarchy(EventTracer,
+                            public_methods=[
+                                Tracer.__init__,
+                                Tracer.__enter__,
+                                Tracer.__exit__,
+                                Tracer.changed_vars,
+                                Tracer.print_debugger_status,
+                                ConditionalTracer.__init__,
+                                EventTracer.__init__,
+                            ],
+                            project='debuggingbook')

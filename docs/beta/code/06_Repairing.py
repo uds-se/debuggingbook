@@ -3,7 +3,7 @@
 
 # "Part VI: Automatic Repair" - a chapter of "The Debugging Book"
 # Web site: https://www.debuggingbook.org/html/06_Repairing.html
-# Last change: 2025-01-16 10:44:18+01:00
+# Last change: 2025-10-26 19:03:22+01:00
 #
 # Copyright (c) 2021-2025 CISPA Helmholtz Center for Information Security
 # Copyright (c) 2018-2020 Saarland University, authors, and contributors
