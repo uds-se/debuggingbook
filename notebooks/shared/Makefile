@@ -445,7 +445,7 @@ $(FULL_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb $(DEPEND_TARGET)%.makefile $(ADD
 	$(EXECUTE_NOTEBOOK) $< || $(EXECUTE_NOTEBOOK) $<
 	$(PYTHON) $(ADD_METADATA) --project $(PROJECT) $@ > $@~ && mv $@~ $@
 	$(PYTHON) $(NBAUTOSLIDE) --in-place $@
-	$(PYTHON) $(NBSYNOPSIS) --project $(PROJECT) --update $@
+	$(PYTHON) $(NBSYNOPSIS) --project $(PROJECT) --move $@
 	$(COMMIT_SYNOPSIS)
 	
 $(RENDERED_NOTEBOOKS)/%.ipynb: $(NOTEBOOKS)/%.ipynb \
