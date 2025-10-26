@@ -15,7 +15,10 @@ export default {
 	minScale: 0.2,
 	maxScale: 2.0,
 
-	// Display presentation control arrows
+	// Display presentation control arrows.
+	// - true: Display controls on all screens
+	// - false: Hide controls on all screens
+	// - "speaker-only": Only display controls in the speaker view
 	controls: true,
 
 	// Help the user learn the controls by providing hints, for example by
@@ -74,7 +77,7 @@ export default {
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
 
-	// Optional function that blocks keyboard events when retuning false
+	// Optional function that blocks keyboard events when returning false
 	//
 	// If you set this to 'focused', we will only capture keyboard events
 	// for embedded decks when they are in focus
@@ -164,6 +167,9 @@ export default {
 	// - true:   All iframes with data-src will be loaded when within the viewDistance
 	// - false:  All iframes with data-src will be loaded only when visible
 	preloadIframes: null,
+
+	// Prevent embedded iframes from automatically focusing on themselves
+	preventIframeAutoFocus: true,
 
 	// Can be used to globally disable auto-animation
 	autoAnimate: true,

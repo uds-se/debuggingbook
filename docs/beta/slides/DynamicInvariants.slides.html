@@ -7462,7 +7462,7 @@ main {
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_remove-input">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7471,14 +7471,592 @@ main {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Optional</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div></div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">¶</a></h2><p>To <a href="Importing.slides.html">use the code provided in this chapter</a>, write</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">debuggingbook.DynamicInvariants</span><span class="w"> </span><span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+<p>and then make use of the following features.</p>
+<p><strong>Note</strong>: The examples in this section only work after the rest of the cells have been executed.</p>
+</div>
+</div>
+</div>
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [211]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sum2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [212]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">TypeAnnotator</span><span class="p">()</span> <span class="k">as</span> <span class="n">type_annotator</span><span class="p">:</span>
+    <span class="n">sum2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">sum2</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">sum2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The <code>typed_functions()</code> method will return a representation of <code>sum2()</code> annotated with types observed during execution.</p>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [213]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">type_annotator</span><span class="o">.</span><span class="n">typed_functions</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>def sum2(a: int, b: int) -&gt; int:
+    return a + b
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>As a shortcut, one can also just evaluate the annotator:</p>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [214]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">type_annotator</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[214]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>def sum2(a: int, b: int) -&gt; int:
+    return a + b</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The invariant annotator works similarly:</p>
+</div>
+</div>
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [215]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">InvariantAnnotator</span><span class="p">()</span> <span class="k">as</span> <span class="n">inv_annotator</span><span class="p">:</span>
+    <span class="n">sum2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">sum2</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">sum2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The <code>functions_with_invariants()</code> method will return a representation of <code>sum2()</code> annotated with inferred pre- and postconditions that all hold for the observed values.</p>
+</div>
+</div>
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [216]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">inv_annotator</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>@precondition(lambda a, b: isinstance(a, int))
+@precondition(lambda a, b: isinstance(b, int))
+@postcondition(lambda return_value, a, b: a == return_value - b)
+@postcondition(lambda return_value, a, b: b == return_value - a)
+@postcondition(lambda return_value, a, b: isinstance(return_value, int))
+@postcondition(lambda return_value, a, b: return_value == a + b)
+@postcondition(lambda return_value, a, b: return_value == b + a)
+def sum2(a, b):  # type: ignore
+    return a + b
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Again, a shortcut is available:</p>
+</div>
+</div>
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [217]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">inv_annotator</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[217]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>@precondition(lambda a, b: isinstance(a, int))
+@precondition(lambda a, b: isinstance(b, int))
+@postcondition(lambda return_value, a, b: a == return_value - b)
+@postcondition(lambda return_value, a, b: b == return_value - a)
+@postcondition(lambda return_value, a, b: isinstance(return_value, int))
+@postcondition(lambda return_value, a, b: return_value == a + b)
+@postcondition(lambda return_value, a, b: return_value == b + a)
+def sum2(a, b):  # type: ignore
+    return a + b</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Such type specifications and invariants can be helpful as <em>oracles</em> (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.</p>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_remove-input">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [218]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ClassDiagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">display_class_hierarchy</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell celltag_remove-input">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [219]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">TypeAnnotator</span><span class="p">,</span> <span class="n">InvariantAnnotator</span><span class="p">],</span>
+                        <span class="n">public_methods</span><span class="o">=</span><span class="p">[</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_function</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_functions</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_function_ast</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_functions_ast</span><span class="p">,</span>
+                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">function_with_invariants</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">preconditions</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">postconditions</span><span class="p">,</span>
+                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">,</span>
+                            <span class="n">InvariantTracer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span>
+                            <span class="n">CallTracer</span><span class="o">.</span><span class="fm">__init__</span>
+                        <span class="p">],</span>
+                        <span class="n">project</span><span class="o">=</span><span class="s1">'debuggingbook'</span>
+                       <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[219]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 14.0.2 (20251019.1705)
+ -->
+<!-- Pages: 1 -->
+<svg height="556pt" viewbox="0.00 0.00 484.00 556.00" width="484pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 551.5)">
+<g id="a_graph0"><a xlink:title="TypeAnnotator class hierarchy">
+<polygon fill="white" points="-4,4 -4,-551.5 479.62,-551.5 479.62,4 -4,4" stroke="none"></polygon>
+</a>
+</g>
+<!-- TypeAnnotator -->
+<g class="node" id="node1">
+<title>TypeAnnotator</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class TypeAnnotator:
+A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" points="0,-6.88 0,-103.88 142,-103.88 142,-6.88 0,-6.88" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="21.12" xml:space="preserve" y="-87.58">TypeAnnotator</text>
+<polyline fill="none" points="0,-78.62 142,-78.62" stroke="black"></polyline>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="TypeAnnotator">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__repr__(self) -&gt; str:
+String representation, like `typed_functions()`">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" xml:space="preserve" y="-66.12">__repr__()</text>
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="typed_function(self, function_name: str) -&gt; str:
+Return the code for all calls of `function_name` observed, annotated with types">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" xml:space="preserve" y="-53.38">typed_function()</text>
+</a>
+</g>
+<g id="a_node1_3"><a xlink:href="#" xlink:title="typed_function_ast(self, function_name: str) -&gt; Optional[ast.AST]:
+Return an AST for all calls of `function_name` observed, annotated with types">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" xml:space="preserve" y="-40.62">typed_function_ast()</text>
+</a>
+</g>
+<g id="a_node1_4"><a xlink:href="#" xlink:title="typed_functions(self) -&gt; str:
+Return the code for all functions observed, annotated with types">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" xml:space="preserve" y="-27.88">typed_functions()</text>
+</a>
+</g>
+<g id="a_node1_5"><a xlink:href="#" xlink:title="typed_functions_ast(self) -&gt; Dict[str, ast.AST]:
+Return a dict name -&gt; AST for all functions observed, annotated with types">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" xml:space="preserve" y="-15.12">typed_functions_ast()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- TypeTracer -->
+<g class="node" id="node2">
+<title>TypeTracer</title>
+<g id="a_node2"><a xlink:href="#" xlink:title="class TypeTracer:
+A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" points="53.88,-165 53.88,-201 144.12,-201 144.12,-165 53.88,-165" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="61.88" xml:space="preserve" y="-179.7">TypeTracer</text>
+</a>
+</g>
+</g>
+<!-- TypeAnnotator&#45;&gt;TypeTracer -->
+<g class="edge" id="edge1">
+<title>TypeAnnotator-&gt;TypeTracer</title>
+<path d="M81.67,-104.23C85.4,-120.97 89.46,-139.22 92.72,-153.83" fill="none" stroke="black"></path>
+<polygon fill="none" points="89.22,-154.19 94.81,-163.19 96.05,-152.67 89.22,-154.19" stroke="black"></polygon>
+</g>
+<!-- CallTracer -->
+<g class="node" id="node3">
+<title>CallTracer</title>
+<g id="a_node3"><a xlink:href="#" xlink:title="class CallTracer:
+A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" points="109,-255.75 109,-391 209,-391 209,-255.75 109,-255.75" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="124.5" xml:space="preserve" y="-374.7">CallTracer</text>
+<polyline fill="none" points="109,-365.75 209,-365.75" stroke="black"></polyline>
+<g id="a_node3_6"><a xlink:href="#" xlink:title="CallTracer">
+<g id="a_node3_7"><a xlink:href="#" xlink:title="__init__(self, log: bool = False, **kwargs: Any) -&gt; None:
+Create a new tracer.
+If `file` is given, output to `file` instead of stdout.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-style="italic" font-weight="bold" text-anchor="start" x="117" xml:space="preserve" y="-353.25">__init__()</text>
+</a>
+</g>
+<g id="a_node3_8"><a xlink:href="#" xlink:title="add_call(self, function_name: str, arguments: List[Tuple[str, Any]], return_value: Any = None) -&gt; None:
+Add given call to list of calls">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" xml:space="preserve" y="-339.5">add_call()</text>
+</a>
+</g>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="all_calls(self) -&gt; Dict[str, List[Tuple[List[Tuple[str, Any]], Any]]]:
+Return list of calls for function_name,
+or a mapping function_name -&gt; calls for all functions tracked">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" xml:space="preserve" y="-326.75">all_calls()</text>
+</a>
+</g>
+<g id="a_node3_10"><a xlink:href="#" xlink:title="calls(self, function_name: str) -&gt; List[Tuple[List[Tuple[str, Any]], Any]]:
+Return list of calls for `function_name`.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" xml:space="preserve" y="-314">calls()</text>
+</a>
+</g>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="reset(self) -&gt; None">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" xml:space="preserve" y="-301.25">reset()</text>
+</a>
+</g>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="trace_call(self, frame: frame, event: str, arg: Any) -&gt; None:
+Save current function name and args on the stack">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" xml:space="preserve" y="-288.5">trace_call()</text>
+</a>
+</g>
+<g id="a_node3_13"><a xlink:href="#" xlink:title="trace_return(self, frame: frame, event: str, arg: Any) -&gt; None:
+Get return value and store complete call with arguments and return value">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" xml:space="preserve" y="-275.75">trace_return()</text>
+</a>
+</g>
+<g id="a_node3_14"><a xlink:href="#" xlink:title="traceit(self, frame: frame, event: str, arg: Any) -&gt; None:
+Tracking function: Record all calls and all args">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-style="italic" text-anchor="start" x="117" xml:space="preserve" y="-264">traceit()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- TypeTracer&#45;&gt;CallTracer -->
+<g class="edge" id="edge2">
+<title>TypeTracer-&gt;CallTracer</title>
+<path d="M106.48,-201.25C111.45,-212.7 118.36,-228.64 125.54,-245.2" fill="none" stroke="black"></path>
+<polygon fill="none" points="122.24,-246.39 129.43,-254.17 128.66,-243.6 122.24,-246.39" stroke="black"></polygon>
+</g>
+<!-- Tracer -->
+<g class="node" id="node4">
+<title>Tracer</title>
+<g id="a_node4"><a xlink:href="Tracer.ipynb" xlink:title="class Tracer:
+A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" points="129.62,-428 129.62,-464 188.38,-464 188.38,-428 129.62,-428" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="137.62" xml:space="preserve" y="-442.7">Tracer</text>
+</a>
+</g>
+</g>
+<!-- CallTracer&#45;&gt;Tracer -->
+<g class="edge" id="edge3">
+<title>CallTracer-&gt;Tracer</title>
+<path d="M159,-391.39C159,-400.11 159,-408.64 159,-416.24" fill="none" stroke="black"></path>
+<polygon fill="none" points="155.5,-416.15 159,-426.15 162.5,-416.15 155.5,-416.15" stroke="black"></polygon>
+</g>
+<!-- StackInspector -->
+<g class="node" id="node5">
+<title>StackInspector</title>
+<g id="a_node5"><a xlink:href="StackInspector.ipynb" xlink:title="class StackInspector:
+Provide functions to inspect the stack">
+<polygon fill="none" points="76,-501 76,-547 242,-547 242,-501 76,-501" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="108.75" xml:space="preserve" y="-530.7">StackInspector</text>
+<polyline fill="none" points="76,-521.75 242,-521.75" stroke="black"></polyline>
+<g id="a_node5_15"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node5_16"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {}">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="84" xml:space="preserve" y="-508.25">_generated_function_cache</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Tracer&#45;&gt;StackInspector -->
+<g class="edge" id="edge4">
+<title>Tracer-&gt;StackInspector</title>
+<path d="M159,-464.25C159,-471.65 159,-480.58 159,-489.21" fill="none" stroke="black"></path>
+<polygon fill="none" points="155.5,-489.11 159,-499.11 162.5,-489.11 155.5,-489.11" stroke="black"></polygon>
+</g>
+<!-- InvariantAnnotator -->
+<g class="node" id="node6">
+<title>InvariantAnnotator</title>
+<g id="a_node6"><a xlink:href="#" xlink:title="class InvariantAnnotator:
+A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" points="160,-0.5 160,-110.25 338,-110.25 338,-0.5 160,-0.5" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="186.38" xml:space="preserve" y="-93.95">InvariantAnnotator</text>
+<polyline fill="none" points="160,-85 338,-85" stroke="black"></polyline>
+<g id="a_node6_17"><a xlink:href="#" xlink:title="InvariantAnnotator">
+<g id="a_node6_18"><a xlink:href="#" xlink:title="__repr__(self) -&gt; str:
+String representation, like `functions_with_invariants()`">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" xml:space="preserve" y="-72.5">__repr__()</text>
+</a>
+</g>
+<g id="a_node6_19"><a xlink:href="#" xlink:title="function_with_invariants(self, function_name: str) -&gt; str:
+Return the code of `function_name`, annotated with invariants">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" xml:space="preserve" y="-59.75">function_with_invariants()</text>
+</a>
+</g>
+<g id="a_node6_20"><a xlink:href="#" xlink:title="functions_with_invariants(self) -&gt; str:
+Return the code of all observed functions, annotated with invariants">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" xml:space="preserve" y="-47">functions_with_invariants()</text>
+</a>
+</g>
+<g id="a_node6_21"><a xlink:href="#" xlink:title="postconditions(self, function_name: str) -&gt; List[str]:
+Return a list of mined postconditions for `function_name`">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" xml:space="preserve" y="-34.25">postconditions()</text>
+</a>
+</g>
+<g id="a_node6_22"><a xlink:href="#" xlink:title="preconditions(self, function_name: str) -&gt; List[str]:
+Return a list of mined preconditions for `function_name`">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" xml:space="preserve" y="-21.5">preconditions()</text>
+</a>
+</g>
+<g id="a_node6_23"><a xlink:href="#" xlink:title="params(self, function_name: str) -&gt; str">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="168" xml:space="preserve" y="-7.75">params()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- InvariantTracer -->
+<g class="node" id="node7">
+<title>InvariantTracer</title>
+<g id="a_node7"><a xlink:href="#" xlink:title="class InvariantTracer:
+A class for tracing a piece of code. Use as `with Tracer(): block()`">
+<polygon fill="none" points="175.75,-147.25 175.75,-218.75 292.25,-218.75 292.25,-147.25 175.75,-147.25" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="183.75" xml:space="preserve" y="-202.45">InvariantTracer</text>
+<polyline fill="none" points="175.75,-193.5 292.25,-193.5" stroke="black"></polyline>
+<g id="a_node7_24"><a xlink:href="#" xlink:title="InvariantTracer">
+<g id="a_node7_25"><a xlink:href="#" xlink:title="__init__(self, props: Optional[List[str]] = None, **kwargs: Any) -&gt; None:
+Create a new tracer.
+If `file` is given, output to `file` instead of stdout.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-style="italic" font-weight="bold" text-anchor="start" x="186" xml:space="preserve" y="-181">__init__()</text>
+</a>
+</g>
+<g id="a_node7_26"><a xlink:href="#" xlink:title="all_invariants(self) -&gt; Dict[str, Set[Tuple[str, Tuple[str, ...]]]]">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="186" xml:space="preserve" y="-167.25">all_invariants()</text>
+</a>
+</g>
+<g id="a_node7_27"><a xlink:href="#" xlink:title="invariants(self, function_name: str) -&gt; Set[Tuple[str, Tuple[str, ...]]]">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="186" xml:space="preserve" y="-154.5">invariants()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- InvariantAnnotator&#45;&gt;InvariantTracer -->
+<g class="edge" id="edge5">
+<title>InvariantAnnotator-&gt;InvariantTracer</title>
+<path d="M242.51,-110.75C241.53,-118.94 240.53,-127.34 239.57,-135.35" fill="none" stroke="black"></path>
+<polygon fill="none" points="236.1,-134.91 238.39,-145.26 243.05,-135.74 236.1,-134.91" stroke="black"></polygon>
+</g>
+<!-- InvariantTracer&#45;&gt;CallTracer -->
+<g class="edge" id="edge6">
+<title>InvariantTracer-&gt;CallTracer</title>
+<path d="M215.07,-218.92C210.64,-227.09 205.75,-236.12 200.76,-245.33" fill="none" stroke="black"></path>
+<polygon fill="none" points="197.73,-243.58 196.04,-254.04 203.88,-246.92 197.73,-243.58" stroke="black"></polygon>
+</g>
+<!-- Legend -->
+<g class="node" id="node8">
+<title>Legend</title>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" font-weight="bold" text-anchor="start" x="356.38" xml:space="preserve" y="-71.38">Legend</text>
+<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="356.38" xml:space="preserve" y="-61.38">• </text>
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-weight="bold" text-anchor="start" x="362.38" xml:space="preserve" y="-61.38">public_method()</text>
+<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="356.38" xml:space="preserve" y="-51.38">• </text>
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" text-anchor="start" x="362.38" xml:space="preserve" y="-51.38">private_method()</text>
+<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="356.38" xml:space="preserve" y="-41.38">• </text>
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-style="italic" text-anchor="start" x="362.38" xml:space="preserve" y="-41.38">overloaded_method()</text>
+<text font-family="Helvetica,sans-Serif" font-size="9.00" text-anchor="start" x="356.38" xml:space="preserve" y="-32.33">Hover over names to see doc</text>
+</g>
+</g>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7498,7 +8076,7 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">assert</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span>  <span class="c1"># Precondition</span>
 
     <span class="o">...</span>
@@ -7552,7 +8130,7 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     <span class="n">approx</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">guess</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span>
@@ -7600,9 +8178,10 @@ main {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/1219646233.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/1219646233.py", line 2, in &lt;module&gt;
     square_root("foo")
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/81976482.py", line 4, in square_root
+    ~~~~~~~~~~~^^^^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/81976482.py", line 4, in square_root
     guess = x / 2
             ~~^~~
 TypeError: unsupported operand type(s) for /: 'str' and 'int' (expected)
@@ -7634,10 +8213,9 @@ TypeError: unsupported operand type(s) for /: 'str' and 'int' (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3113108935.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3113108935.py", line 2, in &lt;module&gt;
     x = square_root(0.0)
-        ^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/81976482.py", line 7, in square_root
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/81976482.py", line 7, in square_root
     guess = (approx + x / approx) / 2
                       ~~^~~~~~~~
 ZeroDivisionError: float division by zero (expected)
@@ -7680,10 +8258,9 @@ ZeroDivisionError: float division by zero (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3421421264.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3421421264.py", line 2, in &lt;module&gt;
     x = square_root(-1.0)
-        ^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/81976482.py", line 5, in square_root
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/81976482.py", line 5, in square_root
     while approx != guess:
           ^^^^^^^^^^^^^^^
   File "Timeout.ipynb", line 43, in timeout_handler
@@ -7757,7 +8334,7 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_with_type_annotations</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_type_annotations</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     <span class="k">return</span> <span class="n">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
@@ -7809,7 +8386,7 @@ TimeoutError (expected)
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>'/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmp93t8wa0_.py'</pre>
+<pre>'/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/tmp7gclqo71.py'</pre>
 </div>
 </div>
 </div>
@@ -7865,7 +8442,7 @@ TimeoutError (expected)
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre> 1  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
+<pre> 1  <span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
  2  <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
  3      approx = <span class="ansi-blue-fg">None</span>
  4      guess = x / <span class="ansi-blue-fg">2</span>
@@ -7875,7 +8452,7 @@ TimeoutError (expected)
  8  
  9      <span class="ansi-blue-fg">return</span> approx
 10  
-11  <span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root_with_type_annotations</span>(x: <span class="ansi-cyan-fg">float</span>) -&gt; <span class="ansi-cyan-fg">float</span>:
+11  <span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root_with_type_annotations</span>(x: <span class="ansi-cyan-fg">float</span>) -&gt; <span class="ansi-cyan-fg">float</span>:
 12  <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
 13      <span class="ansi-blue-fg">return</span> square_root(x)
 14  
@@ -8095,7 +8672,7 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_arguments</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Arguments</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_arguments</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Arguments</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return call arguments in the given frame"""</span>
     <span class="c1"># When called, all arguments are local variables</span>
     <span class="n">local_variables</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)</span>  <span class="c1"># explicit copy</span>
@@ -8130,7 +8707,7 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simple_call_string</span><span class="p">(</span><span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">argument_list</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">simple_call_string</span><span class="p">(</span><span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">argument_list</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span>
                        <span class="n">return_value</span> <span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return function_name(arg[0], arg[1], ...) as a string"""</span>
     <span class="n">call</span> <span class="o">=</span> <span class="n">function_name</span> <span class="o">+</span> <span class="s2">"("</span> <span class="o">+</span> \
@@ -8165,13 +8742,13 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">Tracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_log</span> <span class="o">=</span> <span class="n">log</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_calls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Arguments</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Arguments</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
@@ -8198,8 +8775,8 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">traceit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Tracking function: Record all calls and all args"""</span>
         <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="s2">"call"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trace_call</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
@@ -8229,8 +8806,8 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">trace_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trace_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save current function name and args on the stack"""</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span>
         <span class="n">function_name</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">co_name</span>
@@ -8263,8 +8840,8 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">trace_return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trace_return</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get return value and store complete call with arguments and return value"""</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span>
         <span class="n">function_name</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">co_name</span>
@@ -8303,8 +8880,8 @@ TimeoutError (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">add_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span>
                  <span class="n">return_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add given call to list of calls"""</span>
         <span class="k">if</span> <span class="n">function_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calls</span><span class="p">:</span>
@@ -8336,8 +8913,8 @@ or for all functions (<code>all_calls()</code>).</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [43]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">calls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Arguments</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Arguments</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Return list of calls for `function_name`."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calls</span><span class="p">[</span><span class="n">function_name</span><span class="p">]</span>
 </pre></div>
@@ -8353,8 +8930,8 @@ or for all functions (<code>all_calls()</code>).</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [44]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">all_calls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Arguments</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CallTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all_calls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Arguments</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return list of calls for function_name, </span>
 <span class="sd">        or a mapping function_name -&gt; calls for all functions tracked</span>
@@ -8503,7 +9080,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-InputPrompt jp-InputArea-prompt">In [48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello,"</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8775,7 +9352,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-InputPrompt jp-InputArea-prompt">In [57]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_annotated</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root_annotated</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8918,7 +9495,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre><span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root</span>(x: <span class="ansi-cyan-fg">float</span>) -&gt; <span class="ansi-cyan-fg">float</span>:
+<pre><span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root</span>(x: <span class="ansi-cyan-fg">float</span>) -&gt; <span class="ansi-cyan-fg">float</span>:
 <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     approx = <span class="ansi-blue-fg">None</span>
     guess = x / <span class="ansi-blue-fg">2</span>
@@ -8970,7 +9547,7 @@ square_root(x=2.0) returns 1.414213562373095
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8991,8 +9568,16 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre><span class="ansi-white-fg"># Could not find function 'parent_header'# Could not find function '_is_master_process'# Could not find function 'utcoffset'# Could not find function 'is_set'# Could not find function '_wait_for_tstate_lock'# Could not find function 'is_alive'# Could not find function '_event_pipe'# Could not find function 'send'# Could not find function 'schedule'# Could not find function '_schedule_flush'# Could not find function 'write'def hello(name: str) -&gt; None:</span>
-    <span class="ansi-cyan-fg">print</span>(<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Hello,</span><span class="ansi-yellow-fg">'</span>, name)<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root</span>(x: <span class="ansi-cyan-fg">float</span>) -&gt; <span class="ansi-cyan-fg">float</span>:
+<pre><span class="ansi-white-fg"># Could not find function 'parent_header'# Could not find function '_is_master_process'# Could not find function 'utcoffset'# Could not find function 'is_set'# Could not find function 'is_alive'# Could not find function '_event_pipe'# Could not find function 'send'# Could not find function 'schedule'# Could not find function '_schedule_flush'# Could not find function 'write'# Could not find function 'is_publishing'# Could not find function 'is_active'def cast(typ: TypeVar, val: Any) -&gt; Any:</span>
+<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Cast a value to a type.</span>
+
+<span class="ansi-yellow-fg">    This returns the value unchanged.  To the type checker this</span>
+<span class="ansi-yellow-fg">    signals that the return value has the designated type, but at</span>
+<span class="ansi-yellow-fg">    runtime we intentionally don't check anything (we want this</span>
+<span class="ansi-yellow-fg">    to be as fast as possible).</span>
+<span class="ansi-yellow-fg">    """</span>
+    <span class="ansi-blue-fg">return</span> val<span class="ansi-white-fg"># Could not find function 'get'# Could not find function '__get__'# Could not find function '__init__'def hello(name: str) -&gt; None:</span>
+    <span class="ansi-cyan-fg">print</span>(<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Hello,</span><span class="ansi-yellow-fg">'</span>, name)<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root</span>(x: <span class="ansi-cyan-fg">float</span>) -&gt; <span class="ansi-cyan-fg">float</span>:
 <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     approx = <span class="ansi-blue-fg">None</span>
     guess = x / <span class="ansi-blue-fg">2</span>
@@ -9004,7 +9589,7 @@ square_root(x=2.0) returns 1.414213562373095
 </div>
 </div>
 </div>
-</div></div></section><section>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -9046,7 +9631,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-InputPrompt jp-InputArea-prompt">In [109]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_with_invariants</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_invariants</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">assert</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span>  <span class="c1"># Precondition</span>
 
     <span class="o">...</span>
@@ -9068,7 +9653,7 @@ square_root(x=2.0) returns 1.414213562373095
 <p>A nicer way, however, is to syntactically separate invariants from the function at hand.  Using appropriate decorators, we could specify pre- and postconditions as follows:</p>
 <div class="highlight"><pre><span></span><span class="nd">@precondition</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span>
 <span class="nd">@postcondition</span> <span class="k">lambda</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">return_value</span> <span class="o">*</span> <span class="n">return_value</span> <span class="o">==</span> <span class="n">x</span>
-<span class="k">def</span> <span class="nf">square_root_with_invariants</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_invariants</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="c1"># normal code without assertions</span>
     <span class="o">...</span>
 </pre></div>
@@ -9095,11 +9680,11 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-InputPrompt jp-InputArea-prompt">In [111]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
               <span class="n">postcondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>  <span class="c1"># preserves name, docstring, etc</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">precondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="n">precondition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> \
                     <span class="s2">"Precondition violated"</span>
@@ -9126,7 +9711,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-InputPrompt jp-InputArea-prompt">In [112]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">condition</span><span class="p">(</span><span class="n">precondition</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9141,7 +9726,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-InputPrompt jp-InputArea-prompt">In [113]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">condition</span><span class="p">(</span><span class="n">postcondition</span><span class="o">=</span><span class="n">check</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9168,7 +9753,7 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">square_root_with_precondition</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_precondition</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="n">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9209,11 +9794,12 @@ square_root(x=2.0) returns 1.414213562373095
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/2859393274.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/2859393274.py", line 2, in &lt;module&gt;
     square_root_with_precondition(-1.0)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 7, in wrapper
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 7, in wrapper
     assert precondition(*args, **kwargs), \
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
 AssertionError: Precondition violated (expected)
 </pre>
 </div>
@@ -9240,7 +9826,7 @@ AssertionError: Precondition violated (expected)
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">ret</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">ret</span> <span class="o">*</span> <span class="n">ret</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">square_root_with_postcondition</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_postcondition</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="n">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9294,7 +9880,7 @@ AssertionError: Precondition violated (expected)
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nd">@postcondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">ret</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">ret</span> <span class="o">*</span> <span class="n">ret</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">buggy_square_root_with_postcondition</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">buggy_square_root_with_postcondition</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="n">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span>
 </pre></div>
 </div>
@@ -9324,12 +9910,11 @@ AssertionError: Precondition violated (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/1806983978.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/1806983978.py", line 2, in &lt;module&gt;
     y = buggy_square_root_with_postcondition(2.0)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 13, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError: Postcondition violated (expected)
 </pre>
 </div>
@@ -9606,11 +10191,11 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [128]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">metavars</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">metavars</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="n">metavar_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">class</span> <span class="nc">ArgVisitor</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">ArgVisitor</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
                 <span class="n">metavar_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
@@ -9682,9 +10267,9 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [132]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">instantiate_prop_ast</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">var_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">:</span>
-    <span class="k">class</span> <span class="nc">NameTransformer</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeTransformer</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">instantiate_prop_ast</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">var_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">NameTransformer</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeTransformer</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">node</span>
             <span class="k">return</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">mapping</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">],</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">Load</span><span class="p">())</span>
@@ -9713,7 +10298,7 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [133]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">instantiate_prop</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">var_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">instantiate_prop</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">var_names</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">prop_ast</span> <span class="o">=</span> <span class="n">instantiate_prop_ast</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">var_names</span><span class="p">)</span>
     <span class="n">prop_text</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="n">prop_ast</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">while</span> <span class="n">prop_text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'('</span><span class="p">)</span> <span class="ow">and</span> <span class="n">prop_text</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">')'</span><span class="p">):</span>
@@ -9771,7 +10356,7 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [136]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prop_function_text</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">prop_function_text</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="s2">"lambda "</span> <span class="o">+</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">metavars</span><span class="p">(</span><span class="n">prop</span><span class="p">))</span> <span class="o">+</span> <span class="s2">": "</span> <span class="o">+</span> <span class="n">prop</span>
 </pre></div>
 </div>
@@ -9834,7 +10419,7 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [138]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prop_function</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">prop_function</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">prop_function_text</span><span class="p">(</span><span class="n">prop</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -9866,7 +10451,7 @@ AssertionError: Postcondition violated (expected)
 </div>
 </div>
 </div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell celltag_remove-input">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9968,14 +10553,14 @@ AssertionError: Postcondition violated (expected)
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="699550f8-d3ed-11ef-9852-6298cf1a5790-1" name="699550f8-d3ed-11ef-9852-6298cf1a5790" onclick="clear_selection('699550f8-d3ed-11ef-9852-6298cf1a5790')" type="radio"/>
-<label for="699550f8-d3ed-11ef-9852-6298cf1a5790-1" id="699550f8-d3ed-11ef-9852-6298cf1a5790-1-label">False</label><br/>
-<input id="699550f8-d3ed-11ef-9852-6298cf1a5790-2" name="699550f8-d3ed-11ef-9852-6298cf1a5790" onclick="clear_selection('699550f8-d3ed-11ef-9852-6298cf1a5790')" type="radio"/>
-<label for="699550f8-d3ed-11ef-9852-6298cf1a5790-2" id="699550f8-d3ed-11ef-9852-6298cf1a5790-2-label">True</label><br/>
+<input id="f92b6da8-b293-11f0-88db-6298cf1a5790-1" name="f92b6da8-b293-11f0-88db-6298cf1a5790" onclick="clear_selection('f92b6da8-b293-11f0-88db-6298cf1a5790')" type="radio"/>
+<label for="f92b6da8-b293-11f0-88db-6298cf1a5790-1" id="f92b6da8-b293-11f0-88db-6298cf1a5790-1-label">False</label><br/>
+<input id="f92b6da8-b293-11f0-88db-6298cf1a5790-2" name="f92b6da8-b293-11f0-88db-6298cf1a5790" onclick="clear_selection('f92b6da8-b293-11f0-88db-6298cf1a5790')" type="radio"/>
+<label for="f92b6da8-b293-11f0-88db-6298cf1a5790-2" id="f92b6da8-b293-11f0-88db-6298cf1a5790-2-label">True</label><br/>
 </div>
 </p>
-<input id="699550f8-d3ed-11ef-9852-6298cf1a5790-submit" onclick="check_selection('699550f8-d3ed-11ef-9852-6298cf1a5790', 4, 0, 'p(100, 1) + 1')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="699550f8-d3ed-11ef-9852-6298cf1a5790-hint"></span>
+<input id="f92b6da8-b293-11f0-88db-6298cf1a5790-submit" onclick="check_selection('f92b6da8-b293-11f0-88db-6298cf1a5790', 4, 0, 'p(100, 1) + 1')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="f92b6da8-b293-11f0-88db-6298cf1a5790-hint"></span>
 </div>
 </div>
 </div>
@@ -10121,7 +10706,7 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [146]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">true_property_instantiations</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vars_and_values</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">true_property_instantiations</span><span class="p">(</span><span class="n">prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vars_and_values</span><span class="p">:</span> <span class="n">Arguments</span><span class="p">,</span> 
                                  <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
     <span class="n">instantiations</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">prop_function</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
@@ -10329,8 +10914,8 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [151]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">props</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InvariantTracer</span><span class="p">(</span><span class="n">CallTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">props</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">props</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">props</span> <span class="o">=</span> <span class="n">INVARIANT_PROPERTIES</span>
 
@@ -10374,12 +10959,12 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [153]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantTracer</span><span class="p">(</span><span class="n">InvariantTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">all_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Invariants</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InvariantTracer</span><span class="p">(</span><span class="n">InvariantTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Invariants</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">function_name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariants</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">function_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_calls</span><span class="p">()}</span>
 
-    <span class="k">def</span> <span class="nf">invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Invariants</span><span class="p">:</span>
         <span class="n">invariants</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">variables</span><span class="p">,</span> <span class="n">return_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls</span><span class="p">(</span><span class="n">function_name</span><span class="p">):</span>
             <span class="n">vars_and_values</span> <span class="o">=</span> <span class="n">variables</span> <span class="o">+</span> <span class="p">[(</span><span class="n">RETURN_VALUE</span><span class="p">,</span> <span class="n">return_value</span><span class="p">)]</span>
@@ -10509,7 +11094,7 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [156]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pretty_invariants</span><span class="p">(</span><span class="n">invariants</span><span class="p">:</span> <span class="n">Invariants</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pretty_invariants</span><span class="p">(</span><span class="n">invariants</span><span class="p">:</span> <span class="n">Invariants</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="n">props</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">var_names</span><span class="p">)</span> <span class="ow">in</span> <span class="n">invariants</span><span class="p">:</span>
         <span class="n">props</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instantiate_prop</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">var_names</span><span class="p">))</span>
@@ -10838,8 +11423,8 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [163]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantTracer</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantTracer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">arguments</span><span class="p">,</span> <span class="n">return_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls</span><span class="p">(</span><span class="n">function_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg_name</span> <span class="k">for</span> <span class="p">(</span><span class="n">arg_name</span><span class="p">,</span> <span class="n">arg_value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">)</span>
 </pre></div>
@@ -10934,8 +11519,8 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [167]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">preconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return a list of mined preconditions for `function_name`"""</span>
         <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -11018,8 +11603,8 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [170]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">postconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">postconditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return a list of mined postconditions for `function_name`"""</span>
 
         <span class="n">conditions</span> <span class="o">=</span> <span class="p">[]</span>
@@ -11103,8 +11688,8 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [173]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">functions_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">InvariantAnnotator</span><span class="p">(</span><span class="n">InvariantAnnotator</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">functions_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the code of all observed functions, annotated with invariants"""</span>
 
         <span class="n">functions</span> <span class="o">=</span> <span class="s2">""</span>
@@ -11117,7 +11702,7 @@ X &lt; 0 (('y', 1),) False
             <span class="n">functions</span> <span class="o">+=</span> <span class="n">function</span>
         <span class="k">return</span> <span class="n">functions</span>
 
-    <span class="k">def</span> <span class="nf">function_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">function_with_invariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the code of `function_name`, annotated with invariants"""</span>
         <span class="n">function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_func</span><span class="p">(</span><span class="n">function_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">function</span><span class="p">:</span>
@@ -11127,7 +11712,7 @@ X &lt; 0 (('y', 1),) False
                          <span class="bp">self</span><span class="o">.</span><span class="n">postconditions</span><span class="p">(</span><span class="n">function_name</span><span class="p">))</span> <span class="o">+</span> \
             <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="n">source</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""String representation, like `functions_with_invariants()`"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">()</span>
 </pre></div>
@@ -11192,7 +11777,7 @@ X &lt; 0 (('y', 1),) False
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value &gt; <span class="ansi-blue-fg">0</span>)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
 <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     approx = <span class="ansi-blue-fg">None</span>
     guess = x / <span class="ansi-blue-fg">2</span>
@@ -11246,7 +11831,7 @@ X &lt; 0 (('y', 1),) False
 <div class="jp-InputPrompt jp-InputArea-prompt">In [176]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sum2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sum2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 </pre></div>
 </div>
@@ -11309,7 +11894,7 @@ X &lt; 0 (('y', 1),) False
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b</pre>
 </div>
 </div>
@@ -11387,7 +11972,7 @@ X &lt; 0 (('y', 1),) False
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= a &gt;= b)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= b)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value &gt;= b &gt;= a)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b</pre>
 </div>
 </div>
@@ -11462,7 +12047,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == a + b)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: return_value == b + a)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">sum2</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">return</span> a + b</pre>
 </div>
 </div>
@@ -11578,7 +12163,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(y, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: <span class="ansi-cyan-fg">isinstance</span>(z, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
             <span class="ansi-blue-fg">return</span> y
@@ -11589,8 +12174,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
             <span class="ansi-blue-fg">return</span> y
         <span class="ansi-blue-fg">elif</span> x &gt; z:
             <span class="ansi-blue-fg">return</span> x
-    <span class="ansi-blue-fg">return</span> z
-<span class="ansi-white-fg"># Could not find function 'enumerate'# Could not find function 'ident'# Could not find function '_clean_thread_parent_frames'</span></pre>
+    <span class="ansi-blue-fg">return</span> z</pre>
 </div>
 </div>
 </div>
@@ -11697,7 +12281,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= return_value &gt;= y)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= x &gt;= return_value)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: z &gt;= y &gt;= return_value)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
             <span class="ansi-blue-fg">return</span> y
@@ -11727,7 +12311,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 </div>
 </div>
 </div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell celltag_remove-input">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11830,14 +12414,14 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 </p>
 <p>
 <div class="quiz_options" title="Pick a choice.">
-<input id="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-1" name="6bdf46e8-d3ed-11ef-9852-6298cf1a5790" onclick="clear_selection('6bdf46e8-d3ed-11ef-9852-6298cf1a5790')" type="radio"/>
-<label for="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-1" id="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-1-label">Yes</label><br/>
-<input id="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-2" name="6bdf46e8-d3ed-11ef-9852-6298cf1a5790" onclick="clear_selection('6bdf46e8-d3ed-11ef-9852-6298cf1a5790')" type="radio"/>
-<label for="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-2" id="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-2-label">No</label><br/>
+<input id="fb2e13da-b293-11f0-88db-6298cf1a5790-1" name="fb2e13da-b293-11f0-88db-6298cf1a5790" onclick="clear_selection('fb2e13da-b293-11f0-88db-6298cf1a5790')" type="radio"/>
+<label for="fb2e13da-b293-11f0-88db-6298cf1a5790-1" id="fb2e13da-b293-11f0-88db-6298cf1a5790-1-label">Yes</label><br/>
+<input id="fb2e13da-b293-11f0-88db-6298cf1a5790-2" name="fb2e13da-b293-11f0-88db-6298cf1a5790" onclick="clear_selection('fb2e13da-b293-11f0-88db-6298cf1a5790')" type="radio"/>
+<label for="fb2e13da-b293-11f0-88db-6298cf1a5790-2" id="fb2e13da-b293-11f0-88db-6298cf1a5790-2-label">No</label><br/>
 </div>
 </p>
-<input id="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-submit" onclick="check_selection('6bdf46e8-d3ed-11ef-9852-6298cf1a5790', 4, 0, 'int(math.exp(1))')" type="submit" value="Submit"/>
-<span class="quiz_hint" id="6bdf46e8-d3ed-11ef-9852-6298cf1a5790-hint"></span>
+<input id="fb2e13da-b293-11f0-88db-6298cf1a5790-submit" onclick="check_selection('fb2e13da-b293-11f0-88db-6298cf1a5790', 4, 0, 'int(math.exp(1))')" type="submit" value="Submit"/>
+<span class="quiz_hint" id="fb2e13da-b293-11f0-88db-6298cf1a5790-hint"></span>
 </div>
 </div>
 </div>
@@ -11899,7 +12483,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> x, y, z: z &gt;= <span class="ansi-blue-fg">0</span>)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x, y, z: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">middle</span>(x, y, z):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-blue-fg">if</span> y &lt; z:
         <span class="ansi-blue-fg">if</span> x &lt; y:
             <span class="ansi-blue-fg">return</span> y
@@ -11980,7 +12564,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, s: return_value &gt;= s)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, s: return_value <span class="ansi-magenta-fg">in</span> s)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, s: s &lt;= return_value)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">remove_html_markup</span>(s):  <span class="ansi-white-fg"># type: ignore</span>
     tag = <span class="ansi-blue-fg">False</span>
     quote = <span class="ansi-blue-fg">False</span>
     out = <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">"</span>
@@ -12032,7 +12616,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="jp-InputPrompt jp-InputArea-prompt">In [196]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">list_length</span><span class="p">(</span><span class="n">elems</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">list_length</span><span class="p">(</span><span class="n">elems</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">elems</span> <span class="o">==</span> <span class="p">[]:</span>
         <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
@@ -12071,7 +12655,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, elems: <span class="ansi-cyan-fg">isinstance</span>(return_value, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, elems: return_value == <span class="ansi-cyan-fg">len</span>(elems))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, elems: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">list_length</span>(elems: List[Any]) -&gt; <span class="ansi-cyan-fg">int</span>:
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">list_length</span>(elems: List[Any]) -&gt; <span class="ansi-cyan-fg">int</span>:
     <span class="ansi-blue-fg">if</span> elems == []:
         length = <span class="ansi-blue-fg">0</span>
     <span class="ansi-blue-fg">else</span>:
@@ -12111,7 +12695,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="jp-InputPrompt jp-InputArea-prompt">In [198]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -12150,7 +12734,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12171,16 +12755,30 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre><span class="ansi-white-fg"># Could not find function 'parent_header'# Could not find function '_is_master_process'# Could not find function 'utcoffset'# Could not find function 'is_set'# Could not find function '_wait_for_tstate_lock'# Could not find function 'is_alive'# Could not find function '_event_pipe'# Could not find function 'send'# Could not find function 'schedule'# Could not find function '_schedule_flush'# Could not find function 'write'@precondition(lambda a, b: isinstance(a, int))</span>
+<pre><span class="ansi-white-fg"># Could not find function 'parent_header'# Could not find function '_is_master_process'# Could not find function 'utcoffset'# Could not find function 'is_set'# Could not find function 'is_alive'# Could not find function '_event_pipe'# Could not find function 'send'# Could not find function 'schedule'# Could not find function '_schedule_flush'# Could not find function 'write'# Could not find function 'is_publishing'# Could not find function 'is_active'@precondition(lambda typ, val: typ)</span>
+<span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> typ, val: val)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, typ, val: return_value)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, typ, val: return_value == val)
+<span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, typ, val: val == return_value)
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">cast</span>(typ, val):
+<span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Cast a value to a type.</span>
+
+<span class="ansi-yellow-fg">    This returns the value unchanged.  To the type checker this</span>
+<span class="ansi-yellow-fg">    signals that the return value has the designated type, but at</span>
+<span class="ansi-yellow-fg">    runtime we intentionally don't check anything (we want this</span>
+<span class="ansi-yellow-fg">    to be as fast as possible).</span>
+<span class="ansi-yellow-fg">    """</span>
+    <span class="ansi-blue-fg">return</span> val
+<span class="ansi-white-fg"># Could not find function 'get'# Could not find function '__get__'# Could not find function '__init__'@precondition(lambda a, b: isinstance(a, int))</span>
 <span class="ansi-black-intense-fg">@precondition</span>(<span class="ansi-blue-fg">lambda</span> a, b: <span class="ansi-cyan-fg">isinstance</span>(b, <span class="ansi-cyan-fg">int</span>))
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, a, b: <span class="ansi-magenta-fg">not</span> return_value)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">print_sum</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">print_sum</span>(a, b):  <span class="ansi-white-fg"># type: ignore</span>
     <span class="ansi-cyan-fg">print</span>(a + b)</pre>
 </div>
 </div>
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -12252,7 +12850,7 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value &gt; <span class="ansi-blue-fg">0</span>)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root_annotated</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root_annotated</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
 <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     approx = <span class="ansi-blue-fg">None</span>
     guess = x / <span class="ansi-blue-fg">2</span>
@@ -12313,18 +12911,16 @@ One way to obtain such runs is by <em>generating</em> inputs. Indeed, a simple t
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/2533314883.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/2533314883.py", line 2, in &lt;module&gt;
     square_root_annotated(-1.0)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 11, in wrapper
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 11, in wrapper
     retval = func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 11, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 11, in wrapper
     retval = func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 7, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 7, in wrapper
     assert precondition(*args, **kwargs), \
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
 AssertionError: Precondition violated (expected)
 </pre>
 </div>
@@ -12365,9 +12961,10 @@ AssertionError: Precondition violated (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3436772654.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3436772654.py", line 2, in &lt;module&gt;
     square_root(-1.0)
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/81976482.py", line 5, in square_root
+    ~~~~~~~~~~~^^^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/81976482.py", line 5, in square_root
     while approx != guess:
           ^^^^^^^^^^^^^^^
   File "Timeout.ipynb", line 43, in timeout_handler
@@ -12435,7 +13032,7 @@ TimeoutError (expected)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value &gt; <span class="ansi-blue-fg">0</span>)
 <span class="ansi-black-intense-fg">@postcondition</span>(<span class="ansi-blue-fg">lambda</span> return_value, x: return_value &gt;= <span class="ansi-blue-fg">0</span>)
-<span class="ansi-blue-fg">def</span> <span class="ansi-green-fg">square_root_negative</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
+<span class="ansi-blue-fg">def</span><span class="ansi-white-fg"> </span><span class="ansi-green-fg">square_root_negative</span>(x):  <span class="ansi-white-fg"># type: ignore</span>
 <span class="ansi-white-fg">    </span><span class="ansi-yellow-fg">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     approx = <span class="ansi-blue-fg">None</span>
     guess = x / <span class="ansi-blue-fg">2</span>
@@ -12482,7 +13079,7 @@ TimeoutError (expected)
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">ExpectError</span><span class="p">():</span>
-    <span class="n">square_root_negative</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="n">square_root_negative</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 </pre></div>
 </div>
 </div>
@@ -12496,22 +13093,19 @@ TimeoutError (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/2047157021.py", line 2, in &lt;module&gt;
-    square_root_negative(2.0)  # type: ignore
-    ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 11, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/2283626907.py", line 2, in &lt;module&gt;
+    square_root_negative(4.0)  # type: ignore
+    ~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 11, in wrapper
     retval = func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 11, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 11, in wrapper
     retval = func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 11, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 11, in wrapper
     retval = func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
   [Previous line repeated 4 more times]
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 13, in wrapper
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 13, in wrapper
     assert postcondition(retval, *args, **kwargs), \
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError: Postcondition violated (expected)
 </pre>
 </div>
@@ -12526,585 +13120,6 @@ AssertionError: Postcondition violated (expected)
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>We see how pre- and postconditions, as well as types, can serve as <em>oracles</em> during testing.  In particular, once we have mined them for a set of functions, we can check them again and again with test generators – especially after code changes.  The more checks we have, and the more specific they are, the more likely it is we can detect unwanted effects of changes.</p>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">¶</a></h2><p>This chapter provides two classes that automatically extract specifications from a function and a set of inputs:</p>
-<ul>
-<li><code>TypeAnnotator</code> for <em>types</em>, and</li>
-<li><code>InvariantAnnotator</code> for <em>pre-</em> and <em>postconditions</em>.</li>
-</ul>
-<p>Both work by <em>observing</em> a function and its invocations within a <code>with</code> clause.  Here is an example for the type annotator:</p>
-</div>
-</div>
-</div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [211]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sum2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [212]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">TypeAnnotator</span><span class="p">()</span> <span class="k">as</span> <span class="n">type_annotator</span><span class="p">:</span>
-    <span class="n">sum2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">sum2</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">sum2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The <code>typed_functions()</code> method will return a representation of <code>sum2()</code> annotated with types observed during execution.</p>
-</div>
-</div>
-</div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [213]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">type_annotator</span><span class="o">.</span><span class="n">typed_functions</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>def sum2(a: int, b: int) -&gt; int:
-    return a + b
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div></div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>As a shortcut, one can also just evaluate the annotator:</p>
-</div>
-</div>
-</div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [214]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">type_annotator</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[214]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>def sum2(a: int, b: int) -&gt; int:
-    return a + b</pre>
-</div>
-</div>
-</div>
-</div>
-</div></div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The invariant annotator works similarly:</p>
-</div>
-</div>
-</div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [215]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">InvariantAnnotator</span><span class="p">()</span> <span class="k">as</span> <span class="n">inv_annotator</span><span class="p">:</span>
-    <span class="n">sum2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">sum2</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">sum2</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The <code>functions_with_invariants()</code> method will return a representation of <code>sum2()</code> annotated with inferred pre- and postconditions that all hold for the observed values.</p>
-</div>
-</div>
-</div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [216]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">inv_annotator</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>@precondition(lambda a, b: isinstance(a, int))
-@precondition(lambda a, b: isinstance(b, int))
-@postcondition(lambda return_value, a, b: a == return_value - b)
-@postcondition(lambda return_value, a, b: b == return_value - a)
-@postcondition(lambda return_value, a, b: isinstance(return_value, int))
-@postcondition(lambda return_value, a, b: return_value == a + b)
-@postcondition(lambda return_value, a, b: return_value == b + a)
-def sum2(a, b):  # type: ignore
-    return a + b
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Again, a shortcut is available:</p>
-</div>
-</div>
-</div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [217]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">inv_annotator</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[217]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>@precondition(lambda a, b: isinstance(a, int))
-@precondition(lambda a, b: isinstance(b, int))
-@postcondition(lambda return_value, a, b: a == return_value - b)
-@postcondition(lambda return_value, a, b: b == return_value - a)
-@postcondition(lambda return_value, a, b: isinstance(return_value, int))
-@postcondition(lambda return_value, a, b: return_value == a + b)
-@postcondition(lambda return_value, a, b: return_value == b + a)
-def sum2(a, b):  # type: ignore
-    return a + b</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Such type specifications and invariants can be helpful as <em>oracles</em> (to detect deviations from a given set of runs). The chapter gives details on how to customize the properties checked for.</p>
-</div>
-</div>
-</div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [218]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="kn">from</span> <span class="nn">ClassDiagram</span> <span class="kn">import</span> <span class="n">display_class_hierarchy</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [219]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">TypeAnnotator</span><span class="p">,</span> <span class="n">InvariantAnnotator</span><span class="p">],</span>
-                        <span class="n">public_methods</span><span class="o">=</span><span class="p">[</span>
-                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_function</span><span class="p">,</span>
-                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_functions</span><span class="p">,</span>
-                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_function_ast</span><span class="p">,</span>
-                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="n">typed_functions_ast</span><span class="p">,</span>
-                            <span class="n">TypeAnnotator</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">,</span>
-                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">function_with_invariants</span><span class="p">,</span>
-                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">functions_with_invariants</span><span class="p">,</span>
-                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">preconditions</span><span class="p">,</span>
-                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="n">postconditions</span><span class="p">,</span>
-                            <span class="n">InvariantAnnotator</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">,</span>
-                            <span class="n">InvariantTracer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span>
-                            <span class="n">CallTracer</span><span class="o">.</span><span class="fm">__init__</span>
-                        <span class="p">],</span>
-                        <span class="n">project</span><span class="o">=</span><span class="s1">'debuggingbook'</span>
-                       <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[219]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
-<!-- Generated by graphviz version 12.2.1 (20241206.2353)
- -->
-<!-- Pages: 1 -->
-<svg height="556pt" viewbox="0.00 0.00 483.62 555.50" width="484pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 551.5)">
-<g id="a_graph0"><a xlink:title="TypeAnnotator class hierarchy">
-<polygon fill="white" points="-4,4 -4,-551.5 479.62,-551.5 479.62,4 -4,4" stroke="none"></polygon>
-</a>
-</g>
-<!-- TypeAnnotator -->
-<g class="node" id="node1">
-<title>TypeAnnotator</title>
-<g id="a_node1"><a xlink:href="#" xlink:title="class TypeAnnotator:
-A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" points="0,-6.88 0,-103.88 142,-103.88 142,-6.88 0,-6.88" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="23.75" y="-87.58">TypeAnnotator</text>
-<polyline fill="none" points="0,-78.62 142,-78.62" stroke="black"></polyline>
-<g id="a_node1_0"><a xlink:href="#" xlink:title="TypeAnnotator">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="__repr__(self) -&gt; str:
-String representation, like `typed_functions()`">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" y="-66.12">__repr__()</text>
-</a>
-</g>
-<g id="a_node1_2"><a xlink:href="#" xlink:title="typed_function(self, function_name: str) -&gt; str:
-Return the code for all calls of `function_name` observed, annotated with types">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" y="-53.38">typed_function()</text>
-</a>
-</g>
-<g id="a_node1_3"><a xlink:href="#" xlink:title="typed_function_ast(self, function_name: str) -&gt; Optional[ast.AST]:
-Return an AST for all calls of `function_name` observed, annotated with types">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" y="-40.62">typed_function_ast()</text>
-</a>
-</g>
-<g id="a_node1_4"><a xlink:href="#" xlink:title="typed_functions(self) -&gt; str:
-Return the code for all functions observed, annotated with types">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" y="-27.88">typed_functions()</text>
-</a>
-</g>
-<g id="a_node1_5"><a xlink:href="#" xlink:title="typed_functions_ast(self) -&gt; Dict[str, ast.AST]:
-Return a dict name -&gt; AST for all functions observed, annotated with types">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="8" y="-15.12">typed_functions_ast()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- TypeTracer -->
-<g class="node" id="node2">
-<title>TypeTracer</title>
-<g id="a_node2"><a xlink:href="#" xlink:title="class TypeTracer:
-A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" points="58.5,-165 58.5,-201 143.5,-201 143.5,-165 58.5,-165" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="66.5" y="-179.7">TypeTracer</text>
-</a>
-</g>
-</g>
-<!-- TypeAnnotator&#45;&gt;TypeTracer -->
-<g class="edge" id="edge1">
-<title>TypeAnnotator-&gt;TypeTracer</title>
-<path d="M82.43,-104.23C86.43,-120.97 90.78,-139.22 94.27,-153.83" fill="none" stroke="black"></path>
-<polygon fill="none" points="90.78,-154.28 96.51,-163.19 97.59,-152.65 90.78,-154.28" stroke="black"></polygon>
-</g>
-<!-- CallTracer -->
-<g class="node" id="node3">
-<title>CallTracer</title>
-<g id="a_node3"><a xlink:href="#" xlink:title="class CallTracer:
-A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" points="109,-255.75 109,-391 209,-391 209,-255.75 109,-255.75" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="127.88" y="-374.7">CallTracer</text>
-<polyline fill="none" points="109,-365.75 209,-365.75" stroke="black"></polyline>
-<g id="a_node3_6"><a xlink:href="#" xlink:title="CallTracer">
-<g id="a_node3_7"><a xlink:href="#" xlink:title="__init__(self, log: bool = False, **kwargs: Any) -&gt; None:
-Create a new tracer.
-If `file` is given, output to `file` instead of stdout.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-style="italic" font-weight="bold" text-anchor="start" x="117" y="-353.25">__init__()</text>
-</a>
-</g>
-<g id="a_node3_8"><a xlink:href="#" xlink:title="add_call(self, function_name: str, arguments: List[Tuple[str, Any]], return_value: Any = None) -&gt; None:
-Add given call to list of calls">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" y="-339.5">add_call()</text>
-</a>
-</g>
-<g id="a_node3_9"><a xlink:href="#" xlink:title="all_calls(self) -&gt; Dict[str, List[Tuple[List[Tuple[str, Any]], Any]]]:
-Return list of calls for function_name,
-or a mapping function_name -&gt; calls for all functions tracked">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" y="-326.75">all_calls()</text>
-</a>
-</g>
-<g id="a_node3_10"><a xlink:href="#" xlink:title="calls(self, function_name: str) -&gt; List[Tuple[List[Tuple[str, Any]], Any]]:
-Return list of calls for `function_name`.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" y="-314">calls()</text>
-</a>
-</g>
-<g id="a_node3_11"><a xlink:href="#" xlink:title="reset(self) -&gt; None">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" y="-301.25">reset()</text>
-</a>
-</g>
-<g id="a_node3_12"><a xlink:href="#" xlink:title="trace_call(self, frame: frame, event: str, arg: Any) -&gt; None:
-Save current function name and args on the stack">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" y="-288.5">trace_call()</text>
-</a>
-</g>
-<g id="a_node3_13"><a xlink:href="#" xlink:title="trace_return(self, frame: frame, event: str, arg: Any) -&gt; None:
-Get return value and store complete call with arguments and return value">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="117" y="-275.75">trace_return()</text>
-</a>
-</g>
-<g id="a_node3_14"><a xlink:href="#" xlink:title="traceit(self, frame: frame, event: str, arg: Any) -&gt; None:
-Tracking function: Record all calls and all args">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-style="italic" text-anchor="start" x="117" y="-264">traceit()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- TypeTracer&#45;&gt;CallTracer -->
-<g class="edge" id="edge2">
-<title>TypeTracer-&gt;CallTracer</title>
-<path d="M108.23,-201.25C113.03,-212.7 119.71,-228.64 126.65,-245.2" fill="none" stroke="black"></path>
-<polygon fill="none" points="123.31,-246.29 130.41,-254.16 129.77,-243.59 123.31,-246.29" stroke="black"></polygon>
-</g>
-<!-- Tracer -->
-<g class="node" id="node4">
-<title>Tracer</title>
-<g id="a_node4"><a xlink:href="Tracer.ipynb" xlink:title="class Tracer:
-A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" points="131.5,-428 131.5,-464 186.5,-464 186.5,-428 131.5,-428" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="139.5" y="-442.7">Tracer</text>
-</a>
-</g>
-</g>
-<!-- CallTracer&#45;&gt;Tracer -->
-<g class="edge" id="edge3">
-<title>CallTracer-&gt;Tracer</title>
-<path d="M159,-391.39C159,-400.11 159,-408.64 159,-416.24" fill="none" stroke="black"></path>
-<polygon fill="none" points="155.5,-416.15 159,-426.15 162.5,-416.15 155.5,-416.15" stroke="black"></polygon>
-</g>
-<!-- StackInspector -->
-<g class="node" id="node5">
-<title>StackInspector</title>
-<g id="a_node5"><a xlink:href="StackInspector.ipynb" xlink:title="class StackInspector:
-Provide functions to inspect the stack">
-<polygon fill="none" points="76,-501 76,-547 242,-547 242,-501 76,-501" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="112.5" y="-530.7">StackInspector</text>
-<polyline fill="none" points="76,-521.75 242,-521.75" stroke="black"></polyline>
-<g id="a_node5_15"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node5_16"><a xlink:href="StackInspector.ipynb" xlink:title="_generated_function_cache = {}">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="84" y="-508.25">_generated_function_cache</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- Tracer&#45;&gt;StackInspector -->
-<g class="edge" id="edge4">
-<title>Tracer-&gt;StackInspector</title>
-<path d="M159,-464.25C159,-471.65 159,-480.58 159,-489.21" fill="none" stroke="black"></path>
-<polygon fill="none" points="155.5,-489.11 159,-499.11 162.5,-489.11 155.5,-489.11" stroke="black"></polygon>
-</g>
-<!-- InvariantAnnotator -->
-<g class="node" id="node6">
-<title>InvariantAnnotator</title>
-<g id="a_node6"><a xlink:href="#" xlink:title="class InvariantAnnotator:
-A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" points="160,-0.5 160,-110.25 338,-110.25 338,-0.5 160,-0.5" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="191.62" y="-93.95">InvariantAnnotator</text>
-<polyline fill="none" points="160,-85 338,-85" stroke="black"></polyline>
-<g id="a_node6_17"><a xlink:href="#" xlink:title="InvariantAnnotator">
-<g id="a_node6_18"><a xlink:href="#" xlink:title="__repr__(self) -&gt; str:
-String representation, like `functions_with_invariants()`">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" y="-72.5">__repr__()</text>
-</a>
-</g>
-<g id="a_node6_19"><a xlink:href="#" xlink:title="function_with_invariants(self, function_name: str) -&gt; str:
-Return the code of `function_name`, annotated with invariants">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" y="-59.75">function_with_invariants()</text>
-</a>
-</g>
-<g id="a_node6_20"><a xlink:href="#" xlink:title="functions_with_invariants(self) -&gt; str:
-Return the code of all observed functions, annotated with invariants">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" y="-47">functions_with_invariants()</text>
-</a>
-</g>
-<g id="a_node6_21"><a xlink:href="#" xlink:title="postconditions(self, function_name: str) -&gt; List[str]:
-Return a list of mined postconditions for `function_name`">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" y="-34.25">postconditions()</text>
-</a>
-</g>
-<g id="a_node6_22"><a xlink:href="#" xlink:title="preconditions(self, function_name: str) -&gt; List[str]:
-Return a list of mined preconditions for `function_name`">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="168" y="-21.5">preconditions()</text>
-</a>
-</g>
-<g id="a_node6_23"><a xlink:href="#" xlink:title="params(self, function_name: str) -&gt; str">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="168" y="-7.75">params()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- InvariantTracer -->
-<g class="node" id="node7">
-<title>InvariantTracer</title>
-<g id="a_node7"><a xlink:href="#" xlink:title="class InvariantTracer:
-A class for tracing a piece of code. Use as `with Tracer(): block()`">
-<polygon fill="none" points="177,-147.25 177,-218.75 289,-218.75 289,-147.25 177,-147.25" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-weight="bold" text-anchor="start" x="188.38" y="-202.45">InvariantTracer</text>
-<polyline fill="none" points="177,-193.5 289,-193.5" stroke="black"></polyline>
-<g id="a_node7_24"><a xlink:href="#" xlink:title="InvariantTracer">
-<g id="a_node7_25"><a xlink:href="#" xlink:title="__init__(self, props: Optional[List[str]] = None, **kwargs: Any) -&gt; None:
-Create a new tracer.
-If `file` is given, output to `file` instead of stdout.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-style="italic" font-weight="bold" text-anchor="start" x="185" y="-181">__init__()</text>
-</a>
-</g>
-<g id="a_node7_26"><a xlink:href="#" xlink:title="all_invariants(self) -&gt; Dict[str, Set[Tuple[str, Tuple[str, ...]]]]">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="185" y="-167.25">all_invariants()</text>
-</a>
-</g>
-<g id="a_node7_27"><a xlink:href="#" xlink:title="invariants(self, function_name: str) -&gt; Set[Tuple[str, Tuple[str, ...]]]">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="185" y="-154.5">invariants()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- InvariantAnnotator&#45;&gt;InvariantTracer -->
-<g class="edge" id="edge5">
-<title>InvariantAnnotator-&gt;InvariantTracer</title>
-<path d="M242.08,-110.75C241.03,-118.94 239.96,-127.34 238.94,-135.35" fill="none" stroke="black"></path>
-<polygon fill="none" points="235.47,-134.9 237.68,-145.26 242.41,-135.78 235.47,-134.9" stroke="black"></polygon>
-</g>
-<!-- InvariantTracer&#45;&gt;CallTracer -->
-<g class="edge" id="edge6">
-<title>InvariantTracer-&gt;CallTracer</title>
-<path d="M214.33,-218.92C209.96,-227.09 205.13,-236.12 200.2,-245.33" fill="none" stroke="black"></path>
-<polygon fill="none" points="197.17,-243.57 195.55,-254.04 203.35,-246.87 197.17,-243.57" stroke="black"></polygon>
-</g>
-<!-- Legend -->
-<g class="node" id="node8">
-<title>Legend</title>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" font-weight="bold" text-anchor="start" x="356.38" y="-71.38">Legend</text>
-<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="356.38" y="-61.38">• </text>
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-weight="bold" text-anchor="start" x="362.38" y="-61.38">public_method()</text>
-<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="356.38" y="-51.38">• </text>
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" text-anchor="start" x="362.38" y="-51.38">private_method()</text>
-<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="356.38" y="-41.38">• </text>
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-style="italic" text-anchor="start" x="362.38" y="-41.38">overloaded_method()</text>
-<text font-family="Helvetica,sans-Serif" font-size="9.00" text-anchor="start" x="356.38" y="-32.33">Hover over names to see doc</text>
-</g>
-</g>
-</svg>
-</div>
 </div>
 </div>
 </div>
@@ -13213,7 +13228,7 @@ If `file` is given, output to `file` instead of stdout.">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [220]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_with_union_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_union_type</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
     <span class="o">...</span>
 </pre></div>
 </div>
@@ -13250,7 +13265,7 @@ If `file` is given, output to `file` instead of stdout.">
 <div class="jp-InputPrompt jp-InputArea-prompt">In [221]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square_root_with_local_types</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root_with_local_types</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Computes the square root of x, using the Newton-Raphson method"""</span>
     <span class="n">approx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">guess</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span>
@@ -13294,7 +13309,7 @@ If `file` is given, output to `file` instead of stdout.">
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nd">@precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">remove_first_char</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_first_char</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 </pre></div>
 </div>
@@ -13324,11 +13339,12 @@ If `file` is given, output to `file` instead of stdout.">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/2212034949.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/2212034949.py", line 2, in &lt;module&gt;
     remove_first_char('')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/3759592669.py", line 7, in wrapper
+    ~~~~~~~~~~~~~~~~~^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/3759592669.py", line 7, in wrapper
     assert precondition(*args, **kwargs), \
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
 AssertionError: Precondition violated (expected)
 </pre>
 </div>
@@ -13354,13 +13370,13 @@ AssertionError: Precondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [224]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                       <span class="n">postcondition</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                       <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'Unknown'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
         <span class="c1"># Use `functools` to preserve name, docstring, etc</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">precondition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="n">precondition</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> \
                     <span class="s2">"Precondition violated: "</span> <span class="o">+</span> <span class="n">doc</span>
@@ -13389,7 +13405,7 @@ AssertionError: Precondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [225]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">verbose_precondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">verbose_condition</span><span class="p">(</span><span class="n">precondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
                              <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'doc'</span><span class="p">,</span> <span class="s1">'Unknown'</span><span class="p">))</span>
 </pre></div>
@@ -13405,7 +13421,7 @@ AssertionError: Precondition violated (expected)
 <div class="jp-InputPrompt jp-InputArea-prompt">In [226]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">verbose_postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">verbose_postcondition</span><span class="p">(</span><span class="n">check</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">verbose_condition</span><span class="p">(</span><span class="n">postcondition</span><span class="o">=</span><span class="n">check</span><span class="p">,</span>
                              <span class="n">doc</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'doc'</span><span class="p">,</span> <span class="s1">'Unknown'</span><span class="p">))</span>
 </pre></div>
@@ -13422,7 +13438,7 @@ AssertionError: Precondition violated (expected)
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nd">@verbose_precondition</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">"len(s) &gt; 0"</span><span class="p">)</span>    <span class="c1"># type: ignore</span>
-<span class="k">def</span> <span class="nf">remove_first_char</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_first_char</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 </pre></div>
 </div>
@@ -13478,11 +13494,12 @@ AssertionError: Precondition violated (expected)
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>Traceback (most recent call last):
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/2212034949.py", line 2, in &lt;module&gt;
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/2212034949.py", line 2, in &lt;module&gt;
     remove_first_char('')
-  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_99319/706783034.py", line 9, in wrapper
+    ~~~~~~~~~~~~~~~~~^^^^
+  File "/var/folders/n2/xd9445p97rb3xh7m1dfx8_4h0006ts/T/ipykernel_52062/706783034.py", line 9, in wrapper
     assert precondition(*args, **kwargs), \
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
 AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 </pre>
 </div>
@@ -13546,7 +13563,7 @@ AssertionError: Precondition violated: len(s) &gt; 0 (expected)
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Exercise-7:-Embedding-Invariants-as-Assertions">Exercise 7: Embedding Invariants as Assertions<a class="anchor-link" href="#Exercise-7:-Embedding-Invariants-as-Assertions">¶</a></h3><p>Rather than producing invariants as annotations for pre- and postconditions, insert them as <code>assert</code> statements into the function code, as in:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">square_root</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="s1">'Computes the square root of x, using the Newton-Raphson method'</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s1">'violated precondition'</span>
     <span class="k">assert</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'violated precondition'</span>

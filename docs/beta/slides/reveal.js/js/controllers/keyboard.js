@@ -190,6 +190,10 @@ export default class Keyboard {
 			}
 		}
 
+		if( this.Reveal.isOverlayOpen() && !["Escape", "f", "c", "b", "."].includes(event.key) ) {
+			return false;
+		}
+
 		if( this.Reveal.isPaused() && resumeKeyCodes.indexOf( keyCode ) === -1 ) {
 			return false;
 		}
@@ -363,6 +367,10 @@ export default class Keyboard {
 					this.Reveal.toggleJumpToSlide();
 				}
 			}
+			// C
+			else if( keyCode === 67 && this.Reveal.isOverlayOpen() ) {
+				this.Reveal.closeOverlay();
+			}
 			// ?
 			else if( ( keyCode === 63 || keyCode === 191 ) && event.shiftKey ) {
 				this.Reveal.toggleHelp();
@@ -388,6 +396,12 @@ export default class Keyboard {
 				this.Reveal.overview.toggle();
 			}
 
+			event.preventDefault && event.preventDefault();
+		}
+		
+		// Enter to exit overview mode
+		else if (keyCode === 13 && this.Reveal.overview.isActive()) {
+			this.Reveal.overview.deactivate();
 			event.preventDefault && event.preventDefault();
 		}
 

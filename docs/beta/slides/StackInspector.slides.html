@@ -7467,6 +7467,299 @@ main {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">¶</a></h2><p>To <a href="Importing.slides.html">use the code provided in this chapter</a>, write</p>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">debuggingbook.StackInspector</span><span class="w"> </span><span class="kn">import</span> <span class="o">&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+<p>and then make use of the following features.</p>
+<p><strong>Note</strong>: The examples in this section only work after the rest of the cells have been executed.</p>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Here is an example of how to use <code>caller_function()</code>. The <code>test()</code> function invokes an internal method <code>caller()</code> of <code>StackInspectorDemo</code>, which in turn invokes <code>callee()</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Class</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>callee()</code></td>
+<td><code>StackInspectorDemo</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>caller()</code></td>
+<td><code>StackInspectorDemo</code></td>
+<td>invokes $\uparrow$</td>
+</tr>
+<tr>
+<td><code>test()</code></td>
+<td>(main)</td>
+<td>invokes $\uparrow$</td>
+</tr>
+<tr>
+<td>-/-</td>
+<td>(main)</td>
+<td>invokes $\uparrow$</td>
+</tr>
+</tbody>
+</table>
+<p>Using <code>caller_function()</code>, <code>callee()</code> determines the first caller outside a <code>StackInspector</code> class and prints it out – i.e., <code>&lt;function test&gt;</code>.</p>
+</div>
+</div>
+</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspectorDemo</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">callee</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_function</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'test'</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callee</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">demo</span> <span class="o">=</span> <span class="n">StackInspectorDemo</span><span class="p">()</span>
+    <span class="n">demo</span><span class="o">.</span><span class="n">caller</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>&lt;function test at 0x10b72e160&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Here are all methods defined in this chapter:</p>
+</div>
+</div>
+</div>
+</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_remove-input">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ClassDiagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">display_class_hierarchy</span><span class="p">,</span> <span class="n">class_tree</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell celltag_remove-input">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
+<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">StackInspector</span><span class="p">],</span>
+                        <span class="n">abstract_classes</span><span class="o">=</span><span class="p">[</span>
+                            <span class="n">StackInspector</span><span class="p">,</span>
+                        <span class="p">],</span>
+                        <span class="n">public_methods</span><span class="o">=</span><span class="p">[</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_function</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_locals</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_location</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">search_frame</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">search_func</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">is_internal_error</span><span class="p">,</span>
+                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">our_frame</span><span class="p">,</span>
+                        <span class="p">],</span>
+                        <span class="n">project</span><span class="o">=</span><span class="s1">'debuggingbook'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 14.0.2 (20251019.1705)
+ -->
+<!-- Pages: 1 -->
+<svg height="203pt" viewbox="0.00 0.00 312.00 203.00" width="312pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 199.25)">
+<g id="a_graph0"><a xlink:title="StackInspector class hierarchy">
+<polygon fill="white" points="-4,4 -4,-199.25 307.62,-199.25 307.62,4 -4,4" stroke="none"></polygon>
+</a>
+</g>
+<!-- StackInspector -->
+<g class="node" id="node1">
+<title>StackInspector</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class StackInspector:
+Provide functions to inspect the stack">
+<polygon fill="none" points="0,-0.5 0,-194.75 166,-194.75 166,-0.5 0,-0.5" stroke="black"></polygon>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-style="italic" font-weight="bold" text-anchor="start" x="33.88" xml:space="preserve" y="-178.45">StackInspector</text>
+<polyline fill="none" points="0,-169.5 166,-169.5" stroke="black"></polyline>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="_generated_function_cache = {}">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="8" xml:space="preserve" y="-156">_generated_function_cache</text>
+</a>
+</g>
+</a>
+</g>
+<polyline fill="none" points="0,-148.75 166,-148.75" stroke="black"></polyline>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="StackInspector">
+<g id="a_node1_3"><a xlink:href="#" xlink:title="caller_frame(self) -&gt; frame:
+Return the frame of the caller.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-136.25">caller_frame()</text>
+</a>
+</g>
+<g id="a_node1_4"><a xlink:href="#" xlink:title="caller_function(self) -&gt; Callable:
+Return the calling function">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-123.5">caller_function()</text>
+</a>
+</g>
+<g id="a_node1_5"><a xlink:href="#" xlink:title="caller_globals(self) -&gt; Dict[str, Any]:
+Return the globals() environment of the caller.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-110.75">caller_globals()</text>
+</a>
+</g>
+<g id="a_node1_6"><a xlink:href="#" xlink:title="caller_locals(self) -&gt; Dict[str, Any]:
+Return the locals() environment of the caller.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-98">caller_locals()</text>
+</a>
+</g>
+<g id="a_node1_7"><a xlink:href="#" xlink:title="caller_location(self) -&gt; Tuple[Callable, int]:
+Return the location (func, lineno) of the caller.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-85.25">caller_location()</text>
+</a>
+</g>
+<g id="a_node1_8"><a xlink:href="#" xlink:title="is_internal_error(self, exc_tp: Type, exc_value: BaseException, exc_traceback: traceback) -&gt; bool:
+Return True if exception was raised from `StackInspector` or a subclass.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-72.5">is_internal_error()</text>
+</a>
+</g>
+<g id="a_node1_9"><a xlink:href="#" xlink:title="our_frame(self, frame: frame) -&gt; bool:
+Return true if `frame` is in the current (inspecting) class.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-59.75">our_frame()</text>
+</a>
+</g>
+<g id="a_node1_10"><a xlink:href="#" xlink:title="search_frame(self, name: str, frame: Optional[frame] = None) -&gt; Tuple[Optional[frame], Optional[Callable]]:
+Return a pair (`frame`, `item`)
+in which the function `name` is defined as `item`.">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-47">search_frame()</text>
+</a>
+</g>
+<g id="a_node1_11"><a xlink:href="#" xlink:title="search_func(self, name: str, frame: Optional[frame] = None) -&gt; Optional[Callable]:
+Search in callers for a definition of the function `name`">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" xml:space="preserve" y="-34.25">search_func()</text>
+</a>
+</g>
+<g id="a_node1_12"><a xlink:href="#" xlink:title="create_function(self, frame: frame) -&gt; Callable:
+Create function for given frame">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="26" xml:space="preserve" y="-20.5">create_function()</text>
+</a>
+</g>
+<g id="a_node1_13"><a xlink:href="#" xlink:title="unknown(self) -&gt; None">
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="26" xml:space="preserve" y="-7.75">unknown()</text>
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+<!-- Legend -->
+<g class="node" id="node2">
+<title>Legend</title>
+<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" font-weight="bold" text-anchor="start" x="184.38" xml:space="preserve" y="-113.62">Legend</text>
+<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="184.38" xml:space="preserve" y="-103.62">• </text>
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-weight="bold" text-anchor="start" x="190.38" xml:space="preserve" y="-103.62">public_method()</text>
+<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="184.38" xml:space="preserve" y="-93.62">• </text>
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" text-anchor="start" x="190.38" xml:space="preserve" y="-93.62">private_method()</text>
+<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="184.38" xml:space="preserve" y="-83.62">• </text>
+<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-style="italic" text-anchor="start" x="190.38" xml:space="preserve" y="-83.62">overloaded_method()</text>
+<text font-family="Helvetica,sans-Serif" font-size="9.00" text-anchor="start" x="184.38" xml:space="preserve" y="-74.58">Hover over names to see doc</text>
+</g>
+</g>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Inspecting-Call-Stacks">Inspecting Call Stacks<a class="anchor-link" href="#Inspecting-Call-Stacks">¶</a></h2><p><code>StackInspector</code> is a class that provides a number of utility functions to inspect a <a href="https://en.wikipedia.org/wiki/Call_stack">call stack</a>, notably to identify caller functions.</p>
 </div>
 </div>
@@ -7524,7 +7817,7 @@ main {
 </div>
 </div>
 </div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_remove-input">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7533,7 +7826,7 @@ main {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 </pre></div>
 </div>
 </div>
@@ -7558,10 +7851,10 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Provide functions to inspect the stack"""</span>
 
-    <span class="k">def</span> <span class="nf">caller_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameType</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the frame of the caller."""</span>
 
         <span class="c1"># Walk up the call tree until we leave the current class</span>
@@ -7572,7 +7865,7 @@ main {
 
         <span class="k">return</span> <span class="n">frame</span>
 
-    <span class="k">def</span> <span class="nf">our_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">our_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return true if `frame` is in the current (inspecting) class."""</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'self'</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
 </pre></div>
@@ -7599,12 +7892,12 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">caller_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the globals() environment of the caller."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">()</span><span class="o">.</span><span class="n">f_globals</span>
 
-    <span class="k">def</span> <span class="nf">caller_locals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller_locals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the locals() environment of the caller."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">()</span><span class="o">.</span><span class="n">f_locals</span>
 </pre></div>
@@ -7645,8 +7938,8 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">caller_location</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Location</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller_location</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Location</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the location (func, lineno) of the caller."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_function</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">()</span><span class="o">.</span><span class="n">f_lineno</span>
 </pre></div>
@@ -7673,8 +7966,8 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">search_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> \
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">search_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> \
         <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return a pair (`frame`, `item`) </span>
@@ -7696,7 +7989,7 @@ main {
 
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">search_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> \
+    <span class="k">def</span><span class="w"> </span><span class="nf">search_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrameType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> \
         <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Search in callers for a definition of the function `name`"""</span>
         <span class="n">frame</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_frame</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
@@ -7725,11 +8018,11 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
     <span class="c1"># Avoid generating functions more than once</span>
     <span class="n">_generated_function_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">create_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">FrameType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Create function for given frame"""</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
         <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
@@ -7779,8 +8072,8 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">caller_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">caller_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the calling function"""</span>
         <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">()</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
@@ -7793,7 +8086,7 @@ main {
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_function</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">unknown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Placeholder for unknown functions</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unknown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Placeholder for unknown functions</span>
         <span class="k">pass</span>
 </pre></div>
 </div>
@@ -7819,9 +8112,9 @@ main {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">is_internal_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_tp</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> 
-                          <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StackInspector</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_internal_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_tp</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> 
+                          <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span>  <span class="c1"># ignored</span>
                           <span class="n">exc_traceback</span><span class="p">:</span> <span class="n">TracebackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return True if exception was raised from `StackInspector` or a subclass."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exc_tp</span><span class="p">:</span>
@@ -7833,295 +8126,6 @@ main {
 
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Synopsis">Synopsis<a class="anchor-link" href="#Synopsis">¶</a></h2><p><code>StackInspector</code> is typically used as superclass, providing its functionality to subclasses.</p>
-</div>
-</div>
-</div>
-</div></section><section>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Here is an example of how to use <code>caller_function()</code>. The <code>test()</code> function invokes an internal method <code>caller()</code> of <code>StackInspectorDemo</code>, which in turn invokes <code>callee()</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Class</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>callee()</code></td>
-<td><code>StackInspectorDemo</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>caller()</code></td>
-<td><code>StackInspectorDemo</code></td>
-<td>invokes $\uparrow$</td>
-</tr>
-<tr>
-<td><code>test()</code></td>
-<td>(main)</td>
-<td>invokes $\uparrow$</td>
-</tr>
-<tr>
-<td>-/-</td>
-<td>(main)</td>
-<td>invokes $\uparrow$</td>
-</tr>
-</tbody>
-</table>
-<p>Using <code>caller_function()</code>, <code>callee()</code> determines the first caller outside a <code>StackInspector</code> class and prints it out – i.e., <code>&lt;function test&gt;</code>.</p>
-</div>
-</div>
-</div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">StackInspectorDemo</span><span class="p">(</span><span class="n">StackInspector</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">callee</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">caller_function</span><span class="p">()</span>
-        <span class="k">assert</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'test'</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">caller</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">callee</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">demo</span> <span class="o">=</span> <span class="n">StackInspectorDemo</span><span class="p">()</span>
-    <span class="n">demo</span><span class="o">.</span><span class="n">caller</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">test</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>&lt;function test at 0x10a2f1c60&gt;
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div></div><div class="fragment">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Here are all methods defined in this chapter:</p>
-</div>
-</div>
-</div>
-</div></div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="kn">from</span> <span class="nn">ClassDiagram</span> <span class="kn">import</span> <span class="n">display_class_hierarchy</span><span class="p">,</span> <span class="n">class_tree</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ignore</span>
-<span class="n">display_class_hierarchy</span><span class="p">([</span><span class="n">StackInspector</span><span class="p">],</span>
-                        <span class="n">abstract_classes</span><span class="o">=</span><span class="p">[</span>
-                            <span class="n">StackInspector</span><span class="p">,</span>
-                        <span class="p">],</span>
-                        <span class="n">public_methods</span><span class="o">=</span><span class="p">[</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_frame</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_function</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_globals</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_locals</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">caller_location</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">search_frame</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">search_func</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">is_internal_error</span><span class="p">,</span>
-                            <span class="n">StackInspector</span><span class="o">.</span><span class="n">our_frame</span><span class="p">,</span>
-                        <span class="p">],</span>
-                        <span class="n">project</span><span class="o">=</span><span class="s1">'debuggingbook'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
-<!-- Generated by graphviz version 12.2.1 (20241206.2353)
- -->
-<!-- Pages: 1 -->
-<svg height="203pt" viewbox="0.00 0.00 311.62 203.25" width="312pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(4 199.25)">
-<g id="a_graph0"><a xlink:title="StackInspector class hierarchy">
-<polygon fill="white" points="-4,4 -4,-199.25 307.62,-199.25 307.62,4 -4,4" stroke="none"></polygon>
-</a>
-</g>
-<!-- StackInspector -->
-<g class="node" id="node1">
-<title>StackInspector</title>
-<g id="a_node1"><a xlink:href="#" xlink:title="class StackInspector:
-Provide functions to inspect the stack">
-<polygon fill="none" points="0,-0.5 0,-194.75 166,-194.75 166,-0.5 0,-0.5" stroke="black"></polygon>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="14.00" font-style="italic" font-weight="bold" text-anchor="start" x="37.62" y="-178.45">StackInspector</text>
-<polyline fill="none" points="0,-169.5 166,-169.5" stroke="black"></polyline>
-<g id="a_node1_0"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node1_1"><a xlink:href="#" xlink:title="_generated_function_cache = {}">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="8" y="-156">_generated_function_cache</text>
-</a>
-</g>
-</a>
-</g>
-<polyline fill="none" points="0,-148.75 166,-148.75" stroke="black"></polyline>
-<g id="a_node1_2"><a xlink:href="#" xlink:title="StackInspector">
-<g id="a_node1_3"><a xlink:href="#" xlink:title="caller_frame(self) -&gt; frame:
-Return the frame of the caller.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-136.25">caller_frame()</text>
-</a>
-</g>
-<g id="a_node1_4"><a xlink:href="#" xlink:title="caller_function(self) -&gt; Callable:
-Return the calling function">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-123.5">caller_function()</text>
-</a>
-</g>
-<g id="a_node1_5"><a xlink:href="#" xlink:title="caller_globals(self) -&gt; Dict[str, Any]:
-Return the globals() environment of the caller.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-110.75">caller_globals()</text>
-</a>
-</g>
-<g id="a_node1_6"><a xlink:href="#" xlink:title="caller_locals(self) -&gt; Dict[str, Any]:
-Return the locals() environment of the caller.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-98">caller_locals()</text>
-</a>
-</g>
-<g id="a_node1_7"><a xlink:href="#" xlink:title="caller_location(self) -&gt; Tuple[Callable, int]:
-Return the location (func, lineno) of the caller.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-85.25">caller_location()</text>
-</a>
-</g>
-<g id="a_node1_8"><a xlink:href="#" xlink:title="is_internal_error(self, exc_tp: Type, exc_value: BaseException, exc_traceback: traceback) -&gt; bool:
-Return True if exception was raised from `StackInspector` or a subclass.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-72.5">is_internal_error()</text>
-</a>
-</g>
-<g id="a_node1_9"><a xlink:href="#" xlink:title="our_frame(self, frame: frame) -&gt; bool:
-Return true if `frame` is in the current (inspecting) class.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-59.75">our_frame()</text>
-</a>
-</g>
-<g id="a_node1_10"><a xlink:href="#" xlink:title="search_frame(self, name: str, frame: Optional[frame] = None) -&gt; Tuple[Optional[frame], Optional[Callable]]:
-Return a pair (`frame`, `item`)
-in which the function `name` is defined as `item`.">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-47">search_frame()</text>
-</a>
-</g>
-<g id="a_node1_11"><a xlink:href="#" xlink:title="search_func(self, name: str, frame: Optional[frame] = None) -&gt; Optional[Callable]:
-Search in callers for a definition of the function `name`">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" font-weight="bold" text-anchor="start" x="26" y="-34.25">search_func()</text>
-</a>
-</g>
-<g id="a_node1_12"><a xlink:href="#" xlink:title="create_function(self, frame: frame) -&gt; Callable:
-Create function for given frame">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="26" y="-20.5">create_function()</text>
-</a>
-</g>
-<g id="a_node1_13"><a xlink:href="#" xlink:title="unknown(self) -&gt; None">
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="10.00" text-anchor="start" x="26" y="-7.75">unknown()</text>
-</a>
-</g>
-</a>
-</g>
-</a>
-</g>
-</g>
-<!-- Legend -->
-<g class="node" id="node2">
-<title>Legend</title>
-<text fill="#6a0dad" font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" font-weight="bold" text-anchor="start" x="184.38" y="-113.62">Legend</text>
-<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="184.38" y="-103.62">• </text>
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-weight="bold" text-anchor="start" x="190.38" y="-103.62">public_method()</text>
-<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="184.38" y="-93.62">• </text>
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" text-anchor="start" x="190.38" y="-93.62">private_method()</text>
-<text font-family="Raleway, Helvetica, Arial, sans-serif" font-size="10.00" text-anchor="start" x="184.38" y="-83.62">• </text>
-<text font-family="'Fira Mono', 'Source Code Pro', 'Courier', monospace" font-size="8.00" font-style="italic" text-anchor="start" x="190.38" y="-83.62">overloaded_method()</text>
-<text font-family="Helvetica,sans-Serif" font-size="9.00" text-anchor="start" x="184.38" y="-74.58">Hover over names to see doc</text>
-</g>
-</g>
-</svg>
 </div>
 </div>
 </div>
