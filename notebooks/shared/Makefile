@@ -586,6 +586,8 @@ $(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb jupyter-book
 	@test -d $(DOCS_TARGET) || $(MKDIR) $(DOCS_TARGET)
 	@test -d $(DOCS_TARGET)html || $(MKDIR) $(DOCS_TARGET)html
 	cp -pr $(HTML_TARGET) $(DOCS_TARGET)html
+	
+# FIXME: Need to set up rules for 404.html and index.html
 else
 # index.html comes with relative links (html/) such that the beta version gets the beta menu
 $(DOCS_TARGET)index.html: $(FULL_NOTEBOOKS)/index.ipynb $(HTML_DEPS)

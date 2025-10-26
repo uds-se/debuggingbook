@@ -126,7 +126,7 @@ if __name__ == "__main__":
 
         basename = os.path.splitext(os.path.basename(html_file))[0]
         new_content = convert(content, basename=basename)
-        open(html_file + '~', 'w').write(content)
+        # open(html_file + '~', 'w').write(content)
         open(html_file, 'w').write(new_content)
         print(f'{html_file}: patched')
 
