@@ -275,6 +275,9 @@ def get_notebook_synopsis(notebook_name: str,
 
     return title, fix_synopsis(synopsis)
 
+
+SYNOPSIS_TITLE = "## Synopsis"
+
 def export_notebook_code(notebook_name: str,
                          project: str = "fuzzingbook",
                          path: Optional[List[str]] = None) -> None:
@@ -308,8 +311,27 @@ def export_notebook_code(notebook_name: str,
 
     print_utf8(header)
     sep = ''
+    
+    # Move synopsis cells to end
+    cells = []  # Non-synopsis cells
+    synopsis_cells = []  # Cells of the (last) synopsis
 
+    in_synopsis = False
     for cell in notebook.cells:
+        if cell.source.startswith(SYNOPSIS_TITLE):
+            in_synopsis = True
+            synopsis_cells = []
+        elif cell.source.startswith("## "):
+            in_synopsis = False
+        
+        if in_synopsis:
+            synopsis_cells.append(cell)
+        else:
+            cells.append(cell)
+            
+    cells += synopsis_cells
+
+    for cell in cells:
         if cell.cell_type == 'code':
             code = cell.source
             match_code = RE_CODE.match(code)
